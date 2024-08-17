@@ -2512,6 +2512,48 @@ export class ItemsClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.StatsResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetBrandNewItems
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.NewItemsResponse>>
+     */
+    getBrandNewItems: (
+      requestData: thisProto.NewItemsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.NewItemsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetBrandNewItems',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.NewItemsRequest,
+        responseClass: thisProto.NewItemsResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetNewItems
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.NewItemsResponse>>
+     */
+    getNewItems: (
+      requestData: thisProto.NewItemsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.NewItemsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetNewItems',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.NewItemsRequest,
+        responseClass: thisProto.NewItemsResponse
+      });
     }
   };
 
@@ -2888,6 +2930,38 @@ export class ItemsClient {
   ): Observable<thisProto.StatsResponse> {
     return this.$raw
       .getStats(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetBrandNewItems
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.NewItemsResponse>
+   */
+  getBrandNewItems(
+    requestData: thisProto.NewItemsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.NewItemsResponse> {
+    return this.$raw
+      .getBrandNewItems(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetNewItems
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.NewItemsResponse>
+   */
+  getNewItems(
+    requestData: thisProto.NewItemsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.NewItemsResponse> {
+    return this.$raw
+      .getNewItems(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

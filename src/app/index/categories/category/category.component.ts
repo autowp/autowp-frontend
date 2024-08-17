@@ -1,6 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {APITopCategoriesListItem} from '@grpc/spec.pb';
-import {APIService} from '@services/api.service';
+import {APITopCategoriesListItem, NewItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-index-categories-category',
@@ -8,24 +11,26 @@ import {APIService} from '@services/api.service';
   templateUrl: './category.component.html',
 })
 export class IndexCategoriesCategoryComponent {
-  @Input() category?: APITopCategoriesListItem;
-  protected loading = true;
-  protected html = '';
-
-  constructor(private readonly api: APIService) {}
-
-  protected shown() {
-    this.loading = true;
-
-    this.category &&
-      this.api
-        .request('GET', 'item/' + this.category.id + '/new-items', {
-          observe: 'body',
-          responseType: 'text',
-        })
-        .subscribe((html) => {
-          this.html = html;
-          this.loading = false;
-        });
+  @Input() set factory(category: APITopCategoriesListItem) {
+    this.category$.next(category);
   }
+  protected readonly category$ = new BehaviorSubject<APITopCategoriesListItem | null>(null);
+
+  protected readonly response$ = this.category$.pipe(
+    switchMap((category) =>
+      category
+        ? this.itemsClient.getNewItems(
+            new NewItemsRequest({
+              itemId: '' + category.id,
+              language: this.languageService.language,
+            }),
+          )
+        : EMPTY,
+    ),
+  );
+
+  constructor(
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 }

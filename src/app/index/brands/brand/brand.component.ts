@@ -1,6 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {APITopBrandsListItem} from '@grpc/spec.pb';
-import {APIService} from '@services/api.service';
+import {NewItemsRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIBrandsBrand} from '@services/brands.service';
+import {LanguageService} from '@services/language';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-index-brands-brand',
@@ -8,24 +12,26 @@ import {APIService} from '@services/api.service';
   templateUrl: './brand.component.html',
 })
 export class IndexBrandsBrandComponent {
-  @Input() brand?: APITopBrandsListItem;
-  protected loading = true;
-  protected html = '';
-
-  constructor(private readonly api: APIService) {}
-
-  protected shown() {
-    this.loading = true;
-
-    this.brand &&
-      this.api
-        .request('GET', 'brands/' + this.brand.id + '/new-items', {
-          observe: 'body',
-          responseType: 'text',
-        })
-        .subscribe((html) => {
-          this.html = html;
-          this.loading = false;
-        });
+  @Input() set brand(item: APIBrandsBrand) {
+    this.brand$.next(item);
   }
+  protected readonly brand$ = new BehaviorSubject<APIBrandsBrand | null>(null);
+
+  protected readonly response$ = this.brand$.pipe(
+    switchMap((brand) =>
+      brand
+        ? this.itemsClient.getBrandNewItems(
+            new NewItemsRequest({
+              itemId: '' + brand.id,
+              language: this.languageService.language,
+            }),
+          )
+        : EMPTY,
+    ),
+  );
+
+  constructor(
+    private readonly itemsClient: ItemsClient,
+    private readonly languageService: LanguageService,
+  ) {}
 }

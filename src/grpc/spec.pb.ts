@@ -17630,6 +17630,7 @@ export class ItemFields implements GrpcMessage {
     _instance.commentsAttentionsCount =
       _instance.commentsAttentionsCount || false;
     _instance.isCompilesItemOfDay = _instance.isCompilesItemOfDay || false;
+    _instance.brandicon = _instance.brandicon || false;
   }
 
   /**
@@ -17703,6 +17704,9 @@ export class ItemFields implements GrpcMessage {
         case 18:
           _instance.isCompilesItemOfDay = _reader.readBool();
           break;
+        case 19:
+          _instance.brandicon = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -17775,6 +17779,9 @@ export class ItemFields implements GrpcMessage {
     if (_instance.isCompilesItemOfDay) {
       _writer.writeBool(18, _instance.isCompilesItemOfDay);
     }
+    if (_instance.brandicon) {
+      _writer.writeBool(19, _instance.brandicon);
+    }
   }
 
   private _nameOnly: boolean;
@@ -17795,6 +17802,7 @@ export class ItemFields implements GrpcMessage {
   private _mostsActive: boolean;
   private _commentsAttentionsCount: boolean;
   private _isCompilesItemOfDay: boolean;
+  private _brandicon: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -17822,6 +17830,7 @@ export class ItemFields implements GrpcMessage {
     this.mostsActive = _value.mostsActive;
     this.commentsAttentionsCount = _value.commentsAttentionsCount;
     this.isCompilesItemOfDay = _value.isCompilesItemOfDay;
+    this.brandicon = _value.brandicon;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -17932,6 +17941,12 @@ export class ItemFields implements GrpcMessage {
   set isCompilesItemOfDay(value: boolean) {
     this._isCompilesItemOfDay = value;
   }
+  get brandicon(): boolean {
+    return this._brandicon;
+  }
+  set brandicon(value: boolean) {
+    this._brandicon = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -17967,7 +17982,8 @@ export class ItemFields implements GrpcMessage {
       logo120: this.logo120,
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
-      isCompilesItemOfDay: this.isCompilesItemOfDay
+      isCompilesItemOfDay: this.isCompilesItemOfDay,
+      brandicon: this.brandicon
     };
   }
 
@@ -18007,7 +18023,8 @@ export class ItemFields implements GrpcMessage {
       logo120: this.logo120,
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
-      isCompilesItemOfDay: this.isCompilesItemOfDay
+      isCompilesItemOfDay: this.isCompilesItemOfDay,
+      brandicon: this.brandicon
     };
   }
 }
@@ -18034,6 +18051,7 @@ export module ItemFields {
     mostsActive: boolean;
     commentsAttentionsCount: boolean;
     isCompilesItemOfDay: boolean;
+    brandicon: boolean;
   }
 
   /**
@@ -18058,6 +18076,7 @@ export module ItemFields {
     mostsActive: boolean;
     commentsAttentionsCount: boolean;
     isCompilesItemOfDay: boolean;
+    brandicon: boolean;
   }
 }
 
@@ -19140,6 +19159,7 @@ export class APIItem implements GrpcMessage {
     _instance.mostsActive = _instance.mostsActive || false;
     _instance.commentsAttentionsCount = _instance.commentsAttentionsCount || 0;
     _instance.isCompilesItemOfDay = _instance.isCompilesItemOfDay || false;
+    _instance.brandicon = _instance.brandicon || undefined;
   }
 
   /**
@@ -19225,6 +19245,13 @@ export class APIItem implements GrpcMessage {
         case 22:
           _instance.isCompilesItemOfDay = _reader.readBool();
           break;
+        case 23:
+          _instance.brandicon = new APIImage();
+          _reader.readMessage(
+            _instance.brandicon,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -19309,6 +19336,13 @@ export class APIItem implements GrpcMessage {
     if (_instance.isCompilesItemOfDay) {
       _writer.writeBool(22, _instance.isCompilesItemOfDay);
     }
+    if (_instance.brandicon) {
+      _writer.writeMessage(
+        23,
+        _instance.brandicon as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -19333,6 +19367,7 @@ export class APIItem implements GrpcMessage {
   private _mostsActive: boolean;
   private _commentsAttentionsCount: number;
   private _isCompilesItemOfDay: boolean;
+  private _brandicon?: APIImage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -19362,6 +19397,9 @@ export class APIItem implements GrpcMessage {
     this.mostsActive = _value.mostsActive;
     this.commentsAttentionsCount = _value.commentsAttentionsCount;
     this.isCompilesItemOfDay = _value.isCompilesItemOfDay;
+    this.brandicon = _value.brandicon
+      ? new APIImage(_value.brandicon)
+      : undefined;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -19496,6 +19534,12 @@ export class APIItem implements GrpcMessage {
   set isCompilesItemOfDay(value: boolean) {
     this._isCompilesItemOfDay = value;
   }
+  get brandicon(): APIImage | undefined {
+    return this._brandicon;
+  }
+  set brandicon(value: APIImage | undefined) {
+    this._brandicon = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -19533,7 +19577,8 @@ export class APIItem implements GrpcMessage {
       logo120: this.logo120 ? this.logo120.toObject() : undefined,
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
-      isCompilesItemOfDay: this.isCompilesItemOfDay
+      isCompilesItemOfDay: this.isCompilesItemOfDay,
+      brandicon: this.brandicon ? this.brandicon.toObject() : undefined
     };
   }
 
@@ -19580,7 +19625,8 @@ export class APIItem implements GrpcMessage {
       logo120: this.logo120 ? this.logo120.toProtobufJSON(options) : null,
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
-      isCompilesItemOfDay: this.isCompilesItemOfDay
+      isCompilesItemOfDay: this.isCompilesItemOfDay,
+      brandicon: this.brandicon ? this.brandicon.toProtobufJSON(options) : null
     };
   }
 }
@@ -19611,6 +19657,7 @@ export module APIItem {
     mostsActive: boolean;
     commentsAttentionsCount: number;
     isCompilesItemOfDay: boolean;
+    brandicon?: APIImage.AsObject;
   }
 
   /**
@@ -19639,6 +19686,7 @@ export module APIItem {
     mostsActive: boolean;
     commentsAttentionsCount: number;
     isCompilesItemOfDay: boolean;
+    brandicon: APIImage.AsProtobufJSON | null;
   }
 }
 
@@ -32047,6 +32095,339 @@ export module StatsValue {
     name: string;
     total: number;
     value: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.NewItemsRequest
+ */
+export class NewItemsRequest implements GrpcMessage {
+  static id = 'goautowp.NewItemsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new NewItemsRequest();
+    NewItemsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: NewItemsRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: NewItemsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    NewItemsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: NewItemsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.language) {
+      _writer.writeString(2, _instance.language);
+    }
+  }
+
+  private _itemId: string;
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of NewItemsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<NewItemsRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.language = _value.language;
+    NewItemsRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    NewItemsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): NewItemsRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): NewItemsRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      language: this.language
+    };
+  }
+}
+export module NewItemsRequest {
+  /**
+   * Standard JavaScript object representation for NewItemsRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for NewItemsRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    language: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.NewItemsResponse
+ */
+export class NewItemsResponse implements GrpcMessage {
+  static id = 'goautowp.NewItemsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new NewItemsResponse();
+    NewItemsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: NewItemsResponse) {
+    _instance.brand = _instance.brand || undefined;
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: NewItemsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.brand = new APIItem();
+          _reader.readMessage(
+            _instance.brand,
+            APIItem.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          const messageInitializer2 = new APIItem();
+          _reader.readMessage(
+            messageInitializer2,
+            APIItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer2);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    NewItemsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: NewItemsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.brand) {
+      _writer.writeMessage(
+        1,
+        _instance.brand as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.items as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _brand?: APIItem;
+  private _items?: APIItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of NewItemsResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<NewItemsResponse.AsObject>) {
+    _value = _value || {};
+    this.brand = _value.brand ? new APIItem(_value.brand) : undefined;
+    this.items = (_value.items || []).map(m => new APIItem(m));
+    NewItemsResponse.refineValues(this);
+  }
+  get brand(): APIItem | undefined {
+    return this._brand;
+  }
+  set brand(value: APIItem | undefined) {
+    this._brand = value;
+  }
+  get items(): APIItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APIItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    NewItemsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): NewItemsResponse.AsObject {
+    return {
+      brand: this.brand ? this.brand.toObject() : undefined,
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): NewItemsResponse.AsProtobufJSON {
+    return {
+      brand: this.brand ? this.brand.toProtobufJSON(options) : null,
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module NewItemsResponse {
+  /**
+   * Standard JavaScript object representation for NewItemsResponse
+   */
+  export interface AsObject {
+    brand?: APIItem.AsObject;
+    items?: APIItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for NewItemsResponse
+   */
+  export interface AsProtobufJSON {
+    brand: APIItem.AsProtobufJSON | null;
+    items: APIItem.AsProtobufJSON[] | null;
   }
 }
 
