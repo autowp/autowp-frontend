@@ -5,7 +5,7 @@
   <button
     class="btn btn-link d-block text-start"
     *ngIf="item.item.childs_count <= 0"
-    (click)="selectItem({itemId: '' + item.item_id, perspectiveId: 0, type: PictureItemType.PICTURE_CONTENT})"
+    (click)="selectItem({itemId: '' + item.item_id, perspectiveId: 0, type: PictureItemType.PICTURE_ITEM_CONTENT})"
     [innerHTML]="item.item.name_html"
   ></button>
   <div *ngIf="item.item.childs_count > 0">
@@ -23,7 +23,7 @@
       </ng-container>
       <button
         class="btn btn-link d-block text-start"
-        (click)="selectItem({itemId: '' + item.item_id, perspectiveId: 0, type: PictureItemType.PICTURE_CONTENT})"
+        (click)="selectItem({itemId: '' + item.item_id, perspectiveId: 0, type: PictureItemType.PICTURE_ITEM_CONTENT})"
         i18n
       >
         other modification
