@@ -1,14 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {APIUser, Perspective} from '@grpc/spec.pb';
+import {APIUser, Perspective, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPicture} from '@services/picture';
-import {PictureItemService} from '@services/picture-item';
 import {UserService} from '@services/user';
 import {getPerspectiveTranslation} from '@utils/translations';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
 
 import {APIPerspectiveService} from '../../api/perspective/perspective.service';
+import {ToastsService} from '../../toasts/toasts.service';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;
@@ -38,19 +39,28 @@ export class ThumbnailComponent {
 
   constructor(
     private readonly perspectiveService: APIPerspectiveService,
-    private readonly pictureItemService: PictureItemService,
     private readonly acl: ACLService,
     private readonly userService: UserService,
+    private readonly picturesClient: PicturesClient,
+    private readonly toastService: ToastsService,
   ) {}
 
   protected savePerspective(picture: ThumbnailAPIPicture) {
     if (picture.perspective_item) {
-      this.pictureItemService
-        .setPerspective$(
-          picture.id,
-          picture.perspective_item.item_id,
-          picture.perspective_item.type,
-          picture.perspective_item.perspective_id,
+      this.picturesClient
+        .setPictureItemPerspective(
+          new SetPictureItemPerspectiveRequest({
+            itemId: '' + picture.perspective_item.item_id,
+            perspectiveId: picture.perspective_item.perspective_id,
+            pictureId: '' + picture.id,
+            type: picture.perspective_item.type,
+          }),
+        )
+        .pipe(
+          catchError((error: unknown) => {
+            this.toastService.handleError(error);
+            return EMPTY;
+          }),
         )
         .subscribe();
     }

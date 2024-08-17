@@ -1,16 +1,25 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemType, ListItemsRequest, Pages, PictureItemType} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  ItemFields,
+  ItemType,
+  ListItemsRequest,
+  Pages,
+  PictureItemType,
+  SetPictureItemPerspectiveRequest,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureItemService} from '@services/picture-item';
-import {Observable, combineLatest, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../chunk';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 export interface PictureItemMoveSelection {
   itemId: string;
@@ -330,6 +339,8 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     private readonly pageEnv: PageEnvService,
     private readonly itemsClient: ItemsClient,
     private readonly languageService: LanguageService,
+    private readonly picturesClient: PicturesClient,
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -354,7 +365,18 @@ export class ModerPicturesItemMoveComponent implements OnInit {
               return of(null);
             }
 
-            return this.pictureItemService.setPerspective$(id, +dstItemID, srcType, dstPerspectiveID);
+            return this.picturesClient.setPictureItemPerspective(
+              new SetPictureItemPerspectiveRequest({
+                itemId: dstItemID,
+                perspectiveId: dstPerspectiveID || undefined,
+                pictureId: '' + id,
+                type: srcType,
+              }),
+            );
+          }),
+          catchError((error: unknown) => {
+            this.toastService.handleError(error);
+            return EMPTY;
           }),
         )
         .subscribe(() => {

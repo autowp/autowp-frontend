@@ -6,16 +6,19 @@ import {
   CommentsType,
   CommentsUnSubscribeRequest,
   PicturesViewRequest,
+  SetPictureItemPerspectiveRequest,
 } from '@grpc/spec.pb';
 import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
-import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
   selector: 'app-picture',
@@ -69,16 +72,31 @@ export class PictureComponent {
     private readonly auth: AuthService,
     private readonly pictureService: PictureService,
     private readonly router: Router,
-    private readonly pictureItemService: PictureItemService,
     private readonly commentsGrpc: CommentsClient,
     private readonly picturesClient: PicturesClient,
     private readonly userService: UserService,
+    private readonly toastService: ToastsService,
   ) {
     this.location = location;
   }
 
   protected savePerspective(perspectiveID: null | number, item: APIPictureItem) {
-    this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
+    this.picturesClient
+      .setPictureItemPerspective(
+        new SetPictureItemPerspectiveRequest({
+          itemId: '' + item.item_id,
+          perspectiveId: perspectiveID || undefined,
+          pictureId: '' + item.picture_id,
+          type: item.type,
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
 
   protected pictureVoted() {

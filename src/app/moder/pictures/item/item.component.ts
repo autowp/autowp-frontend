@@ -1,6 +1,15 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIIP, APIUser, DeleteSimilarRequest, ItemFields, ItemRequest, ItemType, PictureIDRequest} from '@grpc/spec.pb';
+import {
+  APIIP,
+  APIUser,
+  DeleteSimilarRequest,
+  ItemFields,
+  ItemRequest,
+  ItemType,
+  PictureIDRequest,
+  SetPictureItemPerspectiveRequest,
+} from '@grpc/spec.pb';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -14,6 +23,8 @@ import {UserService} from '@services/user';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 interface LastItemInfo {
   hasItem: boolean;
@@ -173,6 +184,7 @@ export class ModerPicturesItemComponent {
     private readonly itemsClient: ItemsClient,
     private readonly userService: UserService,
     private readonly picturesClient: PicturesClient,
+    private readonly toastService: ToastsService,
   ) {
     this.monthOptions = [
       {
@@ -208,8 +220,23 @@ export class ModerPicturesItemComponent {
     }
   }
 
-  protected savePerspective(perspectiveID: null | number, item: APIPictureItem) {
-    this.pictureItemService.setPerspective$(item.picture_id, item.item_id, item.type, perspectiveID).subscribe();
+  protected savePerspective(perspectiveId: null | number, item: APIPictureItem) {
+    this.picturesClient
+      .setPictureItemPerspective(
+        new SetPictureItemPerspectiveRequest({
+          itemId: '' + item.item_id,
+          perspectiveId: perspectiveId || undefined,
+          pictureId: '' + item.picture_id,
+          type: item.type,
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
 
   protected pictureVoted() {

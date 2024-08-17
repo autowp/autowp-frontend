@@ -43,20 +43,6 @@ export interface APIPictureItem {
 export class PictureItemService {
   constructor(private readonly api: APIService) {}
 
-  public setPerspective$(
-    pictureId: number,
-    itemId: number,
-    type: number,
-    perspectiveId: null | number,
-  ): Observable<void> {
-    const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
-    return this.api.request<void>('PUT', url, {
-      body: {
-        perspective_id: perspectiveId ? perspectiveId.toString() : null,
-      },
-    });
-  }
-
   public create$(pictureId: number, itemId: string, type: number, data: APIPictureItemPostData): Observable<void> {
     return this.api.request<void>('POST', 'picture-item/' + pictureId + '/' + itemId + '/' + type, {body: data});
   }
