@@ -56,13 +56,13 @@ export class IndexComponent implements OnInit {
   protected readonly contentPersons$ = this.items.getTopPersonsList(
     new GetTopPersonsListRequest({
       language: this.languageService.language,
-      pictureItemType: PictureItemType.PICTURE_CONTENT,
+      pictureItemType: PictureItemType.PICTURE_ITEM_CONTENT,
     }),
   );
   protected readonly authorPersons$ = this.items.getTopPersonsList(
     new GetTopPersonsListRequest({
       language: this.languageService.language,
-      pictureItemType: PictureItemType.PICTURE_AUTHOR,
+      pictureItemType: PictureItemType.PICTURE_ITEM_AUTHOR,
     }),
   );
 

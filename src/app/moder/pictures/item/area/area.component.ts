@@ -1,14 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SetPictureItemAreaRequest} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {PictureItemService} from '@services/picture-item';
 import * as $ from 'jquery';
-import {BehaviorSubject, Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 // @ts-expect-error Legacy
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 interface Crop {
   h: number;
@@ -45,6 +48,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
+    private readonly picturesClient: PicturesClient,
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -175,17 +180,29 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   }
 
   protected saveCrop() {
-    const area = {
-      height: Math.round(this.currentCrop.h),
-      left: Math.round(this.currentCrop.x),
-      top: Math.round(this.currentCrop.y),
-      width: Math.round(this.currentCrop.w),
-    };
-
-    this.picture &&
-      this.pictureItemService.setArea$(this.id, this.itemID, this.type, area).subscribe(() => {
-        this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
-      });
+    if (this.picture) {
+      this.picturesClient
+        .setPictureItemArea(
+          new SetPictureItemAreaRequest({
+            cropHeight: Math.round(this.currentCrop.h),
+            cropLeft: Math.round(this.currentCrop.x),
+            cropTop: Math.round(this.currentCrop.y),
+            cropWidth: Math.round(this.currentCrop.w),
+            itemId: '' + this.itemID,
+            pictureId: '' + this.id,
+            type: this.type,
+          }),
+        )
+        .pipe(
+          catchError((error: unknown) => {
+            this.toastService.handleError(error);
+            return EMPTY;
+          }),
+        )
+        .subscribe(() => {
+          this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
+        });
+    }
   }
 
   protected onLoad(e: Event) {

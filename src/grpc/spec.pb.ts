@@ -15,10 +15,10 @@ import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleRpc003 from './google/rpc/error-details.pb';
 export enum PictureItemType {
-  PICTURE_UNKNOWN = 0,
-  PICTURE_CONTENT = 1,
-  PICTURE_AUTHOR = 2,
-  PICTURE_COPYRIGHTS = 3
+  PICTURE_ITEM_UNKNOWN = 0,
+  PICTURE_ITEM_CONTENT = 1,
+  PICTURE_ITEM_AUTHOR = 2,
+  PICTURE_ITEM_COPYRIGHTS = 3
 }
 export enum ItemType {
   ITEM_TYPE_UNKNOWN = 0,
@@ -38,12 +38,6 @@ export enum PictureStatus {
   PICTURE_STATUS_REMOVING = 2,
   PICTURE_STATUS_REMOVED = 3,
   PICTURE_STATUS_INBOX = 4
-}
-export enum ItemPictureType {
-  ITEM_PICTURE_UNKNOWN = 0,
-  ITEM_PICTURE_CONTENT = 1,
-  ITEM_PICTURE_AUTHOR = 2,
-  ITEM_PICTURE_COPYRIGHTS = 3
 }
 export enum CommentsType {
   UNKNOWN = 0,
@@ -16987,7 +16981,7 @@ export class ItemPicturesRequest implements GrpcMessage {
     }
   }
 
-  private _typeId: ItemPictureType;
+  private _typeId: PictureItemType;
   private _pictures?: PicturesRequest;
   private _perspectiveId: number;
 
@@ -17004,10 +16998,10 @@ export class ItemPicturesRequest implements GrpcMessage {
     this.perspectiveId = _value.perspectiveId;
     ItemPicturesRequest.refineValues(this);
   }
-  get typeId(): ItemPictureType {
+  get typeId(): PictureItemType {
     return this._typeId;
   }
-  set typeId(value: ItemPictureType) {
+  set typeId(value: PictureItemType) {
     this._typeId = value;
   }
   get pictures(): PicturesRequest | undefined {
@@ -17062,7 +17056,7 @@ export class ItemPicturesRequest implements GrpcMessage {
   ): ItemPicturesRequest.AsProtobufJSON {
     return {
       typeId:
-        ItemPictureType[
+        PictureItemType[
           this.typeId === null || this.typeId === undefined ? 0 : this.typeId
         ],
       pictures: this.pictures ? this.pictures.toProtobufJSON(options) : null,
@@ -17075,7 +17069,7 @@ export module ItemPicturesRequest {
    * Standard JavaScript object representation for ItemPicturesRequest
    */
   export interface AsObject {
-    typeId: ItemPictureType;
+    typeId: PictureItemType;
     pictures?: PicturesRequest.AsObject;
     perspectiveId: number;
   }
@@ -23868,6 +23862,262 @@ export module PictureIDRequest {
    */
   export interface AsProtobufJSON {
     id: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.SetPictureItemAreaRequest
+ */
+export class SetPictureItemAreaRequest implements GrpcMessage {
+  static id = 'goautowp.SetPictureItemAreaRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new SetPictureItemAreaRequest();
+    SetPictureItemAreaRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: SetPictureItemAreaRequest) {
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.itemId = _instance.itemId || '0';
+    _instance.type = _instance.type || 0;
+    _instance.cropLeft = _instance.cropLeft || 0;
+    _instance.cropTop = _instance.cropTop || 0;
+    _instance.cropWidth = _instance.cropWidth || 0;
+    _instance.cropHeight = _instance.cropHeight || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: SetPictureItemAreaRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.type = _reader.readEnum();
+          break;
+        case 4:
+          _instance.cropLeft = _reader.readUint32();
+          break;
+        case 5:
+          _instance.cropTop = _reader.readUint32();
+          break;
+        case 6:
+          _instance.cropWidth = _reader.readUint32();
+          break;
+        case 7:
+          _instance.cropHeight = _reader.readUint32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    SetPictureItemAreaRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: SetPictureItemAreaRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(1, _instance.pictureId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.type) {
+      _writer.writeEnum(3, _instance.type);
+    }
+    if (_instance.cropLeft) {
+      _writer.writeUint32(4, _instance.cropLeft);
+    }
+    if (_instance.cropTop) {
+      _writer.writeUint32(5, _instance.cropTop);
+    }
+    if (_instance.cropWidth) {
+      _writer.writeUint32(6, _instance.cropWidth);
+    }
+    if (_instance.cropHeight) {
+      _writer.writeUint32(7, _instance.cropHeight);
+    }
+  }
+
+  private _pictureId: string;
+  private _itemId: string;
+  private _type: PictureItemType;
+  private _cropLeft: number;
+  private _cropTop: number;
+  private _cropWidth: number;
+  private _cropHeight: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of SetPictureItemAreaRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<SetPictureItemAreaRequest.AsObject>) {
+    _value = _value || {};
+    this.pictureId = _value.pictureId;
+    this.itemId = _value.itemId;
+    this.type = _value.type;
+    this.cropLeft = _value.cropLeft;
+    this.cropTop = _value.cropTop;
+    this.cropWidth = _value.cropWidth;
+    this.cropHeight = _value.cropHeight;
+    SetPictureItemAreaRequest.refineValues(this);
+  }
+  get pictureId(): string {
+    return this._pictureId;
+  }
+  set pictureId(value: string) {
+    this._pictureId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get type(): PictureItemType {
+    return this._type;
+  }
+  set type(value: PictureItemType) {
+    this._type = value;
+  }
+  get cropLeft(): number {
+    return this._cropLeft;
+  }
+  set cropLeft(value: number) {
+    this._cropLeft = value;
+  }
+  get cropTop(): number {
+    return this._cropTop;
+  }
+  set cropTop(value: number) {
+    this._cropTop = value;
+  }
+  get cropWidth(): number {
+    return this._cropWidth;
+  }
+  set cropWidth(value: number) {
+    this._cropWidth = value;
+  }
+  get cropHeight(): number {
+    return this._cropHeight;
+  }
+  set cropHeight(value: number) {
+    this._cropHeight = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    SetPictureItemAreaRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): SetPictureItemAreaRequest.AsObject {
+    return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
+      type: this.type,
+      cropLeft: this.cropLeft,
+      cropTop: this.cropTop,
+      cropWidth: this.cropWidth,
+      cropHeight: this.cropHeight
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): SetPictureItemAreaRequest.AsProtobufJSON {
+    return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
+      type:
+        PictureItemType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ],
+      cropLeft: this.cropLeft,
+      cropTop: this.cropTop,
+      cropWidth: this.cropWidth,
+      cropHeight: this.cropHeight
+    };
+  }
+}
+export module SetPictureItemAreaRequest {
+  /**
+   * Standard JavaScript object representation for SetPictureItemAreaRequest
+   */
+  export interface AsObject {
+    pictureId: string;
+    itemId: string;
+    type: PictureItemType;
+    cropLeft: number;
+    cropTop: number;
+    cropWidth: number;
+    cropHeight: number;
+  }
+
+  /**
+   * Protobuf JSON representation for SetPictureItemAreaRequest
+   */
+  export interface AsProtobufJSON {
+    pictureId: string;
+    itemId: string;
+    type: string;
+    cropLeft: number;
+    cropTop: number;
+    cropWidth: number;
+    cropHeight: number;
   }
 }
 

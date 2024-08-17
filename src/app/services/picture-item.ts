@@ -5,13 +5,6 @@ import {APIService} from './api.service';
 import {APIItem} from './item';
 import {APIPicture} from './picture';
 
-export interface APIPictureItemAreaPostData {
-  height: number;
-  left: number;
-  top: number;
-  width: number;
-}
-
 export interface APIPictureItemPostData {
   perspective_id?: null | number;
 }
@@ -60,14 +53,6 @@ export class PictureItemService {
     return this.api.request<void>('PUT', url, {
       body: {
         perspective_id: perspectiveId ? perspectiveId.toString() : null,
-      },
-    });
-  }
-
-  public setArea$(pictureId: number, itemId: number, type: number, area: APIPictureItemAreaPostData): Observable<void> {
-    return this.api.request<void>('PUT', 'picture-item/' + pictureId + '/' + itemId + '/' + type, {
-      body: {
-        area,
       },
     });
   }

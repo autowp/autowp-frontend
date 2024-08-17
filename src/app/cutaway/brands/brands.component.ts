@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemPictureType, ItemType} from '@grpc/spec.pb';
+import {ItemType, PictureItemType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
@@ -23,7 +23,7 @@ export class CutawayBrandsComponent implements OnInit {
         descendant_pictures: {
           perspective_id: 9,
           status: 'accepted',
-          type_id: ItemPictureType.ITEM_PICTURE_CONTENT,
+          type_id: PictureItemType.PICTURE_ITEM_CONTENT,
         },
         fields:
           'name_html,name_default,description,has_text,preview_pictures.route,preview_pictures.picture.name_text,current_pictures_count',
@@ -31,7 +31,7 @@ export class CutawayBrandsComponent implements OnInit {
         page,
         preview_pictures: {
           perspective_id: 9,
-          type_id: ItemPictureType.ITEM_PICTURE_CONTENT,
+          type_id: PictureItemType.PICTURE_ITEM_CONTENT,
         },
         type_id: ItemType.ITEM_TYPE_BRAND,
       }),

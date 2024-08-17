@@ -70,13 +70,13 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     );
   }
 
-  private readonly isContentTypeOrEmpty$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_CONTENT);
+  private readonly isContentTypeOrEmpty$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_CONTENT);
   protected readonly showBrands$ = this.isContentTypeOrEmpty$;
   protected readonly showFactories$ = this.isContentTypeOrEmpty$;
   protected readonly showMuseums$ = this.isContentTypeOrEmpty$;
   protected readonly showPersons$ = this.isContentTypeOrEmpty$;
-  protected readonly showAuthors$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_AUTHOR);
-  protected readonly showCopyrights$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_COPYRIGHTS);
+  protected readonly showAuthors$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_AUTHOR);
+  protected readonly showCopyrights$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_COPYRIGHTS);
 
   protected readonly showTabBar$ = combineLatest([
     this.showBrands$,
@@ -106,9 +106,9 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     );
   }
 
-  protected readonly factoriesActive$ = this.tabActive$('show_factories', PictureItemType.PICTURE_CONTENT);
-  protected readonly museumsActive$ = this.tabActive$('show_museums', PictureItemType.PICTURE_CONTENT);
-  protected readonly personsActive$ = this.tabActive$('show_persons', PictureItemType.PICTURE_CONTENT);
+  protected readonly factoriesActive$ = this.tabActive$('show_factories', PictureItemType.PICTURE_ITEM_CONTENT);
+  protected readonly museumsActive$ = this.tabActive$('show_museums', PictureItemType.PICTURE_ITEM_CONTENT);
+  protected readonly personsActive$ = this.tabActive$('show_persons', PictureItemType.PICTURE_ITEM_CONTENT);
 
   protected readonly authorsActive$ = combineLatest([
     this.showAuthors$,
@@ -120,15 +120,15 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   ]).pipe(
     map(
       ([showAuthors, {srcItemID, srcType}, active]) =>
-        showAuthors && !srcItemID && (active || srcType === PictureItemType.PICTURE_AUTHOR),
+        showAuthors && !srcItemID && (active || srcType === PictureItemType.PICTURE_ITEM_AUTHOR),
     ),
     shareReplay(1),
   );
 
-  protected readonly copyrightsActive$ = this.tabActive$('show_copyrights', PictureItemType.PICTURE_COPYRIGHTS);
+  protected readonly copyrightsActive$ = this.tabActive$('show_copyrights', PictureItemType.PICTURE_ITEM_COPYRIGHTS);
 
   protected readonly brandsActive$ = combineLatest([
-    this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_CONTENT),
+    this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_CONTENT),
     this.factoriesActive$,
     this.museumsActive$,
     this.personsActive$,
@@ -190,7 +190,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           page,
           typeId: ItemType.ITEM_TYPE_MUSEUM,
         }),
-        PictureItemType.PICTURE_CONTENT,
+        PictureItemType.PICTURE_ITEM_CONTENT,
       ),
     ),
   );
@@ -205,7 +205,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           page,
           typeId: ItemType.ITEM_TYPE_FACTORY,
         }),
-        PictureItemType.PICTURE_CONTENT,
+        PictureItemType.PICTURE_ITEM_CONTENT,
       ),
     ),
   );
@@ -235,10 +235,10 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   }
 
   protected readonly persons$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> =
-    this.authorsAndPersons$(this.searchPersonControl, PictureItemType.PICTURE_CONTENT);
+    this.authorsAndPersons$(this.searchPersonControl, PictureItemType.PICTURE_ITEM_CONTENT);
 
   protected readonly authors$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> =
-    this.authorsAndPersons$(this.searchAuthorControl, PictureItemType.PICTURE_AUTHOR);
+    this.authorsAndPersons$(this.searchAuthorControl, PictureItemType.PICTURE_ITEM_AUTHOR);
 
   protected readonly copyrights$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> = this.page$.pipe(
     switchMap((page) =>
@@ -250,7 +250,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           page,
           typeId: ItemType.ITEM_TYPE_COPYRIGHT,
         }),
-        PictureItemType.PICTURE_COPYRIGHTS,
+        PictureItemType.PICTURE_ITEM_COPYRIGHTS,
       ),
     ),
   );
@@ -293,7 +293,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           page: 1,
           typeId: ItemType.ITEM_TYPE_VEHICLE,
         }),
-        PictureItemType.PICTURE_COPYRIGHTS,
+        PictureItemType.PICTURE_ITEM_COPYRIGHTS,
       ),
     ),
   );
