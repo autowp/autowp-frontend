@@ -8,6 +8,7 @@ import {
   ItemRequest,
   ItemType,
   PictureIDRequest,
+  SetPictureItemItemIDRequest,
   SetPictureItemPerspectiveRequest,
 } from '@grpc/spec.pb';
 import {APIItem} from '@grpc/spec.pb';
@@ -268,18 +269,27 @@ export class ModerPicturesItemComponent {
     });
   }
 
-  protected moveItem(id: number, type: number, srcItemId: number, dstItemId: string) {
+  protected moveItem(id: string, type: number, srcItemId: string, dstItemId: string) {
     this.pictureItemLoading = true;
-    this.pictureItemService.changeItem$(id, type, srcItemId, dstItemId).subscribe({
-      error: () => {
-        this.pictureItemLoading = false;
-      },
-      next: () => {
-        localStorage.setItem('last_item', dstItemId.toString());
-        this.change$.next();
-        this.pictureItemLoading = false;
-      },
-    });
+    this.picturesClient
+      .setPictureItemItemID(
+        new SetPictureItemItemIDRequest({
+          itemId: '' + srcItemId,
+          newItemId: dstItemId,
+          pictureId: '' + id,
+          type: type,
+        }),
+      )
+      .subscribe({
+        error: () => {
+          this.pictureItemLoading = false;
+        },
+        next: () => {
+          localStorage.setItem('last_item', dstItemId);
+          this.change$.next();
+          this.pictureItemLoading = false;
+        },
+      });
   }
 
   protected saveSpecialName(picture: APIPicture) {

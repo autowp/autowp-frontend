@@ -168,7 +168,7 @@
                   <div class="dropdown-menu" ngbDropdownMenu>
                     <button
                       class="dropdown-item"
-                      (click)="moveItem(picture.id, item.type, item.item_id, lastItem.item.id)"
+                      (click)="moveItem(picture.id + '', item.type, item.item_id + '', lastItem.item.id)"
                       *ngIf="lastItem.item && !lastItem.hasItem"
                     >
                       <i class="bi bi-arrow-right" aria-hidden="true"></i>

@@ -1,8 +1,8 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIGetItemVehicleTypesRequest, ItemType, SetPictureItemItemIDRequest} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -107,6 +107,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     private readonly pictureItemService: PictureItemService,
     private readonly pageEnv: PageEnvService,
     private readonly itemsClient: ItemsClient,
+    private readonly picturesClient: PicturesClient,
   ) {}
 
   ngOnInit(): void {
@@ -180,11 +181,16 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
             ...pictures
               .filter((p) => event.pictures.includes(p.picture_id))
               .map((picture) =>
-                this.api.request<void>(
-                  'PUT',
-                  'picture-item/' + picture.picture_id + '/' + picture.item_id + '/' + picture.type,
-                  {body: {item_id: newItem.id}},
-                ),
+                this.picturesClient
+                  .setPictureItemItemID(
+                    new SetPictureItemItemIDRequest({
+                      itemId: '' + picture.item_id,
+                      newItemId: '' + newItem.id,
+                      pictureId: '' + picture.picture_id,
+                      type: picture.type,
+                    }),
+                  )
+                  .pipe(map(() => void 0)),
               ),
           );
 

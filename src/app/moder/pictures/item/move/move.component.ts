@@ -8,6 +8,7 @@ import {
   ListItemsRequest,
   Pages,
   PictureItemType,
+  SetPictureItemItemIDRequest,
   SetPictureItemPerspectiveRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -357,8 +358,15 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     const dstPerspectiveID = selection.perspectiveId;
 
     if (srcItemID && srcType) {
-      this.pictureItemService
-        .changeItem$(id, srcType, srcItemID, dstItemID)
+      this.picturesClient
+        .setPictureItemItemID(
+          new SetPictureItemItemIDRequest({
+            itemId: '' + srcItemID,
+            newItemId: dstItemID,
+            pictureId: '' + id,
+            type: srcType,
+          }),
+        )
         .pipe(
           switchMap(() => {
             if (!dstPerspectiveID) {

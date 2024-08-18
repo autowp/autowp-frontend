@@ -51,15 +51,6 @@ export class PictureItemService {
     return this.api.request<void>('DELETE', 'picture-item/' + pictureId + '/' + itemId + '/' + type);
   }
 
-  public changeItem$(pictureId: number, type: number, srcItemId: number, dstItemId: string): Observable<void> {
-    const url = 'picture-item/' + pictureId + '/' + srcItemId + '/' + type;
-    return this.api.request<void>('PUT', url, {
-      body: {
-        item_id: dstItemId,
-      },
-    });
-  }
-
   public get$(
     pictureId: number,
     itemId: number,
