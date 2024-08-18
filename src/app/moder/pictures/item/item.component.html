@@ -201,21 +201,21 @@
     <div *ngIf="picture.rights.move">
       <ng-container *ngIf="lastItem$ | async as lastItem">
         <div *ngIf="lastItem.item && !lastItem.hasItem && lastItem.item.itemTypeId !== ItemType.ITEM_TYPE_COPYRIGHT">
-          <button class="btn btn-secondary" (click)="addItem(picture.id, lastItem.item, 1)">
+          <button class="btn btn-secondary" (click)="addItem(picture.id + '', lastItem.item, 1)">
             <i class="bi bi-plus" aria-hidden="true"></i>
             <ng-container i18n>add to</ng-container> (content)
             <span [innerHTML]="lastItem.item.nameHtml"></span>
           </button>
         </div>
         <div *ngIf="lastItem.item && !lastItem.hasItem && lastItem.item.itemTypeId === ItemType.ITEM_TYPE_PERSON">
-          <button class="btn btn-secondary" (click)="addItem(picture.id, lastItem.item, 2)">
+          <button class="btn btn-secondary" (click)="addItem(picture.id + '', lastItem.item, 2)">
             <i class="bi bi-plus" aria-hidden="true"></i>
             <ng-container i18n>add to</ng-container> (author)
             <span [innerHTML]="lastItem.item.nameHtml"></span>
           </button>
         </div>
         <div *ngIf="lastItem.item && !lastItem.hasItem && lastItem.item.itemTypeId === ItemType.ITEM_TYPE_COPYRIGHT">
-          <button class="btn btn-secondary" (click)="addItem(picture.id, lastItem.item, 3)">
+          <button class="btn btn-secondary" (click)="addItem(picture.id + '', lastItem.item, 3)">
             <i class="bi bi-plus" aria-hidden="true"></i>
             <ng-container i18n>add to</ng-container> (copyrights)
             <span [innerHTML]="lastItem.item.nameHtml"></span>

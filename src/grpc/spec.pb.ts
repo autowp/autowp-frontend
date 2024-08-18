@@ -24522,6 +24522,385 @@ export module SetPictureItemItemIDRequest {
 }
 
 /**
+ * Message implementation for goautowp.DeletePictureItemRequest
+ */
+export class DeletePictureItemRequest implements GrpcMessage {
+  static id = 'goautowp.DeletePictureItemRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeletePictureItemRequest();
+    DeletePictureItemRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeletePictureItemRequest) {
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.itemId = _instance.itemId || '0';
+    _instance.type = _instance.type || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeletePictureItemRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.type = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeletePictureItemRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeletePictureItemRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(1, _instance.pictureId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.type) {
+      _writer.writeEnum(3, _instance.type);
+    }
+  }
+
+  private _pictureId: string;
+  private _itemId: string;
+  private _type: PictureItemType;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeletePictureItemRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DeletePictureItemRequest.AsObject>) {
+    _value = _value || {};
+    this.pictureId = _value.pictureId;
+    this.itemId = _value.itemId;
+    this.type = _value.type;
+    DeletePictureItemRequest.refineValues(this);
+  }
+  get pictureId(): string {
+    return this._pictureId;
+  }
+  set pictureId(value: string) {
+    this._pictureId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get type(): PictureItemType {
+    return this._type;
+  }
+  set type(value: PictureItemType) {
+    this._type = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeletePictureItemRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeletePictureItemRequest.AsObject {
+    return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
+      type: this.type
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeletePictureItemRequest.AsProtobufJSON {
+    return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
+      type:
+        PictureItemType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ]
+    };
+  }
+}
+export module DeletePictureItemRequest {
+  /**
+   * Standard JavaScript object representation for DeletePictureItemRequest
+   */
+  export interface AsObject {
+    pictureId: string;
+    itemId: string;
+    type: PictureItemType;
+  }
+
+  /**
+   * Protobuf JSON representation for DeletePictureItemRequest
+   */
+  export interface AsProtobufJSON {
+    pictureId: string;
+    itemId: string;
+    type: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CreatePictureItemRequest
+ */
+export class CreatePictureItemRequest implements GrpcMessage {
+  static id = 'goautowp.CreatePictureItemRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CreatePictureItemRequest();
+    CreatePictureItemRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CreatePictureItemRequest) {
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.itemId = _instance.itemId || '0';
+    _instance.type = _instance.type || 0;
+    _instance.perspectiveId = _instance.perspectiveId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CreatePictureItemRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.type = _reader.readEnum();
+          break;
+        case 4:
+          _instance.perspectiveId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CreatePictureItemRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CreatePictureItemRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(1, _instance.pictureId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.type) {
+      _writer.writeEnum(3, _instance.type);
+    }
+    if (_instance.perspectiveId) {
+      _writer.writeInt32(4, _instance.perspectiveId);
+    }
+  }
+
+  private _pictureId: string;
+  private _itemId: string;
+  private _type: PictureItemType;
+  private _perspectiveId: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CreatePictureItemRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CreatePictureItemRequest.AsObject>) {
+    _value = _value || {};
+    this.pictureId = _value.pictureId;
+    this.itemId = _value.itemId;
+    this.type = _value.type;
+    this.perspectiveId = _value.perspectiveId;
+    CreatePictureItemRequest.refineValues(this);
+  }
+  get pictureId(): string {
+    return this._pictureId;
+  }
+  set pictureId(value: string) {
+    this._pictureId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get type(): PictureItemType {
+    return this._type;
+  }
+  set type(value: PictureItemType) {
+    this._type = value;
+  }
+  get perspectiveId(): number {
+    return this._perspectiveId;
+  }
+  set perspectiveId(value: number) {
+    this._perspectiveId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CreatePictureItemRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CreatePictureItemRequest.AsObject {
+    return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
+      type: this.type,
+      perspectiveId: this.perspectiveId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CreatePictureItemRequest.AsProtobufJSON {
+    return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
+      type:
+        PictureItemType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ],
+      perspectiveId: this.perspectiveId
+    };
+  }
+}
+export module CreatePictureItemRequest {
+  /**
+   * Standard JavaScript object representation for CreatePictureItemRequest
+   */
+  export interface AsObject {
+    pictureId: string;
+    itemId: string;
+    type: PictureItemType;
+    perspectiveId: number;
+  }
+
+  /**
+   * Protobuf JSON representation for CreatePictureItemRequest
+   */
+  export interface AsProtobufJSON {
+    pictureId: string;
+    itemId: string;
+    type: string;
+    perspectiveId: number;
+  }
+}
+
+/**
  * Message implementation for goautowp.DeleteSimilarRequest
  */
 export class DeleteSimilarRequest implements GrpcMessage {

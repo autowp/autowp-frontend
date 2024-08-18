@@ -5,10 +5,6 @@ import {APIService} from './api.service';
 import {APIItem} from './item';
 import {APIPicture} from './picture';
 
-export interface APIPictureItemPostData {
-  perspective_id?: null | number;
-}
-
 export interface APIPictureItemGetOptions {
   fields: string;
 }
@@ -42,14 +38,6 @@ export interface APIPictureItem {
 @Injectable()
 export class PictureItemService {
   constructor(private readonly api: APIService) {}
-
-  public create$(pictureId: number, itemId: string, type: number, data: APIPictureItemPostData): Observable<void> {
-    return this.api.request<void>('POST', 'picture-item/' + pictureId + '/' + itemId + '/' + type, {body: data});
-  }
-
-  public remove$(pictureId: number, itemId: number, type: number): Observable<void> {
-    return this.api.request<void>('DELETE', 'picture-item/' + pictureId + '/' + itemId + '/' + type);
-  }
 
   public get$(
     pictureId: number,

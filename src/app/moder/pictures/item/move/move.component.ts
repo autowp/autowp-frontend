@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
+  CreatePictureItemRequest,
   ItemFields,
   ItemType,
   ListItemsRequest,
@@ -15,7 +16,6 @@ import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureItemService} from '@services/picture-item';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
@@ -333,7 +333,6 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly PictureItemType = PictureItemType;
 
   constructor(
-    private readonly pictureItemService: PictureItemService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly itemParentService: ItemParentService,
@@ -394,16 +393,27 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           this.router.navigate(['/moder/pictures', id]);
         });
     } else {
-      const data = {
-        perspective_id: dstPerspectiveID ? dstPerspectiveID : null,
-      };
-
-      this.pictureItemService.create$(id, dstItemID, selection.type, data).subscribe(() => {
-        if (localStorage) {
-          localStorage.setItem('last_item', dstItemID);
-        }
-        this.router.navigate(['/moder/pictures', id]);
-      });
+      this.picturesClient
+        .createPictureItem(
+          new CreatePictureItemRequest({
+            itemId: dstItemID,
+            perspectiveId: dstPerspectiveID || undefined,
+            pictureId: '' + id,
+            type: selection.type,
+          }),
+        )
+        .pipe(
+          catchError((error: unknown) => {
+            this.toastService.handleError(error);
+            return EMPTY;
+          }),
+        )
+        .subscribe(() => {
+          if (localStorage) {
+            localStorage.setItem('last_item', dstItemID);
+          }
+          this.router.navigate(['/moder/pictures', id]);
+        });
     }
 
     return false;

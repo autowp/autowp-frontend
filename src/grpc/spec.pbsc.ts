@@ -3842,6 +3842,48 @@ export class PicturesClient {
         requestClass: thisProto.SetPictureItemItemIDRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/DeletePictureItem
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deletePictureItem: (
+      requestData: thisProto.DeletePictureItemRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/DeletePictureItem',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeletePictureItemRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/CreatePictureItem
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    createPictureItem: (
+      requestData: thisProto.CreatePictureItemRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/CreatePictureItem',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CreatePictureItemRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -4090,6 +4132,38 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .setPictureItemItemID(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/DeletePictureItem
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deletePictureItem(
+    requestData: thisProto.DeletePictureItemRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deletePictureItem(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/CreatePictureItem
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  createPictureItem(
+    requestData: thisProto.CreatePictureItemRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .createPictureItem(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

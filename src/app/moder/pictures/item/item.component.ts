@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIIP,
   APIUser,
+  CreatePictureItemRequest,
+  DeletePictureItemRequest,
   DeleteSimilarRequest,
   ItemFields,
   ItemRequest,
@@ -19,7 +21,7 @@ import {IpService} from '@services/ip';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {APIPictureItem, PictureItemService} from '@services/picture-item';
+import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
 import {BehaviorSubject, EMPTY, Observable, combineLatest, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -175,7 +177,6 @@ export class ModerPicturesItemComponent {
 
   constructor(
     private readonly api: APIService,
-    private readonly pictureItemService: PictureItemService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly pictureService: PictureService,
@@ -255,18 +256,30 @@ export class ModerPicturesItemComponent {
     return found;
   }
 
-  protected addItem(id: number, item: APIItem, type: number) {
+  protected addItem(id: string, item: APIItem, type: number) {
     this.pictureItemLoading = true;
-    this.pictureItemService.create$(id, item.id, type, {}).subscribe({
-      error: () => {
-        this.pictureItemLoading = false;
-      },
-      next: () => {
-        localStorage.setItem('last_item', item.id.toString());
-        this.change$.next();
-        this.pictureItemLoading = false;
-      },
-    });
+    this.picturesClient
+      .createPictureItem(
+        new CreatePictureItemRequest({
+          itemId: item.id,
+          pictureId: id,
+          type: type,
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
+          this.pictureItemLoading = false;
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          localStorage.setItem('last_item', item.id.toString());
+          this.change$.next();
+          this.pictureItemLoading = false;
+        },
+      });
   }
 
   protected moveItem(id: string, type: number, srcItemId: string, dstItemId: string) {
@@ -280,10 +293,14 @@ export class ModerPicturesItemComponent {
           type: type,
         }),
       )
-      .subscribe({
-        error: () => {
+      .pipe(
+        catchError((error: unknown) => {
           this.pictureItemLoading = false;
-        },
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
         next: () => {
           localStorage.setItem('last_item', dstItemId);
           this.change$.next();
@@ -430,15 +447,27 @@ export class ModerPicturesItemComponent {
 
   protected deletePictureItem(item: APIPictureItem) {
     this.pictureItemLoading = true;
-    this.pictureItemService.remove$(item.picture_id, item.item_id, item.type).subscribe({
-      error: () => {
-        this.pictureItemLoading = false;
-      },
-      next: () => {
-        this.change$.next();
-        this.pictureItemLoading = false;
-      },
-    });
+    this.picturesClient
+      .deletePictureItem(
+        new DeletePictureItemRequest({
+          itemId: '' + item.item_id,
+          pictureId: '' + item.picture_id,
+          type: item.type,
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
+          this.pictureItemLoading = false;
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.change$.next();
+          this.pictureItemLoading = false;
+        },
+      });
   }
 
   protected cancelReplace(id: number) {
