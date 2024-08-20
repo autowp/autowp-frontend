@@ -1,14 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIService} from '@services/api.service';
+import {SetPictureCropRequest} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import * as $ from 'jquery';
-import {BehaviorSubject, Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 // @ts-expect-error Legacy
 import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 interface Crop {
   h: number;
@@ -37,11 +39,12 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
 
   constructor(
-    private readonly api: APIService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
+    private readonly picturesClient: PicturesClient,
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -126,17 +129,22 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
 
   protected saveCrop() {
     this.picture &&
-      this.api
-        .request<void>('PUT', 'picture/' + this.picture.id, {
-          body: {
-            crop: {
-              height: Math.round(this.currentCrop.h),
-              left: Math.round(this.currentCrop.x),
-              top: Math.round(this.currentCrop.y),
-              width: Math.round(this.currentCrop.w),
-            },
-          },
-        })
+      this.picturesClient
+        .setPictureCrop(
+          new SetPictureCropRequest({
+            cropHeight: Math.round(this.currentCrop.h),
+            cropLeft: Math.round(this.currentCrop.x),
+            cropTop: Math.round(this.currentCrop.y),
+            cropWidth: Math.round(this.currentCrop.w),
+            pictureId: '' + this.picture.id,
+          }),
+        )
+        .pipe(
+          catchError((error: unknown) => {
+            this.toastService.handleError(error);
+            return EMPTY;
+          }),
+        )
         .subscribe(() => {
           this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
         });

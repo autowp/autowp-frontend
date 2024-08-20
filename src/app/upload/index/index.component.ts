@@ -1,8 +1,8 @@
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {APIItem, ItemFields, ItemRequest, SetPictureCropRequest} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
@@ -105,6 +105,7 @@ export class UploadIndexComponent implements OnInit {
     private readonly keycloak: KeycloakService,
     private readonly languageService: LanguageService,
     private readonly itemsClient: ItemsClient,
+    private readonly picturesClient: PicturesClient,
   ) {}
 
   ngOnInit(): void {
@@ -256,11 +257,15 @@ export class UploadIndexComponent implements OnInit {
     modalRef.componentInstance.changed
       .pipe(
         switchMap(() =>
-          this.api.request<void>('PUT', 'picture/' + picture.id, {
-            body: {
-              crop: picture.crop,
-            },
-          }),
+          this.picturesClient.setPictureCrop(
+            new SetPictureCropRequest({
+              cropHeight: picture.crop.height || undefined,
+              cropLeft: picture.crop.left || undefined,
+              cropTop: picture.crop.top || undefined,
+              cropWidth: picture.crop.width || undefined,
+              pictureId: '' + picture.id,
+            }),
+          ),
         ),
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse) {
