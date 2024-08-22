@@ -259,18 +259,16 @@ export class UploadIndexComponent implements OnInit {
         switchMap(() =>
           this.picturesClient.setPictureCrop(
             new SetPictureCropRequest({
-              cropHeight: picture.crop.height || undefined,
-              cropLeft: picture.crop.left || undefined,
-              cropTop: picture.crop.top || undefined,
-              cropWidth: picture.crop.width || undefined,
+              cropHeight: picture.crop.height ? Math.round(picture.crop.height) : undefined,
+              cropLeft: picture.crop.left ? Math.round(picture.crop.left) : undefined,
+              cropTop: picture.crop.top ? Math.round(picture.crop.top) : undefined,
+              cropWidth: picture.crop.width ? Math.round(picture.crop.width) : undefined,
               pictureId: '' + picture.id,
             }),
           ),
         ),
         catchError((response: unknown) => {
-          if (response instanceof HttpErrorResponse) {
-            this.toastService.response(response);
-          }
+          this.toastService.handleError(response);
           return EMPTY;
         }),
         switchMap(() =>
@@ -279,14 +277,12 @@ export class UploadIndexComponent implements OnInit {
           }),
         ),
         catchError((response: unknown) => {
-          if (response instanceof HttpErrorResponse) {
-            this.toastService.response(response);
-          }
+          this.toastService.handleError(response);
           return EMPTY;
         }),
         tap((response: APIPicture) => {
           picture.crop = response.crop;
-          picture.cropTitle = cropTitle(response.crop);
+          picture.cropTitle = response.crop ? cropTitle(response.crop) : '';
           picture.thumb_medium = response.thumb_medium;
         }),
       )
