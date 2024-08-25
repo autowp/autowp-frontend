@@ -316,6 +316,7 @@ export class ModerPicturesItemComponent {
     this.picturesClient
       .updatePicture(
         new UpdatePictureRequest({
+          id: picture.id + '',
           name: picture.special_name,
           takenDate: new grpcDate({
             day: picture.taken_day,
