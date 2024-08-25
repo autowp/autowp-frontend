@@ -112,7 +112,7 @@ export class MapComponent implements OnInit {
 
     for (const item of data) {
       if (item.location) {
-        const m = createMarker(item.location.lat, item.location.lng);
+        const m = createMarker(item.location.latitude, item.location.longitude);
 
         const popup = new Popup();
         m.on('click', () => {

@@ -1,16 +1,30 @@
 import {Component, NgZone, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIService} from '@services/api.service';
+import {LatLng as grpcLatLng} from '@grpc/google/type/latlng.pb';
+import {SetPicturePointRequest} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {LatLng, LeafletMouseEvent, Map, Marker, TileLayer, icon, latLng, marker, tileLayer} from 'leaflet';
 import {EMPTY} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../../toasts/toasts.service';
 
 interface MapOptions {
   center: LatLng;
   leafletOptions: {center: LatLng; layers: TileLayer[]; zoom: number};
   markers: Marker[];
+}
+
+function normalizeLat(lat: number) {
+  return Math.max(lat, Math.min(lat, 90), -90);
+}
+
+function normalizeLng(lng: number) {
+  lng = ((lng - 180) % 360) + 180;
+  return ((lng + 180) % 360) - 180;
 }
 
 function createMarker(lat: number, lng: number): Marker {
@@ -24,13 +38,20 @@ function createMarker(lat: number, lng: number): Marker {
   });
 }
 
+interface PointForm {
+  lat: FormControl<null | string>;
+  lng: FormControl<null | string>;
+}
+
 @Component({
   selector: 'app-moder-pictures-place',
   templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {
-  protected lat: number = NaN;
-  protected lng: number = NaN;
+  private readonly form = new FormGroup<PointForm>({
+    lat: new FormControl<string>(''),
+    lng: new FormControl<string>(''),
+  });
 
   protected readonly picture$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
@@ -46,9 +67,26 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     shareReplay(1),
   );
 
-  protected readonly map$ = this.picture$.pipe(
+  protected readonly form$ = this.picture$.pipe(
     map((picture) => {
-      const center = latLng(55.7423627, 37.6786422);
+      let lat = null,
+        lng = null;
+      if (picture && picture.point && picture.point.lat && picture.point.lng) {
+        lat = picture.point.lat + '';
+        lng = picture.point.lng + '';
+      }
+
+      this.form.setValue({lat, lng});
+
+      return this.form;
+    }),
+    shareReplay(1),
+  );
+
+  protected readonly map$ = this.form$.pipe(
+    switchMap((form) => form.valueChanges.pipe(startWith(form.value))),
+    map((formValues) => {
+      let center = latLng(55.7423627, 37.6786422);
 
       const leafletOptions = {
         center: center,
@@ -60,15 +98,21 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
         zoom: 8,
       };
 
+      let lat = formValues.lat ? parseFloat(formValues.lat) : NaN;
+      let lng = formValues.lng ? parseFloat(formValues.lng) : NaN;
+
       const markers: Marker[] = [];
 
-      if (picture && picture.point) {
-        this.lat = picture.point.lat;
-        this.lng = picture.point.lng;
-        if (picture.point.lat && picture.point.lng) {
-          markers.push(createMarker(picture.point.lat, picture.point.lng));
-          leafletOptions.center = latLng(picture.point.lat, picture.point.lng);
-        }
+      let ll = null;
+      if (!isNaN(lat) && !isNaN(lng)) {
+        lat = normalizeLat(lat);
+        lng = normalizeLng(lng);
+        ll = latLng([lat, lng]);
+      }
+      if (ll) {
+        markers.push(createMarker(ll.lat, ll.lng));
+        center = ll;
+        leafletOptions.center = ll;
       }
 
       return {center, leafletOptions, markers};
@@ -81,7 +125,8 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     private readonly pictureService: PictureService,
     private readonly pageEnv: PageEnvService,
     private readonly zone: NgZone,
-    private readonly api: APIService,
+    private readonly picturesClient: PicturesClient,
+    private readonly toastService: ToastsService,
   ) {}
 
   ngOnInit(): void {
@@ -95,45 +140,38 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     );
   }
 
-  protected coordsChanged(mapOptions: MapOptions) {
-    const lat = this.lat;
-    const lng = this.lng;
-
-    const ll = isNaN(lat) || isNaN(lng) ? null : latLng([lat, lng]);
-    if (ll) {
-      if (mapOptions.markers.length) {
-        mapOptions.markers[0].setLatLng(ll);
-      } else {
-        mapOptions.markers = [createMarker(ll.lat, ll.lng)];
-      }
-      mapOptions.center = ll;
-      mapOptions.leafletOptions.center = ll;
-    } else {
-      mapOptions.markers = [];
-    }
-  }
-
-  protected onMapReady(mapOptions: MapOptions, lmap: Map) {
+  protected onMapReady(mapOptions: MapOptions, lmap: Map, form: FormGroup<PointForm>) {
     lmap.on('click', (event: LeafletMouseEvent) => {
       this.zone.run(() => {
         const ll: LatLng = event.latlng;
-        mapOptions.markers = [createMarker(ll.lat, ll.lng)];
-        this.lat = ll.lat;
-        this.lng = ll.lng;
+        const lat = normalizeLat(ll.lat);
+        const lng = normalizeLng(ll.lng);
+        mapOptions.markers = [createMarker(lat, lng)];
+        form.setValue({
+          lat: lat + '',
+          lng: lng + '',
+        });
       });
     });
   }
 
-  protected doSubmit(picture: APIPicture) {
-    this.api
-      .request<void>('PUT', 'picture/' + picture.id, {
-        body: {
-          point: {
-            lat: this.lat,
-            lng: this.lng,
-          },
-        },
-      })
+  protected doSubmit(form: FormGroup<PointForm>, picture: APIPicture) {
+    this.picturesClient
+      .setPicturePoint(
+        new SetPicturePointRequest({
+          pictureId: '' + picture.id,
+          point: new grpcLatLng({
+            latitude: form.controls.lat.value ? parseFloat(form.controls.lat.value) : 0,
+            longitude: form.controls.lng.value ? parseFloat(form.controls.lng.value) : 0,
+          }),
+        }),
+      )
+      .pipe(
+        catchError((response: unknown) => {
+          this.toastService.handleError(response);
+          return EMPTY;
+        }),
+      )
       .subscribe(() => {
         this.router.navigate(['/moder/pictures', picture.id]);
       });

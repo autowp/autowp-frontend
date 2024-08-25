@@ -23,7 +23,8 @@ import * as thisProto from './spec.pb';
 import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
-import * as googleRpc003 from './google/rpc/error-details.pb';
+import * as googleType003 from './google/type/latlng.pb';
+import * as googleRpc004 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_FORUMS_CLIENT_SETTINGS,
@@ -3905,6 +3906,48 @@ export class PicturesClient {
         requestClass: thisProto.SetPictureCropRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/ClearReplacePicture
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    clearReplacePicture: (
+      requestData: thisProto.PictureIDRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/ClearReplacePicture',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PictureIDRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/SetPicturePoint
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setPicturePoint: (
+      requestData: thisProto.SetPicturePointRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/SetPicturePoint',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.SetPicturePointRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -4201,6 +4244,38 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .setPictureCrop(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/ClearReplacePicture
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  clearReplacePicture(
+    requestData: thisProto.PictureIDRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .clearReplacePicture(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/SetPicturePoint
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  setPicturePoint(
+    requestData: thisProto.SetPicturePointRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .setPicturePoint(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

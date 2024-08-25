@@ -13,7 +13,8 @@ import { BinaryReader, BinaryWriter, ByteSource } from 'google-protobuf';
 import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
-import * as googleRpc003 from './google/rpc/error-details.pb';
+import * as googleType003 from './google/type/latlng.pb';
+import * as googleRpc004 from './google/rpc/error-details.pb';
 export enum PictureItemType {
   PICTURE_ITEM_UNKNOWN = 0,
   PICTURE_ITEM_CONTENT = 1,
@@ -97,59 +98,59 @@ export class ErrorDetails implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.retryInfo = new googleRpc003.RetryInfo();
+          _instance.retryInfo = new googleRpc004.RetryInfo();
           _reader.readMessage(
             _instance.retryInfo,
-            googleRpc003.RetryInfo.deserializeBinaryFromReader
+            googleRpc004.RetryInfo.deserializeBinaryFromReader
           );
           break;
         case 2:
-          _instance.debugInfo = new googleRpc003.DebugInfo();
+          _instance.debugInfo = new googleRpc004.DebugInfo();
           _reader.readMessage(
             _instance.debugInfo,
-            googleRpc003.DebugInfo.deserializeBinaryFromReader
+            googleRpc004.DebugInfo.deserializeBinaryFromReader
           );
           break;
         case 3:
-          _instance.quotaFailure = new googleRpc003.QuotaFailure();
+          _instance.quotaFailure = new googleRpc004.QuotaFailure();
           _reader.readMessage(
             _instance.quotaFailure,
-            googleRpc003.QuotaFailure.deserializeBinaryFromReader
+            googleRpc004.QuotaFailure.deserializeBinaryFromReader
           );
           break;
         case 4:
-          _instance.preconditionFailure = new googleRpc003.PreconditionFailure();
+          _instance.preconditionFailure = new googleRpc004.PreconditionFailure();
           _reader.readMessage(
             _instance.preconditionFailure,
-            googleRpc003.PreconditionFailure.deserializeBinaryFromReader
+            googleRpc004.PreconditionFailure.deserializeBinaryFromReader
           );
           break;
         case 5:
-          _instance.badRequest = new googleRpc003.BadRequest();
+          _instance.badRequest = new googleRpc004.BadRequest();
           _reader.readMessage(
             _instance.badRequest,
-            googleRpc003.BadRequest.deserializeBinaryFromReader
+            googleRpc004.BadRequest.deserializeBinaryFromReader
           );
           break;
         case 6:
-          _instance.requestInfo = new googleRpc003.RequestInfo();
+          _instance.requestInfo = new googleRpc004.RequestInfo();
           _reader.readMessage(
             _instance.requestInfo,
-            googleRpc003.RequestInfo.deserializeBinaryFromReader
+            googleRpc004.RequestInfo.deserializeBinaryFromReader
           );
           break;
         case 7:
-          _instance.help = new googleRpc003.Help();
+          _instance.help = new googleRpc004.Help();
           _reader.readMessage(
             _instance.help,
-            googleRpc003.Help.deserializeBinaryFromReader
+            googleRpc004.Help.deserializeBinaryFromReader
           );
           break;
         case 8:
-          _instance.localizedMessage = new googleRpc003.LocalizedMessage();
+          _instance.localizedMessage = new googleRpc004.LocalizedMessage();
           _reader.readMessage(
             _instance.localizedMessage,
-            googleRpc003.LocalizedMessage.deserializeBinaryFromReader
+            googleRpc004.LocalizedMessage.deserializeBinaryFromReader
           );
           break;
         default:
@@ -173,68 +174,68 @@ export class ErrorDetails implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.retryInfo as any,
-        googleRpc003.RetryInfo.serializeBinaryToWriter
+        googleRpc004.RetryInfo.serializeBinaryToWriter
       );
     }
     if (_instance.debugInfo) {
       _writer.writeMessage(
         2,
         _instance.debugInfo as any,
-        googleRpc003.DebugInfo.serializeBinaryToWriter
+        googleRpc004.DebugInfo.serializeBinaryToWriter
       );
     }
     if (_instance.quotaFailure) {
       _writer.writeMessage(
         3,
         _instance.quotaFailure as any,
-        googleRpc003.QuotaFailure.serializeBinaryToWriter
+        googleRpc004.QuotaFailure.serializeBinaryToWriter
       );
     }
     if (_instance.preconditionFailure) {
       _writer.writeMessage(
         4,
         _instance.preconditionFailure as any,
-        googleRpc003.PreconditionFailure.serializeBinaryToWriter
+        googleRpc004.PreconditionFailure.serializeBinaryToWriter
       );
     }
     if (_instance.badRequest) {
       _writer.writeMessage(
         5,
         _instance.badRequest as any,
-        googleRpc003.BadRequest.serializeBinaryToWriter
+        googleRpc004.BadRequest.serializeBinaryToWriter
       );
     }
     if (_instance.requestInfo) {
       _writer.writeMessage(
         6,
         _instance.requestInfo as any,
-        googleRpc003.RequestInfo.serializeBinaryToWriter
+        googleRpc004.RequestInfo.serializeBinaryToWriter
       );
     }
     if (_instance.help) {
       _writer.writeMessage(
         7,
         _instance.help as any,
-        googleRpc003.Help.serializeBinaryToWriter
+        googleRpc004.Help.serializeBinaryToWriter
       );
     }
     if (_instance.localizedMessage) {
       _writer.writeMessage(
         8,
         _instance.localizedMessage as any,
-        googleRpc003.LocalizedMessage.serializeBinaryToWriter
+        googleRpc004.LocalizedMessage.serializeBinaryToWriter
       );
     }
   }
 
-  private _retryInfo?: googleRpc003.RetryInfo;
-  private _debugInfo?: googleRpc003.DebugInfo;
-  private _quotaFailure?: googleRpc003.QuotaFailure;
-  private _preconditionFailure?: googleRpc003.PreconditionFailure;
-  private _badRequest?: googleRpc003.BadRequest;
-  private _requestInfo?: googleRpc003.RequestInfo;
-  private _help?: googleRpc003.Help;
-  private _localizedMessage?: googleRpc003.LocalizedMessage;
+  private _retryInfo?: googleRpc004.RetryInfo;
+  private _debugInfo?: googleRpc004.DebugInfo;
+  private _quotaFailure?: googleRpc004.QuotaFailure;
+  private _preconditionFailure?: googleRpc004.PreconditionFailure;
+  private _badRequest?: googleRpc004.BadRequest;
+  private _requestInfo?: googleRpc004.RequestInfo;
+  private _help?: googleRpc004.Help;
+  private _localizedMessage?: googleRpc004.LocalizedMessage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -243,75 +244,75 @@ export class ErrorDetails implements GrpcMessage {
   constructor(_value?: RecursivePartial<ErrorDetails.AsObject>) {
     _value = _value || {};
     this.retryInfo = _value.retryInfo
-      ? new googleRpc003.RetryInfo(_value.retryInfo)
+      ? new googleRpc004.RetryInfo(_value.retryInfo)
       : undefined;
     this.debugInfo = _value.debugInfo
-      ? new googleRpc003.DebugInfo(_value.debugInfo)
+      ? new googleRpc004.DebugInfo(_value.debugInfo)
       : undefined;
     this.quotaFailure = _value.quotaFailure
-      ? new googleRpc003.QuotaFailure(_value.quotaFailure)
+      ? new googleRpc004.QuotaFailure(_value.quotaFailure)
       : undefined;
     this.preconditionFailure = _value.preconditionFailure
-      ? new googleRpc003.PreconditionFailure(_value.preconditionFailure)
+      ? new googleRpc004.PreconditionFailure(_value.preconditionFailure)
       : undefined;
     this.badRequest = _value.badRequest
-      ? new googleRpc003.BadRequest(_value.badRequest)
+      ? new googleRpc004.BadRequest(_value.badRequest)
       : undefined;
     this.requestInfo = _value.requestInfo
-      ? new googleRpc003.RequestInfo(_value.requestInfo)
+      ? new googleRpc004.RequestInfo(_value.requestInfo)
       : undefined;
-    this.help = _value.help ? new googleRpc003.Help(_value.help) : undefined;
+    this.help = _value.help ? new googleRpc004.Help(_value.help) : undefined;
     this.localizedMessage = _value.localizedMessage
-      ? new googleRpc003.LocalizedMessage(_value.localizedMessage)
+      ? new googleRpc004.LocalizedMessage(_value.localizedMessage)
       : undefined;
     ErrorDetails.refineValues(this);
   }
-  get retryInfo(): googleRpc003.RetryInfo | undefined {
+  get retryInfo(): googleRpc004.RetryInfo | undefined {
     return this._retryInfo;
   }
-  set retryInfo(value: googleRpc003.RetryInfo | undefined) {
+  set retryInfo(value: googleRpc004.RetryInfo | undefined) {
     this._retryInfo = value;
   }
-  get debugInfo(): googleRpc003.DebugInfo | undefined {
+  get debugInfo(): googleRpc004.DebugInfo | undefined {
     return this._debugInfo;
   }
-  set debugInfo(value: googleRpc003.DebugInfo | undefined) {
+  set debugInfo(value: googleRpc004.DebugInfo | undefined) {
     this._debugInfo = value;
   }
-  get quotaFailure(): googleRpc003.QuotaFailure | undefined {
+  get quotaFailure(): googleRpc004.QuotaFailure | undefined {
     return this._quotaFailure;
   }
-  set quotaFailure(value: googleRpc003.QuotaFailure | undefined) {
+  set quotaFailure(value: googleRpc004.QuotaFailure | undefined) {
     this._quotaFailure = value;
   }
-  get preconditionFailure(): googleRpc003.PreconditionFailure | undefined {
+  get preconditionFailure(): googleRpc004.PreconditionFailure | undefined {
     return this._preconditionFailure;
   }
-  set preconditionFailure(value: googleRpc003.PreconditionFailure | undefined) {
+  set preconditionFailure(value: googleRpc004.PreconditionFailure | undefined) {
     this._preconditionFailure = value;
   }
-  get badRequest(): googleRpc003.BadRequest | undefined {
+  get badRequest(): googleRpc004.BadRequest | undefined {
     return this._badRequest;
   }
-  set badRequest(value: googleRpc003.BadRequest | undefined) {
+  set badRequest(value: googleRpc004.BadRequest | undefined) {
     this._badRequest = value;
   }
-  get requestInfo(): googleRpc003.RequestInfo | undefined {
+  get requestInfo(): googleRpc004.RequestInfo | undefined {
     return this._requestInfo;
   }
-  set requestInfo(value: googleRpc003.RequestInfo | undefined) {
+  set requestInfo(value: googleRpc004.RequestInfo | undefined) {
     this._requestInfo = value;
   }
-  get help(): googleRpc003.Help | undefined {
+  get help(): googleRpc004.Help | undefined {
     return this._help;
   }
-  set help(value: googleRpc003.Help | undefined) {
+  set help(value: googleRpc004.Help | undefined) {
     this._help = value;
   }
-  get localizedMessage(): googleRpc003.LocalizedMessage | undefined {
+  get localizedMessage(): googleRpc004.LocalizedMessage | undefined {
     return this._localizedMessage;
   }
-  set localizedMessage(value: googleRpc003.LocalizedMessage | undefined) {
+  set localizedMessage(value: googleRpc004.LocalizedMessage | undefined) {
     this._localizedMessage = value;
   }
 
@@ -390,28 +391,28 @@ export module ErrorDetails {
    * Standard JavaScript object representation for ErrorDetails
    */
   export interface AsObject {
-    retryInfo?: googleRpc003.RetryInfo.AsObject;
-    debugInfo?: googleRpc003.DebugInfo.AsObject;
-    quotaFailure?: googleRpc003.QuotaFailure.AsObject;
-    preconditionFailure?: googleRpc003.PreconditionFailure.AsObject;
-    badRequest?: googleRpc003.BadRequest.AsObject;
-    requestInfo?: googleRpc003.RequestInfo.AsObject;
-    help?: googleRpc003.Help.AsObject;
-    localizedMessage?: googleRpc003.LocalizedMessage.AsObject;
+    retryInfo?: googleRpc004.RetryInfo.AsObject;
+    debugInfo?: googleRpc004.DebugInfo.AsObject;
+    quotaFailure?: googleRpc004.QuotaFailure.AsObject;
+    preconditionFailure?: googleRpc004.PreconditionFailure.AsObject;
+    badRequest?: googleRpc004.BadRequest.AsObject;
+    requestInfo?: googleRpc004.RequestInfo.AsObject;
+    help?: googleRpc004.Help.AsObject;
+    localizedMessage?: googleRpc004.LocalizedMessage.AsObject;
   }
 
   /**
    * Protobuf JSON representation for ErrorDetails
    */
   export interface AsProtobufJSON {
-    retryInfo: googleRpc003.RetryInfo.AsProtobufJSON | null;
-    debugInfo: googleRpc003.DebugInfo.AsProtobufJSON | null;
-    quotaFailure: googleRpc003.QuotaFailure.AsProtobufJSON | null;
-    preconditionFailure: googleRpc003.PreconditionFailure.AsProtobufJSON | null;
-    badRequest: googleRpc003.BadRequest.AsProtobufJSON | null;
-    requestInfo: googleRpc003.RequestInfo.AsProtobufJSON | null;
-    help: googleRpc003.Help.AsProtobufJSON | null;
-    localizedMessage: googleRpc003.LocalizedMessage.AsProtobufJSON | null;
+    retryInfo: googleRpc004.RetryInfo.AsProtobufJSON | null;
+    debugInfo: googleRpc004.DebugInfo.AsProtobufJSON | null;
+    quotaFailure: googleRpc004.QuotaFailure.AsProtobufJSON | null;
+    preconditionFailure: googleRpc004.PreconditionFailure.AsProtobufJSON | null;
+    badRequest: googleRpc004.BadRequest.AsProtobufJSON | null;
+    requestInfo: googleRpc004.RequestInfo.AsProtobufJSON | null;
+    help: googleRpc004.Help.AsProtobufJSON | null;
+    localizedMessage: googleRpc004.LocalizedMessage.AsProtobufJSON | null;
   }
 }
 
@@ -21898,155 +21899,6 @@ export module MapGetPointsRequest {
 }
 
 /**
- * Message implementation for goautowp.Point
- */
-export class Point implements GrpcMessage {
-  static id = 'goautowp.Point';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new Point();
-    Point.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: Point) {
-    _instance.lat = _instance.lat || 0;
-    _instance.lng = _instance.lng || 0;
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(_instance: Point, _reader: BinaryReader) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.lat = _reader.readDouble();
-          break;
-        case 2:
-          _instance.lng = _reader.readDouble();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    Point.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(_instance: Point, _writer: BinaryWriter) {
-    if (_instance.lat) {
-      _writer.writeDouble(1, _instance.lat);
-    }
-    if (_instance.lng) {
-      _writer.writeDouble(2, _instance.lng);
-    }
-  }
-
-  private _lat: number;
-  private _lng: number;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of Point to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<Point.AsObject>) {
-    _value = _value || {};
-    this.lat = _value.lat;
-    this.lng = _value.lng;
-    Point.refineValues(this);
-  }
-  get lat(): number {
-    return this._lat;
-  }
-  set lat(value: number) {
-    this._lat = value;
-  }
-  get lng(): number {
-    return this._lng;
-  }
-  set lng(value: number) {
-    this._lng = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    Point.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): Point.AsObject {
-    return {
-      lat: this.lat,
-      lng: this.lng
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): Point.AsProtobufJSON {
-    return {
-      lat: this.lat,
-      lng: this.lng
-    };
-  }
-}
-export module Point {
-  /**
-   * Standard JavaScript object representation for Point
-   */
-  export interface AsObject {
-    lat: number;
-    lng: number;
-  }
-
-  /**
-   * Protobuf JSON representation for Point
-   */
-  export interface AsProtobufJSON {
-    lat: number;
-    lng: number;
-  }
-}
-
-/**
  * Message implementation for goautowp.MapPoints
  */
 export class MapPoints implements GrpcMessage {
@@ -22230,10 +22082,10 @@ export class MapPoint implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.location = new Point();
+          _instance.location = new googleType003.LatLng();
           _reader.readMessage(
             _instance.location,
-            Point.deserializeBinaryFromReader
+            googleType003.LatLng.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -22270,7 +22122,7 @@ export class MapPoint implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.location as any,
-        Point.serializeBinaryToWriter
+        googleType003.LatLng.serializeBinaryToWriter
       );
     }
     if (_instance.id) {
@@ -22291,7 +22143,7 @@ export class MapPoint implements GrpcMessage {
     }
   }
 
-  private _location?: Point;
+  private _location?: googleType003.LatLng;
   private _id: string;
   private _name: string;
   private _url: string[];
@@ -22303,17 +22155,19 @@ export class MapPoint implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<MapPoint.AsObject>) {
     _value = _value || {};
-    this.location = _value.location ? new Point(_value.location) : undefined;
+    this.location = _value.location
+      ? new googleType003.LatLng(_value.location)
+      : undefined;
     this.id = _value.id;
     this.name = _value.name;
     this.url = (_value.url || []).slice();
     this.image = _value.image ? new APIImage(_value.image) : undefined;
     MapPoint.refineValues(this);
   }
-  get location(): Point | undefined {
+  get location(): googleType003.LatLng | undefined {
     return this._location;
   }
-  set location(value: Point | undefined) {
+  set location(value: googleType003.LatLng | undefined) {
     this._location = value;
   }
   get id(): string {
@@ -22394,7 +22248,7 @@ export module MapPoint {
    * Standard JavaScript object representation for MapPoint
    */
   export interface AsObject {
-    location?: Point.AsObject;
+    location?: googleType003.LatLng.AsObject;
     id: string;
     name: string;
     url: string[];
@@ -22405,7 +22259,7 @@ export module MapPoint {
    * Protobuf JSON representation for MapPoint
    */
   export interface AsProtobufJSON {
-    location: Point.AsProtobufJSON | null;
+    location: googleType003.LatLng.AsProtobufJSON | null;
     id: string;
     name: string;
     url: string[];
@@ -25112,6 +24966,174 @@ export module SetPictureCropRequest {
     cropTop: number;
     cropWidth: number;
     cropHeight: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.SetPicturePointRequest
+ */
+export class SetPicturePointRequest implements GrpcMessage {
+  static id = 'goautowp.SetPicturePointRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new SetPicturePointRequest();
+    SetPicturePointRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: SetPicturePointRequest) {
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.point = _instance.point || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: SetPicturePointRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.point = new googleType003.LatLng();
+          _reader.readMessage(
+            _instance.point,
+            googleType003.LatLng.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    SetPicturePointRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: SetPicturePointRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(1, _instance.pictureId);
+    }
+    if (_instance.point) {
+      _writer.writeMessage(
+        2,
+        _instance.point as any,
+        googleType003.LatLng.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _pictureId: string;
+  private _point?: googleType003.LatLng;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of SetPicturePointRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<SetPicturePointRequest.AsObject>) {
+    _value = _value || {};
+    this.pictureId = _value.pictureId;
+    this.point = _value.point
+      ? new googleType003.LatLng(_value.point)
+      : undefined;
+    SetPicturePointRequest.refineValues(this);
+  }
+  get pictureId(): string {
+    return this._pictureId;
+  }
+  set pictureId(value: string) {
+    this._pictureId = value;
+  }
+  get point(): googleType003.LatLng | undefined {
+    return this._point;
+  }
+  set point(value: googleType003.LatLng | undefined) {
+    this._point = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    SetPicturePointRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): SetPicturePointRequest.AsObject {
+    return {
+      pictureId: this.pictureId,
+      point: this.point ? this.point.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): SetPicturePointRequest.AsProtobufJSON {
+    return {
+      pictureId: this.pictureId,
+      point: this.point ? this.point.toProtobufJSON(options) : null
+    };
+  }
+}
+export module SetPicturePointRequest {
+  /**
+   * Standard JavaScript object representation for SetPicturePointRequest
+   */
+  export interface AsObject {
+    pictureId: string;
+    point?: googleType003.LatLng.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for SetPicturePointRequest
+   */
+  export interface AsProtobufJSON {
+    pictureId: string;
+    point: googleType003.LatLng.AsProtobufJSON | null;
   }
 }
 
