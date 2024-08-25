@@ -14,7 +14,8 @@ import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleType003 from './google/type/latlng.pb';
-import * as googleRpc004 from './google/rpc/error-details.pb';
+import * as googleType004 from './google/type/date.pb';
+import * as googleRpc005 from './google/rpc/error-details.pb';
 export enum PictureItemType {
   PICTURE_ITEM_UNKNOWN = 0,
   PICTURE_ITEM_CONTENT = 1,
@@ -98,59 +99,59 @@ export class ErrorDetails implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.retryInfo = new googleRpc004.RetryInfo();
+          _instance.retryInfo = new googleRpc005.RetryInfo();
           _reader.readMessage(
             _instance.retryInfo,
-            googleRpc004.RetryInfo.deserializeBinaryFromReader
+            googleRpc005.RetryInfo.deserializeBinaryFromReader
           );
           break;
         case 2:
-          _instance.debugInfo = new googleRpc004.DebugInfo();
+          _instance.debugInfo = new googleRpc005.DebugInfo();
           _reader.readMessage(
             _instance.debugInfo,
-            googleRpc004.DebugInfo.deserializeBinaryFromReader
+            googleRpc005.DebugInfo.deserializeBinaryFromReader
           );
           break;
         case 3:
-          _instance.quotaFailure = new googleRpc004.QuotaFailure();
+          _instance.quotaFailure = new googleRpc005.QuotaFailure();
           _reader.readMessage(
             _instance.quotaFailure,
-            googleRpc004.QuotaFailure.deserializeBinaryFromReader
+            googleRpc005.QuotaFailure.deserializeBinaryFromReader
           );
           break;
         case 4:
-          _instance.preconditionFailure = new googleRpc004.PreconditionFailure();
+          _instance.preconditionFailure = new googleRpc005.PreconditionFailure();
           _reader.readMessage(
             _instance.preconditionFailure,
-            googleRpc004.PreconditionFailure.deserializeBinaryFromReader
+            googleRpc005.PreconditionFailure.deserializeBinaryFromReader
           );
           break;
         case 5:
-          _instance.badRequest = new googleRpc004.BadRequest();
+          _instance.badRequest = new googleRpc005.BadRequest();
           _reader.readMessage(
             _instance.badRequest,
-            googleRpc004.BadRequest.deserializeBinaryFromReader
+            googleRpc005.BadRequest.deserializeBinaryFromReader
           );
           break;
         case 6:
-          _instance.requestInfo = new googleRpc004.RequestInfo();
+          _instance.requestInfo = new googleRpc005.RequestInfo();
           _reader.readMessage(
             _instance.requestInfo,
-            googleRpc004.RequestInfo.deserializeBinaryFromReader
+            googleRpc005.RequestInfo.deserializeBinaryFromReader
           );
           break;
         case 7:
-          _instance.help = new googleRpc004.Help();
+          _instance.help = new googleRpc005.Help();
           _reader.readMessage(
             _instance.help,
-            googleRpc004.Help.deserializeBinaryFromReader
+            googleRpc005.Help.deserializeBinaryFromReader
           );
           break;
         case 8:
-          _instance.localizedMessage = new googleRpc004.LocalizedMessage();
+          _instance.localizedMessage = new googleRpc005.LocalizedMessage();
           _reader.readMessage(
             _instance.localizedMessage,
-            googleRpc004.LocalizedMessage.deserializeBinaryFromReader
+            googleRpc005.LocalizedMessage.deserializeBinaryFromReader
           );
           break;
         default:
@@ -174,68 +175,68 @@ export class ErrorDetails implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.retryInfo as any,
-        googleRpc004.RetryInfo.serializeBinaryToWriter
+        googleRpc005.RetryInfo.serializeBinaryToWriter
       );
     }
     if (_instance.debugInfo) {
       _writer.writeMessage(
         2,
         _instance.debugInfo as any,
-        googleRpc004.DebugInfo.serializeBinaryToWriter
+        googleRpc005.DebugInfo.serializeBinaryToWriter
       );
     }
     if (_instance.quotaFailure) {
       _writer.writeMessage(
         3,
         _instance.quotaFailure as any,
-        googleRpc004.QuotaFailure.serializeBinaryToWriter
+        googleRpc005.QuotaFailure.serializeBinaryToWriter
       );
     }
     if (_instance.preconditionFailure) {
       _writer.writeMessage(
         4,
         _instance.preconditionFailure as any,
-        googleRpc004.PreconditionFailure.serializeBinaryToWriter
+        googleRpc005.PreconditionFailure.serializeBinaryToWriter
       );
     }
     if (_instance.badRequest) {
       _writer.writeMessage(
         5,
         _instance.badRequest as any,
-        googleRpc004.BadRequest.serializeBinaryToWriter
+        googleRpc005.BadRequest.serializeBinaryToWriter
       );
     }
     if (_instance.requestInfo) {
       _writer.writeMessage(
         6,
         _instance.requestInfo as any,
-        googleRpc004.RequestInfo.serializeBinaryToWriter
+        googleRpc005.RequestInfo.serializeBinaryToWriter
       );
     }
     if (_instance.help) {
       _writer.writeMessage(
         7,
         _instance.help as any,
-        googleRpc004.Help.serializeBinaryToWriter
+        googleRpc005.Help.serializeBinaryToWriter
       );
     }
     if (_instance.localizedMessage) {
       _writer.writeMessage(
         8,
         _instance.localizedMessage as any,
-        googleRpc004.LocalizedMessage.serializeBinaryToWriter
+        googleRpc005.LocalizedMessage.serializeBinaryToWriter
       );
     }
   }
 
-  private _retryInfo?: googleRpc004.RetryInfo;
-  private _debugInfo?: googleRpc004.DebugInfo;
-  private _quotaFailure?: googleRpc004.QuotaFailure;
-  private _preconditionFailure?: googleRpc004.PreconditionFailure;
-  private _badRequest?: googleRpc004.BadRequest;
-  private _requestInfo?: googleRpc004.RequestInfo;
-  private _help?: googleRpc004.Help;
-  private _localizedMessage?: googleRpc004.LocalizedMessage;
+  private _retryInfo?: googleRpc005.RetryInfo;
+  private _debugInfo?: googleRpc005.DebugInfo;
+  private _quotaFailure?: googleRpc005.QuotaFailure;
+  private _preconditionFailure?: googleRpc005.PreconditionFailure;
+  private _badRequest?: googleRpc005.BadRequest;
+  private _requestInfo?: googleRpc005.RequestInfo;
+  private _help?: googleRpc005.Help;
+  private _localizedMessage?: googleRpc005.LocalizedMessage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -244,75 +245,75 @@ export class ErrorDetails implements GrpcMessage {
   constructor(_value?: RecursivePartial<ErrorDetails.AsObject>) {
     _value = _value || {};
     this.retryInfo = _value.retryInfo
-      ? new googleRpc004.RetryInfo(_value.retryInfo)
+      ? new googleRpc005.RetryInfo(_value.retryInfo)
       : undefined;
     this.debugInfo = _value.debugInfo
-      ? new googleRpc004.DebugInfo(_value.debugInfo)
+      ? new googleRpc005.DebugInfo(_value.debugInfo)
       : undefined;
     this.quotaFailure = _value.quotaFailure
-      ? new googleRpc004.QuotaFailure(_value.quotaFailure)
+      ? new googleRpc005.QuotaFailure(_value.quotaFailure)
       : undefined;
     this.preconditionFailure = _value.preconditionFailure
-      ? new googleRpc004.PreconditionFailure(_value.preconditionFailure)
+      ? new googleRpc005.PreconditionFailure(_value.preconditionFailure)
       : undefined;
     this.badRequest = _value.badRequest
-      ? new googleRpc004.BadRequest(_value.badRequest)
+      ? new googleRpc005.BadRequest(_value.badRequest)
       : undefined;
     this.requestInfo = _value.requestInfo
-      ? new googleRpc004.RequestInfo(_value.requestInfo)
+      ? new googleRpc005.RequestInfo(_value.requestInfo)
       : undefined;
-    this.help = _value.help ? new googleRpc004.Help(_value.help) : undefined;
+    this.help = _value.help ? new googleRpc005.Help(_value.help) : undefined;
     this.localizedMessage = _value.localizedMessage
-      ? new googleRpc004.LocalizedMessage(_value.localizedMessage)
+      ? new googleRpc005.LocalizedMessage(_value.localizedMessage)
       : undefined;
     ErrorDetails.refineValues(this);
   }
-  get retryInfo(): googleRpc004.RetryInfo | undefined {
+  get retryInfo(): googleRpc005.RetryInfo | undefined {
     return this._retryInfo;
   }
-  set retryInfo(value: googleRpc004.RetryInfo | undefined) {
+  set retryInfo(value: googleRpc005.RetryInfo | undefined) {
     this._retryInfo = value;
   }
-  get debugInfo(): googleRpc004.DebugInfo | undefined {
+  get debugInfo(): googleRpc005.DebugInfo | undefined {
     return this._debugInfo;
   }
-  set debugInfo(value: googleRpc004.DebugInfo | undefined) {
+  set debugInfo(value: googleRpc005.DebugInfo | undefined) {
     this._debugInfo = value;
   }
-  get quotaFailure(): googleRpc004.QuotaFailure | undefined {
+  get quotaFailure(): googleRpc005.QuotaFailure | undefined {
     return this._quotaFailure;
   }
-  set quotaFailure(value: googleRpc004.QuotaFailure | undefined) {
+  set quotaFailure(value: googleRpc005.QuotaFailure | undefined) {
     this._quotaFailure = value;
   }
-  get preconditionFailure(): googleRpc004.PreconditionFailure | undefined {
+  get preconditionFailure(): googleRpc005.PreconditionFailure | undefined {
     return this._preconditionFailure;
   }
-  set preconditionFailure(value: googleRpc004.PreconditionFailure | undefined) {
+  set preconditionFailure(value: googleRpc005.PreconditionFailure | undefined) {
     this._preconditionFailure = value;
   }
-  get badRequest(): googleRpc004.BadRequest | undefined {
+  get badRequest(): googleRpc005.BadRequest | undefined {
     return this._badRequest;
   }
-  set badRequest(value: googleRpc004.BadRequest | undefined) {
+  set badRequest(value: googleRpc005.BadRequest | undefined) {
     this._badRequest = value;
   }
-  get requestInfo(): googleRpc004.RequestInfo | undefined {
+  get requestInfo(): googleRpc005.RequestInfo | undefined {
     return this._requestInfo;
   }
-  set requestInfo(value: googleRpc004.RequestInfo | undefined) {
+  set requestInfo(value: googleRpc005.RequestInfo | undefined) {
     this._requestInfo = value;
   }
-  get help(): googleRpc004.Help | undefined {
+  get help(): googleRpc005.Help | undefined {
     return this._help;
   }
-  set help(value: googleRpc004.Help | undefined) {
+  set help(value: googleRpc005.Help | undefined) {
     this._help = value;
   }
-  get localizedMessage(): googleRpc004.LocalizedMessage | undefined {
+  get localizedMessage(): googleRpc005.LocalizedMessage | undefined {
     return this._localizedMessage;
   }
-  set localizedMessage(value: googleRpc004.LocalizedMessage | undefined) {
+  set localizedMessage(value: googleRpc005.LocalizedMessage | undefined) {
     this._localizedMessage = value;
   }
 
@@ -391,28 +392,28 @@ export module ErrorDetails {
    * Standard JavaScript object representation for ErrorDetails
    */
   export interface AsObject {
-    retryInfo?: googleRpc004.RetryInfo.AsObject;
-    debugInfo?: googleRpc004.DebugInfo.AsObject;
-    quotaFailure?: googleRpc004.QuotaFailure.AsObject;
-    preconditionFailure?: googleRpc004.PreconditionFailure.AsObject;
-    badRequest?: googleRpc004.BadRequest.AsObject;
-    requestInfo?: googleRpc004.RequestInfo.AsObject;
-    help?: googleRpc004.Help.AsObject;
-    localizedMessage?: googleRpc004.LocalizedMessage.AsObject;
+    retryInfo?: googleRpc005.RetryInfo.AsObject;
+    debugInfo?: googleRpc005.DebugInfo.AsObject;
+    quotaFailure?: googleRpc005.QuotaFailure.AsObject;
+    preconditionFailure?: googleRpc005.PreconditionFailure.AsObject;
+    badRequest?: googleRpc005.BadRequest.AsObject;
+    requestInfo?: googleRpc005.RequestInfo.AsObject;
+    help?: googleRpc005.Help.AsObject;
+    localizedMessage?: googleRpc005.LocalizedMessage.AsObject;
   }
 
   /**
    * Protobuf JSON representation for ErrorDetails
    */
   export interface AsProtobufJSON {
-    retryInfo: googleRpc004.RetryInfo.AsProtobufJSON | null;
-    debugInfo: googleRpc004.DebugInfo.AsProtobufJSON | null;
-    quotaFailure: googleRpc004.QuotaFailure.AsProtobufJSON | null;
-    preconditionFailure: googleRpc004.PreconditionFailure.AsProtobufJSON | null;
-    badRequest: googleRpc004.BadRequest.AsProtobufJSON | null;
-    requestInfo: googleRpc004.RequestInfo.AsProtobufJSON | null;
-    help: googleRpc004.Help.AsProtobufJSON | null;
-    localizedMessage: googleRpc004.LocalizedMessage.AsProtobufJSON | null;
+    retryInfo: googleRpc005.RetryInfo.AsProtobufJSON | null;
+    debugInfo: googleRpc005.DebugInfo.AsProtobufJSON | null;
+    quotaFailure: googleRpc005.QuotaFailure.AsProtobufJSON | null;
+    preconditionFailure: googleRpc005.PreconditionFailure.AsProtobufJSON | null;
+    badRequest: googleRpc005.BadRequest.AsProtobufJSON | null;
+    requestInfo: googleRpc005.RequestInfo.AsProtobufJSON | null;
+    help: googleRpc005.Help.AsProtobufJSON | null;
+    localizedMessage: googleRpc005.LocalizedMessage.AsProtobufJSON | null;
   }
 }
 
@@ -25134,6 +25135,193 @@ export module SetPicturePointRequest {
   export interface AsProtobufJSON {
     pictureId: string;
     point: googleType003.LatLng.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.UpdatePictureRequest
+ */
+export class UpdatePictureRequest implements GrpcMessage {
+  static id = 'goautowp.UpdatePictureRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new UpdatePictureRequest();
+    UpdatePictureRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: UpdatePictureRequest) {
+    _instance.id = _instance.id || '0';
+    _instance.takenDate = _instance.takenDate || undefined;
+    _instance.name = _instance.name || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: UpdatePictureRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.takenDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.takenDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.name = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    UpdatePictureRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: UpdatePictureRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.takenDate) {
+      _writer.writeMessage(
+        2,
+        _instance.takenDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.name) {
+      _writer.writeString(3, _instance.name);
+    }
+  }
+
+  private _id: string;
+  private _takenDate?: googleType004.Date;
+  private _name: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of UpdatePictureRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<UpdatePictureRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.takenDate = _value.takenDate
+      ? new googleType004.Date(_value.takenDate)
+      : undefined;
+    this.name = _value.name;
+    UpdatePictureRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get takenDate(): googleType004.Date | undefined {
+    return this._takenDate;
+  }
+  set takenDate(value: googleType004.Date | undefined) {
+    this._takenDate = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    UpdatePictureRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): UpdatePictureRequest.AsObject {
+    return {
+      id: this.id,
+      takenDate: this.takenDate ? this.takenDate.toObject() : undefined,
+      name: this.name
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): UpdatePictureRequest.AsProtobufJSON {
+    return {
+      id: this.id,
+      takenDate: this.takenDate ? this.takenDate.toProtobufJSON(options) : null,
+      name: this.name
+    };
+  }
+}
+export module UpdatePictureRequest {
+  /**
+   * Standard JavaScript object representation for UpdatePictureRequest
+   */
+  export interface AsObject {
+    id: string;
+    takenDate?: googleType004.Date.AsObject;
+    name: string;
+  }
+
+  /**
+   * Protobuf JSON representation for UpdatePictureRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    takenDate: googleType004.Date.AsProtobufJSON | null;
+    name: string;
   }
 }
 

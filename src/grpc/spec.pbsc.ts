@@ -24,7 +24,8 @@ import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleType003 from './google/type/latlng.pb';
-import * as googleRpc004 from './google/rpc/error-details.pb';
+import * as googleType004 from './google/type/date.pb';
+import * as googleRpc005 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_FORUMS_CLIENT_SETTINGS,
@@ -3948,6 +3949,27 @@ export class PicturesClient {
         requestClass: thisProto.SetPicturePointRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/UpdatePicture
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updatePicture: (
+      requestData: thisProto.UpdatePictureRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/UpdatePicture',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UpdatePictureRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -4276,6 +4298,22 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .setPicturePoint(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/UpdatePicture
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  updatePicture(
+    requestData: thisProto.UpdatePictureRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .updatePicture(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

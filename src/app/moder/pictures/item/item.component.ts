@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Date as grpcDate} from '@grpc/google/type/date.pb';
 import {
   APIIP,
   APIUser,
@@ -12,6 +13,7 @@ import {
   PictureIDRequest,
   SetPictureItemItemIDRequest,
   SetPictureItemPerspectiveRequest,
+  UpdatePictureRequest,
 } from '@grpc/spec.pb';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -311,19 +313,25 @@ export class ModerPicturesItemComponent {
 
   protected saveSpecialName(picture: APIPicture) {
     this.specialNameLoading = true;
-    this.api
-      .request<void>('PUT', 'picture/' + picture.id, {
-        body: {
-          special_name: picture.special_name,
-          taken_day: picture.taken_day,
-          taken_month: picture.taken_month,
-          taken_year: picture.taken_year,
-        },
-      })
-      .subscribe({
-        error: () => {
+    this.picturesClient
+      .updatePicture(
+        new UpdatePictureRequest({
+          name: picture.special_name,
+          takenDate: new grpcDate({
+            day: picture.taken_day,
+            month: picture.taken_month,
+            year: picture.taken_year,
+          }),
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
           this.specialNameLoading = false;
-        },
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
         next: () => {
           this.specialNameLoading = false;
         },
