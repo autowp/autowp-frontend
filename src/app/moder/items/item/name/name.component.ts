@@ -9,11 +9,11 @@ import {map, switchMap} from 'rxjs/operators';
 
 export interface ItemLanguage {
   fullText: null | string;
-  fullTextId: null | string;
+  fullTextId: null | number;
   language: string;
   name: null | string;
   text: null | string;
-  textId: null | string;
+  textId: null | number;
 }
 
 @Component({
@@ -62,11 +62,11 @@ export class ModerItemsItemNameComponent {
       for (const value of items ? items : []) {
         languages.set(value.language, {
           fullText: value.fullText,
-          fullTextId: value.fullTextId === '0' ? null : value.fullTextId,
+          fullTextId: value.fullTextId === 0 ? null : value.fullTextId,
           language: value.language,
           name: value.name,
           text: value.text,
-          textId: value.textId === '0' ? null : value.textId,
+          textId: value.textId === 0 ? null : value.textId,
         });
       }
 

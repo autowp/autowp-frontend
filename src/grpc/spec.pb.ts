@@ -25326,6 +25326,164 @@ export module UpdatePictureRequest {
 }
 
 /**
+ * Message implementation for goautowp.SetPictureCopyrightsRequest
+ */
+export class SetPictureCopyrightsRequest implements GrpcMessage {
+  static id = 'goautowp.SetPictureCopyrightsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new SetPictureCopyrightsRequest();
+    SetPictureCopyrightsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: SetPictureCopyrightsRequest) {
+    _instance.id = _instance.id || '0';
+    _instance.copyrights = _instance.copyrights || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: SetPictureCopyrightsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.copyrights = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    SetPictureCopyrightsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: SetPictureCopyrightsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.copyrights) {
+      _writer.writeString(2, _instance.copyrights);
+    }
+  }
+
+  private _id: string;
+  private _copyrights: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of SetPictureCopyrightsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<SetPictureCopyrightsRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.copyrights = _value.copyrights;
+    SetPictureCopyrightsRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get copyrights(): string {
+    return this._copyrights;
+  }
+  set copyrights(value: string) {
+    this._copyrights = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    SetPictureCopyrightsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): SetPictureCopyrightsRequest.AsObject {
+    return {
+      id: this.id,
+      copyrights: this.copyrights
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): SetPictureCopyrightsRequest.AsProtobufJSON {
+    return {
+      id: this.id,
+      copyrights: this.copyrights
+    };
+  }
+}
+export module SetPictureCopyrightsRequest {
+  /**
+   * Standard JavaScript object representation for SetPictureCopyrightsRequest
+   */
+  export interface AsObject {
+    id: string;
+    copyrights: string;
+  }
+
+  /**
+   * Protobuf JSON representation for SetPictureCopyrightsRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    copyrights: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.DeleteSimilarRequest
  */
 export class DeleteSimilarRequest implements GrpcMessage {
@@ -32522,9 +32680,9 @@ export class ItemLanguage implements GrpcMessage {
     _instance.itemId = _instance.itemId || '0';
     _instance.language = _instance.language || '';
     _instance.name = _instance.name || '';
-    _instance.textId = _instance.textId || '0';
+    _instance.textId = _instance.textId || 0;
     _instance.text = _instance.text || '';
-    _instance.fullTextId = _instance.fullTextId || '0';
+    _instance.fullTextId = _instance.fullTextId || 0;
     _instance.fullText = _instance.fullText || '';
   }
 
@@ -32551,13 +32709,13 @@ export class ItemLanguage implements GrpcMessage {
           _instance.name = _reader.readString();
           break;
         case 4:
-          _instance.textId = _reader.readInt64String();
+          _instance.textId = _reader.readInt32();
           break;
         case 5:
           _instance.text = _reader.readString();
           break;
         case 6:
-          _instance.fullTextId = _reader.readInt64String();
+          _instance.fullTextId = _reader.readInt32();
           break;
         case 7:
           _instance.fullText = _reader.readString();
@@ -32589,13 +32747,13 @@ export class ItemLanguage implements GrpcMessage {
       _writer.writeString(3, _instance.name);
     }
     if (_instance.textId) {
-      _writer.writeInt64String(4, _instance.textId);
+      _writer.writeInt32(4, _instance.textId);
     }
     if (_instance.text) {
       _writer.writeString(5, _instance.text);
     }
     if (_instance.fullTextId) {
-      _writer.writeInt64String(6, _instance.fullTextId);
+      _writer.writeInt32(6, _instance.fullTextId);
     }
     if (_instance.fullText) {
       _writer.writeString(7, _instance.fullText);
@@ -32605,9 +32763,9 @@ export class ItemLanguage implements GrpcMessage {
   private _itemId: string;
   private _language: string;
   private _name: string;
-  private _textId: string;
+  private _textId: number;
   private _text: string;
-  private _fullTextId: string;
+  private _fullTextId: number;
   private _fullText: string;
 
   /**
@@ -32643,10 +32801,10 @@ export class ItemLanguage implements GrpcMessage {
   set name(value: string) {
     this._name = value;
   }
-  get textId(): string {
+  get textId(): number {
     return this._textId;
   }
-  set textId(value: string) {
+  set textId(value: number) {
     this._textId = value;
   }
   get text(): string {
@@ -32655,10 +32813,10 @@ export class ItemLanguage implements GrpcMessage {
   set text(value: string) {
     this._text = value;
   }
-  get fullTextId(): string {
+  get fullTextId(): number {
     return this._fullTextId;
   }
-  set fullTextId(value: string) {
+  set fullTextId(value: number) {
     this._fullTextId = value;
   }
   get fullText(): string {
@@ -32728,9 +32886,9 @@ export module ItemLanguage {
     itemId: string;
     language: string;
     name: string;
-    textId: string;
+    textId: number;
     text: string;
-    fullTextId: string;
+    fullTextId: number;
     fullText: string;
   }
 
@@ -32741,9 +32899,9 @@ export module ItemLanguage {
     itemId: string;
     language: string;
     name: string;
-    textId: string;
+    textId: number;
     text: string;
-    fullTextId: string;
+    fullTextId: number;
     fullText: string;
   }
 }

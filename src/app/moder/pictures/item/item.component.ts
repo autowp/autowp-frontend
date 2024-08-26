@@ -11,6 +11,7 @@ import {
   ItemRequest,
   ItemType,
   PictureIDRequest,
+  SetPictureCopyrightsRequest,
   SetPictureItemItemIDRequest,
   SetPictureItemPerspectiveRequest,
   UpdatePictureRequest,
@@ -342,16 +343,21 @@ export class ModerPicturesItemComponent {
   protected saveCopyrights(picture: APIPicture) {
     this.copyrightsLoading = true;
 
-    this.api
-      .request<void>('PUT', 'picture/' + picture.id, {
-        body: {
+    this.picturesClient
+      .setPictureCopyrights(
+        new SetPictureCopyrightsRequest({
           copyrights: picture.copyrights,
-        },
-      })
-      .subscribe({
-        error: () => {
+          id: picture.id + '',
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
           this.copyrightsLoading = false;
-        },
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
         next: () => {
           this.copyrightsLoading = false;
         },
