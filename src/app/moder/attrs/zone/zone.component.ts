@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AttrZoneAttributesRequest} from '@grpc/spec.pb';
+import {AttrZone, AttrZoneAttributesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
@@ -20,7 +20,7 @@ export class ModerAttrsZoneComponent {
     shareReplay(1),
   );
 
-  protected readonly zone$ = this.zoneID$.pipe(
+  protected readonly zone$: Observable<AttrZone> = this.zoneID$.pipe(
     switchMap((id) => (id ? this.attrsService.getZone$(id) : of(null))),
     switchMap((zone) => {
       if (!zone) {

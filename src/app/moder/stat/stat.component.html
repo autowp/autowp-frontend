@@ -13,28 +13,40 @@
   <h1 i18n>Statistics</h1>
 </div>
 
-<ul *ngIf="items$ | async as items; else loading">
-  <li class="mb-3" *ngFor="let item of items">
-    <h3 [ngSwitch]="item.name">
-      <ng-container *ngSwitchCase="'moder/statistics/photos-with-copyrights'" i18n>Photos with copyrights</ng-container>
-      <ng-container *ngSwitchCase="'moder/statistics/vehicles-with-4-or-more-photos'" i18n
-        >Vehicles with 4 or more photos</ng-container
-      >
-      <ng-container *ngSwitchCase="'moder/statistics/specifications-values'" i18n>Specifications values</ng-container>
-      <ng-container *ngSwitchCase="'moder/statistics/brand-logos'" i18n>Brand logotypes</ng-container>
-      <ng-container *ngSwitchCase="'moder/statistics/from-years'" i18n>Years of begin production</ng-container>
-      <ng-container *ngSwitchCase="'moder/statistics/from-and-to-years'" i18n
-        >Years of begin and end production</ng-container
-      >
-      <ng-container *ngSwitchCase="'moder/statistics/from-and-to-years-and-months'" i18n
-        >Years and months of begin and end production</ng-container
-      >
-    </h3>
-    <p>{{ item.value }} / {{ item.total }}</p>
-    <ngb-progressbar [striped]="true" type="primary" [value]="item.value" [max]="item.total"></ngb-progressbar>
-  </li>
-</ul>
-
-<ng-template #loading>
+@if (items$ | async; as items) {
+  <ul>
+    @for (item of items; track item) {
+      <li class="mb-3">
+        <h3>
+          @switch (item.name) {
+            @case ('moder/statistics/photos-with-copyrights') {
+              <ng-container i18n>Photos with copyrights</ng-container>
+            }
+            @case ('moder/statistics/vehicles-with-4-or-more-photos') {
+              <ng-container i18n>Vehicles with 4 or more photos</ng-container>
+            }
+            @case ('moder/statistics/specifications-values') {
+              <ng-container i18n>Specifications values</ng-container>
+            }
+            @case ('moder/statistics/brand-logos') {
+              <ng-container i18n>Brand logotypes</ng-container>
+            }
+            @case ('moder/statistics/from-years') {
+              <ng-container i18n>Years of begin production</ng-container>
+            }
+            @case ('moder/statistics/from-and-to-years') {
+              <ng-container i18n>Years of begin and end production</ng-container>
+            }
+            @case ('moder/statistics/from-and-to-years-and-months') {
+              <ng-container i18n>Years and months of begin and end production</ng-container>
+            }
+          }
+        </h3>
+        <p>{{ item.value }} / {{ item.total }}</p>
+        <ngb-progressbar [striped]="true" type="primary" [value]="item.value" [max]="item.total"></ngb-progressbar>
+      </li>
+    }
+  </ul>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+}

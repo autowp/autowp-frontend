@@ -1,48 +1,67 @@
-<ng-container *ngIf="item$ | async as item">
-  <div *ngIf="item.childsCount > 0">
-    <i class="bi bi-folder2" aria-hidden="true" [hidden]="open"></i>
-    <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!open"></i>
-    <span *ngIf="typeID === 1" i18n>Related</span>
-    <span *ngIf="typeID === 2" i18n>Sport</span>
-    <span *ngIf="typeID === 3" i18n>Design</span>
-    <a href="#" class="toggle" (click)="toggle()">
-      <span [innerHTML]="item.nameHtml"></span>
-    </a>
-    <ul *ngIf="open">
-      <li>
-        <a href="#" (click)="onSelect(item.id)" i18n>here</a>
-      </li>
-      <ng-container *ngIf="childs$ | async as childs; else loading">
-        <li class="car-node" *ngFor="let child of childs">
-          <app-moder-items-item-select-parent-tree
-            [itemParent]="child"
-            (selected)="onSelect($event)"
-            [disableItemID]="disableItemID"
-          >
-          </app-moder-items-item-select-parent-tree>
-        </li>
-      </ng-container>
-    </ul>
-  </div>
-
-  <span *ngIf="(!item.childsCount || item.childsCount <= 0) && !isDisabled(item)">
-    <span *ngIf="typeID === 1" i18n>Related</span>
-    <span *ngIf="typeID === 2" i18n>Sport</span>
-    <span *ngIf="typeID === 3" i18n>Design</span>
-    <a href="#" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
-  </span>
-  <span *ngIf="isDisabled(item)">
-    <span *ngIf="typeID === 1" i18n>Related</span>
-    <span *ngIf="typeID === 2" i18n>Sport</span>
-    <span *ngIf="typeID === 3" i18n>Design</span>
-    <span class="text-muted" [innerHTML]="item.nameHtml"></span>
-  </span>
-</ng-container>
-
-<ng-template #loading>
-  <li>
+@if (item$ | async; as item) {
+  @if (item.childsCount > 0) {
+    <div>
+      <i class="bi bi-folder2" aria-hidden="true" [hidden]="open"></i>
+      <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!open"></i>
+      @if (typeID === 1) {
+        <span i18n>Related</span>
+      } @else if (typeID === 2) {
+        <span i18n>Sport</span>
+      } @else if (typeID === 3) {
+        <span i18n>Design</span>
+      }
+      <a href="#" class="toggle" (click)="toggle()">
+        <span [innerHTML]="item.nameHtml"></span>
+      </a>
+      @if (open) {
+        <ul>
+          <li>
+            <a href="#" (click)="onSelect(item.id)" i18n>here</a>
+          </li>
+          @if (childs$ | async; as childs) {
+            @for (child of childs; track child) {
+              <li class="car-node">
+                <app-moder-items-item-select-parent-tree
+                  [itemParent]="child"
+                  (selected)="onSelect($event)"
+                  [disableItemID]="disableItemID"
+                >
+                </app-moder-items-item-select-parent-tree>
+              </li>
+            }
+          } @else {
+            <li>
+              <span>
+                <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  }
+  @if ((!item.childsCount || item.childsCount <= 0) && !isDisabled(item)) {
     <span>
-      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+      @if (typeID === 1) {
+        <span i18n>Related</span>
+      } @else if (typeID === 2) {
+        <span i18n>Sport</span>
+      } @else if (typeID === 3) {
+        <span i18n>Design</span>
+      }
+      <a href="#" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
     </span>
-  </li>
-</ng-template>
+  }
+  @if (isDisabled(item)) {
+    <span>
+      @if (typeID === 1) {
+        <span i18n>Related</span>
+      } @else if (typeID === 2) {
+        <span i18n>Sport</span>
+      } @else if (typeID === 3) {
+        <span i18n>Design</span>
+      }
+      <span class="text-muted" [innerHTML]="item.nameHtml"></span>
+    </span>
+  }
+}

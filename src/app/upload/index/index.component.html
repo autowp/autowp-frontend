@@ -2,20 +2,15 @@
   <h1 i18n>Add picture</h1>
 </div>
 
-<ng-template #noUser>
-  <div class="alert alert-warning">
-    <p i18n>Only registered users can upload pictures</p>
-    <button type="submit" class="btn btn-primary" i18n="@@login/sign-in" (click)="doLogin()">Sign in</button>
-  </div>
-</ng-template>
-
-<div *ngIf="user$ | async; else noUser">
-  <ng-container *ngIf="selection$ | async as selection">
-    <div *ngIf="selection.selected">
-      <div class="card card-body mb-4">
-        <app-markdown
-          i18n-markdown
-          markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+@if (user$ | async) {
+  <div>
+    @if (selection$ | async; as selection) {
+      @if (selection.selected) {
+        <div>
+          <div class="card card-body mb-4">
+            <app-markdown
+              i18n-markdown
+              markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
 
 Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
 
@@ -32,90 +27,99 @@
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
 
 Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."
-        ></app-markdown>
-        <div class="mv-3">
-          <form class="form-horizontal" (submit)="submit()" [hidden]="formHidden">
-            <div class="mb-3 row">
-              <label class="col-md-2 col-form-label" i18n>Selection</label>
-              <div class="col-md-10">
-                <div class="form-control-plaintext">
-                  <strong [innerHTML]="selection.name"></strong>
-                  [<a routerLink="/upload/select" i18n>select another catalogue</a>]
+            ></app-markdown>
+            <div class="mv-3">
+              <form class="form-horizontal" (submit)="submit()" [hidden]="formHidden">
+                <div class="mb-3 row">
+                  <label class="col-md-2 col-form-label" i18n>Selection</label>
+                  <div class="col-md-10">
+                    <div class="form-control-plaintext">
+                      <strong [innerHTML]="selection.name"></strong>
+                      [<a routerLink="/upload/select" i18n>select another catalogue</a>]
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label class="col-md-2 col-form-label" i18n>Image file</label>
-              <div class="col-md-10">
-                <input
-                  type="file"
-                  #input
-                  name="file"
-                  class="form-control"
-                  (change)="onChange($event)"
-                  accept="image/*"
-                  [multiple]="(replace$ | async) ? null : true"
-                />
-
-                <div *ngIf="files" class="mt-3">
-                  <p *ngFor="let file of files" [textContent]="file.name"></p>
+                <div class="mb-3 row">
+                  <label class="col-md-2 col-form-label" i18n>Image file</label>
+                  <div class="col-md-10">
+                    <input
+                      type="file"
+                      #input
+                      name="file"
+                      class="form-control"
+                      (change)="onChange($event)"
+                      accept="image/*"
+                      [multiple]="(replace$ | async) ? null : true"
+                    />
+                    @if (files) {
+                      <div class="mt-3">
+                        @for (file of files; track file) {
+                          <p [textContent]="file.name"></p>
+                        }
+                      </div>
+                    }
+                  </div>
                 </div>
-              </div>
+                <div class="mb-3 row">
+                  <label class="col-md-2 col-form-label" for="note" i18n>Note</label>
+                  <div class="col-md-10">
+                    <textarea name="note" id="note" rows="3" class="form-control" [(ngModel)]="note"></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-10 offset-md-2">
+                    <button name="submit" class="btn btn-primary" i18n [disabled]="!files">send</button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="mb-3 row">
-              <label class="col-md-2 col-form-label" for="note" i18n>Note</label>
-              <div class="col-md-10">
-                <textarea name="note" id="note" rows="3" class="form-control" [(ngModel)]="note"></textarea>
-              </div>
+            <div class="progress-area">
+              @for (p of progress; track p) {
+                @if (!p.success) {
+                  <ngb-progressbar
+                    class="mb-2"
+                    [type]="p.success ? 'success' : p.failed ? 'danger' : 'info'"
+                    [value]="p.percentage"
+                  >
+                    <div>
+                      <span class="d-inline file-name" [textContent]="p.filename">: </span>
+                      @if (p.percentage < 100) {
+                        <span class="d-inline percentage" [textContent]="p.percentage + '% '"></span>
+                      }
+                      @for (message of p.invalidParams | invalidParams: 'file'; track message) {
+                        <span class="d-inline" [textContent]="message + ' '"></span>
+                      }
+                    </div>
+                  </ngb-progressbar>
+                }
+              }
             </div>
-            <div class="row">
-              <div class="col-md-10 offset-md-2">
-                <button name="submit" class="btn btn-primary" i18n [disabled]="!files">send</button>
+          </div>
+          <div class="pictures row">
+            @for (picture of pictures; track picture) {
+              <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+                <p>
+                  <button type="button" class="btn btn-link btn-sm" (click)="crop(picture)">
+                    <i class="bi bi-crop" aria-hidden="true"></i>
+                    @if (!picture.crop) {
+                      <span i18n>crop</span>
+                    }
+                    @if (picture.crop) {
+                      <span>{{ picture.cropTitle }}</span>
+                    }
+                  </button>
+                </p>
               </div>
-            </div>
-          </form>
+            }
+          </div>
         </div>
-
-        <div class="progress-area">
-          <ng-container *ngFor="let p of progress">
-            <ngb-progressbar
-              class="mb-2"
-              [type]="p.success ? 'success' : p.failed ? 'danger' : 'info'"
-              [value]="p.percentage"
-              *ngIf="!p.success"
-            >
-              <div>
-                <span class="d-inline file-name" [textContent]="p.filename">: </span>
-                <span class="d-inline percentage" [textContent]="p.percentage + '% '" *ngIf="p.percentage < 100"></span>
-                <span
-                  class="d-inline"
-                  *ngFor="let message of p.invalidParams | invalidParams: 'file'"
-                  [textContent]="message + ' '"
-                ></span>
-              </div>
-            </ngb-progressbar>
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="pictures row">
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of pictures">
-          <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-          <p>
-            <button type="button" class="btn btn-link btn-sm" (click)="crop(picture)">
-              <i class="bi bi-crop" aria-hidden="true"></i>
-              <span *ngIf="!picture.crop" i18n>crop</span>
-              <span *ngIf="picture.crop">{{ picture.cropTitle }}</span>
-            </button>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card card-body" *ngIf="!selection.selected">
-      <app-markdown
-        i18n-markdown
-        markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
+      }
+      @if (!selection.selected) {
+        <div class="card card-body">
+          <app-markdown
+            i18n-markdown
+            markdown="Если у вас есть изображения, которых вы не нашли на этом сайте и они соответствуют тематике сайта, то вы можете добавить их в наш каталог, воспользовавшись формой, расположенной ниже.
 
 Было бы здорово, если бы вы указали, что за автомобиль изображён на картинке, чтобы облегчить её добавление и избежать ошибки.
 
@@ -132,13 +136,20 @@
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
 
 Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."
-      ></app-markdown>
-      <p style="margin: 10px">
-        <a routerLink="/upload/select" class="btn btn-primary btn-lg">
-          <i class="bi bi-upload" aria-hidden="true"></i>
-          <ng-container i18n>Add picture</ng-container>
-        </a>
-      </p>
-    </div>
-  </ng-container>
-</div>
+          ></app-markdown>
+          <p style="margin: 10px">
+            <a routerLink="/upload/select" class="btn btn-primary btn-lg">
+              <i class="bi bi-upload" aria-hidden="true"></i>
+              <ng-container i18n>Add picture</ng-container>
+            </a>
+          </p>
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <div class="alert alert-warning">
+    <p i18n>Only registered users can upload pictures</p>
+    <button type="submit" class="btn btn-primary" i18n="@@login/sign-in" (click)="doLogin()">Sign in</button>
+  </div>
+}

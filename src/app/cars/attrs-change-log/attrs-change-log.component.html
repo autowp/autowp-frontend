@@ -53,47 +53,50 @@
         <th i18n scope="col">Editor</th>
       </tr>
     </thead>
-    <ng-container *ngIf="items$ | async as items">
-      <tr *ngFor="let item of items.items">
-        <td>
-          <p
-            *ngIf="item.update_date"
-            [textContent]="item.update_date | timeAgo"
-            [ngbTooltip]="item.update_date | date: 'medium'"
-          ></p>
-        </td>
-        <td>
-          <app-user [user]="user" *ngIf="item.user$ | async as user"></app-user>
-        </td>
-        <td>
-          <a
-            [routerLink]="['/moder/items/item', item.item_id]"
-            *ngIf="isModer$ | async; else notModer"
-            [innerHTML]="item.item.name_html"
-          ></a>
-          <ng-template #notModer>
-            <span [innerHTML]="item.item.name_html"></span>
-          </ng-template>
-        </td>
-        <td class="attribute">
-          <ng-container *ngFor="let node of item.path; let i = index">
-            <span [textContent]="getAttrsTranslation(node)"></span>
-            <span *ngIf="!i"> / </span>
-          </ng-container>
-        </td>
-        <td style="text-align: center">
-          {{ item.value_text }}
-          <span class="unit" *ngIf="item.unit" [textContent]="getUnitAbbrTranslation(item.unit.id + '')"></span>
-        </td>
-        <td class="link">
-          <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" i18n>to editor</a>
-        </td>
-      </tr>
-    </ng-container>
+    @if (items$ | async; as items) {
+      @for (item of items.items; track item) {
+        <tr>
+          <td>
+            @if (item.update_date) {
+              <p [textContent]="item.update_date | timeAgo" [ngbTooltip]="item.update_date | date: 'medium'"></p>
+            }
+          </td>
+          <td>
+            @if (item.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+          </td>
+          <td>
+            @if (isModer$ | async) {
+              <a [routerLink]="['/moder/items/item', item.item_id]" [innerHTML]="item.item.name_html"></a>
+            } @else {
+              <span [innerHTML]="item.item.name_html"></span>
+            }
+          </td>
+          <td class="attribute">
+            @for (node of item.path; track node; let i = $index) {
+              <span [textContent]="getAttrsTranslation(node)"></span>
+              @if (!i) {
+                <span> / </span>
+              }
+            }
+          </td>
+          <td style="text-align: center">
+            {{ item.value_text }}
+            @if (item.unit) {
+              <span class="unit" [textContent]="getUnitAbbrTranslation(item.unit.id + '')"></span>
+            }
+          </td>
+          <td class="link">
+            <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" i18n>to editor</a>
+          </td>
+        </tr>
+      }
+    }
   </table>
 </div>
-<app-paginator [data]="data.paginator" *ngIf="items$ | async as data; else loading"></app-paginator>
-
-<ng-template #loading>
+@if (items$ | async; as data) {
+  <app-paginator [data]="data.paginator"></app-paginator>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+}

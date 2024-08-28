@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ItemService} from '@services/item';
+import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
-import {EMPTY, combineLatest, of} from 'rxjs';
+import {EMPTY, Observable, combineLatest, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -23,7 +23,7 @@ export class FactoryItemsComponent {
     debounceTime(10),
   );
 
-  protected readonly factory$ = this.route.paramMap.pipe(
+  protected readonly factory$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),

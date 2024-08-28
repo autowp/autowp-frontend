@@ -1,33 +1,36 @@
 <ng-template #popover>
-  <div *ngIf="response$ | async as response; else loading">
-    <ng-container *ngIf="response.items.length > 0">
-      <img
-        alt=""
-        [src]="response.brand.brandicon.src"
-        style="float: right; margin: 0 0 5px 5px"
-        *ngIf="response.brand.brandicon"
-      />
-      <p *ngFor="let item of response.items" [innerHTML]="item.nameHtml"></p>
-      <br style="clear: both" />
-    </ng-container>
-  </div>
+  @if (response$ | async; as response) {
+    <div>
+      @if (response.items.length > 0) {
+        @if (response.brand.brandicon) {
+          <img alt="" [src]="response.brand.brandicon.src" style="float: right; margin: 0 0 5px 5px" />
+        }
+        @for (item of response.items; track item) {
+          <p [innerHTML]="item.nameHtml"></p>
+        }
+        <br style="clear: both" />
+      }
+    </div>
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
 </ng-template>
-<span *ngIf="brand$ | async as brand">
-  <a [routerLink]="brand.catname">{{ brand.name }}</a>
-  <span class="count"
-    >({{ brand.itemsCount - brand.newItemsCount
-    }}<span
-      *ngIf="brand.newItemsCount > 0"
-      [ngbPopover]="popover"
-      triggers="mouseenter:mouseleave"
-      container="body"
-      popoverTitle="New {{ brand.name }} vehicles"
-      i18n-popoverTitle
-      >+{{ brand.newItemsCount }}</span
-    >)</span
-  >
-</span>
-
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+@if (brand$ | async; as brand) {
+  <span>
+    <a [routerLink]="brand.catname">{{ brand.name }}</a>
+    <span class="count"
+      >({{ brand.itemsCount - brand.newItemsCount }}
+      @if (brand.newItemsCount > 0) {
+        <span
+          [ngbPopover]="popover"
+          triggers="mouseenter:mouseleave"
+          container="body"
+          popoverTitle="New {{ brand.name }} vehicles"
+          i18n-popoverTitle
+          >+{{ brand.newItemsCount }}</span
+        >
+      }
+      )</span
+    >
+  </span>
+}

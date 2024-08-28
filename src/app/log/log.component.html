@@ -10,11 +10,7 @@
   <h1 i18n id="header">Log of events</h1>
 </div>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="response$ | async as response; else loading">
+@if (response$ | async; as response) {
   <table class="table table-condensed table-striped" aria-describedby="header">
     <thead>
       <tr>
@@ -24,37 +20,40 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let event of response.items">
-        <td>
-          <app-user [user]="user" *ngIf="event.user$ | async as user"></app-user>
-          <div
-            *ngIf="event.createdAt"
-            [textContent]="event.createdAt | timeAgo"
-            [ngbTooltip]="event.createdAt | date: 'medium'"
-          ></div>
-        </td>
-        <td [innerHTML]="event.description"></td>
-        <td>
-          <div *ngFor="let item$ of event.items">
-            Item:
-            <a
-              [routerLink]="['/moder/items/item', item.id]"
-              [innerHTML]="item.nameHtml"
-              *ngIf="item$ | async as item"
-            ></a>
-          </div>
-          <div *ngFor="let picture$ of event.pictures">
-            Picture:
-            <a
-              [routerLink]="['/moder/pictures', picture.id]"
-              [innerHTML]="picture.name_html"
-              *ngIf="picture$ | async as picture"
-            ></a>
-          </div>
-        </td>
-      </tr>
+      @for (event of response.items; track event) {
+        <tr>
+          <td>
+            @if (event.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+            @if (event.createdAt) {
+              <div [textContent]="event.createdAt | timeAgo" [ngbTooltip]="event.createdAt | date: 'medium'"></div>
+            }
+          </td>
+          <td [innerHTML]="event.description"></td>
+          <td>
+            @for (item$ of event.items; track item$) {
+              <div>
+                Item:
+                @if (item$ | async; as item) {
+                  <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
+                }
+              </div>
+            }
+            @for (picture$ of event.pictures; track picture$) {
+              <div>
+                Picture:
+                @if (picture$ | async; as picture) {
+                  <a [routerLink]="['/moder/pictures', picture.id]" [innerHTML]="picture.name_html"></a>
+                }
+              </div>
+            }
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
-
   <app-paginator [data]="response.paginator"></app-paginator>
-</ng-container>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

@@ -1,178 +1,213 @@
-<ng-container *ngIf="currentUserValues$ | async as currentUserValues">
-  <ng-container *ngIf="user$ | async as user">
-    <form class="spec-editor-form" (submit)="saveSpecs(user, item, currentUserValues)" *ngIf="item$ | async as item">
-      <p class="alert alert-danger" *ngIf="invalidParams && invalidParams.items">
-        <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
-        <ng-container i18n>Data not saved because of error. Details below</ng-container>
-      </p>
-      <table class="table table-condensed">
-        <caption i18n>
-          Attributes
-        </caption>
-        <thead>
-          <tr>
-            <th i18n scope="col">Parameter</th>
-            <th i18n scope="col">Your value</th>
-            <th i18n scope="col">Current value</th>
-            <th i18n scope="col">All values</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let attribute of attributes$ | async" [class.subform-header]="!!attribute.childs.length">
-            <!-- [class.has-error]="$element.getMessages()" -->
-            <td colspan="4" [ngStyle]="{'padding-left': attribute.deep * 20 + 'px'}" *ngIf="attribute.childs.length">
-              <h4>{{ getAttrsTranslation(attribute.name) }}</h4>
-            </td>
-            <td *ngIf="!attribute.childs.length">
-              <label [ngStyle]="{'padding-left': attribute.deep * 20 + 'px'}">{{
-                getAttrsTranslation(attribute.name)
-              }}</label>
-            </td>
-            <td *ngIf="!attribute.childs.length">
-              <div class="input-group input-group-sm" *ngIf="currentUserValues[+attribute.id]">
-                <!--  [class.has-error]="element.getMessages()" -->
-                <div class="input-group-prepend">
-                  <button
-                    type="button"
-                    class="btn btn-secondary btn-sm"
-                    (click)="currentUserValues[+attribute.id].empty = !currentUserValues[+attribute.id].empty"
-                  >
-                    <!-- [class.active]="attribute.disabled"-->
-                    <span class="bi bi-trash" aria-hidden="true"></span>
-                  </button>
-                </div>
-                <select
-                  class="form-select form-select-sm"
-                  *ngIf="attribute.typeId === AttrAttributeTypeId.BOOLEAN"
-                  [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[+attribute.id].value"
-                  [disabled]="currentUserValues[+attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
-                >
-                  <option *ngFor="let option of attribute.options$ | async" [value]="option.id">
-                    {{ option.name }}
-                  </option>
-                </select>
-                <select
-                  class="form-select form-select-sm"
-                  *ngIf="
-                    (attribute.typeId === AttrAttributeTypeId.LIST || attribute.typeId === AttrAttributeTypeId.TREE) &&
-                    !attribute.isMultiple
-                  "
-                  [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[+attribute.id].value"
-                  [disabled]="currentUserValues[+attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
-                >
-                  <option *ngFor="let option of attribute.options$ | async" [value]="option.id">
-                    {{ option.name }}
-                  </option>
-                </select>
-                <select
-                  class="form-select form-select-sm"
-                  *ngIf="
-                    (attribute.typeId === AttrAttributeTypeId.LIST || attribute.typeId === AttrAttributeTypeId.TREE) &&
-                    attribute.isMultiple
-                  "
-                  [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[+attribute.id].value"
-                  [disabled]="currentUserValues[+attribute.id].empty"
-                  multiple
-                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
-                  size="5"
-                  style="height: 100%"
-                >
-                  <option *ngFor="let option of attribute.options$ | async" [value]="option.id">
-                    {{ option.name }}
-                  </option>
-                </select>
-                <input
-                  type="number"
-                  *ngIf="attribute.typeId === AttrAttributeTypeId.INTEGER"
-                  class="form-control form-control-sm"
-                  [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[+attribute.id].value"
-                  [disabled]="currentUserValues[+attribute.id].empty"
-                  min="-2147483649"
-                  max="2147483648"
-                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
-                />
-                <input
-                  type="number"
-                  *ngIf="attribute.typeId === AttrAttributeTypeId.FLOAT"
-                  class="form-control form-control-sm"
-                  [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[+attribute.id].value"
-                  [step]="getStep(attribute)"
-                  min="-2147483649"
-                  max="2147483648"
-                  [disabled]="currentUserValues[+attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
-                />
-                <input
-                  type="text"
-                  *ngIf="attribute.typeId === AttrAttributeTypeId.STRING"
-                  class="form-control form-control-sm"
-                  [name]="'attr' + attribute.id"
-                  [(ngModel)]="currentUserValues[+attribute.id].value"
-                  [disabled]="currentUserValues[+attribute.id].empty"
-                  [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
-                />
-                <span
-                  *ngIf="attribute.unitId !== '0'"
-                  [title]="getUnitNameTranslation(attribute.unitId)"
-                  class="unit input-group-text"
-                  [textContent]="getUnitAbbrTranslation(attribute.unitId)"
-                ></span>
-              </div>
-              <p
-                *ngFor="let message of getInvalidParams(+attribute.id)"
-                [textContent]="message"
-                class="invalid-feedback"
-                [class.d-block]="invalidParams && invalidParams.items[+attribute.id]"
-              ></p>
-              <small *ngIf="attribute.description">{{ getAttrDescriptionTranslation(attribute.description) }}</small>
-            </td>
-            <td class="actual" *ngIf="!attribute.childs.length">
-              <ng-container *ngIf="values$ | async as values">
-                <div *ngIf="values.has(+attribute.id)">
-                  <em *ngIf="values.get(+attribute.id)['value'] === null" i18n>none</em>
-                  <span *ngIf="values.get(+attribute.id)['value'] !== null">
-                    {{ values.get(+attribute.id)['value_text'] }}
-                    <span
-                      *ngIf="attribute.unitId !== '0'"
-                      class="unit"
-                      [title]="getUnitNameTranslation(attribute.unitId)"
-                      [textContent]="getUnitAbbrTranslation(attribute.unitId)"
-                    ></span>
-                  </span>
-                </div>
-              </ng-container>
-            </td>
-            <td *ngIf="!attribute.childs.length">
-              <ng-container *ngIf="userValues$ | async as userValues">
-                <div *ngFor="let value of userValues.get(+attribute.id)">
-                  <em *ngIf="value.value_text === null" i18n>none</em>
-                  <span *ngIf="value.value_text !== null" [textContent]="value.value_text"></span>
-                  <app-user [user]="user" *ngIf="value.user$ | async as user"></app-user>
-                  <span class="date" *ngIf="value.update_date"
-                    >[<span
-                      [textContent]="value.update_date | timeAgo"
-                      [ngbTooltip]="value.update_date | date: 'medium'"
-                    ></span
-                    >]</span
-                  >
-                </div>
-              </ng-container>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button type="submit" class="btn btn-success" i18n>Save</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </ng-container>
-</ng-container>
+@if (currentUserValues$ | async; as currentUserValues) {
+  @if (user$ | async; as user) {
+    @if (item$ | async; as item) {
+      <form class="spec-editor-form" (submit)="saveSpecs(user, item, currentUserValues)">
+        @if (invalidParams && invalidParams.items) {
+          <p class="alert alert-danger">
+            <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+            <ng-container i18n>Data not saved because of error. Details below</ng-container>
+          </p>
+        }
+        <table class="table table-condensed">
+          <caption i18n>
+            Attributes
+          </caption>
+          <thead>
+            <tr>
+              <th i18n scope="col">Parameter</th>
+              <th i18n scope="col">Your value</th>
+              <th i18n scope="col">Current value</th>
+              <th i18n scope="col">All values</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (attribute of attributes$ | async; track attribute) {
+              <tr [class.subform-header]="!!attribute.childs.length">
+                <!-- [class.has-error]="$element.getMessages()" -->
+                @if (attribute.childs.length) {
+                  <td colspan="4" [ngStyle]="{'padding-left': attribute.deep * 20 + 'px'}">
+                    <h4>{{ getAttrsTranslation(attribute.name) }}</h4>
+                  </td>
+                } @else {
+                  <td>
+                    <label [ngStyle]="{'padding-left': attribute.deep * 20 + 'px'}">{{
+                      getAttrsTranslation(attribute.name)
+                    }}</label>
+                  </td>
+                  <td>
+                    @if (currentUserValues[+attribute.id]) {
+                      <div class="input-group input-group-sm">
+                        <!--  [class.has-error]="element.getMessages()" -->
+                        <div class="input-group-prepend">
+                          <button
+                            type="button"
+                            class="btn btn-secondary btn-sm"
+                            (click)="currentUserValues[+attribute.id].empty = !currentUserValues[+attribute.id].empty"
+                          >
+                            <!-- [class.active]="attribute.disabled"-->
+                            <span class="bi bi-trash" aria-hidden="true"></span>
+                          </button>
+                        </div>
+                        @if (attribute.typeId === AttrAttributeTypeId.BOOLEAN) {
+                          <select
+                            class="form-select form-select-sm"
+                            [name]="'attr' + attribute.id"
+                            [(ngModel)]="currentUserValues[+attribute.id].value"
+                            [disabled]="currentUserValues[+attribute.id].empty"
+                            [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
+                          >
+                            @for (option of attribute.options$ | async; track option) {
+                              <option [value]="option.id">
+                                {{ option.name }}
+                              </option>
+                            }
+                          </select>
+                        } @else if (
+                          attribute.typeId === AttrAttributeTypeId.LIST || attribute.typeId === AttrAttributeTypeId.TREE
+                        ) {
+                          @if (!attribute.isMultiple) {
+                            <select
+                              class="form-select form-select-sm"
+                              [name]="'attr' + attribute.id"
+                              [(ngModel)]="currentUserValues[+attribute.id].value"
+                              [disabled]="currentUserValues[+attribute.id].empty"
+                              [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
+                            >
+                              @for (option of attribute.options$ | async; track option) {
+                                <option [value]="option.id">
+                                  {{ option.name }}
+                                </option>
+                              }
+                            </select>
+                          } @else {
+                            <select
+                              class="form-select form-select-sm"
+                              [name]="'attr' + attribute.id"
+                              [(ngModel)]="currentUserValues[+attribute.id].value"
+                              [disabled]="currentUserValues[+attribute.id].empty"
+                              multiple
+                              [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
+                              size="5"
+                              style="height: 100%"
+                            >
+                              @for (option of attribute.options$ | async; track option) {
+                                <option [value]="option.id">
+                                  {{ option.name }}
+                                </option>
+                              }
+                            </select>
+                          }
+                        } @else if (attribute.typeId === AttrAttributeTypeId.INTEGER) {
+                          <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            [name]="'attr' + attribute.id"
+                            [(ngModel)]="currentUserValues[+attribute.id].value"
+                            [disabled]="currentUserValues[+attribute.id].empty"
+                            min="-2147483649"
+                            max="2147483648"
+                            [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
+                          />
+                        } @else if (attribute.typeId === AttrAttributeTypeId.FLOAT) {
+                          <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            [name]="'attr' + attribute.id"
+                            [(ngModel)]="currentUserValues[+attribute.id].value"
+                            [step]="getStep(attribute)"
+                            min="-2147483649"
+                            max="2147483648"
+                            [disabled]="currentUserValues[+attribute.id].empty"
+                            [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
+                          />
+                        } @else if (attribute.typeId === AttrAttributeTypeId.STRING) {
+                          <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            [name]="'attr' + attribute.id"
+                            [(ngModel)]="currentUserValues[+attribute.id].value"
+                            [disabled]="currentUserValues[+attribute.id].empty"
+                            [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
+                          />
+                        }
+                        @if (attribute.unitId !== '0') {
+                          <span
+                            [title]="getUnitNameTranslation(attribute.unitId)"
+                            class="unit input-group-text"
+                            [textContent]="getUnitAbbrTranslation(attribute.unitId)"
+                          ></span>
+                        }
+                      </div>
+                    }
+                    @for (message of getInvalidParams(+attribute.id); track message) {
+                      <p
+                        [textContent]="message"
+                        class="invalid-feedback"
+                        [class.d-block]="invalidParams && invalidParams.items[+attribute.id]"
+                      ></p>
+                    }
+                    @if (attribute.description) {
+                      <small>{{ getAttrDescriptionTranslation(attribute.description) }}</small>
+                    }
+                  </td>
+                  <td class="actual">
+                    @if (values$ | async; as values) {
+                      @if (values.has(+attribute.id)) {
+                        <div>
+                          @if (values.get(+attribute.id)['value'] === null) {
+                            <em i18n>none</em>
+                          } @else {
+                            <span>
+                              {{ values.get(+attribute.id)['value_text'] }}
+                              @if (attribute.unitId !== '0') {
+                                <span
+                                  class="unit"
+                                  [title]="getUnitNameTranslation(attribute.unitId)"
+                                  [textContent]="getUnitAbbrTranslation(attribute.unitId)"
+                                ></span>
+                              }
+                            </span>
+                          }
+                        </div>
+                      }
+                    }
+                  </td>
+                  <td>
+                    @if (userValues$ | async; as userValues) {
+                      @for (value of userValues.get(+attribute.id); track value) {
+                        <div>
+                          @if (value.value_text === null) {
+                            <em i18n>none</em>
+                          } @else {
+                            <span [textContent]="value.value_text"></span>
+                          }
+                          @if (value.user$ | async; as user) {
+                            <app-user [user]="user"></app-user>
+                          }
+                          @if (value.update_date) {
+                            <span class="date"
+                              >[<span
+                                [textContent]="value.update_date | timeAgo"
+                                [ngbTooltip]="value.update_date | date: 'medium'"
+                              ></span
+                              >]</span
+                            >
+                          }
+                        </div>
+                      }
+                    }
+                  </td>
+                }
+              </tr>
+            }
+            <tr>
+              <td>
+                <button type="submit" class="btn btn-success" i18n>Save</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    }
+  }
+}

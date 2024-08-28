@@ -3,34 +3,34 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item$ | async as item">
-      <a routerLink="/" i18n>Specs editor of {{ item.nameText }}</a>
-    </li>
+    @if (item$ | async; as item) {
+      <li class="breadcrumb-item">
+        <a routerLink="/" i18n>Specs editor of {{ item.nameText }}</a>
+      </li>
+    }
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item$ | async">
-  <h1 i18n>Select</h1>
-</div>
+@if (item$ | async) {
+  <div class="page-header">
+    <h1 i18n>Select</h1>
+  </div>
+}
 
-<div *ngIf="brandID$ | async; else noBrand">
-  <ng-container *ngIf="items$ | async as items; else loading">
-    <div *ngFor="let item of items.items">
-      <app-cars-select-engine-tree-item
-        [item]="item"
-        (selected)="selectEngine(itemID, $event)"
-        *ngIf="itemID$ | async as itemID"
-      >
-      </app-cars-select-engine-tree-item>
-    </div>
-  </ng-container>
-</div>
-
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-template #noBrand>
+@if (brandID$ | async) {
+  @if (items$ | async; as items) {
+    @for (item of items.items; track item) {
+      <div>
+        @if (itemID$ | async; as itemID) {
+          <app-cars-select-engine-tree-item [item]="item" (selected)="selectEngine(itemID, $event)">
+          </app-cars-select-engine-tree-item>
+        }
+      </div>
+    }
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
+} @else {
   <div class="mb-3">
     <input
       type="text"
@@ -43,20 +43,26 @@
     />
   </div>
 
-  <ng-container *ngIf="brands$ | async as brands; else loading">
+  @if (brands$ | async; as brands) {
     <div class="row">
-      <div class="col-md-2" *ngFor="let chunk of brands.items">
-        <ng-container *ngFor="let brand of chunk">
-          <a
-            routerLink="/cars/select-engine"
-            [queryParams]="{item_id: itemID$ | async, brand_id: brand.id}"
-            [textContent]="brand.nameOnly"
-          ></a>
-          <br />
-        </ng-container>
-      </div>
+      @for (chunk of brands.items; track chunk) {
+        <div class="col-md-2">
+          @for (brand of chunk; track brand) {
+            <a
+              routerLink="/cars/select-engine"
+              [queryParams]="{item_id: itemID$ | async, brand_id: brand.id}"
+              [textContent]="brand.nameOnly"
+            ></a>
+            <br />
+          }
+        </div>
+      }
     </div>
 
-    <app-paginator [data]="brands.paginator" *ngIf="brands.paginator"></app-paginator>
-  </ng-container>
-</ng-template>
+    @if (brands.paginator) {
+      <app-paginator [data]="brands.paginator"></app-paginator>
+    }
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
+}

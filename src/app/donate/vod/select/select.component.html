@@ -20,39 +20,56 @@
   <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
 </span>
 
-<div class="select-in-brand" *ngIf="brand">
-  <div class="my-1" *ngIf="vehicles.length > 0">
-    <app-donate-vod-select-item [itemParent]="item" *ngFor="let item of vehicles"></app-donate-vod-select-item>
+@if (brand) {
+  <div class="select-in-brand">
+    @if (vehicles.length > 0) {
+      <div class="my-1">
+        @for (item of vehicles; track item) {
+          <app-donate-vod-select-item [itemParent]="item"></app-donate-vod-select-item>
+        }
+      </div>
+    }
+    @if (concepts.length > 0) {
+      <div class="my-1">
+        <a href="#" class="arrow" (click)="toggleConcepts()">
+          <i
+            class="bi me-1"
+            aria-hidden="true"
+            [class.bi-plus-circle]="!conceptsExpanded"
+            [class.bi-dash-circle]="conceptsExpanded"
+          ></i>
+          <ng-container i18n>Concepts & prototypes</ng-container>
+        </a>
+        @if (conceptsExpanded) {
+          <div class="mb-1 ms-4">
+            @for (item of concepts; track item) {
+              <app-donate-vod-select-item [itemParent]="item"></app-donate-vod-select-item>
+            }
+          </div>
+        }
+      </div>
+    }
   </div>
+}
 
-  <div *ngIf="concepts.length > 0" class="my-1">
-    <a href="#" class="arrow" (click)="toggleConcepts()">
-      <i
-        class="bi me-1"
-        aria-hidden="true"
-        [class.bi-plus-circle]="!conceptsExpanded"
-        [class.bi-dash-circle]="conceptsExpanded"
-      ></i>
-      <ng-container i18n>Concepts & prototypes</ng-container>
-    </a>
-    <div class="mb-1 ms-4" *ngIf="conceptsExpanded">
-      <app-donate-vod-select-item [itemParent]="item" *ngFor="let item of concepts"></app-donate-vod-select-item>
-    </div>
+@if (!brand) {
+  <div class="row">
+    @for (chunk of brands; track chunk) {
+      <div class="col-md-2">
+        @for (brand of chunk; track brand) {
+          <a
+            routerLink="."
+            [queryParams]="{brand_id: brand.id}"
+            queryParamsHandling="merge"
+            [textContent]="brand.nameOnly"
+          ></a>
+          <br />
+        }
+      </div>
+    }
   </div>
-</div>
+}
 
-<div class="row" *ngIf="!brand">
-  <div class="col-md-2" *ngFor="let chunk of brands">
-    <ng-container *ngFor="let brand of chunk">
-      <a
-        routerLink="."
-        [queryParams]="{brand_id: brand.id}"
-        queryParamsHandling="merge"
-        [textContent]="brand.nameOnly"
-      ></a>
-      <br />
-    </ng-container>
-  </div>
-</div>
-
-<app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+@if (paginator) {
+  <app-paginator [data]="paginator"></app-paginator>
+}

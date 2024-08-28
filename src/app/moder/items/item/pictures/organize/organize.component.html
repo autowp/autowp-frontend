@@ -9,9 +9,11 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item$ | async as item">
-      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
-    </li>
+    @if (item$ | async; as item) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+      </li>
+    }
   </ol>
 </nav>
 
@@ -21,9 +23,9 @@
 
 <app-markdown i18n-markdown markdown="Turbo group creator from pictures"></app-markdown>
 
-<ng-container *ngIf="item$ | async as item">
-  <ng-container *ngIf="newItem$ | async as newItem">
-    <ng-container *ngIf="pictures$ | async as pictures">
+@if (item$ | async; as item) {
+  @if (newItem$ | async; as newItem) {
+    @if (pictures$ | async; as pictures) {
       <app-item-meta-form
         class="mb-4"
         [hidden]="loading > 0"
@@ -33,6 +35,6 @@
         [invalidParams]="invalidParams"
         [pictures]="pictures"
       ></app-item-meta-form>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    }
+  }
+}

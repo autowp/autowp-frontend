@@ -55,7 +55,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     ),
   );
 
-  protected readonly item$ = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
       this.itemService.getItem$(id, {
         fields: [

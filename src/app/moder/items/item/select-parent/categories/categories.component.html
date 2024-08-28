@@ -1,14 +1,18 @@
-<div class="card card-body" *ngIf="categories$ | async as response">
-  <ul>
-    <li class="car-node" *ngFor="let item of response.items">
-      <app-moder-items-item-select-parent-tree-item
-        [item]="item"
-        order="categories_first"
-        (selected)="onSelect($event)"
-        [disableItemID]="itemID$ | async"
-      >
-      </app-moder-items-item-select-parent-tree-item>
-    </li>
-  </ul>
-  <app-paginator [data]="response.paginator"></app-paginator>
-</div>
+@if (categories$ | async; as response) {
+  <div class="card card-body">
+    <ul>
+      @for (item of response.items; track item) {
+        <li class="car-node">
+          <app-moder-items-item-select-parent-tree-item
+            [item]="item"
+            order="categories_first"
+            (selected)="onSelect($event)"
+            [disableItemID]="itemID$ | async"
+          >
+          </app-moder-items-item-select-parent-tree-item>
+        </li>
+      }
+    </ul>
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </div>
+}

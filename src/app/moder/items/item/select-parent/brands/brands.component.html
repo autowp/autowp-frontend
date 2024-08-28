@@ -8,15 +8,17 @@
     i18n-placeholder
     autofocus
   />
-  <ng-container *ngIf="brands$ | async as response">
+  @if (brands$ | async; as response) {
     <div class="row">
-      <div class="col-2" *ngFor="let chunk of response.items">
-        <ng-container *ngFor="let item of chunk">
-          <a href="" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
-          <br />
-        </ng-container>
-      </div>
+      @for (chunk of response.items; track chunk) {
+        <div class="col-2">
+          @for (item of chunk; track item) {
+            <a href="" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
+            <br />
+          }
+        </div>
+      }
     </div>
     <app-paginator [data]="response.paginator"></app-paginator>
-  </ng-container>
+  }
 </div>

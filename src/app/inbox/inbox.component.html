@@ -10,74 +10,84 @@
   <h1 i18n>Inbox</h1>
 </div>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="inbox$ | async as data; else loading">
+@if (inbox$ | async; as data) {
   <div class="row">
     <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4 mb-4">
       <select name="brand_id" [(ngModel)]="brandID" class="form-select" (change)="changeBrand()">
         <option [ngValue]="0" i18n>All brands</option>
-        <option *ngFor="let brand of data.inbox.brands" [textContent]="brand.name" [ngValue]="brand.id"></option>
+        @for (brand of data.inbox.brands; track brand) {
+          <option [textContent]="brand.name" [ngValue]="brand.id"></option>
+        }
       </select>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-start" *ngIf="data.inbox.prev && data.inbox.prev.date">
-        &#x2190;
-        <a
-          [routerLink]="['/inbox', data.brandCatname, data.inbox.prev.date]"
-          [textContent]="data.inbox.prev.date | date: 'mediumDate'"
-        ></a>
-        <br />
-        <small
-          >(<span i18n="@@n-pictures">{data.inbox.prev.count, plural,
-            one {{{data.inbox.prev.count}} picture}
-            other {{{data.inbox.prev.count}} pictures}
-          }</span
-          >)</small
-        >
-      </h3>
+      @if (data.inbox.prev && data.inbox.prev.date) {
+        <h3 class="text-start">
+          &#x2190;
+          <a
+            [routerLink]="['/inbox', data.brandCatname, data.inbox.prev.date]"
+            [textContent]="data.inbox.prev.date | date: 'mediumDate'"
+          ></a>
+          <br />
+          <small
+            >(<span i18n="@@n-pictures">{data.inbox.prev.count, plural,
+              one {{{data.inbox.prev.count}} picture}
+              other {{{data.inbox.prev.count}} pictures}
+            }</span
+            >)</small
+          >
+        </h3>
+      }
     </div>
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-center" *ngIf="data.inbox.current">
-        <span [textContent]="data.inbox.current.date | date: 'mediumDate'"></span>
-        <br />
-        <small
-          >(<span i18n="@@n-pictures">{data.inbox.current.count, plural,
-            one {{{data.inbox.current.count}} picture}
-            other {{{data.inbox.current.count}} pictures}
-          }</span
-          >)</small
-        >
-      </h3>
+      @if (data.inbox.current) {
+        <h3 class="text-center">
+          <span [textContent]="data.inbox.current.date | date: 'mediumDate'"></span>
+          <br />
+          <small
+            >(<span i18n="@@n-pictures">{data.inbox.current.count, plural,
+              one {{{data.inbox.current.count}} picture}
+              other {{{data.inbox.current.count}} pictures}
+            }</span
+            >)</small
+          >
+        </h3>
+      }
     </div>
     <div class="col-lg-4 col-md-4">
-      <h3 class="text-end" *ngIf="data.inbox.next && data.inbox.next.date">
-        <a
-          [routerLink]="['/inbox', data.brandCatname, data.inbox.next.date]"
-          [textContent]="data.inbox.next.date | date: 'mediumDate'"
-        ></a>
-        <br />
-        <small
-          >(<span i18n="@@n-pictures">{data.inbox.next.count, plural,
-            one {{{data.inbox.next.count}} picture}
-            other {{{data.inbox.next.count}} pictures}
-          }</span
-          >)</small
-        >
-        &#x2192;
-      </h3>
+      @if (data.inbox.next && data.inbox.next.date) {
+        <h3 class="text-end">
+          <a
+            [routerLink]="['/inbox', data.brandCatname, data.inbox.next.date]"
+            [textContent]="data.inbox.next.date | date: 'mediumDate'"
+          ></a>
+          <br />
+          <small
+            >(<span i18n="@@n-pictures">{data.inbox.next.count, plural,
+              one {{{data.inbox.next.count}} picture}
+              other {{{data.inbox.next.count}} pictures}
+            }</span
+            >)</small
+          >
+          &#x2192;
+        </h3>
+      }
     </div>
   </div>
-  <ng-container *ngIf="data.pictures$ | async as pictures; else loading">
+  @if (data.pictures$ | async; as pictures) {
     <div class="row">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of pictures.pictures">
-        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-      </div>
+      @for (picture of pictures.pictures; track picture) {
+        <div class="col-6 col-md-4 col-lg-3">
+          <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+        </div>
+      }
     </div>
     <app-paginator [data]="pictures.paginator"></app-paginator>
-  </ng-container>
-</ng-container>
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

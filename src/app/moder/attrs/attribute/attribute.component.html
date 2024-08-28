@@ -12,9 +12,11 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="attribute$ | async as attribute">
-  <h1>{{ getAttrsTranslation(attribute.name) }}</h1>
-</div>
+@if (attribute$ | async; as attribute) {
+  <div class="page-header">
+    <h1>{{ getAttrsTranslation(attribute.name) }}</h1>
+  </div>
+}
 
 <div class="row">
   <div class="col-md-6">
@@ -22,61 +24,87 @@
       <span i18n>Attribute parameters</span>
     </h2>
     <div class="card card-body mb-4">
-      <div class="form-vertical" *ngIf="attribute$ | async as attribute">
-        <div class="mb-3">
-          <label i18n>Type</label>
-          <ng-container *ngIf="typeOption$ | async as option">{{ option.name }}</ng-container>
+      @if (attribute$ | async; as attribute) {
+        <div class="form-vertical">
+          <div class="mb-3">
+            <label i18n>Type</label>
+            @if (typeOption$ | async; as option) {
+              {{ option.name }}
+            }
+          </div>
+          <div class="mb-3">
+            <label i18n>Precision (for float attribute)</label>
+            {{ attribute.precision }}
+          </div>
+          @if (attribute.unitId !== '0') {
+            <div class="mb-3">
+              <label i18n>Unit</label>
+              {{ getUnitNameTranslation(attribute.unitId) }}
+            </div>
+          }
+          @if (attribute.description) {
+            <div class="mb-3">
+              <label i18n>Description</label>
+              {{ attribute.description }}
+            </div>
+          }
         </div>
-        <div class="mb-3">
-          <label i18n>Precision (for float attribute)</label>
-          {{ attribute.precision }}
-        </div>
-        <div class="mb-3" *ngIf="attribute.unitId !== '0'">
-          <label i18n>Unit</label>
-          {{ getUnitNameTranslation(attribute.unitId) }}
-        </div>
-        <div class="mb-3" *ngIf="attribute.description">
-          <label i18n>Description</label>
-          {{ attribute.description }}
-        </div>
-      </div>
+      }
     </div>
 
     <h2 i18n>Values list (for select)</h2>
-    <div class="card card-body mb-4" *ngIf="listOptions$ | async as items">
-      <ul>
-        <li *ngFor="let item of items">{{ item }}</li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-6" *ngIf="attributes$ | async as attributes">
-    <div *ngIf="attributes.length > 0">
-      <h2 i18n id="header">Attributes</h2>
-      <div class="card card-body mb-4" *ngIf="typeMap$ | async as typeMap">
-        <table class="table" aria-describedby="header">
-          <tr>
-            <th i18n scope="col">Name</th>
-            <th i18n scope="col">Type</th>
-            <th i18n scope="col">Unit</th>
-          </tr>
-          <tr *ngFor="let attribute of attributes">
-            <td>
-              <a
-                [routerLink]="['/moder/attrs/attribute', attribute.id]"
-                [textContent]="getAttrsTranslation(attribute.name)"
-              ></a>
-            </td>
-            <td>
-              <span *ngIf="attribute.typeId" [textContent]="typeMap[attribute.typeId]"></span>
-              <span *ngIf="!attribute.typeId">—</span>
-            </td>
-            <td>
-              <span *ngIf="attribute.unitId" [textContent]="getUnitNameTranslation(attribute.unitId)"></span>
-              <span *ngIf="!attribute.unitId">—</span>
-            </td>
-          </tr>
-        </table>
+    @if (listOptions$ | async; as items) {
+      <div class="card card-body mb-4">
+        <ul>
+          @for (item of items; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
       </div>
-    </div>
+    }
   </div>
+  @if (attributes$ | async; as attributes) {
+    <div class="col-md-6">
+      @if (attributes.length > 0) {
+        <div>
+          <h2 i18n id="header">Attributes</h2>
+          @if (typeMap$ | async; as typeMap) {
+            <div class="card card-body mb-4">
+              <table class="table" aria-describedby="header">
+                <tr>
+                  <th i18n scope="col">Name</th>
+                  <th i18n scope="col">Type</th>
+                  <th i18n scope="col">Unit</th>
+                </tr>
+                @for (attribute of attributes; track attribute) {
+                  <tr>
+                    <td>
+                      <a
+                        [routerLink]="['/moder/attrs/attribute', attribute.id]"
+                        [textContent]="getAttrsTranslation(attribute.name)"
+                      ></a>
+                    </td>
+                    <td>
+                      @if (attribute.typeId) {
+                        <span [textContent]="typeMap[attribute.typeId]"></span>
+                      } @else {
+                        <span>—</span>
+                      }
+                    </td>
+                    <td>
+                      @if (attribute.unitId) {
+                        <span [textContent]="getUnitNameTranslation(attribute.unitId)"></span>
+                      } @else {
+                        <span>—</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </table>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
 </div>

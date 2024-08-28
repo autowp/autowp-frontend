@@ -12,11 +12,9 @@
           [(ngModel)]="form.message"
           [class.is-invalid]="invalidParams && invalidParams.message"
         ></textarea>
-        <p
-          *ngFor="let message of invalidParams | invalidParams: 'message'"
-          [textContent]="message"
-          class="invalid-feedback"
-        ></p>
+        @for (message of invalidParams | invalidParams: 'message'; track message) {
+          <p [textContent]="message" class="invalid-feedback"></p>
+        }
       </div>
     </div>
     <div class="mb-3">

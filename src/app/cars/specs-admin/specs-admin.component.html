@@ -1,4 +1,4 @@
-<ng-container *ngIf="data$ | async as data">
+@if (data$ | async; as data) {
   <table class="table table-stripped">
     <caption i18n>
       Attribute values
@@ -13,41 +13,53 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let value of data.items">
-        <td>
-          <span [textContent]="value.update_date | timeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
-        </td>
-        <td>
-          <app-user [user]="user" *ngIf="value.user$ | async as user"></app-user>
-        </td>
-        <td>
-          <span *ngFor="let node of value.path; let i = index">
-            <span *ngIf="i"> / </span>
-            <span [textContent]="getAttrsTranslation(node)"></span>
-          </span>
-          <span *ngIf="value.unit" [textContent]="getUnitNameTranslation(value.unit.id + '')"></span>
-        </td>
-        <td>{{ value.value }}</td>
-        <td>
-          <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(data.items, value)">
-            <i class="bi bi-x" aria-hidden="true"></i>
-          </button>
-        </td>
-      </tr>
+      @for (value of data.items; track value) {
+        <tr>
+          <td>
+            <span [textContent]="value.update_date | timeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
+          </td>
+          <td>
+            @if (value.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+          </td>
+          <td>
+            @for (node of value.path; track node; let i = $index) {
+              <span>
+                @if (i) {
+                  <span> / </span>
+                }
+                <span [textContent]="getAttrsTranslation(node)"></span>
+              </span>
+            }
+            @if (value.unit) {
+              <span [textContent]="getUnitNameTranslation(value.unit.id + '')"></span>
+            }
+          </td>
+          <td>{{ value.value }}</td>
+          <td>
+            <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(data.items, value)">
+              <i class="bi bi-x" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
-
-  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-
-  <form (submit)="moveValues(itemID)" *ngIf="itemID$ | async as itemID">
-    <input
-      type="text"
-      name="item_id"
-      placeholder="id"
-      class="form-control"
-      style="max-width: 200px"
-      [(ngModel)]="move.item_id"
-    />
-    <button type="submit" class="btn btn-secondary" i18n>Move</button>
-  </form>
-</ng-container>
+  @if (data.paginator) {
+    <app-paginator [data]="data.paginator"></app-paginator>
+  }
+  @if (itemID$ | async; as itemID) {
+    <form (submit)="moveValues(itemID)">
+      <input
+        type="text"
+        name="item_id"
+        placeholder="id"
+        class="form-control"
+        style="max-width: 200px"
+        [(ngModel)]="move.item_id"
+      />
+      <button type="submit" class="btn btn-secondary" i18n>Move</button>
+    </form>
+  }
+}

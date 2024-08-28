@@ -1,27 +1,29 @@
 <ng-template #popover>
-  <div *ngIf="response$ | async as response; else loading">
-    <ng-container *ngIf="response.items.length > 0">
-      <img
-        alt=""
-        [src]="response.brand.brandicon.src"
-        style="float: right; margin: 0 0 5px 5px"
-        *ngIf="response.brand.brandicon"
-      />
-      <p *ngFor="let item of response.items" [innerHTML]="item.nameHtml"></p>
-      <br style="clear: both" />
-    </ng-container>
-  </div>
+  @if (response$ | async; as response) {
+    <div>
+      @if (response.items.length > 0) {
+        @if (response.brand.brandicon) {
+          <img alt="" [src]="response.brand.brandicon.src" style="float: right; margin: 0 0 5px 5px" />
+        }
+        @for (item of response.items; track item) {
+          <p [innerHTML]="item.nameHtml"></p>
+        }
+        <br style="clear: both" />
+      }
+    </div>
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
 </ng-template>
-<span *ngIf="category$ | async as category">
-  <a [routerLink]="['/category', category.catname]">{{ category.name }}</a>
-  <span class="count"
-    >({{ category.count - category.newCount
-    }}<span *ngIf="category.newCount > 0" [ngbPopover]="popover" triggers="mouseenter:mouseleave" container="body"
-      >+{{ category.newCount }}</span
-    >)</span
-  >
-</span>
-
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+@if (category$ | async; as category) {
+  <span>
+    <a [routerLink]="['/category', category.catname]">{{ category.name }}</a>
+    <span class="count"
+      >({{ category.count - category.newCount }}
+      @if (category.newCount > 0) {
+        <span [ngbPopover]="popover" triggers="mouseenter:mouseleave" container="body">+{{ category.newCount }}</span>
+      }
+      )</span
+    >
+  </span>
+}

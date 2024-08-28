@@ -2,137 +2,156 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="ratingCatnameNormalized$ | async as ratingCatname">
+@if (ratingCatnameNormalized$ | async; as ratingCatname) {
   <h1 class="mb-4 mosts-header" ngPreserveWhitespaces>
     <span i18n>Most</span>
-    <div class="d-inline-block" ngbDropdown *ngIf="ratings$ | async as ratings">
-      <a href="#" ngbDropdownToggle (click)="(false)">
-        <ng-container *ngFor="let rating of ratings">
-          <span *ngIf="rating.catname === ratingCatname" [textContent]="getMostsRatingsTranslation(rating.name)">
-          </span>
-        </ng-container>
-        <i class="bi bi-caret-down" aria-hidden="true"></i>
-      </a>
-      <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
-        <a
-          *ngFor="let rating of ratings"
-          [class.active]="rating.catname === ratingCatname"
-          class="dropdown-item"
-          [routerLink]="prefix.concat([rating.catname])"
-          [textContent]="getMostsRatingsTranslation(rating.name)"
-        >
-        </a>
-      </div>
-    </div>
-
-    <span i18n>among</span>
-
-    <div class="d-inline-block" ngbDropdown *ngIf="vehicleTypes$ | async as vehicleTypes">
-      <a href="#" ngbDropdownToggle (click)="(false)">
-        <ng-container *ngIf="typeCatname$ | async as typeCatname; else noTypeCatname">
-          <ng-container *ngFor="let type of vehicleTypes">
-            <span *ngIf="type.catname === (typeCatname$ | async)" [textContent]="type.nameTranslated"></span>
-          </ng-container>
-        </ng-container>
-        <ng-template #noTypeCatname>
-          <span i18n>Vehicle</span>
-        </ng-template>
-        <i class="bi bi-caret-down" aria-hidden="true"></i>
-      </a>
-      <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
-        <a
-          *ngFor="let type of vehicleTypes"
-          class="dropdown-item"
-          [class.active]="type.catname === (typeCatname$ | async)"
-          [routerLink]="prefix.concat([ratingCatname, type.catname])"
-          [textContent]="type.nameTranslated"
-        ></a>
-      </div>
-    </div>
-
-    <ng-container *ngIf="yearsCatname$ | async as yearsCatname">
-      <div class="d-inline-block" ngbDropdown *ngIf="years$ | async as years">
+    @if (ratings$ | async; as ratings) {
+      <div class="d-inline-block" ngbDropdown>
         <a href="#" ngbDropdownToggle (click)="(false)">
-          <ng-container *ngFor="let year of years">
-            <span
-              *ngIf="year.catname ? year.catname === yearsCatname : !yearsCatname"
-              [textContent]="getMostsPeriodsTranslation(year.name)"
-            ></span>
-          </ng-container>
+          @for (rating of ratings; track rating) {
+            @if (rating.catname === ratingCatname) {
+              <span [textContent]="getMostsRatingsTranslation(rating.name)"> </span>
+            }
+          }
           <i class="bi bi-caret-down" aria-hidden="true"></i>
         </a>
-        <div
-          ngbDropdownMenu
-          style="max-height: 200px; overflow-x: hidden"
-          *ngIf="defaultTypeCatname$ | async as defaultTypeCatname"
-        >
-          <ng-container *ngIf="typeCatname$ | async as typeCatname; else noTypeCatname2">
+        <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
+          @for (rating of ratings; track rating) {
             <a
-              *ngFor="let year of years"
-              [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
+              [class.active]="rating.catname === ratingCatname"
               class="dropdown-item"
-              [routerLink]="prefix.concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
-              [textContent]="getMostsPeriodsTranslation(year.name)"
+              [routerLink]="prefix.concat([rating.catname])"
+              [textContent]="getMostsRatingsTranslation(rating.name)"
             >
             </a>
-          </ng-container>
-          <ng-template #noTypeCatname2>
-            <a
-              *ngFor="let year of years"
-              [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
-              class="dropdown-item"
-              [routerLink]="prefix.concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
-              [textContent]="getMostsPeriodsTranslation(year.name)"
-            >
-            </a>
-          </ng-template>
+          }
         </div>
       </div>
-    </ng-container>
+    }
+    <span i18n>among</span>
+    @if (vehicleTypes$ | async; as vehicleTypes) {
+      <div class="d-inline-block" ngbDropdown>
+        <a href="#" ngbDropdownToggle (click)="(false)">
+          @if (typeCatname$ | async; as typeCatname) {
+            @for (type of vehicleTypes; track type) {
+              @if (type.catname === typeCatname) {
+                <span [textContent]="type.nameTranslated"></span>
+              }
+            }
+          } @else {
+            <span i18n>Vehicle</span>
+          }
+          <i class="bi bi-caret-down" aria-hidden="true"></i>
+        </a>
+        <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
+          @for (type of vehicleTypes; track type) {
+            <a
+              class="dropdown-item"
+              [class.active]="type.catname === (typeCatname$ | async)"
+              [routerLink]="prefix.concat([ratingCatname, type.catname])"
+              [textContent]="type.nameTranslated"
+            ></a>
+          }
+        </div>
+      </div>
+    }
+    @if (yearsCatname$ | async; as yearsCatname) {
+      @if (years$ | async; as years) {
+        <div class="d-inline-block" ngbDropdown>
+          <a href="#" ngbDropdownToggle (click)="(false)">
+            @for (year of years; track year) {
+              @if (year.catname ? year.catname === yearsCatname : !yearsCatname) {
+                <span [textContent]="getMostsPeriodsTranslation(year.name)"></span>
+              }
+            }
+            <i class="bi bi-caret-down" aria-hidden="true"></i>
+          </a>
+          @if (defaultTypeCatname$ | async; as defaultTypeCatname) {
+            <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
+              @if (typeCatname$ | async; as typeCatname) {
+                @for (year of years; track year) {
+                  <a
+                    [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
+                    class="dropdown-item"
+                    [routerLink]="prefix.concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
+                    [textContent]="getMostsPeriodsTranslation(year.name)"
+                  >
+                  </a>
+                }
+              } @else {
+                @for (year of years; track year) {
+                  <a
+                    [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
+                    class="dropdown-item"
+                    [routerLink]="prefix.concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
+                    [textContent]="getMostsPeriodsTranslation(year.name)"
+                  >
+                  </a>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    }
   </h1>
-
-  <ng-container *ngIf="items$ | async as items; else loading">
-    <ng-container *ngFor="let item of items; let i = index">
+  @if (items$ | async; as items) {
+    @for (item of items; track item; let i = $index) {
       <div class="row">
         <div class="col-md-9">
           <h3 [innerHTML]="item.item.name_html"></h3>
         </div>
         <div class="col-md-3">
-          <h3 [textContent]="getMostsRatingParamsTranslation('most/' + ratingCatname + '/param')" *ngIf="!i"></h3>
+          @if (!i) {
+            <h3 [textContent]="getMostsRatingParamsTranslation('most/' + ratingCatname + '/param')"></h3>
+          }
         </div>
       </div>
       <div class="row mb-4">
         <div class="col-md-9">
           <div class="row">
-            <div class="col-md-4" *ngFor="let picture of item.pictures">
-              <a [routerLink]="picture.route" class="rounded d-block mb-4" *ngIf="picture">
-                <img
-                  class="rounded w-100 border border-light"
-                  [src]="picture.src"
-                  [alt]="picture.name"
-                  [title]="picture.name"
-                  loading="lazy"
-                />
-              </a>
-              <span *ngIf="!picture">&#xa0;</span>
-            </div>
+            @for (picture of item.pictures; track picture) {
+              <div class="col-md-4">
+                @if (picture) {
+                  <a [routerLink]="picture.route" class="rounded d-block mb-4">
+                    <img
+                      class="rounded w-100 border border-light"
+                      [src]="picture.src"
+                      [alt]="picture.name"
+                      [title]="picture.name"
+                      loading="lazy"
+                    />
+                  </a>
+                } @else {
+                  <span>&#xa0;</span>
+                }
+              </div>
+            }
           </div>
-          <app-markdown *ngIf="item.item.description" [markdown]="item.item.description"></app-markdown>
+          @if (item.item.description) {
+            <app-markdown [markdown]="item.item.description"></app-markdown>
+          }
         </div>
         <div class="col-md-3">
           <h3 ngPreserveWhitespaces>
-            <span *ngIf="item.value_html" [innerHTML]="item.value_html"></span>
-            <span *ngIf="!item.value_html && item.value_text" [innerHTML]="item.value_text"></span>
-            <small
-              class="unit"
-              *ngIf="item.unit"
-              [textContent]="getUnitAbbrTranslation(item.unit.id + '')"
-              placement="top"
-              [ngbTooltip]="getUnitNameTranslation(item.unit.id + '', 'name')"
-            ></small>
+            @if (item.value_html) {
+              <span [innerHTML]="item.value_html"></span>
+            } @else if (item.value_text) {
+              <span [innerText]="item.value_text"></span>
+            }
+            @if (item.unit) {
+              <small
+                class="unit"
+                [textContent]="getUnitAbbrTranslation(item.unit.id + '')"
+                placement="top"
+                [ngbTooltip]="getUnitNameTranslation(item.unit.id + '')"
+              ></small>
+            }
           </h3>
         </div>
       </div>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    }
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
+}

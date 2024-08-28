@@ -3,36 +3,54 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <ng-container *ngIf="brand$ | async as brand; else loading">
-      <li class="breadcrumb-item" *ngIf="brand">
-        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
-      </li>
-      <li class="breadcrumb-item" *ngIf="currentVehicleType$ | async">
-        <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
-      </li>
-    </ng-container>
+    @if (brand$ | async; as brand) {
+      @if (brand) {
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
+        </li>
+      }
+      @if (currentVehicleType$ | async) {
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/', brand.catname, 'cars']" i18n>In chronological order</a>
+        </li>
+      }
+    } @else {
+      <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+    }
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="title$ | async as title; else loading">
-  <h1>{{ title }}</h1>
-</div>
-
-<ul class="nav nav-pills mb-4" *ngIf="vehicleTypeOptions$ | async as vehicleTypeOptions; else loading">
-  <li class="nav-item" *ngFor="let item of vehicleTypeOptions">
-    <a [routerLink]="item.route" class="nav-link" [class.active]="item.active">
-      {{ item.name }}
-      <span class="badge text-bg-info text-dark">{{ item.itemsCount }}</span>
-    </a>
-  </li>
-</ul>
-
-<ng-template #loading>
+@if (title$ | async; as title) {
+  <div class="page-header">
+    <h1>{{ title }}</h1>
+  </div>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+}
 
-<ng-container *ngIf="result$ | async as items; else loading">
-  <app-catalogue-list-item [item]="item" *ngFor="let item of items.items"></app-catalogue-list-item>
+@if (vehicleTypeOptions$ | async; as vehicleTypeOptions) {
+  <ul class="nav nav-pills mb-4">
+    @for (item of vehicleTypeOptions; track item) {
+      <li class="nav-item">
+        <a [routerLink]="item.route" class="nav-link" [class.active]="item.active">
+          {{ item.name }}
+          <span class="badge text-bg-info text-dark">{{ item.itemsCount }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
-  <app-paginator [data]="items.paginator" *ngIf="items.paginator"></app-paginator>
-</ng-container>
+@if (result$ | async; as items) {
+  @for (item of items.items; track item) {
+    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+  }
+
+  @if (items.paginator) {
+    <app-paginator [data]="items.paginator"></app-paginator>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

@@ -14,17 +14,21 @@
 </div>
 
 <ul>
-  <li *ngFor="let page of pages$ | async">
-    [{{ page.id }}] {{ page.name }}
-    <div class="mb-4 row">
-      <div class="col-4" *ngFor="let group of page.groups">
-        [{{ group.id }}] {{ group.name }}
-        <ul>
-          <li *ngFor="let perspective of group.perspectives">
-            [{{ perspective.id }}] {{ getPerspectiveTranslation(perspective.name) }}
-          </li>
-        </ul>
+  @for (page of pages$ | async; track page) {
+    <li>
+      [{{ page.id }}] {{ page.name }}
+      <div class="mb-4 row">
+        @for (group of page.groups; track group) {
+          <div class="col-4">
+            [{{ group.id }}] {{ group.name }}
+            <ul>
+              @for (perspective of group.perspectives; track perspective) {
+                <li>[{{ perspective.id }}] {{ getPerspectiveTranslation(perspective.name) }}</li>
+              }
+            </ul>
+          </div>
+        }
       </div>
-    </div>
-  </li>
+    </li>
+  }
 </ul>

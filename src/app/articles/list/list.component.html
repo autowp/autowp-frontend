@@ -10,35 +10,41 @@
   <h1 i18n>Articles</h1>
 </div>
 
-<ng-template #loading>
+@if (articles$ | async; as response) {
+  <div class="card card-body">
+    <ul class="article-list">
+      @for (article of response.articles; track article) {
+        <li>
+          @if (article.previewUrl) {
+            <a [routerLink]="article.routerLink">
+              <img alt="" [src]="article.previewUrl" style="float: left; margin: 0 10px 4px 0" loading="lazy" />
+            </a>
+          }
+          <p>
+            <a [routerLink]="article.routerLink" [textContent]="article.name"></a>
+          </p>
+          <p>
+            {{ article.description }}
+            <a [routerLink]="article.routerLink" i18n>details</a>
+          </p>
+          <p>
+            @if (article.author$ | async; as author) {
+              <app-user [user]="author"></app-user>
+            }
+            @if (article.date) {
+              <span
+                class="date"
+                [textContent]="article.date | timeAgo"
+                [ngbTooltip]="article.date | date: 'medium'"
+              ></span>
+            }
+          </p>
+        </li>
+      }
+    </ul>
+
+    <app-paginator [data]="response.paginator"></app-paginator>
+  </div>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<div class="card card-body" *ngIf="articles$ | async as response; else loading">
-  <ul class="article-list">
-    <li *ngFor="let article of response.articles">
-      <a [routerLink]="article.routerLink" *ngIf="article.previewUrl">
-        <img alt="" [src]="article.previewUrl" style="float: left; margin: 0 10px 4px 0" loading="lazy" />
-      </a>
-
-      <p>
-        <a [routerLink]="article.routerLink" [textContent]="article.name"></a>
-      </p>
-      <p>
-        {{ article.description }}
-        <a [routerLink]="article.routerLink" i18n>details</a>
-      </p>
-      <p>
-        <app-user *ngIf="article.author$ | async as author" [user]="author"></app-user>
-        <span
-          class="date"
-          *ngIf="article.date"
-          [textContent]="article.date | timeAgo"
-          [ngbTooltip]="article.date | date: 'medium'"
-        ></span>
-      </p>
-    </li>
-  </ul>
-
-  <app-paginator [data]="response.paginator"></app-paginator>
-</div>
+}

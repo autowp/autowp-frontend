@@ -9,68 +9,74 @@
   </ol>
 </nav>
 
-<ng-container *ngIf="item$ | async as factory">
+@if (item$ | async; as factory) {
   <div class="page-header">
     <h1>{{ factory.name }}</h1>
   </div>
-
-  <div class="nav nav-pills mb-3" *ngIf="factory">
-    <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
-    <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
-    <ng-container *ngIf="isModer$ | async as isModer">
-      <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]" *ngIf="isModer">
-        <i class="bi bi-gear-fill" aria-hidden="true"></i>
-        <ng-container i18n>edit</ng-container>
-      </a>
-    </ng-container>
-  </div>
-
-  <div
-    style="height: 300px"
-    class="mb-4 w-100"
-    *ngIf="map$ | async as map"
-    leaflet
-    [leafletOptions]="map.options"
-    [leafletLayers]="map.markers"
-  ></div>
-
-  <app-markdown
-    class="card card-body"
-    *ngIf="factory && factory.description"
-    [markdown]="factory.description"
-  ></app-markdown>
-</ng-container>
-
-<ng-container *ngIf="pictures$ | async as pictures">
-  <div *ngIf="pictures.pictures.length > 0">
-    <h3 i18n>Pictures</h3>
-    <div class="row">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let picture of pictures.pictures">
-        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-      </div>
+  @if (factory) {
+    <div class="nav nav-pills mb-3">
+      <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
+      <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
+      @if (isModer$ | async) {
+        <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
+          <i class="bi bi-gear-fill" aria-hidden="true"></i>
+          <ng-container i18n>edit</ng-container>
+        </a>
+      }
     </div>
-  </div>
-</ng-container>
+  }
+  @if (map$ | async; as map) {
+    <div
+      style="height: 300px"
+      class="mb-4 w-100"
+      leaflet
+      [leafletOptions]="map.options"
+      [leafletLayers]="map.markers"
+    ></div>
+  }
+  @if (factory && factory.description) {
+    <app-markdown class="card card-body" [markdown]="factory.description"></app-markdown>
+  }
+}
 
-<ng-container *ngIf="item$ | async as factory">
-  <div *ngIf="factory.related_group_pictures && factory.related_group_pictures.length > 0">
-    <h3 i18n>Products</h3>
-    <div class="row">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let item of factory.related_group_pictures">
-        <div class="card mb-4">
-          <a [routerLink]="item.route">
-            <img class="card-img-top" [src]="item.src" alt="" [title]="item.name" loading="lazy" />
-          </a>
-          <div class="card-body">
-            <h5 class="card-title">
-              <a [routerLink]="item.route" [textContent]="item.name"></a>
-            </h5>
+@if (pictures$ | async; as pictures) {
+  @if (pictures.pictures.length > 0) {
+    <div>
+      <h3 i18n>Pictures</h3>
+      <div class="row">
+        @for (picture of pictures.pictures; track picture) {
+          <div class="col-6 col-md-4 col-lg-3">
+            <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
           </div>
-        </div>
+        }
       </div>
     </div>
-    <p>
-      <a [routerLink]="['/factories', factory.id, 'items']" i18n>details</a>
-    </p>
-  </div>
-</ng-container>
+  }
+}
+
+@if (item$ | async; as factory) {
+  @if (factory.related_group_pictures && factory.related_group_pictures.length > 0) {
+    <div>
+      <h3 i18n>Products</h3>
+      <div class="row">
+        @for (item of factory.related_group_pictures; track item) {
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="card mb-4">
+              <a [routerLink]="item.route">
+                <img class="card-img-top" [src]="item.src" alt="" [title]="item.name" loading="lazy" />
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a [routerLink]="item.route" [textContent]="item.name"></a>
+                </h5>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <p>
+        <a [routerLink]="['/factories', factory.id, 'items']" i18n>details</a>
+      </p>
+    </div>
+  }
+}

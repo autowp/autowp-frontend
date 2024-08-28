@@ -14,28 +14,33 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<ng-container *ngIf="items$ | async as chunks; else loading">
-  <div class="row" *ngFor="let chunk of chunks">
-    <div class="col-md-3" *ngFor="let category of chunk">
-      <div class="card mb-4">
-        <a
-          [routerLink]="['/category', category.catname]"
-          *ngIf="category.front_picture && category.front_picture.thumb_medium"
-        >
-          <img alt="" [src]="category.front_picture.thumb_medium.src" class="card-img-top" loading="lazy" />
-        </a>
-        <div class="card-body">
-          <h5 class="card-title">
-            <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
-          </h5>
-          <p i18n="@@n-vehicles">
-            {category.descendants_count, plural,
-              one {{{category.descendants_count}} vehicle}
-              other {{{category.descendants_count}} vehicles}
+@if (items$ | async; as chunks) {
+  @for (chunk of chunks; track chunk) {
+    <div class="row">
+      @for (category of chunk; track category) {
+        <div class="col-md-3">
+          <div class="card mb-4">
+            @if (category.front_picture && category.front_picture.thumb_medium) {
+              <a [routerLink]="['/category', category.catname]">
+                <img alt="" [src]="category.front_picture.thumb_medium.src" class="card-img-top" loading="lazy" />
+              </a>
             }
-          </p>
+            <div class="card-body">
+              <h5 class="card-title">
+                <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+              </h5>
+              <p i18n="@@n-vehicles">
+                {category.descendants_count, plural,
+                  one {{{category.descendants_count}} vehicle}
+                  other {{{category.descendants_count}} vehicles}
+                }
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      }
     </div>
-  </div>
-</ng-container>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

@@ -2,155 +2,179 @@
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 </ng-template>
 
-<div class="car item-list-item" *ngIf="item$ | async as item; else loading">
-  <h3>
-    <app-item-header
-      [item]="{
-        nameHTML: item.name_html,
-        design: item.design,
-        produced: {count: item.produced, exactly: item.produced_exactly},
-      }"
-    ></app-item-header>
-  </h3>
-
-  <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
-
-  <ng-container *ngIf="pictures$ | async as pictures">
-    <div class="row" *ngIf="(havePhoto$ | async) && pictures.length > 4">
-      <div class="col-12 col-lg-6" *ngFor="let picture of pictures.slice(0, 1)">
-        <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
-          <img
-            [src]="picture.thumb.src"
-            [alt]="picture.picture.name_text"
-            [title]="picture.picture.name_text"
-            class="rounded w-100 border border-light"
-            loading="lazy"
-          />
-        </a>
-        <span *ngIf="!picture">&#xa0;</span>
-      </div>
-      <div class="col-12 col-lg-6">
+@if (item$ | async; as item) {
+  <div class="car item-list-item">
+    <h3>
+      <app-item-header
+        [item]="{
+          nameHTML: item.name_html,
+          design: item.design,
+          produced: {count: item.produced, exactly: item.produced_exactly},
+        }"
+      ></app-item-header>
+    </h3>
+    @if (item.name_default) {
+      <h4 [textContent]="item.name_default"></h4>
+    }
+    @if (pictures$ | async; as pictures) {
+      @if ((havePhoto$ | async) && pictures.length > 4) {
         <div class="row">
-          <div class="col-6" *ngFor="let picture of pictures.slice(1)">
-            <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
-              <img
-                [src]="picture.thumb.src"
-                [alt]="picture.picture.name_text"
-                [title]="picture.picture.name_text"
-                class="rounded w-100 border border-light"
-                loading="lazy"
-              />
-            </a>
-            <span *ngIf="!picture">&#xa0;</span>
+          @for (picture of pictures.slice(0, 1); track picture) {
+            <div class="col-12 col-lg-6">
+              @if (picture.picture && picture.thumb) {
+                <a [routerLink]="picture.route" class="d-block rounded mb-4">
+                  <img
+                    [src]="picture.thumb.src"
+                    [alt]="picture.picture.name_text"
+                    [title]="picture.picture.name_text"
+                    class="rounded w-100 border border-light"
+                    loading="lazy"
+                  />
+                </a>
+              }
+              @if (!picture) {
+                <span>&#xa0;</span>
+              }
+            </div>
+          }
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              @for (picture of pictures.slice(1); track picture) {
+                <div class="col-6">
+                  @if (picture.picture && picture.thumb) {
+                    <a [routerLink]="picture.route" class="d-block rounded mb-4">
+                      <img
+                        [src]="picture.thumb.src"
+                        [alt]="picture.picture.name_text"
+                        [title]="picture.picture.name_text"
+                        class="rounded w-100 border border-light"
+                        loading="lazy"
+                      />
+                    </a>
+                  }
+                  @if (!picture) {
+                    <span>&#xa0;</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+      @if ((havePhoto$ | async) && pictures.length <= 4) {
+        <div class="row">
+          @for (picture of pictures; track picture) {
+            <div class="col-6 col-lg-3">
+              @if (picture.picture && picture.thumb) {
+                <a [routerLink]="picture.route" class="d-block rounded mb-4">
+                  <img
+                    [src]="picture.thumb.src"
+                    [alt]="picture.picture.name_text"
+                    [title]="picture.picture.name_text"
+                    class="rounded w-100 border border-light"
+                    loading="lazy"
+                  />
+                </a>
+              }
+              @if (!picture) {
+                <span>&#xa0;</span>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+    @if ((havePhoto$ | async) === false && (canHavePhoto$ | async)) {
+      <div class="row">
+        <div class="col-6 col-lg-3">
+          <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
+            <a
+              routerLink="/upload"
+              [queryParams]="{item_id: item.id}"
+              title="Add photo"
+              i18n-title
+              class="bi bi-plus-circle text-success"
+              aria-hidden="true"
+            ></a>
+            <span class="bi bi-camera fs-1" aria-hidden="true"></span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" *ngIf="(havePhoto$ | async) && pictures.length <= 4">
-      <div class="col-6 col-lg-3" *ngFor="let picture of pictures">
-        <a [routerLink]="picture.route" *ngIf="picture.picture && picture.thumb" class="d-block rounded mb-4">
-          <img
-            [src]="picture.thumb.src"
-            [alt]="picture.picture.name_text"
-            [title]="picture.picture.name_text"
-            class="rounded w-100 border border-light"
-            loading="lazy"
-          />
-        </a>
-        <span *ngIf="!picture">&#xa0;</span>
+    }
+    @if (item.description && item.description.length) {
+      <app-markdown class="text" [markdown]="item.description"></app-markdown>
+    }
+    @if (item.engine_vehicles && item.engine_vehicles.length) {
+      <div>
+        <p i18n>Mounted on:</p>
+        <ul>
+          @for (vehicle of item.engine_vehicles; track vehicle) {
+            <li>
+              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
+            </li>
+          }
+        </ul>
       </div>
-    </div>
-  </ng-container>
-
-  <div class="row" *ngIf="(havePhoto$ | async) === false && (canHavePhoto$ | async)">
-    <div class="col-6 col-lg-3">
-      <div class="no-photo rounded w-100 border border-light mb-4" title="No photos available" i18n-title>
-        <a
-          routerLink="/upload"
-          [queryParams]="{item_id: item.id}"
-          title="Add photo"
-          i18n-title
-          class="bi bi-plus-circle text-success"
-          aria-hidden="true"
-        ></a>
-        <span class="bi bi-camera fs-1" aria-hidden="true"></span>
-      </div>
-    </div>
+    }
+    @if (parentRouterLink$ | async; as parentRouterLink) {
+      <ul class="list-inline" ngPreserveWhitespaces>
+        @if ((item.has_text || item.childs_count) && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+          <li class="list-inline-item">
+            <i class="bi bi-text-left me-1" aria-hidden="true"></i>
+            <a [routerLink]="parentRouterLink">
+              <ng-container i18n>details</ng-container>
+              @if (item.childs_count > 1) {
+                <span> ({{ item.childs_count }})</span>
+              }
+            </a>
+          </li>
+        }
+        @if ((item.has_text || item.childs_count) && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
+          <li class="list-inline-item">
+            <i class="bi bi-text-left me-1" aria-hidden="true"></i>
+            <a [routerLink]="parentRouterLink">
+              <ng-container i18n>details</ng-container>
+              @if (item.childs_count > 1) {
+                <span> ({{ item.childs_count }})</span>
+              }
+            </a>
+          </li>
+        }
+        @if (item.item_type_id === ItemType.ITEM_TYPE_PERSON) {
+          <li class="list-inline-item">
+            <i class="bi bi-text-left me-1" aria-hidden="true"></i>
+            <a [routerLink]="['/persons', item.id]" i18n>details</a>
+          </li>
+        } @else if (item.accepted_pictures_count > 4 && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+          <li class="list-inline-item">
+            <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
+            <a [routerLink]="parentRouterLink.concat(['pictures'])"
+              ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
+            >
+          </li>
+        } @else if (item.accepted_pictures_count > 4 && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
+          <li class="list-inline-item">
+            <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
+            <a [routerLink]="parentRouterLink.concat(['pictures'])"
+              ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
+            >
+          </li>
+        }
+        @if (isModer$ | async) {
+          <li class="list-inline-item">
+            <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+          </li>
+        }
+        @if (item.can_edit_specs) {
+          <li class="list-inline-item">
+            <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
+            <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
+          </li>
+        }
+      </ul>
+    }
   </div>
-
-  <app-markdown
-    class="text"
-    *ngIf="item.description && item.description.length"
-    [markdown]="item.description"
-  ></app-markdown>
-
-  <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
-    <p i18n>Mounted on:</p>
-    <ul>
-      <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
-      </li>
-    </ul>
-  </div>
-
-  <ul class="list-inline" ngPreserveWhitespaces *ngIf="parentRouterLink$ | async as parentRouterLink">
-    <li
-      *ngIf="(item.has_text || item.childs_count) && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY"
-      class="list-inline-item"
-    >
-      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
-      <a [routerLink]="parentRouterLink">
-        <ng-container i18n>details</ng-container>
-        <span *ngIf="item.childs_count > 1"> ({{ item.childs_count }})</span>
-      </a>
-    </li>
-
-    <li
-      *ngIf="(item.has_text || item.childs_count) && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY"
-      class="list-inline-item"
-    >
-      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
-      <a [routerLink]="parentRouterLink">
-        <ng-container i18n>details</ng-container>
-        <span *ngIf="item.childs_count > 1"> ({{ item.childs_count }})</span>
-      </a>
-    </li>
-
-    <li *ngIf="item.item_type_id === ItemType.ITEM_TYPE_PERSON" class="list-inline-item">
-      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
-      <a [routerLink]="['/persons', item.id]" i18n>details</a>
-    </li>
-
-    <li
-      *ngIf="item.accepted_pictures_count > 4 && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY"
-      class="list-inline-item"
-    >
-      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-      <a [routerLink]="parentRouterLink.concat(['pictures'])"
-        ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
-      >
-    </li>
-
-    <li
-      *ngIf="item.accepted_pictures_count > 4 && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY"
-      class="list-inline-item"
-    >
-      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-      <a [routerLink]="parentRouterLink.concat(['pictures'])"
-        ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
-      >
-    </li>
-
-    <ng-container *ngIf="isModer$ | async as isModer">
-      <li *ngIf="isModer" class="list-inline-item">
-        <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
-        <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-      </li>
-    </ng-container>
-
-    <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
-      <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
-    </li>
-  </ul>
-</div>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

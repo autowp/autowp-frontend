@@ -10,4 +10,6 @@
   <h1 i18n>Specs</h1>
 </div>
 
-<app-info-spec-row [row]="row" [deep]="0" *ngFor="let row of specs$ | async"></app-info-spec-row>
+@for (row of specs$ | async; track row) {
+  <app-info-spec-row [row]="row" [deep]="0"></app-info-spec-row>
+}

@@ -12,33 +12,40 @@
 
 <div>
   <div class="nav nav-pills mb-4">
-    <a
-      *ngFor="let period of periods"
-      [class.active]="period.active"
-      class="nav-link"
-      href="#"
-      (click)="selectPeriod(period)"
-      [textContent]="period.name"
-    ></a>
+    @for (period of periods; track period) {
+      <a
+        [class.active]="period.active"
+        class="nav-link"
+        href="#"
+        (click)="selectPeriod(period)"
+        [textContent]="period.name"
+      ></a>
+    }
   </div>
 
-  <ng-container *ngIf="data$ | async as data">
-    <canvas
-      baseChart
-      width="400"
-      height="150"
-      [datasets]="gridData.data"
-      [labels]="labels$ | async"
-      [options]="chartOptions"
-      [legend]="false"
-      [type]="'bar'"
-      *ngIf="gridData$ | async as gridData"
-    ></canvas>
-
-    <p *ngIf="legend$ | async as legend">
-      <span *ngFor="let item of legend; let i = index">
-        <app-user [user]="user" *ngIf="item.user$ | async as user"></app-user>
-      </span>
-    </p>
-  </ng-container>
+  @if (data$ | async; as data) {
+    @if (gridData$ | async; as gridData) {
+      <canvas
+        baseChart
+        width="400"
+        height="150"
+        [datasets]="gridData.data"
+        [labels]="labels$ | async"
+        [options]="chartOptions"
+        [legend]="false"
+        [type]="'bar'"
+      ></canvas>
+    }
+    @if (legend$ | async; as legend) {
+      <p>
+        @for (item of legend; track item; let i = $index) {
+          <span>
+            @if (item.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+          </span>
+        }
+      </p>
+    }
+  }
 </div>

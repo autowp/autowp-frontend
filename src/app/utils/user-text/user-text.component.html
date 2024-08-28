@@ -1,18 +1,30 @@
-<ng-container *ngIf="textPrepared$ | async as textPrepared">
-  <p *ngFor="let line of textPrepared">
-    <ng-container *ngFor="let element of line.elements" [ngSwitch]="element.type">
-      <a *ngSwitchCase="'a'" [href]="element.url">{{ element.url }}</a>
-      <app-user *ngSwitchCase="'user'" [user]="element.user"></app-user>
-      <a [routerLink]="['/picture', element.picture.identity]" *ngSwitchCase="'picture'" class="thumbnail-inline">
-        <img
-          class="card-img-top"
-          [src]="element.picture.thumb.src"
-          [alt]="element.picture.name_text"
-          [title]="element.picture.name_text"
-          loading="lazy"
-        />
-      </a>
-      <ng-container *ngSwitchCase="'text'">{{ element.text }}</ng-container>
-    </ng-container>
-  </p>
-</ng-container>
+@if (textPrepared$ | async; as textPrepared) {
+  @for (line of textPrepared; track line) {
+    <p>
+      @for (element of line.elements; track element) {
+        @switch (element.type) {
+          @case ('a') {
+            <a [href]="element.url">{{ element.url }}</a>
+          }
+          @case ('user') {
+            <app-user [user]="element.user"></app-user>
+          }
+          @case ('picture') {
+            <a [routerLink]="['/picture', element.picture.identity]" class="thumbnail-inline">
+              <img
+                class="card-img-top"
+                [src]="element.picture.thumb.src"
+                [alt]="element.picture.name_text"
+                [title]="element.picture.name_text"
+                loading="lazy"
+              />
+            </a>
+          }
+          @case ('text') {
+            {{ element.text }}
+          }
+        }
+      }
+    </p>
+  }
+}

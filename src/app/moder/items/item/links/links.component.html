@@ -1,81 +1,91 @@
-<ng-template #loading>
+@if (links$ | async; as links) {
+  @if (item$ | async; as item) {
+    @if (canEditMeta$ | async) {
+      <form method="post" (submit)="saveLinks(item.id, links)">
+        <table class="table table-condensed table-striped">
+          <caption i18n>
+            Links
+          </caption>
+          <thead>
+            <tr>
+              <th i18n scope="col">Text</th>
+              <th i18n scope="col">Address</th>
+              <th i18n scope="col">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (link of links; track link; let i = $index) {
+              <tr>
+                <td>
+                  <input type="text" name="name{{ i }}" [(ngModel)]="link.name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" name="url{{ i }}" [(ngModel)]="link.url" class="form-control" />
+                </td>
+                <td>
+                  <select name="type{{ i }}" [(ngModel)]="link.type" class="form-select">
+                    <option value="default" i18n>interest link</option>
+                    <option value="official" i18n>official</option>
+                    <option value="club" i18n>club</option>
+                  </select>
+                </td>
+              </tr>
+            }
+            <tr>
+              <td>
+                <input type="text" name="name" [(ngModel)]="newLink.name" class="form-control" />
+              </td>
+              <td>
+                <input type="text" name="url" [(ngModel)]="newLink.url" class="form-control" />
+              </td>
+              <td>
+                <select name="type" [(ngModel)]="newLink.type" class="form-select">
+                  <option value="default" i18n>interest link</option>
+                  <option value="official" i18n>official</option>
+                  <option value="club" i18n>club</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <button class="btn btn-primary" type="submit" [disabled]="loadingNumber > 0">
+                  @if (loadingNumber > 0) {
+                    <span>
+                      <span class="spinner-border" role="status"
+                        ><span class="visually-hidden" i18n>Loading…</span></span
+                      >
+                    </span>
+                  }
+                  <ng-container i18n>Submit</ng-container>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    }
+  }
+  @if ((canEditMeta$ | async) === false) {
+    <table class="table table-condensed table-stripped">
+      <caption i18n>
+        Links
+      </caption>
+      <tbody>
+        <tr>
+          <th i18n scope="col">Text</th>
+          <th i18n scope="col">Address</th>
+          <th i18n scope="col">Type</th>
+        </tr>
+        @for (link of links; track link) {
+          <tr>
+            <td [textContent]="link.name"></td>
+            <td [textContent]="link.url"></td>
+            <td [textContent]="link.type"></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="links$ | async as links; else loading">
-  <ng-container *ngIf="item$ | async as item">
-    <form *ngIf="canEditMeta$ | async" method="post" (submit)="saveLinks(item.id, links)">
-      <table class="table table-condensed table-striped">
-        <caption i18n>
-          Links
-        </caption>
-        <thead>
-          <tr>
-            <th i18n scope="col">Text</th>
-            <th i18n scope="col">Address</th>
-            <th i18n scope="col">Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let link of links; let i = index">
-            <td>
-              <input type="text" name="name{{ i }}" [(ngModel)]="link.name" class="form-control" />
-            </td>
-            <td>
-              <input type="text" name="url{{ i }}" [(ngModel)]="link.url" class="form-control" />
-            </td>
-            <td>
-              <select name="type{{ i }}" [(ngModel)]="link.type" class="form-select">
-                <option value="default" i18n>interest link</option>
-                <option value="official" i18n>official</option>
-                <option value="club" i18n>club</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" name="name" [(ngModel)]="newLink.name" class="form-control" />
-            </td>
-            <td>
-              <input type="text" name="url" [(ngModel)]="newLink.url" class="form-control" />
-            </td>
-            <td>
-              <select name="type" [(ngModel)]="newLink.type" class="form-select">
-                <option value="default" i18n>interest link</option>
-                <option value="official" i18n>official</option>
-                <option value="club" i18n>club</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <button class="btn btn-primary" type="submit" [disabled]="loadingNumber > 0">
-                <span *ngIf="loadingNumber > 0">
-                  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-                </span>
-                <ng-container i18n>Submit</ng-container>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </ng-container>
-  <table class="table table-condensed table-stripped" *ngIf="(canEditMeta$ | async) === false">
-    <caption i18n>
-      Links
-    </caption>
-    <tbody>
-      <tr>
-        <th i18n scope="col">Text</th>
-        <th i18n scope="col">Address</th>
-        <th i18n scope="col">Type</th>
-      </tr>
-      <tr *ngFor="let link of links">
-        <td [textContent]="link.name"></td>
-        <td [textContent]="link.url"></td>
-        <td [textContent]="link.type"></td>
-      </tr>
-    </tbody>
-  </table>
-</ng-container>
+}

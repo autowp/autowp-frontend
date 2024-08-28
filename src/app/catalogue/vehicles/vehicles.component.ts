@@ -4,7 +4,7 @@ import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
-import {ItemParentService} from '@services/item-parent';
+import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
@@ -23,22 +23,23 @@ export class CatalogueVehiclesComponent {
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
   protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
 
-  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
-    switchMap((data) => {
-      if (!data || !data.brand || !data.path || data.path.length <= 0) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
-      }
-      return of(data);
-    }),
-    shareReplay(1),
-  );
+  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: APIItemParent[]; type: string}> =
+    this.catalogueService.resolveCatalogue$(this.route, '').pipe(
+      switchMap((data) => {
+        if (!data || !data.brand || !data.path || data.path.length <= 0) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true,
+          });
+          return EMPTY;
+        }
+        return of(data);
+      }),
+      shareReplay(1),
+    );
 
   protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
 
-  private readonly routerLink$ = this.catalogue$.pipe(
+  private readonly routerLink$: Observable<string[]> = this.catalogue$.pipe(
     map(({brand, path}) => {
       const routerLink = ['/', brand.catname];
 
@@ -50,9 +51,10 @@ export class CatalogueVehiclesComponent {
     shareReplay(1),
   );
 
-  protected readonly menu$ = combineLatest([this.catalogue$, this.routerLink$]).pipe(
-    map(([{type}, routerLink]) => ({routerLink, type})),
-  );
+  protected readonly menu$: Observable<{routerLink: string[]; type: string}> = combineLatest([
+    this.catalogue$,
+    this.routerLink$,
+  ]).pipe(map(([{type}, routerLink]) => ({routerLink, type})));
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),

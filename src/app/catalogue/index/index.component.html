@@ -1,172 +1,226 @@
-<header class="mb-4" *ngIf="brand$ | async as brand; else loading">
-  <div class="p-5 mb-4 rounded-3 brand-hero-unit clearfix">
-    <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
-    <img [src]="brand.logo120.src" alt="" class="logo" *ngIf="brand.logo120" loading="lazy" />
-    <div class="content">
-      <h1 class="display-4">{{ brand.nameText }}</h1>
-      <p *ngIf="brand.fullName && brand.fullName !== brand.nameOnly" class="lead">({{ brand.fullName }})</p>
-      <ng-container *ngIf="brand.description">
-        <hr class="my-4" />
-        <app-markdown [markdown]="brand.description"></app-markdown>
-      </ng-container>
+@if (brand$ | async; as brand) {
+  <header class="mb-4">
+    <div class="p-5 mb-4 rounded-3 brand-hero-unit clearfix">
+      <!-- [translate-attr-alt]="''"  sprintf($this->translate('catalogue/brand/logo-of-%s'), $this->brand['name']) 'format' => 'logo', -->
+      @if (brand.logo120) {
+        <img [src]="brand.logo120.src" alt="" class="logo" loading="lazy" />
+      }
+      <div class="content">
+        <h1 class="display-4">{{ brand.nameText }}</h1>
+        @if (brand.fullName && brand.fullName !== brand.nameOnly) {
+          <p class="lead">({{ brand.fullName }})</p>
+        }
+        @if (brand.description) {
+          <hr class="my-4" />
+          <app-markdown [markdown]="brand.description"></app-markdown>
+        }
+      </div>
     </div>
-  </div>
-  <ul class="nav nav-pills">
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/', brand.catname, 'cars']">
-        <i class="bi bi-sort-down-alt" aria-hidden="true"></i>
-        <ng-container i18n>Chronological</ng-container>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/', brand.catname, 'recent']">
-        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
-        <ng-container i18n>New pictures</ng-container>
-      </a>
-    </li>
-    <li class="nav-item" *ngIf="brand.descendantTwinsGroupsCount">
-      <a class="nav-link" [routerLink]="['/twins', brand.catname]">
-        <i class="bi bi-circle-half" aria-hidden="true"></i> <ng-container i18n>Twins</ng-container>
-        <span class="badge rounded-pill text-bg-secondary">{{ brand.descendantTwinsGroupsCount }}</span>
-      </a>
-    </li>
-    <li class="nav-item" *ngIf="brand.mostsActive">
-      <a class="nav-link" [routerLink]="['/', brand.catname, 'mosts']">
-        <i class="bi bi-sort-down" aria-hidden="true"></i> <ng-container i18n>Mostly</ng-container>
-      </a>
-    </li>
-    <li class="nav-item" *ngIf="brand.inboxPicturesCount">
-      <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{status: 'inbox', item_id: brand.id}">
-        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
-        <ng-container i18n>Brand inbox</ng-container>
-        <span class="badge rounded-pill text-bg-secondary">{{ brand.inboxPicturesCount }}</span>
-      </a>
-    </li>
-    <li class="nav-item" *ngIf="brand.commentsAttentionsCount">
-      <a
-        class="nav-link"
-        routerLink="/moder/comments"
-        [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}"
-      >
-        <i class="bi bi-chat-fill" aria-hidden="true"></i>
-        <ng-container i18n>comments</ng-container>
-        <span class="badge rounded-pill text-bg-secondary">{{ brand.commentsAttentionsCount }}</span>
-      </a>
-    </li>
-    <ng-container *ngIf="isModer$ | async">
+    <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/moder/items/item', brand.id]">
-          <i class="bi bi-gear-fill" aria-hidden="true"></i>
-          <ng-container i18n>edit</ng-container>
+        <a class="nav-link" [routerLink]="['/', brand.catname, 'cars']">
+          <i class="bi bi-sort-down-alt" aria-hidden="true"></i>
+          <ng-container i18n>Chronological</ng-container>
         </a>
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link"
-          routerLink="/moder/items/new"
-          [queryParams]="{item_type_id: ItemType.ITEM_TYPE_VEHICLE, parent_id: brand.id}"
-        >
-          <i class="bi bi-plus" aria-hidden="true"></i>
-          <ng-container i18n>add vehicle</ng-container>
+        <a class="nav-link" [routerLink]="['/', brand.catname, 'recent']">
+          <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
+          <ng-container i18n>New pictures</ng-container>
         </a>
       </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          routerLink="/moder/items/new"
-          [queryParams]="{item_type_id: ItemType.ITEM_TYPE_ENGINE, parent_id: brand.id}"
-        >
-          <i class="bi bi-plus" aria-hidden="true"></i>
-          <ng-container i18n>add engine</ng-container>
-        </a>
-      </li>
-    </ng-container>
-  </ul>
-</header>
+      @if (brand.descendantTwinsGroupsCount) {
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/twins', brand.catname]">
+            <i class="bi bi-circle-half" aria-hidden="true"></i> <ng-container i18n>Twins</ng-container>
+            <span class="badge rounded-pill text-bg-secondary">{{ brand.descendantTwinsGroupsCount }}</span>
+          </a>
+        </li>
+      }
+      @if (brand.mostsActive) {
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/', brand.catname, 'mosts']">
+            <i class="bi bi-sort-down" aria-hidden="true"></i> <ng-container i18n>Mostly</ng-container>
+          </a>
+        </li>
+      }
+      @if (brand.inboxPicturesCount) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/moder/pictures" [queryParams]="{status: 'inbox', item_id: brand.id}">
+            <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
+            <ng-container i18n>Brand inbox</ng-container>
+            <span class="badge rounded-pill text-bg-secondary">{{ brand.inboxPicturesCount }}</span>
+          </a>
+        </li>
+      }
+      @if (brand.commentsAttentionsCount) {
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/moder/comments"
+            [queryParams]="{moderator_attention: '1', pictures_of_item_id: brand.id}"
+          >
+            <i class="bi bi-chat-fill" aria-hidden="true"></i>
+            <ng-container i18n>comments</ng-container>
+            <span class="badge rounded-pill text-bg-secondary">{{ brand.commentsAttentionsCount }}</span>
+          </a>
+        </li>
+      }
+      @if (isModer$ | async) {
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/moder/items/item', brand.id]">
+            <i class="bi bi-gear-fill" aria-hidden="true"></i>
+            <ng-container i18n>edit</ng-container>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_VEHICLE, parent_id: brand.id}"
+          >
+            <i class="bi bi-plus" aria-hidden="true"></i>
+            <ng-container i18n>add vehicle</ng-container>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: ItemType.ITEM_TYPE_ENGINE, parent_id: brand.id}"
+          >
+            <i class="bi bi-plus" aria-hidden="true"></i>
+            <ng-container i18n>add engine</ng-container>
+          </a>
+        </li>
+      }
+    </ul>
+  </header>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
-<ng-container *ngIf="sections$ | async; else loading">
-  <ng-container *ngFor="let section of sections$ | async">
-    <div class="card mb-4" *ngIf="section.halfChunks.length">
-      <div class="card-body">
-        <h5 class="card-title" *ngIf="section.name">{{ section.name }}</h5>
-        <div class="row">
-          <div class="col-12 col-md-6" *ngFor="let halfChunk of section.halfChunks">
-            <div class="row">
-              <div class="col-12 col-lg-6 nav" *ngFor="let chunk of halfChunk">
-                <a class="nav-link w-100" [routerLink]="group.routerLink" *ngFor="let group of chunk">
-                  {{ group.name }}
-                  <span *ngIf="group.count" class="badge rounded-pill text-bg-secondary">{{ group.count }}</span>
-                </a>
+@if (sections$ | async) {
+  @for (section of sections$ | async; track section) {
+    @if (section.halfChunks.length) {
+      <div class="card mb-4">
+        <div class="card-body">
+          @if (section.name) {
+            <h5 class="card-title">{{ section.name }}</h5>
+          }
+          <div class="row">
+            @for (halfChunk of section.halfChunks; track halfChunk) {
+              <div class="col-12 col-md-6">
+                <div class="row">
+                  @for (chunk of halfChunk; track chunk) {
+                    <div class="col-12 col-lg-6 nav">
+                      @for (group of chunk; track group) {
+                        <a class="nav-link w-100" [routerLink]="group.routerLink">
+                          {{ group.name }}
+                          @if (group.count) {
+                            <span class="badge rounded-pill text-bg-secondary">{{ group.count }}</span>
+                          }
+                        </a>
+                      }
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
+            }
           </div>
+          @if (section.routerLink && section.name) {
+            <a [routerLink]="section.routerLink" i18n>details</a>
+          }
         </div>
-        <a [routerLink]="section.routerLink" i18n *ngIf="section.routerLink && section.name">details</a>
       </div>
-    </div>
-  </ng-container>
-</ng-container>
+    }
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
-<ng-container *ngIf="factories$ | async as factories; else loading">
-  <section *ngIf="factories.length">
-    <h2 i18n>Factories</h2>
-    <div class="row">
-      <div class="col-6 col-lg-3" *ngFor="let factory of factories">
-        <a
-          class="d-block rounded mb-4"
-          [routerLink]="['/factories', factory.id]"
-          *ngIf="factory.exact_picture && factory.exact_picture.thumb_medium"
-        >
-          <img
-            class="rounded w-100 border border-light"
-            [src]="factory.exact_picture.thumb_medium.src"
-            alt=""
-            loading="lazy"
-          />
-        </a>
-        <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
+@if (factories$ | async; as factories) {
+  @if (factories.length) {
+    <section>
+      <h2 i18n>Factories</h2>
+      <div class="row">
+        @for (factory of factories; track factory) {
+          <div class="col-6 col-lg-3">
+            @if (factory.exact_picture && factory.exact_picture.thumb_medium) {
+              <a class="d-block rounded mb-4" [routerLink]="['/factories', factory.id]">
+                <img
+                  class="rounded w-100 border border-light"
+                  [src]="factory.exact_picture.thumb_medium.src"
+                  alt=""
+                  loading="lazy"
+                />
+              </a>
+            }
+            <p><a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a></p>
+          </div>
+        }
       </div>
-    </div>
-  </section>
-</ng-container>
+    </section>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
-<ng-container *ngIf="pictures$ | async as pictures; else loading">
-  <section *ngIf="pictures.length">
-    <h2 i18n>Popular images</h2>
-    <div class="row" *ngFor="let chunk of pictures">
-      <div class="col-sm-3" *ngFor="let item of chunk">
-        <app-thumbnail [picture]="item.picture" [route]="item.route"></app-thumbnail>
-      </div>
-    </div>
-  </section>
-</ng-container>
+@if (pictures$ | async; as pictures) {
+  @if (pictures.length) {
+    <section>
+      <h2 i18n>Popular images</h2>
+      @for (chunk of pictures; track chunk) {
+        <div class="row">
+          @for (item of chunk; track item) {
+            <div class="col-sm-3">
+              <app-thumbnail [picture]="item.picture" [route]="item.route"></app-thumbnail>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
-<ng-container *ngIf="links$ | async as links; else loading">
-  <section *ngIf="links.official.length + links.club.length + links.other.length > 0">
-    <h2 i18n>Links</h2>
-    <p *ngIf="links.official.length > 0">
-      <strong i18n>Official websites</strong><br />
-      <ng-container *ngFor="let link of links.official">
-        <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
-        ><br />
-      </ng-container>
-    </p>
-    <p *ngIf="links.club.length > 0">
-      <strong i18n>Car clubs</strong><br />
-      <ng-container *ngFor="let link of links.club">
-        <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
-        ><br />
-      </ng-container>
-    </p>
-    <p *ngIf="links.other.length > 0">
-      <strong i18n>Other</strong><br />
-      <ng-container *ngFor="let link of links.other">
-        <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
-        ><br />
-      </ng-container>
-    </p>
-  </section>
-</ng-container>
+@if (links$ | async; as links) {
+  @if (links.official.length + links.club.length + links.other.length > 0) {
+    <section>
+      <h2 i18n>Links</h2>
+      @if (links.official.length > 0) {
+        <p>
+          <strong i18n>Official websites</strong><br />
+          @for (link of links.official; track link) {
+            <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
+            ><br />
+          }
+        </p>
+      }
+      @if (links.club.length > 0) {
+        <p>
+          <strong i18n>Car clubs</strong><br />
+          @for (link of links.club; track link) {
+            <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
+            ><br />
+          }
+        </p>
+      }
+      @if (links.other.length > 0) {
+        <p>
+          <strong i18n>Other</strong><br />
+          @for (link of links.other; track link) {
+            <a [href]="link.url">{{ link.name ? link.name : link.url }}</a
+            ><br />
+          }
+        </p>
+      }
+    </section>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
 <ng-template #loading>
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

@@ -1,82 +1,95 @@
-<div class="car item-list-item" *ngIf="group">
-  <h3>
-    <app-item-header
-      [item]="{
-        nameHTML: item.name_html,
-        design: item.design,
-        produced: {count: item.produced, exactly: item.produced_exactly},
-      }"
-    ></app-item-header>
-  </h3>
-
-  <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
-
-  <div class="row" *ngIf="havePhoto(item)">
-    <div class="col-6 col-lg-3" *ngFor="let picture of item.preview_pictures.pictures">
-      <a
-        [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]"
-        *ngIf="picture && picture.picture && picture.thumb"
-        class="d-block rounded mb-4"
-      >
-        <img
-          [src]="picture.thumb.src"
-          [alt]="picture.picture.name"
-          [title]="picture.picture.name"
-          class="rounded w-100 border border-light"
-          loading="lazy"
-        />
-      </a>
-      <span *ngIf="!picture">&#xa0;</span>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
-    <div class="col-6 col-lg-3">
-      <div class="no-photo rounded w-100 border border-light mb-4" i18n-title title="No photos available">
-        <a
-          routerLink="/upload"
-          [queryParams]="{item_id: item.id}"
-          i18n-title
-          title="Add photo"
-          class="bi bi-plus-circle text-success"
-          aria-hidden="true"
-        ></a>
-        <span class="bi bi-camera fs-1" aria-hidden="true"></span>
+@if (group) {
+  <div class="car item-list-item">
+    <h3>
+      <app-item-header
+        [item]="{
+          nameHTML: item.name_html,
+          design: item.design,
+          produced: {count: item.produced, exactly: item.produced_exactly},
+        }"
+      ></app-item-header>
+    </h3>
+    @if (item.name_default) {
+      <h4 [textContent]="item.name_default"></h4>
+    }
+    @if (havePhoto(item)) {
+      <div class="row">
+        @for (picture of item.preview_pictures.pictures; track picture) {
+          <div class="col-6 col-lg-3">
+            @if (picture && picture.picture && picture.thumb) {
+              <a
+                [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]"
+                class="d-block rounded mb-4"
+              >
+                <img
+                  [src]="picture.thumb.src"
+                  [alt]="picture.picture.name"
+                  [title]="picture.picture.name"
+                  class="rounded w-100 border border-light"
+                  loading="lazy"
+                />
+              </a>
+            }
+            @if (!picture) {
+              <span>&#xa0;</span>
+            }
+          </div>
+        }
       </div>
-    </div>
-  </div>
-
-  <app-markdown
-    class="text"
-    *ngIf="item.description && item.description.length"
-    [markdown]="item.description"
-  ></app-markdown>
-
-  <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
-    <p i18n>Mounted on:</p>
-    <ul>
-      <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
-      </li>
+    }
+    @if (!havePhoto(item) && canHavePhoto(item)) {
+      <div class="row">
+        <div class="col-6 col-lg-3">
+          <div class="no-photo rounded w-100 border border-light mb-4" i18n-title title="No photos available">
+            <a
+              routerLink="/upload"
+              [queryParams]="{item_id: item.id}"
+              i18n-title
+              title="Add photo"
+              class="bi bi-plus-circle text-success"
+              aria-hidden="true"
+            ></a>
+            <span class="bi bi-camera fs-1" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    }
+    @if (item.description && item.description.length) {
+      <app-markdown class="text" [markdown]="item.description"></app-markdown>
+    }
+    @if (item.engine_vehicles && item.engine_vehicles.length) {
+      <div>
+        <p i18n>Mounted on:</p>
+        <ul>
+          @for (vehicle of item.engine_vehicles; track vehicle) {
+            <li>
+              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+    <ul class="list-inline" ngPreserveWhitespaces>
+      @for (category of item.categories; track category) {
+        <li class="list-inline-item">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
+          <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+        </li>
+      }
+      @if (isModer$ | async; as isModer) {
+        @if (isModer) {
+          <li class="list-inline-item">
+            <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+          </li>
+        }
+      }
+      @if (item.can_edit_specs) {
+        <li class="list-inline-item">
+          <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
+          <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
+        </li>
+      }
     </ul>
   </div>
-
-  <ul class="list-inline" ngPreserveWhitespaces>
-    <li *ngFor="let category of item.categories" class="list-inline-item">
-      <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
-      <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
-    </li>
-
-    <ng-container *ngIf="isModer$ | async as isModer">
-      <li *ngIf="isModer" class="list-inline-item">
-        <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
-        <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-      </li>
-    </ng-container>
-
-    <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
-      <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
-    </li>
-  </ul>
-</div>
+}

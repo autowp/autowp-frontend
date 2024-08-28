@@ -1,6 +1,13 @@
-<ul *ngIf="attributes.length > 0" class="list-unstyled" style="padding-left: 24px">
-  <li *ngFor="let attribute of attributes">
-    <a [routerLink]="['/moder/attrs/attribute', attribute.id]" [textContent]="getAttrsTranslation(attribute.name)"></a>
-    <app-moder-attrs-attribute-list [attributes]="attribute.childs"></app-moder-attrs-attribute-list>
-  </li>
-</ul>
+@if (attributes.length > 0) {
+  <ul class="list-unstyled" style="padding-left: 24px">
+    @for (attribute of attributes; track attribute) {
+      <li>
+        <a
+          [routerLink]="['/moder/attrs/attribute', attribute.id]"
+          [textContent]="getAttrsTranslation(attribute.name)"
+        ></a>
+        <app-moder-attrs-attribute-list [attributes]="attribute.childs"></app-moder-attrs-attribute-list>
+      </li>
+    }
+  </ul>
+}

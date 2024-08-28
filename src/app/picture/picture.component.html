@@ -1,134 +1,133 @@
-<ng-container *ngIf="picture$ | async as picture">
+@if (picture$ | async; as picture) {
   <div class="page-header">
-    <h2 *ngIf="h2">
-      <span [innerHTML]="picture.name_html"></span>
-      <ng-container *ngIf="picture.items.length === 1 && picture.items[0].item.design">
-        <sup class="design-brand">
-          <ng-container i18n>designed by</ng-container>
-          <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
-        </sup>
-      </ng-container>
-    </h2>
-    <h1 *ngIf="!h2">
-      <span [innerHTML]="picture.name_html"></span>
-      <ng-container *ngIf="picture.items.length === 1 && picture.items[0].item.design">
-        <sup class="design-brand">
-          <ng-container i18n>designed by</ng-container>
-          <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
-        </sup>
-      </ng-container>
-    </h1>
+    @if (h2) {
+      <h2>
+        <span [innerHTML]="picture.name_html"></span>
+        @if (picture.items.length === 1 && picture.items[0].item.design) {
+          <sup class="design-brand">
+            <ng-container i18n>designed by</ng-container>
+            <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
+          </sup>
+        }
+      </h2>
+    } @else {
+      <h1>
+        <span [innerHTML]="picture.name_html"></span>
+        @if (picture.items.length === 1 && picture.items[0].item.design) {
+          <sup class="design-brand">
+            <ng-container i18n>designed by</ng-container>
+            <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
+          </sup>
+        }
+      </h1>
+    }
   </div>
-
   <div class="row">
     <div class="col-md-6">
-      <div class="picture-preview-medium" *ngIf="picture.preview_large">
-        <span
-          class="d-block rounded mb-4"
-          (auxclick)="openSource(picture)"
-          (click)="openGallery(picture, $event)"
-          style="cursor: pointer"
-        >
-          <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
-        </span>
-        <ng-container *ngIf="picture.items.length === 1">
-          <div class="languages" *ngIf="picture.items[0].item.alt_names.length > 0">
-            <p i18n>In other languages</p>
-            <ul class="list-unstyled">
-              <li *ngFor="let altName of picture.items[0].item.alt_names">
-                <sup *ngFor="let code of altName.languages" class="text-uppercase">{{ code }}</sup>
-                {{ altName.name }}
-              </li>
-            </ul>
-          </div>
-        </ng-container>
-      </div>
-
+      @if (picture.preview_large) {
+        <div class="picture-preview-medium">
+          <span
+            class="d-block rounded mb-4"
+            (auxclick)="openSource(picture)"
+            (click)="openGallery(picture, $event)"
+            style="cursor: pointer"
+          >
+            <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
+          </span>
+          @if (picture.items.length === 1 && picture.items[0].item.alt_names.length > 0) {
+            <div class="languages">
+              <p i18n>In other languages</p>
+              <ul class="list-unstyled">
+                @for (altName of picture.items[0].item.alt_names; track altName) {
+                  <li>
+                    @for (code of altName.languages; track code) {
+                      <sup class="text-uppercase">{{ code }}</sup>
+                    }
+                    {{ altName.name }}
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      }
       <div class="row">
         <div class="col-6">
           <div class="picture-vote">
-            <button
-              type="button"
-              class="btn btn-link position-relative p-0 me-2"
-              *ngIf="user$ | async; else noUser1"
-              (click)="vote(picture, 1)"
-            >
-              <i
-                class="bi fs-1 vote-up"
-                aria-hidden="true"
-                [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
-                [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
-              ></i>
-              <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success"
-                *ngIf="picture.votes.positive > 0"
-                >{{ picture.votes.positive }}</span
-              >
-            </button>
-            <ng-template #noUser1>
+            @if (user$ | async) {
+              <button type="button" class="btn btn-link position-relative p-0 me-2" (click)="vote(picture, 1)">
+                <i
+                  class="bi fs-1 vote-up"
+                  aria-hidden="true"
+                  [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
+                  [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
+                ></i>
+                @if (picture.votes.positive > 0) {
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">{{
+                    picture.votes.positive
+                  }}</span>
+                }
+              </button>
+            } @else {
               <button type="button" class="btn btn-link position-relative p-0 me-2" disabled>
                 <i class="bi fs-1 bi-hand-thumbs-up" aria-hidden="true"></i>
-                <span
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success"
-                  *ngIf="picture.votes.positive > 0"
-                  >{{ picture.votes.positive }}</span
-                >
+                @if (picture.votes.positive > 0) {
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">{{
+                    picture.votes.positive
+                  }}</span>
+                }
               </button>
-            </ng-template>
-
-            <button
-              type="button"
-              class="btn btn-link position-relative p-0"
-              *ngIf="user$ | async; else noUser2"
-              (click)="vote(picture, -1)"
-            >
-              <i
-                class="bi fs-1 vote-down"
-                aria-hidden="true"
-                [class.bi-hand-thumbs-down-fill]="picture.votes.value < 0"
-                [class.bi-hand-thumbs-down]="picture.votes.value >= 0"
-              ></i>
-              <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
-                *ngIf="picture.votes.negative > 0"
-                >{{ picture.votes.negative }}</span
-              >
-            </button>
-            <ng-template #noUser2>
+            }
+            @if (user$ | async) {
+              <button type="button" class="btn btn-link position-relative p-0" (click)="vote(picture, -1)">
+                <i
+                  class="bi fs-1 vote-down"
+                  aria-hidden="true"
+                  [class.bi-hand-thumbs-down-fill]="picture.votes.value < 0"
+                  [class.bi-hand-thumbs-down]="picture.votes.value >= 0"
+                ></i>
+                @if (picture.votes.negative > 0) {
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger">{{
+                    picture.votes.negative
+                  }}</span>
+                }
+              </button>
+            } @else {
               <button type="button" class="btn btn-link position-relative p-0" disabled>
                 <i class="bi fs-1 bi-hand-thumbs-down" aria-hidden="true"></i>
-                <span
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
-                  *ngIf="picture.votes.negative > 0"
-                  >{{ picture.votes.negative }}</span
-                >
+                @if (picture.votes.negative > 0) {
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger">{{
+                    picture.votes.negative
+                  }}</span>
+                }
               </button>
-            </ng-template>
+            }
           </div>
         </div>
         <div class="col-6 text-end">
-          <ng-container *ngIf="user$ | async">
-            <button
-              type="button"
-              class="btn btn-link p-0"
-              i18n-title
-              title="Subscribe to new replies notifications"
-              *ngIf="!picture.subscribed"
-              (click)="setSubscribed(picture, true)"
-            >
-              <i class="bi bi-envelope-open fs-1" aria-hidden="true"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-link p-0"
-              i18n-title
-              title="Unsubscribe from notifications"
-              *ngIf="picture.subscribed"
-              (click)="setSubscribed(picture, false)"
-            >
-              <i class="bi bi-envelope fs-1" aria-hidden="true"></i>
-            </button>
-          </ng-container>
+          @if (user$ | async) {
+            @if (!picture.subscribed) {
+              <button
+                type="button"
+                class="btn btn-link p-0"
+                i18n-title
+                title="Subscribe to new replies notifications"
+                (click)="setSubscribed(picture, true)"
+              >
+                <i class="bi bi-envelope-open fs-1" aria-hidden="true"></i>
+              </button>
+            } @else {
+              <button
+                type="button"
+                class="btn btn-link p-0"
+                i18n-title
+                title="Unsubscribe from notifications"
+                (click)="setSubscribed(picture, false)"
+              >
+                <i class="bi bi-envelope fs-1" aria-hidden="true"></i>
+              </button>
+            }
+          }
           <button
             type="button"
             class="btn btn-link p-0 btn-share-dialog"
@@ -141,89 +140,98 @@
           </button>
         </div>
       </div>
-
-      <app-share [url]="location.href" [text]="picture.name_text" *ngIf="showShareDialog"></app-share>
-
-      <ng-container *ngFor="let item of picture.items">
-        <p *ngIf="item.type === 2">
-          Author: <a [routerLink]="['/persons', item.item.id]" [innerHTML]="item.item.name_html"></a>
+      @if (showShareDialog) {
+        <app-share [url]="location.href" [text]="picture.name_text"></app-share>
+      }
+      @for (item of picture.items; track item) {
+        @if (item.type === 2) {
+          <p>Author: <a [routerLink]="['/persons', item.item.id]" [innerHTML]="item.item.name_html"></a></p>
+        }
+      }
+      @if (picture.copyrights) {
+        <div>
+          <app-markdown [markdown]="picture.copyrights"></app-markdown>
+        </div>
+      }
+      @for (item of picture.items; track item) {
+        @if (item.type === 3 && item.item.description) {
+          <app-markdown [markdown]="item.item.description"></app-markdown>
+        }
+      }
+      @for (item of picture.items; track item) {
+        @if (item.type === 1 && item.item.description) {
+          <app-markdown [markdown]="item.item.description" style="margin-bottom: 10px"></app-markdown>
+        }
+        @if (item.item.has_text && item.item.route) {
+          <p>
+            <i class="bi bi-text-left" aria-hidden="true"></i>
+            <a [routerLink]="item.item.route" i18n>details</a>
+          </p>
+        }
+      }
+      @if (picture.replaceable) {
+        <p>
+          <ng-container i18n>Picture suggested to replace</ng-container>
+          <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
         </p>
-      </ng-container>
-
-      <div *ngIf="picture.copyrights">
-        <app-markdown [markdown]="picture.copyrights"></app-markdown>
-      </div>
-
-      <ng-container *ngFor="let item of picture.items">
-        <app-markdown
-          [markdown]="item.item.description"
-          *ngIf="item.type === 3 && item.item.description"
-        ></app-markdown>
-      </ng-container>
-
-      <ng-container *ngFor="let item of picture.items">
-        <app-markdown
-          [markdown]="item.item.description"
-          *ngIf="item.type === 1 && item.item.description"
-          style="margin-bottom: 10px"
-        ></app-markdown>
-        <p *ngIf="item.item.has_text && item.item.route">
-          <i class="bi bi-text-left" aria-hidden="true"></i>
-          <a [routerLink]="item.item.route" i18n>details</a>
-        </p>
-      </ng-container>
-
-      <p *ngIf="picture.replaceable">
-        <ng-container i18n>Picture suggested to replace</ng-container>
-        <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
-      </p>
+      }
     </div>
     <div class="col-md-6">
       <p i18n>Image specifications:</p>
       <ul>
         <li>
           <ng-container i18n>Resolution</ng-container>: <strong>{{ picture.width + '×' + picture.height }}</strong>
-          <ng-container *ngIf="picture.dpi_x || picture.dpi_y">
+          @if (picture.dpi_x || picture.dpi_y) {
             &#64; <strong>{{ picture.dpi_x + '×' + picture.dpi_y }}</strong>
             <a href="https://en.wikipedia.org/wiki/Dots_per_inch"><abbr title="Dots Per Inch">DPI</abbr></a>
-            <ng-container *ngIf="picture.dpi_x > 0 && picture.dpi_y > 0">
+            @if (picture.dpi_x > 0 && picture.dpi_y > 0) {
               {{ (2.54 * picture.width) / picture.dpi_x | number: '1.2-2' }}×{{
                 (2.54 * picture.height) / picture.dpi_y | number: '1.2-2'
               }}cm
-            </ng-container>
-          </ng-container>
+            }
+          }
         </li>
         <li>
           <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.filesize | bytes: 2 }}</strong>
         </li>
-        <li *ngIf="owner$ | async as owner">
-          <ng-container i18n>Added by:</ng-container>
-          <app-user [user]="owner"></app-user>,
-          <span [ngbTooltip]="picture.add_date | date: 'medium'">{{ picture.add_date | timeAgo }}</span>
-        </li>
-        <li *ngIf="picture.taken_date"><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
-        <li *ngIf="picture.point">
-          <span class="bi bi-pin-map" aria-hidden="true"></span>
-          <a
-            [href]="
-              'https://www.openstreetmap.org/?mlat=' +
-              picture.point.lat +
-              '&mlon=' +
-              picture.point.lng +
-              '#map=6/' +
-              picture.point.lat +
-              '/' +
-              picture.point.lng
-            "
-            i18n="@@picture/location"
-            >Coordinates</a
-          >
-        </li>
+        @if (owner$ | async; as owner) {
+          <li>
+            <ng-container i18n>Added by:</ng-container>
+            <app-user [user]="owner"></app-user>,
+            <span [ngbTooltip]="picture.add_date | date: 'medium'">{{ picture.add_date | timeAgo }}</span>
+          </li>
+        }
+        @if (picture.taken_date) {
+          <li><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
+        }
+        @if (picture.point) {
+          <li>
+            <span class="bi bi-pin-map" aria-hidden="true"></span>
+            <a
+              [href]="
+                'https://www.openstreetmap.org/?mlat=' +
+                picture.point.lat +
+                '&mlon=' +
+                picture.point.lng +
+                '#map=6/' +
+                picture.point.lat +
+                '/' +
+                picture.point.lng
+              "
+              i18n="@@picture/location"
+              >Coordinates</a
+            >
+          </li>
+        }
         <li>
           <ng-container i18n>Picture status:</ng-container>
-          <ng-container *ngIf="picture.status === 'inbox'" i18n>Undecided</ng-container>
-          <ng-container *ngIf="picture.status === 'accepted'" i18n>Accepted</ng-container>
-          <span class="text-danger" i18n *ngIf="picture.status === 'removing'">Removing</span>
+          @if (picture.status === 'inbox') {
+            <ng-container i18n>Undecided</ng-container>
+          } @else if (picture.status === 'accepted') {
+            <ng-container i18n>Accepted</ng-container>
+          } @else if (picture.status === 'removing') {
+            <span class="text-danger" i18n>Removing</span>
+          }
         </li>
       </ul>
       <app-markdown
@@ -234,254 +242,280 @@
 
   Discuss anything and just talk about cars and not only can you on [the forum](/forums/)."
       ></app-markdown>
-
       <ul class="unstyled">
-        <li *ngFor="let link of picture.of_links">
-          <a [href]="link.url"><i class="bi bi-globe" aria-hidden="true"></i> {{ link.name }}</a>
-        </li>
-
-        <li *ngFor="let category of picture.categories">
-          <a [routerLink]="['/category', category.catname]">
-            <i class="bi bi-tag-fill" aria-hidden="true"></i> <span [innerHTML]="category.name_html"></span>
-          </a>
-        </li>
-
-        <li *ngFor="let group of picture.twins">
-          <a [routerLink]="['/twins/group', group.id]">
-            <i class="bi bi-circle-half" aria-hidden="true"></i> <span [innerHTML]="group.name_html"></span>
-          </a>
-        </li>
-
-        <li *ngFor="let factory of picture.factories">
-          <a [routerLink]="['/factories', factory.id]">
-            <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <span [innerHTML]="factory.name_html"></span>
-          </a>
-        </li>
-
-        <ng-container *ngIf="canEditSpecs$ | async as canEditSpecs">
-          <ng-container *ngFor="let item of picture.items">
-            <li *ngIf="canEditSpecs">
-              <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"
-                ><i class="bi bi-pencil-fill" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a
-              >
-            </li>
-            <li *ngIf="item.item.has_specs && item.item.specs_route">
-              <a [routerLink]="item.item.specs_route">
-                <i class="bi bi-card-list" aria-hidden="true"></i>
-                <span i18n>Specifications of</span>
-                <span [innerHTML]="item.item.name_html"></span>
-              </a>
-            </li>
-            <li *ngIf="item.item.design">
-              <a [routerLink]="item.item.design.route">
-                <ng-container i18n>designed by</ng-container>
-                {{ item.item.design.name }}
-              </a>
-            </li>
-          </ng-container>
-        </ng-container>
-
-        <ng-container *ngIf="user$ | async">
-          <li ngbDropdown *ngIf="picture.items.length > 1">
-            <button ngbDropdownToggle class="btn btn-link" style="padding: 0">
-              <ng-container i18n>Add picture</ng-container>
-              <span class="caret" aria-hidden="true"></span>
-            </button>
-            <div ngbDropdownMenu>
-              <ng-container *ngFor="let item of picture.items">
-                <a
-                  *ngIf="item.type === 1"
-                  class="dropdown-item"
-                  routerLink="/upload"
-                  [queryParams]="{item_id: item.item_id}"
+        @for (link of picture.of_links; track link) {
+          <li>
+            <a [href]="link.url"><i class="bi bi-globe" aria-hidden="true"></i> {{ link.name }}</a>
+          </li>
+        }
+        @for (category of picture.categories; track category) {
+          <li>
+            <a [routerLink]="['/category', category.catname]">
+              <i class="bi bi-tag-fill" aria-hidden="true"></i> <span [innerHTML]="category.name_html"></span>
+            </a>
+          </li>
+        }
+        @for (group of picture.twins; track group) {
+          <li>
+            <a [routerLink]="['/twins/group', group.id]">
+              <i class="bi bi-circle-half" aria-hidden="true"></i> <span [innerHTML]="group.name_html"></span>
+            </a>
+          </li>
+        }
+        @for (factory of picture.factories; track factory) {
+          <li>
+            <a [routerLink]="['/factories', factory.id]">
+              <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <span [innerHTML]="factory.name_html"></span>
+            </a>
+          </li>
+        }
+        @if (canEditSpecs$ | async; as canEditSpecs) {
+          @for (item of picture.items; track item) {
+            @if (canEditSpecs) {
+              <li>
+                <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"
+                  ><i class="bi bi-pencil-fill" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a
                 >
-                  <i class="bi bi-upload" aria-hidden="true"></i>
-                  <ng-container i18n>Add picture</ng-container>
+              </li>
+            }
+            @if (item.item.has_specs && item.item.specs_route) {
+              <li>
+                <a [routerLink]="item.item.specs_route">
+                  <i class="bi bi-card-list" aria-hidden="true"></i>
+                  <span i18n>Specifications of</span>
                   <span [innerHTML]="item.item.name_html"></span>
                 </a>
-              </ng-container>
-            </div>
-          </li>
-
-          <ng-container *ngIf="picture.items.length === 1">
-            <li *ngFor="let item of picture.items">
-              <a *ngIf="item.type === 1" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
-                <i class="bi bi-upload" aria-hidden="true"></i>
+              </li>
+            }
+            @if (item.item.design) {
+              <li>
+                <a [routerLink]="item.item.design.route">
+                  <ng-container i18n>designed by</ng-container>
+                  {{ item.item.design.name }}
+                </a>
+              </li>
+            }
+          }
+        }
+        @if (user$ | async) {
+          @if (picture.items.length > 1) {
+            <li ngbDropdown>
+              <button ngbDropdownToggle class="btn btn-link" style="padding: 0">
                 <ng-container i18n>Add picture</ng-container>
-                <span [innerHTML]="item.item.name_html"></span>
+                <span class="caret" aria-hidden="true"></span>
+              </button>
+              <div ngbDropdownMenu>
+                @for (item of picture.items; track item) {
+                  @if (item.type === 1) {
+                    <a class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+                      <i class="bi bi-upload" aria-hidden="true"></i>
+                      <ng-container i18n>Add picture</ng-container>
+                      <span [innerHTML]="item.item.name_html"></span>
+                    </a>
+                  }
+                }
+              </div>
+            </li>
+          }
+          @if (picture.items.length === 1) {
+            @for (item of picture.items; track item) {
+              <li>
+                @if (item.type === 1) {
+                  <a routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+                    <i class="bi bi-upload" aria-hidden="true"></i>
+                    <ng-container i18n>Add picture</ng-container>
+                    <span [innerHTML]="item.item.name_html"></span>
+                  </a>
+                }
+              </li>
+            }
+          }
+        }
+        <!--<ng-container *ngFor="let engine of engines">
+                    <ng-container *ngIf="engine.vehicles.length == 1">
+                      <li *ngFor="let vehicle of engine.vehicles">
+                        {{'picture/that-engine-is-mounted-to-vehicle'|translate}}
+                        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+                      </li>
+                    </ng-container>
+                    <li *ngIf="engine.vehicles.length > 1">
+                      {{'picture/that-engine-is-mounted-to-vehicles:'|translate}}
+                      <ul>
+                        <li *ngFor="let vehicle of engine.vehicles">
+                          {{'picture/that-engine-is-mounted-to-vehicle'|translate}}
+                          <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ng-container>-->
+        <!--<ng-container *ngFor="let engine of engines">
+                  <li *ngIf="engine.hasSpecs">
+                    <a [href]="engine.specsUrl">
+                      <i class="bi bi-card-list" aria-hidden="true"></i>
+                      sprintf(
+                      $this->escapeHtml($this->translate('catalogue/specifications-of-%1$s')),
+                      $this->escapeHtml($engine['name'])
+                      )
+                    </a>
+                  </li>
+                  <li *ngIf="engine.specsEditUrl">
+                    <a [href]="engine.specsEditUrl">
+                      <i class="bi bi-pencil-fill" aria-hidden="true"></i>
+                      <ng-container i18n>edit specs</ng-container>
+                    </a>
+                  </li>
+                </ng-container>-->
+        <!--
+                <ng-container *ngFor="let factory of factories">
+                  <li>
+                    <a [routerLink]="['/factories', factory.id]" translate>picture/factory-details</a>
+                  </li>
+                  <ng-container *ngIf="factory.items.length > 0">
+                    <li *ngIf="factory.items.length == 1">
+                      {{'picture/on-that-factory-produced-vehicle'|translate}}
+                      <a [routerLink]="['/factories', factory.id]" translate [innerHTML]="factory.items[0].name_html"></a>
+                    </li>
+                    <li *ngIf="factory.items.length > 1">
+                      {{'picture/on-that-factory-produced-vehicles:'|translate}}
+                      <ul>
+                        <li *ngFor="let item of factory.items">
+                          <a [href]="item.url" [innerHTML]="item.name_html"></a>
+                        </li>
+                        <li *ngIf="factory.itemsMore">
+                          {{'picture/on-that-factory-produced-vehicles/and'|translate}}
+                          <a [routerLink]="['/factories', factory.id, 'items']" translate>picture/on-that-factory-produced-vehicles/and-other</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ng-container>
+                </ng-container>
+                -->
+        @if (user$ | async) {
+          @if ((picture.items && picture.items.length > 0) || (engines && engines.length > 0)) {
+            <li>
+              <a routerLink="/upload" [queryParams]="{replace: picture.id}">
+                <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
               </a>
             </li>
-          </ng-container>
-        </ng-container>
-
-        <!--<ng-container *ngFor="let engine of engines">
-          <ng-container *ngIf="engine.vehicles.length == 1">
-            <li *ngFor="let vehicle of engine.vehicles">
-              {{'picture/that-engine-is-mounted-to-vehicle'|translate}}
-              <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
-            </li>
-          </ng-container>
-          <li *ngIf="engine.vehicles.length > 1">
-            {{'picture/that-engine-is-mounted-to-vehicles:'|translate}}
-            <ul>
-              <li *ngFor="let vehicle of engine.vehicles">
-                {{'picture/that-engine-is-mounted-to-vehicle'|translate}}
-                <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
-              </li>
-            </ul>
-          </li>
-        </ng-container>-->
-
-        <!--<ng-container *ngFor="let engine of engines">
-          <li *ngIf="engine.hasSpecs">
-            <a [href]="engine.specsUrl">
-              <i class="bi bi-card-list" aria-hidden="true"></i>
-              sprintf(
-                $this->escapeHtml($this->translate('catalogue/specifications-of-%1$s')),
-                $this->escapeHtml($engine['name'])
-              )
-            </a>
-          </li>
-          <li *ngIf="engine.specsEditUrl">
-            <a [href]="engine.specsEditUrl">
-              <i class="bi bi-pencil-fill" aria-hidden="true"></i>
-              <ng-container i18n>edit specs</ng-container>
-            </a>
-          </li>
-        </ng-container>-->
-
-        <!--
-        <ng-container *ngFor="let factory of factories">
-          <li>
-            <a [routerLink]="['/factories', factory.id]" translate>picture/factory-details</a>
-          </li>
-          <ng-container *ngIf="factory.items.length > 0">
-            <li *ngIf="factory.items.length == 1">
-              {{'picture/on-that-factory-produced-vehicle'|translate}}
-              <a [routerLink]="['/factories', factory.id]" translate [innerHTML]="factory.items[0].name_html"></a>
-            </li>
-            <li *ngIf="factory.items.length > 1">
-              {{'picture/on-that-factory-produced-vehicles:'|translate}}
-              <ul>
-                <li *ngFor="let item of factory.items">
-                  <a [href]="item.url" [innerHTML]="item.name_html"></a>
-                </li>
-                <li *ngIf="factory.itemsMore">
-                  {{'picture/on-that-factory-produced-vehicles/and'|translate}}
-                  <a [routerLink]="['/factories', factory.id, 'items']" translate>picture/on-that-factory-produced-vehicles/and-other</a>
-                </li>
-              </ul>
-            </li>
-          </ng-container>
-        </ng-container>
-        -->
-
-        <ng-container *ngIf="user$ | async">
-          <li *ngIf="(picture.items && picture.items.length > 0) || (engines && engines.length > 0)">
-            <a routerLink="/upload" [queryParams]="{replace: picture.id}">
-              <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
-              <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
-            </a>
-          </li>
-        </ng-container>
+          }
+        }
       </ul>
-
       <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix"></app-picture-paginator>
     </div>
   </div>
-
-  <ng-container *ngIf="moderVotes$ | async as votes">
-    <div *ngIf="votes.length > 0">
-      <p i18n>Moderators about this picture:</p>
-      <ul class="list-unstyled">
-        <li *ngFor="let moderVote of votes">
-          <span *ngIf="moderVote.vote">
-            <i style="color: green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
-            <app-user [user]="user" *ngIf="moderVote.user$ | async as user"></app-user>
-            <span style="color: green">{{ moderVote.reason }}</span>
-          </span>
-          <span *ngIf="!moderVote.vote">
-            <i style="color: red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
-            <app-user [user]="user" *ngIf="moderVote.user$ | async as user"></app-user>
-            <span style="color: red">{{ moderVote.reason }}</span>
-          </span>
-        </li>
-      </ul>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="isModer$ | async as isModer">
-    <div *ngIf="isModer && picture">
+  @if (moderVotes$ | async; as votes) {
+    @if (votes.length > 0) {
+      <div>
+        <p i18n>Moderators about this picture:</p>
+        <ul class="list-unstyled">
+          @for (moderVote of votes; track moderVote) {
+            <li>
+              @if (moderVote.vote) {
+                <span>
+                  <i style="color: green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
+                  @if (moderVote.user$ | async; as user) {
+                    <app-user [user]="user"></app-user>
+                  }
+                  <span style="color: green">{{ moderVote.reason }}</span>
+                </span>
+              }
+              @if (!moderVote.vote) {
+                <span>
+                  <i style="color: red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
+                  @if (moderVote.user$ | async; as user) {
+                    <app-user [user]="user"></app-user>
+                  }
+                  <span style="color: red">{{ moderVote.reason }}</span>
+                </span>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  }
+  @if ((isModer$ | async) && picture) {
+    <div>
       <h3><a routerLink="/moder" i18n>Moderator page</a></h3>
       <div class="card card-body mb-4">
         <div class="row">
-          <div class="col-md-4" *ngIf="picture.rights">
-            <div *ngIf="picture.status === 'inbox'">
-              <button class="btn btn-success" (click)="acceptPicture(picture)" *ngIf="picture.rights.accept" i18n>
-                Accept
-              </button>
-              <button class="btn btn-danger" (click)="deletePicture(picture)" *ngIf="picture.rights.delete" i18n>
-                Delete
-              </button>
+          @if (picture.rights) {
+            <div class="col-md-4">
+              @if (picture.status === 'inbox') {
+                <div>
+                  @if (picture.rights.accept) {
+                    <button class="btn btn-success" (click)="acceptPicture(picture)" i18n>Accept</button>
+                  }
+                  @if (picture.rights.delete) {
+                    <button class="btn btn-danger" (click)="deletePicture(picture)" i18n>Delete</button>
+                  }
+                </div>
+              } @else if (picture.status === 'accepted') {
+                <div>
+                  @if (picture.rights.unaccept) {
+                    <button class="btn btn-warning" (click)="unacceptPicture(picture)" i18n>Unaccept</button>
+                  }
+                </div>
+              } @else if (picture.status === 'removing') {
+                <div>
+                  @if (picture.rights.restore) {
+                    <button class="btn btn-warning" (click)="restorePicture(picture)" i18n>Restore</button>
+                  }
+                </div>
+              }
+              <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+              <ngb-progressbar
+                type="primary"
+                [striped]="true"
+                [animated]="true"
+                [value]="100"
+                [hidden]="!statusLoading"
+              ></ngb-progressbar>
             </div>
-
-            <div *ngIf="picture.status === 'accepted'">
-              <button class="btn btn-warning" (click)="unacceptPicture(picture)" *ngIf="picture.rights.unaccept" i18n>
-                Unaccept
-              </button>
+          }
+          @if (picture.items.length > 0) {
+            <div class="col-md-4">
+              <label class="d-block" i18n>Perspective</label>
+              @for (item of picture.items; track item) {
+                @if (item.type === 1) {
+                  <div>
+                    <span [innerHTML]="item.item.name_html"></span>
+                    <app-moder-pictures-perspective-picker
+                      [perspectiveID]="item.perspective_id"
+                      (perspectiveChanged)="savePerspective($event, item)"
+                    ></app-moder-pictures-perspective-picker>
+                  </div>
+                }
+              }
             </div>
-
-            <div *ngIf="picture.status === 'removing'">
-              <button class="btn btn-warning" (click)="restorePicture(picture)" *ngIf="picture.rights.restore" i18n>
-                Restore
-              </button>
-            </div>
-            <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
-
-            <ngb-progressbar
-              type="primary"
-              [striped]="true"
-              [animated]="true"
-              [value]="100"
-              [hidden]="!statusLoading"
-            ></ngb-progressbar>
-          </div>
-          <div class="col-md-4" *ngIf="picture.items.length > 0">
-            <label class="d-block" i18n>Perspective</label>
-            <ng-container *ngFor="let item of picture.items">
-              <div *ngIf="item.type === 1">
-                <span [innerHTML]="item.item.name_html"></span>
-                <app-moder-pictures-perspective-picker
-                  [perspectiveID]="item.perspective_id"
-                  (perspectiveChanged)="savePerspective($event, item)"
-                ></app-moder-pictures-perspective-picker>
-              </div>
-            </ng-container>
-          </div>
+          }
           <div class="col-md-4">
             <p>
               <i class="bi bi-gear-fill" aria-hidden="true"></i>
               <a [routerLink]="['/moder/pictures', picture.id]" i18n>Edit picture №{{ picture.id }}</a>
             </p>
-
-            <p *ngFor="let item of picture.items">
-              <i class="bi bi-gear-fill" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/items/item', item.item_id]"
-                ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span
-              ></a>
-            </p>
-
-            <ng-container *ngFor="let item of picture.items">
-              <p *ngFor="let brand of item.item.brands">
+            @for (item of picture.items; track item) {
+              <p>
                 <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                <a [routerLink]="['/moder/items/item', brand.id]"
-                  ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span
+                <a [routerLink]="['/moder/items/item', item.item_id]"
+                  ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span
                 ></a>
               </p>
-            </ng-container>
+            }
+            @for (item of picture.items; track item) {
+              @for (brand of item.item.brands; track brand) {
+                <p>
+                  <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                  <a [routerLink]="['/moder/items/item', brand.id]"
+                    ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span
+                  ></a>
+                </p>
+              }
+            }
           </div>
         </div>
       </div>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

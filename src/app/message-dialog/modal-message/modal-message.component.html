@@ -23,9 +23,15 @@
     [class.btn-success]="sent"
     [class.btn-primary]="!sent"
   >
-    <span i18n *ngIf="sending">sending …</span>
-    <span i18n *ngIf="sent">sent</span>
-    <span i18n *ngIf="!sending && !sent">send</span>
+    @if (sending) {
+      <span i18n>sending …</span>
+    }
+    @if (sent) {
+      <span i18n>sent</span>
+    }
+    @if (!sending && !sent) {
+      <span i18n>send</span>
+    }
   </button>
   <button class="btn btn-secondary cancel" i18n (click)="activeModal.dismiss()" [disabled]="sending">cancel</button>
 </div>

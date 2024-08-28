@@ -3,84 +3,100 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$ | async">
-      <a routerLink="/twins" i18n>Twins</a>
-    </li>
+    @if (brand$ | async) {
+      <li class="breadcrumb-item">
+        <a routerLink="/twins" i18n>Twins</a>
+      </li>
+    }
   </ol>
 </nav>
 
 <div class="row">
   <div class="col-sm-8 order-2">
     <div class="page-header mb-4">
-      <h1 *ngIf="brand$ | async as brand; else noBrand">{{ brand.nameOnly }}</h1>
-      <ng-template #noBrand>
+      @if (brand$ | async; as brand) {
+        <h1>{{ brand.nameOnly }}</h1>
+      } @else {
         <h1 i18n>Twins</h1>
-      </ng-template>
+      }
     </div>
 
-    <ng-container *ngIf="data$ | async as data">
-      <div *ngFor="let group of data.groups">
-        <h3 [innerHtml]="group.item.name_html"></h3>
-
-        <div *ngIf="group.childs">
-          <div class="twins row" *ngFor="let ch of group.childs">
-            <div class="col-lg-4 col-md-4" *ngFor="let car of ch">
-              <div class="card mb-4">
-                <a
-                  [routerLink]="['/twins/group', group.item.id, 'pictures', car.front_picture.identity]"
-                  *ngIf="car.front_picture"
-                >
-                  <img
-                    [src]="car.front_picture.thumb_medium.src"
-                    [alt]="car.front_picture.name_text"
-                    [title]="car.front_picture.name_text"
-                    class="card-img-top"
-                  />
-                </a>
-                <span *ngIf="!car.front_picture">&#xa0;</span>
-                <div class="card-body">
-                  <p class="card-title" [innerHtml]="car.name_html"></p>
+    @if (data$ | async; as data) {
+      @for (group of data.groups; track group) {
+        <div>
+          <h3 [innerHtml]="group.item.name_html"></h3>
+          @if (group.childs) {
+            <div>
+              @for (ch of group.childs; track ch) {
+                <div class="twins row">
+                  @for (car of ch; track car) {
+                    <div class="col-lg-4 col-md-4">
+                      <div class="card mb-4">
+                        @if (car.front_picture) {
+                          <a [routerLink]="['/twins/group', group.item.id, 'pictures', car.front_picture.identity]">
+                            <img
+                              [src]="car.front_picture.thumb_medium.src"
+                              [alt]="car.front_picture.name_text"
+                              [title]="car.front_picture.name_text"
+                              class="card-img-top"
+                            />
+                          </a>
+                        } @else {
+                          <span>&#xa0;</span>
+                        }
+                        <div class="card-body">
+                          <p class="card-title" [innerHtml]="car.name_html"></p>
+                        </div>
+                      </div>
+                    </div>
+                  }
                 </div>
-              </div>
+              }
             </div>
-          </div>
-        </div>
-
-        <ul class="car-links">
-          <li>
-            <i class="bi bi-text-left me-1" aria-hidden="true"></i>
-            <a [routerLink]="['/twins/group', group.item.id]">
-              <ng-container i18n>details</ng-container> …
-              <span *ngIf="group.item.comments_topic_stat.messages > 0"
-                >(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural,
-                  one {{{group.item.comments_topic_stat.messages}} comment}
-                  other {{{group.item.comments_topic_stat.messages}} comments}
-                }</span
-                >)</span
-              >
-            </a>
-          </li>
-          <li *ngIf="group.item.has_child_specs">
-            <i class="bi bi-card-list me-1" aria-hidden="true"></i>
-            <a [routerLink]="['/twins/group', group.item.id, 'specifications']" i18n>specifications</a>
-          </li>
-          <li *ngIf="group.hasMoreImages">
-            <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-            <a [routerLink]="['/twins/group', group.item.id, 'pictures']"
-              ><ng-container i18n>all pictures</ng-container> ({{ group.item.accepted_pictures_count }})</a
-            >
-          </li>
-          <ng-container *ngIf="canEdit$ | async as canEdit">
-            <li *ngIf="canEdit">
-              <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
-              <a [routerLink]="['/moder/items/item', group.item.id]" i18n>edit</a>
+          }
+          <ul class="car-links">
+            <li>
+              <i class="bi bi-text-left me-1" aria-hidden="true"></i>
+              <a [routerLink]="['/twins/group', group.item.id]">
+                <ng-container i18n>details</ng-container> …
+                @if (group.item.comments_topic_stat.messages > 0) {
+                  <span
+                    >(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural,
+                      one {{{group.item.comments_topic_stat.messages}} comment}
+                      other {{{group.item.comments_topic_stat.messages}} comments}
+                    }</span
+                    >)</span
+                  >
+                }
+              </a>
             </li>
-          </ng-container>
-        </ul>
-      </div>
-
-      <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-    </ng-container>
+            @if (group.item.has_child_specs) {
+              <li>
+                <i class="bi bi-card-list me-1" aria-hidden="true"></i>
+                <a [routerLink]="['/twins/group', group.item.id, 'specifications']" i18n>specifications</a>
+              </li>
+            }
+            @if (group.hasMoreImages) {
+              <li>
+                <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
+                <a [routerLink]="['/twins/group', group.item.id, 'pictures']"
+                  ><ng-container i18n>all pictures</ng-container> ({{ group.item.accepted_pictures_count }})</a
+                >
+              </li>
+            }
+            @if (canEdit$ | async) {
+              <li>
+                <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
+                <a [routerLink]="['/moder/items/item', group.item.id]" i18n>edit</a>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+      @if (data.paginator) {
+        <app-paginator [data]="data.paginator"></app-paginator>
+      }
+    }
   </div>
   <div class="col-sm-4 order-1">
     <app-twins-sidebar [selected]="[currentBrandCatname$ | async]"></app-twins-sidebar>

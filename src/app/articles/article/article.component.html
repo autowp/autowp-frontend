@@ -9,16 +9,15 @@
   </ol>
 </nav>
 
-<ng-template #loading>
+@if (article$ | async; as article) {
+  @if (article) {
+    <div class="page-header">
+      <h1>{{ article.name }}</h1>
+    </div>
+    <div class="card card-body">
+      <div class="article clearfix" [innerHTML]="article.html"></div>
+    </div>
+  }
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="article$ | async as article; else loading">
-  <div class="page-header" *ngIf="article">
-    <h1>{{ article.name }}</h1>
-  </div>
-
-  <div class="card card-body" *ngIf="article">
-    <div class="article clearfix" [innerHTML]="article.html"></div>
-  </div>
-</ng-container>
+}

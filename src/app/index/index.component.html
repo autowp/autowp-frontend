@@ -21,10 +21,10 @@
       <ng-container i18n>Mostly</ng-container> <small><a routerLink="/mosts" i18n>all</a></small>
     </h4>
     <p>
-      <ng-container *ngFor="let most of mosts">
+      @for (most of mosts; track most) {
         <a [routerLink]="most.route">{{ most.name }}</a
         >,
-      </ng-container>
+      }
       …
     </p>
     <app-markdown
@@ -43,32 +43,34 @@
     <h4>
       <ng-container i18n>Persons on photo</ng-container> <small><a routerLink="/persons" i18n>all</a></small>
     </h4>
-    <p *ngIf="contentPersons$ | async as persons; else contentLoading">
-      <ng-container *ngFor="let person of persons.items">
-        <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
-        >,
-      </ng-container>
-      …
-    </p>
-    <ng-template #contentLoading>
+    @if (contentPersons$ | async; as persons) {
+      <p>
+        @for (person of persons.items; track person) {
+          <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
+          >,
+        }
+        …
+      </p>
+    } @else {
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-    </ng-template>
+    }
   </div>
 
   <div class="col-md-6">
     <h4>
       <ng-container i18n>Authors</ng-container> <small><a routerLink="/persons/authors" i18n>all</a></small>
     </h4>
-    <p *ngIf="authorPersons$ | async as persons; else authorLoading">
-      <ng-container *ngFor="let person of persons.items">
-        <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
-        >,
-      </ng-container>
-      …
-    </p>
-    <ng-template #authorLoading>
+    @if (authorPersons$ | async; as persons) {
+      <p>
+        @for (person of persons.items; track person) {
+          <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
+          >,
+        }
+        …
+      </p>
+    } @else {
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-    </ng-template>
+    }
   </div>
 </div>
 

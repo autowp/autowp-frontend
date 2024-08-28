@@ -29,18 +29,22 @@
       <th i18n>Action</th>
     </tr>
   </thead>
-  <tbody *ngIf="items$ | async as items">
-    <tr *ngFor="let item of items">
-      <td [textContent]="item.ip"></td>
-      <td [textContent]="item.description"></td>
-      <td>
-        <a [href]="'http://nic.ru/whois/?query=' + item.ip" i18n>whois</a>
-      </td>
-      <td>
-        <button class="btn btn-danger" (click)="deleteItem(item)" style="margin: 0" aria-label="Delete">
-          <i class="bi bi-x" aria-hidden="true"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
+  @if (items$ | async; as items) {
+    <tbody>
+      @for (item of items; track item) {
+        <tr>
+          <td [textContent]="item.ip"></td>
+          <td [textContent]="item.description"></td>
+          <td>
+            <a [href]="'http://nic.ru/whois/?query=' + item.ip" i18n>whois</a>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteItem(item)" style="margin: 0" aria-label="Delete">
+              <i class="bi bi-x" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  }
 </table>

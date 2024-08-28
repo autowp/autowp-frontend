@@ -25,27 +25,35 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 <h1 i18n>1. Choose a date</h1>
 <div class="card card-body mb-4">
   <ul>
-    <li *ngFor="let date of dates$ | async">
-      <span *ngIf="date.free">
-        <span *ngIf="date.active">
-          <strong [textContent]="date.name"></strong>
-          <span class="bi bi-check" aria-hidden="true"></span>
-        </span>
-        <span *ngIf="!date.active">
-          <a
-            routerLink="."
-            [queryParams]="{date: date.value}"
-            queryParamsHandling="merge"
-            [textContent]="date.name"
-          ></a>
-        </span>
-      </span>
-
-      <span *ngIf="!date.free">
-        <span class="muted" [textContent]="date.name"></span>
-        (<ng-container i18n>busy</ng-container>)
-      </span>
-    </li>
+    @for (date of dates$ | async; track date) {
+      <li>
+        @if (date.free) {
+          <span>
+            @if (date.active) {
+              <span>
+                <strong [textContent]="date.name"></strong>
+                <span class="bi bi-check" aria-hidden="true"></span>
+              </span>
+            } @else {
+              <span>
+                <a
+                  routerLink="."
+                  [queryParams]="{date: date.value}"
+                  queryParamsHandling="merge"
+                  [textContent]="date.name"
+                ></a>
+              </span>
+            }
+          </span>
+        }
+        @if (!date.free) {
+          <span>
+            <span class="muted" [textContent]="date.name"></span>
+            (<ng-container i18n>busy</ng-container>)
+          </span>
+        }
+      </li>
+    }
   </ul>
 </div>
 
@@ -59,10 +67,12 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
 - the vehicle must have at least 3 photos'
   ></app-markdown>
 
-  <p *ngIf="item$ | async as item">
-    <ng-container i18n>Selection:</ng-container>
-    <strong [innerHTML]="item.name_html"></strong>
-  </p>
+  @if (item$ | async; as item) {
+    <p>
+      <ng-container i18n>Selection:</ng-container>
+      <strong [innerHTML]="item.name_html"></strong>
+    </p>
+  }
 
   <a
     routerLink="/donate/vod/select"
@@ -99,7 +109,9 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
   </div>
 </div>
 
-<app-item-of-day [item$]="item$" [user$]="itemOfDayUser$" *ngIf="itemSelected$ | async"></app-item-of-day>
+@if (itemSelected$ | async) {
+  <app-item-of-day [item$]="item$" [user$]="itemOfDayUser$"></app-item-of-day>
+}
 
 <h1 i18n>4. Make a donation</h1>
 
@@ -110,43 +122,53 @@ We will be happy if you want to [perform selfless donation](/donate) to an arbit
   (submit)="submit($event)"
   class="card card-body mb-4"
 >
-  <div *ngIf="(date$ | async) && (item$ | async)">
-    <input type="hidden" *ngFor="let param of formParams$ | async" [name]="param.name" [value]="param.value" />
-    <div class="mb-3">
-      <textarea
-        name="comment"
-        i18n-placeholder
-        placeholder="Your wishes"
-        class="form-control"
-        maxlength="200"
-      ></textarea>
+  @if ((date$ | async) && (item$ | async)) {
+    <div>
+      @for (param of formParams$ | async; track param) {
+        <input type="hidden" [name]="param.name" [value]="param.value" />
+      }
+      <div class="mb-3">
+        <textarea
+          name="comment"
+          i18n-placeholder
+          placeholder="Your wishes"
+          class="form-control"
+          maxlength="200"
+        ></textarea>
+      </div>
     </div>
-  </div>
-  <p *ngIf="vod$ | async as vod">
-    <ng-container i18n>Price:</ng-container>
-    <strong>{{ vod.sum }}<ng-container i18n>rubles</ng-container></strong>
-    (<span i18n>about {{ '$' + (vod.sum / usdToRub).toFixed(2) }}</span
-    >)
-  </p>
-  <div *ngIf="(date$ | async) && (item$ | async)">
-    <div class="btn-group mb-3" role="group">
-      <input type="radio" class="btn-check" name="paymentType" value="AC" autocomplete="off" checked id="btn1" />
-      <label class="btn btn-secondary" for="btn1">
+  }
+  @if (vod$ | async; as vod) {
+    <p>
+      <ng-container i18n>Price:</ng-container>
+      <strong>{{ vod.sum }}<ng-container i18n>rubles</ng-container></strong>
+      (<span i18n>about {{ '$' + (vod.sum / usdToRub).toFixed(2) }}</span
+      >)
+    </p>
+  }
+  @if ((date$ | async) && (item$ | async)) {
+    <div>
+      <div class="btn-group mb-3" role="group">
+        <input type="radio" class="btn-check" name="paymentType" value="AC" autocomplete="off" checked id="btn1" />
+        <label class="btn btn-secondary" for="btn1">
+          <span class="bi bi-credit-card" aria-hidden="true"></span>
+          <ng-container i18n>Credit card</ng-container>
+        </label>
+        <input type="radio" class="btn-check" name="paymentType" value="PC" autocomplete="off" id="btn3" />
+        <label class="btn btn-secondary" for="btn3" i18n>YooMoney</label>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary" i18n>Pay</button>
+      </div>
+    </div>
+  }
+  @if ((date$ | async) === null || (item$ | async) === null) {
+    <div>
+      <button class="btn btn-secondary" disabled>
         <span class="bi bi-credit-card" aria-hidden="true"></span>
         <ng-container i18n>Credit card</ng-container>
-      </label>
-      <input type="radio" class="btn-check" name="paymentType" value="PC" autocomplete="off" id="btn3" />
-      <label class="btn btn-secondary" for="btn3" i18n>YooMoney</label>
+      </button>
+      <button class="btn btn-secondary" disabled i18n>YooMoney</button>
     </div>
-    <div>
-      <button type="submit" class="btn btn-primary" i18n>Pay</button>
-    </div>
-  </div>
-  <div *ngIf="(date$ | async) === null || (item$ | async) === null">
-    <button class="btn btn-secondary" disabled>
-      <span class="bi bi-credit-card" aria-hidden="true"></span>
-      <ng-container i18n>Credit card</ng-container>
-    </button>
-    <button class="btn btn-secondary" disabled i18n>YooMoney</button>
-  </div>
+  }
 </form>

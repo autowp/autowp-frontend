@@ -6,22 +6,29 @@
     <li class="breadcrumb-item">
       <a routerLink="/new" i18n>New pictures</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="date$ | async as date">
-      <a [routerLink]="['/new', date]">{{ date | date: 'mediumDate' }}</a>
-    </li>
+    @if (date$ | async; as date) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/new', date]">{{ date | date: 'mediumDate' }}</a>
+      </li>
+    }
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="item$ | async as item">
-  <h1 [innerHTML]="item.nameHtml"></h1>
-</div>
-
-<ng-container *ngIf="pictures$ | async as data">
-  <div class="row">
-    <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of data.pictures">
-      <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-    </div>
+@if (item$ | async; as item) {
+  <div class="page-header">
+    <h1 [innerHTML]="item.nameHtml"></h1>
   </div>
+}
 
-  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-</ng-container>
+@if (pictures$ | async; as data) {
+  <div class="row">
+    @for (picture of data.pictures; track picture) {
+      <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+      </div>
+    }
+  </div>
+  @if (data.paginator) {
+    <app-paginator [data]="data.paginator"></app-paginator>
+  }
+}

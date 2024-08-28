@@ -1,49 +1,51 @@
-<ng-container *ngIf="picture$ | async as picture">
-  <app-picture
-    [picture]="picture"
-    [prefix]="['/twins/group', group.id + '', 'pictures']"
-    [galleryRoute]="['/twins/group', group.id + '', 'gallery', picture.identity]"
-    *ngIf="group$ | async as group"
-    (changed)="reloadPicture()"
-  ></app-picture>
-
-  <div id="comments" *ngIf="picture">
-    <app-comments [typeID]="CommentsType.PICTURES_TYPE_ID" [itemID]="picture.id + ''" [limit]="null"></app-comments>
-  </div>
-</ng-container>
+@if (picture$ | async; as picture) {
+  @if (group$ | async; as group) {
+    <app-picture
+      [picture]="picture"
+      [prefix]="['/twins/group', group.id + '', 'pictures']"
+      [galleryRoute]="['/twins/group', group.id + '', 'gallery', picture.identity]"
+      (changed)="reloadPicture()"
+    ></app-picture>
+  }
+  @if (picture) {
+    <div id="comments">
+      <app-comments [typeID]="CommentsType.PICTURES_TYPE_ID" [itemID]="picture.id + ''" [limit]="null"></app-comments>
+    </div>
+  }
+}
 
 <!--
 <?php
-    $this->headMeta()
-        ->appendName('twitter:card', 'summary_large_image')
-        ->appendName('twitter:title', $this->pic()->textTitle($this->name))
-        ->appendName('twitter:description', $this->pic()->textTitle($this->name))
-        ->appendName('medium', 'image')
-        ->appendProperty('og:type', 'website')
-        ->appendProperty('og:title', $this->pic()->textTitle($this->name))
-        ->appendProperty('og:url', $this->url(null, [], [
-            'force_canonical' => true
-        ], true))
-        ->appendProperty('og:description', $this->pic()->textTitle($this->name));
+$this->headMeta()
+->appendName('twitter:card', 'summary_large_image')
+->appendName('twitter:title', $this->pic()->textTitle($this->name))
+->appendName('twitter:description', $this->pic()->textTitle($this->name))
+->appendName('medium', 'image')
+->appendProperty('og:type', 'website')
+->appendProperty('og:title', $this->pic()->textTitle($this->name))
+->appendProperty('og:url', $this->url(null, [], [
+'force_canonical' => true
+], true))
+->appendProperty('og:description', $this->pic()->textTitle($this->name));
 
-    if ($this->twitterCreatorId)
-        $this->headMeta()->appendName('twitter:creator:id', $this->twitterCreatorId);
-
-
-    if ($this->galleryImage)
-        $this->headMeta()
-            ->appendProperty('og:image', $this->galleryImage->getSrc())
-            ->appendProperty('og:image:width',  $this->galleryImage->getWidth())
-            ->appendProperty('og:image:height', $this->galleryImage->getHeight())
-            ->appendName('twitter:image', $this->galleryImage->getSrc());
-
-        $this->headLink(['rel' => 'image_src', 'href' => $this->galleryImage->getSrc()]);
+if ($this->twitterCreatorId)
+$this->headMeta()->appendName('twitter:creator:id', $this->twitterCreatorId);
 
 
-    $this->layout()->moduleName = 'default/picture';
-    $this->layout()->moduleOptions = [
-        'galleryUrl' => $this->galleryUrl,
-        'gallery'    => $this->gallery
-    ];
+if ($this->galleryImage)
+$this->headMeta()
+->appendProperty('og:image', $this->galleryImage->getSrc())
+->appendProperty('og:image:width',  $this->galleryImage->getWidth())
+->appendProperty('og:image:height', $this->galleryImage->getHeight())
+->appendName('twitter:image', $this->galleryImage->getSrc());
+
+$this->headLink(['rel' => 'image_src', 'href' => $this->galleryImage->getSrc()]);
+
+
+$this->layout()->moduleName = 'default/picture';
+$this->layout()->moduleOptions = [
+'galleryUrl' => $this->galleryUrl,
+'gallery'    => $this->gallery
+];
 
 -->

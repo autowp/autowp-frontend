@@ -12,16 +12,20 @@
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="itemType$ | async as itemTypeName">
-  <h1>{{ itemTypeName }}</h1>
-</div>
+@if (itemType$ | async; as itemTypeName) {
+  <div class="page-header">
+    <h1>{{ itemTypeName }}</h1>
+  </div>
+}
 
-<p *ngIf="parent$ | async as parent">
-  <ng-container i18n>As submodel</ng-container>
-  <span [innerHTML]="parent.nameHtml"></span>
-</p>
+@if (parent$ | async; as parent) {
+  <p>
+    <ng-container i18n>As submodel</ng-container>
+    <span [innerHTML]="parent.nameHtml"></span>
+  </p>
+}
 
-<ng-container *ngIf="item$ | async as item">
+@if (item$ | async; as item) {
   <app-item-meta-form
     [item]="item"
     (submitted)="submit(item.item_type_id, $event)"
@@ -30,4 +34,4 @@
     [invalidParams]="invalidParams"
     class="d-block mb-4"
   ></app-item-meta-form>
-</ng-container>
+}

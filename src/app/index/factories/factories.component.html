@@ -1,12 +1,12 @@
 <h4>
   <ng-container i18n>Factories</ng-container> <small><a routerLink="/map" i18n>all</a></small>
 </h4>
-<p *ngIf="factories$ | async as factories; else loading">
-  <app-index-factories-factory
-    [factory]="factory"
-    *ngFor="let factory of factories.items"
-  ></app-index-factories-factory>
-</p>
-<ng-template #loading>
+@if (factories$ | async; as factories) {
+  <p>
+    @for (factory of factories.items; track factory) {
+      <app-index-factories-factory [factory]="factory"></app-index-factories-factory>
+    }
+  </p>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+}

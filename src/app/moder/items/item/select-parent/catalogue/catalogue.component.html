@@ -8,34 +8,38 @@
     i18n-placeholder
     autofocus
   />
-  <ng-container *ngIf="catalogueBrands$ | async as response">
+  @if (catalogueBrands$ | async; as response) {
     <div class="row">
-      <div class="col-2" *ngFor="let chunk of response.brands">
-        <ng-container *ngFor="let item of chunk">
-          <a
-            routerLink="."
-            [queryParams]="{brand_id: item.id}"
-            queryParamsHandling="merge"
-            [innerHTML]="item.nameHtml"
-          ></a>
-          <br />
-        </ng-container>
-      </div>
+      @for (chunk of response.brands; track chunk) {
+        <div class="col-2">
+          @for (item of chunk; track item) {
+            <a
+              routerLink="."
+              [queryParams]="{brand_id: item.id}"
+              queryParamsHandling="merge"
+              [innerHTML]="item.nameHtml"
+            ></a>
+            <br />
+          }
+        </div>
+      }
     </div>
     <app-paginator [data]="response.paginator"></app-paginator>
-  </ng-container>
-  <ng-container *ngIf="catalogueItems$ | async as response">
+  }
+  @if (catalogueItems$ | async; as response) {
     <ul>
-      <li class="car-node" *ngFor="let item of response.items">
-        <app-moder-items-item-select-parent-tree
-          [itemParent]="item"
-          order="type_auto"
-          (selected)="onSelect($event)"
-          [disableItemID]="itemID$ | async"
-        >
-        </app-moder-items-item-select-parent-tree>
-      </li>
+      @for (item of response.items; track item) {
+        <li class="car-node">
+          <app-moder-items-item-select-parent-tree
+            [itemParent]="item"
+            order="type_auto"
+            (selected)="onSelect($event)"
+            [disableItemID]="itemID$ | async"
+          >
+          </app-moder-items-item-select-parent-tree>
+        </li>
+      }
     </ul>
     <app-paginator [data]="response.paginator"></app-paginator>
-  </ng-container>
+  }
 </div>

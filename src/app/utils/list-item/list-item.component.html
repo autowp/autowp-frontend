@@ -1,159 +1,191 @@
-<div class="car item-list-item" *ngIf="item">
-  <h3>
-    <app-item-header
-      [item]="{
-        nameHTML: item.name_html,
-        design: item.design,
-        produced: {count: item.produced, exactly: item.produced_exactly},
-      }"
-    ></app-item-header>
-  </h3>
-
-  <h4 [textContent]="item.name_default" *ngIf="item.name_default"></h4>
-  <ng-container *ngIf="item.preview_pictures">
-    <div class="row" *ngIf="havePhoto(item) && item.preview_pictures.large_format">
-      <div class="col-12 col-lg-6" *ngFor="let picture of item.preview_pictures.pictures.slice(0, 1)">
-        <a [routerLink]="picture.routerLink" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
-          <img
-            [src]="picture.thumb.src"
-            [alt]="picture.picture.name_text"
-            [title]="picture.picture.name_text"
-            class="rounded w-100 border border-light"
-            loading="lazy"
-          />
-        </a>
-        <span *ngIf="!picture">&#xa0;</span>
-      </div>
-      <div class="col-12 col-lg-6">
+@if (item) {
+  <div class="car item-list-item">
+    <h3>
+      <app-item-header
+        [item]="{
+          nameHTML: item.name_html,
+          design: item.design,
+          produced: {count: item.produced, exactly: item.produced_exactly},
+        }"
+      ></app-item-header>
+    </h3>
+    @if (item.name_default) {
+      <h4 [textContent]="item.name_default"></h4>
+    }
+    @if (item.preview_pictures) {
+      @if (havePhoto(item) && item.preview_pictures.large_format) {
         <div class="row">
-          <div class="col-6" *ngFor="let picture of item.preview_pictures.pictures.slice(1)">
-            <a [routerLink]="picture.routerLink" *ngIf="picture && picture.thumb" class="d-block rounded mb-4">
-              <img
-                [src]="picture.thumb.src"
-                [alt]="picture.picture.name_text"
-                [title]="picture.picture.name_text"
-                class="rounded w-100 border border-light"
-                loading="lazy"
-              />
-            </a>
-            <span *ngIf="!picture.thumb">&#xa0;</span>
+          @for (picture of item.preview_pictures.pictures.slice(0, 1); track picture) {
+            <div class="col-12 col-lg-6">
+              @if (picture && picture.thumb) {
+                <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
+                  <img
+                    [src]="picture.thumb.src"
+                    [alt]="picture.picture.name_text"
+                    [title]="picture.picture.name_text"
+                    class="rounded w-100 border border-light"
+                    loading="lazy"
+                  />
+                </a>
+              }
+              @if (!picture) {
+                <span>&#xa0;</span>
+              }
+            </div>
+          }
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              @for (picture of item.preview_pictures.pictures.slice(1); track picture) {
+                <div class="col-6">
+                  @if (picture && picture.thumb) {
+                    <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
+                      <img
+                        [src]="picture.thumb.src"
+                        [alt]="picture.picture.name_text"
+                        [title]="picture.picture.name_text"
+                        class="rounded w-100 border border-light"
+                        loading="lazy"
+                      />
+                    </a>
+                  }
+                  @if (!picture.thumb) {
+                    <span>&#xa0;</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+      @if (havePhoto(item) && !item.preview_pictures.large_format) {
+        <div class="row">
+          @for (picture of item.preview_pictures.pictures; track picture) {
+            <div [class]="thumbnailColClass()">
+              @if (picture && picture.picture && picture.thumb) {
+                <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
+                  <img
+                    [src]="picture.thumb.src"
+                    [alt]="picture.picture.name_text"
+                    [title]="picture.picture.name_text"
+                    class="rounded w-100 border border-light"
+                    loading="lazy"
+                  />
+                </a>
+              }
+              @if (!picture || !picture.thumb) {
+                <span>&#xa0;</span>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+    @if (!havePhoto(item) && canHavePhoto(item)) {
+      <div class="row">
+        <div class="col-6 col-lg-3">
+          <div class="no-photo rounded w-100 border border-light mb-4" i18n-title title="No photos available">
+            <a
+              routerLink="/upload"
+              [queryParams]="{item_id: item.id}"
+              i18n-title
+              title="Add photo"
+              class="bi bi-plus-circle text-success"
+              aria-hidden="true"
+            ></a>
+            <span class="bi bi-camera fs-1" aria-hidden="true"></span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" *ngIf="havePhoto(item) && !item.preview_pictures.large_format">
-      <div [class]="thumbnailColClass()" *ngFor="let picture of item.preview_pictures.pictures">
-        <a
-          [routerLink]="picture.routerLink"
-          *ngIf="picture && picture.picture && picture.thumb"
-          class="d-block rounded mb-4"
-        >
-          <img
-            [src]="picture.thumb.src"
-            [alt]="picture.picture.name_text"
-            [title]="picture.picture.name_text"
-            class="rounded w-100 border border-light"
-            loading="lazy"
-          />
-        </a>
-        <span *ngIf="!picture || !picture.thumb">&#xa0;</span>
+    }
+    @if (item.description && item.description.length) {
+      <app-markdown class="text" [markdown]="item.description"></app-markdown>
+    }
+    @if (item.engine_vehicles && item.engine_vehicles.length) {
+      <div>
+        <p i18n>Mounted on:</p>
+        <ul>
+          @for (vehicle of item.engine_vehicles; track vehicle) {
+            <li>
+              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
+            </li>
+          }
+        </ul>
       </div>
-    </div>
-  </ng-container>
-
-  <div class="row" *ngIf="!havePhoto(item) && canHavePhoto(item)">
-    <div class="col-6 col-lg-3">
-      <div class="no-photo rounded w-100 border border-light mb-4" i18n-title title="No photos available">
-        <a
-          routerLink="/upload"
-          [queryParams]="{item_id: item.id}"
-          i18n-title
-          title="Add photo"
-          class="bi bi-plus-circle text-success"
-          aria-hidden="true"
-        ></a>
-        <span class="bi bi-camera fs-1" aria-hidden="true"></span>
-      </div>
-    </div>
-  </div>
-
-  <app-markdown
-    class="text"
-    *ngIf="item.description && item.description.length"
-    [markdown]="item.description"
-  ></app-markdown>
-
-  <div *ngIf="item.engine_vehicles && item.engine_vehicles.length">
-    <p i18n>Mounted on:</p>
-    <ul>
-      <li *ngFor="let vehicle of item.engine_vehicles">
-        <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
-      </li>
+    }
+    <ul class="list-inline" ngPreserveWhitespaces>
+      @if (item.has_text || item.details.count || item.item_type_id === ItemType.ITEM_TYPE_PERSON) {
+        <li class="list-inline-item">
+          <i class="bi bi-text-left me-1" aria-hidden="true"></i>
+          <a [routerLink]="item.details.routerLink">
+            <ng-container i18n>details</ng-container>
+            @if (item.details.count > 1) {
+              <span> ({{ item.details.count }})</span>
+            }
+          </a>
+        </li>
+      }
+      @if (item.childs_counts) {
+        @if (item.childs_counts.tuning > 0) {
+          <li class="list-inline-item">
+            <i class="bi bi-text-left" aria-hidden="true"></i>
+            <a [routerLink]="item.details.routerLink.concat('tuning')"
+              ><ng-container i18n>related</ng-container> ({{ item.childs_counts.tuning }})</a
+            >
+          </li>
+        }
+        @if (item.childs_counts.sport > 0) {
+          <li class="list-inline-item">
+            <i class="bi bi-text-left" aria-hidden="true"></i>
+            <a [routerLink]="item.details.routerLink.concat('sport')"
+              ><ng-container i18n>sport</ng-container> ({{ item.childs_counts.sport }})</a
+            >
+          </li>
+        }
+      }
+      @if (item.accepted_pictures_count > 4) {
+        <li class="list-inline-item">
+          <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
+          <a [routerLink]="item.picturesRouterLink"
+            ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
+          >
+        </li>
+      }
+      @if (item.specsRouterLink) {
+        <li class="list-inline-item">
+          <i class="bi bi-card-list me-1" aria-hidden="true"></i>
+          <a [routerLink]="item.specsRouterLink" i18n>specifications</a>
+        </li>
+      }
+      @if (item.twins_groups) {
+        @for (twinsGroup of item.twins_groups; track twinsGroup) {
+          <li class="list-inline-item">
+            <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
+            <a [routerLink]="['/twins/group', twinsGroup.id]" i18n>twins</a>
+          </li>
+        }
+      }
+      @if (item.categories) {
+        @for (category of item.categories; track category) {
+          <li class="list-inline-item">
+            <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
+            <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+          </li>
+        }
+      }
+      @if (item.can_edit_specs) {
+        <li class="list-inline-item">
+          <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
+          <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
+        </li>
+      }
+      @if (isModer$ | async; as isModer) {
+        @if (isModer) {
+          <li class="list-inline-item">
+            <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
+            <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+          </li>
+        }
+      }
     </ul>
   </div>
-
-  <ul class="list-inline" ngPreserveWhitespaces>
-    <li
-      *ngIf="item.has_text || item.details.count || item.item_type_id === ItemType.ITEM_TYPE_PERSON"
-      class="list-inline-item"
-    >
-      <i class="bi bi-text-left me-1" aria-hidden="true"></i>
-      <a [routerLink]="item.details.routerLink">
-        <ng-container i18n>details</ng-container>
-        <span *ngIf="item.details.count > 1"> ({{ item.details.count }})</span>
-      </a>
-    </li>
-
-    <li class="list-inline-item" *ngIf="item.childs_counts && item.childs_counts.tuning > 0">
-      <i class="bi bi-text-left" aria-hidden="true"></i>
-      <a [routerLink]="item.details.routerLink.concat('tuning')"
-        ><ng-container i18n>related</ng-container> ({{ item.childs_counts.tuning }})</a
-      >
-    </li>
-
-    <li class="list-inline-item" *ngIf="item.childs_counts && item.childs_counts.sport > 0">
-      <i class="bi bi-text-left" aria-hidden="true"></i>
-      <a [routerLink]="item.details.routerLink.concat('sport')"
-        ><ng-container i18n>sport</ng-container> ({{ item.childs_counts.sport }})</a
-      >
-    </li>
-
-    <li *ngIf="item.accepted_pictures_count > 4" class="list-inline-item">
-      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-      <a [routerLink]="item.picturesRouterLink"
-        ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
-      >
-    </li>
-
-    <li *ngIf="item.specsRouterLink" class="list-inline-item">
-      <i class="bi bi-card-list me-1" aria-hidden="true"></i>
-      <a [routerLink]="item.specsRouterLink" i18n>specifications</a>
-    </li>
-
-    <ng-container *ngIf="item.twins_groups">
-      <li *ngFor="let twinsGroup of item.twins_groups" class="list-inline-item">
-        <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
-        <a [routerLink]="['/twins/group', twinsGroup.id]" i18n>twins</a>
-      </li>
-    </ng-container>
-
-    <ng-container *ngIf="item.categories">
-      <li *ngFor="let category of item.categories" class="list-inline-item">
-        <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
-        <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
-      </li>
-    </ng-container>
-
-    <li *ngIf="item.can_edit_specs" class="list-inline-item">
-      <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
-      <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
-    </li>
-
-    <ng-container *ngIf="isModer$ | async as isModer">
-      <li *ngIf="isModer" class="list-inline-item">
-        <i class="bi bi-gear-fill me-1" aria-hidden="true"></i>
-        <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-      </li>
-    </ng-container>
-  </ul>
-</div>
+}

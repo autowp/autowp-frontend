@@ -13,11 +13,7 @@
   <h1 i18n id="header">Users</h1>
 </div>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="users$ | async as users; else loading">
+@if (users$ | async; as users) {
   <table class="table table-bordered table-striped" aria-describedby="header">
     <thead>
       <tr>
@@ -32,30 +28,41 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users.items">
-        <td [textContent]="user.id"></td>
-        <td>
-          <img alt="" [src]="user.photo.src" *ngIf="user.photo" style="max-width: 300px; max-height: 300px" />
-        </td>
-        <td [textContent]="user.login"></td>
-        <td [textContent]="user.email"></td>
-        <td [textContent]="user.name"></td>
-        <td>
-          <app-user [user]="user" *ngIf="user"></app-user>
-        </td>
-        <td>
-          <span *ngIf="user.lastOnline" [ngbTooltip]="user.lastOnline.toDate() | date: 'medium'">{{
-            user.lastOnline.toDate() | timeAgo
-          }}</span>
-        </td>
-        <td>
-          <span *ngIf="user.regDate" [ngbTooltip]="user.regDate.toDate() | date: 'fullDate'">{{
-            user.regDate.toDate() | timeAgo
-          }}</span>
-        </td>
-      </tr>
+      @for (user of users.items; track user) {
+        <tr>
+          <td [textContent]="user.id"></td>
+          <td>
+            @if (user.photo) {
+              <img alt="" [src]="user.photo.src" style="max-width: 300px; max-height: 300px" />
+            }
+          </td>
+          <td [textContent]="user.login"></td>
+          <td [textContent]="user.email"></td>
+          <td [textContent]="user.name"></td>
+          <td>
+            @if (user) {
+              <app-user [user]="user"></app-user>
+            }
+          </td>
+          <td>
+            @if (user.lastOnline) {
+              <span [ngbTooltip]="user.lastOnline.toDate() | date: 'medium'">{{
+                user.lastOnline.toDate() | timeAgo
+              }}</span>
+            }
+          </td>
+          <td>
+            @if (user.regDate) {
+              <span [ngbTooltip]="user.regDate.toDate() | date: 'fullDate'">{{ user.regDate.toDate() | timeAgo }}</span>
+            }
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
-
-  <app-paginator [data]="users.paginator" *ngIf="users.paginator"></app-paginator>
-</ng-container>
+  @if (users.paginator) {
+    <app-paginator [data]="users.paginator"></app-paginator>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

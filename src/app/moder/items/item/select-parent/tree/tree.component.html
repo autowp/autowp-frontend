@@ -1,11 +1,12 @@
-<ng-container *ngIf="itemParent$ | async as itemParent">
-  <app-moder-items-item-select-parent-tree-item
-    *ngIf="item$ | async as item"
-    [item]="item"
-    [typeID]="itemParent.type_id"
-    [order]="order"
-    (selected)="onSelect($event)"
-    [disableItemID]="disableItemID"
-  >
-  </app-moder-items-item-select-parent-tree-item>
-</ng-container>
+@if (itemParent$ | async; as itemParent) {
+  @if (item$ | async; as item) {
+    <app-moder-items-item-select-parent-tree-item
+      [item]="item"
+      [typeID]="itemParent.type_id"
+      [order]="order"
+      (selected)="onSelect($event)"
+      [disableItemID]="disableItemID"
+    >
+    </app-moder-items-item-select-parent-tree-item>
+  }
+}

@@ -9,9 +9,11 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="item$ | async as item">
-      <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
-    </li>
+    @if (item$ | async; as item) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
+      </li>
+    }
   </ol>
 </nav>
 
@@ -19,29 +21,31 @@
   <h1 i18n>Parent selection</h1>
 </div>
 
-<ng-container *ngIf="itemID$ | async as itemID">
-  <ng-container *ngIf="tab$ | async as tab">
+@if (itemID$ | async; as itemID) {
+  @if (tab$ | async; as tab) {
     <div class="nav nav-pills" style="margin-bottom: 10px">
-      <a
-        [class.active]="tab === 'catalogue'"
-        *ngIf="showCatalogueTab$ | async"
-        class="nav-link"
-        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
-        [queryParams]="{tab: 'catalogue'}"
-      >
-        <i class="bi bi-list" aria-hidden="true"></i>
-        <ng-container i18n>Catalogue</ng-container>
-      </a>
-      <a
-        [class.active]="tab === 'brands'"
-        *ngIf="showBrandsTab$ | async"
-        class="nav-link"
-        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
-        [queryParams]="{tab: 'brands'}"
-      >
-        <i class="bi bi-list" aria-hidden="true"></i>
-        <ng-container i18n>Brands</ng-container>
-      </a>
+      @if (showCatalogueTab$ | async) {
+        <a
+          [class.active]="tab === 'catalogue'"
+          class="nav-link"
+          [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+          [queryParams]="{tab: 'catalogue'}"
+        >
+          <i class="bi bi-list" aria-hidden="true"></i>
+          <ng-container i18n>Catalogue</ng-container>
+        </a>
+      }
+      @if (showBrandsTab$ | async) {
+        <a
+          [class.active]="tab === 'brands'"
+          class="nav-link"
+          [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+          [queryParams]="{tab: 'brands'}"
+        >
+          <i class="bi bi-list" aria-hidden="true"></i>
+          <ng-container i18n>Brands</ng-container>
+        </a>
+      }
       <a
         [class.active]="tab === 'categories'"
         class="nav-link"
@@ -51,54 +55,56 @@
         <i class="bi bi-tag-fill" aria-hidden="true"></i>
         <ng-container i18n>Categories</ng-container>
       </a>
-      <a
-        [class.active]="tab === 'twins'"
-        *ngIf="showTwinsTab$ | async"
-        class="nav-link"
-        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
-        [queryParams]="{tab: 'twins'}"
-      >
-        <i class="bi bi-circle-half" aria-hidden="true"></i>
-        <ng-container i18n>Twins</ng-container>
-      </a>
-      <a
-        [class.active]="tab === 'factories'"
-        *ngIf="showFactoriesTab$ | async"
-        class="nav-link"
-        [routerLink]="['/moder/items/item', itemID, 'select-parent']"
-        [queryParams]="{tab: 'factories'}"
-      >
-        <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
-        <ng-container i18n>Factories</ng-container></a
-      >
+      @if (showTwinsTab$ | async) {
+        <a
+          [class.active]="tab === 'twins'"
+          class="nav-link"
+          [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+          [queryParams]="{tab: 'twins'}"
+        >
+          <i class="bi bi-circle-half" aria-hidden="true"></i>
+          <ng-container i18n>Twins</ng-container>
+        </a>
+      }
+      @if (showFactoriesTab$ | async) {
+        <a
+          [class.active]="tab === 'factories'"
+          class="nav-link"
+          [routerLink]="['/moder/items/item', itemID, 'select-parent']"
+          [queryParams]="{tab: 'factories'}"
+        >
+          <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+          <ng-container i18n>Factories</ng-container></a
+        >
+      }
     </div>
-
-    <ng-container *ngIf="item$ | async as item">
-      <app-moder-items-item-select-parent-catalogue
-        *ngIf="tab === 'catalogue'"
-        [itemID]="itemID"
-        [itemTypeID]="item.itemTypeId"
+    @if (tab === 'catalogue') {
+      @if (item$ | async; as item) {
+        <app-moder-items-item-select-parent-catalogue
+          [itemID]="itemID"
+          [itemTypeID]="item.itemTypeId"
+          (selected)="select(itemID, $event)"
+        ></app-moder-items-item-select-parent-catalogue>
+      }
+    } @else if (tab === 'brands') {
+      <app-moder-items-item-select-parent-brands
         (selected)="select(itemID, $event)"
-      ></app-moder-items-item-select-parent-catalogue>
-    </ng-container>
-    <app-moder-items-item-select-parent-brands
-      *ngIf="tab === 'brands'"
-      (selected)="select(itemID, $event)"
-    ></app-moder-items-item-select-parent-brands>
-    <app-moder-items-item-select-parent-categories
-      *ngIf="tab === 'categories'"
-      [itemID]="itemID"
-      (selected)="select(itemID, $event)"
-    ></app-moder-items-item-select-parent-categories>
-    <app-moder-items-item-select-parent-twins
-      *ngIf="tab === 'twins'"
-      [itemID]="itemID"
-      (selected)="select(itemID, $event)"
-    ></app-moder-items-item-select-parent-twins>
-    <app-moder-items-item-select-parent-factories
-      *ngIf="tab === 'factories'"
-      [itemID]="itemID"
-      (selected)="select(itemID, $event)"
-    ></app-moder-items-item-select-parent-factories>
-  </ng-container>
-</ng-container>
+      ></app-moder-items-item-select-parent-brands>
+    } @else if (tab === 'categories') {
+      <app-moder-items-item-select-parent-categories
+        [itemID]="itemID"
+        (selected)="select(itemID, $event)"
+      ></app-moder-items-item-select-parent-categories>
+    } @else if (tab === 'twins') {
+      <app-moder-items-item-select-parent-twins
+        [itemID]="itemID"
+        (selected)="select(itemID, $event)"
+      ></app-moder-items-item-select-parent-twins>
+    } @else if (tab === 'factories') {
+      <app-moder-items-item-select-parent-factories
+        [itemID]="itemID"
+        (selected)="select(itemID, $event)"
+      ></app-moder-items-item-select-parent-factories>
+    }
+  }
+}

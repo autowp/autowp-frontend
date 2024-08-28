@@ -17,85 +17,87 @@
         <fieldset>
           <legend i18n>Feedback</legend>
 
-          <div class="mb-3 row" *ngIf="form.controls.name as control">
-            <label class="col-md-2 col-form-label" for="name" i18n>Your name</label>
-            <div class="col-md-10">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                size="80"
-                autocomplete="name"
-                [class.is-invalid]="
-                  (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.name)
-                "
-                class="form-control"
-                placeholder="John"
-                i18n-placeholder
-                formControlName="name"
-              />
-              <p
-                *ngFor="let message of invalidParams | invalidParams: 'name'"
-                [textContent]="message"
-                class="invalid-feedback"
-              ></p>
+          @if (form.controls.name; as control) {
+            <div class="mb-3 row">
+              <label class="col-md-2 col-form-label" for="name" i18n>Your name</label>
+              <div class="col-md-10">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  size="80"
+                  autocomplete="name"
+                  [class.is-invalid]="
+                    (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.name)
+                  "
+                  class="form-control"
+                  placeholder="John"
+                  i18n-placeholder
+                  formControlName="name"
+                />
+                @for (message of invalidParams | invalidParams: 'name'; track message) {
+                  <p [textContent]="message" class="invalid-feedback"></p>
+                }
+              </div>
             </div>
-          </div>
-          <div class="mb-3 row" *ngIf="form.controls.email as control">
-            <label class="col-md-2 col-form-label" for="email" i18n>E-mail</label>
-            <div class="col-md-10">
-              <input
-                type="text"
-                id="email"
-                name="email"
-                size="80"
-                autocomplete="email"
-                [class.is-invalid]="
-                  (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.email)
-                "
-                class="form-control"
-                placeholder="john@example.com"
-                i18n-placeholder
-                formControlName="email"
-              />
-              <p
-                *ngFor="let message of invalidParams | invalidParams: 'email'"
-                [textContent]="message"
-                class="invalid-feedback"
-              ></p>
+          }
+          @if (form.controls.email; as control) {
+            <div class="mb-3 row">
+              <label class="col-md-2 col-form-label" for="email" i18n>E-mail</label>
+              <div class="col-md-10">
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  size="80"
+                  autocomplete="email"
+                  [class.is-invalid]="
+                    (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.email)
+                  "
+                  class="form-control"
+                  placeholder="john@example.com"
+                  i18n-placeholder
+                  formControlName="email"
+                />
+                @for (message of invalidParams | invalidParams: 'email'; track message) {
+                  <p [textContent]="message" class="invalid-feedback"></p>
+                }
+              </div>
             </div>
-          </div>
-          <div class="mb-3 row" *ngIf="form.controls.message as control">
-            <label class="col-md-2 col-form-label" for="message" i18n>Message</label>
-            <div class="col-md-10">
-              <textarea
-                id="message"
-                name="message"
-                cols="80"
-                rows="8"
-                [class.is-invalid]="
-                  (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.message)
-                "
-                class="form-control"
-                formControlName="message"
-              ></textarea>
-              <p
-                *ngFor="let message of invalidParams | invalidParams: 'message'"
-                [textContent]="message"
-                class="invalid-feedback"
-              ></p>
+          }
+          @if (form.controls.message; as control) {
+            <div class="mb-3 row">
+              <label class="col-md-2 col-form-label" for="message" i18n>Message</label>
+              <div class="col-md-10">
+                <textarea
+                  id="message"
+                  name="message"
+                  cols="80"
+                  rows="8"
+                  [class.is-invalid]="
+                    (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.message)
+                  "
+                  class="form-control"
+                  formControlName="message"
+                ></textarea>
+                @for (message of invalidParams | invalidParams: 'message'; track message) {
+                  <p [textContent]="message" class="invalid-feedback"></p>
+                }
+              </div>
             </div>
-          </div>
-          <div class="mb-3 row" *ngIf="form.controls.captcha as control">
-            <div class="col-md-10 offset-md-2">
-              <re-captcha [siteKey]="recaptchaKey" *ngIf="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
-              <p
-                *ngFor="let message of invalidParams | invalidParams: 'captcha'"
-                [textContent]="message"
-                class="invalid-feedback"
-              ></p>
+          }
+          @if (form.controls.captcha; as control) {
+            <div class="mb-3 row">
+              <div class="col-md-10 offset-md-2">
+                @if (recaptchaKey) {
+                  <re-captcha [siteKey]="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
+                }
+                @for (message of invalidParams | invalidParams: 'captcha'; track message) {
+                  <p [textContent]="message" class="invalid-feedback"></p>
+                }
+              </div>
             </div>
-          </div>
+          }
           <div class="mb-3 row">
             <div class="col-md-2"></div>
             <div class="col-md-10">

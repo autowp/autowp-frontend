@@ -1,44 +1,55 @@
-<div class="card card-body" *ngIf="item$ | async as item">
-  <ngb-progressbar
-    type="success"
-    class="mb-2"
-    [striped]="true"
-    [animated]="true"
-    [value]="100"
-    [hidden]="loadingNumber <= 0"
-  ></ngb-progressbar>
-  <ng-container *ngIf="canEditMeta$ | async">
-    <app-item-meta-form
-      [item]="item"
-      *ngIf="vehicleTypeIDs$ | async as vehicleTypeIDs"
-      (submitted)="saveMeta(item, $event)"
-      [invalidParams]="invalidParams"
-      [vehicleTypeIDs]="vehicleTypeIDs"
-    ></app-item-meta-form>
-  </ng-container>
-
-  <div class="row" *ngIf="(canEditMeta$ | async) === false">
-    <div class="col-3 mb-4"><ng-container i18n>Name</ng-container>:</div>
-    <div class="col9 mb-4" [innerHTML]="item.name_html"></div>
-    <div class="col-3 mb-4"><ng-container i18n>Body number</ng-container>:</div>
-    <div class="col9 mb-4" [textContent]="item.body"></div>
-    <div class="col-3 mb-4"><ng-container i18n>Begin</ng-container>:</div>
-    <div class="col9 mb-4">
-      {{ item.begin_year > 0 ? item.begin_year : '????' }} {{ item.begin_month > 0 ? item.begin_month : '??' }}
-    </div>
-    <div class="col-3 mb-4"><ng-container i18n>End</ng-container>:</div>
-    <div class="col9 mb-4">
-      {{ item.end_year > 0 ? item.end_year : '????' }} {{ item.end_month > 0 ? item.end_month : '??' }}
-      <span *ngIf="item.today === true" i18n>continue in pr.</span>
-      <span *ngIf="item.today === false" i18n>ended</span>
-    </div>
-    <div class="col-3 mb-4"><ng-container i18n>Produced</ng-container>:</div>
-    <div class="col9 mb-4">
-      {{ item.produced }}
-      <span *ngIf="item.produced_exactly" i18n>exactly</span>
-      <span *ngIf="!item.produced_exactly" i18n>about</span>
-    </div>
-    <div class="col-3 mb-4"><ng-container i18n>Concept (prototype)</ng-container>:</div>
-    <div class="col9 mb-4">{{ item.is_concept ? 'Yes' : 'No' }}</div>
+@if (item$ | async; as item) {
+  <div class="card card-body">
+    <ngb-progressbar
+      type="success"
+      class="mb-2"
+      [striped]="true"
+      [animated]="true"
+      [value]="100"
+      [hidden]="loadingNumber <= 0"
+    ></ngb-progressbar>
+    @if (canEditMeta$ | async) {
+      @if (vehicleTypeIDs$ | async; as vehicleTypeIDs) {
+        <app-item-meta-form
+          [item]="item"
+          (submitted)="saveMeta(item, $event)"
+          [invalidParams]="invalidParams"
+          [vehicleTypeIDs]="vehicleTypeIDs"
+        ></app-item-meta-form>
+      }
+    }
+    @if ((canEditMeta$ | async) === false) {
+      <div class="row">
+        <div class="col-3 mb-4"><ng-container i18n>Name</ng-container>:</div>
+        <div class="col9 mb-4" [innerHTML]="item.name_html"></div>
+        <div class="col-3 mb-4"><ng-container i18n>Body number</ng-container>:</div>
+        <div class="col9 mb-4" [textContent]="item.body"></div>
+        <div class="col-3 mb-4"><ng-container i18n>Begin</ng-container>:</div>
+        <div class="col9 mb-4">
+          {{ item.begin_year > 0 ? item.begin_year : '????' }} {{ item.begin_month > 0 ? item.begin_month : '??' }}
+        </div>
+        <div class="col-3 mb-4"><ng-container i18n>End</ng-container>:</div>
+        <div class="col9 mb-4">
+          {{ item.end_year > 0 ? item.end_year : '????' }} {{ item.end_month > 0 ? item.end_month : '??' }}
+          @if (item.today === true) {
+            <span i18n>continue in pr.</span>
+          }
+          @if (item.today === false) {
+            <span i18n>ended</span>
+          }
+        </div>
+        <div class="col-3 mb-4"><ng-container i18n>Produced</ng-container>:</div>
+        <div class="col9 mb-4">
+          {{ item.produced }}
+          @if (item.produced_exactly) {
+            <span i18n>exactly</span>
+          } @else {
+            <span i18n>about</span>
+          }
+        </div>
+        <div class="col-3 mb-4"><ng-container i18n>Concept (prototype)</ng-container>:</div>
+        <div class="col9 mb-4">{{ item.is_concept ? 'Yes' : 'No' }}</div>
+      </div>
+    }
   </div>
-</div>
+}

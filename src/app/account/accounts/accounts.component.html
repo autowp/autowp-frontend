@@ -1,34 +1,45 @@
 <div class="page-header">
   <h1 i18n>My accounts</h1>
 </div>
-<ng-container *ngIf="accounts$ | async as accounts">
-  <div class="card card-body mb-4" *ngIf="accounts.length > 0 && !disconnectFailed">
-    <div *ngFor="let account of accounts">
-      <p>
-        <button
-          type="submit"
-          class="btn btn-sm btn-danger"
-          i18n-title
-          title="Remove"
-          *ngIf="account.can_remove"
-          style="margin-right: 16px"
-          (click)="remove(account)"
-        >
-          <i class="bi bi-x" aria-hidden="true"></i>
-        </button>
-        <i [class]="account.icon" aria-hidden="true"></i>
-        <a [href]="account.link" *ngIf="account.link" [textContent]="account.name"></a>
-        <span [textContent]="account.name" *ngIf="!account.link"></span>
-      </p>
+@if (accounts$ | async; as accounts) {
+  @if (accounts.length > 0 && !disconnectFailed) {
+    <div class="card card-body mb-4">
+      @for (account of accounts; track account) {
+        <div>
+          <p>
+            @if (account.can_remove) {
+              <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                i18n-title
+                title="Remove"
+                style="margin-right: 16px"
+                (click)="remove(account)"
+              >
+                <i class="bi bi-x" aria-hidden="true"></i>
+              </button>
+            }
+            <i [class]="account.icon" aria-hidden="true"></i>
+            @if (account.link) {
+              <a [href]="account.link" [textContent]="account.name"></a>
+            }
+            @if (!account.link) {
+              <span [textContent]="account.name"></span>
+            }
+          </p>
+        </div>
+      }
     </div>
-  </div>
-</ng-container>
+  }
+}
 
-<div class="card card-body" *ngIf="disconnectFailed">
-  <app-markdown
-    i18n-markdown
-    markdown="Не удалось удалить учетную запись.
+@if (disconnectFailed) {
+  <div class="card card-body">
+    <app-markdown
+      i18n-markdown
+      markdown="Не удалось удалить учетную запись.
 
 Такое бывает, если привязанная учётная запись является единственным способом авторизации, т.е. не задан e-mail или другие учётный записи."
-  ></app-markdown>
-</div>
+    ></app-markdown>
+  </div>
+}

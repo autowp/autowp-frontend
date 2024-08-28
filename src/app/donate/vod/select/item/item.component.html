@@ -1,40 +1,54 @@
-<div *ngIf="itemParent$ | async as itemParent">
-  <span class="text-muted" *ngIf="itemParent.type_id === 1" i18n>Related</span>
-  <span class="text-muted" *ngIf="itemParent.type_id === 2" i18n>Sport</span>
-  <ng-container *ngIf="item$ | async as item">
-    <ng-container *ngIf="!item.childsCount">
-      <a
-        *ngIf="item.isCompilesItemOfDay"
-        routerLink="/donate/vod"
-        [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
-        queryParamsHandling="merge"
-        [innerHTML]="item.nameHtml"
-      ></a>
-      <span *ngIf="!item.isCompilesItemOfDay" class="text-muted" [innerHTML]="item.nameHtml"></span>
-    </ng-container>
-    <ng-container *ngIf="item.childsCount">
-      <a href="" class="arrow" (click)="toggleItem()">
-        <i class="bi me-1" aria-hidden="true" [class.bi-plus-circle]="!expanded" [class.bi-dash-circle]="expanded"></i>
-        <span [innerHTML]="item.nameHtml"></span>
-      </a>
-      <a
-        routerLink="/donate/vod"
-        [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
-        queryParamsHandling="merge"
-        *ngIf="item.isCompilesItemOfDay"
-        class="mx-2"
-        i18n
-        >[select]</a
-      >
-      <div class="mb-1 ms-4" *ngIf="expanded">
-        <ng-container *ngIf="childs$ | async as childs; else loading">
-          <app-donate-vod-select-item [itemParent]="child" *ngFor="let child of childs"></app-donate-vod-select-item>
-        </ng-container>
-      </div>
-    </ng-container>
-  </ng-container>
-</div>
-
-<ng-template #loading>
-  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-</ng-template>
+@if (itemParent$ | async; as itemParent) {
+  <div>
+    @if (itemParent.type_id === 1) {
+      <span class="text-muted" i18n>Related</span>
+    } @else if (itemParent.type_id === 2) {
+      <span class="text-muted" i18n>Sport</span>
+    }
+    @if (item$ | async; as item) {
+      @if (!item.childsCount) {
+        @if (item.isCompilesItemOfDay) {
+          <a
+            routerLink="/donate/vod"
+            [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
+            queryParamsHandling="merge"
+            [innerHTML]="item.nameHtml"
+          ></a>
+        } @else {
+          <span class="text-muted" [innerHTML]="item.nameHtml"></span>
+        }
+      } @else {
+        <a href="" class="arrow" (click)="toggleItem()">
+          <i
+            class="bi me-1"
+            aria-hidden="true"
+            [class.bi-plus-circle]="!expanded"
+            [class.bi-dash-circle]="expanded"
+          ></i>
+          <span [innerHTML]="item.nameHtml"></span>
+        </a>
+        @if (item.isCompilesItemOfDay) {
+          <a
+            routerLink="/donate/vod"
+            [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
+            queryParamsHandling="merge"
+            class="mx-2"
+            i18n
+            >[select]</a
+          >
+        }
+        @if (expanded) {
+          <div class="mb-1 ms-4">
+            @if (childs$ | async; as childs) {
+              @for (child of childs; track child) {
+                <app-donate-vod-select-item [itemParent]="child"></app-donate-vod-select-item>
+              }
+            } @else {
+              <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+            }
+          </div>
+        }
+      }
+    }
+  </div>
+}

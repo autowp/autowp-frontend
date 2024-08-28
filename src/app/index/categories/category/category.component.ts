@@ -11,7 +11,7 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './category.component.html',
 })
 export class IndexCategoriesCategoryComponent {
-  @Input() set factory(category: APITopCategoriesListItem) {
+  @Input() set category(category: APITopCategoriesListItem) {
     this.category$.next(category);
   }
   protected readonly category$ = new BehaviorSubject<APITopCategoriesListItem | null>(null);

@@ -1,8 +1,9 @@
-<app-gallery
-  [filter]="{itemID: null}"
-  [current]="identity"
-  [galleryPrefix]="['/picture', identity, 'gallery']"
-  [picturePrefix]="['/picture']"
-  *ngIf="identity$ | async as identity"
-  (pictureSelected)="pictureSelected($event)"
-></app-gallery>
+@if (identity$ | async; as identity) {
+  <app-gallery
+    [filter]="{itemID: null}"
+    [current]="identity"
+    [galleryPrefix]="['/picture', identity, 'gallery']"
+    [picturePrefix]="['/picture']"
+    (pictureSelected)="pictureSelected($event)"
+  ></app-gallery>
+}

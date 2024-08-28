@@ -1,10 +1,8 @@
-<ngb-toast
-  *ngFor="let toast of toastService.toasts"
-  [class]="typeToClass(toast.type)"
-  [autohide]="true"
-  [delay]="5000"
-  (hidden)="toastService.remove(toast)"
->
-  <i [class]="toast.icon" *ngIf="toast.icon" aria-hidden="true"></i>
-  {{ toast.message }}
-</ngb-toast>
+@for (toast of toastService.toasts; track toast) {
+  <ngb-toast [class]="typeToClass(toast.type)" [autohide]="true" [delay]="5000" (hidden)="toastService.remove(toast)">
+    @if (toast.icon) {
+      <i [class]="toast.icon" aria-hidden="true"></i>
+    }
+    {{ toast.message }}
+  </ngb-toast>
+}

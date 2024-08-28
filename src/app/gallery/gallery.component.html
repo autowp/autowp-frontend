@@ -1,57 +1,62 @@
 <div class="gallery">
-  <div class="carousel slide" *ngIf="gallery$ | async as gallery">
-    <ol class="carousel-indicators" *ngIf="gallery.useCircleIndicator; else numericIndicator">
-      <li
-        *ngFor="let item of gallery.items; let i = index"
-        (click)="navigateToIndex(i, gallery)"
-        [class.active]="gallery.current === i"
-      ></li>
-    </ol>
-    <ng-template #numericIndicator>
-      <div class="carousel-numbers">{{ gallery.current + 1 }} of {{ gallery.items.length }}</div>
-    </ng-template>
-    <div class="carousel-inner">
-      <ng-container *ngFor="let item of gallery.items; let i = index">
-        <app-gallery-carousel-item
-          class="carousel-item"
-          [class.active]="(current$ | async) === item.identity"
-          [class.previous]="gallery.current > i"
-          [class.next]="i > gallery.current"
-          [item]="item"
-          *ngIf="item && i >= gallery.current - 1 && gallery.current + 1 >= i"
-          [prefix]="picturePrefix"
+  @if (gallery$ | async; as gallery) {
+    <div class="carousel slide">
+      @if (gallery.useCircleIndicator) {
+        <ol class="carousel-indicators">
+          @for (item of gallery.items; track item; let i = $index) {
+            <li (click)="navigateToIndex(i, gallery)" [class.active]="gallery.current === i"></li>
+          }
+        </ol>
+      } @else {
+        <div class="carousel-numbers">{{ gallery.current + 1 }} of {{ gallery.items.length }}</div>
+      }
+      <div class="carousel-inner">
+        @for (item of gallery.items; track item; let i = $index) {
+          @if (item && i >= gallery.current - 1 && gallery.current + 1 >= i) {
+            <app-gallery-carousel-item
+              class="carousel-item"
+              [class.active]="(current$ | async) === item.identity"
+              [class.previous]="gallery.current > i"
+              [class.next]="i > gallery.current"
+              [item]="item"
+              [prefix]="picturePrefix"
+            >
+            </app-gallery-carousel-item>
+          }
+        }
+      </div>
+      @if (gallery.current > 0) {
+        <button
+          type="button"
+          class="carousel-control-prev"
+          href="#"
+          role="button"
+          (click)="navigateToIndex(gallery.current - 1, gallery)"
         >
-        </app-gallery-carousel-item>
-      </ng-container>
+          <i class="bi bi-chevron-left glyphicon glyphicon-chevron-left fs-1" aria-hidden="true"></i>
+        </button>
+      }
+      @if (gallery.items.length - 1 > gallery.current) {
+        <button
+          type="button"
+          class="carousel-control-next"
+          href="#"
+          role="button"
+          (click)="navigateToIndex(gallery.current + 1, gallery)"
+        >
+          <i class="bi bi-chevron-right glyphicon glyphicon-chevron-right fs-1" aria-hidden="true"></i>
+        </button>
+      }
+      @if (identity$ | async; as identity) {
+        <button
+          type="button"
+          class="carousel-control-close"
+          [routerLink]="picturePrefix.concat([identity])"
+          role="button"
+        >
+          <i class="bi bi-x fs-1" aria-hidden="true"></i>
+        </button>
+      }
     </div>
-    <button
-      type="button"
-      class="carousel-control-prev"
-      href="#"
-      role="button"
-      (click)="navigateToIndex(gallery.current - 1, gallery)"
-      *ngIf="gallery.current > 0"
-    >
-      <i class="bi bi-chevron-left glyphicon glyphicon-chevron-left fs-1" aria-hidden="true"></i>
-    </button>
-    <button
-      type="button"
-      class="carousel-control-next"
-      href="#"
-      role="button"
-      (click)="navigateToIndex(gallery.current + 1, gallery)"
-      *ngIf="gallery.items.length - 1 > gallery.current"
-    >
-      <i class="bi bi-chevron-right glyphicon glyphicon-chevron-right fs-1" aria-hidden="true"></i>
-    </button>
-    <button
-      type="button"
-      class="carousel-control-close"
-      [routerLink]="picturePrefix.concat([identity])"
-      role="button"
-      *ngIf="identity$ | async as identity"
-    >
-      <i class="bi bi-x fs-1" aria-hidden="true"></i>
-    </button>
-  </div>
+  }
 </div>

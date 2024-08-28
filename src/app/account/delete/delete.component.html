@@ -24,11 +24,9 @@
           [(ngModel)]="form.password_old"
           [class.is-invalid]="invalidParams && invalidParams.password_old"
         />
-        <p
-          *ngFor="let message of invalidParams | invalidParams: 'password_old'"
-          [textContent]="message"
-          class="invalid-feedback"
-        ></p>
+        @for (message of invalidParams | invalidParams: 'password_old'; track message) {
+          <p [textContent]="message" class="invalid-feedback"></p>
+        }
       </div>
     </div>
     <div class="row">

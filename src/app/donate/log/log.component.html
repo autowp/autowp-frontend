@@ -13,29 +13,33 @@
   <h1 i18n>Donate log</h1>
 </div>
 
-<table class="table" aria-describedby="header" *ngIf="items$ | async as items; else loading">
-  <thead>
-    <tr>
-      <th i18n>Дата</th>
-      <th i18n>Жертвователь</th>
-      <th i18n>Сумма</th>
-      <th i18n>Назначение</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of items">
-      <td>
-        <span [textContent]="item.date | timeAgo" [ngbTooltip]="item.date | date: 'medium'"></span>
-      </td>
-      <td>
-        <app-user [user]="user" *ngIf="item.user$ | async as user"></app-user>
-      </td>
-      <td>{{ item.sum | currency: item.currency }}</td>
-      <td>{{ item.purpose }}</td>
-    </tr>
-  </tbody>
-</table>
-
-<ng-template #loading>
+@if (items$ | async; as items) {
+  <table class="table" aria-describedby="header">
+    <thead>
+      <tr>
+        <th i18n>Дата</th>
+        <th i18n>Жертвователь</th>
+        <th i18n>Сумма</th>
+        <th i18n>Назначение</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of items; track item) {
+        <tr>
+          <td>
+            <span [textContent]="item.date | timeAgo" [ngbTooltip]="item.date | date: 'medium'"></span>
+          </td>
+          <td>
+            @if (item.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+          </td>
+          <td>{{ item.sum | currency: item.currency }}</td>
+          <td>{{ item.purpose }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+}

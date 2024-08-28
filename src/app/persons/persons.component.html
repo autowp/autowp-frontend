@@ -19,8 +19,11 @@
   </li>
 </ul>
 
-<ng-container *ngIf="data$ | async as data">
-  <app-catalogue-list-item [item]="item" *ngFor="let item of data.items"></app-catalogue-list-item>
-
-  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-</ng-container>
+@if (data$ | async; as data) {
+  @for (item of data.items; track item) {
+    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+  }
+  @if (data.paginator) {
+    <app-paginator [data]="data.paginator"></app-paginator>
+  }
+}

@@ -1,51 +1,66 @@
-<div class="btn-group mb-3" *ngIf="picture$ | async as picture">
-  <div ngbDropdown *ngIf="!picture.moder_voted">
-    <button class="btn btn-success" type="button" ngbDropdownToggle i18n>Want accept</button>
-    <div ngbDropdownMenu>
-      <ng-container *ngFor="let template of moderVoteTemplateOptions$ | async">
-        <button
-          class="dropdown-item"
-          *ngIf="template.vote > 0"
-          [textContent]="template.message"
-          (click)="votePicture(picture, template.vote, template.message)"
-        ></button>
-      </ng-container>
-      <div class="dropdown-divider"></div>
-      <button class="dropdown-item" (click)="showCustomDialog(picture, 1)" i18n>Custom …</button>
+@if (picture$ | async; as picture) {
+  <div class="btn-group mb-3">
+    @if (!picture.moder_voted) {
+      <div ngbDropdown>
+        <button class="btn btn-success" type="button" ngbDropdownToggle i18n>Want accept</button>
+        <div ngbDropdownMenu>
+          @for (template of moderVoteTemplateOptions$ | async; track template) {
+            @if (template.vote > 0) {
+              <button
+                class="dropdown-item"
+                [textContent]="template.message"
+                (click)="votePicture(picture, template.vote, template.message)"
+              ></button>
+            }
+          }
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" (click)="showCustomDialog(picture, 1)" i18n>Custom …</button>
+        </div>
+      </div>
+    }
+    @if (!picture.moder_voted) {
+      <div ngbDropdown>
+        <button class="btn btn-danger" type="button" ngbDropdownToggle i18n>Want delete</button>
+        <div ngbDropdownMenu>
+          @for (template of moderVoteTemplateOptions$ | async; track template) {
+            @if (template.vote < 0) {
+              <button
+                class="dropdown-item"
+                [textContent]="template.message"
+                (click)="votePicture(picture, template.vote, template.message)"
+              ></button>
+            }
+          }
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" (click)="showCustomDialog(picture, -1)" i18n>Custom …</button>
+        </div>
+      </div>
+    }
+    @if (picture.moder_voted) {
+      <button class="btn btn-secondary" (click)="cancelVotePicture(picture)" i18n>Cancel my vote</button>
+    }
+  </div>
+}
+
+@if (votes$ | async; as votes) {
+  @if (votes.length) {
+    <div>
+      <ng-container i18n>Already voted:</ng-container>
+      <ul class="list-unstyled">
+        @for (moder_vote of votes; track moder_vote) {
+          <li>
+            @if (moder_vote.vote > 0) {
+              <i class="bi bi-hand-thumbs-up-fill text-success" aria-hidden="true"></i>
+            } @else {
+              <i class="bi bi-hand-thumbs-down-fill text-danger" aria-hidden="true"></i>
+            }
+            @if (moder_vote.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+            <span [ngStyle]="{color: moder_vote.vote > 0 ? 'green' : 'red'}" [textContent]="moder_vote.reason"></span>
+          </li>
+        }
+      </ul>
     </div>
-  </div>
-
-  <div ngbDropdown *ngIf="!picture.moder_voted">
-    <button class="btn btn-danger" type="button" ngbDropdownToggle i18n>Want delete</button>
-    <div ngbDropdownMenu>
-      <ng-container *ngFor="let template of moderVoteTemplateOptions$ | async">
-        <button
-          class="dropdown-item"
-          *ngIf="template.vote < 0"
-          [textContent]="template.message"
-          (click)="votePicture(picture, template.vote, template.message)"
-        ></button>
-      </ng-container>
-      <div class="dropdown-divider"></div>
-      <button class="dropdown-item" (click)="showCustomDialog(picture, -1)" i18n>Custom …</button>
-    </div>
-  </div>
-
-  <button class="btn btn-secondary" *ngIf="picture.moder_voted" (click)="cancelVotePicture(picture)" i18n>
-    Cancel my vote
-  </button>
-</div>
-
-<ng-container *ngIf="votes$ | async as votes">
-  <div *ngIf="votes.length">
-    <ng-container i18n>Already voted:</ng-container>
-    <ul class="list-unstyled">
-      <li *ngFor="let moder_vote of votes">
-        <i class="bi bi-hand-thumbs-up-fill text-success" aria-hidden="true" *ngIf="moder_vote.vote > 0"></i>
-        <i class="bi bi-hand-thumbs-down-fill text-danger" aria-hidden="true" *ngIf="moder_vote.vote <= 0"></i>
-        <app-user [user]="user" *ngIf="moder_vote.user$ | async as user"></app-user>
-        <span [ngStyle]="{color: moder_vote.vote > 0 ? 'green' : 'red'}" [textContent]="moder_vote.reason"></span>
-      </li>
-    </ul>
-  </div>
-</ng-container>
+  }
+}

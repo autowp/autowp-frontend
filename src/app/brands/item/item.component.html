@@ -1,23 +1,22 @@
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
 <ng-template #popover>
-  <div *ngIf="response$ | async as response; else loading">
-    <ng-container *ngIf="response.items.length > 0">
-      <img
-        alt=""
-        [src]="response.brand.brandicon.src"
-        style="float: right; margin: 0 0 5px 5px"
-        *ngIf="response.brand.brandicon"
-      />
-      <p *ngFor="let item of response.items" [innerHTML]="item.nameHtml"></p>
-      <br style="clear: both" />
-    </ng-container>
-  </div>
+  @if (response$ | async; as response) {
+    <div>
+      @if (response.items.length > 0) {
+        @if (response.brand.brandicon) {
+          <img alt="" [src]="response.brand.brandicon.src" style="float: right; margin: 0 0 5px 5px" />
+        }
+        @for (item of response.items; track item) {
+          <p [innerHTML]="item.nameHtml"></p>
+        }
+        <br style="clear: both" />
+      }
+    </div>
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
 </ng-template>
 
-<ng-container *ngIf="brand$ | async as brand; else loading">
+@if (brand$ | async; as brand) {
   <a
     [routerLink]="['/', brand.catname]"
     class="brandicon"
@@ -27,19 +26,22 @@
   <h4>
     <a [routerLink]="['/', brand.catname]" [textContent]="brand.name"></a>
     <small
-      >({{ brand.totalCars - brand.newCars
-      }}<span
-        *ngIf="brand.newCars > 0"
-        [ngbPopover]="popover"
-        triggers="mouseenter:mouseleave"
-        popoverTitle="New {{ brand.name }} vehicles"
-        [textContent]="'+' + brand.newCars"
-        i18n-popoverTitle
-      ></span
-      >)</small
+      >({{ brand.totalCars - brand.newCars }}
+      @if (brand.newCars > 0) {
+        <span
+          [ngbPopover]="popover"
+          triggers="mouseenter:mouseleave"
+          popoverTitle="New {{ brand.name }} vehicles"
+          [textContent]="'+' + brand.newCars"
+          i18n-popoverTitle
+        ></span>
+      }
+      )</small
     >
   </h4>
   <p>
     <small><ng-container i18n>pictures:</ng-container> {{ brand.totalPictures }}</small>
   </p>
-</ng-container>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

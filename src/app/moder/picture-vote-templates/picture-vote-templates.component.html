@@ -13,15 +13,20 @@
   <h1 i18n>Picture vote templates</h1>
 </div>
 
-<p *ngFor="let template of templates$ | async">
-  <i class="bi bi-hand-thumbs-up-fill text-success" aria-hidden="true" *ngIf="template.vote > 0"></i>
-  <i class="bi bi-hand-thumbs-down-fill text-danger" aria-hidden="true" *ngIf="template.vote < 0"></i>
-  <span [textContent]="template.message"></span>
-
-  <button class="btn btn-danger btn-sm" aria-label="Delete" (click)="deleteTemplate(template)">
-    <span class="bi bi-x" aria-hidden="true"></span>
-  </button>
-</p>
+@for (template of templates$ | async; track template) {
+  <p>
+    @if (template.vote > 0) {
+      <i class="bi bi-hand-thumbs-up-fill text-success" aria-hidden="true"></i>
+    }
+    @if (template.vote < 0) {
+      <i class="bi bi-hand-thumbs-down-fill text-danger" aria-hidden="true"></i>
+    }
+    <span [textContent]="template.message"></span>
+    <button class="btn btn-danger btn-sm" aria-label="Delete" (click)="deleteTemplate(template)">
+      <span class="bi bi-x" aria-hidden="true"></span>
+    </button>
+  </p>
+}
 
 <form class="card card-body form-vertical" name="add" (submit)="createTemplate()">
   <h2 i18n>Add template</h2>

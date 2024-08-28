@@ -2,12 +2,17 @@
   <h2 i18n>Pictures</h2>
 </div>
 
-<ng-container *ngIf="data$ | async as data">
-  <div class="row" *ngFor="let chunk of data.pictures">
-    <div class="col-sm-3" *ngFor="let i of chunk">
-      <app-thumbnail [picture]="i.picture" [route]="i.route"></app-thumbnail>
+@if (data$ | async; as data) {
+  @for (chunk of data.pictures; track chunk) {
+    <div class="row">
+      @for (i of chunk; track i) {
+        <div class="col-sm-3">
+          <app-thumbnail [picture]="i.picture" [route]="i.route"></app-thumbnail>
+        </div>
+      }
     </div>
-  </div>
-
-  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-</ng-container>
+  }
+  @if (data.paginator) {
+    <app-paginator [data]="data.paginator"></app-paginator>
+  }
+}

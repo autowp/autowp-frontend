@@ -15,7 +15,7 @@ export class IndexBrandsBrandComponent {
   @Input() set brand(item: APIBrandsBrand) {
     this.brand$.next(item);
   }
-  protected readonly brand$ = new BehaviorSubject<APIBrandsBrand | null>(null);
+  protected readonly brand$: BehaviorSubject<APIBrandsBrand | null> = new BehaviorSubject<APIBrandsBrand | null>(null);
 
   protected readonly response$ = this.brand$.pipe(
     switchMap((brand) =>

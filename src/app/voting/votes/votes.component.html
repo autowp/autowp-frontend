@@ -1,17 +1,17 @@
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
 <div class="modal-header">
   <h3 class="modal-title" i18n>Who voted?</h3>
   <button class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
-  <ng-container *ngIf="votes$ | async as votes; else loading">
-    <ng-container *ngFor="let user$ of votes">
-      <app-user [user]="user" *ngIf="user$ | async as user"></app-user>
-    </ng-container>
-  </ng-container>
+  @if (votes$ | async; as votes) {
+    @for (user$ of votes; track user$) {
+      @if (user$ | async; as user) {
+        <app-user [user]="user"></app-user>
+      }
+    }
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
 </div>
 <div class="modal-footer">
   <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary" i18n>Close</button>

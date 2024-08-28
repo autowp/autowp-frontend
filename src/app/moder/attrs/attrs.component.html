@@ -18,16 +18,20 @@
     <h2 i18n>Zones</h2>
     <div class="card card-body">
       <ul>
-        <li *ngFor="let zone of zones$ | async">
-          <a [routerLink]="['/moder/attrs/zone', zone.id]" [textContent]="zone.name"></a>
-        </li>
+        @for (zone of zones$ | async; track zone) {
+          <li>
+            <a [routerLink]="['/moder/attrs/zone', zone.id]" [textContent]="zone.name"></a>
+          </li>
+        }
       </ul>
     </div>
   </div>
   <div class="col-md-6">
     <h2 i18n>Attributes</h2>
-    <div class="card card-body" *ngIf="attributes$ | async as attributes">
-      <app-moder-attrs-attribute-list [attributes]="attributes"></app-moder-attrs-attribute-list>
-    </div>
+    @if (attributes$ | async; as attributes) {
+      <div class="card card-body">
+        <app-moder-attrs-attribute-list [attributes]="attributes"></app-moder-attrs-attribute-list>
+      </div>
+    }
   </div>
 </div>

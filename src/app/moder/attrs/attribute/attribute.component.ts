@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AttrAttribute} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
 import {EMPTY, Observable, combineLatest, of} from 'rxjs';
@@ -18,7 +19,7 @@ export class ModerAttrsAttributeComponent {
     shareReplay(1),
   );
 
-  protected readonly attribute$ = this.attributeID$.pipe(
+  protected readonly attribute$: Observable<AttrAttribute> = this.attributeID$.pipe(
     switchMap((id) => (id ? this.attrsService.getAttribute$(id) : of(null))),
     switchMap((attribute) => {
       if (!attribute) {

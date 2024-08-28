@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemService} from '@services/item';
+import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
@@ -10,7 +10,7 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {
-  protected readonly group$ = this.route.paramMap.pipe(
+  protected readonly group$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('group') || '', 10)),
     distinctUntilChanged(),
     switchMap((group) =>

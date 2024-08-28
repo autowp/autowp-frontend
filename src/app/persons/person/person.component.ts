@@ -4,7 +4,7 @@ import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
-import {PageEnvService} from '@services/page-env.service';
+import {LayoutParams, PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
@@ -61,7 +61,7 @@ export class PersonsPersonComponent {
     shareReplay(1),
   );
 
-  protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();
 
   constructor(
     private readonly router: Router,

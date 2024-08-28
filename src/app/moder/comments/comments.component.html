@@ -83,31 +83,45 @@
     </form>
   </div>
   <div class="col-md-8">
-    <ng-container *ngIf="data$ | async as data">
+    @if (data$ | async; as data) {
       <h2>
         <ng-container i18n>Comments</ng-container>
-        <ng-container *ngIf="data.paginator as paginator">
-          <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-comments">{paginator.totalItemCount, plural,
-            one {{{paginator.totalItemCount}} comment}
-            other {{{paginator.totalItemCount}} comments}
-          }</small>
-        </ng-container>
+        @if (data.paginator; as paginator) {
+          @if (paginator && paginator.totalItemCount) {
+            <small i18n="@@n-comments">{paginator.totalItemCount, plural,
+              one {{{paginator.totalItemCount}} comment}
+              other {{{paginator.totalItemCount}} comments}
+            }</small>
+          }
+        }
       </h2>
-
       <ul class="comments">
-        <li *ngFor="let comment of data.comments" ngPreserveWhitespaces>
-          <span class="badge text-bg-warning text-dark" *ngIf="comment.comment.isNew" i18n>not readed</span>
-          <ng-container *ngIf="comment.comment.pictureStatus as s">
-            <span class="badge text-bg-success" *ngIf="s === PictureStatus.PICTURE_STATUS_ACCEPTED" i18n>Accepted</span>
-            <span class="badge text-bg-warning" *ngIf="s === PictureStatus.PICTURE_STATUS_INBOX" i18n>Inbox</span>
-            <span class="badge text-bg-danger" *ngIf="s === PictureStatus.PICTURE_STATUS_REMOVED" i18n>Deleted</span>
-            <span class="badge text-bg-danger" *ngIf="s === PictureStatus.PICTURE_STATUS_REMOVING" i18n>Deleting</span>
-          </ng-container>
-          <a [routerLink]="comment.comment.route" [textContent]="comment.comment.preview"></a>
-          <app-user [user]="user" *ngIf="comment.user$ | async as user"></app-user>
-        </li>
+        @for (comment of data.comments; track comment) {
+          <li ngPreserveWhitespaces>
+            @if (comment.comment.isNew) {
+              <span class="badge text-bg-warning text-dark" i18n>not readed</span>
+            }
+            @if (comment.comment.pictureStatus; as s) {
+              @if (s === PictureStatus.PICTURE_STATUS_ACCEPTED) {
+                <span class="badge text-bg-success" i18n>Accepted</span>
+              } @else if (s === PictureStatus.PICTURE_STATUS_INBOX) {
+                <span class="badge text-bg-warning" i18n>Inbox</span>
+              } @else if (s === PictureStatus.PICTURE_STATUS_REMOVED) {
+                <span class="badge text-bg-danger" i18n>Deleted</span>
+              } @else if (s === PictureStatus.PICTURE_STATUS_REMOVING) {
+                <span class="badge text-bg-danger" i18n>Deleting</span>
+              }
+            }
+            <a [routerLink]="comment.comment.route" [textContent]="comment.comment.preview"></a>
+            @if (comment.user$ | async; as user) {
+              <app-user [user]="user"></app-user>
+            }
+          </li>
+        }
       </ul>
-      <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-    </ng-container>
+      @if (data.paginator) {
+        <app-paginator [data]="data.paginator"></app-paginator>
+      }
+    }
   </div>
 </div>

@@ -1,14 +1,18 @@
-<p class="btn-group" *ngIf="canUseTurboGroupCreator$ | async">
-  <a
-    [routerLink]="['/moder/items/item', item.id, 'organize-pictures']"
-    class="btn btn-secondary"
-    i18n
-    *ngIf="item$ | async as item"
-    >Turbo group creator from pictures</a
-  >
-</p>
-<div class="row" *ngFor="let chunk of picturesChunks$ | async">
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of chunk">
-    <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+@if (canUseTurboGroupCreator$ | async) {
+  <p class="btn-group">
+    @if (item$ | async; as item) {
+      <a [routerLink]="['/moder/items/item', item.id, 'organize-pictures']" class="btn btn-secondary" i18n
+        >Turbo group creator from pictures</a
+      >
+    }
+  </p>
+}
+@for (chunk of picturesChunks$ | async; track chunk) {
+  <div class="row">
+    @for (picture of chunk; track picture) {
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+      </div>
+    }
   </div>
-</div>
+}

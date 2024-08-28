@@ -3,34 +3,37 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
-    </li>
-    <ng-container *ngIf="breadcrumbs$ | async as breadcrumbs">
-      <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
-        <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+    @if (brand$ | async; as brand) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
       </li>
-    </ng-container>
-    <li class="breadcrumb-item" *ngIf="picturesRouterLink$ | async as picturesRouterLink">
-      <a [routerLink]="picturesRouterLink" i18n>All pictures</a>
-    </li>
+    }
+    @if (breadcrumbs$ | async; as breadcrumbs) {
+      @for (node of breadcrumbs; track node) {
+        <li class="breadcrumb-item">
+          <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+        </li>
+      }
+    }
+    @if (picturesRouterLink$ | async; as picturesRouterLink) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="picturesRouterLink" i18n>All pictures</a>
+      </li>
+    }
   </ol>
 </nav>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="picture$ | async as picture; else loading">
+@if (picture$ | async; as picture) {
   <app-picture
     [picture]="picture"
     [prefix]="picturesRouterLink$ | async"
     [galleryRoute]="galleryPictureRouterLink$ | async"
-    *ngIf="picture"
     (changed)="reloadPicture()"
   ></app-picture>
 
-  <div id="comments" *ngIf="picture">
+  <div id="comments">
     <app-comments [typeID]="CommentsType.PICTURES_TYPE_ID" [itemID]="picture.id + ''" [limit]="null"></app-comments>
   </div>
-</ng-container>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

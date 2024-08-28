@@ -1,1 +1,3 @@
-<div [innerHtml]="html" *ngIf="html$ | async as html"></div>
+@if (html$ | async; as html) {
+  <div [innerHtml]="html"></div>
+}

@@ -3,22 +3,22 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
-    </li>
-    <ng-container *ngIf="breadcrumbs$ | async as breadcrumbs">
-      <li class="breadcrumb-item" *ngFor="let node of breadcrumbs">
-        <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+    @if (brand$ | async; as brand) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
       </li>
-    </ng-container>
+    }
+    @if (breadcrumbs$ | async; as breadcrumbs) {
+      @for (node of breadcrumbs; track node) {
+        <li class="breadcrumb-item">
+          <a [routerLink]="node.routerLink" [innerHTML]="node.html"></a>
+        </li>
+      }
+    }
   </ol>
 </nav>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="item$ | async as item; else loading">
+@if (item$ | async; as item) {
   <div class="page-header">
     <h1>
       <ng-container i18n>All pictures of</ng-container>
@@ -31,40 +31,37 @@
       ></app-item-header>
     </h1>
   </div>
-
-  <p *ngIf="isModer$ | async">
-    <i class="bi bi-gear-fill" aria-hidden="true"></i>
-    <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
-
-    <ng-container *ngIf="canAddItem$ | async as canAddItem">
-      <ng-container *ngIf="canAddItem && item.is_group">
-        <i class="bi bi-plus" aria-hidden="true"></i>
-        <a
-          style="text-transform: lowercase"
-          routerLink="/moder/items/new"
-          [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}"
-          >{{ getItemTypeTranslation(item.item_type_id, 'add-sub-item') }}</a
-        >
-      </ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="canAcceptPicture$ | async as canAcceptPicture">
-      <ng-container *ngIf="canAcceptPicture && item.inbox_pictures_count > 0">
-        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
-        <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
-          <ng-container i18n>inbox</ng-container> ({{ item.inbox_pictures_count }})
+  @if (isModer$ | async) {
+    <p>
+      <i class="bi bi-gear-fill" aria-hidden="true"></i>
+      <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
+      @if (canAddItem$ | async; as canAddItem) {
+        @if (canAddItem && item.is_group) {
+          <i class="bi bi-plus" aria-hidden="true"></i>
+          <a
+            style="text-transform: lowercase"
+            routerLink="/moder/items/new"
+            [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}"
+            >{{ getItemTypeTranslation(item.item_type_id, 'add-sub-item') }}</a
+          >
+        }
+      }
+      @if (canAcceptPicture$ | async; as canAcceptPicture) {
+        @if (canAcceptPicture && item.inbox_pictures_count > 0) {
+          <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
+          <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
+            <ng-container i18n>inbox</ng-container> ({{ item.inbox_pictures_count }})
+          </a>
+        }
+      }
+      @if (item.comments_attentions_count) {
+        <i class="bi bi-chat-fill" aria-hidden="true"></i>
+        <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
+          <ng-container i18n>comments</ng-container> ({{ item.comments_attentions_count }})
         </a>
-      </ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="item.comments_attentions_count">
-      <i class="bi bi-chat-fill" aria-hidden="true"></i>
-      <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
-        <ng-container i18n>comments</ng-container> ({{ item.comments_attentions_count }})
-      </a>
-    </ng-container>
-  </p>
-
+      }
+    </p>
+  }
   <app-catalogue-item-menu
     [header]="{nameHTML: item.name_html, produced: {count: item.produced, exactly: item.produced_exactly}}"
     [itemRouterLink]="routerLink$ | async"
@@ -72,16 +69,25 @@
     [childsCounts]="item.childs_counts"
     [active]="'pictures'"
   ></app-catalogue-item-menu>
-</ng-container>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
 
-<ng-container *ngIf="pictures$ | async as pictures; else loading">
-  <ng-container *ngIf="picturesRouterLink$ | async as picturesRouterLink">
-    <div class="row" *ngFor="let chunk of pictures.pictures">
-      <div class="col-sm-3" *ngFor="let picture of chunk">
-        <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
+@if (pictures$ | async; as pictures) {
+  @if (picturesRouterLink$ | async; as picturesRouterLink) {
+    @for (chunk of pictures.pictures; track chunk) {
+      <div class="row">
+        @for (picture of chunk; track picture) {
+          <div class="col-sm-3">
+            <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
+          </div>
+        }
       </div>
-    </div>
-  </ng-container>
-
-  <app-paginator [data]="pictures.paginator" *ngIf="pictures.paginator"></app-paginator>
-</ng-container>
+    }
+  }
+  @if (pictures.paginator) {
+    <app-paginator [data]="pictures.paginator"></app-paginator>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

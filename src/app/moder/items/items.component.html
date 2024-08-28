@@ -72,9 +72,9 @@
         >
           <option [ngValue]="null">Any</option>
           <option [ngValue]="'empty'" i18n>Empty</option>
-          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">
-            {{ '...'.repeat(item.deep) }}{{ item.name }}
-          </option>
+          @for (item of vehicleTypeOptions; track item) {
+            <option [ngValue]="item.id">{{ '...'.repeat(item.deep) }}{{ item.name }}</option>
+          }
         </select>
       </div>
       <div class="mb-3">
@@ -86,18 +86,18 @@
           (change)="onVehicleChildsTypeChanged()"
         >
           <option [ngValue]="null" i18n>Any</option>
-          <option [ngValue]="item.id" *ngFor="let item of vehicleTypeOptions">
-            {{ '...'.repeat(item.deep) }}{{ item.name }}
-          </option>
+          @for (item of vehicleTypeOptions; track item) {
+            <option [ngValue]="item.id">{{ '...'.repeat(item.deep) }}{{ item.name }}</option>
+          }
         </select>
       </div>
       <div class="mb-3">
         <label i18n>Spec</label>
         <select name="spec" class="form-select" [(ngModel)]="specID" (change)="onSpecChanged()">
           <option [ngValue]="null" i18n>Any</option>
-          <option [ngValue]="item.id" *ngFor="let item of specOptions">
-            {{ '...'.repeat(item.deep) }}{{ item.shortName }}
-          </option>
+          @for (item of specOptions; track item) {
+            <option [ngValue]="item.id">{{ '...'.repeat(item.deep) }}{{ item.shortName }}</option>
+          }
         </select>
       </div>
       <div class="mb-3">
@@ -191,22 +191,28 @@
       <span [hidden]="loading <= 0">
         <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       </span>
-      <small *ngIf="paginator && paginator.totalItemCount" i18n="@@n-items">{paginator.totalItemCount, plural,
-        one {{{paginator.totalItemCount}} item}
-        other {{{paginator.totalItemCount}} items}
-      }</small>
+      @if (paginator && paginator.totalItemCount) {
+        <small i18n="@@n-items">{paginator.totalItemCount, plural,
+          one {{{paginator.totalItemCount}} item}
+          other {{{paginator.totalItemCount}} items}
+        }</small>
+      }
     </h2>
 
-    <div *ngIf="listMode">
-      <div *ngFor="let item of items">
-        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
-      </div>
+    <div>
+      @for (item of items; track item) {
+        @if (listMode) {
+          <div>
+            <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+          </div>
+        } @else {
+          <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+        }
+      }
     </div>
 
-    <div *ngIf="!listMode">
-      <app-catalogue-list-item [item]="item" *ngFor="let item of items"></app-catalogue-list-item>
-    </div>
-
-    <app-paginator [data]="paginator" *ngIf="paginator"></app-paginator>
+    @if (paginator) {
+      <app-paginator [data]="paginator"></app-paginator>
+    }
   </div>
 </div>

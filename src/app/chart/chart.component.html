@@ -12,24 +12,26 @@
 
 <div>
   <div class="nav nav-pills">
-    <a
-      *ngFor="let param of parameters"
-      [class.active]="param.active"
-      class="nav-link"
-      href="#"
-      (click)="selectParam(param)"
-      [textContent]="param.name"
-    ></a>
+    @for (param of parameters; track param) {
+      <a
+        [class.active]="param.active"
+        class="nav-link"
+        href="#"
+        (click)="selectParam(param)"
+        [textContent]="param.name"
+      ></a>
+    }
   </div>
-  <canvas
-    baseChart
-    width="400"
-    height="250"
-    [datasets]="chart.data"
-    [labels]="chart.labels"
-    [options]="chartOptions"
-    [legend]="true"
-    [type]="'line'"
-    *ngIf="chart.data.length"
-  ></canvas>
+  @if (chart.data.length) {
+    <canvas
+      baseChart
+      width="400"
+      height="250"
+      [datasets]="chart.data"
+      [labels]="chart.labels"
+      [options]="chartOptions"
+      [legend]="true"
+      [type]="'line'"
+    ></canvas>
+  }
 </div>

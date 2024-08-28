@@ -4,79 +4,92 @@
       <th i18n scope="col">Topics</th>
       <th i18n scope="col">Author</th>
       <th i18n scope="col">Last message</th>
-      <th i18n scope="col" *ngIf="showSubscribe">Subscription</th>
-      <th *ngIf="forumAdmin$ | async" scope="col"></th>
+      @if (showSubscribe) {
+        <th i18n scope="col">Subscription</th>
+      }
+      @if (forumAdmin$ | async) {
+        <th scope="col"></th>
+      }
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let topic of list$ | async">
-      <td>
-        <span class="bi bi-lock" aria-hidden="true" *ngIf="topic.status === 'closed'"></span>
-        <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name" *ngIf="topic.status !== 'deleted'"></a>
-        <span [textContent]="topic.name" *ngIf="topic.status === 'deleted'"></span>
-        <span class="badge rounded-pill text-bg-secondary">
-          {{ topic.oldMessages + (topic.newMessages > 0 ? '+' + topic.newMessages : '') }}
-        </span>
-      </td>
-      <td>
-        <app-past-time-indicator [date]="topic.createdAt" *ngIf="topic.createdAt"></app-past-time-indicator>
-        <br />
-        <app-user [user]="author" *ngIf="topic.author$ | async as author"></app-user>
-      </td>
-      <td>
-        <div *ngIf="topic.lastMessage$ | async as lastMessage; else noMessage">
-          <ng-container *ngIf="lastMessage.createdAt">
-            <small>
-              <app-past-time-indicator [date]="lastMessage.createdAt.toDate()"></app-past-time-indicator>
-            </small>
-            <br />
-          </ng-container>
-          <app-user [user]="lastMessageAuthor" *ngIf="topic.lastMessageAuthor$ | async as lastMessageAuthor"></app-user>
-          <a [routerLink]="['/forums/message', lastMessage.id]" i18n-title title="Go to last message">
-            <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
-          </a>
-        </div>
-        <ng-template #noMessage>
-          <span>&#x2014;</span>
-        </ng-template>
-      </td>
-      <td *ngIf="showSubscribe">
-        <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic)" i18n>Unsubscribe</button>
-      </td>
-      <td *ngIf="forumAdmin$ | async">
-        <div class="btn-group">
-          <button
-            i18n-title
-            title="open"
-            class="btn btn-sm btn-warning open"
-            (click)="openTopic(topic)"
-            *ngIf="topic.status === 'closed'"
-          >
-            <i class="bi bi-check-circle" aria-hidden="true"></i>
-          </button>
-          <button
-            i18n-title
-            title="close"
-            class="btn btn-sm btn-warning close-topic"
-            (click)="closeTopic(topic)"
-            *ngIf="topic.status !== 'closed'"
-          >
-            <i class="bi bi-x-circle-fill" aria-hidden="true"></i>
-          </button>
-          <a
-            routerLink="/forums/move-topic"
-            [queryParams]="{topic_id: topic.id}"
-            class="btn btn-secondary btn-sm"
-            title="move"
-            i18n-title
-          >
-            <i class="bi bi-arrows-move" aria-hidden="true"></i>
-          </a>
-          <button i18n-title title="delete" class="btn btn-sm btn-danger delete" (click)="deleteTopic(topic)">
-            <i class="bi bi-slash-circle" aria-hidden="true"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
+    @for (topic of list$ | async; track topic) {
+      <tr>
+        <td>
+          @if (topic.status === 'closed') {
+            <span class="bi bi-lock" aria-hidden="true"></span>
+          }
+          @if (topic.status !== 'deleted') {
+            <a [routerLink]="['/forums/topic', topic.id]" [textContent]="topic.name"></a>
+          } @else {
+            <span [textContent]="topic.name"></span>
+          }
+          <span class="badge rounded-pill text-bg-secondary">
+            {{ topic.oldMessages + (topic.newMessages > 0 ? '+' + topic.newMessages : '') }}
+          </span>
+        </td>
+        <td>
+          @if (topic.createdAt) {
+            <app-past-time-indicator [date]="topic.createdAt"></app-past-time-indicator>
+          }
+          <br />
+          @if (topic.author$ | async; as author) {
+            <app-user [user]="author"></app-user>
+          }
+        </td>
+        <td>
+          @if (topic.lastMessage$ | async; as lastMessage) {
+            <div>
+              @if (lastMessage.createdAt) {
+                <small>
+                  <app-past-time-indicator [date]="lastMessage.createdAt.toDate()"></app-past-time-indicator>
+                </small>
+                <br />
+              }
+              @if (topic.lastMessageAuthor$ | async; as lastMessageAuthor) {
+                <app-user [user]="lastMessageAuthor"></app-user>
+              }
+              <a [routerLink]="['/forums/message', lastMessage.id]" i18n-title title="Go to last message">
+                <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+              </a>
+            </div>
+          } @else {
+            <span>&#x2014;</span>
+          }
+        </td>
+        @if (showSubscribe) {
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic)" i18n>Unsubscribe</button>
+          </td>
+        }
+        @if (forumAdmin$ | async) {
+          <td>
+            <div class="btn-group">
+              @if (topic.status === 'closed') {
+                <button i18n-title title="open" class="btn btn-sm btn-warning open" (click)="openTopic(topic)">
+                  <i class="bi bi-check-circle" aria-hidden="true"></i>
+                </button>
+              } @else {
+                <button i18n-title title="close" class="btn btn-sm btn-warning close-topic" (click)="closeTopic(topic)">
+                  <i class="bi bi-x-circle-fill" aria-hidden="true"></i>
+                </button>
+              }
+              <a
+                routerLink="/forums/move-topic"
+                [queryParams]="{topic_id: topic.id}"
+                class="btn btn-secondary btn-sm"
+                title="move"
+                i18n-title
+              >
+                <i class="bi bi-arrows-move" aria-hidden="true"></i>
+              </a>
+              <button i18n-title title="delete" class="btn btn-sm btn-danger delete" (click)="deleteTopic(topic)">
+                <i class="bi bi-slash-circle" aria-hidden="true"></i>
+              </button>
+            </div>
+          </td>
+        }
+      </tr>
+    }
   </tbody>
 </table>

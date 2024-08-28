@@ -1,9 +1,13 @@
-<div class="page-header" *ngIf="group$ | async as group; else loading">
-  <h2 i18n>Specifications of {{ group.nameText }}</h2>
-</div>
-
-<div [innerHtml]="html" *ngIf="html$ | async as html; else loading"></div>
-
-<ng-template #loading>
+@if (group$ | async; as group) {
+  <div class="page-header">
+    <h2 i18n>Specifications of {{ group.nameText }}</h2>
+  </div>
+} @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
+}
+
+@if (html$ | async; as html) {
+  <div [innerHtml]="html"></div>
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

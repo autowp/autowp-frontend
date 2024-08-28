@@ -10,15 +10,17 @@
   <h1 i18n>Top view</h1>
 </div>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="data$ | async as data; else loading">
+@if (data$ | async; as data) {
   <div class="row">
-    <div class="col-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let picture of data.pictures">
-      <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-    </div>
+    @for (picture of data.pictures; track picture) {
+      <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+      </div>
+    }
   </div>
-  <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-</ng-container>
+  @if (data.paginator) {
+    <app-paginator [data]="data.paginator"></app-paginator>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}

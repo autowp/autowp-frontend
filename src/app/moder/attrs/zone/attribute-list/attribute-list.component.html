@@ -1,12 +1,18 @@
-<ul *ngIf="attributes.length > 0">
-  <li *ngFor="let attribute of attributes">
-    <label>
-      <i class="bi bi-check" *ngIf="map[attribute.id + '']"></i>
-      {{ getAttrsTranslation(attribute.name) }}
-    </label>
-    <app-moder-attrs-zone-attribute-list
-      [attributes]="attribute.childs"
-      [map]="map"
-    ></app-moder-attrs-zone-attribute-list>
-  </li>
-</ul>
+@if (attributes.length > 0) {
+  <ul>
+    @for (attribute of attributes; track attribute) {
+      <li>
+        <label>
+          @if (map[attribute.id + '']) {
+            <i class="bi bi-check"></i>
+          }
+          {{ getAttrsTranslation(attribute.name) }}
+        </label>
+        <app-moder-attrs-zone-attribute-list
+          [attributes]="attribute.childs"
+          [map]="map"
+        ></app-moder-attrs-zone-attribute-list>
+      </li>
+    }
+  </ul>
+}

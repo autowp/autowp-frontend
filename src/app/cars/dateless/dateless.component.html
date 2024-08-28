@@ -10,14 +10,18 @@
   <h1 i18n>History</h1>
 </div>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
 <div class="row">
-  <div class="col-md-8 offset-md-2" *ngIf="data$ | async as data; else loading">
-    <app-item [item]="item" *ngFor="let item of data.items"></app-item>
+  @if (data$ | async; as data) {
+    <div class="col-md-8 offset-md-2">
+      @for (item of data.items; track item) {
+        <app-item [item]="item"></app-item>
+      }
 
-    <app-paginator [data]="data.paginator" *ngIf="data.paginator"></app-paginator>
-  </div>
+      @if (data.paginator) {
+        <app-paginator [data]="data.paginator"></app-paginator>
+      }
+    </div>
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+  }
 </div>

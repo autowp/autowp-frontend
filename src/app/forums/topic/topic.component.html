@@ -6,17 +6,18 @@
     <li class="breadcrumb-item">
       <a routerLink="/forums" i18n>Forums</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="theme$ | async as theme">
-      <a [routerLink]="['/forums', theme.id]">{{ getForumsThemeTranslation(theme.name) }}</a>
-    </li>
+    @if (theme$ | async; as theme) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/forums', theme.id]">{{ getForumsThemeTranslation(theme.name) }}</a>
+      </li>
+    }
   </ol>
 </nav>
 
-<ng-container *ngIf="topic$ | async as topic">
+@if (topic$ | async; as topic) {
   <div class="page-header">
     <h1>{{ topic.name }}</h1>
   </div>
-
   <section class="forum-topic-page comments">
     <app-comments
       [itemID]="topic.id"
@@ -24,20 +25,24 @@
       [limit]="limit"
       [page]="page$ | async"
     ></app-comments>
-
-    <div class="text-end mb-3" *ngIf="user$ | async">
-      <button class="btn btn-link subscription" *ngIf="!topic.subscription" (click)="subscribe(topic)">
-        <i class="bi bi-envelope" aria-hidden="true"></i>
-        <ng-container i18n>Subscribe to new replies notifications</ng-container>
-      </button>
-      <button class="btn btn-link subscription" *ngIf="topic.subscription" (click)="unsubscribe(topic)">
-        <i class="bi bi-envelope" aria-hidden="true"></i>
-        <ng-container i18n>Unsubscribe from notifications</ng-container>
-      </button>
-    </div>
-
-    <p class="alert alert-block alert-error" i18n *ngIf="topic.status === 'closed'">
-      Topic is closed by site administration
-    </p>
+    @if (user$ | async) {
+      <div class="text-end mb-3">
+        @if (!topic.subscription) {
+          <button class="btn btn-link subscription" (click)="subscribe(topic)">
+            <i class="bi bi-envelope" aria-hidden="true"></i>
+            <ng-container i18n>Subscribe to new replies notifications</ng-container>
+          </button>
+        }
+        @if (topic.subscription) {
+          <button class="btn btn-link subscription" (click)="unsubscribe(topic)">
+            <i class="bi bi-envelope" aria-hidden="true"></i>
+            <ng-container i18n>Unsubscribe from notifications</ng-container>
+          </button>
+        }
+      </div>
+    }
+    @if (topic.status === 'closed') {
+      <p class="alert alert-block alert-error" i18n>Topic is closed by site administration</p>
+    }
   </section>
-</ng-container>
+}

@@ -1,50 +1,59 @@
-<nav aria-label="breadcrumb" *ngIf="!(layoutParams$ | async).isGalleryPage">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a routerLink="/" i18n>Index page</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a routerLink="/twins" i18n>Twins</a>
-    </li>
-  </ol>
-</nav>
+@if (!(layoutParams$ | async).isGalleryPage) {
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/" i18n>Index page</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/twins" i18n>Twins</a>
+      </li>
+    </ol>
+  </nav>
+}
 
 <div class="row">
-  <div class="col-sm-8 order-2" *ngIf="group$ | async as group">
-    <ng-container *ngIf="!(layoutParams$ | async).isGalleryPage">
-      <div class="page-header mb-4" *ngIf="group">
-        <h1 [innerHTML]="group.name_html"></h1>
-      </div>
-
-      <ul class="nav nav-pills mb-4">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="." routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-            <i class="bi bi-sort-down-alt" aria-hidden="true"></i>
-            <ng-container i18n>group</ng-container>
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="group.accepted_pictures_count > 0">
-          <a class="nav-link" routerLink="pictures" routerLinkActive="active">
-            <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
-            <ng-container i18n>all pictures</ng-container>
-            <span class="badge rounded-pill bg-secondary">{{ group.accepted_pictures_count }}</span>
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="group.has_child_specs">
-          <a class="nav-link" routerLink="specifications" routerLinkActive="active">
-            <i class="bi bi-card-list" aria-hidden="true"></i>
-            <ng-container i18n>specifications</ng-container>
-          </a>
-        </li>
-      </ul>
-    </ng-container>
-
-    <router-outlet></router-outlet>
-  </div>
-  <div class="col-sm-4 order-1" *ngIf="!(layoutParams$ | async).isGalleryPage">
-    <app-twins-sidebar
-      [selected]="selectedBrands"
-      *ngIf="selectedBrands$ | async as selectedBrands"
-    ></app-twins-sidebar>
-  </div>
+  @if (group$ | async; as group) {
+    <div class="col-sm-8 order-2">
+      @if (!(layoutParams$ | async).isGalleryPage) {
+        @if (group) {
+          <div class="page-header mb-4">
+            <h1 [innerHTML]="group.name_html"></h1>
+          </div>
+        }
+        <ul class="nav nav-pills mb-4">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="." routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <i class="bi bi-sort-down-alt" aria-hidden="true"></i>
+              <ng-container i18n>group</ng-container>
+            </a>
+          </li>
+          @if (group.accepted_pictures_count > 0) {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="pictures" routerLinkActive="active">
+                <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
+                <ng-container i18n>all pictures</ng-container>
+                <span class="badge rounded-pill bg-secondary">{{ group.accepted_pictures_count }}</span>
+              </a>
+            </li>
+          }
+          @if (group.has_child_specs) {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="specifications" routerLinkActive="active">
+                <i class="bi bi-card-list" aria-hidden="true"></i>
+                <ng-container i18n>specifications</ng-container>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+      <router-outlet></router-outlet>
+    </div>
+  }
+  @if (!(layoutParams$ | async).isGalleryPage) {
+    <div class="col-sm-4 order-1">
+      @if (selectedBrands$ | async; as selectedBrands) {
+        <app-twins-sidebar [selected]="selectedBrands"></app-twins-sidebar>
+      }
+    </div>
+  }
 </div>

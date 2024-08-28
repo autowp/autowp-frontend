@@ -3,32 +3,39 @@
     <li class="breadcrumb-item">
       <a routerLink="/" i18n>Index page</a>
     </li>
-    <li class="breadcrumb-item" *ngIf="brand$ | async as brand">
-      <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
-    </li>
+    @if (brand$ | async; as brand) {
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/', brand.catname]" [innerHTML]="brand.nameHtml"></a>
+      </li>
+    }
   </ol>
 </nav>
 
-<div class="page-header" *ngIf="data$ | async as data">
-  <h1>{{ data.title }}</h1>
-</div>
+@if (data$ | async; as data) {
+  <div class="page-header">
+    <h1>{{ data.title }}</h1>
+  </div>
+}
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
-<ng-container *ngIf="pictures$ | async as pictures; else loading">
-  <ng-container *ngIf="data$ | async as data">
-    <ng-container *ngIf="brand$ | async as brand">
-      <div class="row" *ngFor="let chunk of pictures.pictures">
-        <div class="col-sm-3" *ngFor="let picture of chunk">
-          <app-thumbnail [picture]="picture" [route]="['/', brand.catname, data.catname, picture.identity]"
-            >></app-thumbnail
-          >
+@if (pictures$ | async; as pictures) {
+  @if (data$ | async; as data) {
+    @if (brand$ | async; as brand) {
+      @for (chunk of pictures.pictures; track chunk) {
+        <div class="row">
+          @for (picture of chunk; track picture) {
+            <div class="col-sm-3">
+              <app-thumbnail [picture]="picture" [route]="['/', brand.catname, data.catname, picture.identity]"
+                >></app-thumbnail
+              >
+            </div>
+          }
         </div>
-      </div>
-    </ng-container>
-  </ng-container>
-
-  <app-paginator [data]="pictures.paginator" *ngIf="pictures.paginator"></app-paginator>
-</ng-container>
+      }
+    }
+  }
+  @if (pictures.paginator) {
+    <app-paginator [data]="pictures.paginator"></app-paginator>
+  }
+} @else {
+  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+}
