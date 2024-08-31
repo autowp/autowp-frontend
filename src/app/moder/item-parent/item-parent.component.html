@@ -45,13 +45,13 @@
       <label class="col-md-2 col-form-label" for="type">Type</label>
       <div class="col-md-10">
         <select name="type_id" class="form-select" [(ngModel)]="itemParent.type_id" id="type">
-          @for (option of typeOptions; track option) {
+          @for (option of typeOptions; track option.value) {
             <option [value]="option.value">{{ option.name }}</option>
           }
         </select>
       </div>
     </div>
-    @for (language of languages; track language) {
+    @for (language of languages; track language.language) {
       <div class="mb-3 row">
         <label class="col-md-2 col-form-label">{{ language.language.toUpperCase() }} Name</label>
         <div class="col-md-10">

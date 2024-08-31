@@ -52,7 +52,7 @@
           [class.is-invalid]="settingsInvalidParams.language"
           [(ngModel)]="settings.language"
         >
-          @for (language of languages; track language) {
+          @for (language of languages; track language.value) {
             <option [value]="language.value">{{ language.name }}</option>
           }
         </select>

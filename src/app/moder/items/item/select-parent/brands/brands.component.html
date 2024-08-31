@@ -12,7 +12,7 @@
     <div class="row">
       @for (chunk of response.items; track chunk) {
         <div class="col-2">
-          @for (item of chunk; track item) {
+          @for (item of chunk; track item.id) {
             <a href="" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
             <br />
           }

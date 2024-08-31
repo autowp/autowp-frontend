@@ -5,7 +5,7 @@
 
 @if (result$ | async; as result) {
   <p class="index-brands">
-    @for (brand of result.brands; track brand) {
+    @for (brand of result.brands; track brand.id) {
       <app-index-brands-brand [brand]="brand"></app-index-brands-brand>
     }
     @if (result.more > 0) {

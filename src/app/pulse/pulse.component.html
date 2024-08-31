@@ -12,7 +12,7 @@
 
 <div>
   <div class="nav nav-pills mb-4">
-    @for (period of periods; track period) {
+    @for (period of periods; track period.value) {
       <a
         [class.active]="period.active"
         class="nav-link"

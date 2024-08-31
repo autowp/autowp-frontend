@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {ItemParentService} from '@services/item-parent';
+import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
@@ -58,7 +58,7 @@ export class CarsEngineSelectComponent {
     shareReplay(1),
   );
 
-  protected readonly items$ = combineLatest([this.brandID$, this.page$]).pipe(
+  protected readonly items$: Observable<APIItemParentGetResponse> = combineLatest([this.brandID$, this.page$]).pipe(
     switchMap(([brandID, page]) =>
       this.itemParentService.getItems$({
         fields: 'item.name_html,item.childs_count',

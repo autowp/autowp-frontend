@@ -31,7 +31,7 @@
   </thead>
   @if (items$ | async; as items) {
     <tbody>
-      @for (item of items; track item) {
+      @for (item of items; track item.ip) {
         <tr>
           <td [textContent]="item.ip"></td>
           <td [textContent]="item.description"></td>

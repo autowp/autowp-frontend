@@ -16,7 +16,7 @@
       @if (line) {
         <div>
           <div class="btn-group">
-            @for (info of line; track info) {
+            @for (info of line; track info.id) {
               <a
                 class="btn btn-secondary"
                 [href]="'#char' + info.id"
@@ -36,7 +36,7 @@
         <div>
           <h2 [id]="'char' + info.id">→ {{ info.char }}</h2>
           <div class="brand-icons row">
-            @for (brand of info.brands; track brand) {
+            @for (brand of info.brands; track brand.id) {
               <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                 @if (icons$ | async; as icons) {
                   <app-brands-item [brand]="brand" [icons]="icons"></app-brands-item>

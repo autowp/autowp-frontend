@@ -157,7 +157,7 @@
         </li>
       }
       @if (item.twins_groups) {
-        @for (twinsGroup of item.twins_groups; track twinsGroup) {
+        @for (twinsGroup of item.twins_groups; track twinsGroup.id) {
           <li class="list-inline-item">
             <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
             <a [routerLink]="['/twins/group', twinsGroup.id]" i18n>twins</a>
@@ -165,7 +165,7 @@
         }
       }
       @if (item.categories) {
-        @for (category of item.categories; track category) {
+        @for (category of item.categories; track category.id) {
           <li class="list-inline-item">
             <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
             <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>

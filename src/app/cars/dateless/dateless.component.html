@@ -13,7 +13,7 @@
 <div class="row">
   @if (data$ | async; as data) {
     <div class="col-md-8 offset-md-2">
-      @for (item of data.items; track item) {
+      @for (item of data.items; track item.id) {
         <app-item [item]="item"></app-item>
       }
 

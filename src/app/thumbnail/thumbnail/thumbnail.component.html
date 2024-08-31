@@ -117,7 +117,7 @@
           (change)="savePerspective(picture)"
         >
           <option [ngValue]="null">--</option>
-          @for (item of perspectiveOptions$ | async; track item) {
+          @for (item of perspectiveOptions$ | async; track item.id) {
             <option [ngValue]="item.id">
               {{ getPerspectiveTranslation(item.name) }}
             </option>

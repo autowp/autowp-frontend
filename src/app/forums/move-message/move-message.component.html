@@ -16,7 +16,7 @@
 @if (messageID$ | async; as messageID) {
   @if (themeID$ | async) {
     <div>
-      @for (topic of topics$ | async; track topic) {
+      @for (topic of topics$ | async; track topic.id) {
         <p>
           <button class="btn btn-link" [textContent]="topic.name" (click)="selectTopic(messageID + '', topic)"></button>
         </p>
@@ -24,7 +24,7 @@
     </div>
   } @else {
     <ul>
-      @for (theme of themes$ | async; track theme) {
+      @for (theme of themes$ | async; track theme.id) {
         <li>
           <a
             [routerLink]="['.']"

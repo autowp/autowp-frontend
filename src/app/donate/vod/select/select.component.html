@@ -56,7 +56,7 @@
   <div class="row">
     @for (chunk of brands; track chunk) {
       <div class="col-md-2">
-        @for (brand of chunk; track brand) {
+        @for (brand of chunk; track brand.id) {
           <a
             routerLink="."
             [queryParams]="{brand_id: brand.id}"

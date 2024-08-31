@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (link of links; track link; let i = $index) {
+            @for (link of links; track link.id; let i = $index) {
               <tr>
                 <td>
                   <input type="text" name="name{{ i }}" [(ngModel)]="link.name" class="form-control" />
@@ -76,7 +76,7 @@
           <th i18n scope="col">Address</th>
           <th i18n scope="col">Type</th>
         </tr>
-        @for (link of links; track link) {
+        @for (link of links; track link.id) {
           <tr>
             <td [textContent]="link.name"></td>
             <td [textContent]="link.url"></td>

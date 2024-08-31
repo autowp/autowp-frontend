@@ -19,7 +19,7 @@
 
 @if (brandID$ | async) {
   @if (items$ | async; as items) {
-    @for (item of items.items; track item) {
+    @for (item of items.items; track item.item_id) {
       <div>
         @if (itemID$ | async; as itemID) {
           <app-cars-select-engine-tree-item [item]="item" (selected)="selectEngine(itemID, $event)">
@@ -47,7 +47,7 @@
     <div class="row">
       @for (chunk of brands.items; track chunk) {
         <div class="col-md-2">
-          @for (brand of chunk; track brand) {
+          @for (brand of chunk; track brand.id) {
             <a
               routerLink="/cars/select-engine"
               [queryParams]="{item_id: itemID$ | async, brand_id: brand.id}"

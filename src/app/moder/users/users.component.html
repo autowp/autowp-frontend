@@ -28,7 +28,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (user of users.items; track user) {
+      @for (user of users.items; track user.id) {
         <tr>
           <td [textContent]="user.id"></td>
           <td>

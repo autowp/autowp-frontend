@@ -72,7 +72,7 @@
         >
           <option [ngValue]="null">Any</option>
           <option [ngValue]="'empty'" i18n>Empty</option>
-          @for (item of vehicleTypeOptions; track item) {
+          @for (item of vehicleTypeOptions; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep) }}{{ item.name }}</option>
           }
         </select>
@@ -86,7 +86,7 @@
           (change)="onVehicleChildsTypeChanged()"
         >
           <option [ngValue]="null" i18n>Any</option>
-          @for (item of vehicleTypeOptions; track item) {
+          @for (item of vehicleTypeOptions; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep) }}{{ item.name }}</option>
           }
         </select>
@@ -95,7 +95,7 @@
         <label i18n>Spec</label>
         <select name="spec" class="form-select" [(ngModel)]="specID" (change)="onSpecChanged()">
           <option [ngValue]="null" i18n>Any</option>
-          @for (item of specOptions; track item) {
+          @for (item of specOptions; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep) }}{{ item.shortName }}</option>
           }
         </select>
@@ -200,7 +200,7 @@
     </h2>
 
     <div>
-      @for (item of items; track item) {
+      @for (item of items; track item.id) {
         @if (listMode) {
           <div>
             <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>

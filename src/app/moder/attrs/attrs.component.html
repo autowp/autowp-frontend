@@ -18,7 +18,7 @@
     <h2 i18n>Zones</h2>
     <div class="card card-body">
       <ul>
-        @for (zone of zones$ | async; track zone) {
+        @for (zone of zones$ | async; track zone.id) {
           <li>
             <a [routerLink]="['/moder/attrs/zone', zone.id]" [textContent]="zone.name"></a>
           </li>

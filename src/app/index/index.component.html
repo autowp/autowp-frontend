@@ -45,7 +45,7 @@
     </h4>
     @if (contentPersons$ | async; as persons) {
       <p>
-        @for (person of persons.items; track person) {
+        @for (person of persons.items; track person.id) {
           <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
           >,
         }
@@ -62,7 +62,7 @@
     </h4>
     @if (authorPersons$ | async; as persons) {
       <p>
-        @for (person of persons.items; track person) {
+        @for (person of persons.items; track person.id) {
           <a [routerLink]="['/persons', person.id]">{{ person.name }}</a
           >,
         }

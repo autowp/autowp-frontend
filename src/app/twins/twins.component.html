@@ -29,7 +29,7 @@
             <div>
               @for (ch of group.childs; track ch) {
                 <div class="twins row">
-                  @for (car of ch; track car) {
+                  @for (car of ch; track car.id) {
                     <div class="col-lg-4 col-md-4">
                       <div class="card mb-4">
                         @if (car.front_picture) {

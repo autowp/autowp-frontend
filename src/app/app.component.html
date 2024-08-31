@@ -144,14 +144,14 @@
           </li>
           <li class="nav-item" ngbDropdown placement="bottom-right">
             <button href="#" class="nav-link" ngbDropdownToggle>
-              @for (lang of languages; track lang) {
+              @for (lang of languages; track lang.code) {
                 @if (lang.code === language) {
                   <i [ngClass]="lang.flag" aria-hidden="true"></i>
                 }
               }
             </button>
             <div ngbDropdownMenu>
-              @for (lang of languages; track lang) {
+              @for (lang of languages; track lang.code) {
                 <a
                   class="dropdown-item"
                   [href]="'//' + lang.hostname + urlPath"
@@ -245,7 +245,7 @@ All images are posted for educational purposes.
         </div>
       </div>
       <p class="language-picker">
-        @for (lang of languages; track lang) {
+        @for (lang of languages; track lang.code) {
           @if (lang.code !== language) {
             <a [href]="'//' + lang.hostname + urlPath">
               <i [ngClass]="lang.flag" aria-hidden="true"></i>

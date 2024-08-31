@@ -1,7 +1,7 @@
 @if (data$ | async; as data) {
   <div class="card card-body">
     <ul ngbNav #nav="ngbNav" [activeId]="data.languages[0].language" class="nav-tabs">
-      @for (language of data.languages; track language) {
+      @for (language of data.languages; track language.language) {
         <li [ngbNavItem]="language.language">
           <a ngbNavLink>
             {{ language.language.toUpperCase() }}

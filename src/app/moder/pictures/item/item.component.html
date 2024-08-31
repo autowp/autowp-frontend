@@ -295,14 +295,14 @@
                 </div>
                 <div class="col-6">
                   <select name="taken_month" [(ngModel)]="picture.taken_month" title="Month" class="form-select">
-                    @for (month of monthOptions; track month) {
+                    @for (month of monthOptions; track month.value) {
                       <option [ngValue]="month.value">{{ month.name }}</option>
                     }
                   </select>
                 </div>
                 <div class="col-3">
                   <select name="taken_day" [(ngModel)]="picture.taken_day" title="Day" class="form-select">
-                    @for (day of dayOptions; track day) {
+                    @for (day of dayOptions; track day.value) {
                       <option [ngValue]="day.value">{{ day.name }}</option>
                     }
                   </select>
@@ -572,7 +572,7 @@
                     <div class="mb-3">
                       <label i18n>For period</label>
                       <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
-                        @for (period of banPeriods; track period) {
+                        @for (period of banPeriods; track period.value) {
                           <option [value]="period.value">{{ period.name }}</option>
                         }
                       </select>

@@ -29,7 +29,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (item of items; track item) {
+    @for (item of items; track item.id) {
       <tr>
         <td [textContent]="item.id"></td>
         <td>

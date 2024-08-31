@@ -2,7 +2,7 @@
   <h1 i18n>Contacts</h1>
 </div>
 <div class="row">
-  @for (contact of items; track contact) {
+  @for (contact of items$ | async; track contact.contactUserId) {
     <div class="col-md-6 mb-2">
       <div class="d-flex justify-content-start">
         <div class="align-self-start me-3">

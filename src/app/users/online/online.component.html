@@ -3,7 +3,7 @@
   <button class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
-  @for (user of users$ | async; track user) {
+  @for (user of users$ | async; track user.id) {
     <app-user [user]="user"></app-user>
   }
 </div>

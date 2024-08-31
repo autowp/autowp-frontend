@@ -13,6 +13,7 @@ interface Article {
   author$: Observable<APIUser>;
   date: Date;
   description: string;
+  id: string;
   name: string;
   previewUrl: string;
   routerLink: string[];
@@ -42,10 +43,11 @@ export class ListComponent {
       return EMPTY;
     }),
     map((response) => ({
-      articles: (response.items ? response.items : []).map((article) => ({
+      articles: (response.items || []).map((article) => ({
         author$: article.authorId !== '0' ? this.userService.getUser$(article.authorId) : of(null),
         date: article.date?.toDate(),
         description: article.description,
+        id: article.id,
         name: article.name,
         previewUrl: article.previewUrl,
         routerLink: ['/articles', article.catname],

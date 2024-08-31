@@ -13,7 +13,7 @@
 @if (articles$ | async; as response) {
   <div class="card card-body">
     <ul class="article-list">
-      @for (article of response.articles; track article) {
+      @for (article of response.articles; track article.id) {
         <li>
           @if (article.previewUrl) {
             <a [routerLink]="article.routerLink">

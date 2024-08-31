@@ -131,7 +131,7 @@
               </h2>
               <div class="card card-body mb-4">
                 <ul>
-                  @for (comment of comments; track comment) {
+                  @for (comment of comments; track comment.id) {
                     <li>
                       <a [routerLink]="comment.route" [textContent]="comment.preview"></a>
                     </li>
@@ -234,7 +234,7 @@
                     <div class="mb-3">
                       <label i18n>For period</label>
                       <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
-                        @for (period of banPeriods; track period) {
+                        @for (period of banPeriods; track period.value) {
                           <option [value]="period.value">{{ period.name }}</option>
                         }
                       </select>

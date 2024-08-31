@@ -18,11 +18,11 @@
     <li>
       [{{ page.id }}] {{ page.name }}
       <div class="mb-4 row">
-        @for (group of page.groups; track group) {
+        @for (group of page.groups; track group.id) {
           <div class="col-4">
             [{{ group.id }}] {{ group.name }}
             <ul>
-              @for (perspective of group.perspectives; track perspective) {
+              @for (perspective of group.perspectives; track perspective.id) {
                 <li>[{{ perspective.id }}] {{ getPerspectiveTranslation(perspective.name) }}</li>
               }
             </ul>

@@ -91,7 +91,7 @@
 }
 
 @if (items$ | async; as items) {
-  @for (item of items.items; track item) {
+  @for (item of items.items; track item.id) {
     <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
   }
 } @else {

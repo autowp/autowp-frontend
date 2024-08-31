@@ -4,7 +4,7 @@
 <ng-template #loading> </ng-template>
 @if (items$ | async; as items) {
   <p>
-    @for (brand of items.items; track brand) {
+    @for (brand of items.items; track brand.id) {
       <a [routerLink]="['/twins', brand.catname]">{{ brand.name }}</a
       >&#xa0;<span class="count"
         >({{ brand.count - brand.newCount }}

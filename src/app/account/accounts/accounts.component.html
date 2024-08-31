@@ -4,7 +4,7 @@
 @if (accounts$ | async; as accounts) {
   @if (accounts.length > 0 && !disconnectFailed) {
     <div class="card card-body mb-4">
-      @for (account of accounts; track account) {
+      @for (account of accounts; track account.id) {
         <div>
           <p>
             @if (account.can_remove) {

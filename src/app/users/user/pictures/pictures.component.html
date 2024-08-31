@@ -17,7 +17,7 @@
 
 @if (user$ | async; as user) {
   <div class="brand-icons row">
-    @for (brand of brands$ | async; track brand) {
+    @for (brand of brands$ | async; track brand.id) {
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         @if (icons$ | async; as icons) {
           <a

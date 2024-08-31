@@ -24,7 +24,7 @@
 </div>
 
 @if (topic$ | async; as topic) {
-  @for (theme of themes$ | async; track theme) {
+  @for (theme of themes$ | async; track theme.id) {
     <div>
       <button
         class="btn btn-secondary"

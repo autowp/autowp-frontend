@@ -1,6 +1,6 @@
 @if (attributes.length > 0) {
   <ul>
-    @for (attribute of attributes; track attribute) {
+    @for (attribute of attributes; track attribute.id) {
       <li>
         <label>
           @if (map[attribute.id + '']) {

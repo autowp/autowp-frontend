@@ -18,7 +18,7 @@
   }
 
   <div class="comments">
-    @for (message of data.items; track message) {
+    @for (message of data.items; track message.message.id) {
       <div class="message">
         @if (message.message.authorId !== '0') {
           @if (message.author$ | async; as author) {

@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (topic of list$ | async; track topic) {
+    @for (topic of list$ | async; track topic.id) {
       <tr>
         <td>
           @if (topic.status === 'closed') {

@@ -5,7 +5,7 @@
         @if (response.brand.brandicon) {
           <img alt="" [src]="response.brand.brandicon.src" style="float: right; margin: 0 0 5px 5px" />
         }
-        @for (item of response.items; track item) {
+        @for (item of response.items; track item.id) {
           <p [innerHTML]="item.nameHtml"></p>
         }
         <br style="clear: both" />

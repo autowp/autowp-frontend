@@ -30,7 +30,7 @@
 
 @if (vehicleTypeOptions$ | async; as vehicleTypeOptions) {
   <ul class="nav nav-pills mb-4">
-    @for (item of vehicleTypeOptions; track item) {
+    @for (item of vehicleTypeOptions; track item.id) {
       <li class="nav-item">
         <a [routerLink]="item.route" class="nav-link" [class.active]="item.active">
           {{ item.name }}
@@ -44,7 +44,7 @@
 }
 
 @if (result$ | async; as items) {
-  @for (item of items.items; track item) {
+  @for (item of items.items; track item.id) {
     <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
   }
 

@@ -6,7 +6,7 @@
   style="max-width: 10em"
 >
   <option [ngValue]="null">--</option>
-  @for (perspective of perspectives$ | async; track perspective) {
+  @for (perspective of perspectives$ | async; track perspective.id) {
     <option [ngValue]="perspective.id">
       {{ getPerspectiveTranslation(perspective.name) }}
     </option>

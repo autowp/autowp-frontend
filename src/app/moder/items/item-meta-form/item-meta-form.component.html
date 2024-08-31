@@ -92,7 +92,7 @@
               class="form-select"
               [formControl]="specID"
             >
-              @for (spec of specs$ | async; track spec) {
+              @for (spec of specs$ | async; track spec.id) {
                 <option [ngValue]="spec.id">
                   {{ '…'.repeat(spec.deep) + spec.short_name }}
                 </option>
@@ -165,7 +165,7 @@
                     name="begin_model_year_fraction"
                     [formControl]="beginYearFraction"
                   >
-                    @for (option of modelYearFractionOptions; track option) {
+                    @for (option of modelYearFractionOptions; track option.value) {
                       <option [ngValue]="option.value">
                         {{ option.name }}
                       </option>
@@ -201,7 +201,7 @@
                     name="end_model_year_fraction"
                     [formControl]="endYearFraction"
                   >
-                    @for (option of modelYearFractionOptions; track option) {
+                    @for (option of modelYearFractionOptions; track option.value) {
                       <option [ngValue]="option.value">
                         {{ option.name }}
                       </option>
@@ -254,7 +254,7 @@
                     class="form-select"
                     [formControl]="beginMonth"
                   >
-                    @for (month of monthOptions; track month) {
+                    @for (month of monthOptions; track month.value) {
                       <option [ngValue]="month.value">{{ month.name }}</option>
                     }
                   </select>
@@ -305,7 +305,7 @@
                     class="form-select"
                     [formControl]="endMonth"
                   >
-                    @for (month of monthOptions; track month) {
+                    @for (month of monthOptions; track month.value) {
                       <option [ngValue]="month.value">{{ month.name }}</option>
                     }
                   </select>
@@ -323,7 +323,7 @@
                     i18n-title
                     class="form-select"
                   >
-                    @for (option of todayOptions; track option) {
+                    @for (option of todayOptions; track option.value) {
                       <option [ngValue]="option.value">{{ option.name }}</option>
                     }
                   </select>
@@ -376,7 +376,7 @@
                     class="form-select"
                     [formControl]="exactly"
                   >
-                    @for (option of producedOptions; track option) {
+                    @for (option of producedOptions; track option.value) {
                       <option [ngValue]="option.value">{{ option.name }}</option>
                     }
                   </select>
@@ -406,7 +406,7 @@
               class="form-select"
               [formControl]="isConcept"
             >
-              @for (option of isConceptOptions$ | async; track option) {
+              @for (option of isConceptOptions$ | async; track option.value) {
                 <option [ngValue]="option.value">{{ option.name }}</option>
               }
             </select>
@@ -450,7 +450,7 @@
           <label class="col-md-2 col-form-label text-end" i18n>Vehicles</label>
           @if (items$ | async; as items) {
             <div class="col-md-10">
-              @for (child of items; track child) {
+              @for (child of items; track child.id) {
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" [value]="child.id" (change)="onCheckboxChange($event, control)" />
