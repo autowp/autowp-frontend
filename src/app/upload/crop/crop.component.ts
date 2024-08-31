@@ -83,6 +83,12 @@ export class UploadCropComponent implements OnInit, OnDestroy {
           minSize: this.minSize,
           onSelect: (c: JcropCrop) => {
             this.currentCrop = c;
+            if (this.currentCrop.y < 0) {
+              this.currentCrop.y = 0;
+            }
+            if (this.currentCrop.x < 0) {
+              this.currentCrop.x = 0;
+            }
             this.updateSelectionText();
           },
           setSelect: [
