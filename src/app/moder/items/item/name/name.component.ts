@@ -4,7 +4,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
 import {APIItem} from '@services/item';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 export interface ItemLanguage {

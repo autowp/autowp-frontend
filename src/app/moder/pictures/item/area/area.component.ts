@@ -162,11 +162,15 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub && this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   protected selectAll() {
-    this.picture && this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+    if (this.picture) {
+      this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+    }
   }
 
   private updateSelectionText() {
@@ -200,7 +204,9 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           }),
         )
         .subscribe(() => {
-          this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
+          if (this.picture) {
+            this.router.navigate(['/moder/pictures', this.picture.id]);
+          }
         });
     }
   }

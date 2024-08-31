@@ -220,7 +220,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   private areasToBounds(offsetBounds: Bounds) {
-    this.item &&
+    if (this.item) {
       this.item.areas.forEach((area) => {
         area.styles = {
           'height.px': area.area.height * offsetBounds.height,
@@ -229,5 +229,6 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           'width.px': area.area.width * offsetBounds.width,
         };
       });
+    }
   }
 }

@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {NewItemsRequest} from '@grpc/spec.pb';
+import {APITopBrandsListItem, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIBrandsBrand} from '@services/brands.service';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
@@ -12,10 +11,11 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './brand.component.html',
 })
 export class IndexBrandsBrandComponent {
-  @Input() set brand(item: APIBrandsBrand) {
+  @Input() set brand(item: APITopBrandsListItem) {
     this.brand$.next(item);
   }
-  protected readonly brand$: BehaviorSubject<APIBrandsBrand | null> = new BehaviorSubject<APIBrandsBrand | null>(null);
+  protected readonly brand$: BehaviorSubject<APITopBrandsListItem | null> =
+    new BehaviorSubject<APITopBrandsListItem | null>(null);
 
   protected readonly response$ = this.brand$.pipe(
     switchMap((brand) =>

@@ -5,7 +5,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
-import {Marker, icon, latLng, marker, tileLayer} from 'leaflet';
+import {icon, latLng, Marker, marker, tileLayer} from 'leaflet';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 

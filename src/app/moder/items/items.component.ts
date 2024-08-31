@@ -11,7 +11,7 @@ import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {EMPTY, Observable, Subscription, of} from 'rxjs';
+import {EMPTY, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';

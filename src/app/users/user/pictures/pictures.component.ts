@@ -6,8 +6,8 @@ import {
   ItemPicturesRequest,
   ItemType,
   ListItemsRequest,
-  PictureStatus,
   PicturesRequest,
+  PictureStatus,
 } from '@grpc/spec.pb';
 import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';

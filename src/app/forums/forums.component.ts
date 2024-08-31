@@ -17,7 +17,7 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@utils/translations';
-import {BehaviorSubject, Observable, combineLatest, of, throwError} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 interface Theme extends APIForumsTheme.AsObject {

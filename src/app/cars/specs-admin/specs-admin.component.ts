@@ -6,10 +6,10 @@ import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
-import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIAttrAttributeValue, APIAttrUnit, APIAttrUserValue, APIAttrsService} from '../../api/attrs/attrs.service';
+import {APIAttrAttributeValue, APIAttrsService, APIAttrUnit, APIAttrUserValue} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({

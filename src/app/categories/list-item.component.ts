@@ -4,7 +4,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {APIPicture} from '@services/picture';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 interface PictureThumbRoute {

@@ -49,7 +49,7 @@ export class ModerItemsItemLogoComponent {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    this.item &&
+    if (this.item) {
       this.api
         .request('POST', 'item/' + this.item.id + '/logo', {
           body: formData,
@@ -115,5 +115,6 @@ export class ModerItemsItemLogoComponent {
           }),
         )
         .subscribe();
+    }
   }
 }

@@ -853,12 +853,12 @@ const mostsPeriods: {
 const catalogueSection: {
   [key: string]: string;
 } = {
-  Other: $localize`Other`,
   'catalogue/section/buses': $localize`Buses`,
   'catalogue/section/engines': $localize`Engines`,
   'catalogue/section/moto': $localize`Moto`,
   'catalogue/section/tractors': $localize`Tractors`,
   'catalogue/section/trucks': $localize`Trucks`,
+  Other: $localize`Other`,
 };
 
 export function getItemTypeTranslation(id: number, type: string): string {
@@ -868,9 +868,9 @@ export function getItemTypeTranslation(id: number, type: string): string {
   }
   switch (type) {
     case 'add-sub-item':
+    case 'name':
     case 'name-plural':
     case 'new-item':
-    case 'name':
       return translation[type];
   }
   return '-';

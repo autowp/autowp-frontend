@@ -12,10 +12,10 @@ export class ContainerComponent {
 
   protected typeToClass(type: string): null | string {
     switch (type) {
-      case 'success':
-        return 'bg-success text-light';
       case 'danger':
         return 'bg-danger text-light';
+      case 'success':
+        return 'bg-success text-light';
     }
 
     return null;

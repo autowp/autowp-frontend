@@ -7,7 +7,7 @@ import {APIPaginator} from '@services/api.service';
 import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {Observable, Subscription, combineLatest, of} from 'rxjs';
+import {combineLatest, Observable, of, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../chunk';
@@ -20,7 +20,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   private querySub?: Subscription;
   protected page: number = 0;
   protected brands: APIItem[][] = [];
-  protected paginator: Pages | null = null;
+  protected paginator: null | Pages = null;
   protected brand: GRPCAPIItem | null = null;
   protected vehicles: APIItemParent[] = [];
   protected vehiclesPaginator: APIPaginator | null = null;
@@ -124,6 +124,8 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub && this.querySub.unsubscribe();
+    if (this.querySub) {
+      this.querySub.unsubscribe();
+    }
   }
 }

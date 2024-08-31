@@ -4,11 +4,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService, allowedItemTypeCombinations} from '@services/item';
+import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {EMPTY, Observable, combineLatest, forkJoin, of} from 'rxjs';
+import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';

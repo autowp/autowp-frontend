@@ -4,7 +4,7 @@ import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest, Pages} f
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';

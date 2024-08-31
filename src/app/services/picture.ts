@@ -348,7 +348,7 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
 
 @Injectable()
 export class PictureService {
-  public readonly summary$: Observable<PicturesUserSummary | null> = this.auth.getUser$().pipe(
+  public readonly summary$: Observable<null | PicturesUserSummary> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         return of(null);

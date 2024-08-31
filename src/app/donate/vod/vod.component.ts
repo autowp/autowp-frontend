@@ -5,7 +5,7 @@ import {APIUser} from '@grpc/spec.pb';
 import {AuthService} from '@services/auth.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {usdToRub} from '../../currencies';

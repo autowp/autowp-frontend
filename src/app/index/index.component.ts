@@ -5,7 +5,7 @@ import {APIService} from '@services/api.service';
 import {APIItem, ItemOfDayItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 interface APIIndexItemOfDay {

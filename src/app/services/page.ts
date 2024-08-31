@@ -2,25 +2,17 @@ import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 import {map} from 'rxjs/operators';
 
+import * as pagesJson from './pages.json';
+
 export interface Page {
   childs: Page[];
-  class: string;
-  guest_only: boolean;
-  icon: string;
   id: number;
-  is_group_node: boolean;
-  name: string;
-  registered_only: boolean;
-  routerLink: string[];
-  title: string;
-  url: string;
 }
 
 @Injectable()
 export class PageService {
   private pages = new Map<number, Page>();
   private parents = new Map<number, null | number>();
-
   private pagesJson: Page[] = [];
 
   private walkPages(pages: Page[], parentID: null | number) {
@@ -47,8 +39,8 @@ export class PageService {
   private loadTree$(): Observable<boolean> {
     return new Observable<boolean>((observer: Observer<boolean>) => {
       if (!this.pagesJson) {
-        this.pagesJson = require('./pages.json');
-        this.walkPages(this.pagesJson, null);
+        this.pagesJson = pagesJson;
+        this.walkPages(pagesJson, null);
       }
 
       observer.next(true);

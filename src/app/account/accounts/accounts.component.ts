@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
-import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';

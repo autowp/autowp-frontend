@@ -14,7 +14,7 @@ import {environment} from '@environment/environment';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
 import {KeycloakService} from 'keycloak-angular';
-import {Observable, from, of, throwError} from 'rxjs';
+import {from, Observable, of, throwError} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';

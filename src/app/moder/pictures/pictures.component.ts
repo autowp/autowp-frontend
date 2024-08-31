@@ -19,7 +19,7 @@ import {APIGetPicturesOptions, APIPicture, PictureService} from '@services/pictu
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {getPerspectiveTranslation, getVehicleTypeTranslation} from '@utils/translations';
-import {BehaviorSubject, EMPTY, Observable, Subscription, forkJoin, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, forkJoin, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIPerspectiveService} from '../../api/perspective/perspective.service';

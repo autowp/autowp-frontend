@@ -5,7 +5,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({

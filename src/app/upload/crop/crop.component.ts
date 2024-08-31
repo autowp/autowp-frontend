@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
 import * as $ from 'jquery';
-import {BehaviorSubject, Subscription, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
 // @ts-expect-error Legacy
 import Jcrop from '../../jcrop/jquery.Jcrop';
@@ -98,7 +98,9 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub && this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   protected selectAll(picture: APIPicture) {

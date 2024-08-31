@@ -9,7 +9,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, Observable, forkJoin, of} from 'rxjs';
+import {EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -128,7 +128,7 @@ export class ModerItemsNewComponent {
     shareReplay(1),
   );
 
-  protected readonly parentIsConcept$: Observable<ParentIsConcept | null> = this.parent$.pipe(
+  protected readonly parentIsConcept$: Observable<null | ParentIsConcept> = this.parent$.pipe(
     map((parent) => (parent ? {isConcept: parent.isConcept} : null)),
   );
 

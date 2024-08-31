@@ -5,7 +5,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {Subscription, combineLatest, of} from 'rxjs';
+import {combineLatest, of, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 export interface APIItemAlphaGetResponse {
@@ -20,7 +20,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   protected char: null | string = null;
   private querySub?: Subscription;
   protected loading = 0;
-  protected paginator?: Pages | null = null;
+  protected paginator?: null | Pages = null;
   protected groups: string[][] = [];
   protected items?: APIItem[];
 
@@ -77,6 +77,8 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub && this.querySub.unsubscribe();
+    if (this.querySub) {
+      this.querySub.unsubscribe();
+    }
   }
 }

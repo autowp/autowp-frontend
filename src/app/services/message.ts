@@ -8,7 +8,7 @@ import {
 } from '@grpc/spec.pb';
 import {MessagingClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';

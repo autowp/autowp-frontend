@@ -5,7 +5,7 @@ import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {getUnitAbbrTranslation} from '@utils/translations';
-import {Observable, combineLatest} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {APIAttrConflict, APIAttrConflictValue, APIAttrsService} from '../../api/attrs/attrs.service';

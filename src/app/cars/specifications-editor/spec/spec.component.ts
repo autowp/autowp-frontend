@@ -12,16 +12,16 @@ import {
   getUnitAbbrTranslation,
   getUnitNameTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, forkJoin, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {
   APIAttrAttributeValue,
+  APIAttrsService,
   APIAttrUnit,
   APIAttrUserValue,
   APIAttrUserValueGetResponse,
   APIAttrValue,
-  APIAttrsService,
   AttrAttributeTreeItem,
 } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';

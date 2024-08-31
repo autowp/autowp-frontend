@@ -5,7 +5,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {KeycloakService} from 'keycloak-angular';
-import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';

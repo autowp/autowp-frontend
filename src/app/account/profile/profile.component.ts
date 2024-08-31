@@ -10,7 +10,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {TimezoneService} from '@services/timezone';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {KeycloakService} from 'keycloak-angular';
-import {EMPTY, Subscription, of} from 'rxjs';
+import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -102,7 +102,9 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy(): void {
-    this.sub && this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   private showSavedMessage() {

@@ -37,8 +37,8 @@ export function cataloguePathMatcher(url: UrlSegment[]) {
   if (i < url.length) {
     const segment = url[i].path;
     switch (segment) {
-      case 'tuning':
       case 'sport':
+      case 'tuning':
         type = segment;
         consumed.push(url[i]);
         break;

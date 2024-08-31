@@ -11,7 +11,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {KeycloakService} from 'keycloak-angular';
-import {EMPTY, Observable, combineLatest, concat, of} from 'rxjs';
+import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';

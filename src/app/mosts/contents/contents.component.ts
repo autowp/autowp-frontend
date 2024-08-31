@@ -9,7 +9,7 @@ import {
   getUnitNameTranslation,
   getVehicleTypeRpTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, EMPTY, Observable, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIMostsItem, MostsService} from '../mosts.service';

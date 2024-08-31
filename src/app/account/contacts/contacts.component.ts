@@ -7,7 +7,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {KeycloakService} from 'keycloak-angular';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators'; 
+import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -18,27 +18,25 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class AccountContactsComponent implements OnInit {
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly items$: Observable<Contact[]> = this.auth
-    .getUser$()
-    .pipe(
-      map((user) => {
-        if (!user) {
-          this.keycloak.login({
-            locale: this.languageService.language,
-            redirectUri: window.location.href,
-          });
-          return EMPTY;
-        }
-        return user;
-      }),
-      switchMap(() => this.reload$),
-      switchMap(() => this.contactsService.getContacts$()),
-      catchError((error) => {
-        this.toastService.handleError(error);
+  protected readonly items$: Observable<Contact[]> = this.auth.getUser$().pipe(
+    map((user) => {
+      if (!user) {
+        this.keycloak.login({
+          locale: this.languageService.language,
+          redirectUri: window.location.href,
+        });
         return EMPTY;
-      }),
-      map(response => response.items || [])
-    );
+      }
+      return user;
+    }),
+    switchMap(() => this.reload$),
+    switchMap(() => this.contactsService.getContacts$()),
+    catchError((error: unknown) => {
+      this.toastService.handleError(error);
+      return EMPTY;
+    }),
+    map((response) => response.items || []),
+  );
 
   constructor(
     private readonly contactsService: ContactsService,
@@ -48,8 +46,7 @@ export class AccountContactsComponent implements OnInit {
     private readonly contacts: ContactsClient,
     private readonly languageService: LanguageService,
     private readonly keycloak: KeycloakService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 198}), 0);

@@ -6,7 +6,7 @@ import {APIPathTreeItemParent} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {APIPicture} from '@services/picture';
-import {EMPTY, Observable, OperatorFunction, of} from 'rxjs';
+import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 interface Parent {
@@ -20,7 +20,7 @@ export interface Breadcrumbs {
   routerLink: string[];
 }
 
-type ParentObservableFunc = () => OperatorFunction<Parent | null, Parent | null>;
+type ParentObservableFunc = () => OperatorFunction<null | Parent, null | Parent>;
 
 @Injectable()
 export class CatalogueService {
@@ -56,7 +56,7 @@ export class CatalogueService {
     fields: string,
   ): Observable<{brand: APIItem; path: APIItemParent[]; type: string} | null> {
     const pathPipeRecursive: ParentObservableFunc = () =>
-      switchMap((parent: Parent | null) => {
+      switchMap((parent: null | Parent) => {
         if (!parent || !parent.id || parent.path.length <= 0) {
           return of(parent);
         }
@@ -78,7 +78,7 @@ export class CatalogueService {
             parent_id: parent.id,
           })
           .pipe(
-            map((response): Parent | null => {
+            map((response): null | Parent => {
               if (response.items.length <= 0) {
                 return null;
               }

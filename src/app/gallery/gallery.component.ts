@@ -1,7 +1,7 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {APIService} from '@services/api.service';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {APIGallery, APIGalleryItem} from './definitions';

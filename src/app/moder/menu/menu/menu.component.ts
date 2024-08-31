@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {PictureService} from '@services/picture';
-import {Observable, combineLatest} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {APICommentsService} from '../../../api/comments/comments.service';

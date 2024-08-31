@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType, ItemType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CategoriesService} from '../../service';

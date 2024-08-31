@@ -120,15 +120,19 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub && this.routeSub.unsubscribe();
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 
   protected selectAll() {
-    this.picture && this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+    if (this.picture) {
+      this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
+    }
   }
 
   protected saveCrop() {
-    this.picture &&
+    if (this.picture) {
       this.picturesClient
         .setPictureCrop(
           new SetPictureCropRequest({
@@ -146,8 +150,11 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           }),
         )
         .subscribe(() => {
-          this.picture && this.router.navigate(['/moder/pictures', this.picture.id]);
+          if (this.picture) {
+            this.router.navigate(['/moder/pictures', this.picture.id]);
+          }
         });
+    }
   }
 
   private updateSelectionText() {

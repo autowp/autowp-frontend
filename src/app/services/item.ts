@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {APIGetItemVehicleTypesRequest, APIItemVehicleType, APIItemVehicleTypeRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {Observable, forkJoin, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {APIImage, APIPaginator, APIService} from './api.service';

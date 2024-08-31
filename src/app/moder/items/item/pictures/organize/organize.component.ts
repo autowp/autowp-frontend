@@ -8,7 +8,7 @@ import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {EMPTY, Observable, forkJoin, of} from 'rxjs';
+import {EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';

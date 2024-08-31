@@ -11,6 +11,8 @@ import {BytesPipe} from 'ngx-pipes';
 import {map, switchMap} from 'rxjs/operators';
 import showdown from 'showdown';
 
+import * as versionJson from '../../version.json';
+
 function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
@@ -84,7 +86,7 @@ Take part in [the translation of the site](https://github.com/autowp/autowp-fron
   templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {
-  protected readonly version = require('../../version.json');
+  protected readonly version = versionJson;
 
   protected readonly html$ = this.statGrpc
     .getAboutData(new Empty())

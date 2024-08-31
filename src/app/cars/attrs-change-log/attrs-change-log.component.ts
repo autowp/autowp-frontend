@@ -9,10 +9,10 @@ import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {getAttrsTranslation, getUnitAbbrTranslation} from '@utils/translations';
-import {EMPTY, Observable, Subscription, combineLatest, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIAttrAttributeValue, APIAttrUnit, APIAttrsService} from '../../api/attrs/attrs.service';
+import {APIAttrAttributeValue, APIAttrsService, APIAttrUnit} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -158,7 +158,9 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySub && this.querySub.unsubscribe();
+    if (this.querySub) {
+      this.querySub.unsubscribe();
+    }
   }
 
   protected getAttrsTranslation(id: string): string {

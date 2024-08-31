@@ -21,10 +21,10 @@ interface ThumbnailAPIPicture extends APIPicture {
   templateUrl: './thumbnail.component.html',
 })
 export class ThumbnailComponent {
-  @Input() set picture(picture: ThumbnailAPIPicture | null) {
+  @Input() set picture(picture: null | ThumbnailAPIPicture) {
     this.picture$.next(picture);
   }
-  protected readonly picture$ = new BehaviorSubject<ThumbnailAPIPicture | null>(null);
+  protected readonly picture$ = new BehaviorSubject<null | ThumbnailAPIPicture>(null);
 
   @Input() route: string[] = [];
   @Input() selectable = false;

@@ -23,19 +23,18 @@ export class PictureModerVoteModalComponent {
   ) {}
 
   protected ok() {
-    if (this.save) {
-      this.vote &&
-        this.templateService
-          .createTemplate$({
-            name: this.reason,
-            vote: this.vote,
-          })
-          .subscribe();
+    if (this.save && this.vote) {
+      this.templateService
+        .createTemplate$({
+          name: this.reason,
+          vote: this.vote,
+        })
+        .subscribe();
     }
 
-    this.pictureId &&
-      this.vote &&
+    if (this.pictureId && this.vote) {
       this.moderVoteService.vote$('' + this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+    }
 
     this.activeModal.close();
   }

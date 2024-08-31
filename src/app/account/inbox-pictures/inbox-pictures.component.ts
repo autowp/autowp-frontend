@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
-import {EMPTY, combineLatest} from 'rxjs';
+import {combineLatest, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';

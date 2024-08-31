@@ -6,7 +6,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {BehaviorSubject, EMPTY, Observable, forkJoin, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';

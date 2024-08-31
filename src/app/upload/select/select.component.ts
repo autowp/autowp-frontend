@@ -14,7 +14,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, forkJoin, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {chunk} from '../../chunk';

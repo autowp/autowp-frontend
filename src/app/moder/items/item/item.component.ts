@@ -6,7 +6,7 @@ import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, Subscription, of} from 'rxjs';
+import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -217,7 +217,9 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub && this.routeSub.unsubscribe();
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 
   private initTreeTab() {

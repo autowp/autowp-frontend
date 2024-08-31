@@ -11,7 +11,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, Observable, Subscription, combineLatest, forkJoin} from 'rxjs';
+import {combineLatest, EMPTY, forkJoin, Observable, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
@@ -130,16 +130,19 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSub && this.routeSub.unsubscribe();
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 
   protected reloadItemParent() {
-    this.itemParent &&
+    if (this.itemParent) {
       this.api
         .request<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
         .subscribe((response) => {
           this.itemParent = response;
         });
+    }
   }
 
   protected save() {

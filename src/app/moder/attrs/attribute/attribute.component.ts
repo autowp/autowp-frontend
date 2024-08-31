@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AttrAttribute} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
-import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../../api/attrs/attrs.service';

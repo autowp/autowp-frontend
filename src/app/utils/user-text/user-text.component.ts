@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {APIUser} from '@grpc/spec.pb';
 import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
-import {BehaviorSubject, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import * as URLParse from 'url-parse';
 
@@ -76,7 +76,7 @@ export class UserTextComponent {
 
     const re = new RegExp(/(https?:\/\/[\w:.,/?&_=~+%#'!|()-]{3,})|(www.[\w.,/?&_=~+%#'!|()-]{3,})/i, 'i');
 
-    let res: RegExpExecArray | null = null;
+    let res: null | RegExpExecArray = null;
     let umatch: string;
     let url;
 

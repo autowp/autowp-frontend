@@ -9,7 +9,7 @@ import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 
@@ -135,7 +135,7 @@ export class ItemMetaFormComponent {
   @Input() set parentIsConcept(isConcept: ParentIsConcept) {
     this.parentIsConcept$.next(isConcept);
   }
-  protected readonly parentIsConcept$ = new BehaviorSubject<ParentIsConcept | null>(null);
+  protected readonly parentIsConcept$ = new BehaviorSubject<null | ParentIsConcept>(null);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -162,7 +162,7 @@ export class ItemMetaFormComponent {
         : null,
     );
   }
-  protected readonly pictures$ = new BehaviorSubject<PicturesListItem[] | null>(null);
+  protected readonly pictures$ = new BehaviorSubject<null | PicturesListItem[]>(null);
 
   private readonly vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>

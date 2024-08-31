@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {APIGetUserRequest, APIUser, APIUsersRequest, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
-import {Observable, forkJoin, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 
 @Injectable()
@@ -95,7 +95,7 @@ export class UserService {
     return o$;
   }
 
-  public getByIdentity$(identity: string, fields: UserFields | undefined): Observable<APIUser | null> {
+  public getByIdentity$(identity: string, fields: undefined | UserFields): Observable<APIUser | null> {
     const result = identity.match(/^user([0-9]+)$/);
 
     if (result) {

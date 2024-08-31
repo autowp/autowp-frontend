@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {
-  APITrafficTopItem,
   AddToTrafficBlacklistRequest,
   AddToTrafficWhitelistRequest,
+  APITrafficTopItem,
   DeleteFromTrafficBlacklistRequest,
 } from '@grpc/spec.pb';
 import {TrafficClient} from '@grpc/spec.pbsc';

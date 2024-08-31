@@ -23,7 +23,7 @@ export class CarsSelectEngineTreeItemComponent {
 
   private loadChildCatalogues() {
     this.loading = true;
-    this.item &&
+    if (this.item) {
       this.itemParentService
         .getItems$({
           fields: 'item.name_html,item.childs_count',
@@ -42,6 +42,7 @@ export class CarsSelectEngineTreeItemComponent {
             this.loading = false;
           },
         });
+    }
   }
 
   protected selectEngine(engineId: number) {

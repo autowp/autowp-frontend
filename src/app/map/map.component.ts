@@ -10,7 +10,7 @@ import {
 import {MapGetPointsRequest, MapPoint} from '@grpc/spec.pb';
 import {MapClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {LatLngBounds, Map, MapOptions, Marker, Popup, icon, latLng, marker, tileLayer} from 'leaflet';
+import {icon, latLng, LatLngBounds, Map, MapOptions, Marker, marker, Popup, tileLayer} from 'leaflet';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -132,7 +132,9 @@ export class MapComponent implements OnInit {
 
             this.appRef.attachView(this.compRef.hostView);
             this.compRef.onDestroy(() => {
-              this.compRef && this.appRef.detachView(this.compRef.hostView);
+              if (this.compRef) {
+                this.appRef.detachView(this.compRef.hostView);
+              }
             });
           });
         });

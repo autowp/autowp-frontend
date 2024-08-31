@@ -9,7 +9,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CatalogueService} from '../catalogue-service';
@@ -272,10 +272,10 @@ export class CatalogueVehiclesComponent {
 
   private static resolveTypeId(type: string) {
     switch (type) {
-      case 'tuning':
-        return 1;
       case 'sport':
         return 2;
+      case 'tuning':
+        return 1;
     }
     return 0;
   }

@@ -6,7 +6,7 @@ import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CategoriesService} from '../../service';

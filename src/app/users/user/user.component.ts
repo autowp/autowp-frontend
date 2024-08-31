@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
+  AddToTrafficBlacklistRequest,
   APICommentsMessage,
   APIDeleteUserRequest,
   APIIP,
   APIUser,
   APIUserPreferencesRequest,
-  AddToTrafficBlacklistRequest,
   CommentMessageFields,
   CreateContactRequest,
   DeleteContactRequest,
@@ -23,7 +23,7 @@ import {IpService} from '@services/ip';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';

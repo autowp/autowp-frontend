@@ -91,6 +91,8 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.resolveSub && this.resolveSub.unsubscribe();
+    if (this.resolveSub) {
+      this.resolveSub.unsubscribe();
+    }
   }
 }

@@ -4,7 +4,7 @@ import {APIPaginator, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture} from '@services/picture';
-import {EMPTY, Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../chunk';

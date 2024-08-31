@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, combineLatest, of} from 'rxjs';
+import {combineLatest, EMPTY, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIGalleryItem} from '../../../gallery/definitions';

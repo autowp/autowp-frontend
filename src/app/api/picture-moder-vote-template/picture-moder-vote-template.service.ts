@@ -3,7 +3,7 @@ import {DeleteModerVoteTemplateRequest, ModerVoteTemplate} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {AuthService} from '@services/auth.service';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 export interface APIPictureModerVoteTemplatePostData {

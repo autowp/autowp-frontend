@@ -1,6 +1,6 @@
 import {Component, NgZone} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {LatLng, Layer, LeafletMouseEvent, Map, MapOptions, icon, latLng, marker, tileLayer} from 'leaflet';
+import {icon, LatLng, latLng, Layer, LeafletMouseEvent, Map, MapOptions, marker, tileLayer} from 'leaflet';
 
 export interface Point {
   lat: number;
@@ -133,7 +133,9 @@ export class MapPointComponent implements ControlValueAccessor {
         this.lng = event.latlng.lng;
 
         this.markAsTouched();
-        this.onChange && this.onChange({lat: event.latlng.lat, lng: event.latlng.lng});
+        if (this.onChange) {
+          this.onChange({lat: event.latlng.lat, lng: event.latlng.lng});
+        }
 
         /*form.patchValue({
           point: {
@@ -165,7 +167,9 @@ export class MapPointComponent implements ControlValueAccessor {
 
     this.markAsTouched();
     if (lat && lng) {
-      this.onChange && this.onChange({lat, lng});
+      if (this.onChange) {
+        this.onChange({lat, lng});
+      }
     }
 
     /*const lat = parseFloat(point.get('lat').value);
@@ -177,7 +181,9 @@ export class MapPointComponent implements ControlValueAccessor {
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched && this.onTouched();
+      if (this.onTouched) {
+        this.onTouched();
+      }
       this.touched = true;
     }
   }

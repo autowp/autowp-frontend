@@ -21,7 +21,7 @@ export interface PageEnv {
 
 @Injectable()
 export class PageEnvService {
-  public readonly pageEnv$ = new BehaviorSubject<PageEnv | null>(null);
+  public readonly pageEnv$ = new BehaviorSubject<null | PageEnv>(null);
   public readonly layoutParams$ = new BehaviorSubject<LayoutParams>({
     isAdminPage: false,
     isGalleryPage: false,

@@ -5,7 +5,7 @@ import {AuthService} from '@services/auth.service';
 import {MessageService} from '@services/message';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
-import {Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';

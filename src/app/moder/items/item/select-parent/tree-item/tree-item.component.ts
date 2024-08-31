@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemParentService} from '@services/item-parent';
-import {BehaviorSubject, EMPTY, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';

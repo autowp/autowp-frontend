@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {
   AttrAttribute,
   AttrAttributeID,
-  AttrAttributeType,
   AttrAttributesRequest,
+  AttrAttributeType,
   AttrListOptionsRequest,
   AttrListOptionsResponse,
   AttrZone,

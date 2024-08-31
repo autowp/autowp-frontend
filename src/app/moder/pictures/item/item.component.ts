@@ -26,7 +26,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
-import {BehaviorSubject, EMPTY, Observable, combineLatest, of, throwError} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 

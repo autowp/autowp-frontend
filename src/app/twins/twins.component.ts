@@ -7,7 +7,7 @@ import {APIPaginator} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {Observable, combineLatest, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../chunk';

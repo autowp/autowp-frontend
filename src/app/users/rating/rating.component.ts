@@ -29,10 +29,10 @@ export class UsersRatingComponent implements OnInit {
     distinctUntilChanged(),
     map((rating) => {
       switch (rating) {
-        case Rating.SPECS:
-        case Rating.PICTURES:
         case Rating.COMMENT_LIKES:
         case Rating.PICTURE_LIKES:
+        case Rating.PICTURES:
+        case Rating.SPECS:
           return rating;
         default:
           return Rating.SPECS;
@@ -44,14 +44,14 @@ export class UsersRatingComponent implements OnInit {
   protected readonly valueTitle$: Observable<string> = this.rating$.pipe(
     map((rating) => {
       switch (rating) {
-        case Rating.SPECS:
-          return $localize`Specs volume`;
-        case Rating.PICTURES:
-          return $localize`Pictures`;
         case Rating.COMMENT_LIKES:
           return $localize`Likes`;
         case Rating.PICTURE_LIKES:
           return $localize`Picture likes`;
+        case Rating.PICTURES:
+          return $localize`Pictures`;
+        case Rating.SPECS:
+          return $localize`Specs volume`;
       }
       return rating;
     }),
@@ -99,17 +99,17 @@ export class UsersRatingComponent implements OnInit {
     switchMap((rating) => {
       let o$: Observable<APIUsersRatingResponse> = EMPTY;
       switch (rating) {
-        case Rating.SPECS:
-          o$ = this.ratingClient.getUserSpecsRating(new Empty());
-          break;
-        case Rating.PICTURES:
-          o$ = this.ratingClient.getUserPicturesRating(new Empty());
-          break;
         case Rating.COMMENT_LIKES:
           o$ = this.ratingClient.getUserCommentsRating(new Empty());
           break;
         case Rating.PICTURE_LIKES:
           o$ = this.ratingClient.getUserPictureLikesRating(new Empty());
+          break;
+        case Rating.PICTURES:
+          o$ = this.ratingClient.getUserPicturesRating(new Empty());
+          break;
+        case Rating.SPECS:
+          o$ = this.ratingClient.getUserSpecsRating(new Empty());
           break;
         default:
           return EMPTY;

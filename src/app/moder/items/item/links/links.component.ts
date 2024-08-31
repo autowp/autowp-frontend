@@ -3,7 +3,7 @@ import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '@grpc/spe
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
-import {BehaviorSubject, EMPTY, Observable, forkJoin, of} from 'rxjs';
+import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';

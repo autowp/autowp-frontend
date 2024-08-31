@@ -25,7 +25,7 @@ export class ModalMessageComponent {
     this.sending = true;
     this.sent = false;
 
-    this.userId &&
+    if (this.userId) {
       this.messageService.send$(this.userId, this.text).subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
@@ -38,6 +38,7 @@ export class ModalMessageComponent {
           this.toastService.success('Ok');
         },
       });
+    }
   }
 
   protected keypress() {

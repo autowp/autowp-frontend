@@ -24,12 +24,12 @@ export class SpecService {
     return this.specs$;
   }
 
-  public getSpec$(id: number): Observable<Spec | null> {
+  public getSpec$(id: number): Observable<null | Spec> {
     return this.getSpecs$().pipe(map((specs) => this.findSpec(specs, id)));
   }
 
-  private findSpec(specs: Spec[], id: number): Spec | null {
-    let spec: Spec | null = null;
+  private findSpec(specs: Spec[], id: number): null | Spec {
+    let spec: null | Spec = null;
     for (const s of specs) {
       if (s.id === id) {
         spec = s;
