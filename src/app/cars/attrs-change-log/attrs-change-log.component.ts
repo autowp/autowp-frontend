@@ -56,7 +56,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
       user$: Observable<APIUser | null>;
       user_id: string;
       value: APIAttrAttributeValue | null;
-      value_text: string;
+      value_text: null | string;
     }[];
     paginator: APIPaginator;
   }> = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(

@@ -47,7 +47,7 @@ export class CarsSpecsAdminComponent implements OnInit {
       user$: Observable<APIUser | null>;
       user_id: string;
       value: APIAttrAttributeValue | null;
-      value_text: string;
+      value_text: null | string;
     }[];
     paginator: APIPaginator;
   }> = combineLatest([this.itemID$, this.page$, this.move$]).pipe(

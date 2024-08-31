@@ -84,7 +84,7 @@ export interface APIAttrUserValue {
   update_date: null | string;
   user_id: string;
   value: APIAttrAttributeValue | null;
-  value_text: string;
+  value_text: null | string;
 }
 
 export interface APIAttrUserValueGetResponse {

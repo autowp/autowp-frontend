@@ -12,7 +12,7 @@ import {
   getUnitAbbrTranslation,
   getUnitNameTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {
@@ -58,7 +58,7 @@ interface AttrUserValueWithUser {
   user$: Observable<APIUser | null>;
   user_id: string;
   value: APIAttrAttributeValue | null;
-  value_text: string;
+  value_text: null | string;
 }
 
 const booleanOptions: ListOption[] = [
@@ -109,7 +109,11 @@ export class CarsSpecificationsEditorSpecComponent {
   // fields: 'options,childs.options',
   protected readonly attributes$ = this.item$.pipe(
     distinctUntilChanged(),
-    switchMap((item) => (item ? this.attrsService.getAttributes$(item.attr_zone_id + '', null) : EMPTY)),
+    switchMap((item) =>
+      item && item.attr_zone_id
+        ? this.attrsService.getAttributes$(item.attr_zone_id + '', null)
+        : throwError(() => new Error('Failed to detect attr_zone_id')),
+    ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
@@ -223,7 +227,7 @@ export class CarsSpecificationsEditorSpecComponent {
     }),
   );
 
-  protected readonly userValues$: Observable<Map<number, APIAttrUserValue[]>> = combineLatest([
+  protected readonly userValues$: Observable<Map<number, AttrUserValueWithUser[]>> = combineLatest([
     this.item$,
     this.change$,
   ]).pipe(
