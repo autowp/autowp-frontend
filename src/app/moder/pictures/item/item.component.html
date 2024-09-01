@@ -414,10 +414,10 @@
                 <strong class="badge text-bg-warning text-dark" i18n>Not accepted</strong>
               </p>
               @if (picture.rights.accept) {
-                <button class="btn btn-success" (click)="acceptPicture(picture.id)" i18n>Accept</button>
+                <button class="btn btn-success" (click)="acceptPicture(picture.id + '')" i18n>Accept</button>
               }
               @if (picture.rights.delete) {
-                <button class="btn btn-danger" (click)="deletePicture(picture.id)" i18n>Delete</button>
+                <button class="btn btn-danger" (click)="deletePicture(picture.id + '')" i18n>Delete</button>
               }
             </div>
           } @else if (picture.status === 'accepted') {
@@ -426,7 +426,7 @@
                 <strong class="badge text-bg-success" i18n>Accepted</strong>
               </p>
               @if (picture.rights.unaccept) {
-                <button class="btn btn-warning" (click)="unacceptPicture(picture.id)" i18n>Unaccept</button>
+                <button class="btn btn-warning" (click)="unacceptPicture(picture.id + '')" i18n>Unaccept</button>
               }
             </div>
           } @else if (picture.status === 'removing') {
@@ -435,7 +435,7 @@
                 <strong class="badge text-bg-danger" i18n>In delete queue</strong>
               </p>
               @if (picture.rights.restore) {
-                <button class="btn btn-warning" (click)="restorePicture(picture.id)" i18n>Restore</button>
+                <button class="btn btn-warning" (click)="restorePicture(picture.id + '')" i18n>Restore</button>
               }
             </div>
           } @else if (picture.status === 'removed') {

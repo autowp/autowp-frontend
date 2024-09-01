@@ -5,8 +5,10 @@ import {
   CommentsSubscribeRequest,
   CommentsType,
   CommentsUnSubscribeRequest,
+  PictureStatus,
   PicturesViewRequest,
   SetPictureItemPerspectiveRequest,
+  SetPictureStatusRequest,
 } from '@grpc/spec.pb';
 import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -146,31 +148,39 @@ export class PictureComponent {
     this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', picture.identity]);
   }
 
-  private setPictureStatus(picture: APIPicture, status: string) {
+  private setPictureStatus(picture: APIPicture, status: PictureStatus) {
     this.statusLoading = true;
-    this.pictureService.setPictureStatus$(picture.id, status).subscribe({
-      complete: () => {
-        this.statusLoading = false;
-      },
-      next: () => {
-        this.changed.emit(true);
-      },
-    });
+    this.picturesClient
+      .setPictureStatus(new SetPictureStatusRequest({id: picture.id + '', status}))
+      .pipe(
+        catchError((err: unknown) => {
+          this.toastService.handleError(err);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        complete: () => {
+          this.statusLoading = false;
+        },
+        next: () => {
+          this.changed.emit(true);
+        },
+      });
   }
 
   protected unacceptPicture(picture: APIPicture) {
-    this.setPictureStatus(picture, 'inbox');
+    this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_INBOX);
   }
 
   protected acceptPicture(picture: APIPicture) {
-    this.setPictureStatus(picture, 'accepted');
+    this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_ACCEPTED);
   }
 
   protected deletePicture(picture: APIPicture) {
-    this.setPictureStatus(picture, 'removing');
+    this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_REMOVING);
   }
 
   protected restorePicture(picture: APIPicture) {
-    this.setPictureStatus(picture, 'inbox');
+    this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_INBOX);
   }
 }

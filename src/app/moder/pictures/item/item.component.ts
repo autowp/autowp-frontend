@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Date as grpcDate} from '@grpc/google/type/date.pb';
 import {
   APIIP,
+  APIItem,
   APIUser,
   CreatePictureItemRequest,
   DeletePictureItemRequest,
@@ -11,12 +12,13 @@ import {
   ItemRequest,
   ItemType,
   PictureIDRequest,
+  PictureStatus,
   SetPictureCopyrightsRequest,
   SetPictureItemItemIDRequest,
   SetPictureItemPerspectiveRequest,
+  SetPictureStatusRequest,
   UpdatePictureRequest,
 } from '@grpc/spec.pb';
-import {APIItem} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {APIService} from '@services/api.service';
@@ -364,33 +366,41 @@ export class ModerPicturesItemComponent {
       });
   }
 
-  private setPictureStatus(id: number, status: string) {
+  private setPictureStatus(id: string, status: PictureStatus) {
     this.statusLoading = true;
-    this.pictureService.setPictureStatus$(id, status).subscribe({
-      error: () => {
-        this.statusLoading = false;
-      },
-      next: () => {
-        this.change$.next();
-        this.statusLoading = false;
-      },
-    });
+    this.picturesClient
+      .setPictureStatus(new SetPictureStatusRequest({id, status}))
+      .pipe(
+        catchError((err: unknown) => {
+          this.toastService.handleError(err);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        error: () => {
+          this.statusLoading = false;
+        },
+        next: () => {
+          this.change$.next();
+          this.statusLoading = false;
+        },
+      });
   }
 
-  protected unacceptPicture(id: number) {
-    this.setPictureStatus(id, 'inbox');
+  protected unacceptPicture(id: string) {
+    this.setPictureStatus(id, PictureStatus.PICTURE_STATUS_INBOX);
   }
 
-  protected acceptPicture(id: number) {
-    this.setPictureStatus(id, 'accepted');
+  protected acceptPicture(id: string) {
+    this.setPictureStatus(id, PictureStatus.PICTURE_STATUS_ACCEPTED);
   }
 
-  protected deletePicture(id: number) {
-    this.setPictureStatus(id, 'removing');
+  protected deletePicture(id: string) {
+    this.setPictureStatus(id, PictureStatus.PICTURE_STATUS_REMOVING);
   }
 
-  protected restorePicture(id: number) {
-    this.setPictureStatus(id, 'inbox');
+  protected restorePicture(id: string) {
+    this.setPictureStatus(id, PictureStatus.PICTURE_STATUS_INBOX);
   }
 
   protected normalizePicture(id: string) {

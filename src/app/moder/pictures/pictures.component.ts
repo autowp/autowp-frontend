@@ -7,12 +7,14 @@ import {
   APIUsersRequest,
   ItemFields,
   ListItemsRequest,
+  PictureStatus,
+  SetPictureStatusRequest,
   VehicleType,
 } from '@grpc/spec.pb';
-import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
+import {ItemsClient, PicturesClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APIPaginator, APIService} from '@services/api.service';
+import {APIPaginator} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIGetPicturesOptions, APIPicture, PictureService} from '@services/picture';
@@ -426,7 +428,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
 
   constructor(
-    private readonly api: APIService,
     private readonly perspectiveService: APIPerspectiveService,
     private readonly moderVoteService: PictureModerVoteService,
     private readonly vehicleTypeService: VehicleTypeService,
@@ -439,6 +440,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
     private readonly itemsClient: ItemsClient,
     private readonly languageService: LanguageService,
     private readonly usersClient: UsersClient,
+    private readonly picturesClient: PicturesClient,
   ) {}
 
   ngOnInit(): void {
@@ -568,13 +570,18 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       for (const picture of pictures) {
         if (picture.id === id) {
           promises.push(
-            this.api
-              .request<void>('PUT', 'picture/' + picture.id, {
-                body: {
-                  status: 'accepted',
-                },
-              })
-              .pipe(tap(() => (picture.status = 'accepted'))),
+            this.picturesClient
+              .setPictureStatus(
+                new SetPictureStatusRequest({id: picture.id + '', status: PictureStatus.PICTURE_STATUS_ACCEPTED}),
+              )
+              .pipe(
+                catchError((err: unknown) => {
+                  this.toastService.handleError(err);
+                  return EMPTY;
+                }),
+                tap(() => (picture.status = 'accepted')),
+                map(() => void 0),
+              ),
           );
         }
       }
