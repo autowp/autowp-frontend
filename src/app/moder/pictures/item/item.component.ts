@@ -498,28 +498,40 @@ export class ModerPicturesItemComponent {
   protected cancelReplace(id: string) {
     this.replaceLoading = true;
 
-    this.picturesClient.clearReplacePicture(new PictureIDRequest({id})).subscribe({
-      error: () => {
-        this.replaceLoading = false;
-      },
-      next: () => {
-        this.change$.next();
-        this.replaceLoading = false;
-      },
-    });
+    this.picturesClient
+      .clearReplacePicture(new PictureIDRequest({id}))
+      .pipe(
+        catchError((error: unknown) => {
+          this.replaceLoading = false;
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.change$.next();
+          this.replaceLoading = false;
+        },
+      });
   }
 
-  protected acceptReplace(id: number) {
+  protected acceptReplace(id: string) {
     this.replaceLoading = true;
-    this.api.request<void>('PUT', 'picture/' + id + '/accept-replace', {body: {}}).subscribe({
-      error: () => {
-        this.replaceLoading = false;
-      },
-      next: () => {
-        this.change$.next();
-        this.replaceLoading = false;
-      },
-    });
+    this.picturesClient
+      .acceptReplacePicture(new PictureIDRequest({id}))
+      .pipe(
+        catchError((error: unknown) => {
+          this.replaceLoading = false;
+          this.toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.change$.next();
+          this.replaceLoading = false;
+        },
+      });
   }
 
   protected removeFromBlacklist(ip: string) {

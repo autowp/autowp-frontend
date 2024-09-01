@@ -382,7 +382,7 @@
                 >
               </p>
               @if (picture.rights.accept) {
-                <button class="btn btn-success" (click)="acceptReplace(picture.id)">
+                <button class="btn btn-success" (click)="acceptReplace(picture.id + '')">
                   <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
                   <ng-container i18n>Accept and remove double</ng-container>
                 </button>

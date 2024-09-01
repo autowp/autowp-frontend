@@ -3930,6 +3930,27 @@ export class PicturesClient {
       });
     },
     /**
+     * Unary call: /goautowp.Pictures/AcceptReplacePicture
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    acceptReplacePicture: (
+      requestData: thisProto.PictureIDRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/AcceptReplacePicture',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PictureIDRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Pictures/SetPicturePoint
      *
      * @param requestMessage Request message
@@ -4324,6 +4345,22 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .clearReplacePicture(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/AcceptReplacePicture
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  acceptReplacePicture(
+    requestData: thisProto.PictureIDRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .acceptReplacePicture(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
