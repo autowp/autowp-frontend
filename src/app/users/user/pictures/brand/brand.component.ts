@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, APIUser, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -42,13 +42,15 @@ export class UsersUserPicturesBrandComponent {
       this.itemsClient
         .list(
           new ListItemsRequest({
-            catname,
             fields: new ItemFields({
               nameOnly: true,
             }),
             language: this.languageService.language,
             limit: 1,
-            typeId: ItemType.ITEM_TYPE_BRAND,
+            options: new ItemListOptions({
+              catname,
+              typeId: ItemType.ITEM_TYPE_BRAND,
+            }),
           }),
         )
         .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null))),

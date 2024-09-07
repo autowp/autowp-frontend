@@ -1,6 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, APIItemList, APIItem as GRPCAPIItem, ItemFields, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {
+  APIItem,
+  APIItemList,
+  APIItem as GRPCAPIItem,
+  ItemFields,
+  ItemListOptions,
+  ListItemsRequest,
+  Pages,
+} from '@grpc/spec.pb';
 import {ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIPaginator} from '@services/api.service';
@@ -56,8 +64,10 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                 fields: new ItemFields({nameOnly: true}),
                 language: this.languageService.language,
                 limit: 500,
+                options: new ItemListOptions({
+                  typeId: ItemType.ITEM_TYPE_BRAND,
+                }),
                 page: this.page,
-                typeId: ItemType.ITEM_TYPE_BRAND,
               }),
             ),
         brandID

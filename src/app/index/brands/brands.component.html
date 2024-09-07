@@ -19,7 +19,7 @@
 } @else {
   <p class="index-brands placeholder-glow">
     @for (item of placeholderItems; track item) {
-      <span class="placeholder me-1" [style.width]="item + 'rem'"></span>
+      <span class="placeholder me-1" [style.width]="item.width + 'rem'"></span>
     }
   </p>
 }

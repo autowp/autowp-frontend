@@ -1,6 +1,15 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {
+  APIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemRequest,
+  ItemType,
+  ListItemsRequest,
+  Pages,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
@@ -81,15 +90,19 @@ export class CarsEngineSelectComponent {
     switchMap((search) =>
       this.itemsClient.list(
         new ListItemsRequest({
-          descendant: new ListItemsRequest({
-            typeId: ItemType.ITEM_TYPE_ENGINE,
-          }),
           fields: new ItemFields({nameOnly: true}),
           language: this.languageService.language,
           limit: 500,
-          name: search ? '%' + search + '%' : undefined,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              itemsByItemId: new ItemListOptions({
+                typeId: ItemType.ITEM_TYPE_ENGINE,
+              }),
+            }),
+            name: search ? '%' + search + '%' : undefined,
+            typeId: ItemType.ITEM_TYPE_BRAND,
+          }),
           order: ListItemsRequest.Order.NAME,
-          typeId: ItemType.ITEM_TYPE_BRAND,
         }),
       ),
     ),

@@ -3,10 +3,12 @@ import {ActivatedRoute} from '@angular/router';
 import {
   APIItem,
   ItemFields,
-  ItemPicturesRequest,
+  ItemListOptions,
+  ItemParentCacheListOptions,
   ItemType,
   ListItemsRequest,
-  PicturesRequest,
+  PictureItemOptions,
+  PicturesOptions,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
@@ -72,20 +74,24 @@ export class UsersUserPicturesComponent implements OnInit {
     switchMap((user) =>
       this.itemsClient.list(
         new ListItemsRequest({
-          descendantPictures: new ItemPicturesRequest({
-            pictures: new PicturesRequest({
-              ownerId: '' + user.id,
-              status: PictureStatus.PICTURE_STATUS_ACCEPTED,
-            }),
-          }),
           fields: new ItemFields({
-            currentPicturesCount: true,
+            descendantPicturesCount: true,
             nameOnly: true,
           }),
           language: this.languageService.language,
           limit: 3000,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemOptions({
+                pictures: new PicturesOptions({
+                  ownerId: '' + user.id,
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                }),
+              }),
+            }),
+            typeId: ItemType.ITEM_TYPE_BRAND,
+          }),
           order: ListItemsRequest.Order.NAME_NAT,
-          typeId: ItemType.ITEM_TYPE_BRAND,
         }),
       ),
     ),

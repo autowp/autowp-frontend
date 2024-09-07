@@ -6,6 +6,7 @@ import {
   APIUser,
   APIUsersRequest,
   ItemFields,
+  ItemListOptions,
   ListItemsRequest,
   PictureStatus,
   SetPictureStatusRequest,
@@ -292,14 +293,16 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           language: this.languageService.language,
           limit: 10,
         });
+        const options = new ItemListOptions();
         if (query.substring(0, 1) === '#') {
           const id = parseInt(query.substring(1), 10);
           if (id) {
-            params.id = '' + id;
+            options.id = '' + id;
           }
         } else {
-          params.name = '%' + query + '%';
+          options.name = '%' + query + '%';
         }
+        params.options = options;
 
         return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {

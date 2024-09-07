@@ -1,7 +1,7 @@
 import {Component, Renderer2} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {environment} from '@environment/environment';
-import {APIUser, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService} from '@services/acl.service';
@@ -35,8 +35,10 @@ export class AppComponent {
       }),
       language: this.languageService.language,
       limit: 20,
-      noParent: true,
-      typeId: ItemType.ITEM_TYPE_CATEGORY,
+      options: new ItemListOptions({
+        noParent: true,
+        typeId: ItemType.ITEM_TYPE_CATEGORY,
+      }),
     }),
   );
   protected language: string;

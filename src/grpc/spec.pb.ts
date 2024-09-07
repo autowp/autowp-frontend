@@ -16897,18 +16897,18 @@ export module APITopFactoriesListItem {
 }
 
 /**
- * Message implementation for goautowp.ItemPicturesRequest
+ * Message implementation for goautowp.PicturesOptions
  */
-export class ItemPicturesRequest implements GrpcMessage {
-  static id = 'goautowp.ItemPicturesRequest';
+export class PicturesOptions implements GrpcMessage {
+  static id = 'goautowp.PicturesOptions';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new ItemPicturesRequest();
-    ItemPicturesRequest.deserializeBinaryFromReader(
+    const instance = new PicturesOptions();
+    PicturesOptions.deserializeBinaryFromReader(
       instance,
       new BinaryReader(bytes)
     );
@@ -16919,199 +16919,9 @@ export class ItemPicturesRequest implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: ItemPicturesRequest) {
-    _instance.typeId = _instance.typeId || 0;
-    _instance.pictures = _instance.pictures || undefined;
-    _instance.perspectiveId = _instance.perspectiveId || 0;
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: ItemPicturesRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.typeId = _reader.readEnum();
-          break;
-        case 2:
-          _instance.pictures = new PicturesRequest();
-          _reader.readMessage(
-            _instance.pictures,
-            PicturesRequest.deserializeBinaryFromReader
-          );
-          break;
-        case 3:
-          _instance.perspectiveId = _reader.readInt32();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    ItemPicturesRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: ItemPicturesRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.typeId) {
-      _writer.writeEnum(1, _instance.typeId);
-    }
-    if (_instance.pictures) {
-      _writer.writeMessage(
-        2,
-        _instance.pictures as any,
-        PicturesRequest.serializeBinaryToWriter
-      );
-    }
-    if (_instance.perspectiveId) {
-      _writer.writeInt32(3, _instance.perspectiveId);
-    }
-  }
-
-  private _typeId: PictureItemType;
-  private _pictures?: PicturesRequest;
-  private _perspectiveId: number;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of ItemPicturesRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<ItemPicturesRequest.AsObject>) {
-    _value = _value || {};
-    this.typeId = _value.typeId;
-    this.pictures = _value.pictures
-      ? new PicturesRequest(_value.pictures)
-      : undefined;
-    this.perspectiveId = _value.perspectiveId;
-    ItemPicturesRequest.refineValues(this);
-  }
-  get typeId(): PictureItemType {
-    return this._typeId;
-  }
-  set typeId(value: PictureItemType) {
-    this._typeId = value;
-  }
-  get pictures(): PicturesRequest | undefined {
-    return this._pictures;
-  }
-  set pictures(value: PicturesRequest | undefined) {
-    this._pictures = value;
-  }
-  get perspectiveId(): number {
-    return this._perspectiveId;
-  }
-  set perspectiveId(value: number) {
-    this._perspectiveId = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    ItemPicturesRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): ItemPicturesRequest.AsObject {
-    return {
-      typeId: this.typeId,
-      pictures: this.pictures ? this.pictures.toObject() : undefined,
-      perspectiveId: this.perspectiveId
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): ItemPicturesRequest.AsProtobufJSON {
-    return {
-      typeId:
-        PictureItemType[
-          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
-        ],
-      pictures: this.pictures ? this.pictures.toProtobufJSON(options) : null,
-      perspectiveId: this.perspectiveId
-    };
-  }
-}
-export module ItemPicturesRequest {
-  /**
-   * Standard JavaScript object representation for ItemPicturesRequest
-   */
-  export interface AsObject {
-    typeId: PictureItemType;
-    pictures?: PicturesRequest.AsObject;
-    perspectiveId: number;
-  }
-
-  /**
-   * Protobuf JSON representation for ItemPicturesRequest
-   */
-  export interface AsProtobufJSON {
-    typeId: string;
-    pictures: PicturesRequest.AsProtobufJSON | null;
-    perspectiveId: number;
-  }
-}
-
-/**
- * Message implementation for goautowp.PicturesRequest
- */
-export class PicturesRequest implements GrpcMessage {
-  static id = 'goautowp.PicturesRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new PicturesRequest();
-    PicturesRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: PicturesRequest) {
+  static refineValues(_instance: PicturesOptions) {
     _instance.status = _instance.status || 0;
-    _instance.itemPicture = _instance.itemPicture || undefined;
+    _instance.pictureItem = _instance.pictureItem || undefined;
     _instance.ownerId = _instance.ownerId || '0';
   }
 
@@ -17121,7 +16931,7 @@ export class PicturesRequest implements GrpcMessage {
    * @param _reader binary reader instance
    */
   static deserializeBinaryFromReader(
-    _instance: PicturesRequest,
+    _instance: PicturesOptions,
     _reader: BinaryReader
   ) {
     while (_reader.nextField()) {
@@ -17132,10 +16942,10 @@ export class PicturesRequest implements GrpcMessage {
           _instance.status = _reader.readEnum();
           break;
         case 2:
-          _instance.itemPicture = new ItemPicturesRequest();
+          _instance.pictureItem = new PictureItemOptions();
           _reader.readMessage(
-            _instance.itemPicture,
-            ItemPicturesRequest.deserializeBinaryFromReader
+            _instance.pictureItem,
+            PictureItemOptions.deserializeBinaryFromReader
           );
           break;
         case 3:
@@ -17146,7 +16956,7 @@ export class PicturesRequest implements GrpcMessage {
       }
     }
 
-    PicturesRequest.refineValues(_instance);
+    PicturesOptions.refineValues(_instance);
   }
 
   /**
@@ -17155,17 +16965,17 @@ export class PicturesRequest implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(
-    _instance: PicturesRequest,
+    _instance: PicturesOptions,
     _writer: BinaryWriter
   ) {
     if (_instance.status) {
       _writer.writeEnum(1, _instance.status);
     }
-    if (_instance.itemPicture) {
+    if (_instance.pictureItem) {
       _writer.writeMessage(
         2,
-        _instance.itemPicture as any,
-        ItemPicturesRequest.serializeBinaryToWriter
+        _instance.pictureItem as any,
+        PictureItemOptions.serializeBinaryToWriter
       );
     }
     if (_instance.ownerId) {
@@ -17174,21 +16984,21 @@ export class PicturesRequest implements GrpcMessage {
   }
 
   private _status: PictureStatus;
-  private _itemPicture?: ItemPicturesRequest;
+  private _pictureItem?: PictureItemOptions;
   private _ownerId: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of PicturesRequest to deeply clone from
+   * @param _value initial values object or instance of PicturesOptions to deeply clone from
    */
-  constructor(_value?: RecursivePartial<PicturesRequest.AsObject>) {
+  constructor(_value?: RecursivePartial<PicturesOptions.AsObject>) {
     _value = _value || {};
     this.status = _value.status;
-    this.itemPicture = _value.itemPicture
-      ? new ItemPicturesRequest(_value.itemPicture)
+    this.pictureItem = _value.pictureItem
+      ? new PictureItemOptions(_value.pictureItem)
       : undefined;
     this.ownerId = _value.ownerId;
-    PicturesRequest.refineValues(this);
+    PicturesOptions.refineValues(this);
   }
   get status(): PictureStatus {
     return this._status;
@@ -17196,11 +17006,11 @@ export class PicturesRequest implements GrpcMessage {
   set status(value: PictureStatus) {
     this._status = value;
   }
-  get itemPicture(): ItemPicturesRequest | undefined {
-    return this._itemPicture;
+  get pictureItem(): PictureItemOptions | undefined {
+    return this._pictureItem;
   }
-  set itemPicture(value: ItemPicturesRequest | undefined) {
-    this._itemPicture = value;
+  set pictureItem(value: PictureItemOptions | undefined) {
+    this._pictureItem = value;
   }
   get ownerId(): string {
     return this._ownerId;
@@ -17215,17 +17025,17 @@ export class PicturesRequest implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    PicturesRequest.serializeBinaryToWriter(this, writer);
+    PicturesOptions.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): PicturesRequest.AsObject {
+  toObject(): PicturesOptions.AsObject {
     return {
       status: this.status,
-      itemPicture: this.itemPicture ? this.itemPicture.toObject() : undefined,
+      pictureItem: this.pictureItem ? this.pictureItem.toObject() : undefined,
       ownerId: this.ownerId
     };
   }
@@ -17245,35 +17055,35 @@ export class PicturesRequest implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): PicturesRequest.AsProtobufJSON {
+  ): PicturesOptions.AsProtobufJSON {
     return {
       status:
         PictureStatus[
           this.status === null || this.status === undefined ? 0 : this.status
         ],
-      itemPicture: this.itemPicture
-        ? this.itemPicture.toProtobufJSON(options)
+      pictureItem: this.pictureItem
+        ? this.pictureItem.toProtobufJSON(options)
         : null,
       ownerId: this.ownerId
     };
   }
 }
-export module PicturesRequest {
+export module PicturesOptions {
   /**
-   * Standard JavaScript object representation for PicturesRequest
+   * Standard JavaScript object representation for PicturesOptions
    */
   export interface AsObject {
     status: PictureStatus;
-    itemPicture?: ItemPicturesRequest.AsObject;
+    pictureItem?: PictureItemOptions.AsObject;
     ownerId: string;
   }
 
   /**
-   * Protobuf JSON representation for PicturesRequest
+   * Protobuf JSON representation for PicturesOptions
    */
   export interface AsProtobufJSON {
     status: string;
-    itemPicture: ItemPicturesRequest.AsProtobufJSON | null;
+    pictureItem: PictureItemOptions.AsProtobufJSON | null;
     ownerId: string;
   }
 }
@@ -17615,7 +17425,8 @@ export class ItemFields implements GrpcMessage {
     _instance.previewPictures = _instance.previewPictures || undefined;
     _instance.totalPictures = _instance.totalPictures || false;
     _instance.descendantsCount = _instance.descendantsCount || false;
-    _instance.currentPicturesCount = _instance.currentPicturesCount || false;
+    _instance.descendantPicturesCount =
+      _instance.descendantPicturesCount || false;
     _instance.childsCount = _instance.childsCount || false;
     _instance.descendantTwinsGroupsCount =
       _instance.descendantTwinsGroupsCount || false;
@@ -17674,7 +17485,7 @@ export class ItemFields implements GrpcMessage {
           _instance.descendantsCount = _reader.readBool();
           break;
         case 10:
-          _instance.currentPicturesCount = _reader.readBool();
+          _instance.descendantPicturesCount = _reader.readBool();
           break;
         case 11:
           _instance.childsCount = _reader.readBool();
@@ -17748,8 +17559,8 @@ export class ItemFields implements GrpcMessage {
     if (_instance.descendantsCount) {
       _writer.writeBool(9, _instance.descendantsCount);
     }
-    if (_instance.currentPicturesCount) {
-      _writer.writeBool(10, _instance.currentPicturesCount);
+    if (_instance.descendantPicturesCount) {
+      _writer.writeBool(10, _instance.descendantPicturesCount);
     }
     if (_instance.childsCount) {
       _writer.writeBool(11, _instance.childsCount);
@@ -17789,7 +17600,7 @@ export class ItemFields implements GrpcMessage {
   private _previewPictures?: PreviewPicturesFields;
   private _totalPictures: boolean;
   private _descendantsCount: boolean;
-  private _currentPicturesCount: boolean;
+  private _descendantPicturesCount: boolean;
   private _childsCount: boolean;
   private _descendantTwinsGroupsCount: boolean;
   private _inboxPicturesCount: boolean;
@@ -17817,7 +17628,7 @@ export class ItemFields implements GrpcMessage {
       : undefined;
     this.totalPictures = _value.totalPictures;
     this.descendantsCount = _value.descendantsCount;
-    this.currentPicturesCount = _value.currentPicturesCount;
+    this.descendantPicturesCount = _value.descendantPicturesCount;
     this.childsCount = _value.childsCount;
     this.descendantTwinsGroupsCount = _value.descendantTwinsGroupsCount;
     this.inboxPicturesCount = _value.inboxPicturesCount;
@@ -17883,11 +17694,11 @@ export class ItemFields implements GrpcMessage {
   set descendantsCount(value: boolean) {
     this._descendantsCount = value;
   }
-  get currentPicturesCount(): boolean {
-    return this._currentPicturesCount;
+  get descendantPicturesCount(): boolean {
+    return this._descendantPicturesCount;
   }
-  set currentPicturesCount(value: boolean) {
-    this._currentPicturesCount = value;
+  set descendantPicturesCount(value: boolean) {
+    this._descendantPicturesCount = value;
   }
   get childsCount(): boolean {
     return this._childsCount;
@@ -17970,7 +17781,7 @@ export class ItemFields implements GrpcMessage {
         : undefined,
       totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
-      currentPicturesCount: this.currentPicturesCount,
+      descendantPicturesCount: this.descendantPicturesCount,
       childsCount: this.childsCount,
       descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       inboxPicturesCount: this.inboxPicturesCount,
@@ -18011,7 +17822,7 @@ export class ItemFields implements GrpcMessage {
         : null,
       totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
-      currentPicturesCount: this.currentPicturesCount,
+      descendantPicturesCount: this.descendantPicturesCount,
       childsCount: this.childsCount,
       descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       inboxPicturesCount: this.inboxPicturesCount,
@@ -18038,7 +17849,7 @@ export module ItemFields {
     previewPictures?: PreviewPicturesFields.AsObject;
     totalPictures: boolean;
     descendantsCount: boolean;
-    currentPicturesCount: boolean;
+    descendantPicturesCount: boolean;
     childsCount: boolean;
     descendantTwinsGroupsCount: boolean;
     inboxPicturesCount: boolean;
@@ -18063,7 +17874,7 @@ export module ItemFields {
     previewPictures: PreviewPicturesFields.AsProtobufJSON | null;
     totalPictures: boolean;
     descendantsCount: boolean;
-    currentPicturesCount: boolean;
+    descendantPicturesCount: boolean;
     childsCount: boolean;
     descendantTwinsGroupsCount: boolean;
     inboxPicturesCount: boolean;
@@ -18284,21 +18095,10 @@ export class ListItemsRequest implements GrpcMessage {
   static refineValues(_instance: ListItemsRequest) {
     _instance.language = _instance.language || '';
     _instance.fields = _instance.fields || undefined;
-    _instance.typeId = _instance.typeId || 0;
-    _instance.descendantPictures = _instance.descendantPictures || undefined;
-    _instance.previewPictures = _instance.previewPictures || undefined;
+    _instance.options = _instance.options || undefined;
     _instance.limit = _instance.limit || 0;
-    _instance.noParent = _instance.noParent || false;
-    _instance.catname = _instance.catname || '';
     _instance.order = _instance.order || 0;
-    _instance.name = _instance.name || '';
     _instance.page = _instance.page || 0;
-    _instance.id = _instance.id || '0';
-    _instance.ancestorId = _instance.ancestorId || '0';
-    _instance.isConcept = _instance.isConcept || false;
-    _instance.descendant = _instance.descendant || undefined;
-    _instance.parent = _instance.parent || undefined;
-    _instance.engineId = _instance.engineId || '0';
   }
 
   /**
@@ -18325,65 +18125,20 @@ export class ListItemsRequest implements GrpcMessage {
           );
           break;
         case 3:
-          _instance.typeId = _reader.readEnum();
-          break;
-        case 4:
-          _instance.descendantPictures = new ItemPicturesRequest();
+          _instance.options = new ItemListOptions();
           _reader.readMessage(
-            _instance.descendantPictures,
-            ItemPicturesRequest.deserializeBinaryFromReader
-          );
-          break;
-        case 5:
-          _instance.previewPictures = new ItemPicturesRequest();
-          _reader.readMessage(
-            _instance.previewPictures,
-            ItemPicturesRequest.deserializeBinaryFromReader
+            _instance.options,
+            ItemListOptions.deserializeBinaryFromReader
           );
           break;
         case 6:
           _instance.limit = _reader.readUint32();
           break;
-        case 7:
-          _instance.noParent = _reader.readBool();
-          break;
-        case 8:
-          _instance.catname = _reader.readString();
-          break;
         case 9:
           _instance.order = _reader.readEnum();
           break;
-        case 10:
-          _instance.name = _reader.readString();
-          break;
         case 11:
           _instance.page = _reader.readUint32();
-          break;
-        case 12:
-          _instance.id = _reader.readInt64String();
-          break;
-        case 13:
-          _instance.ancestorId = _reader.readInt64String();
-          break;
-        case 14:
-          _instance.isConcept = _reader.readBool();
-          break;
-        case 15:
-          _instance.descendant = new ListItemsRequest();
-          _reader.readMessage(
-            _instance.descendant,
-            ListItemsRequest.deserializeBinaryFromReader
-          );
-          break;
-        case 16:
-          _instance.parent = new ListItemsRequest();
-          _reader.readMessage(
-            _instance.parent,
-            ListItemsRequest.deserializeBinaryFromReader
-          );
-          break;
-        case 17:
-          _instance.engineId = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -18412,86 +18167,30 @@ export class ListItemsRequest implements GrpcMessage {
         ItemFields.serializeBinaryToWriter
       );
     }
-    if (_instance.typeId) {
-      _writer.writeEnum(3, _instance.typeId);
-    }
-    if (_instance.descendantPictures) {
+    if (_instance.options) {
       _writer.writeMessage(
-        4,
-        _instance.descendantPictures as any,
-        ItemPicturesRequest.serializeBinaryToWriter
-      );
-    }
-    if (_instance.previewPictures) {
-      _writer.writeMessage(
-        5,
-        _instance.previewPictures as any,
-        ItemPicturesRequest.serializeBinaryToWriter
+        3,
+        _instance.options as any,
+        ItemListOptions.serializeBinaryToWriter
       );
     }
     if (_instance.limit) {
       _writer.writeUint32(6, _instance.limit);
     }
-    if (_instance.noParent) {
-      _writer.writeBool(7, _instance.noParent);
-    }
-    if (_instance.catname) {
-      _writer.writeString(8, _instance.catname);
-    }
     if (_instance.order) {
       _writer.writeEnum(9, _instance.order);
     }
-    if (_instance.name) {
-      _writer.writeString(10, _instance.name);
-    }
     if (_instance.page) {
       _writer.writeUint32(11, _instance.page);
-    }
-    if (_instance.id) {
-      _writer.writeInt64String(12, _instance.id);
-    }
-    if (_instance.ancestorId) {
-      _writer.writeInt64String(13, _instance.ancestorId);
-    }
-    if (_instance.isConcept) {
-      _writer.writeBool(14, _instance.isConcept);
-    }
-    if (_instance.descendant) {
-      _writer.writeMessage(
-        15,
-        _instance.descendant as any,
-        ListItemsRequest.serializeBinaryToWriter
-      );
-    }
-    if (_instance.parent) {
-      _writer.writeMessage(
-        16,
-        _instance.parent as any,
-        ListItemsRequest.serializeBinaryToWriter
-      );
-    }
-    if (_instance.engineId) {
-      _writer.writeInt64String(17, _instance.engineId);
     }
   }
 
   private _language: string;
   private _fields?: ItemFields;
-  private _typeId: ItemType;
-  private _descendantPictures?: ItemPicturesRequest;
-  private _previewPictures?: ItemPicturesRequest;
+  private _options?: ItemListOptions;
   private _limit: number;
-  private _noParent: boolean;
-  private _catname: string;
   private _order: ListItemsRequest.Order;
-  private _name: string;
   private _page: number;
-  private _id: string;
-  private _ancestorId: string;
-  private _isConcept: boolean;
-  private _descendant?: ListItemsRequest;
-  private _parent?: ListItemsRequest;
-  private _engineId: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -18501,29 +18200,12 @@ export class ListItemsRequest implements GrpcMessage {
     _value = _value || {};
     this.language = _value.language;
     this.fields = _value.fields ? new ItemFields(_value.fields) : undefined;
-    this.typeId = _value.typeId;
-    this.descendantPictures = _value.descendantPictures
-      ? new ItemPicturesRequest(_value.descendantPictures)
-      : undefined;
-    this.previewPictures = _value.previewPictures
-      ? new ItemPicturesRequest(_value.previewPictures)
+    this.options = _value.options
+      ? new ItemListOptions(_value.options)
       : undefined;
     this.limit = _value.limit;
-    this.noParent = _value.noParent;
-    this.catname = _value.catname;
     this.order = _value.order;
-    this.name = _value.name;
     this.page = _value.page;
-    this.id = _value.id;
-    this.ancestorId = _value.ancestorId;
-    this.isConcept = _value.isConcept;
-    this.descendant = _value.descendant
-      ? new ListItemsRequest(_value.descendant)
-      : undefined;
-    this.parent = _value.parent
-      ? new ListItemsRequest(_value.parent)
-      : undefined;
-    this.engineId = _value.engineId;
     ListItemsRequest.refineValues(this);
   }
   get language(): string {
@@ -18538,23 +18220,11 @@ export class ListItemsRequest implements GrpcMessage {
   set fields(value: ItemFields | undefined) {
     this._fields = value;
   }
-  get typeId(): ItemType {
-    return this._typeId;
+  get options(): ItemListOptions | undefined {
+    return this._options;
   }
-  set typeId(value: ItemType) {
-    this._typeId = value;
-  }
-  get descendantPictures(): ItemPicturesRequest | undefined {
-    return this._descendantPictures;
-  }
-  set descendantPictures(value: ItemPicturesRequest | undefined) {
-    this._descendantPictures = value;
-  }
-  get previewPictures(): ItemPicturesRequest | undefined {
-    return this._previewPictures;
-  }
-  set previewPictures(value: ItemPicturesRequest | undefined) {
-    this._previewPictures = value;
+  set options(value: ItemListOptions | undefined) {
+    this._options = value;
   }
   get limit(): number {
     return this._limit;
@@ -18562,71 +18232,17 @@ export class ListItemsRequest implements GrpcMessage {
   set limit(value: number) {
     this._limit = value;
   }
-  get noParent(): boolean {
-    return this._noParent;
-  }
-  set noParent(value: boolean) {
-    this._noParent = value;
-  }
-  get catname(): string {
-    return this._catname;
-  }
-  set catname(value: string) {
-    this._catname = value;
-  }
   get order(): ListItemsRequest.Order {
     return this._order;
   }
   set order(value: ListItemsRequest.Order) {
     this._order = value;
   }
-  get name(): string {
-    return this._name;
-  }
-  set name(value: string) {
-    this._name = value;
-  }
   get page(): number {
     return this._page;
   }
   set page(value: number) {
     this._page = value;
-  }
-  get id(): string {
-    return this._id;
-  }
-  set id(value: string) {
-    this._id = value;
-  }
-  get ancestorId(): string {
-    return this._ancestorId;
-  }
-  set ancestorId(value: string) {
-    this._ancestorId = value;
-  }
-  get isConcept(): boolean {
-    return this._isConcept;
-  }
-  set isConcept(value: boolean) {
-    this._isConcept = value;
-  }
-  get descendant(): ListItemsRequest | undefined {
-    return this._descendant;
-  }
-  set descendant(value: ListItemsRequest | undefined) {
-    this._descendant = value;
-  }
-  get parent(): ListItemsRequest | undefined {
-    return this._parent;
-  }
-  set parent(value: ListItemsRequest | undefined) {
-    this._parent = value;
-  }
-  get engineId(): string {
-    return this._engineId;
-  }
-  set engineId(value: string) {
-    this._engineId = value;
   }
 
   /**
@@ -18646,25 +18262,10 @@ export class ListItemsRequest implements GrpcMessage {
     return {
       language: this.language,
       fields: this.fields ? this.fields.toObject() : undefined,
-      typeId: this.typeId,
-      descendantPictures: this.descendantPictures
-        ? this.descendantPictures.toObject()
-        : undefined,
-      previewPictures: this.previewPictures
-        ? this.previewPictures.toObject()
-        : undefined,
+      options: this.options ? this.options.toObject() : undefined,
       limit: this.limit,
-      noParent: this.noParent,
-      catname: this.catname,
       order: this.order,
-      name: this.name,
-      page: this.page,
-      id: this.id,
-      ancestorId: this.ancestorId,
-      isConcept: this.isConcept,
-      descendant: this.descendant ? this.descendant.toObject() : undefined,
-      parent: this.parent ? this.parent.toObject() : undefined,
-      engineId: this.engineId
+      page: this.page
     };
   }
 
@@ -18687,33 +18288,13 @@ export class ListItemsRequest implements GrpcMessage {
     return {
       language: this.language,
       fields: this.fields ? this.fields.toProtobufJSON(options) : null,
-      typeId:
-        ItemType[
-          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
-        ],
-      descendantPictures: this.descendantPictures
-        ? this.descendantPictures.toProtobufJSON(options)
-        : null,
-      previewPictures: this.previewPictures
-        ? this.previewPictures.toProtobufJSON(options)
-        : null,
+      options: this.options ? this.options.toProtobufJSON(options) : null,
       limit: this.limit,
-      noParent: this.noParent,
-      catname: this.catname,
       order:
         ListItemsRequest.Order[
           this.order === null || this.order === undefined ? 0 : this.order
         ],
-      name: this.name,
-      page: this.page,
-      id: this.id,
-      ancestorId: this.ancestorId,
-      isConcept: this.isConcept,
-      descendant: this.descendant
-        ? this.descendant.toProtobufJSON(options)
-        : null,
-      parent: this.parent ? this.parent.toProtobufJSON(options) : null,
-      engineId: this.engineId
+      page: this.page
     };
   }
 }
@@ -18724,21 +18305,10 @@ export module ListItemsRequest {
   export interface AsObject {
     language: string;
     fields?: ItemFields.AsObject;
-    typeId: ItemType;
-    descendantPictures?: ItemPicturesRequest.AsObject;
-    previewPictures?: ItemPicturesRequest.AsObject;
+    options?: ItemListOptions.AsObject;
     limit: number;
-    noParent: boolean;
-    catname: string;
     order: ListItemsRequest.Order;
-    name: string;
     page: number;
-    id: string;
-    ancestorId: string;
-    isConcept: boolean;
-    descendant?: ListItemsRequest.AsObject;
-    parent?: ListItemsRequest.AsObject;
-    engineId: string;
   }
 
   /**
@@ -18747,26 +18317,1009 @@ export module ListItemsRequest {
   export interface AsProtobufJSON {
     language: string;
     fields: ItemFields.AsProtobufJSON | null;
-    typeId: string;
-    descendantPictures: ItemPicturesRequest.AsProtobufJSON | null;
-    previewPictures: ItemPicturesRequest.AsProtobufJSON | null;
+    options: ItemListOptions.AsProtobufJSON | null;
     limit: number;
-    noParent: boolean;
-    catname: string;
     order: string;
-    name: string;
     page: number;
-    id: string;
-    ancestorId: string;
-    isConcept: boolean;
-    descendant: ListItemsRequest.AsProtobufJSON | null;
-    parent: ListItemsRequest.AsProtobufJSON | null;
-    engineId: string;
   }
   export enum Order {
     DEFAULT = 0,
     NAME_NAT = 1,
     NAME = 2
+  }
+}
+
+/**
+ * Message implementation for goautowp.PictureItemOptions
+ */
+export class PictureItemOptions implements GrpcMessage {
+  static id = 'goautowp.PictureItemOptions';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PictureItemOptions();
+    PictureItemOptions.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PictureItemOptions) {
+    _instance.typeId = _instance.typeId || 0;
+    _instance.pictures = _instance.pictures || undefined;
+    _instance.perspectiveId = _instance.perspectiveId || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PictureItemOptions,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 2:
+          _instance.pictures = new PicturesOptions();
+          _reader.readMessage(
+            _instance.pictures,
+            PicturesOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.perspectiveId = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PictureItemOptions.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PictureItemOptions,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.typeId) {
+      _writer.writeEnum(1, _instance.typeId);
+    }
+    if (_instance.pictures) {
+      _writer.writeMessage(
+        2,
+        _instance.pictures as any,
+        PicturesOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.perspectiveId) {
+      _writer.writeInt32(3, _instance.perspectiveId);
+    }
+  }
+
+  private _typeId: PictureItemType;
+  private _pictures?: PicturesOptions;
+  private _perspectiveId: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PictureItemOptions to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PictureItemOptions.AsObject>) {
+    _value = _value || {};
+    this.typeId = _value.typeId;
+    this.pictures = _value.pictures
+      ? new PicturesOptions(_value.pictures)
+      : undefined;
+    this.perspectiveId = _value.perspectiveId;
+    PictureItemOptions.refineValues(this);
+  }
+  get typeId(): PictureItemType {
+    return this._typeId;
+  }
+  set typeId(value: PictureItemType) {
+    this._typeId = value;
+  }
+  get pictures(): PicturesOptions | undefined {
+    return this._pictures;
+  }
+  set pictures(value: PicturesOptions | undefined) {
+    this._pictures = value;
+  }
+  get perspectiveId(): number {
+    return this._perspectiveId;
+  }
+  set perspectiveId(value: number) {
+    this._perspectiveId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PictureItemOptions.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PictureItemOptions.AsObject {
+    return {
+      typeId: this.typeId,
+      pictures: this.pictures ? this.pictures.toObject() : undefined,
+      perspectiveId: this.perspectiveId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PictureItemOptions.AsProtobufJSON {
+    return {
+      typeId:
+        PictureItemType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      pictures: this.pictures ? this.pictures.toProtobufJSON(options) : null,
+      perspectiveId: this.perspectiveId
+    };
+  }
+}
+export module PictureItemOptions {
+  /**
+   * Standard JavaScript object representation for PictureItemOptions
+   */
+  export interface AsObject {
+    typeId: PictureItemType;
+    pictures?: PicturesOptions.AsObject;
+    perspectiveId: number;
+  }
+
+  /**
+   * Protobuf JSON representation for PictureItemOptions
+   */
+  export interface AsProtobufJSON {
+    typeId: string;
+    pictures: PicturesOptions.AsProtobufJSON | null;
+    perspectiveId: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemParentListOptions
+ */
+export class ItemParentListOptions implements GrpcMessage {
+  static id = 'goautowp.ItemParentListOptions';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemParentListOptions();
+    ItemParentListOptions.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemParentListOptions) {
+    _instance.parentId = _instance.parentId || '0';
+    _instance.parent = _instance.parent || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemParentListOptions,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parent = new ItemListOptions();
+          _reader.readMessage(
+            _instance.parent,
+            ItemListOptions.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemParentListOptions.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemParentListOptions,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.parentId) {
+      _writer.writeInt64String(1, _instance.parentId);
+    }
+    if (_instance.parent) {
+      _writer.writeMessage(
+        2,
+        _instance.parent as any,
+        ItemListOptions.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _parentId: string;
+  private _parent?: ItemListOptions;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemParentListOptions to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemParentListOptions.AsObject>) {
+    _value = _value || {};
+    this.parentId = _value.parentId;
+    this.parent = _value.parent
+      ? new ItemListOptions(_value.parent)
+      : undefined;
+    ItemParentListOptions.refineValues(this);
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get parent(): ItemListOptions | undefined {
+    return this._parent;
+  }
+  set parent(value: ItemListOptions | undefined) {
+    this._parent = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemParentListOptions.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemParentListOptions.AsObject {
+    return {
+      parentId: this.parentId,
+      parent: this.parent ? this.parent.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemParentListOptions.AsProtobufJSON {
+    return {
+      parentId: this.parentId,
+      parent: this.parent ? this.parent.toProtobufJSON(options) : null
+    };
+  }
+}
+export module ItemParentListOptions {
+  /**
+   * Standard JavaScript object representation for ItemParentListOptions
+   */
+  export interface AsObject {
+    parentId: string;
+    parent?: ItemListOptions.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemParentListOptions
+   */
+  export interface AsProtobufJSON {
+    parentId: string;
+    parent: ItemListOptions.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemParentCacheListOptions
+ */
+export class ItemParentCacheListOptions implements GrpcMessage {
+  static id = 'goautowp.ItemParentCacheListOptions';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemParentCacheListOptions();
+    ItemParentCacheListOptions.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemParentCacheListOptions) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+    _instance.itemsByItemId = _instance.itemsByItemId || undefined;
+    _instance.pictureItemsByItemId =
+      _instance.pictureItemsByItemId || undefined;
+    _instance.itemParentByItemId = _instance.itemParentByItemId || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemParentCacheListOptions,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.itemsByItemId = new ItemListOptions();
+          _reader.readMessage(
+            _instance.itemsByItemId,
+            ItemListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.pictureItemsByItemId = new PictureItemOptions();
+          _reader.readMessage(
+            _instance.pictureItemsByItemId,
+            PictureItemOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 5:
+          _instance.itemParentByItemId = new ItemParentListOptions();
+          _reader.readMessage(
+            _instance.itemParentByItemId,
+            ItemParentListOptions.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemParentCacheListOptions.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemParentCacheListOptions,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(2, _instance.parentId);
+    }
+    if (_instance.itemsByItemId) {
+      _writer.writeMessage(
+        3,
+        _instance.itemsByItemId as any,
+        ItemListOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.pictureItemsByItemId) {
+      _writer.writeMessage(
+        4,
+        _instance.pictureItemsByItemId as any,
+        PictureItemOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.itemParentByItemId) {
+      _writer.writeMessage(
+        5,
+        _instance.itemParentByItemId as any,
+        ItemParentListOptions.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _itemId: string;
+  private _parentId: string;
+  private _itemsByItemId?: ItemListOptions;
+  private _pictureItemsByItemId?: PictureItemOptions;
+  private _itemParentByItemId?: ItemParentListOptions;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemParentCacheListOptions to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemParentCacheListOptions.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    this.itemsByItemId = _value.itemsByItemId
+      ? new ItemListOptions(_value.itemsByItemId)
+      : undefined;
+    this.pictureItemsByItemId = _value.pictureItemsByItemId
+      ? new PictureItemOptions(_value.pictureItemsByItemId)
+      : undefined;
+    this.itemParentByItemId = _value.itemParentByItemId
+      ? new ItemParentListOptions(_value.itemParentByItemId)
+      : undefined;
+    ItemParentCacheListOptions.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get itemsByItemId(): ItemListOptions | undefined {
+    return this._itemsByItemId;
+  }
+  set itemsByItemId(value: ItemListOptions | undefined) {
+    this._itemsByItemId = value;
+  }
+  get pictureItemsByItemId(): PictureItemOptions | undefined {
+    return this._pictureItemsByItemId;
+  }
+  set pictureItemsByItemId(value: PictureItemOptions | undefined) {
+    this._pictureItemsByItemId = value;
+  }
+  get itemParentByItemId(): ItemParentListOptions | undefined {
+    return this._itemParentByItemId;
+  }
+  set itemParentByItemId(value: ItemParentListOptions | undefined) {
+    this._itemParentByItemId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemParentCacheListOptions.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemParentCacheListOptions.AsObject {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      itemsByItemId: this.itemsByItemId
+        ? this.itemsByItemId.toObject()
+        : undefined,
+      pictureItemsByItemId: this.pictureItemsByItemId
+        ? this.pictureItemsByItemId.toObject()
+        : undefined,
+      itemParentByItemId: this.itemParentByItemId
+        ? this.itemParentByItemId.toObject()
+        : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemParentCacheListOptions.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      itemsByItemId: this.itemsByItemId
+        ? this.itemsByItemId.toProtobufJSON(options)
+        : null,
+      pictureItemsByItemId: this.pictureItemsByItemId
+        ? this.pictureItemsByItemId.toProtobufJSON(options)
+        : null,
+      itemParentByItemId: this.itemParentByItemId
+        ? this.itemParentByItemId.toProtobufJSON(options)
+        : null
+    };
+  }
+}
+export module ItemParentCacheListOptions {
+  /**
+   * Standard JavaScript object representation for ItemParentCacheListOptions
+   */
+  export interface AsObject {
+    itemId: string;
+    parentId: string;
+    itemsByItemId?: ItemListOptions.AsObject;
+    pictureItemsByItemId?: PictureItemOptions.AsObject;
+    itemParentByItemId?: ItemParentListOptions.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemParentCacheListOptions
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    parentId: string;
+    itemsByItemId: ItemListOptions.AsProtobufJSON | null;
+    pictureItemsByItemId: PictureItemOptions.AsProtobufJSON | null;
+    itemParentByItemId: ItemParentListOptions.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemListOptions
+ */
+export class ItemListOptions implements GrpcMessage {
+  static id = 'goautowp.ItemListOptions';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemListOptions();
+    ItemListOptions.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemListOptions) {
+    _instance.typeId = _instance.typeId || 0;
+    _instance.previewPictures = _instance.previewPictures || undefined;
+    _instance.noParent = _instance.noParent || false;
+    _instance.catname = _instance.catname || '';
+    _instance.name = _instance.name || '';
+    _instance.id = _instance.id || '0';
+    _instance.isConcept = _instance.isConcept || false;
+    _instance.descendant = _instance.descendant || undefined;
+    _instance.ancestor = _instance.ancestor || undefined;
+    _instance.parent = _instance.parent || undefined;
+    _instance.engineId = _instance.engineId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemListOptions,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 3:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 5:
+          _instance.previewPictures = new PictureItemOptions();
+          _reader.readMessage(
+            _instance.previewPictures,
+            PictureItemOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.noParent = _reader.readBool();
+          break;
+        case 8:
+          _instance.catname = _reader.readString();
+          break;
+        case 10:
+          _instance.name = _reader.readString();
+          break;
+        case 12:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 14:
+          _instance.isConcept = _reader.readBool();
+          break;
+        case 15:
+          _instance.descendant = new ItemParentCacheListOptions();
+          _reader.readMessage(
+            _instance.descendant,
+            ItemParentCacheListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 13:
+          _instance.ancestor = new ItemParentCacheListOptions();
+          _reader.readMessage(
+            _instance.ancestor,
+            ItemParentCacheListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 16:
+          _instance.parent = new ItemParentListOptions();
+          _reader.readMessage(
+            _instance.parent,
+            ItemParentListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 17:
+          _instance.engineId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemListOptions.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemListOptions,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.typeId) {
+      _writer.writeEnum(3, _instance.typeId);
+    }
+    if (_instance.previewPictures) {
+      _writer.writeMessage(
+        5,
+        _instance.previewPictures as any,
+        PictureItemOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.noParent) {
+      _writer.writeBool(7, _instance.noParent);
+    }
+    if (_instance.catname) {
+      _writer.writeString(8, _instance.catname);
+    }
+    if (_instance.name) {
+      _writer.writeString(10, _instance.name);
+    }
+    if (_instance.id) {
+      _writer.writeInt64String(12, _instance.id);
+    }
+    if (_instance.isConcept) {
+      _writer.writeBool(14, _instance.isConcept);
+    }
+    if (_instance.descendant) {
+      _writer.writeMessage(
+        15,
+        _instance.descendant as any,
+        ItemParentCacheListOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.ancestor) {
+      _writer.writeMessage(
+        13,
+        _instance.ancestor as any,
+        ItemParentCacheListOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.parent) {
+      _writer.writeMessage(
+        16,
+        _instance.parent as any,
+        ItemParentListOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.engineId) {
+      _writer.writeInt64String(17, _instance.engineId);
+    }
+  }
+
+  private _typeId: ItemType;
+  private _previewPictures?: PictureItemOptions;
+  private _noParent: boolean;
+  private _catname: string;
+  private _name: string;
+  private _id: string;
+  private _isConcept: boolean;
+  private _descendant?: ItemParentCacheListOptions;
+  private _ancestor?: ItemParentCacheListOptions;
+  private _parent?: ItemParentListOptions;
+  private _engineId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemListOptions to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemListOptions.AsObject>) {
+    _value = _value || {};
+    this.typeId = _value.typeId;
+    this.previewPictures = _value.previewPictures
+      ? new PictureItemOptions(_value.previewPictures)
+      : undefined;
+    this.noParent = _value.noParent;
+    this.catname = _value.catname;
+    this.name = _value.name;
+    this.id = _value.id;
+    this.isConcept = _value.isConcept;
+    this.descendant = _value.descendant
+      ? new ItemParentCacheListOptions(_value.descendant)
+      : undefined;
+    this.ancestor = _value.ancestor
+      ? new ItemParentCacheListOptions(_value.ancestor)
+      : undefined;
+    this.parent = _value.parent
+      ? new ItemParentListOptions(_value.parent)
+      : undefined;
+    this.engineId = _value.engineId;
+    ItemListOptions.refineValues(this);
+  }
+  get typeId(): ItemType {
+    return this._typeId;
+  }
+  set typeId(value: ItemType) {
+    this._typeId = value;
+  }
+  get previewPictures(): PictureItemOptions | undefined {
+    return this._previewPictures;
+  }
+  set previewPictures(value: PictureItemOptions | undefined) {
+    this._previewPictures = value;
+  }
+  get noParent(): boolean {
+    return this._noParent;
+  }
+  set noParent(value: boolean) {
+    this._noParent = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get isConcept(): boolean {
+    return this._isConcept;
+  }
+  set isConcept(value: boolean) {
+    this._isConcept = value;
+  }
+  get descendant(): ItemParentCacheListOptions | undefined {
+    return this._descendant;
+  }
+  set descendant(value: ItemParentCacheListOptions | undefined) {
+    this._descendant = value;
+  }
+  get ancestor(): ItemParentCacheListOptions | undefined {
+    return this._ancestor;
+  }
+  set ancestor(value: ItemParentCacheListOptions | undefined) {
+    this._ancestor = value;
+  }
+  get parent(): ItemParentListOptions | undefined {
+    return this._parent;
+  }
+  set parent(value: ItemParentListOptions | undefined) {
+    this._parent = value;
+  }
+  get engineId(): string {
+    return this._engineId;
+  }
+  set engineId(value: string) {
+    this._engineId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemListOptions.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemListOptions.AsObject {
+    return {
+      typeId: this.typeId,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toObject()
+        : undefined,
+      noParent: this.noParent,
+      catname: this.catname,
+      name: this.name,
+      id: this.id,
+      isConcept: this.isConcept,
+      descendant: this.descendant ? this.descendant.toObject() : undefined,
+      ancestor: this.ancestor ? this.ancestor.toObject() : undefined,
+      parent: this.parent ? this.parent.toObject() : undefined,
+      engineId: this.engineId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemListOptions.AsProtobufJSON {
+    return {
+      typeId:
+        ItemType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toProtobufJSON(options)
+        : null,
+      noParent: this.noParent,
+      catname: this.catname,
+      name: this.name,
+      id: this.id,
+      isConcept: this.isConcept,
+      descendant: this.descendant
+        ? this.descendant.toProtobufJSON(options)
+        : null,
+      ancestor: this.ancestor ? this.ancestor.toProtobufJSON(options) : null,
+      parent: this.parent ? this.parent.toProtobufJSON(options) : null,
+      engineId: this.engineId
+    };
+  }
+}
+export module ItemListOptions {
+  /**
+   * Standard JavaScript object representation for ItemListOptions
+   */
+  export interface AsObject {
+    typeId: ItemType;
+    previewPictures?: PictureItemOptions.AsObject;
+    noParent: boolean;
+    catname: string;
+    name: string;
+    id: string;
+    isConcept: boolean;
+    descendant?: ItemParentCacheListOptions.AsObject;
+    ancestor?: ItemParentCacheListOptions.AsObject;
+    parent?: ItemParentListOptions.AsObject;
+    engineId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemListOptions
+   */
+  export interface AsProtobufJSON {
+    typeId: string;
+    previewPictures: PictureItemOptions.AsProtobufJSON | null;
+    noParent: boolean;
+    catname: string;
+    name: string;
+    id: string;
+    isConcept: boolean;
+    descendant: ItemParentCacheListOptions.AsProtobufJSON | null;
+    ancestor: ItemParentCacheListOptions.AsProtobufJSON | null;
+    parent: ItemParentListOptions.AsProtobufJSON | null;
+    engineId: string;
   }
 }
 

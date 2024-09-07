@@ -5,6 +5,7 @@ import {
   BrandVehicleType,
   GetBrandVehicleTypesRequest,
   ItemFields,
+  ItemListOptions,
   ItemType,
   ListItemsRequest,
 } from '@grpc/spec.pb';
@@ -32,13 +33,15 @@ export class CatalogueCarsComponent {
       return this.itemsClient
         .list(
           new ListItemsRequest({
-            catname,
             fields: new ItemFields({
               nameHtml: true,
               nameOnly: true,
             }),
             language: this.languageService.language,
             limit: 1,
+            options: new ItemListOptions({
+              catname,
+            }),
           }),
         )
         .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));

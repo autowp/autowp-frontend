@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
@@ -31,13 +31,15 @@ export class CatalogueEnginesComponent {
       return this.itemsClient
         .list(
           new ListItemsRequest({
-            catname,
             fields: new ItemFields({
               nameHtml: true,
               nameOnly: true,
             }),
             language: this.languageService.language,
             limit: 1,
+            options: new ItemListOptions({
+              catname,
+            }),
           }),
         )
         .pipe(

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, APIItemList, ItemFields, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {APIItem, APIItemList, ItemFields, ItemListOptions, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
@@ -57,7 +57,9 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
                     fields: new ItemFields({nameHtml: true}),
                     language: this.languageService.language,
                     limit: 10,
-                    name: query.get('char') + '%',
+                    options: new ItemListOptions({
+                      name: query.get('char') + '%',
+                    }),
                     page: parseInt(query.get('page') || '', 10),
                   }),
                 )

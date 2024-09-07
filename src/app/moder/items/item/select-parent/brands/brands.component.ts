@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {combineLatest, EMPTY, Observable} from 'rxjs';
@@ -39,9 +39,11 @@ export class ModerItemsItemSelectParentBrandsComponent {
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 500,
-          name: search ? '%' + search + '%' : undefined,
+          options: new ItemListOptions({
+            name: search ? '%' + search + '%' : undefined,
+            typeId: ItemType.ITEM_TYPE_BRAND,
+          }),
           page,
-          typeId: ItemType.ITEM_TYPE_BRAND,
         }),
       ),
     ),

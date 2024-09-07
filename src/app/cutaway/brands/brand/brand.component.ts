@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -25,13 +25,15 @@ export class CutawayBrandsBrandComponent implements OnInit {
       }
       return this.itemsClient.list(
         new ListItemsRequest({
-          catname,
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
           }),
           language: this.languageService.language,
           limit: 1,
+          options: new ItemListOptions({
+            catname,
+          }),
         }),
       );
     }),

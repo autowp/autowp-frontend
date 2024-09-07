@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
@@ -34,9 +34,11 @@ export class ModerItemsItemSelectParentCategoriesComponent {
           fields: new ItemFields({childsCount: true, nameHtml: true}),
           language: this.languageService.language,
           limit: 100,
-          noParent: true,
+          options: new ItemListOptions({
+            noParent: true,
+            typeId: ItemType.ITEM_TYPE_CATEGORY,
+          }),
           page,
-          typeId: ItemType.ITEM_TYPE_CATEGORY,
         }),
       ),
     ),

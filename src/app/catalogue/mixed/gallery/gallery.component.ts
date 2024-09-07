@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -41,13 +41,15 @@ export class CatalogueMixedGalleryComponent {
       }
       return this.itemsClient.list(
         new ListItemsRequest({
-          catname,
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
           }),
           language: this.languageService.language,
           limit: 1,
+          options: new ItemListOptions({
+            catname,
+          }),
         }),
       );
     }),

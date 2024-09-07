@@ -1,6 +1,14 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIGetItemLinksRequest, APIItem, APIItemLink, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {
+  APIGetItemLinksRequest,
+  APIItem,
+  APIItemLink,
+  ItemFields,
+  ItemListOptions,
+  ItemType,
+  ListItemsRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
@@ -73,10 +81,12 @@ export class CatalogueIndexComponent {
 
       return this.itemsClient.list(
         new ListItemsRequest({
-          catname,
           fields,
           language: this.languageService.language,
           limit: 1,
+          options: new ItemListOptions({
+            catname,
+          }),
         }),
       );
     }),

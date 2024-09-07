@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemFields, ItemListOptions, ItemParentListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
@@ -88,13 +88,15 @@ export class CategoriesCategoryComponent {
             }),
             language: this.languageService.language,
             limit: 50,
-            noParent: !item.parent_id,
-            parent: item.parent_id
-              ? new ListItemsRequest({
-                  id: '' + item.parent_id,
-                })
-              : undefined,
-            typeId: ItemType.ITEM_TYPE_CATEGORY,
+            options: new ItemListOptions({
+              noParent: !item.parent_id,
+              parent: item.parent_id
+                ? new ItemParentListOptions({
+                    parentId: '' + item.parent_id,
+                  })
+                : undefined,
+              typeId: ItemType.ITEM_TYPE_CATEGORY,
+            }),
           }),
         )
         .subscribe((response) => {

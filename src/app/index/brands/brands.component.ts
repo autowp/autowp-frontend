@@ -15,7 +15,9 @@ export class IndexBrandsComponent {
     private readonly languageService: LanguageService,
   ) {}
 
-  protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5));
+  protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5)).map(
+    (item) => ({width: item}),
+  );
 
   protected readonly result$ = this.items
     .getTopBrandsList(new GetTopBrandsListRequest({language: this.languageService.language}))

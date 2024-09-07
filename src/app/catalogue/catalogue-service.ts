@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIPathTreeItemParent} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
@@ -154,13 +154,15 @@ export class CatalogueService {
         return this.itemsClient
           .list(
             new ListItemsRequest({
-              catname,
               fields: new ItemFields({
                 nameHtml: true,
                 nameText: true,
               }),
               language: this.languageService.language,
               limit: 1,
+              options: new ItemListOptions({
+                catname,
+              }),
             }),
           )
           .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));

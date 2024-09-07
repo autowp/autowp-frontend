@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
@@ -34,8 +34,10 @@ export class ModerItemsItemSelectParentFactoriesComponent {
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 100,
+          options: new ItemListOptions({
+            typeId: ItemType.ITEM_TYPE_FACTORY,
+          }),
           page,
-          typeId: ItemType.ITEM_TYPE_FACTORY,
         }),
       ),
     ),

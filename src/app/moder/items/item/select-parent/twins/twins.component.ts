@@ -1,6 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemParentListOptions,
+  ItemType,
+  ListItemsRequest,
+  Pages,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
@@ -42,17 +51,21 @@ export class ModerItemsItemSelectParentTwinsComponent {
             switchMap((page) =>
               this.itemsClient.list(
                 new ListItemsRequest({
-                  descendant: new ListItemsRequest({
-                    parent: new ListItemsRequest({
-                      typeId: ItemType.ITEM_TYPE_TWINS,
-                    }),
-                  }),
                   fields: new ItemFields({nameHtml: true}),
                   language: this.languageService.language,
                   limit: 500,
+                  options: new ItemListOptions({
+                    descendant: new ItemParentCacheListOptions({
+                      itemParentByItemId: new ItemParentListOptions({
+                        parent: new ItemListOptions({
+                          typeId: ItemType.ITEM_TYPE_TWINS,
+                        }),
+                      }),
+                    }),
+                    typeId: ItemType.ITEM_TYPE_BRAND,
+                  }),
                   order: ListItemsRequest.Order.NAME,
                   page,
-                  typeId: ItemType.ITEM_TYPE_BRAND,
                 }),
               ),
             ),
@@ -75,17 +88,19 @@ export class ModerItemsItemSelectParentTwinsComponent {
             switchMap((page) =>
               this.itemsClient.list(
                 new ListItemsRequest({
-                  descendant: new ListItemsRequest({
-                    parent: new ListItemsRequest({
-                      id: brandID,
-                    }),
-                  }),
                   fields: new ItemFields({nameHtml: true}),
                   language: this.languageService.language,
                   limit: 100,
+                  options: new ItemListOptions({
+                    descendant: new ItemParentCacheListOptions({
+                      itemParentByItemId: new ItemParentListOptions({
+                        parentId: brandID,
+                      }),
+                    }),
+                    typeId: ItemType.ITEM_TYPE_TWINS,
+                  }),
                   order: ListItemsRequest.Order.NAME,
                   page,
-                  typeId: ItemType.ITEM_TYPE_TWINS,
                 }),
               ),
             ),

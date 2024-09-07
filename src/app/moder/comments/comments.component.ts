@@ -10,6 +10,7 @@ import {
   CommentMessageFields,
   GetMessagesRequest,
   ItemFields,
+  ItemListOptions,
   ListItemsRequest,
   ModeratorAttention,
   Pages,
@@ -49,11 +50,13 @@ export class ModerCommentsComponent implements OnInit {
           language: this.languageService.language,
           limit: 10,
         });
+        const options = new ItemListOptions();
         if (query.substring(0, 1) === '#') {
-          params.id = query.substring(1);
+          options.id = query.substring(1);
         } else {
-          params.name = '%' + query + '%';
+          options.name = '%' + query + '%';
         }
+        params.options = options;
 
         return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {

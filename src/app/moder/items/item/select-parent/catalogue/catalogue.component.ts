@@ -1,6 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemParentListOptions,
+  ItemType,
+  ListItemsRequest,
+  Pages,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
@@ -56,16 +65,22 @@ export class ModerItemsItemSelectParentCatalogueComponent {
               switchMap(([itemTypeID, search, page]) =>
                 this.itemsClient.list(
                   new ListItemsRequest({
-                    descendant: new ListItemsRequest({
-                      typeId: itemTypeID ? itemTypeID : undefined,
-                    }),
                     fields: new ItemFields({nameHtml: true}),
                     language: this.languageService.language,
                     limit: 500,
-                    name: search ? '%' + search + '%' : undefined,
+                    options: new ItemListOptions({
+                      descendant: new ItemParentCacheListOptions({
+                        itemParentByItemId: new ItemParentListOptions({
+                          parent: new ItemListOptions({
+                            typeId: itemTypeID ? itemTypeID : undefined,
+                          }),
+                        }),
+                      }),
+                      name: search ? '%' + search + '%' : undefined,
+                      typeId: ItemType.ITEM_TYPE_BRAND,
+                    }),
                     order: ListItemsRequest.Order.NAME,
                     page,
-                    typeId: ItemType.ITEM_TYPE_BRAND,
                   }),
                 ),
               ),

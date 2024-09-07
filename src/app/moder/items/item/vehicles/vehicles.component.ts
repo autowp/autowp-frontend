@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
@@ -20,10 +20,12 @@ export class ModerItemsItemVehiclesComponent {
       itemId
         ? this.itemsClient.list(
             new ListItemsRequest({
-              engineId: itemId,
               fields: new ItemFields({nameHtml: true}),
               language: this.languageService.language,
               limit: 100,
+              options: new ItemListOptions({
+                engineId: itemId,
+              }),
             }),
           )
         : EMPTY,

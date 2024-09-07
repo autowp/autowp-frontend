@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ListItemsRequest, Spec, VehicleType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ListItemsRequest, Spec, VehicleType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIPaginator} from '@services/api.service';
@@ -108,13 +108,14 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           fields: new ItemFields({nameHtml: true, nameText: true}),
           language: this.languageService.language,
           limit: 10,
-          name: '',
         });
+        const options = new ItemListOptions();
         if (query.substring(0, 1) === '#') {
-          params.id = query.substring(1);
+          options.id = query.substring(1);
         } else {
-          params.name = '%' + query + '%';
+          options.name = '%' + query + '%';
         }
+        params.options = options;
 
         return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {

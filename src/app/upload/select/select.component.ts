@@ -5,6 +5,7 @@ import {
   APIItemList,
   APIItem as GRPCAPIItem,
   ItemFields,
+  ItemListOptions,
   ItemRequest,
   ItemType,
   ListItemsRequest,
@@ -108,10 +109,12 @@ export class UploadSelectComponent implements OnInit {
           }),
           language: this.languageService.language,
           limit: 500,
-          name: search ? '%' + search + '%' : undefined,
+          options: new ItemListOptions({
+            name: search ? '%' + search + '%' : undefined,
+            typeId: ItemType.ITEM_TYPE_BRAND,
+          }),
           order: Order.NAME,
           page,
-          typeId: ItemType.ITEM_TYPE_BRAND,
         }),
       )
       .pipe(

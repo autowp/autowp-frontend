@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
@@ -47,13 +47,15 @@ export class TwinsComponent implements OnInit {
       return this.itemsClient
         .list(
           new ListItemsRequest({
-            catname: brand,
             fields: new ItemFields({
               nameOnly: true,
             }),
             language: this.languageService.language,
             limit: 1,
-            typeId: ItemType.ITEM_TYPE_BRAND,
+            options: new ItemListOptions({
+              catname: brand,
+              typeId: ItemType.ITEM_TYPE_BRAND,
+            }),
           }),
         )
         .pipe(map((response) => (response && response.items && response.items.length > 0 ? response.items[0] : null)));
