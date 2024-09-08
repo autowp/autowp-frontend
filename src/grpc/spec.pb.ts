@@ -19698,7 +19698,7 @@ export class APIItem implements GrpcMessage {
     _instance.isConceptInherit = _instance.isConceptInherit || false;
     _instance.specId = _instance.specId || '0';
     _instance.fullText = _instance.fullText || '';
-    _instance.currentPicturesCount = _instance.currentPicturesCount || 0;
+    _instance.descendantPicturesCount = _instance.descendantPicturesCount || 0;
     _instance.childsCount = _instance.childsCount || 0;
     _instance.descendantTwinsGroupsCount =
       _instance.descendantTwinsGroupsCount || 0;
@@ -19764,7 +19764,7 @@ export class APIItem implements GrpcMessage {
           _instance.fullText = _reader.readString();
           break;
         case 14:
-          _instance.currentPicturesCount = _reader.readInt32();
+          _instance.descendantPicturesCount = _reader.readInt32();
           break;
         case 15:
           _instance.childsCount = _reader.readInt32();
@@ -19854,8 +19854,8 @@ export class APIItem implements GrpcMessage {
     if (_instance.fullText) {
       _writer.writeString(13, _instance.fullText);
     }
-    if (_instance.currentPicturesCount) {
-      _writer.writeInt32(14, _instance.currentPicturesCount);
+    if (_instance.descendantPicturesCount) {
+      _writer.writeInt32(14, _instance.descendantPicturesCount);
     }
     if (_instance.childsCount) {
       _writer.writeInt32(15, _instance.childsCount);
@@ -19907,7 +19907,7 @@ export class APIItem implements GrpcMessage {
   private _isConceptInherit: boolean;
   private _specId: string;
   private _fullText: string;
-  private _currentPicturesCount: number;
+  private _descendantPicturesCount: number;
   private _childsCount: number;
   private _descendantTwinsGroupsCount: number;
   private _inboxPicturesCount: number;
@@ -19937,7 +19937,7 @@ export class APIItem implements GrpcMessage {
     this.isConceptInherit = _value.isConceptInherit;
     this.specId = _value.specId;
     this.fullText = _value.fullText;
-    this.currentPicturesCount = _value.currentPicturesCount;
+    this.descendantPicturesCount = _value.descendantPicturesCount;
     this.childsCount = _value.childsCount;
     this.descendantTwinsGroupsCount = _value.descendantTwinsGroupsCount;
     this.inboxPicturesCount = _value.inboxPicturesCount;
@@ -20029,11 +20029,11 @@ export class APIItem implements GrpcMessage {
   set fullText(value: string) {
     this._fullText = value;
   }
-  get currentPicturesCount(): number {
-    return this._currentPicturesCount;
+  get descendantPicturesCount(): number {
+    return this._descendantPicturesCount;
   }
-  set currentPicturesCount(value: number) {
-    this._currentPicturesCount = value;
+  set descendantPicturesCount(value: number) {
+    this._descendantPicturesCount = value;
   }
   get childsCount(): number {
     return this._childsCount;
@@ -20118,7 +20118,7 @@ export class APIItem implements GrpcMessage {
       isConceptInherit: this.isConceptInherit,
       specId: this.specId,
       fullText: this.fullText,
-      currentPicturesCount: this.currentPicturesCount,
+      descendantPicturesCount: this.descendantPicturesCount,
       childsCount: this.childsCount,
       descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       inboxPicturesCount: this.inboxPicturesCount,
@@ -20166,7 +20166,7 @@ export class APIItem implements GrpcMessage {
       isConceptInherit: this.isConceptInherit,
       specId: this.specId,
       fullText: this.fullText,
-      currentPicturesCount: this.currentPicturesCount,
+      descendantPicturesCount: this.descendantPicturesCount,
       childsCount: this.childsCount,
       descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       inboxPicturesCount: this.inboxPicturesCount,
@@ -20197,7 +20197,7 @@ export module APIItem {
     isConceptInherit: boolean;
     specId: string;
     fullText: string;
-    currentPicturesCount: number;
+    descendantPicturesCount: number;
     childsCount: number;
     descendantTwinsGroupsCount: number;
     inboxPicturesCount: number;
@@ -20226,7 +20226,7 @@ export module APIItem {
     isConceptInherit: boolean;
     specId: string;
     fullText: string;
-    currentPicturesCount: number;
+    descendantPicturesCount: number;
     childsCount: number;
     descendantTwinsGroupsCount: number;
     inboxPicturesCount: number;

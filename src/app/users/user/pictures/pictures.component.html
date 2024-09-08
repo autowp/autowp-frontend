@@ -28,7 +28,7 @@
         }
         <h4 ngPreserveWhitespaces>
           <a [routerLink]="['/users', user.identity, 'pictures', brand.catname]" [textContent]="brand.nameOnly"></a>
-          <small>({{ brand.currentPicturesCount }})</small>
+          <small>({{ brand.descendantPicturesCount }})</small>
         </h4>
       </div>
     }
