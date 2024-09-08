@@ -9,7 +9,7 @@ import {
   getUnitNameTranslation,
   getVehicleTypeRpTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIMostsItem, MostsService} from '../mosts.service';
@@ -65,7 +65,7 @@ export class MostsContentsComponent {
   private readonly menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((brandID) => (brandID ? this.mostsService.getMenu$(brandID) : EMPTY)),
+    switchMap((brandID) => this.mostsService.getMenu$(brandID || 0)),
     shareReplay(1),
   );
 
@@ -91,14 +91,12 @@ export class MostsContentsComponent {
     switchMap(([ratingCatname, typeCatname, yearsCatname]) =>
       this.brandID$.pipe(
         switchMap((brandID) =>
-          brandID
-            ? this.mostsService.getItems$({
-                brand_id: brandID,
-                rating_catname: ratingCatname,
-                type_catname: typeCatname || '',
-                years_catname: yearsCatname || '',
-              })
-            : EMPTY,
+          this.mostsService.getItems$({
+            brand_id: brandID || 0,
+            rating_catname: ratingCatname,
+            type_catname: typeCatname || '',
+            years_catname: yearsCatname || '',
+          }),
         ),
       ),
     ),
