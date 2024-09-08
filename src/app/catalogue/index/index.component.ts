@@ -18,9 +18,10 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {getCatalogueSectionsTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunk, chunkBy} from '../../chunk';
+import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueService} from '../catalogue-service';
 
 interface APIBrandSectionGroup {
@@ -89,6 +90,10 @@ export class CatalogueIndexComponent {
           }),
         }),
       );
+    }),
+    catchError((response: unknown) => {
+      this.toastService.handleError(response);
+      return EMPTY;
     }),
     switchMap((response) => {
       if (!response.items || response.items.length <= 0) {
@@ -188,5 +193,6 @@ export class CatalogueIndexComponent {
     private readonly catalogue: CatalogueService,
     private readonly itemsClient: ItemsClient,
     private readonly languageService: LanguageService,
+    private readonly toastService: ToastsService,
   ) {}
 }
