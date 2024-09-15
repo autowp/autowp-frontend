@@ -5086,6 +5086,27 @@ export class AttrsClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.AttrZonesResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetValues
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrValuesResponse>>
+     */
+    getValues: (
+      requestData: thisProto.AttrValuesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrValuesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetValues',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrValuesRequest,
+        responseClass: thisProto.AttrValuesResponse
+      });
     }
   };
 
@@ -5206,6 +5227,22 @@ export class AttrsClient {
   ): Observable<thisProto.AttrZonesResponse> {
     return this.$raw
       .getZones(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetValues
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrValuesResponse>
+   */
+  getValues(
+    requestData: thisProto.AttrValuesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrValuesResponse> {
+    return this.$raw
+      .getValues(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

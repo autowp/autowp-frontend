@@ -56,6 +56,7 @@ export interface APIAttrValuesGetOptions {
 export interface APIAttrValue {
   attribute_id: number;
   value: APIAttrAttributeValue;
+  value_text: string;
 }
 
 export interface APIAttrValuesGetResponse {

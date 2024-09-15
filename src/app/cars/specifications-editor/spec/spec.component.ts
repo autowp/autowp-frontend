@@ -1,9 +1,11 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, Input} from '@angular/core';
-import {APIUser, AttrAttributeType, AttrListOption} from '@grpc/spec.pb';
+import {APIUser, AttrAttributeType, AttrListOption, AttrValue, AttrValuesRequest} from '@grpc/spec.pb';
+import {AttrsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
 import {
   getAttrDescriptionTranslation,
@@ -21,7 +23,6 @@ import {
   APIAttrUnit,
   APIAttrUserValue,
   APIAttrUserValueGetResponse,
-  APIAttrValue,
   AttrAttributeTreeItem,
 } from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -130,6 +131,8 @@ export class CarsSpecificationsEditorSpecComponent {
     private readonly auth: AuthService,
     private readonly toastService: ToastsService,
     private readonly userService: UserService,
+    private readonly attrsClient: AttrsClient,
+    private readonly languageService: LanguageService,
   ) {}
 
   private applyUserValues(userValues: Map<number, AttrUserValueWithUser[]>, items: APIAttrUserValue[]) {
@@ -148,18 +151,19 @@ export class CarsSpecificationsEditorSpecComponent {
   protected readonly values$ = combineLatest([this.item$, this.change$]).pipe(
     switchMap(([item]) =>
       item
-        ? this.attrsService.getValues$({
-            fields: 'value,value_text',
-            item_id: item.id,
-            limit: 500,
-            zone_id: item.attr_zone_id,
-          })
+        ? this.attrsClient.getValues(
+            new AttrValuesRequest({
+              itemId: '' + item.id,
+              language: this.languageService.language,
+              zoneId: '' + item.attr_zone_id,
+            }),
+          )
         : EMPTY,
     ),
     map((response) => {
-      const values = new Map<number, APIAttrValue>();
-      for (const value of response.items) {
-        values.set(value.attribute_id, value);
+      const values = new Map<string, AttrValue>();
+      for (const value of response?.items || []) {
+        values.set(value.attributeId, value);
       }
       return values;
     }),
@@ -197,6 +201,19 @@ export class CarsSpecificationsEditorSpecComponent {
             value.value = +value.value;
           }
         }
+
+        // cast list user values to string
+        if (
+          attribute &&
+          (attribute.typeId === AttrAttributeType.Id.LIST ||
+            attribute.typeId === AttrAttributeType.Id.TREE ||
+            attribute.typeId === AttrAttributeType.Id.BOOLEAN)
+        ) {
+          if (value.value !== null) {
+            value.value = '' + value.value;
+          }
+        }
+
         if (attribute && attribute.isMultiple) {
           if (!(value.value instanceof Array)) {
             value.value = [value.value ? value.value.toString() : ''];

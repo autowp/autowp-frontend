@@ -57,7 +57,7 @@
                             [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                           >
                             @for (option of attribute.options$ | async; track option.id) {
-                              <option [value]="option.id">
+                              <option [ngValue]="option.id">
                                 {{ option.name }}
                               </option>
                             }
@@ -74,7 +74,7 @@
                               [class.is-invalid]="invalidParams && invalidParams.items[+attribute.id]"
                             >
                               @for (option of attribute.options$ | async; track option.id) {
-                                <option [value]="option.id">
+                                <option [ngValue]="option.id">
                                   {{ option.name }}
                                 </option>
                               }
@@ -91,7 +91,7 @@
                               style="height: 100%"
                             >
                               @for (option of attribute.options$ | async; track option.id) {
-                                <option [value]="option.id">
+                                <option [ngValue]="option.id">
                                   {{ option.name }}
                                 </option>
                               }
@@ -152,13 +152,13 @@
                   </td>
                   <td class="actual">
                     @if (values$ | async; as values) {
-                      @if (values.has(+attribute.id)) {
+                      @if (values.get(attribute.id); as value) {
                         <div>
-                          @if (values.get(+attribute.id)['value'] === null) {
+                          @if (value.value.isEmpty) {
                             <em i18n>none</em>
                           } @else {
                             <span>
-                              {{ values.get(+attribute.id)['value_text'] }}
+                              {{ value.valueText }}
                               @if (attribute.unitId !== '0') {
                                 <span
                                   class="unit"
