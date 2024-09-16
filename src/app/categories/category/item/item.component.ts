@@ -50,7 +50,7 @@ export class CategoriesCategoryItemComponent {
             'item.twins_groups',
             'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
           ].join(','),
-          limit: 7,
+          limit: 10,
           order: 'categories_first',
           page,
           parent_id: current.id,

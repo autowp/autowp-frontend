@@ -46,24 +46,6 @@ export interface APIAttrConflictsGetResponse {
   paginator: APIPaginator;
 }
 
-export interface APIAttrValuesGetOptions {
-  fields?: string;
-  item_id: number;
-  limit?: number;
-  zone_id?: number;
-}
-
-export interface APIAttrValue {
-  attribute_id: number;
-  value: APIAttrAttributeValue;
-  value_text: string;
-}
-
-export interface APIAttrValuesGetResponse {
-  items: APIAttrValue[];
-  paginator: APIPaginator;
-}
-
 export interface APIAttrUserValuesOptions {
   fields?: string;
   item_id: number;
@@ -192,30 +174,6 @@ export class APIAttrsService {
     }
 
     return this.api.request<APIAttrUserValueGetResponse>('GET', 'attr/user-value', {
-      params,
-    });
-  }
-
-  public getValues$(options: APIAttrValuesGetOptions): Observable<APIAttrValuesGetResponse> {
-    const params: {[param: string]: string} = {};
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.item_id) {
-      params.item_id = options.item_id.toString();
-    }
-
-    if (options.zone_id) {
-      params.zone_id = options.zone_id.toString();
-    }
-
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
-    return this.api.request<APIAttrValuesGetResponse>('GET', 'attr/value', {
       params,
     });
   }
