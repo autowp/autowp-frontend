@@ -1,77 +1,79 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIUser} from '@grpc/spec.pb';
-import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
+import {APIUser, AttrUserValue, AttrUserValuesFields, AttrUserValuesRequest} from '@grpc/spec.pb';
+import {AttrsClient} from '@grpc/spec.pbsc';
+import {APIService} from '@services/api.service';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import {getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
+import {getUnitAbbrTranslation} from '@utils/translations';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIAttrAttributeValue, APIAttrsService, APIAttrUnit, APIAttrUserValue} from '../../api/attrs/attrs.service';
+import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
+
+interface AttrUserValueListItem {
+  path$: Observable<string[]>;
+  unitAbbr$: Observable<null | string | undefined>;
+  user$: Observable<APIUser | null>;
+  userValue: AttrUserValue;
+}
 
 @Component({
   selector: 'app-cars-specs-admin',
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly attrsService = inject(APIAttrsService);
+
+  private readonly reload$ = new BehaviorSubject<void>(void 0);
+
   protected readonly move = {
     item_id: null,
   };
-  private readonly move$ = new BehaviorSubject<void>(void 0);
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') || '', 10)),
+    map((params) => params.get('item_id') || ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay(1),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
-    distinctUntilChanged(),
-    debounceTime(10),
-  );
-
   protected readonly data$: Observable<{
-    items: {
-      attribute_id: number;
-      empty: boolean;
-      item: APIItem | null;
-      item_id: number;
-      path: null | string[];
-      unit: APIAttrUnit | null;
-      update_date: null | string;
-      user$: Observable<APIUser | null>;
-      user_id: string;
-      value: APIAttrAttributeValue | null;
-      value_text: null | string;
-    }[];
-    paginator: APIPaginator;
-  }> = combineLatest([this.itemID$, this.page$, this.move$]).pipe(
-    switchMap(([itemID, page]) =>
-      this.attrService.getUserValues$({
-        fields: 'path,unit',
-        item_id: itemID,
-        page: page,
-      }),
+    items: AttrUserValueListItem[];
+  }> = combineLatest([this.itemID$, this.reload$]).pipe(
+    switchMap(([itemID]) =>
+      this.attrsClient.getUserValues(
+        new AttrUserValuesRequest({
+          fields: new AttrUserValuesFields({valueText: true}),
+          itemId: itemID,
+          language: this.languageService.language,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return EMPTY;
     }),
     map((response) => ({
-      items: response.items.map((item) => ({...item, user$: this.userService.getUser$(item.user_id)})),
-      paginator: response.paginator,
+      items: (response.items || []).map((userValue) => {
+        const attr$ = this.attrsService.getAttribute$(userValue.attributeId);
+        return {
+          path$: this.attrsService.getPath$(userValue.attributeId),
+          unitAbbr$: attr$.pipe(map((attr) => (attr?.unitId ? getUnitAbbrTranslation(attr.unitId) : null))),
+          user$: this.userService.getUser$(userValue.userId),
+          userValue,
+        };
+      }),
     })),
   );
 
   constructor(
     private readonly api: APIService,
     private readonly route: ActivatedRoute,
-    private readonly attrService: APIAttrsService,
     private readonly pageEnv: PageEnvService,
     private readonly toastService: ToastsService,
     private readonly userService: UserService,
@@ -81,45 +83,35 @@ export class CarsSpecsAdminComponent implements OnInit {
     setTimeout(() => this.pageEnv.set({pageId: 103}), 0);
   }
 
-  protected deleteValue(values: APIAttrUserValue[], value: APIAttrUserValue) {
+  protected deleteValue(value: AttrUserValueListItem) {
     this.api
-      .request('DELETE', 'attr/user-value/' + value.attribute_id + '/' + value.item_id + '/' + value.user_id)
+      .request(
+        'DELETE',
+        'attr/user-value/' + value.userValue.attributeId + '/' + value.userValue.itemId + '/' + value.userValue.userId,
+      )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
-          for (let i = 0; i < values.length; i++) {
-            if (values[i] === value) {
-              values.splice(i, 1);
-              break;
-            }
-          }
+          this.reload$.next();
         },
       });
   }
 
-  protected moveValues(itemID: number) {
+  protected moveValues(itemID: string) {
     this.api
       .request<void>('PATCH', 'attr/user-value', {
         body: {
           item_id: this.move.item_id,
         },
         params: {
-          item_id: itemID.toString(),
+          item_id: itemID,
         },
       })
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {
-          this.move$.next();
+          this.reload$.next();
         },
       });
-  }
-
-  protected getUnitNameTranslation(id: string): string {
-    return getUnitNameTranslation(id);
-  }
-
-  protected getAttrsTranslation(id: string): string {
-    return getAttrsTranslation(id);
   }
 }

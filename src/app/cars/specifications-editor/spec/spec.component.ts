@@ -1,12 +1,24 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, Input} from '@angular/core';
-import {APIUser, AttrAttributeType, AttrListOption, AttrValue, AttrValuesRequest} from '@grpc/spec.pb';
+import {FormArray, FormControl} from '@angular/forms';
+import {
+  APIUser,
+  AttrAttributeType,
+  AttrListOption,
+  AttrUserValue,
+  AttrUserValuesFields,
+  AttrUserValuesRequest,
+  AttrValue,
+  AttrValuesRequest,
+  AttrValueValue,
+} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
+import {InvalidParams} from '@utils/invalid-params.pipe';
 import {
   getAttrDescriptionTranslation,
   getAttrListOptionsTranslation,
@@ -14,26 +26,18 @@ import {
   getUnitAbbrTranslation,
   getUnitNameTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of, throwError} from 'rxjs';
-import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
+import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {
-  APIAttrAttributeValue,
-  APIAttrsService,
-  APIAttrUnit,
-  APIAttrUserValue,
-  APIAttrUserValueGetResponse,
-  AttrAttributeTreeItem,
-} from '../../../api/attrs/attrs.service';
+import {APIAttrAttributeValue, APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
   deep: number;
   options$: Observable<ListOption[]>;
-}
-
-interface InvalidParams {
-  items: {[key: number]: {[key: string]: {[key: string]: string}}};
+  step: number;
+  unitAbbr: string;
+  unitName: string;
 }
 
 interface APIAttrUserValuePatchResponse {
@@ -49,17 +53,8 @@ interface ListOption {
 }
 
 interface AttrUserValueWithUser {
-  attribute_id: number;
-  empty: boolean;
-  item: APIItem | null;
-  item_id: number;
-  path: null | string[];
-  unit: APIAttrUnit | null;
-  update_date: null | string;
   user$: Observable<APIUser | null>;
-  user_id: string;
-  value: APIAttrAttributeValue | null;
-  value_text: null | string;
+  userValue: AttrUserValue;
 }
 
 const booleanOptions: ListOption[] = [
@@ -77,17 +72,13 @@ const booleanOptions: ListOption[] = [
   },
 ];
 
-function getAttribute(
-  attributes: APIAttrAttributeInSpecEditor[],
-  id: string,
-): APIAttrAttributeInSpecEditor | undefined {
-  for (const attribute of attributes) {
-    if (attribute.id === id) {
-      return attribute;
-    }
-  }
+export class AttrFormControl<TValue> extends FormControl {
+  public attr: APIAttrAttributeInSpecEditor;
+  constructor(attr: APIAttrAttributeInSpecEditor, value: TValue, disabled: boolean) {
+    super({disabled, value});
 
-  return undefined;
+    this.attr = attr;
+  }
 }
 
 @Component({
@@ -103,12 +94,12 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected loading = 0;
   private readonly change$ = new BehaviorSubject<void>(void 0);
-  protected invalidParams: InvalidParams | null = null;
+  protected readonly invalidParams = new Map<string, InvalidParams>();
 
   protected readonly user$ = this.auth.getUser$();
 
   // fields: 'options,childs.options',
-  protected readonly attributes$ = this.item$.pipe(
+  protected readonly attributes$: Observable<APIAttrAttributeInSpecEditor[]> = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
       item && item.attr_zone_id
@@ -125,6 +116,73 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly AttrAttributeTypeId = AttrAttributeType.Id;
 
+  protected readonly currentUserValues$: Observable<{[p: string]: AttrUserValue}> = combineLatest([
+    this.item$,
+    this.user$,
+    this.attributes$,
+    this.change$,
+  ]).pipe(
+    switchMap(([item, user, attributes]) =>
+      item && user
+        ? this.attrsClient
+            .getUserValues(
+              new AttrUserValuesRequest({
+                itemId: '' + item.id,
+                language: this.languageService.language,
+                userId: user.id,
+                zoneId: '' + item.attr_zone_id,
+              }),
+            )
+            .pipe(map((response) => ({attributes, response})))
+        : EMPTY,
+    ),
+    map(({attributes, response}) => {
+      const currentUserValues: {[key: string]: AttrUserValue} = {};
+      for (const value of response.items || []) {
+        currentUserValues[value.attributeId] = value;
+      }
+
+      for (const attr of attributes) {
+        if (!currentUserValues[attr.id]) {
+          currentUserValues[attr.id] = new AttrUserValue({
+            value: new AttrValueValue(),
+          });
+        }
+      }
+
+      return currentUserValues;
+    }),
+  );
+
+  protected readonly form$: Observable<FormArray<AttrFormControl<boolean | null | number | string | string[]>>> =
+    combineLatest([this.attributes$, this.currentUserValues$]).pipe(
+      map(([attributes, currentUserValues]) => {
+        const controls: AttrFormControl<boolean | null | number | string | string[]>[] = attributes
+          .map((attr) => {
+            const currentUserValue = currentUserValues[+attr.id].value;
+            const disabled = !!currentUserValue?.isEmpty;
+
+            switch (attr.typeId) {
+              case AttrAttributeType.Id.BOOLEAN:
+                return new AttrFormControl<boolean>(attr, currentUserValue?.boolValue || false, disabled);
+              case AttrAttributeType.Id.FLOAT:
+                return new AttrFormControl<null | number>(attr, currentUserValue?.floatValue || null, disabled);
+              case AttrAttributeType.Id.INTEGER:
+                return new AttrFormControl<null | number>(attr, currentUserValue?.intValue || null, disabled);
+              case AttrAttributeType.Id.LIST:
+              case AttrAttributeType.Id.TREE:
+                return new AttrFormControl<string[]>(attr, currentUserValue?.listValue || [], disabled);
+              case AttrAttributeType.Id.STRING:
+              case AttrAttributeType.Id.TEXT:
+                return new AttrFormControl<string>(attr, currentUserValue?.stringValue || '', disabled);
+            }
+            return new AttrFormControl<null>(attr, null, disabled);
+          })
+          .filter((control): control is Exclude<typeof control, null> => control !== null);
+        return new FormArray<AttrFormControl<boolean | null | number | string | string[]>>(controls);
+      }),
+    );
+
   constructor(
     private readonly api: APIService,
     private readonly attrsService: APIAttrsService,
@@ -135,15 +193,15 @@ export class CarsSpecificationsEditorSpecComponent {
     private readonly languageService: LanguageService,
   ) {}
 
-  private applyUserValues(userValues: Map<number, AttrUserValueWithUser[]>, items: APIAttrUserValue[]) {
-    for (const value of items) {
-      const v: AttrUserValueWithUser = {...value, user$: this.userService.getUser$(value.user_id)};
-      const values = userValues.get(value.attribute_id);
+  private applyUserValues(userValues: Map<string, AttrUserValueWithUser[]>, items: AttrUserValue[]) {
+    for (const userValue of items) {
+      const v: AttrUserValueWithUser = {user$: this.userService.getUser$(userValue.userId), userValue};
+      const values = userValues.get(userValue.attributeId);
       if (values === undefined) {
-        userValues.set(value.attribute_id, [v]);
+        userValues.set(userValue.attributeId, [v]);
       } else {
         values.push(v);
-        userValues.set(value.attribute_id, values);
+        userValues.set(userValue.attributeId, values);
       }
     }
   }
@@ -170,147 +228,67 @@ export class CarsSpecificationsEditorSpecComponent {
     shareReplay(1),
   );
 
-  protected readonly currentUserValues$: Observable<{[p: number]: APIAttrUserValue}> = combineLatest([
-    this.item$,
-    this.user$,
-    this.attributes$,
-    this.change$,
-  ]).pipe(
-    switchMap(([item, user, attributes]) =>
-      item && user
-        ? this.attrsService
-            .getUserValues$({
-              fields: 'value',
-              item_id: item.id,
-              limit: 500,
-              user_id: +user.id,
-              zone_id: item.attr_zone_id,
-            })
-            .pipe(map((response) => ({attributes, item, response, user})))
-        : EMPTY,
-    ),
-    map(({attributes, item, response, user}) => {
-      const currentUserValues: {[key: number]: APIAttrUserValue} = {};
-      for (const value of response.items) {
-        const attribute = getAttribute(attributes, value.attribute_id + '');
-        if (
-          attribute &&
-          (attribute.typeId === AttrAttributeType.Id.INTEGER || attribute.typeId === AttrAttributeType.Id.FLOAT)
-        ) {
-          if (value.value !== null) {
-            value.value = +value.value;
-          }
-        }
-
-        // cast list user values to string
-        if (
-          attribute &&
-          (attribute.typeId === AttrAttributeType.Id.LIST ||
-            attribute.typeId === AttrAttributeType.Id.TREE ||
-            attribute.typeId === AttrAttributeType.Id.BOOLEAN)
-        ) {
-          if (value.value !== null) {
-            value.value = '' + value.value;
-          }
-        }
-
-        if (attribute && attribute.isMultiple) {
-          if (!(value.value instanceof Array)) {
-            value.value = [value.value ? value.value.toString() : ''];
-          }
-        }
-        currentUserValues[value.attribute_id] = value;
-      }
-
-      for (const attr of attributes) {
-        const attrId = +attr.id;
-        if (!currentUserValues[attrId]) {
-          currentUserValues[attrId] = {
-            attribute_id: attrId,
-            empty: false,
-            item: null,
-            item_id: item.id,
-            path: null,
-            unit: null,
-            update_date: null,
-            user_id: user.id,
-            value: null,
-            value_text: '',
-          };
-        }
-      }
-
-      return currentUserValues;
-    }),
-  );
-
-  protected readonly userValues$: Observable<Map<number, AttrUserValueWithUser[]>> = combineLatest([
+  protected readonly userValues$: Observable<Map<string, AttrUserValueWithUser[]>> = combineLatest([
     this.item$,
     this.change$,
   ]).pipe(
     switchMap(([item]) =>
       item
-        ? this.attrsService
-            .getUserValues$({
-              fields: 'value_text',
-              item_id: item.id,
-              limit: 500,
-              page: 1,
-              zone_id: item.attr_zone_id,
-            })
-            .pipe(map((response) => ({item, response})))
+        ? this.attrsClient.getUserValues(
+            new AttrUserValuesRequest({
+              fields: new AttrUserValuesFields({valueText: true}),
+              itemId: '' + item.id,
+              language: this.languageService.language,
+              zoneId: '' + item.attr_zone_id,
+            }),
+          )
         : EMPTY,
     ),
-    map(({item, response}) => {
-      const uv = new Map<number, AttrUserValueWithUser[]>();
-      this.applyUserValues(uv, response.items);
-      return {item, paginator: response.paginator, uv};
-    }),
-    switchMap(({item, paginator, uv}) => {
-      const observables: Observable<APIAttrUserValueGetResponse>[] = [];
-      for (let i = 2; i <= paginator.pageCount; i++) {
-        observables.push(
-          this.attrsService
-            .getUserValues$({
-              fields: 'value_text',
-              item_id: item.id,
-              limit: 500,
-              page: i,
-              zone_id: item.attr_zone_id,
-            })
-            .pipe(
-              tap((subresponse) => {
-                this.applyUserValues(uv, subresponse.items);
-              }),
-            ),
-        );
-      }
-
-      return observables.length ? forkJoin(observables).pipe(map(() => uv)) : of(uv);
+    map((response) => {
+      const uv = new Map<string, AttrUserValueWithUser[]>();
+      this.applyUserValues(uv, response?.items || []);
+      return uv;
     }),
     shareReplay(1),
   );
 
-  protected saveSpecs(user: APIUser, item: APIItem, currentUserValues: {[p: number]: APIAttrUserValue}) {
-    const items: {
-      attribute_id: string;
-      empty: boolean;
-      item_id: number;
-      user_id: string;
-      value: APIAttrAttributeValue | null;
-    }[] = [];
-    for (const attributeID in currentUserValues) {
-      items.push({
-        attribute_id: attributeID,
-        empty: currentUserValues[+attributeID].empty,
+  protected saveSpecs(
+    user: APIUser,
+    item: APIItem,
+    form: FormArray<AttrFormControl<boolean | null | number | string | string[]>>,
+  ) {
+    const items = form.controls.map((control) => {
+      let value: APIAttrAttributeValue | null = null;
+      switch (control.attr.typeId) {
+        case AttrAttributeType.Id.BOOLEAN:
+          value = control.value || null;
+          break;
+        case AttrAttributeType.Id.FLOAT:
+          value = control.value || null;
+          break;
+        case AttrAttributeType.Id.INTEGER:
+          value = control.value || null;
+          break;
+        case AttrAttributeType.Id.LIST:
+        case AttrAttributeType.Id.TREE:
+          value = control.value || null;
+          break;
+        case AttrAttributeType.Id.STRING:
+        case AttrAttributeType.Id.TEXT:
+          value = control.value || null;
+          break;
+      }
+      return {
+        attribute_id: control.attr.id,
+        empty: control.disabled,
         item_id: item.id,
         user_id: user.id,
-        value: currentUserValues[+attributeID].value,
-      });
-    }
+        value: value,
+      };
+    });
 
     this.loading++;
-    this.invalidParams = null;
+    this.invalidParams.clear();
     this.api
       .request<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {
         body: {
@@ -320,7 +298,13 @@ export class CarsSpecificationsEditorSpecComponent {
       .subscribe({
         error: (response: unknown) => {
           if (response instanceof HttpErrorResponse && response.status === 400) {
-            this.invalidParams = response.error.invalid_params;
+            this.invalidParams.clear();
+            const ipItems = response.error.invalid_params.items;
+            items.forEach((v, i) => {
+              if (ipItems[i]) {
+                this.invalidParams.set(v.attribute_id, ipItems[i]);
+              }
+            });
           } else {
             this.toastService.handleError(response);
           }
@@ -331,47 +315,6 @@ export class CarsSpecificationsEditorSpecComponent {
           this.loading--;
         },
       });
-  }
-
-  protected getStep(attribute: APIAttrAttributeInSpecEditor): number {
-    return Math.pow(10, -attribute.precision);
-  }
-
-  protected getInvalidParams(id: number): string[] {
-    if (!this.invalidParams || !this.invalidParams.items) {
-      return [];
-    }
-
-    const items = this.invalidParams.items;
-
-    if (!items[id]) {
-      return [];
-    }
-
-    const result: string[] = [];
-    for (const field in items[id]) {
-      for (const code in items[id][field]) {
-        result.push(items[id][field][code]);
-      }
-    }
-
-    return result;
-  }
-
-  protected getUnitNameTranslation(id: string): string {
-    return getUnitNameTranslation(id);
-  }
-
-  protected getUnitAbbrTranslation(id: string): string {
-    return getUnitAbbrTranslation(id);
-  }
-
-  protected getAttrsTranslation(id: string): string {
-    return getAttrsTranslation(id);
-  }
-
-  protected getAttrDescriptionTranslation(id: string): string {
-    return getAttrDescriptionTranslation(id);
   }
 
   private listOptions$: Observable<{attributeId: string; id: string; name: string; parentId: string}[]> =
@@ -405,7 +348,7 @@ export class CarsSpecificationsEditorSpecComponent {
   private toPlain(options: AttrAttributeTreeItem[], deep: number): APIAttrAttributeInSpecEditor[] {
     const result: APIAttrAttributeInSpecEditor[] = [];
     for (const item of options) {
-      let options$: Observable<{id: null | string; name: string}[]> = of([]);
+      let options$: Observable<ListOption[]> = of([]);
 
       if (item.typeId === AttrAttributeType.Id.LIST || item.typeId === AttrAttributeType.Id.TREE) {
         options$ = this.listOptions$.pipe(
@@ -427,7 +370,16 @@ export class CarsSpecificationsEditorSpecComponent {
       if (item.typeId === AttrAttributeType.Id.BOOLEAN) {
         options$ = of(booleanOptions);
       }
-      result.push({...item, deep, options$});
+      result.push({
+        ...item,
+        deep,
+        description: getAttrDescriptionTranslation(item.description),
+        name: getAttrsTranslation(item.name),
+        options$,
+        step: Math.pow(10, -item.precision),
+        unitAbbr: item.unitId !== '0' ? getUnitAbbrTranslation(item.unitId) : '',
+        unitName: item.unitId !== '0' ? getUnitNameTranslation(item.unitId) : '',
+      });
       for (const subitem of this.toPlain(item.childs, deep + 1)) {
         result.push(subitem);
       }

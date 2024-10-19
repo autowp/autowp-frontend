@@ -1,19 +1,35 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIUser, APIUsersRequest} from '@grpc/spec.pb';
-import {UsersClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  APIUser,
+  APIUsersRequest,
+  AttrUserValue,
+  AttrUserValuesFields,
+  AttrUserValuesRequest,
+  ItemFields,
+  ItemRequest,
+} from '@grpc/spec.pb';
+import {AttrsClient, ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIPaginator} from '@services/api.service';
-import {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import {getAttrsTranslation, getUnitAbbrTranslation} from '@utils/translations';
+import {getUnitAbbrTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIAttrAttributeValue, APIAttrsService, APIAttrUnit} from '../../api/attrs/attrs.service';
+import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
+
+interface AttrUserValueListItem {
+  item$: Observable<APIItem | null>;
+  path$: Observable<string[]>;
+  unitAbbr$: Observable<null | string | undefined>;
+  user$: Observable<APIUser | null>;
+  userValue: AttrUserValue;
+}
 
 @Component({
   selector: 'app-cars-attrs-change-log',
@@ -21,56 +37,53 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './attrs-change-log.component.html',
 })
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly attrsService = inject(APIAttrsService);
+
+  private readonly itemsCache = new Map<string, Observable<APIItem>>();
+
   private querySub?: Subscription;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  protected readonly userID$: Observable<number> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('user_id') || '', 10)),
-    map((userID) => (userID ? userID : 0)),
+  protected readonly userID$: Observable<string> = this.route.queryParamMap.pipe(
+    map((params) => params.get('user_id') || ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') || '', 10)),
-    distinctUntilChanged(),
-    debounceTime(10),
-  );
-
-  protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => params.get('item_id') || ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly items$: Observable<{
-    items: {
-      attribute_id: number;
-      empty: boolean;
-      item: APIItem | null;
-      item_id: number;
-      path: null | string[];
-      unit: APIAttrUnit | null;
-      update_date: null | string;
-      user$: Observable<APIUser | null>;
-      user_id: string;
-      value: APIAttrAttributeValue | null;
-      value_text: null | string;
-    }[];
-    paginator: APIPaginator;
-  }> = combineLatest([this.userID$, this.itemID$, this.page$]).pipe(
-    switchMap(([userID, itemID, page]) =>
-      this.attrService.getUserValues$({
-        fields: 'item.name_html,path,unit,value_text',
-        item_id: itemID,
-        page: page,
-        user_id: userID ? userID : undefined,
-      }),
+    items: AttrUserValueListItem[];
+  }> = combineLatest([this.userID$, this.itemID$]).pipe(
+    switchMap(([userID, itemID]) =>
+      this.attrsClient.getUserValues(
+        new AttrUserValuesRequest({
+          fields: new AttrUserValuesFields({valueText: true}),
+          itemId: itemID,
+          language: this.languageService.language,
+          userId: userID ? userID : undefined,
+        }),
+      ),
     ),
     map((response) => ({
-      items: response.items.map((item) => ({...item, user$: this.userService.getUser$(item.user_id)})),
-      paginator: response.paginator,
+      items: (response.items || []).map((userValue) => {
+        const attr$ = this.attrsService.getAttribute$(userValue.attributeId);
+        return {
+          item$: this.getItem$(userValue.itemId),
+          path$: this.attrsService.getPath$(userValue.attributeId),
+          unitAbbr$: attr$.pipe(map((attr) => (attr?.unitId ? getUnitAbbrTranslation(attr.unitId) : null))),
+          user$: this.userService.getUser$(userValue.userId),
+          userValue,
+        };
+      }),
     })),
     shareReplay(1),
   );
@@ -114,7 +127,6 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     );
 
   constructor(
-    private readonly attrService: APIAttrsService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly acl: ACLService,
@@ -123,6 +135,17 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     private readonly usersClient: UsersClient,
     private readonly userService: UserService,
   ) {}
+
+  private getItem$(id: string): Observable<APIItem | null> {
+    let o$ = this.itemsCache.get(id);
+    if (!o$) {
+      o$ = this.itemsClient
+        .item(new ItemRequest({fields: new ItemFields({nameHtml: true}), id: id}))
+        .pipe(shareReplay(1));
+      this.itemsCache.set(id, o$);
+    }
+    return o$;
+  }
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 103}), 0);
@@ -162,10 +185,4 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
       this.querySub.unsubscribe();
     }
   }
-
-  protected getAttrsTranslation(id: string): string {
-    return getAttrsTranslation(id);
-  }
-
-  protected readonly getUnitAbbrTranslation = getUnitAbbrTranslation;
 }

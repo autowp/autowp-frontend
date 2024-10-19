@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbTooltipModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
 import {UtilsModule} from '@utils/utils.module';
 
@@ -40,6 +40,7 @@ import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
     NgbTooltipModule,
     UtilsModule,
     ItemModule,
+    ReactiveFormsModule,
   ],
 })
 export class CarsModule {}

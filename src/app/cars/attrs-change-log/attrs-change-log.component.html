@@ -54,49 +54,48 @@
       </tr>
     </thead>
     @if (items$ | async; as items) {
-      @for (item of items.items; track item) {
+      @for (row of items.items; track row.userValue) {
         <tr>
           <td>
-            @if (item.update_date) {
-              <p [textContent]="item.update_date | timeAgo" [ngbTooltip]="item.update_date | date: 'medium'"></p>
+            @if (row.userValue.updateDate?.toDate(); as date) {
+              <p [textContent]="date | timeAgo" [ngbTooltip]="date | date: 'medium'"></p>
             }
           </td>
           <td>
-            @if (item.user$ | async; as user) {
+            @if (row.user$ | async; as user) {
               <app-user [user]="user"></app-user>
             }
           </td>
           <td>
-            @if (isModer$ | async) {
-              <a [routerLink]="['/moder/items/item', item.item_id]" [innerHTML]="item.item.name_html"></a>
-            } @else {
-              <span [innerHTML]="item.item.name_html"></span>
+            @if (row.item$ | async; as item) {
+              @if (isModer$ | async) {
+                <a [routerLink]="['/moder/items/item', row.userValue.itemId]" [innerHTML]="item.nameHtml"></a>
+              } @else {
+                <span [innerHTML]="item.nameHtml"></span>
+              }
             }
           </td>
-          <td class="attribute">
-            @for (node of item.path; track node; let i = $index) {
-              <span [textContent]="getAttrsTranslation(node)"></span>
-              @if (!i) {
-                <span> / </span>
+          <td class="attribute text-center">
+            @if (row.path$ | async; as path) {
+              @for (node of path; track node; let last = $last) {
+                <span>{{ node }}</span>
+                @if (!last) {
+                  <span> / </span>
+                }
               }
             }
           </td>
           <td style="text-align: center">
-            {{ item.value_text }}
-            @if (item.unit) {
-              <span class="unit" [textContent]="getUnitAbbrTranslation(item.unit.id + '')"></span>
+            {{ row.userValue.valueText }}
+            @if (row.unitAbbr$ | async; as unitAbbr) {
+              <span class="unit">{{ unitAbbr }}</span>
             }
           </td>
           <td class="link">
-            <a [routerLink]="['/cars/car-specifications-editor/item_id', item.item_id]" i18n>to editor</a>
+            <a [routerLink]="['/cars/car-specifications-editor/item_id', row.userValue.itemId]" i18n>to editor</a>
           </td>
         </tr>
       }
     }
   </table>
 </div>
-@if (items$ | async; as data) {
-  <app-paginator [data]="data.paginator"></app-paginator>
-} @else {
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-}

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
   AttrAttribute,
-  AttrAttributeID,
   AttrAttributesRequest,
   AttrAttributeType,
   AttrListOptionsRequest,
@@ -11,9 +10,9 @@ import {
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
-import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {getAttrsTranslation} from '@utils/translations';
+import {Observable, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 export interface APIAttrListOption {
   childs?: APIAttrListOption[];
@@ -46,34 +45,7 @@ export interface APIAttrConflictsGetResponse {
   paginator: APIPaginator;
 }
 
-export interface APIAttrUserValuesOptions {
-  fields?: string;
-  item_id: number;
-  limit?: number;
-  page?: number;
-  user_id?: number;
-  zone_id?: number;
-}
-
-export type APIAttrAttributeValue = number | string | string[];
-
-export interface APIAttrUserValue {
-  attribute_id: number;
-  empty: boolean;
-  item: APIItem | null;
-  item_id: number;
-  path: null | string[];
-  unit: APIAttrUnit | null;
-  update_date: null | string;
-  user_id: string;
-  value: APIAttrAttributeValue | null;
-  value_text: null | string;
-}
-
-export interface APIAttrUserValueGetResponse {
-  items: APIAttrUserValue[];
-  paginator: APIPaginator;
-}
+export type APIAttrAttributeValue = boolean | number | string | string[];
 
 export interface APIAttrAttribute {
   childs?: APIAttrAttribute[];
@@ -112,6 +84,11 @@ function toTree(items: AttrAttribute[], parentID: string): AttrAttributeTreeItem
   providedIn: 'root',
 })
 export class APIAttrsService {
+  private readonly attrs$ = this.attrsClient.getAttributes(new AttrAttributesRequest()).pipe(
+    map((response) => response.items),
+    shareReplay(1),
+  );
+
   public readonly attributeTypes$: Observable<AttrAttributeType[]> = this.attrsClient
     .getAttributeTypes(new Empty())
     .pipe(
@@ -142,40 +119,8 @@ export class APIAttrsService {
     );
   }
 
-  public getAttribute$(id: string): Observable<AttrAttribute> {
-    return this.attrsClient.getAttribute(new AttrAttributeID({id}));
-  }
-
-  public getUserValues$(options: APIAttrUserValuesOptions): Observable<APIAttrUserValueGetResponse> {
-    const params: {[param: string]: string} = {};
-
-    if (options.fields) {
-      params.fields = options.fields;
-    }
-
-    if (options.item_id) {
-      params.item_id = options.item_id.toString();
-    }
-
-    if (options.zone_id) {
-      params.zone_id = options.zone_id.toString();
-    }
-
-    if (options.user_id) {
-      params.user_id = options.user_id.toString();
-    }
-
-    if (options.page) {
-      params.page = options.page.toString();
-    }
-
-    if (options.limit) {
-      params.limit = options.limit.toString();
-    }
-
-    return this.api.request<APIAttrUserValueGetResponse>('GET', 'attr/user-value', {
-      params,
-    });
+  public getAttribute$(id: string): Observable<AttrAttribute | undefined> {
+    return this.attrs$.pipe(map((attrs) => attrs?.find((attr) => attr.id === id)));
   }
 
   public getAttributes$(zoneID: null | string, parentID: null | string): Observable<AttrAttributeTreeItem[]> {
@@ -208,5 +153,19 @@ export class APIAttrsService {
 
   public getListOptions$(attributeID: string | undefined): Observable<AttrListOptionsResponse> {
     return this.attrsClient.getListOptions(new AttrListOptionsRequest({attributeId: attributeID}));
+  }
+
+  public getPath$(id: string): Observable<string[]> {
+    return this.getAttribute$(id).pipe(
+      switchMap((attr) => {
+        if (!attr) {
+          return of([]);
+        }
+
+        return this.getPath$(attr.parentId).pipe(
+          map((parentPath) => parentPath.concat(getAttrsTranslation(attr.name))),
+        );
+      }),
+    );
   }
 }

@@ -13,32 +13,34 @@
       </tr>
     </thead>
     <tbody>
-      @for (value of data.items; track value) {
+      @for (row of data.items; track row) {
         <tr>
           <td>
-            <span [textContent]="value.update_date | timeAgo" [ngbTooltip]="value.update_date | date: 'medium'"></span>
+            @if (row.userValue.updateDate?.toDate(); as date) {
+              <span [textContent]="date | timeAgo" [ngbTooltip]="date | date: 'medium'"></span>
+            }
           </td>
           <td>
-            @if (value.user$ | async; as user) {
+            @if (row.user$ | async; as user) {
               <app-user [user]="user"></app-user>
             }
           </td>
           <td>
-            @for (node of value.path; track node; let i = $index) {
-              <span>
-                @if (i) {
+            @if (row.path$ | async; as path) {
+              @for (node of path; track node; let last = $last) {
+                <span>{{ node }}</span>
+                @if (!last) {
                   <span> / </span>
                 }
-                <span [textContent]="getAttrsTranslation(node)"></span>
-              </span>
+              }
             }
-            @if (value.unit) {
-              <span [textContent]="getUnitNameTranslation(value.unit.id + '')"></span>
+            @if (row.unitAbbr$ | async; as unitAbbr) {
+              <span class="unit">{{ unitAbbr }}</span>
             }
           </td>
-          <td>{{ value.value }}</td>
+          <td>{{ row.userValue.valueText }}</td>
           <td>
-            <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(data.items, value)">
+            <button type="submit" class="btn btn-danger btn-sm" (click)="deleteValue(row)">
               <i class="bi bi-x" aria-hidden="true"></i>
             </button>
           </td>
@@ -46,9 +48,7 @@
       }
     </tbody>
   </table>
-  @if (data.paginator) {
-    <app-paginator [data]="data.paginator"></app-paginator>
-  }
+
   @if (itemID$ | async; as itemID) {
     <form (submit)="moveValues(itemID)">
       <input
