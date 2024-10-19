@@ -174,8 +174,8 @@ export class CatalogueService {
     switch (parent.item.item_type_id) {
       case ItemType.ITEM_TYPE_BRAND:
         return ['/', parent.item.catname, parent.catname];
-      case ItemType.ITEM_TYPE_VEHICLE:
       case ItemType.ITEM_TYPE_ENGINE:
+      case ItemType.ITEM_TYPE_VEHICLE:
         for (const sparent of parent.item.parents) {
           const path = this.pictureRouterLinkItem(sparent);
           if (path) {
@@ -193,10 +193,10 @@ export class CatalogueService {
         switch (pictureItem.item.item_type_id) {
           case ItemType.ITEM_TYPE_BRAND:
             switch (pictureItem.perspective_id) {
-              case 25: // mixed
-                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
               case 22: // logo
                 return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
+              case 25: // mixed
+                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
               default:
                 return ['/', pictureItem.item.catname, 'other', picture.identity];
             }

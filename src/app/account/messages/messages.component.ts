@@ -38,6 +38,11 @@ export class AccountMessagesComponent {
       let userID: string = '';
 
       switch (this.folder) {
+        case 'dialog':
+          pageId = 49;
+          this.pageName = $localize`Personal messages`;
+          userID = params.user_id || '';
+          break;
         case 'inbox':
           pageId = 128;
           this.pageName = $localize`Inbox`;
@@ -49,11 +54,6 @@ export class AccountMessagesComponent {
         case 'system':
           pageId = 81;
           this.pageName = $localize`System messages`;
-          break;
-        case 'dialog':
-          pageId = 49;
-          this.pageName = $localize`Personal messages`;
-          userID = params.user_id || '';
           break;
       }
 
@@ -130,8 +130,8 @@ export class AccountMessagesComponent {
   protected openMessageForm(userId: string) {
     this.messageDialogService.showDialog(userId, () => {
       switch (this.folder) {
-        case 'sent':
         case 'dialog':
+        case 'sent':
           this.change$.next();
           break;
       }

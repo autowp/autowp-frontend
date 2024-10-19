@@ -353,11 +353,11 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         this.excludeItemQuery = '#' + this.excludeItemID;
       }
       switch (params.get('comments')) {
-        case 'true':
-          this.comments = true;
-          break;
         case 'false':
           this.comments = false;
+          break;
+        case 'true':
+          this.comments = true;
           break;
         default:
           this.comments = null;
@@ -368,11 +368,11 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         this.ownerQuery = '#' + this.ownerID;
       }
       switch (params.get('replace')) {
-        case 'true':
-          this.replace = true;
-          break;
         case 'false':
           this.replace = false;
+          break;
+        case 'true':
+          this.replace = true;
           break;
         default:
           this.replace = null;

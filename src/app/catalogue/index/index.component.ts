@@ -142,11 +142,11 @@ export class CatalogueIndexComponent {
       const other: APIItemLink[] = [];
       (response.items ? response.items : []).forEach((item) => {
         switch (item.type) {
-          case 'official':
-            official.push(item);
-            break;
           case 'club':
             club.push(item);
+            break;
+          case 'official':
+            official.push(item);
             break;
           default:
             other.push(item);
