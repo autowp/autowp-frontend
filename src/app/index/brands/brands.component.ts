@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {GetTopBrandsListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -10,10 +10,8 @@ import {map} from 'rxjs/operators';
   templateUrl: './brands.component.html',
 })
 export class IndexBrandsComponent {
-  constructor(
-    private readonly items: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
+  private readonly items = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5)).map(
     (item) => ({width: item}),

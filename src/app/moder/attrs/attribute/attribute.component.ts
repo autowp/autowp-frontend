@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AttrAttribute} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
@@ -13,6 +13,11 @@ import {APIAttrsService} from '../../../api/attrs/attrs.service';
   templateUrl: './attribute.component.html',
 })
 export class ModerAttrsAttributeComponent {
+  private readonly attrsService = inject(APIAttrsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly router = inject(Router);
+
   private readonly attributeID$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
@@ -62,13 +67,6 @@ export class ModerAttrsAttributeComponent {
       return typeMap;
     }),
   );
-
-  constructor(
-    private readonly attrsService: APIAttrsService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly router: Router,
-  ) {}
 
   protected getUnitNameTranslation(id: string): string {
     return getUnitNameTranslation(id);

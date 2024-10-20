@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {Observable} from 'rxjs';
 
@@ -34,7 +34,7 @@ export interface APIVotingVariantVotesGetResponse {
 
 @Injectable()
 export class VotingService {
-  constructor(private readonly api: APIService) {}
+  private readonly api = inject(APIService);
 
   public getVoting$(id: number): Observable<APIVoting> {
     return this.api.request<APIVoting>('GET', 'voting/' + id);

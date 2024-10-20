@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -14,6 +14,13 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
   templateUrl: './engines.component.html',
 })
 export class CatalogueEnginesComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -129,13 +136,4 @@ export class CatalogueEnginesComponent {
   );
 
   protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} Engines`));
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly itemParentService: ItemParentService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

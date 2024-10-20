@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -12,6 +12,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './dateless.component.html',
 })
 export class CarsDatelessComponent implements OnInit {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly data$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -35,13 +40,6 @@ export class CarsDatelessComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 1}), 0);

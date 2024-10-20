@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {APIGetUserRequest, APIUser, GetTopPersonsListRequest, PictureItemType} from '@grpc/spec.pb';
 import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -18,6 +18,12 @@ interface APIIndexItemOfDay {
   templateUrl: './index.component.html',
 })
 export class IndexComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly api = inject(APIService);
+  private readonly items = inject(ItemsClient);
+  protected readonly languageService = inject(LanguageService);
+  private readonly usersClient = inject(UsersClient);
+
   protected readonly mosts = [
     {
       name: $localize`Most fastest roadsters`,
@@ -65,14 +71,6 @@ export class IndexComponent implements OnInit {
       pictureItemType: PictureItemType.PICTURE_ITEM_AUTHOR,
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly api: APIService,
-    private readonly items: ItemsClient,
-    protected readonly languageService: LanguageService,
-    private readonly usersClient: UsersClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -16,6 +16,11 @@ import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component'
   templateUrl: './meta.component.html',
 })
 export class ModerItemsItemMetaComponent {
+  private readonly acl = inject(ACLService);
+  private readonly api = inject(APIService);
+  private readonly itemService = inject(ItemService);
+  private readonly itemsClient = inject(ItemsClient);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -44,13 +49,6 @@ export class ModerItemsItemMetaComponent {
       return of([]);
     }),
   );
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly api: APIService,
-    private readonly itemService: ItemService,
-    private readonly itemsClient: ItemsClient,
-  ) {}
 
   protected saveMeta(item: APIItem, event: ItemMetaFormResult) {
     this.loadingNumber++;

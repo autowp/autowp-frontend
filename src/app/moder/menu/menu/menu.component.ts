@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {PictureService} from '@services/picture';
@@ -21,6 +21,11 @@ interface MenuItem {
   templateUrl: './menu.component.html',
 })
 export class MenuComponent {
+  protected readonly auth = inject(AuthService);
+  protected readonly acl = inject(ACLService);
+  private readonly pictureService = inject(PictureService);
+  private readonly commentService = inject(APICommentsService);
+
   protected readonly items$: Observable<MenuItem[] | null> = combineLatest([
     this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE),
     this.pictureService.getInboxSize$(),
@@ -59,11 +64,4 @@ export class MenuComponent {
       ];
     }),
   );
-
-  constructor(
-    protected readonly auth: AuthService,
-    protected readonly acl: ACLService,
-    private readonly pictureService: PictureService,
-    private readonly commentService: APICommentsService,
-  ) {}
 }

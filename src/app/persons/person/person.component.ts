@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -15,6 +15,14 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './person.component.html',
 })
 export class PersonsPersonComponent {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly acl = inject(ACLService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly itemID$: Observable<string> = this.route.paramMap.pipe(
@@ -62,14 +70,4 @@ export class PersonsPersonComponent {
   );
 
   protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly acl: ACLService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

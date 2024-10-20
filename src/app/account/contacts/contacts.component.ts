@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Contact, DeleteContactRequest} from '@grpc/spec.pb';
 import {ContactsClient} from '@grpc/spec.pbsc';
 import {AuthService} from '@services/auth.service';
@@ -16,6 +16,14 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './contacts.component.html',
 })
 export class AccountContactsComponent implements OnInit {
+  private readonly contactsService = inject(ContactsService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly auth = inject(AuthService);
+  private readonly contacts = inject(ContactsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly keycloak = inject(KeycloakService);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<Contact[]> = this.auth.getUser$().pipe(
@@ -37,16 +45,6 @@ export class AccountContactsComponent implements OnInit {
     }),
     map((response) => response.items || []),
   );
-
-  constructor(
-    private readonly contactsService: ContactsService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly auth: AuthService,
-    private readonly contacts: ContactsClient,
-    private readonly languageService: LanguageService,
-    private readonly keycloak: KeycloakService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 198}), 0);

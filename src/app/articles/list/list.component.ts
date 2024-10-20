@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIUser, ArticlesRequest} from '@grpc/spec.pb';
 import {ArticlesClient} from '@grpc/spec.pbsc';
@@ -24,7 +24,13 @@ interface Article {
   styleUrls: ['./list.component.scss'],
   templateUrl: './list.component.html',
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly articlesClient = inject(ArticlesClient);
+  private readonly userService = inject(UserService);
+
   protected readonly articles$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10) || 1),
     distinctUntilChanged(),
@@ -56,13 +62,7 @@ export class ListComponent {
     })),
   );
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly articlesClient: ArticlesClient,
-    private readonly userService: UserService,
-  ) {
+  ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 31}), 0);
   }
 }

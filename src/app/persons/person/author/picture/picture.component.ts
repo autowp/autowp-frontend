@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
@@ -11,6 +11,11 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './picture.component.html',
 })
 export class PersonsPersonAuthorPictureComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+
   private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   private readonly identity$ = this.route.paramMap.pipe(
@@ -75,13 +80,6 @@ export class PersonsPersonAuthorPictureComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-  ) {}
 
   protected reloadPicture() {
     this.changed$.next();

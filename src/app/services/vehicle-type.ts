@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {VehicleType} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -15,12 +15,12 @@ export interface APIVehicleType {
 
 @Injectable()
 export class VehicleTypeService {
+  private readonly grpc = inject(AutowpClient);
+
   private readonly types$: Observable<VehicleType[]> = this.grpc.getVehicleTypes(new Empty()).pipe(
     map((data) => (data.items ? data.items : [])),
     shareReplay(1),
   );
-
-  constructor(private readonly grpc: AutowpClient) {}
 
   private walkTypes(types: VehicleType[], callback: (type: VehicleType) => void) {
     for (const type of types) {

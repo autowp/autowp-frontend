@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   APIItem,
@@ -23,6 +23,13 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
   templateUrl: './cars.component.html',
 })
 export class CatalogueCarsComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly grpc = inject(AutowpClient);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
@@ -196,13 +203,4 @@ export class CatalogueCarsComponent {
         ),
     ),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly grpc: AutowpClient,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

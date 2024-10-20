@@ -25,6 +25,12 @@ interface AttrUserValueListItem {
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly userService = inject(UserService);
+
   private readonly attrsClient = inject(AttrsClient);
   private readonly languageService = inject(LanguageService);
   private readonly attrsService = inject(APIAttrsService);
@@ -70,14 +76,6 @@ export class CarsSpecsAdminComponent implements OnInit {
       }),
     })),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly userService: UserService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 103}), 0);

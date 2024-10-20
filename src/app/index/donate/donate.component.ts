@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {DonationsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
@@ -18,6 +18,9 @@ const rates: {[key: string]: number} = {
   templateUrl: './donate.component.html',
 })
 export class IndexDonateComponent {
+  protected readonly languageService = inject(LanguageService);
+  private readonly donations = inject(DonationsClient);
+
   protected readonly goal = 2500;
   private readonly monthlyCharge = 161.88;
 
@@ -60,9 +63,4 @@ export class IndexDonateComponent {
       };
     }),
   );
-
-  constructor(
-    protected readonly languageService: LanguageService,
-    private readonly donations: DonationsClient,
-  ) {}
 }

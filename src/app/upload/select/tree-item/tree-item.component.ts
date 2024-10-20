@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
@@ -10,6 +10,9 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class UploadSelectTreeItemComponent {
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly toastService = inject(ToastsService);
+
   @Input() set item(item: APIItemParent) {
     this.item$.next(item);
   }
@@ -34,9 +37,4 @@ export class UploadSelectTreeItemComponent {
     }),
     map((response) => response.items),
   );
-
-  constructor(
-    private readonly itemParentService: ItemParentService,
-    private readonly toastService: ToastsService,
-  ) {}
 }

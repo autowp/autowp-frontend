@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SetPictureItemAreaRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -25,6 +25,14 @@ interface Crop {
   templateUrl: './area.component.html',
 })
 export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
+  private readonly pictureItemService = inject(PictureItemService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly toastService = inject(ToastsService);
+
   private id: number = 0;
   private itemID: number = 0;
   private type: number = 0;
@@ -41,16 +49,6 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private minSize = [50, 50];
   protected picture: APIPicture | null = null;
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
-
-  constructor(
-    private readonly pictureItemService: PictureItemService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly picturesClient: PicturesClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

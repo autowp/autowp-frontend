@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -13,6 +13,13 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './specifications.component.html',
 })
 export class TwinsGroupSpecificationsComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly api = inject(APIService);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly id$: Observable<string> = this.route.parent!.paramMap.pipe(
     map((params) => params.get('group')),
     distinctUntilChanged(),
@@ -57,13 +64,4 @@ export class TwinsGroupSpecificationsComponent {
       );
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly api: APIService,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

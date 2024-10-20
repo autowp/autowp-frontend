@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 
@@ -9,18 +9,16 @@ import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vot
   templateUrl: './modal.component.html',
 })
 export class PictureModerVoteModalComponent {
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly templateService = inject(APIPictureModerVoteTemplateService);
+  private readonly moderVoteService = inject(PictureModerVoteService);
+
   @Input() pictureId?: number;
   @Input() vote: number = 0;
   @Output() voted = new EventEmitter();
 
   protected reason = '';
   protected save = false;
-
-  constructor(
-    protected readonly activeModal: NgbActiveModal,
-    private readonly templateService: APIPictureModerVoteTemplateService,
-    private readonly moderVoteService: PictureModerVoteService,
-  ) {}
 
   protected ok() {
     if (this.save && this.vote) {

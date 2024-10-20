@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   APICommentMessage,
@@ -33,6 +33,11 @@ interface Theme extends APIForumsTheme.AsObject {
   templateUrl: './forums.component.html',
 })
 export class ForumsComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly grpc = inject(ForumsClient);
+  private readonly userService = inject(UserService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -139,13 +144,6 @@ export class ForumsComponent {
       this.grpc.getTopics(new APIGetForumsTopicsRequest({page, themeId: themeId ? themeId : undefined})),
     ),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly grpc: ForumsClient,
-    private readonly userService: UserService,
-  ) {}
 
   protected getForumsThemeTranslation(id: string): string {
     return getForumsThemeTranslation(id);

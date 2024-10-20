@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -11,6 +11,10 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './attrs.component.html',
 })
 export class ModerAttrsComponent implements OnInit {
+  private readonly attrsService = inject(APIAttrsService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly attributes$ = this.attrsService.getAttributes$(null, null).pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -24,12 +28,6 @@ export class ModerAttrsComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly attrsService: APIAttrsService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

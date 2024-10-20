@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
@@ -11,6 +11,10 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './items.component.html',
 })
 export class TwinsGroupItemsComponent {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+
   protected readonly group$: Observable<APIItem | null> = this.route.parent!.paramMap.pipe(
     map((params) => parseInt(params.get('group') || '', 10)),
     distinctUntilChanged(),
@@ -42,10 +46,4 @@ export class TwinsGroupItemsComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 }

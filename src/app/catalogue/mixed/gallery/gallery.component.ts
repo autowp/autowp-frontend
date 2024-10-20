@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -15,6 +15,12 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
   templateUrl: './gallery.component.html',
 })
 export class CatalogueMixedGalleryComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
@@ -66,14 +72,6 @@ export class CatalogueMixedGalleryComponent {
   );
 
   protected readonly data$ = this.route.data as Observable<BrandPerspectivePageData>;
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem | null) {
     if (item) {

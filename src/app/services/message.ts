@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {
   APIMessage,
   APIMessageSummary,
@@ -16,6 +16,10 @@ import {AuthService} from './auth.service';
 
 @Injectable()
 export class MessageService {
+  private readonly auth = inject(AuthService);
+  private readonly toasts = inject(ToastsService);
+  private readonly messagingClient = inject(MessagingClient);
+
   private readonly deleted$ = new BehaviorSubject<void>(void 0);
   private readonly sent$ = new BehaviorSubject<void>(void 0);
   private readonly seen$ = new BehaviorSubject<void>(void 0);
@@ -58,12 +62,6 @@ export class MessageService {
     }),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly auth: AuthService,
-    private readonly toasts: ToastsService,
-    private readonly messagingClient: MessagingClient,
-  ) {}
 
   public seen(messages: APIMessage[]) {
     let newFound = false;

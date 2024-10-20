@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -10,6 +10,9 @@ import {map, switchMap} from 'rxjs/operators';
   templateUrl: './vehicles.component.html',
 })
 export class ModerItemsItemVehiclesComponent {
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set itemId(item: string) {
     this.itemId$.next(item);
   }
@@ -32,9 +35,4 @@ export class ModerItemsItemVehiclesComponent {
     ),
     map((response) => (response.items ? response.items : [])),
   );
-
-  constructor(
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {APIGetIPRequest, APIIP} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Observable} from 'rxjs';
@@ -6,9 +6,9 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class IpService {
-  private hostnames = new Map<string, Observable<string>>();
+  private readonly grpc = inject(AutowpClient);
 
-  constructor(private readonly grpc: AutowpClient) {}
+  private hostnames = new Map<string, Observable<string>>();
 
   public getHostByAddr$(ip: string): Observable<string> {
     const hostname$ = this.hostnames.get(ip);

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {GetTopCategoriesListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -8,10 +8,8 @@ import {LanguageService} from '@services/language';
   templateUrl: './categories.component.html',
 })
 export class IndexCategoriesComponent {
-  constructor(
-    private readonly items: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
+  private readonly items = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly result$ = this.items.getTopCategoriesList(
     new GetTopCategoriesListRequest({

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, inject, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {APIService} from '@services/api.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -97,6 +97,9 @@ class Gallery {
   templateUrl: './gallery.component.html',
 })
 export class GalleryComponent {
+  private readonly api = inject(APIService);
+  private readonly router = inject(Router);
+
   @Input() set filter(filter: APIGalleryFilter) {
     this.filter$.next(filter);
   }
@@ -145,11 +148,6 @@ export class GalleryComponent {
     map(({gallery}) => gallery),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly router: Router,
-  ) {}
 
   @HostListener('document:keydown.escape')
   onKeydownHandler() {

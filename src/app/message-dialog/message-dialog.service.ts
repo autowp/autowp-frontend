@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {ModalMessageComponent} from './modal-message/modal-message.component';
@@ -7,7 +7,7 @@ import {ModalMessageComponent} from './modal-message/modal-message.component';
   providedIn: 'root',
 })
 export class MessageDialogService {
-  constructor(private readonly modalService: NgbModal) {}
+  private readonly modalService = inject(NgbModal);
 
   public showDialog(userId: string, sentCallback?: () => void, cancelCallback?: () => void) {
     const modalRef = this.modalService.open(ModalMessageComponent, {

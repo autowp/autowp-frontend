@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
@@ -15,6 +15,11 @@ import {PathItem} from '../categories/service';
   templateUrl: './picture-page.component.html',
 })
 export class PicturePageComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+
   protected category: APIItem | null = null;
   protected current: APIItem | null = null;
   protected path: PathItem[] = [];
@@ -86,13 +91,6 @@ export class PicturePageComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-  ) {}
 
   protected reloadPicture() {
     this.changed$.next();

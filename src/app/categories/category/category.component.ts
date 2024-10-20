@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ItemFields, ItemListOptions, ItemParentListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -25,6 +25,13 @@ interface PathItem {
   templateUrl: './category.component.html',
 })
 export class CategoriesCategoryComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly acl = inject(ACLService);
+  private readonly categoriesService = inject(CategoriesService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly canAddCar$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
@@ -68,15 +75,6 @@ export class CategoriesCategoryComponent {
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly acl: ACLService,
-    private readonly categoriesService: CategoriesService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected dropdownOpenChange(item: PathItem) {
     if (!item.loaded) {

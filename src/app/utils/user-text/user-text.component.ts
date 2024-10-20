@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIUser} from '@grpc/spec.pb';
 import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
@@ -23,6 +23,9 @@ interface CommentTextLine {
   templateUrl: './user-text.component.html',
 })
 export class UserTextComponent {
+  private readonly userService = inject(UserService);
+  private readonly pictureService = inject(PictureService);
+
   @Input() set text(text: string) {
     this.text$.next(text);
   }
@@ -48,11 +51,6 @@ export class UserTextComponent {
     debounceTime(10),
     switchMap((text) => this.prepareText$(text ? text : '')),
   );
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly pictureService: PictureService,
-  ) {}
 
   private prepareText$(text: string): Observable<CommentTextLine[]> {
     const lines = text.split(/\r?\n/);

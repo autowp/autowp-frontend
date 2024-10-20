@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Date as grpcDate} from '@grpc/google/type/date.pb';
 import {
@@ -44,6 +44,18 @@ interface LastItemInfo {
   templateUrl: './item.component.html',
 })
 export class ModerPicturesItemComponent {
+  private readonly api = inject(APIService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly languageService = inject(LanguageService);
+  private readonly ipService = inject(IpService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly userService = inject(UserService);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly toastService = inject(ToastsService);
+
   protected replaceLoading = false;
   protected pictureItemLoading = false;
   protected similarLoading = false;
@@ -180,19 +192,7 @@ export class ModerPicturesItemComponent {
     value: null | number;
   }[];
 
-  constructor(
-    private readonly api: APIService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly languageService: LanguageService,
-    private readonly ipService: IpService,
-    private readonly itemsClient: ItemsClient,
-    private readonly userService: UserService,
-    private readonly picturesClient: PicturesClient,
-    private readonly toastService: ToastsService,
-  ) {
+  constructor() {
     this.monthOptions = [
       {
         name: '--',

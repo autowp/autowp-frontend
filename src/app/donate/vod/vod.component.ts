@@ -1,5 +1,5 @@
 import {formatDate} from '@angular/common';
-import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
+import {Component, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {AuthService} from '@services/auth.service';
@@ -18,6 +18,13 @@ const VOD_TIMEZONE = 'UTC';
   templateUrl: './vod.component.html',
 })
 export class DonateVodComponent implements OnInit {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  protected readonly auth = inject(AuthService);
+  private readonly donateService = inject(DonateService);
+  private readonly pageEnv = inject(PageEnvService);
+  protected readonly locale = inject(LOCALE_ID);
+
   private readonly user$ = this.auth.getUser$();
 
   protected readonly anonymous$ = combineLatest([
@@ -114,15 +121,6 @@ export class DonateVodComponent implements OnInit {
       ];
     }),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    protected readonly auth: AuthService,
-    private readonly donateService: DonateService,
-    private readonly pageEnv: PageEnvService,
-    @Inject(LOCALE_ID) protected readonly locale: string,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);

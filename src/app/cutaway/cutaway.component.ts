@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
@@ -12,6 +12,11 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './cutaway.component.html',
 })
 export class CutawayComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly query$ = this.route.queryParamMap.pipe(
     switchMap((params) =>
       this.pictureService.getPictures$({
@@ -28,13 +33,6 @@ export class CutawayComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 109}), 0);

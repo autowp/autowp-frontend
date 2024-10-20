@@ -1,5 +1,5 @@
 import {DecimalPipe} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {StatisticsClient} from '@grpc/spec.pbsc';
@@ -86,6 +86,13 @@ Take part in [the translation of the site](https://github.com/autowp/autowp-fron
   templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly decimalPipe = inject(DecimalPipe);
+  private readonly bytesPipe = inject(BytesPipe);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly statGrpc = inject(StatisticsClient);
+
   protected readonly version = versionJson;
 
   protected readonly html$ = this.statGrpc
@@ -134,15 +141,6 @@ export class AboutComponent implements OnInit {
         });
       }),
     );
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly router: Router,
-    private readonly decimalPipe: DecimalPipe,
-    private readonly bytesPipe: BytesPipe,
-    private readonly pageEnv: PageEnvService,
-    private readonly statGrpc: StatisticsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 136}), 0);

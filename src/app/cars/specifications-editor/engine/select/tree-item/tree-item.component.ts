@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 
@@ -9,17 +9,15 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class CarsSelectEngineTreeItemComponent {
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly toastService = inject(ToastsService);
+
   @Input() item?: APIItemParent;
   @Output() selected = new EventEmitter<number>();
 
   protected open = false;
   protected loading = false;
   protected childs: APIItemParent[] = [];
-
-  constructor(
-    private readonly itemParentService: ItemParentService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   private loadChildCatalogues() {
     this.loading = true;

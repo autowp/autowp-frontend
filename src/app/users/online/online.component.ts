@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {APIUser, APIUsersRequest} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -10,16 +10,14 @@ import {map, switchMap} from 'rxjs/operators';
   templateUrl: './online.component.html',
 })
 export class UsersOnlineComponent {
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly usersClient = inject(UsersClient);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly users$: Observable<APIUser[]> = this.reload$.pipe(
     switchMap(() => this.usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
     map((response) => (response.items ? response.items : [])),
   );
-
-  constructor(
-    protected readonly activeModal: NgbActiveModal,
-    private readonly usersClient: UsersClient,
-  ) {}
 
   protected load() {
     this.reload$.next();

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemType, PictureItemType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
@@ -14,6 +14,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './brands.component.html',
 })
 export class CutawayBrandsComponent implements OnInit {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly query$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -45,13 +50,6 @@ export class CutawayBrandsComponent implements OnInit {
       paginator: response.paginator,
     })),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 201}), 0);

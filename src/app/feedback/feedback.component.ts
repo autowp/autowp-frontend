@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {APICreateFeedbackRequest} from '@grpc/spec.pb';
@@ -18,6 +18,13 @@ const CAPTCHA = 'captcha';
   templateUrl: './feedback.component.html',
 })
 export class FeedbackComponent implements OnInit {
+  private readonly grpc = inject(AutowpClient);
+  private readonly router = inject(Router);
+  private readonly reCaptchaService = inject(ReCaptchaService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly fb = inject(FormBuilder);
+
   protected recaptchaKey?: string;
   protected invalidParams?: InvalidParams;
 
@@ -27,15 +34,6 @@ export class FeedbackComponent implements OnInit {
     message: ['', [Validators.required, Validators.maxLength(65536)]],
     name: ['', [Validators.required, Validators.maxLength(255)]],
   });
-
-  constructor(
-    private readonly grpc: AutowpClient,
-    private readonly router: Router,
-    private readonly reCaptchaService: ReCaptchaService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly fb: FormBuilder,
-  ) {}
 
   ngOnInit(): void {
     this.form.removeControl(CAPTCHA as never);

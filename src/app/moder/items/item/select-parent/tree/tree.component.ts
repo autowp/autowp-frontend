@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent} from '@services/item-parent';
@@ -11,6 +11,9 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemSelectParentTreeComponent {
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set itemParent(value: APIItemParent) {
     this.itemParent$.next(value);
   }
@@ -33,11 +36,6 @@ export class ModerItemsItemSelectParentTreeComponent {
         : EMPTY,
     ),
   );
-
-  constructor(
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected onSelect(itemID: string) {
     this.selected.emit(itemID);

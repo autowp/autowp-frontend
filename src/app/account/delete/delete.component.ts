@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {APIDeleteUserRequest} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -17,18 +17,16 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './delete.component.html',
 })
 export class AccountDeleteComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly usersGrpc = inject(UsersClient);
+
   protected readonly form = {
     password_old: '',
   };
   protected invalidParams?: InvalidParams;
-
-  constructor(
-    private readonly router: Router,
-    private readonly auth: AuthService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly usersGrpc: UsersClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 137}), 0);

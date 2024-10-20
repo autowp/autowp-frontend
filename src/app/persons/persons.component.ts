@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
@@ -12,6 +12,10 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
   templateUrl: './persons.component.html',
 })
 export class PersonsComponent implements OnInit {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -66,12 +70,6 @@ export class PersonsComponent implements OnInit {
       paginator: response.paginator,
     })),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 214}), 0);

@@ -37,6 +37,14 @@ interface AttrUserValueListItem {
   templateUrl: './attrs-change-log.component.html',
 })
 export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly acl = inject(ACLService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly usersClient = inject(UsersClient);
+  private readonly userService = inject(UserService);
+
   private readonly attrsClient = inject(AttrsClient);
   private readonly languageService = inject(LanguageService);
   private readonly itemsClient = inject(ItemsClient);
@@ -125,16 +133,6 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           );
       }),
     );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly acl: ACLService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly usersClient: UsersClient,
-    private readonly userService: UserService,
-  ) {}
 
   private getItem$(id: string): Observable<APIItem | null> {
     let o$ = this.itemsCache.get(id);

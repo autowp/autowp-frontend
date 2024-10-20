@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APICommentsMessage,
@@ -31,6 +31,16 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './comments.component.html',
 })
 export class ModerCommentsComponent implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly router = inject(Router);
+  private readonly toastService = inject(ToastsService);
+  private readonly commentsClient = inject(CommentsClient);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly usersClient = inject(UsersClient);
+
   protected moderatorAttention?: ModeratorAttention;
 
   protected itemID: null | string = null;
@@ -175,18 +185,6 @@ export class ModerCommentsComponent implements OnInit {
   );
 
   protected readonly ModeratorAttention = ModeratorAttention;
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly router: Router,
-    private readonly toastService: ToastsService,
-    private readonly commentsClient: CommentsClient,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-    private readonly usersClient: UsersClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

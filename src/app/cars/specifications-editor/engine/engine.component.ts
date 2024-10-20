@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -16,6 +16,12 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './engine.component.html',
 })
 export class CarsSpecificationsEditorEngineComponent {
+  private readonly acl = inject(ACLService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly api = inject(APIService);
+  private readonly toastService = inject(ToastsService);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -43,14 +49,6 @@ export class CarsSpecificationsEditorEngineComponent {
     shareReplay(1),
   );
   protected loading = 0;
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly itemsClient: ItemsClient,
-    private readonly api: APIService,
-    private readonly toastService: ToastsService,
-    private readonly languageService: LanguageService,
-  ) {}
 
   private setEngineID(item: APIItem, value: string) {
     this.api

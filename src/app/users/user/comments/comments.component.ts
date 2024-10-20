@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIUser, CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
@@ -20,6 +20,13 @@ interface Order {
   templateUrl: './comments.component.html',
 })
 export class UsersUserCommentsComponent {
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly commentsClient = inject(CommentsClient);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -89,15 +96,6 @@ export class UsersUserCommentsComponent {
     {apiValue: GetMessagesRequest.Order.VOTE_DESC, name: $localize`Positive`, value: 'vote_desc'},
     {apiValue: GetMessagesRequest.Order.VOTE_ASC, name: $localize`Negative`, value: 'vote_asc'},
   ];
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly commentsClient: CommentsClient,
-  ) {}
 
   protected getOrderApiValue(order: string): GetMessagesRequest.Order | undefined {
     const o = this.orders.find((o) => o.value === order);

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
@@ -52,11 +52,11 @@ export interface CatalogueListItem {
   templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {
+  private readonly acl = inject(ACLService);
+
   @Input() item: CatalogueListItem | null = null;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-
-  constructor(private readonly acl: ACLService) {}
 
   protected havePhoto(item: CatalogueListItem) {
     if (item.preview_pictures) {

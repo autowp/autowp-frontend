@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, APIItemList, ItemFields, ItemListOptions, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -17,6 +17,12 @@ export interface APIItemAlphaGetResponse {
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
+  private readonly api = inject(APIService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected char: null | string = null;
   private querySub?: Subscription;
   protected loading = 0;
@@ -24,13 +30,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
   protected groups: string[][] = [];
   protected items?: APIItem[];
 
-  constructor(
-    private readonly api: APIService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({
@@ -39,9 +39,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
         }),
       0,
     );
-  }
 
-  ngOnInit(): void {
     this.querySub = combineLatest([
       this.route.queryParamMap,
       this.api.request<APIItemAlphaGetResponse>('GET', 'item/alpha'),

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
 import {ChartOptions} from 'chart.js';
@@ -29,7 +29,11 @@ export interface APIChartData {
   selector: 'app-chart',
   templateUrl: './chart.component.html',
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected parameters: APIChartParameter[] = [];
   protected readonly chartOptions: ChartOptions<'line'> = {
     responsive: true,
@@ -72,11 +76,7 @@ export class ChartComponent {
     labels: [],
   };
 
-  constructor(
-    private readonly api: APIService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {
+  ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
 
     this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe({

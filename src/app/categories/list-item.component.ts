@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
@@ -18,6 +18,8 @@ interface PictureThumbRoute {
   templateUrl: './list-item.component.html',
 })
 export class CategoriesListItemComponent {
+  private readonly acl = inject(ACLService);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -56,8 +58,6 @@ export class CategoriesListItemComponent {
       })),
     ),
   );
-
-  constructor(private readonly acl: ACLService) {}
 
   protected isHavePhoto(item: APIItem) {
     if (item.preview_pictures) {

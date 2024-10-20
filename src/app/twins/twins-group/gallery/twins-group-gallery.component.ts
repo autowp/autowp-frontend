@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -14,6 +14,12 @@ import {APIGalleryItem} from '../../../gallery/definitions';
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly group$: Observable<APIItem | null> = this.route.parent!.parent!.paramMap.pipe(
     map((route) => route.get('group')),
     distinctUntilChanged(),
@@ -58,14 +64,6 @@ export class TwinsGroupGalleryComponent {
     map((route) => route.get('identity')),
     distinctUntilChanged(),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {

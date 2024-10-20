@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {
   AddToTrafficBlacklistRequest,
   AddToTrafficWhitelistRequest,
@@ -22,6 +22,10 @@ interface ListItem {
   templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {
+  private readonly trafficGrpc = inject(TrafficClient);
+  private readonly ipService = inject(IpService);
+  private readonly pageEnv = inject(PageEnvService);
+
   private readonly change$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<ListItem[]> = this.change$.pipe(
@@ -33,12 +37,6 @@ export class ModerTrafficComponent implements OnInit {
       })),
     ),
   );
-
-  constructor(
-    private readonly trafficGrpc: TrafficClient,
-    private readonly ipService: IpService,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

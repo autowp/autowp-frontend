@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -14,6 +14,13 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
   templateUrl: './concepts.component.html',
 })
 export class CatalogueConceptsComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -126,13 +133,4 @@ export class CatalogueConceptsComponent {
   );
 
   protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} concepts & prototypes`));
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

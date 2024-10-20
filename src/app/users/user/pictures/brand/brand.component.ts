@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -16,6 +16,15 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './brand.component.html',
 })
 export class UsersUserPicturesBrandComponent {
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
     switchMap((identity) => (identity ? of(identity) : EMPTY)),
@@ -100,15 +109,4 @@ export class UsersUserPicturesBrandComponent {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

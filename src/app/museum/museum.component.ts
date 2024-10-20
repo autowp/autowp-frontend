@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIGetItemLinksRequest, CommentsType, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -17,6 +17,15 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './museum.component.html',
 })
 export class MuseumComponent {
+  private readonly acl = inject(ACLService);
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pictureService = inject(PictureService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly itemID$ = this.route.paramMap.pipe(
@@ -113,15 +122,4 @@ export class MuseumComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly pictureService: PictureService,
-    private readonly itemsClient: ItemsClient,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 }

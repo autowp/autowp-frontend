@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
@@ -11,6 +11,9 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class ModerItemsItemSelectParentTreeItemComponent {
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly toastService = inject(ToastsService);
+
   @Input() set item(value: APIItem) {
     this.item$.next(value);
   }
@@ -45,11 +48,6 @@ export class ModerItemsItemSelectParentTreeItemComponent {
     }),
     map((response) => response.items),
   );
-
-  constructor(
-    private readonly itemParentService: ItemParentService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected isDisabled(item: APIItem): boolean {
     return item.id === this.disableItemID;

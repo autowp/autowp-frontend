@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, CommentsType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
@@ -13,6 +13,12 @@ import {CatalogueService} from '../../../catalogue-service';
   templateUrl: './picture.component.html',
 })
 export class CatalogueVehiclesPicturesPictureComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+
   private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   private readonly identity$ = this.route.paramMap.pipe(
@@ -117,14 +123,6 @@ export class CatalogueVehiclesPicturesPictureComponent {
       });
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly catalogueService: CatalogueService,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-  ) {}
 
   protected reloadPicture() {
     this.changed$.next();

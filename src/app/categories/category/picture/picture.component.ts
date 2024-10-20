@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType, ItemType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
@@ -13,6 +13,12 @@ import {CategoriesService} from '../../service';
   templateUrl: './picture.component.html',
 })
 export class CategoryPictureComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+  private readonly categoriesService = inject(CategoriesService);
+
   private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   private readonly identity$ = this.route.paramMap.pipe(
@@ -114,14 +120,6 @@ export class CategoryPictureComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-    private readonly categoriesService: CategoriesService,
-  ) {}
 
   protected reloadPicture() {
     this.changed$.next();

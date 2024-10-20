@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {CommentVote, GetCommentVotesRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,10 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './votes.component.html',
 })
 export class CommentsVotesComponent {
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly toastService = inject(ToastsService);
+  private readonly commentsGrpc = inject(CommentsClient);
+
   @Input() set messageID(item: number) {
     this.messageID$.next(item);
   }
@@ -39,10 +43,4 @@ export class CommentsVotesComponent {
       positive: (votes.items ? votes.items : []).filter((v) => v.value === CommentVote.VoteValue.POSITIVE),
     })),
   );
-
-  constructor(
-    protected readonly activeModal: NgbActiveModal,
-    private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient,
-  ) {}
 }

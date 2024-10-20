@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {PictureItemType} from '@grpc/spec.pb';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, EMPTY} from 'rxjs';
@@ -18,6 +18,8 @@ import {PictureItemMoveSelection} from '../move.component';
   templateUrl: './item.component.html',
 })
 export class ModerPictureMoveItemComponent {
+  private readonly itemParentService = inject(ItemParentService);
+
   @Input() set item(item: APIItemParent) {
     this.item$.next(item);
   }
@@ -38,8 +40,6 @@ export class ModerPictureMoveItemComponent {
   );
 
   protected readonly PictureItemType = PictureItemType;
-
-  constructor(private readonly itemParentService: ItemParentService) {}
 
   protected toggleItem(item: APIItemParent) {
     item.expanded = !item.expanded;

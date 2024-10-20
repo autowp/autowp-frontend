@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {APIGetUserRequest, APIUser, APIUsersRequest, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {forkJoin, Observable, of} from 'rxjs';
@@ -6,12 +6,12 @@ import {map, shareReplay, tap} from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
+  private readonly usersClient = inject(UsersClient);
+
   private cache: Map<string, APIUser> = new Map<string, APIUser>();
   private promises = new Map<string, Observable<null>>();
 
   private cache2 = new Map<string, Observable<APIUser | null>>();
-
-  constructor(private readonly usersClient: UsersClient) {}
 
   private queryUsers$(ids: string[]): Observable<null> {
     const toRequest: string[] = [];

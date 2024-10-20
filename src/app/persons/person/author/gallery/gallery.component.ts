@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIPaginator} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
@@ -12,6 +12,10 @@ import {APIGalleryItem} from '../../../../gallery/definitions';
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonAuthorGalleryComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
   protected paginator: APIPaginator | null = null;
   protected picturesRouterLink: string[] = [];
 
@@ -35,12 +39,6 @@ export class PersonsPersonAuthorGalleryComponent {
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-  ) {}
 
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {

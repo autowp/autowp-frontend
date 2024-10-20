@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {GetMessagesRequest, ModeratorAttention} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -9,6 +9,9 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class APICommentsService {
+  private readonly acl = inject(ACLService);
+  private readonly commentsClient = inject(CommentsClient);
+
   public readonly attentionCommentsCount$: Observable<null | number> = this.acl
     .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
     .pipe(
@@ -28,9 +31,4 @@ export class APICommentsService {
       }),
       shareReplay(1),
     );
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly commentsClient: CommentsClient,
-  ) {}
 }

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {DeleteModerVoteRequest, UpdateModerVoteRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class PictureModerVoteService {
-  constructor(private readonly picturesClient: PicturesClient) {}
+  private readonly picturesClient = inject(PicturesClient);
 
   public vote$(pictureId: string, vote: number, reason: string): Observable<Empty> {
     return this.picturesClient.updateModerVote(new UpdateModerVoteRequest({pictureId, reason, vote}));

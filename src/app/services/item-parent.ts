@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {APIPaginator, APIService} from './api.service';
@@ -40,7 +40,7 @@ export interface APIItemParentGetItemsOptions {
 
 @Injectable()
 export class ItemParentService {
-  constructor(private readonly api: APIService) {}
+  private readonly api = inject(APIService);
 
   public getItems$(options: APIItemParentGetItemsOptions): Observable<APIItemParentGetResponse> {
     const params: {[param: string]: string} = {};

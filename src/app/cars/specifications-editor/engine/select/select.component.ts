@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
@@ -26,6 +26,15 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {
+  private readonly api = inject(APIService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly languageService = inject(LanguageService);
+
   protected search: string = '';
   private readonly search$ = new BehaviorSubject<string>('');
 
@@ -115,17 +124,6 @@ export class CarsEngineSelectComponent {
       paginator: response.paginator,
     })),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly itemsClient: ItemsClient,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly itemParentService: ItemParentService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected onInput() {
     this.search$.next(this.search);

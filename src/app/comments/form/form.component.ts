@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AddCommentRequest, CommentsType} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -14,6 +14,9 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './form.component.html',
 })
 export class CommentsFormComponent implements OnInit, OnDestroy {
+  private readonly comments = inject(CommentsClient);
+  private readonly toastService = inject(ToastsService);
+
   @Input() parentID?: string;
   @Input() itemID?: string;
   @Input() typeID?: CommentsType;
@@ -31,11 +34,6 @@ export class CommentsFormComponent implements OnInit, OnDestroy {
     message: '',
     moderator_attention: false,
   };
-
-  constructor(
-    private readonly comments: CommentsClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected sendMessage() {
     this.invalidParams = {};

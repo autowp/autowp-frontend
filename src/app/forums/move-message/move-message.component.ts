@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIForumsTheme,
@@ -23,6 +23,13 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   templateUrl: './move-message.component.html',
 })
 export class ForumsMoveMessageComponent implements OnInit {
+  private readonly commentsClient = inject(CommentsClient);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly grpc = inject(ForumsClient);
+
   protected readonly messageID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('message_id') || '', 10)),
     distinctUntilChanged(),
@@ -57,15 +64,6 @@ export class ForumsMoveMessageComponent implements OnInit {
       }),
       map((response) => (response.items ? response.items : [])),
     );
-
-  constructor(
-    private readonly commentsClient: CommentsClient,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly grpc: ForumsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 83}), 0);

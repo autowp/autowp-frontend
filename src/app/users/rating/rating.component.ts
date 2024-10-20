@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIUsersRatingResponse, UserRatingDetailsRequest} from '@grpc/spec.pb';
 import {RatingClient} from '@grpc/spec.pbsc';
@@ -23,6 +23,13 @@ enum Rating {
   templateUrl: './rating.component.html',
 })
 export class UsersRatingComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly ratingClient = inject(RatingClient);
+  private readonly userService = inject(UserService);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly rating$: Observable<Rating> = this.route.paramMap.pipe(
     map((params) => params.get('rating')),
     debounceTime(30),
@@ -133,15 +140,6 @@ export class UsersRatingComponent implements OnInit {
   );
 
   protected readonly Rating = Rating;
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly ratingClient: RatingClient,
-    private readonly userService: UserService,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 173}), 0);

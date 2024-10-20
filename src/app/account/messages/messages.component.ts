@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIMessage, APIUser, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
 import {MessagingClient} from '@grpc/spec.pbsc';
@@ -16,6 +16,14 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './messages.component.html',
 })
 export class AccountMessagesComponent {
+  private readonly messageService = inject(MessageService);
+  private readonly messageDialogService = inject(MessageDialogService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly messagingClient = inject(MessagingClient);
+  private readonly userService = inject(UserService);
+
   protected folder: string = '';
   private readonly change$ = new BehaviorSubject<void>(void 0);
 
@@ -96,16 +104,6 @@ export class AccountMessagesComponent {
       };
     }),
   );
-
-  constructor(
-    private readonly messageService: MessageService,
-    private readonly messageDialogService: MessageDialogService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly messagingClient: MessagingClient,
-    private readonly userService: UserService,
-  ) {}
 
   protected deleteMessage(id: string) {
     this.messageService.deleteMessage$(id).subscribe({

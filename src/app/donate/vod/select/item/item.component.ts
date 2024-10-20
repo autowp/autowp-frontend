@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
@@ -14,6 +14,11 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './item.component.html',
 })
 export class DonateVodSelectItemComponent {
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set itemParent(itemParent: APIItemParent) {
     this.itemParent$.next(itemParent);
   }
@@ -55,13 +60,6 @@ export class DonateVodSelectItemComponent {
     map((items) => items.items),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly itemParentService: ItemParentService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected toggleItem() {
     this.expanded = !this.expanded;

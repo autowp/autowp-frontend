@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
@@ -28,6 +28,14 @@ import Order = ListItemsRequest.Order;
   templateUrl: './select.component.html',
 })
 export class UploadSelectComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected brand: {
     concepts: APIItemParent[];
     engines: APIItemParent[];
@@ -40,16 +48,6 @@ export class UploadSelectComponent implements OnInit {
   protected readonly search$ = new BehaviorSubject<string>('');
   protected loading = 0;
   protected conceptsOpen = false;
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly itemParentService: ItemParentService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected onSearchInput() {
     this.search$.next(this.search);

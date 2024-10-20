@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
@@ -14,6 +14,11 @@ import {PictureModerVoteModalComponent} from './modal/modal.component';
   templateUrl: './picture-moder-vote.component.html',
 })
 export class PictureModerVoteComponent {
+  private readonly moderVoteService = inject(PictureModerVoteService);
+  private readonly moderVoteTemplateService = inject(APIPictureModerVoteTemplateService);
+  private readonly modalService = inject(NgbModal);
+  private readonly userService = inject(UserService);
+
   @Input() set picture(picture: APIPicture | null) {
     this.picture$.next(picture);
   }
@@ -35,13 +40,6 @@ export class PictureModerVoteComponent {
   protected vote: null | number = null;
   protected reason = '';
   protected save = false;
-
-  constructor(
-    private readonly moderVoteService: PictureModerVoteService,
-    private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
-    private readonly modalService: NgbModal,
-    private readonly userService: UserService,
-  ) {}
 
   protected votePicture(picture: APIPicture, vote: number, reason: string): void {
     this.moderVoteService.vote$('' + picture.id, vote, reason).subscribe(() => this.changed.emit());

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
@@ -33,6 +33,15 @@ interface Tab {
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnInit, OnDestroy {
+  private readonly api = inject(APIService);
+  private readonly acl = inject(ACLService);
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   private routeSub?: Subscription;
   protected loading = 0;
 
@@ -78,17 +87,6 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   };
 
   protected activeTab = 'meta';
-
-  constructor(
-    private readonly api: APIService,
-    private readonly acl: ACLService,
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     this.routeSub = this.route.paramMap

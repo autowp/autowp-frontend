@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {environment} from '@environment/environment';
 import {APIMeRequest, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -13,6 +13,10 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './email.component.html',
 })
 export class AccountEmailComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly usersClient = inject(UsersClient);
+
   protected readonly email$: Observable<null | string> = this.usersClient
     .me(new APIMeRequest({fields: new UserFields({email: true})}))
     .pipe(
@@ -25,12 +29,6 @@ export class AccountEmailComponent implements OnInit {
 
   protected readonly changeEmailUrl =
     environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly usersClient: UsersClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 55}), 0);

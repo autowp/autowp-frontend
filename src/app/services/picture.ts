@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {PicturesUserSummary, PicturesVoteRequest, PicturesVoteSummary} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -348,6 +348,11 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
 
 @Injectable()
 export class PictureService {
+  private readonly api = inject(APIService);
+  private readonly auth = inject(AuthService);
+  private readonly acl = inject(ACLService);
+  private readonly pictures = inject(PicturesClient);
+
   public readonly summary$: Observable<null | PicturesUserSummary> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
@@ -373,13 +378,6 @@ export class PictureService {
       }),
       shareReplay(1),
     );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly auth: AuthService,
-    private readonly acl: ACLService,
-    private readonly pictures: PicturesClient,
-  ) {}
 
   public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
@@ -14,6 +14,11 @@ import {CategoriesService, CategoryPipeResult} from '../../service';
   templateUrl: './gallery.component.html',
 })
 export class CategoryGalleryComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly router = inject(Router);
+  private readonly categoriesService = inject(CategoriesService);
+
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
@@ -41,13 +46,6 @@ export class CategoryGalleryComponent implements OnInit {
         return of(data);
       }),
     );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly router: Router,
-    private readonly categoriesService: CategoriesService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

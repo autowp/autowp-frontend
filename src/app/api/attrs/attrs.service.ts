@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {
   AttrAttribute,
   AttrAttributesRequest,
@@ -38,6 +38,8 @@ function toTree(items: AttrAttribute[], parentID: string): AttrAttributeTreeItem
   providedIn: 'root',
 })
 export class APIAttrsService {
+  private readonly attrsClient = inject(AttrsClient);
+
   private readonly attrs$ = this.attrsClient.getAttributes(new AttrAttributesRequest()).pipe(
     map((response) => response.items),
     shareReplay(1),
@@ -54,8 +56,6 @@ export class APIAttrsService {
     map((response) => (response.items ? response.items : [])),
     shareReplay(1),
   );
-
-  constructor(private readonly attrsClient: AttrsClient) {}
 
   public getZone$(id: string): Observable<AttrZone | null> {
     return this.zones$.pipe(

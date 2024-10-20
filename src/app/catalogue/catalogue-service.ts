@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -24,11 +24,9 @@ type ParentObservableFunc = () => OperatorFunction<null | Parent, null | Parent>
 
 @Injectable()
 export class CatalogueService {
-  constructor(
-    private readonly itemParentService: ItemParentService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
     const result: Breadcrumbs[] = [];

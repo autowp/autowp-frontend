@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import $ from 'jquery';
 
 import {APIGalleryItem} from './definitions';
@@ -57,6 +66,8 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
   templateUrl: './carousel-item.component.html',
 })
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
+  private readonly el = inject(ElementRef);
+
   @Input() item?: APIGalleryItem;
   @Input() prefix: string[] = [];
 
@@ -68,8 +79,6 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
   protected fullLoading = true;
   protected cropLoading = true;
-
-  constructor(private readonly el: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.item) {

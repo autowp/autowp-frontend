@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -15,6 +15,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './item.component.html',
 })
 export class NewItemComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
@@ -76,13 +83,4 @@ export class NewItemComponent {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

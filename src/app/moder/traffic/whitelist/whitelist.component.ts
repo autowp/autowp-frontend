@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '@grpc/spec.pb';
 import {TrafficClient} from '@grpc/spec.pbsc';
@@ -12,6 +12,10 @@ import {catchError, map} from 'rxjs/operators';
   templateUrl: './whitelist.component.html',
 })
 export class ModerTrafficWhitelistComponent implements OnInit {
+  private readonly grpc = inject(TrafficClient);
+  private readonly router = inject(Router);
+  private readonly pageEnv = inject(PageEnvService);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<APITrafficWhitelistItem[]> = combineLatest([
@@ -26,12 +30,6 @@ export class ModerTrafficWhitelistComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly grpc: TrafficClient,
-    private readonly router: Router,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   protected deleteItem(item: APITrafficWhitelistItem) {
     this.grpc.deleteFromWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {

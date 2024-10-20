@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MessageService} from '@services/message';
 
@@ -9,17 +9,15 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './modal-message.component.html',
 })
 export class ModalMessageComponent {
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly messageService = inject(MessageService);
+  private readonly toastService = inject(ToastsService);
+
   @Input() userId?: string;
 
   protected text = '';
   protected sending = false;
   protected sent = false;
-
-  constructor(
-    protected readonly activeModal: NgbActiveModal,
-    private readonly messageService: MessageService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected send() {
     this.sending = true;

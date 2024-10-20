@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -13,6 +13,10 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './links.component.html',
 })
 export class ModerItemsItemLinksComponent {
+  private readonly acl = inject(ACLService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly toastService = inject(ToastsService);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -36,12 +40,6 @@ export class ModerItemsItemLinksComponent {
     ),
     map((response) => (response.items ? response.items : [])),
   );
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly itemsClient: ItemsClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected saveLinks(itemId: number, links: APIItemLink[]) {
     const promises: Observable<null>[] = [];

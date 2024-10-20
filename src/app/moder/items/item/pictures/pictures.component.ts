@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
@@ -12,6 +12,8 @@ import {chunkBy} from '../../../../chunk';
   templateUrl: './pictures.component.html',
 })
 export class ModerItemsItemPicturesComponent {
+  private readonly pictureService = inject(PictureService);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -37,6 +39,4 @@ export class ModerItemsItemPicturesComponent {
     ),
     map((response) => chunkBy<APIPicture>(response.pictures, 6)),
   );
-
-  constructor(private readonly pictureService: PictureService) {}
 }

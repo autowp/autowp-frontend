@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {DeleteModerVoteTemplateRequest, ModerVoteTemplate} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -15,12 +15,10 @@ export interface APIPictureModerVoteTemplatePostData {
   providedIn: 'root',
 })
 export class APIPictureModerVoteTemplateService {
-  private readonly change$ = new BehaviorSubject<void>(void 0);
+  private readonly auth = inject(AuthService);
+  private readonly pictures = inject(PicturesClient);
 
-  constructor(
-    private readonly auth: AuthService,
-    private readonly pictures: PicturesClient,
-  ) {}
+  private readonly change$ = new BehaviorSubject<void>(void 0);
 
   public getTemplates$(): Observable<ModerVoteTemplate[]> {
     return combineLatest([this.change$, this.auth.getUser$()]).pipe(

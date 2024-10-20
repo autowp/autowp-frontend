@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {FormArray, FormControl} from '@angular/forms';
 import {
   APIUser,
@@ -87,6 +87,14 @@ export class AttrFormControl<TValue> extends FormControl {
   templateUrl: './spec.component.html',
 })
 export class CarsSpecificationsEditorSpecComponent {
+  private readonly api = inject(APIService);
+  private readonly attrsService = inject(APIAttrsService);
+  private readonly auth = inject(AuthService);
+  private readonly toastService = inject(ToastsService);
+  private readonly userService = inject(UserService);
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -182,16 +190,6 @@ export class CarsSpecificationsEditorSpecComponent {
         return new FormArray<AttrFormControl<boolean | null | number | string | string[]>>(controls);
       }),
     );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly attrsService: APIAttrsService,
-    private readonly auth: AuthService,
-    private readonly toastService: ToastsService,
-    private readonly userService: UserService,
-    private readonly attrsClient: AttrsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   private applyUserValues(userValues: Map<string, AttrUserValueWithUser[]>, items: AttrUserValue[]) {
     for (const userValue of items) {

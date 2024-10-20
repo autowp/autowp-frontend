@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
 import {ToastsService} from '../toasts.service';
 
@@ -8,7 +8,7 @@ import {ToastsService} from '../toasts.service';
   templateUrl: './container.component.html',
 })
 export class ContainerComponent {
-  constructor(public readonly toastService: ToastsService) {}
+  readonly toastService = inject(ToastsService);
 
   protected typeToClass(type: string): null | string {
     switch (type) {

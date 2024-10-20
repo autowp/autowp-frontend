@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {PulseRequest} from '@grpc/spec.pb';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
@@ -20,6 +20,11 @@ interface Period {
   templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly grpc = inject(StatisticsClient);
+  private readonly usersService = inject(UserService);
+
   protected readonly periods: Period[] = [
     {
       active: true,
@@ -89,13 +94,6 @@ export class PulseComponent implements OnInit {
       })),
     })),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly grpc: StatisticsClient,
-    private readonly usersService: UserService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 161}), 0);

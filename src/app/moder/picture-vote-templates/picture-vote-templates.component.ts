@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ModerVoteTemplate} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 
@@ -9,14 +9,12 @@ import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-t
   templateUrl: './picture-vote-templates.component.html',
 })
 export class ModerPictureVoteTemplatesComponent implements OnInit {
+  private readonly voteTemplateService = inject(APIPictureModerVoteTemplateService);
+  private readonly pageEnv = inject(PageEnvService);
+
   protected readonly templates$ = this.voteTemplateService.getTemplates$();
   protected vote = -1;
   protected name = '';
-
-  constructor(
-    private readonly voteTemplateService: APIPictureModerVoteTemplateService,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

@@ -1,5 +1,5 @@
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, SetPictureCropRequest} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -39,6 +39,18 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  protected readonly auth = inject(AuthService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly modalService = inject(NgbModal);
+  private readonly toastService = inject(ToastsService);
+  private readonly keycloak = inject(KeycloakService);
+  private readonly languageService = inject(LanguageService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly picturesClient = inject(PicturesClient);
+
   protected files: File[] | undefined;
   protected note: string = '';
   protected progress: UploadProgress[] = [];
@@ -93,20 +105,6 @@ export class UploadIndexComponent implements OnInit {
       selected: !!(replace || item),
     })),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    protected readonly auth: AuthService,
-    private readonly pageEnv: PageEnvService,
-    private readonly modalService: NgbModal,
-    private readonly toastService: ToastsService,
-    private readonly keycloak: KeycloakService,
-    private readonly languageService: LanguageService,
-    private readonly itemsClient: ItemsClient,
-    private readonly picturesClient: PicturesClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 29}), 0);

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APITopFactoriesListItem, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -11,6 +11,9 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './factory.component.html',
 })
 export class IndexFactoriesFactoryComponent {
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set factory(factory: APITopFactoriesListItem) {
     this.factory$.next(factory);
   }
@@ -28,9 +31,4 @@ export class IndexFactoriesFactoryComponent {
         : EMPTY,
     ),
   );
-
-  constructor(
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

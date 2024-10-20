@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIGetTextRequest, APIUser} from '@grpc/spec.pb';
 import {TextClient} from '@grpc/spec.pbsc';
@@ -38,6 +38,12 @@ interface InfoText {
   templateUrl: './text.component.html',
 })
 export class InfoTextComponent implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly textClient = inject(TextClient);
+
   private readonly id$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
@@ -88,14 +94,6 @@ export class InfoTextComponent implements OnInit {
           : null,
     })),
   );
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly textClient: TextClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 197}), 0);

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIUser} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '@services/user';
@@ -13,6 +13,11 @@ import {VotingService} from '../voting.service';
   templateUrl: './votes.component.html',
 })
 export class VotingVotesComponent {
+  protected readonly activeModal = inject(NgbActiveModal);
+  private readonly votingService = inject(VotingService);
+  private readonly toastService = inject(ToastsService);
+  private readonly userService = inject(UserService);
+
   @Input() set votingID(value: number) {
     this.votingID$.next(value);
   }
@@ -36,11 +41,4 @@ export class VotingVotesComponent {
     }),
     map((response) => (response?.items || []).map((item) => this.userService.getUser$(item.user_id))),
   );
-
-  constructor(
-    protected readonly activeModal: NgbActiveModal,
-    private readonly votingService: VotingService,
-    private readonly toastService: ToastsService,
-    private readonly userService: UserService,
-  ) {}
 }

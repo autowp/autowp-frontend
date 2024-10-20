@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AttrZone, AttrZoneAttributesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
@@ -13,6 +13,12 @@ import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.s
   templateUrl: './zone.component.html',
 })
 export class ModerAttrsZoneComponent {
+  private readonly attrsService = inject(APIAttrsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly router = inject(Router);
+
   private readonly zoneID$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
@@ -57,12 +63,4 @@ export class ModerAttrsZoneComponent {
       return zoneAttribute;
     }),
   );
-
-  constructor(
-    private readonly attrsService: APIAttrsService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly attrsClient: AttrsClient,
-    private readonly router: Router,
-  ) {}
 }

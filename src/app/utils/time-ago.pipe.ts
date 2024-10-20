@@ -1,20 +1,18 @@
-import {ChangeDetectorRef, NgZone, OnDestroy, Pipe, PipeTransform} from '@angular/core';
+import {ChangeDetectorRef, inject, NgZone, OnDestroy, Pipe, PipeTransform} from '@angular/core';
 import {LanguageService} from '@services/language';
 
 const is = (interval: number, cycle: number) => (Math.abs(cycle) >= interval ? Math.round(cycle / interval) : 0);
 
 @Pipe({name: 'timeAgo', pure: false})
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly ngZone = inject(NgZone);
+  private readonly languageService = inject(LanguageService);
+
   private currentTimer: null | number = null;
   private lastTime: null | number = null;
   private lastValue: Date | null = null;
   private lastText: string = '';
-
-  constructor(
-    private readonly cdRef: ChangeDetectorRef,
-    private readonly ngZone: NgZone,
-    private readonly languageService: LanguageService,
-  ) {}
 
   private format(time: Date) {
     const now = Date.now();

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APITopBrandsListItem, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -11,6 +11,9 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './brand.component.html',
 })
 export class IndexBrandsBrandComponent {
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set brand(item: APITopBrandsListItem) {
     this.brand$.next(item);
   }
@@ -29,9 +32,4 @@ export class IndexBrandsBrandComponent {
         : EMPTY,
     ),
   );
-
-  constructor(
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

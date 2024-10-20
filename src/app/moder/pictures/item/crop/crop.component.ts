@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -24,6 +24,13 @@ interface Crop {
   templateUrl: './crop.component.html',
 })
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly toastService = inject(ToastsService);
+
   private routeSub?: Subscription;
   protected aspect = '';
   protected resolution = '';
@@ -37,15 +44,6 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private minSize = [400, 300];
   protected picture?: APIPicture;
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly picturesClient: PicturesClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

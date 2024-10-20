@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -14,6 +14,14 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './picture.component.html',
 })
 export class TwinsGroupPictureComponent {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly acl = inject(ACLService);
+  private readonly pictureService = inject(PictureService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
   protected readonly user$ = this.auth.getUser$();
   private readonly changed$ = new BehaviorSubject<void>(void 0);
 
@@ -110,16 +118,6 @@ export class TwinsGroupPictureComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly acl: ACLService,
-    private readonly pictureService: PictureService,
-    private readonly auth: AuthService,
-    private readonly router: Router,
-  ) {}
 
   protected reloadPicture() {
     this.changed$.next();

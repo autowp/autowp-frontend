@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ArticleByCatnameRequest} from '@grpc/spec.pb';
 import {ArticlesClient} from '@grpc/spec.pbsc';
@@ -14,6 +14,12 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './article.component.html',
 })
 export class ArticlesArticleComponent {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly articlesClient = inject(ArticlesClient);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly article$ = this.route.paramMap.pipe(
     map((params) => params.get('catname')),
     distinctUntilChanged(),
@@ -47,12 +53,4 @@ export class ArticlesArticleComponent {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly articlesClient: ArticlesClient,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 }

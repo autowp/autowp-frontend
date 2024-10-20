@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ListItemsRequest, Spec, VehicleType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -60,6 +60,16 @@ const DEFAULT_ORDER = 'id_desc';
   templateUrl: './items.component.html',
 })
 export class ModerItemsComponent implements OnInit, OnDestroy {
+  private readonly vehicleTypeService = inject(VehicleTypeService);
+  private readonly specService = inject(SpecService);
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private querySub?: Subscription;
 
   protected loading = 0;
@@ -128,18 +138,6 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     );
 
   protected listMode: boolean = false;
-
-  constructor(
-    private readonly vehicleTypeService: VehicleTypeService,
-    private readonly specService: SpecService,
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

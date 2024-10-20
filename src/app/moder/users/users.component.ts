@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIUsersRequest, APIUsersResponse, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -13,6 +13,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './users.component.html',
 })
 export class ModerUsersComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastsService);
+  private readonly usersClient = inject(UsersClient);
+
   protected readonly users$: Observable<APIUsersResponse> = this.route.queryParamMap.pipe(
     distinctUntilChanged(),
     debounceTime(10),
@@ -36,13 +41,6 @@ export class ModerUsersComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService,
-    private readonly usersClient: UsersClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIGetItemLinksRequest,
@@ -46,6 +46,18 @@ interface PictureRoute {
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly acl = inject(ACLService);
+  private readonly api = inject(APIService);
+  private readonly router = inject(Router);
+  private readonly catalogue = inject(CatalogueService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly ItemType = ItemType;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
@@ -181,18 +193,4 @@ export class CatalogueIndexComponent {
       })),
     ),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly acl: ACLService,
-    private readonly api: APIService,
-    private readonly router: Router,
-    private readonly catalogue: CatalogueService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-    private readonly toastService: ToastsService,
-  ) {}
 }

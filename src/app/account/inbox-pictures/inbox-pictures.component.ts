@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
@@ -13,6 +13,12 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './inbox-pictures.component.html',
 })
 export class AccountInboxPicturesComponent implements OnInit {
+  private readonly auth = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly data$ = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page') || '', 10)),
@@ -38,14 +44,6 @@ export class AccountInboxPicturesComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly auth: AuthService,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 94}), 0);

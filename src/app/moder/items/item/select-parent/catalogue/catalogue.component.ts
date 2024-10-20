@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem as GRPCAPIItem,
@@ -24,6 +24,13 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemSelectParentCatalogueComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastsService);
+  private readonly router = inject(Router);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Output() selected = new EventEmitter<string>();
 
   @Input() set itemID(value: string) {
@@ -110,15 +117,6 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         : of(null),
     ),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService,
-    private readonly router: Router,
-    private readonly itemParentService: ItemParentService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected doSearch(search: string) {
     this.router.navigate([], {

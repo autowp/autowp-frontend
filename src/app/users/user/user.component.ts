@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   AddToTrafficBlacklistRequest,
@@ -35,6 +35,23 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './user.component.html',
 })
 export class UsersUserComponent {
+  private readonly api = inject(APIService);
+  private readonly contacts = inject(ContactsService);
+  private readonly messageDialogService = inject(MessageDialogService);
+  private readonly acl = inject(ACLService);
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly auth = inject(AuthService);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly ipService = inject(IpService);
+  private readonly contactsClient = inject(ContactsClient);
+  private readonly usersGrpc = inject(UsersClient);
+  private readonly trafficClient = inject(TrafficClient);
+  private readonly commentsClient = inject(CommentsClient);
+
   protected readonly banPeriods = [
     {name: $localize`hour`, value: 1},
     {name: $localize`2 hours`, value: 2},
@@ -196,25 +213,6 @@ export class UsersUserComponent {
     }),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly contacts: ContactsService,
-    private readonly messageDialogService: MessageDialogService,
-    private readonly acl: ACLService,
-    private readonly router: Router,
-    private readonly userService: UserService,
-    private readonly route: ActivatedRoute,
-    private readonly auth: AuthService,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly ipService: IpService,
-    private readonly contactsClient: ContactsClient,
-    private readonly usersGrpc: UsersClient,
-    private readonly trafficClient: TrafficClient,
-    private readonly commentsClient: CommentsClient,
-  ) {}
 
   protected openMessageForm(user: APIUser) {
     this.messageDialogService.showDialog('' + user.id);

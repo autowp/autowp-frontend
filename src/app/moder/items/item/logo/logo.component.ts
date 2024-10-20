@@ -1,5 +1,5 @@
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
@@ -14,6 +14,10 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {
+  private readonly acl = inject(ACLService);
+  private readonly api = inject(APIService);
+  private readonly toastService = inject(ToastsService);
+
   @Input() item?: APIItem;
 
   protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
@@ -24,12 +28,6 @@ export class ModerItemsItemLogoComponent {
     percentage: number;
     success: boolean;
   } | null = null;
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly api: APIService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected onChange(event: Event) {
     const files = (event.target as HTMLInputElement).files;

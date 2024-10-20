@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {getPerspectiveTranslation} from '@utils/translations';
 
 import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
@@ -8,12 +8,12 @@ import {APIPerspectiveService} from '../../../api/perspective/perspective.servic
   templateUrl: './perspective-picker.component.html',
 })
 export class ModerPicturesPerspectivePickerComponent {
+  private readonly perspectiveService = inject(APIPerspectiveService);
+
   protected readonly perspectives$ = this.perspectiveService.getPerspectives$();
 
   @Input() perspectiveID?: number;
   @Output() perspectiveChanged = new EventEmitter<number>();
-
-  constructor(private readonly perspectiveService: APIPerspectiveService) {}
 
   protected change() {
     this.perspectiveChanged.emit(this.perspectiveID);

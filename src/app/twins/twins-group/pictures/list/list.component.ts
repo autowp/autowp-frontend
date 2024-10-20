@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -15,6 +15,14 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly pictureService = inject(PictureService);
+  private readonly toastService = inject(ToastsService);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly id$: Observable<string> = this.route.parent!.parent!.paramMap.pipe(
     map((params) => params.get('group') || ''),
     distinctUntilChanged(),
@@ -74,14 +82,4 @@ export class TwinsGroupPicturesListComponent {
       return of(null);
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly pictureService: PictureService,
-    private readonly toastService: ToastsService,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

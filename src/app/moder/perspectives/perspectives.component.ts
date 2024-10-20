@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {PerspectivePage} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -13,7 +13,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-moder-perspectives',
   templateUrl: './perspectives.component.html',
 })
-export class ModerPerspectivesComponent {
+export class ModerPerspectivesComponent implements OnInit {
+  private readonly grpc = inject(AutowpClient);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly pages$: Observable<PerspectivePage[]> = this.grpc.getPerspectivePages(new Empty()).pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -22,11 +26,7 @@ export class ModerPerspectivesComponent {
     map((response) => (response.items ? response.items : [])),
   );
 
-  constructor(
-    private readonly grpc: AutowpClient,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {
+  ngOnInit(): void {
     setTimeout(
       () =>
         this.pageEnv.set({

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -51,6 +51,15 @@ interface HtmlAndSelectItemParams {
   templateUrl: './move.component.html',
 })
 export class ModerPicturesItemMoveComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly toastService = inject(ToastsService);
+
   protected conceptsExpanded = false;
 
   private readonly srcItemID$ = this.route.queryParamMap.pipe(
@@ -347,17 +356,6 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   );
 
   protected readonly PictureItemType = PictureItemType;
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly itemParentService: ItemParentService,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-    private readonly picturesClient: PicturesClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

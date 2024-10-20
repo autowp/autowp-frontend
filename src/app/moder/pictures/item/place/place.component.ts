@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, inject, NgZone, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LatLng as grpcLatLng} from '@grpc/google/type/latlng.pb';
@@ -48,6 +48,14 @@ interface PointForm {
   templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly zone = inject(NgZone);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly toastService = inject(ToastsService);
+
   private readonly form = new FormGroup<PointForm>({
     lat: new FormControl<string>(''),
     lng: new FormControl<string>(''),
@@ -118,16 +126,6 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       return {center, leafletOptions, markers};
     }),
   );
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly zone: NgZone,
-    private readonly picturesClient: PicturesClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

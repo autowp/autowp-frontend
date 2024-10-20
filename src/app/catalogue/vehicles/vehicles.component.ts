@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -19,6 +19,15 @@ import {CatalogueService} from '../catalogue-service';
   templateUrl: './vehicles.component.html',
 })
 export class CatalogueVehiclesComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemService = inject(ItemService);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly acl = inject(ACLService);
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
   protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
@@ -222,17 +231,6 @@ export class CatalogueVehiclesComponent {
       );
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly itemService: ItemService,
-    private readonly itemParentService: ItemParentService,
-    private readonly route: ActivatedRoute,
-    private readonly acl: ACLService,
-    private readonly catalogueService: CatalogueService,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-  ) {}
 
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
     const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({

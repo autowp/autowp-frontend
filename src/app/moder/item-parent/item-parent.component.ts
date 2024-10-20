@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIGetItemParentLanguagesRequest, APIItem, ItemFields, ItemParentLanguage, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -22,6 +22,14 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './item-parent.component.html',
 })
 export class ModerItemParentComponent implements OnInit, OnDestroy {
+  private readonly api = inject(APIService);
+  private readonly ContentLanguage = inject(ContentLanguageService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastsService);
+
   private routeSub?: Subscription;
   protected item?: APIItem;
   protected parent?: APIItem;
@@ -49,16 +57,6 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
       value: 3,
     },
   ];
-
-  constructor(
-    private readonly api: APIService,
-    private readonly ContentLanguage: ContentLanguageService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     this.routeSub = this.route.paramMap

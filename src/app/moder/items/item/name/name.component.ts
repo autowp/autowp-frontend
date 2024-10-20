@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {APIGetItemLanguagesRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -21,6 +21,10 @@ export interface ItemLanguage {
   templateUrl: './name.component.html',
 })
 export class ModerItemsItemNameComponent {
+  private readonly api = inject(APIService);
+  private readonly contentLanguage = inject(ContentLanguageService);
+  private readonly itemsClient = inject(ItemsClient);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -76,12 +80,6 @@ export class ModerItemsItemNameComponent {
       };
     }),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly contentLanguage: ContentLanguageService,
-    private readonly itemsClient: ItemsClient,
-  ) {}
 
   protected saveLanguages(itemId: number, itemLanguages: ItemLanguage[]) {
     for (const language of itemLanguages) {

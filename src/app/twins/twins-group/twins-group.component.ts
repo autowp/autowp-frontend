@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -10,6 +10,11 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly router = inject(Router);
+
   protected readonly group$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('group') || '', 10)),
     distinctUntilChanged(),
@@ -56,11 +61,4 @@ export class TwinsGroupComponent {
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly router: Router,
-  ) {}
 }

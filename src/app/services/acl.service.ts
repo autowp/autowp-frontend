@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {AclEnforceRequest} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Observable, of} from 'rxjs';
@@ -52,7 +52,7 @@ export enum Resource {
 
 @Injectable()
 export class APIACL {
-  constructor(private readonly grpc: AutowpClient) {}
+  private readonly grpc = inject(AutowpClient);
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     return this.grpc.aclEnforce(new AclEnforceRequest({privilege, resource})).pipe(
@@ -66,12 +66,10 @@ export class APIACL {
 
 @Injectable()
 export class ACLService {
-  private isAllowedCache = new Map<string, Observable<boolean>>();
+  private readonly apiACL = inject(APIACL);
+  private readonly auth = inject(AuthService);
 
-  constructor(
-    private readonly apiACL: APIACL,
-    private readonly auth: AuthService,
-  ) {}
+  private isAllowedCache = new Map<string, Observable<boolean>>();
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     const key = resource + '/' + privilege;

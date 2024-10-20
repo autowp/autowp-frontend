@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,15 @@ import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {
+  private readonly api = inject(APIService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly votingService = inject(VotingService);
+  protected readonly auth = inject(AuthService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly modalService = inject(NgbModal);
+  private readonly toastService = inject(ToastsService);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly voting$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
@@ -41,17 +50,6 @@ export class VotingComponent {
   protected selectedMulti: {[key: number]: number} = {};
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly api: APIService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly votingService: VotingService,
-    protected readonly auth: AuthService,
-    private readonly pageEnv: PageEnvService,
-    private readonly modalService: NgbModal,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected vote(voting: APIVoting) {
     const ids: number[] = [];

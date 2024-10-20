@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -16,6 +16,14 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './factories.component.html',
 })
 export class FactoryComponent {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly acl = inject(ACLService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly item$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -98,14 +106,4 @@ export class FactoryComponent {
       return {markers, options};
     }),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly acl: ACLService,
-    private readonly toastService: ToastsService,
-  ) {}
 }

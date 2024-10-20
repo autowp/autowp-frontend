@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -14,6 +14,12 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './brands.component.html',
 })
 export class ModerItemsItemSelectParentBrandsComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastsService);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Output() selected = new EventEmitter<string>();
 
   protected readonly page$ = this.route.queryParamMap.pipe(
@@ -56,14 +62,6 @@ export class ModerItemsItemSelectParentBrandsComponent {
       paginator: response.paginator,
     })),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected doSearch(search: string) {
     this.router.navigate([], {

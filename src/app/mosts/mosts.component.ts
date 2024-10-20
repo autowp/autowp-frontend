@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {Observable} from 'rxjs';
@@ -9,6 +9,9 @@ import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
   templateUrl: './mosts.component.html',
 })
 export class MostsComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+
   protected readonly ratingCatname$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('rating_catname') || ''),
     distinctUntilChanged(),
@@ -24,11 +27,6 @@ export class MostsComponent implements OnInit {
     distinctUntilChanged(),
     debounceTime(10),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

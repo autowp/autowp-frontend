@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
@@ -10,15 +10,13 @@ import {APIGalleryItem} from './definitions';
   templateUrl: './gallery-page.component.html',
 })
 export class GalleryPageComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

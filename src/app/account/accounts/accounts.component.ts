@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
@@ -12,6 +12,10 @@ import {APIAccount, APIAccountItemsGetResponse} from '../account.service';
   templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly accounts$: Observable<APIAccount[]> = combineLatest([
     this.api.request<APIAccountItemsGetResponse>('GET', 'account'),
@@ -25,12 +29,6 @@ export class AccountAccountsComponent implements OnInit {
   );
 
   protected disconnectFailed = false;
-
-  constructor(
-    private readonly api: APIService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 123}), 0);

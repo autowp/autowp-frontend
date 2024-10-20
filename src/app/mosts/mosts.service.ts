@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {APIVehicleType} from '@services/vehicle-type';
@@ -49,9 +49,9 @@ export interface APIMostsMenuGetResponse {
 
 @Injectable()
 export class MostsService {
-  private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
+  private readonly api = inject(APIService);
 
-  constructor(private readonly api: APIService) {}
+  private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
   public getMenu$(brandID: number): Observable<APIMostsMenuGetResponse> {
     const cached$ = this.menus$.get(brandID);

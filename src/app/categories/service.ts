@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem, APIPathItem, ItemService} from '@services/item';
@@ -22,7 +22,7 @@ export interface CategoryPipeResult {
 
 @Injectable()
 export class CategoriesService {
-  constructor(private readonly itemService: ItemService) {}
+  private readonly itemService = inject(ItemService);
 
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
     const categoryPipe$ = route.paramMap.pipe(

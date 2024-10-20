@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, APIUser, ItemFields, ItemRequest, LogEventsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient, LogClient} from '@grpc/spec.pbsc';
@@ -16,6 +16,15 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './log.component.html',
 })
 export class LogComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly logClient = inject(LogClient);
+  private readonly userService = inject(UserService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly pictureService = inject(PictureService);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly response$: Observable<{
     items: {
       createdAt: Date | undefined;
@@ -69,17 +78,6 @@ export class LogComponent implements OnInit {
       paginator: response.paginator,
     })),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly logClient: LogClient,
-    private readonly userService: UserService,
-    private readonly itemsClient: ItemsClient,
-    private readonly pictureService: PictureService,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 75}), 0);

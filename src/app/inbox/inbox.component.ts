@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
@@ -24,6 +24,16 @@ interface Inbox {
   templateUrl: './inbox.component.html',
 })
 export class InboxComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly languageService = inject(LanguageService);
+  private readonly keycloak = inject(KeycloakService);
+  private readonly pictureService = inject(PictureService);
+  private readonly inboxService = inject(InboxService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
@@ -95,18 +105,6 @@ export class InboxComponent implements OnInit {
   );
 
   protected brandID = 0;
-
-  constructor(
-    private readonly router: Router,
-    private readonly auth: AuthService,
-    private readonly route: ActivatedRoute,
-    private readonly languageService: LanguageService,
-    private readonly keycloak: KeycloakService,
-    private readonly pictureService: PictureService,
-    private readonly inboxService: InboxService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 76}), 0);

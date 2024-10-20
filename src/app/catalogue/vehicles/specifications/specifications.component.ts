@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
@@ -13,6 +13,12 @@ import {CatalogueService} from '../../catalogue-service';
   templateUrl: './specifications.component.html',
 })
 export class CatalogueVehiclesSpecificationsComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly router = inject(Router);
+  private readonly api = inject(APIService);
+
   private catalogue$ = this.catalogueService.resolveCatalogue$(this.route, 'item.has_specs,item.has_child_specs').pipe(
     switchMap((data) => {
       if (!data || !data.brand || !data.path || data.path.length <= 0) {
@@ -66,12 +72,4 @@ export class CatalogueVehiclesSpecificationsComponent {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly catalogueService: CatalogueService,
-    private readonly router: Router,
-    private readonly api: APIService,
-  ) {}
 }

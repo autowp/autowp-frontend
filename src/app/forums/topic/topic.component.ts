@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   APIForumsTopic,
@@ -23,6 +23,13 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   templateUrl: './topic.component.html',
 })
 export class ForumsTopicComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  protected readonly auth = inject(AuthService);
+  private readonly toastService = inject(ToastsService);
+  private readonly comments = inject(CommentsClient);
+  private readonly grpc = inject(ForumsClient);
+
   protected readonly limit = MESSAGES_PER_PAGE;
   protected readonly user$ = this.auth.getUser$();
   protected readonly page$ = this.route.queryParamMap.pipe(
@@ -48,15 +55,6 @@ export class ForumsTopicComponent {
   protected readonly theme$ = this.topic$.pipe(
     switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId}))),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    protected readonly auth: AuthService,
-    private readonly toastService: ToastsService,
-    private readonly comments: CommentsClient,
-    private readonly grpc: ForumsClient,
-  ) {}
 
   protected subscribe(topic: APIForumsTopic) {
     this.comments

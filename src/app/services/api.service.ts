@@ -9,7 +9,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {environment} from '@environment/environment';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
@@ -47,7 +47,7 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private readonly keycloak: KeycloakService) {}
+  private readonly keycloak = inject(KeycloakService);
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     const promise = this.keycloak.getToken();
@@ -110,7 +110,7 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 
 @Injectable()
 export class GrpcAuthInterceptor implements GrpcInterceptor {
-  constructor(private readonly keycloak: KeycloakService) {}
+  private readonly keycloak = inject(KeycloakService);
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
@@ -140,11 +140,9 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
 
 @Injectable()
 export class APIService {
-  constructor(
-    private readonly http: HttpClient,
-    private readonly toasts: ToastsService,
-    private readonly language: LanguageService,
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly toasts = inject(ToastsService);
+  private readonly language = inject(LanguageService);
 
   /**
    * Constructs a request that interprets the body as a text string and

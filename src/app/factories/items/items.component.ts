@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -15,6 +15,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './items.component.html',
 })
 export class FactoryItemsComponent {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly acl = inject(ACLService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly page$ = this.route.queryParamMap.pipe(
@@ -112,13 +119,4 @@ export class FactoryItemsComponent {
       paginator: data.paginator,
     })),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly acl: ACLService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 }

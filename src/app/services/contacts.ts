@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {ContactItems, GetContactRequest, GetContactsRequest} from '@grpc/spec.pb';
 import {ContactsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -13,10 +13,8 @@ export interface APIContactsGetOptions {
 
 @Injectable()
 export class ContactsService {
-  constructor(
-    private readonly auth: AuthService,
-    private readonly contactsClient: ContactsClient,
-  ) {}
+  private readonly auth = inject(AuthService);
+  private readonly contactsClient = inject(ContactsClient);
 
   public isInContacts$(userId: string): Observable<boolean> {
     return this.contactsClient.getContact(new GetContactRequest({userId})).pipe(

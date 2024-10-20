@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {environment} from '@environment/environment';
 import {APIImage, APIMeRequest, APIUser, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -20,6 +20,15 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {
+  private readonly api = inject(APIService);
+  private readonly languageService = inject(LanguageService);
+  private readonly keycloak = inject(KeycloakService);
+  private readonly auth = inject(AuthService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly timezone = inject(TimezoneService);
+  private readonly toastService = inject(ToastsService);
+  private readonly usersClient = inject(UsersClient);
+
   protected user?: APIUser;
 
   protected readonly settings: {language: null | string; timezone: null | string} = {
@@ -44,17 +53,6 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     name: language.name,
     value: language.code,
   }));
-
-  constructor(
-    private readonly api: APIService,
-    private readonly languageService: LanguageService,
-    private readonly keycloak: KeycloakService,
-    private readonly auth: AuthService,
-    private readonly pageEnv: PageEnvService,
-    private readonly timezone: TimezoneService,
-    private readonly toastService: ToastsService,
-    private readonly usersClient: UsersClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 129}), 0);

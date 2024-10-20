@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APICreateTopicRequest, APIForumsTheme, APIGetForumsThemeRequest} from '@grpc/spec.pb';
 import {ForumsClient} from '@grpc/spec.pbsc';
@@ -18,6 +18,14 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './new-topic.component.html',
 })
 export class ForumsNewTopicComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  protected readonly auth = inject(AuthService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly forums = inject(ForumsClient);
+  private readonly grpc = inject(ForumsClient);
+
   protected readonly form = {
     message: '',
     moderator_attention: false,
@@ -38,16 +46,6 @@ export class ForumsNewTopicComponent implements OnInit {
     shareReplay(1),
   );
   protected readonly user$ = this.auth.getUser$();
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    protected readonly auth: AuthService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly forums: ForumsClient,
-    private readonly grpc: ForumsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

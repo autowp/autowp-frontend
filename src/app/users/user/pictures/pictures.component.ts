@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   APIItem,
@@ -40,6 +40,14 @@ function addCSS(url: string) {
   templateUrl: './pictures.component.html',
 })
 export class UsersUserPicturesComponent implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly grpc = inject(AutowpClient);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
       addCSS(icons.css);
@@ -101,16 +109,6 @@ export class UsersUserPicturesComponent implements OnInit {
     }),
     map((brands) => (brands.items ? brands.items : [])),
   );
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly grpc: AutowpClient,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

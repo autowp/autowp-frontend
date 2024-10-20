@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {
   APICommentMessage,
   APIForumsTopic,
@@ -35,6 +35,12 @@ interface Topic {
   templateUrl: './topic-list.component.html',
 })
 export class ForumsTopicListComponent {
+  private readonly comments = inject(CommentsClient);
+  private readonly toastService = inject(ToastsService);
+  private readonly userService = inject(UserService);
+  private readonly grpc = inject(ForumsClient);
+  private readonly acl = inject(ACLService);
+
   @Input() set topics(value: APIForumsTopic[]) {
     this.topics$.next(value);
   }
@@ -81,14 +87,6 @@ export class ForumsTopicListComponent {
       }),
     ),
   );
-
-  constructor(
-    private readonly comments: CommentsClient,
-    private readonly toastService: ToastsService,
-    private readonly userService: UserService,
-    private readonly grpc: ForumsClient,
-    private readonly acl: ACLService,
-  ) {}
 
   protected unsubscribe(topic: Topic) {
     this.comments

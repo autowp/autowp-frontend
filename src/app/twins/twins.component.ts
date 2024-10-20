@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -23,6 +23,13 @@ interface ChunkedGroup {
   templateUrl: './twins.component.html',
 })
 export class TwinsComponent implements OnInit {
+  private readonly itemService = inject(ItemService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly acl = inject(ACLService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly canEdit$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
@@ -99,15 +106,6 @@ export class TwinsComponent implements OnInit {
       paginator: response.paginator,
     })),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly acl: ACLService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   private static hasMoreImages(group: APIItem): boolean {
     let count = 0;

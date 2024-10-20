@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 
@@ -7,13 +7,11 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './too-big.component.html',
 })
 export class ModerItemsTooBigComponent implements OnInit {
+  private readonly itemService = inject(ItemService);
+  private readonly pageEnv = inject(PageEnvService);
+
   protected loading = false;
   protected items: APIItem[] = [];
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
 
@@ -8,12 +8,12 @@ import {APIItem} from '@services/item';
   templateUrl: './item.component.html',
 })
 export class TwinsItemComponent {
+  private readonly acl = inject(ACLService);
+
   @Input() item: APIItem | null = null;
   @Input() group: APIItem | null = null;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-
-  constructor(private readonly acl: ACLService) {}
 
   protected havePhoto(item: APIItem) {
     if (item.preview_pictures) {

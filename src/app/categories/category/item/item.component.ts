@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -21,6 +21,14 @@ interface PictureRoute {
   templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {
+  private readonly itemService = inject(ItemService);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly acl = inject(ACLService);
+  private readonly categoriesService = inject(CategoriesService);
+
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent!).pipe(
@@ -143,14 +151,4 @@ export class CategoriesCategoryItemComponent {
     map(({current}) => current),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly itemService: ItemService,
-    private readonly itemParentService: ItemParentService,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly acl: ACLService,
-    private readonly categoriesService: CategoriesService,
-  ) {}
 }

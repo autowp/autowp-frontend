@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIForumsTheme,
@@ -21,6 +21,12 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './move-topic.component.html',
 })
 export class ForumsMoveTopicComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly grpc = inject(ForumsClient);
+
   protected readonly themes$: Observable<APIForumsTheme[]> = this.grpc
     .getThemes(new APIGetForumsThemesRequest({}))
     .pipe(
@@ -49,14 +55,6 @@ export class ForumsMoveTopicComponent implements OnInit {
       topic?.themeId ? this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId})) : of(null),
     ),
   );
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly grpc: ForumsClient,
-  ) {}
 
   ngOnInit(): void {
     this.pageEnv.set({pageId: 83});

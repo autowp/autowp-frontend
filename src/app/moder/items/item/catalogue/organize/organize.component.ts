@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -18,6 +18,14 @@ import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.compone
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemOrganizeComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly itemService = inject(ItemService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+
   protected loading = 0;
   protected invalidParams?: InvalidParams;
 
@@ -112,16 +120,6 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         : of([] as string[]),
     ),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly itemService: ItemService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly itemParentService: ItemParentService,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

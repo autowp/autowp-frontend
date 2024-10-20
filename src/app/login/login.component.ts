@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {LanguageService} from '@services/language';
 import {KeycloakService} from 'keycloak-angular';
 
@@ -8,10 +8,8 @@ import {KeycloakService} from 'keycloak-angular';
   template: 'Redirecting …',
 })
 export class LoginComponent implements OnInit {
-  constructor(
-    private readonly languageService: LanguageService,
-    private readonly keycloak: KeycloakService,
-  ) {}
+  private readonly languageService = inject(LanguageService);
+  private readonly keycloak = inject(KeycloakService);
 
   ngOnInit(): void {
     this.keycloak.login({

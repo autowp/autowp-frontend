@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {GetTopFactoriesListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -8,14 +8,12 @@ import {LanguageService} from '@services/language';
   templateUrl: './factories.component.html',
 })
 export class IndexFactoriesComponent {
+  private readonly items = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly factories$ = this.items.getTopFactoriesList(
     new GetTopFactoriesListRequest({
       language: this.languageService.language,
     }),
   );
-
-  constructor(
-    private readonly items: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

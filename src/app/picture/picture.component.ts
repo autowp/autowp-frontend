@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {
   APIUser,
@@ -28,6 +28,15 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './picture.component.html',
 })
 export class PictureComponent {
+  private readonly acl = inject(ACLService);
+  private readonly auth = inject(AuthService);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+  private readonly commentsGrpc = inject(CommentsClient);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly userService = inject(UserService);
+  private readonly toastService = inject(ToastsService);
+
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[] = [];
   @Input() h2 = false;
@@ -63,24 +72,11 @@ export class PictureComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
   protected showShareDialog = false;
-  protected location;
+  protected location = location;
   protected engines: APIItem[] = [];
   protected statusLoading = false;
 
   protected readonly user$ = this.auth.getUser$();
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly auth: AuthService,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-    private readonly commentsGrpc: CommentsClient,
-    private readonly picturesClient: PicturesClient,
-    private readonly userService: UserService,
-    private readonly toastService: ToastsService,
-  ) {
-    this.location = location;
-  }
 
   protected savePerspective(perspectiveID: null | number, item: APIPictureItem) {
     this.picturesClient

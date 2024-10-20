@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {APIService} from './api.service';
@@ -37,7 +37,7 @@ export interface APIPictureItem {
 
 @Injectable()
 export class PictureItemService {
-  constructor(private readonly api: APIService) {}
+  private readonly api = inject(APIService);
 
   public get$(
     pictureId: number,

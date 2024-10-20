@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -15,6 +15,13 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './brand.component.html',
 })
 export class CutawayBrandsBrandComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => '' + params.get('brand')),
     distinctUntilChanged(),
@@ -58,15 +65,6 @@ export class CutawayBrandsBrandComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 109}), 0);

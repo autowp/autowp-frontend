@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {PictureService} from '@services/picture';
 import {map} from 'rxjs/operators';
 
@@ -7,6 +7,8 @@ import {map} from 'rxjs/operators';
   templateUrl: './pictures.component.html',
 })
 export class IndexPicturesComponent {
+  private readonly pictureService = inject(PictureService);
+
   protected readonly items$ = this.pictureService
     .getPictures$({
       accepted_in_days: 3,
@@ -16,6 +18,4 @@ export class IndexPicturesComponent {
       status: 'accepted',
     })
     .pipe(map((response) => response.pictures));
-
-  constructor(private readonly pictureService: PictureService) {}
 }

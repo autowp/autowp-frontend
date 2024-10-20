@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 import {APIVehicleType} from '@services/vehicle-type';
 import {
@@ -34,6 +34,9 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   templateUrl: './contents.component.html',
 })
 export class MostsContentsComponent {
+  private readonly mostsService = inject(MostsService);
+  private readonly pageEnv = inject(PageEnvService);
+
   @Input() prefix: string[] = ['/mosts'];
 
   @Input() set ratingCatname(ratingCatname: string) {
@@ -102,11 +105,6 @@ export class MostsContentsComponent {
     ),
     map((response) => response.items),
   );
-
-  constructor(
-    private readonly mostsService: MostsService,
-    private readonly pageEnv: PageEnvService,
-  ) {}
 
   private initPageEnv() {
     this.pageEnv.set({pageId: 21});

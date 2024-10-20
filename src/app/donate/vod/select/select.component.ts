@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   APIItem,
@@ -25,6 +25,12 @@ import {chunk} from '../../../chunk';
   templateUrl: './select.component.html',
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {
+  private readonly route = inject(ActivatedRoute);
+  private readonly itemParentService = inject(ItemParentService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private querySub?: Subscription;
   protected page: number = 0;
   protected brands: APIItem[][] = [];
@@ -95,14 +101,6 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
     }),
     map(([items, brand]) => ({brand, items})),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly itemParentService: ItemParentService,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);

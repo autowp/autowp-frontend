@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIPaginator, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
@@ -43,6 +43,12 @@ interface APINewGetResponse {
   templateUrl: './new.component.html',
 })
 export class NewComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -128,14 +134,6 @@ export class NewComponent implements OnInit {
       prev: response.prev,
     })),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 51}), 0);

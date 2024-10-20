@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -9,14 +9,14 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './donate.component.html',
 })
 export class DonateComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly languageService = inject(LanguageService);
+  private readonly domSanitizer = inject(DomSanitizer);
+
   protected frameUrl: SafeResourceUrl;
   protected readonly language: string = this.languageService.language;
 
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly languageService: LanguageService,
-    private readonly domSanitizer: DomSanitizer,
-  ) {
+  constructor() {
     /*const map = {
       account: '41001161017513',
       quickpay: 'donate',

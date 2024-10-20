@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {
   APICommentsMessage,
@@ -22,6 +22,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './comments.component.html',
 })
 export class CommentsComponent {
+  private readonly router = inject(Router);
+  protected readonly auth = inject(AuthService);
+  private readonly toastService = inject(ToastsService);
+  private readonly commentsGrpc = inject(CommentsClient);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   @Input() set itemID(itemID: string) {
@@ -79,13 +84,6 @@ export class CommentsComponent {
   );
 
   protected readonly CommentsType = CommentsType;
-
-  constructor(
-    private readonly router: Router,
-    protected readonly auth: AuthService,
-    private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient,
-  ) {}
 
   protected onSent(id: string) {
     this.limit$

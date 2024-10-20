@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
@@ -10,14 +10,12 @@ export interface APITimezoneGetResponse {
 
 @Injectable()
 export class TimezoneService {
-  private readonly timezones$: Observable<string[]>;
+  private readonly api = inject(APIService);
 
-  constructor(private readonly api: APIService) {
-    this.timezones$ = this.api.request<APITimezoneGetResponse>('GET', 'timezone').pipe(
-      map((response) => response.items),
-      shareReplay(1),
-    );
-  }
+  private readonly timezones$: Observable<string[]> = this.api.request<APITimezoneGetResponse>('GET', 'timezone').pipe(
+    map((response) => response.items),
+    shareReplay(1),
+  );
 
   public getTimezones$(): Observable<string[]> {
     return this.timezones$;

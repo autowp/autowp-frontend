@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {BrandIcons} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -29,6 +29,11 @@ function addCSS(url: string) {
   templateUrl: './brands.component.html',
 })
 export class BrandsComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly grpc = inject(AutowpClient);
+
   protected readonly items$: Observable<APIBrandsLines> = this.api.request<APIBrandsGetResponse>('GET', 'brands').pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -53,13 +58,6 @@ export class BrandsComponent implements OnInit {
     }),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly grpc: AutowpClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 61}), 0);

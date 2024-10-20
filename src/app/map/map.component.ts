@@ -3,6 +3,7 @@ import {
   Component,
   ComponentFactoryResolver,
   ComponentRef,
+  inject,
   Injector,
   NgZone,
   OnInit,
@@ -34,6 +35,14 @@ function createMarker(lat: number, lng: number): Marker {
   templateUrl: './map.component.html',
 })
 export class MapComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly zone = inject(NgZone);
+  private readonly resolver = inject(ComponentFactoryResolver);
+  private readonly injector = inject(Injector);
+  private readonly appRef = inject(ApplicationRef);
+  private readonly toastService = inject(ToastsService);
+  private readonly mapClient = inject(MapClient);
+
   private compRef?: ComponentRef<MapPopupComponent>;
   protected markers: Marker[] = [];
 
@@ -52,16 +61,6 @@ export class MapComponent implements OnInit {
     zoomAnimation: true,
     zoomControl: true,
   };
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly zone: NgZone,
-    private readonly resolver: ComponentFactoryResolver,
-    private readonly injector: Injector,
-    private readonly appRef: ApplicationRef,
-    private readonly toastService: ToastsService,
-    private readonly mapClient: MapClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 117}), 0);

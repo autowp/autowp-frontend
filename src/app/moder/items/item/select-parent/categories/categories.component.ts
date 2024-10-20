@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -13,6 +13,11 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './categories.component.html',
 })
 export class ModerItemsItemSelectParentCategoriesComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Output() selected = new EventEmitter<string>();
 
   @Input() set itemID(value: string) {
@@ -47,13 +52,6 @@ export class ModerItemsItemSelectParentCategoriesComponent {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected onSelect(itemID: string) {
     this.selected.emit(itemID);

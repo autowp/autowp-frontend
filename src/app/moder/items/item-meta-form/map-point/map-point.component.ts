@@ -1,4 +1,4 @@
-import {Component, NgZone} from '@angular/core';
+import {Component, inject, NgZone} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {icon, LatLng, latLng, Layer, LeafletMouseEvent, Map, MapOptions, marker, tileLayer} from 'leaflet';
 
@@ -47,6 +47,8 @@ const center = (lat: null | number | string, lng: null | number | string): LatLn
   templateUrl: 'map-point.component.html',
 })
 export class MapPointComponent implements ControlValueAccessor {
+  private readonly zone = inject(NgZone);
+
   /*protected readonly center$ = this.point$.pipe(
     map(point => point ? point : latLng(54.5260, 15.2551))
   );*/
@@ -90,8 +92,6 @@ export class MapPointComponent implements ControlValueAccessor {
   protected disabled = false;
 
   private touched = false;
-
-  constructor(private readonly zone: NgZone) {}
 
   writeValue(point: Point): void {
     const lat = normalizeValue(point.lat);

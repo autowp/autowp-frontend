@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
@@ -12,6 +12,10 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './stat.component.html',
 })
 export class ModerStatComponent implements OnInit {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+
   protected readonly items$ = this.itemsClient.getStats(new Empty()).pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
@@ -19,12 +23,6 @@ export class ModerStatComponent implements OnInit {
     }),
     map((response) => response.values),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

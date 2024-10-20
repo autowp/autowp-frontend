@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -18,6 +18,13 @@ import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
   templateUrl: './pictures.component.html',
 })
 export class CatalogueVehiclesPicturesComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly pictureService = inject(PictureService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly acl = inject(ACLService);
+  private readonly router = inject(Router);
+
   protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
@@ -90,15 +97,6 @@ export class CatalogueVehiclesPicturesComponent {
       pictures: chunkBy(response.pictures, 4),
     })),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly pictureService: PictureService,
-    private readonly route: ActivatedRoute,
-    private readonly catalogueService: CatalogueService,
-    private readonly acl: ACLService,
-    private readonly router: Router,
-  ) {}
 
   protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);

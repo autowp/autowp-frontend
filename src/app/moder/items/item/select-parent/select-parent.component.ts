@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -16,6 +16,14 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly tab$ = this.route.queryParamMap.pipe(
     map((params) => params.get('tab') || 'catalogue'),
     distinctUntilChanged(),
@@ -69,16 +77,6 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
   protected readonly showFactoriesTab$ = this.item$.pipe(
     map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

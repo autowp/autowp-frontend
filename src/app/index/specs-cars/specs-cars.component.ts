@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {APIUser} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
@@ -26,6 +26,9 @@ interface ListItem extends CatalogueListItem {
   templateUrl: './specs-cars.component.html',
 })
 export class IndexSpecsCarsComponent {
+  private readonly api = inject(APIService);
+  private readonly userService = inject(UserService);
+
   protected readonly items$ = this.api.request<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
     map((response) => {
       return chunkBy(
@@ -69,9 +72,4 @@ export class IndexSpecsCarsComponent {
       );
     }),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly userService: UserService,
-  ) {}
 }

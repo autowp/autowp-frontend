@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
 
@@ -8,14 +8,14 @@ import {APIItem} from '@services/item';
   templateUrl: './item.component.html',
 })
 export class ItemComponent {
+  private readonly acl = inject(ACLService);
+
   @Input() item?: APIItem;
   @Input() disableTitle: boolean = false;
   @Input() disableDescription: boolean = false;
   @Input() disableDetailsLink: boolean = false;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-
-  constructor(private readonly acl: ACLService) {}
 
   protected havePhoto(item: APIItem) {
     if (item.preview_pictures) {

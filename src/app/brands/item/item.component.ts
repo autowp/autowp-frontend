@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {BrandIcons, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIBrandsBrand} from '@services/brands.service';
@@ -11,6 +11,9 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './item.component.html',
 })
 export class BrandsItemComponent {
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   @Input() set brand(item: APIBrandsBrand) {
     this.brand$.next(item);
   }
@@ -30,11 +33,6 @@ export class BrandsItemComponent {
         : EMPTY,
     ),
   );
-
-  constructor(
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected cssClass(item: APIBrandsBrand): string {
     return item.catname.replace(/\./g, '_');

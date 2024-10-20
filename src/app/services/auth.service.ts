@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {APIMeRequest, APIUser} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {KeycloakService} from 'keycloak-angular';
@@ -7,12 +7,12 @@ import {catchError, tap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
+  private readonly keycloak = inject(KeycloakService);
+  private readonly usersClient = inject(UsersClient);
+
   private user$ = new ReplaySubject<APIUser | null>(1);
 
-  constructor(
-    private readonly keycloak: KeycloakService,
-    private readonly usersClient: UsersClient,
-  ) {
+  constructor() {
     this.keycloak.getToken().then(
       (accessToken) => {
         if (accessToken) {

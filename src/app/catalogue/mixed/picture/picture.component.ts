@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, CommentsType, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -15,6 +15,13 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
   templateUrl: './picture.component.html',
 })
 export class CatalogueMixedPictureComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private readonly changed$ = new BehaviorSubject<void>(void 0);
 
   protected readonly CommentsType = CommentsType;
@@ -117,15 +124,6 @@ export class CatalogueMixedPictureComponent {
       );
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected reloadPicture() {
     this.changed$.next();

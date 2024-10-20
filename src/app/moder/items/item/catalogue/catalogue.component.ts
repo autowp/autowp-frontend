@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -13,6 +13,11 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemCatalogueComponent {
+  private readonly acl = inject(ACLService);
+  private readonly api = inject(APIService);
+  private readonly itemService = inject(ItemService);
+  private readonly itemParentService = inject(ItemParentService);
+
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
@@ -115,13 +120,6 @@ export class ModerItemsItemCatalogueComponent {
     ),
     map((response) => response.items),
   );
-
-  constructor(
-    private readonly acl: ACLService,
-    private readonly api: APIService,
-    private readonly itemService: ItemService,
-    private readonly itemParentService: ItemParentService,
-  ) {}
 
   protected itemFormatter(x: APIItem) {
     return x.name_text;

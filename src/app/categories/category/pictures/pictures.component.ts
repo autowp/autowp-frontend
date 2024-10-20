@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIPaginator} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
@@ -19,6 +19,11 @@ interface PictureRoute {
   templateUrl: './pictures.component.html',
 })
 export class CategoriesCategoryPicturesComponent {
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly categoriesService = inject(CategoriesService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -58,11 +63,4 @@ export class CategoriesCategoryPicturesComponent {
       this.pageEnv.set({pageId: 22});
     }),
   );
-
-  constructor(
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly categoriesService: CategoriesService,
-  ) {}
 }

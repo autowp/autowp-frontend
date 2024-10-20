@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, of} from 'rxjs';
@@ -11,6 +11,10 @@ import {APIGalleryItem} from '../../../gallery/definitions';
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonGalleryComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
@@ -30,12 +34,6 @@ export class PersonsPersonGalleryComponent {
     distinctUntilChanged(),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-  ) {}
 
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {

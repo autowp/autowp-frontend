@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -21,6 +21,13 @@ interface PictureRoute {
   templateUrl: './recent.component.html',
 })
 export class CatalogueRecentComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly catalogue = inject(CatalogueService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page') || '', 10)),
     distinctUntilChanged(),
@@ -88,13 +95,4 @@ export class CatalogueRecentComponent {
       };
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly catalogue: CatalogueService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

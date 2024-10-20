@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, ItemType, SetPictureItemItemIDRequest} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -18,6 +18,15 @@ import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.compone
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
+  private readonly api = inject(APIService);
+  private readonly itemService = inject(ItemService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureItemService = inject(PictureItemService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly picturesClient = inject(PicturesClient);
+
   protected loading = 0;
   protected invalidParams?: InvalidParams;
 
@@ -98,17 +107,6 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
       return newItem;
     }),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly itemService: ItemService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pictureItemService: PictureItemService,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-    private readonly picturesClient: PicturesClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {

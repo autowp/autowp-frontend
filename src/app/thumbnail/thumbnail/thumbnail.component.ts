@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {APIUser, Perspective, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -21,6 +21,12 @@ interface ThumbnailAPIPicture extends APIPicture {
   templateUrl: './thumbnail.component.html',
 })
 export class ThumbnailComponent {
+  private readonly perspectiveService = inject(APIPerspectiveService);
+  private readonly acl = inject(ACLService);
+  private readonly userService = inject(UserService);
+  private readonly picturesClient = inject(PicturesClient);
+  private readonly toastService = inject(ToastsService);
+
   @Input() set picture(picture: null | ThumbnailAPIPicture) {
     this.picture$.next(picture);
   }
@@ -36,14 +42,6 @@ export class ThumbnailComponent {
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
     switchMap((picture) => (picture?.owner_id ? this.userService.getUser$(picture.owner_id) : of(null))),
   );
-
-  constructor(
-    private readonly perspectiveService: APIPerspectiveService,
-    private readonly acl: ACLService,
-    private readonly userService: UserService,
-    private readonly picturesClient: PicturesClient,
-    private readonly toastService: ToastsService,
-  ) {}
 
   protected savePerspective(picture: ThumbnailAPIPicture) {
     if (picture.perspective_item) {

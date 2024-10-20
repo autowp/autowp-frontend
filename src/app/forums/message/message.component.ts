@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GetMessagePageRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
@@ -13,14 +13,12 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   template: '<h2>Redirecting …</h2>',
 })
 export class MessageComponent implements OnInit, OnDestroy {
-  private routeSub?: Subscription;
+  private readonly router = inject(Router);
+  private readonly commentsClient = inject(CommentsClient);
+  private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastsService);
 
-  constructor(
-    private readonly router: Router,
-    private readonly commentsClient: CommentsClient,
-    private readonly route: ActivatedRoute,
-    private readonly toastService: ToastsService,
-  ) {}
+  private routeSub?: Subscription;
 
   ngOnInit(): void {
     this.routeSub = this.route.paramMap

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIGetUserRequest,
@@ -61,6 +61,20 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
   templateUrl: './pictures.component.html',
 })
 export class ModerPicturesComponent implements OnInit, OnDestroy {
+  private readonly perspectiveService = inject(APIPerspectiveService);
+  private readonly moderVoteService = inject(PictureModerVoteService);
+  private readonly vehicleTypeService = inject(VehicleTypeService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pictureService = inject(PictureService);
+  private readonly router = inject(Router);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly moderVoteTemplateService = inject(APIPictureModerVoteTemplateService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+  private readonly usersClient = inject(UsersClient);
+  private readonly picturesClient = inject(PicturesClient);
+
   protected hasSelectedItem = false;
   private selected: number[] = [];
 
@@ -429,22 +443,6 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   );
 
   protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
-
-  constructor(
-    private readonly perspectiveService: APIPerspectiveService,
-    private readonly moderVoteService: PictureModerVoteService,
-    private readonly vehicleTypeService: VehicleTypeService,
-    private readonly route: ActivatedRoute,
-    private readonly pictureService: PictureService,
-    private readonly router: Router,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly moderVoteTemplateService: APIPictureModerVoteTemplateService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-    private readonly usersClient: UsersClient,
-    private readonly picturesClient: PicturesClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
 import $ from 'jquery';
@@ -19,6 +19,8 @@ interface JcropCrop {
   templateUrl: './crop.component.html',
 })
 export class UploadCropComponent implements OnInit, OnDestroy {
+  protected readonly activeModal = inject(NgbActiveModal);
+
   @Output() changed = new EventEmitter<void>();
 
   @Input() set picture(picture: APIPicture) {
@@ -39,8 +41,6 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private sub?: Subscription;
-
-  constructor(protected readonly activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {

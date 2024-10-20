@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {APIGetItemVehicleTypesRequest, APIItemVehicleType, APIItemVehicleTypeRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {forkJoin, Observable, of} from 'rxjs';
@@ -419,10 +419,8 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
 
 @Injectable()
 export class ItemService {
-  constructor(
-    private readonly api: APIService,
-    private readonly itemsClient: ItemsClient,
-  ) {}
+  private readonly api = inject(APIService);
+  private readonly itemsClient = inject(ItemsClient);
 
   public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void> {
     return this.itemsClient

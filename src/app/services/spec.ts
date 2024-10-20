@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Spec} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -11,14 +11,12 @@ export interface APISpecGetResponse {
 
 @Injectable()
 export class SpecService {
-  private readonly specs$: Observable<Spec[]>;
+  private readonly grpc = inject(AutowpClient);
 
-  constructor(private readonly grpc: AutowpClient) {
-    this.specs$ = this.grpc.getSpecs(new Empty()).pipe(
-      map((response) => (response.items ? response.items : [])),
-      shareReplay(1),
-    );
-  }
+  private readonly specs$: Observable<Spec[]> = this.grpc.getSpecs(new Empty()).pipe(
+    map((response) => (response.items ? response.items : [])),
+    shareReplay(1),
+  );
 
   public getSpecs$(): Observable<Spec[]> {
     return this.specs$;

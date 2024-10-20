@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {
   APICommentsMessage,
   APIUser,
@@ -30,6 +30,13 @@ export interface APICommentInList extends APICommentsMessage {
   templateUrl: './list.component.html',
 })
 export class CommentsListComponent {
+  private readonly acl = inject(ACLService);
+  protected readonly auth = inject(AuthService);
+  private readonly modalService = inject(NgbModal);
+  private readonly toastService = inject(ToastsService);
+  private readonly commentsGrpc = inject(CommentsClient);
+  private readonly userService = inject(UserService);
+
   @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
   }
@@ -70,15 +77,6 @@ export class CommentsListComponent {
   protected readonly user$ = this.auth.getUser$();
 
   protected readonly ModeratorAttention = ModeratorAttention;
-
-  constructor(
-    private readonly acl: ACLService,
-    protected readonly auth: AuthService,
-    private readonly modalService: NgbModal,
-    private readonly toastService: ToastsService,
-    private readonly commentsGrpc: CommentsClient,
-    private readonly userService: UserService,
-  ) {}
 
   protected vote(message: APICommentsMessage, value: number) {
     this.commentsGrpc

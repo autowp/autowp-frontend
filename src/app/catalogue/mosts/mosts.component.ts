@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -12,6 +12,12 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
   templateUrl: './mosts.component.html',
 })
 export class CatalogueMostsComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected readonly ratingCatname$ = this.route.paramMap.pipe(
     map((params) => params.get('rating_catname')),
     distinctUntilChanged(),
@@ -70,12 +76,4 @@ export class CatalogueMostsComponent {
     }),
     shareReplay(1),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly pageEnv: PageEnvService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 }

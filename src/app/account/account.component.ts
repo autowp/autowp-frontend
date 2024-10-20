@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {AuthService} from '@services/auth.service';
@@ -26,6 +26,13 @@ interface SidebarItem {
   templateUrl: './account.component.html',
 })
 export class AccountComponent {
+  private readonly messageService = inject(MessageService);
+  private readonly auth = inject(AuthService);
+  private readonly pictureService = inject(PictureService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly forumsClient = inject(ForumsClient);
+
   protected readonly items$: Observable<SidebarItem[]> = combineLatest([
     this.auth.getUser$(),
     this.auth.getUser$().pipe(
@@ -148,13 +155,4 @@ export class AccountComponent {
       return items;
     }),
   );
-
-  constructor(
-    private readonly messageService: MessageService,
-    private readonly auth: AuthService,
-    private readonly pictureService: PictureService,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly forumsClient: ForumsClient,
-  ) {}
 }

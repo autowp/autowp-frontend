@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
@@ -21,16 +21,16 @@ export interface PageEnv {
 
 @Injectable()
 export class PageEnvService {
+  private readonly pageService = inject(PageService);
+  private readonly titleService = inject(Title);
+
   public readonly pageEnv$ = new BehaviorSubject<null | PageEnv>(null);
   public readonly layoutParams$ = new BehaviorSubject<LayoutParams>({
     isAdminPage: false,
     isGalleryPage: false,
   });
 
-  public constructor(
-    private readonly pageService: PageService,
-    private readonly titleService: Title,
-  ) {
+  public constructor() {
     this.pageEnv$.subscribe((data) => {
       if (data) {
         this.layoutParams$.next({

@@ -1,5 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -24,6 +24,15 @@ interface NewAPIItem extends APIItem {
   templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {
+  private readonly api = inject(APIService);
+  private readonly itemService = inject(ItemService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
+
   protected invalidParams: InvalidParams | undefined = undefined;
 
   private readonly itemTypeID$ = this.route.queryParamMap.pipe(
@@ -146,17 +155,6 @@ export class ModerItemsNewComponent {
       return of([] as string[]);
     }),
   );
-
-  constructor(
-    private readonly api: APIService,
-    private readonly itemService: ItemService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly itemsClient: ItemsClient,
-    private readonly languageService: LanguageService,
-  ) {}
 
   protected submit(itemTypeID: number, event: ItemMetaFormResult) {
     const data = {

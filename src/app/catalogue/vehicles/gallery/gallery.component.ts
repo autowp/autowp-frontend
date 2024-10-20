@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -13,6 +13,11 @@ import {CatalogueService} from '../../catalogue-service';
   templateUrl: './gallery.component.html',
 })
 export class CatalogueVehiclesGalleryComponent {
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly router = inject(Router);
+
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
@@ -70,13 +75,6 @@ export class CatalogueVehiclesGalleryComponent {
       };
     }),
   );
-
-  constructor(
-    private readonly pageEnv: PageEnvService,
-    private readonly route: ActivatedRoute,
-    private readonly catalogueService: CatalogueService,
-    private readonly router: Router,
-  ) {}
 
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {

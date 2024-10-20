@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -123,6 +123,11 @@ export interface ParentIsConcept {
   templateUrl: './item-meta-form.component.html',
 })
 export class ItemMetaFormComponent {
+  private readonly specService = inject(SpecService);
+  private readonly vehicleTypeService = inject(VehicleTypeService);
+  private readonly languageService = inject(LanguageService);
+  private readonly modalService = inject(NgbModal);
+
   @Input() submitNotify: () => void = () => {};
   @Input() invalidParams?: InvalidParams;
   @Output() submitted = new EventEmitter<ItemMetaFormResult>();
@@ -352,12 +357,7 @@ export class ItemMetaFormComponent {
     }),
   );
 
-  constructor(
-    private readonly specService: SpecService,
-    private readonly vehicleTypeService: VehicleTypeService,
-    private readonly languageService: LanguageService,
-    private readonly modalService: NgbModal,
-  ) {
+  constructor() {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
       date.setMonth(i);

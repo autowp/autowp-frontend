@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIForumsTopic, APIGetForumsTopicsRequest, Pages} from '@grpc/spec.pb';
 import {ForumsClient} from '@grpc/spec.pbsc';
@@ -13,6 +13,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './subscriptions.component.html',
 })
 export class ForumsSubscriptionsComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly toastService = inject(ToastsService);
+  private readonly grpc = inject(ForumsClient);
+
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly data$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
@@ -28,13 +33,6 @@ export class ForumsSubscriptionsComponent implements OnInit {
       return EMPTY;
     }),
   );
-
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly pageEnv: PageEnvService,
-    private readonly toastService: ToastsService,
-    private readonly grpc: ForumsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 42}), 0);

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 
 @Component({
@@ -6,7 +6,7 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './telegram.component.html',
 })
 export class TelegramComponent implements OnInit {
-  constructor(private readonly pageEnv: PageEnvService) {}
+  private readonly pageEnv = inject(PageEnvService);
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 204}), 0);

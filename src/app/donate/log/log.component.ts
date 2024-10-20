@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {DonationsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
@@ -10,6 +10,10 @@ import {map} from 'rxjs/operators';
   templateUrl: './log.component.html',
 })
 export class DonateLogComponent implements OnInit {
+  private readonly userService = inject(UserService);
+  private readonly pageEnv = inject(PageEnvService);
+  private readonly donations = inject(DonationsClient);
+
   protected readonly items$ = this.donations.getTransactions(new Empty()).pipe(
     map((response) =>
       (response.items || []).map((item) => ({
@@ -21,12 +25,6 @@ export class DonateLogComponent implements OnInit {
       })),
     ),
   );
-
-  constructor(
-    private readonly userService: UserService,
-    private readonly pageEnv: PageEnvService,
-    private readonly donations: DonationsClient,
-  ) {}
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
