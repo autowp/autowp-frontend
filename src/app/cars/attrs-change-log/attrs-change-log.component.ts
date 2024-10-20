@@ -140,7 +140,9 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
     let o$ = this.itemsCache.get(id);
     if (!o$) {
       o$ = this.itemsClient
-        .item(new ItemRequest({fields: new ItemFields({nameHtml: true}), id: id}))
+        .item(
+          new ItemRequest({fields: new ItemFields({nameHtml: true}), id: id, language: this.languageService.language}),
+        )
         .pipe(shareReplay(1));
       this.itemsCache.set(id, o$);
     }

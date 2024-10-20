@@ -14,34 +14,34 @@
   <div class="nav nav-pills mb-3">
     <a
       class="nav-link"
-      [class.active]="filter === '0'"
+      [class.active]="filter === AttrConflictsRequest.Filter.ALL"
       routerLink="."
-      [queryParams]="{filter: 0}"
+      [queryParams]="{filter: undefined}"
       queryParamsHandling="merge"
       i18n
       >All</a
     >
     <a
       class="nav-link"
-      [class.active]="filter === '-1'"
+      [class.active]="filter === AttrConflictsRequest.Filter.I_DISAGREE"
       routerLink="."
-      [queryParams]="{filter: -1}"
+      [queryParams]="{filter: '-1'}"
       queryParamsHandling="merge"
       i18n
       >I disagree</a
     >
     <a
       class="nav-link"
-      [class.active]="filter === '1'"
+      [class.active]="filter === AttrConflictsRequest.Filter.DO_NOT_AGREE_WITH_ME"
       routerLink="."
-      [queryParams]="{filter: 1}"
+      [queryParams]="{filter: '1'}"
       queryParamsHandling="merge"
       i18n
       >Do not agree with me</a
     >
     <a
       class="nav-link"
-      [class.active]="filter === 'minus-weight'"
+      [class.active]="filter === AttrConflictsRequest.Filter.MINUS_WEIGHT"
       routerLink="."
       [queryParams]="{filter: 'minus-weight'}"
       queryParamsHandling="merge"
@@ -66,24 +66,31 @@
     <tbody>
       @for (conflict of data.conflicts; track conflict) {
         <tr>
-          <td [textContent]="conflict.object"></td>
-          <td [textContent]="conflict.attribute"></td>
+          <td>
+            @if (conflict.item$ | async; as item) {
+              <ng-container [textContent]="item.nameHtml"></ng-container>
+            }
+          </td>
+          <td>
+            @if (conflict.attribute$ | async; as attribute) {
+              {{ attribute.name }}
+            }
+          </td>
           <td>
             @for (value of conflict.values; track value) {
               @if (!value.user$) {
                 <div>
-                  @if (value.value === null) {
+                  @if (value.value.valueIsEmpty) {
                     <em i18n>none</em>
-                  }
-                  @if (value.value !== null) {
+                  } @else {
                     <span>
-                      {{ value.value }}
-                      @if (conflict.unit) {
-                        <span>{{ getUnitAbbrTranslation(conflict.unit.id + '') }}</span>
+                      {{ value.value.value }}
+                      @if (conflict.unitName$ | async; as unitName) {
+                        <span>{{ unitName }}</span>
                       }
                     </span>
                   }
-                  <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: conflict.item_id}">
+                  <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: conflict.conflict.itemId}">
                     <i class="bi bi-pencil-fill" aria-hidden="true"></i>
                   </a>
                 </div>
@@ -94,14 +101,13 @@
             @for (value of conflict.values; track value) {
               @if (value.user$) {
                 <div>
-                  @if (value.value === null) {
+                  @if (value.value.valueIsEmpty) {
                     <em i18n>none</em>
-                  }
-                  @if (value.value !== null) {
+                  } @else {
                     <span>
-                      {{ value.value }}
-                      @if (conflict.unit) {
-                        <span>{{ getUnitAbbrTranslation(conflict.unit.id + '') }}</span>
+                      {{ value.value.value }}
+                      @if (conflict.unitName$ | async; as unitName) {
+                        <span>{{ unitName }}</span>
                       }
                     </span>
                   }

@@ -3387,6 +3387,727 @@ export module AttrUserValuesRequest {
 }
 
 /**
+ * Message implementation for goautowp.AttrConflictsRequest
+ */
+export class AttrConflictsRequest implements GrpcMessage {
+  static id = 'goautowp.AttrConflictsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AttrConflictsRequest();
+    AttrConflictsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AttrConflictsRequest) {
+    _instance.filter = _instance.filter || 0;
+    _instance.page = _instance.page || 0;
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AttrConflictsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.filter = _reader.readEnum();
+          break;
+        case 2:
+          _instance.page = _reader.readInt32();
+          break;
+        case 3:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AttrConflictsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AttrConflictsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.filter) {
+      _writer.writeEnum(1, _instance.filter);
+    }
+    if (_instance.page) {
+      _writer.writeInt32(2, _instance.page);
+    }
+    if (_instance.language) {
+      _writer.writeString(3, _instance.language);
+    }
+  }
+
+  private _filter: AttrConflictsRequest.Filter;
+  private _page: number;
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AttrConflictsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AttrConflictsRequest.AsObject>) {
+    _value = _value || {};
+    this.filter = _value.filter;
+    this.page = _value.page;
+    this.language = _value.language;
+    AttrConflictsRequest.refineValues(this);
+  }
+  get filter(): AttrConflictsRequest.Filter {
+    return this._filter;
+  }
+  set filter(value: AttrConflictsRequest.Filter) {
+    this._filter = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AttrConflictsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AttrConflictsRequest.AsObject {
+    return {
+      filter: this.filter,
+      page: this.page,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AttrConflictsRequest.AsProtobufJSON {
+    return {
+      filter:
+        AttrConflictsRequest.Filter[
+          this.filter === null || this.filter === undefined ? 0 : this.filter
+        ],
+      page: this.page,
+      language: this.language
+    };
+  }
+}
+export module AttrConflictsRequest {
+  /**
+   * Standard JavaScript object representation for AttrConflictsRequest
+   */
+  export interface AsObject {
+    filter: AttrConflictsRequest.Filter;
+    page: number;
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for AttrConflictsRequest
+   */
+  export interface AsProtobufJSON {
+    filter: string;
+    page: number;
+    language: string;
+  }
+  export enum Filter {
+    ALL = 0,
+    DO_NOT_AGREE_WITH_ME = 1,
+    I_DISAGREE = 2,
+    MINUS_WEIGHT = 3
+  }
+}
+
+/**
+ * Message implementation for goautowp.AttrConflictValue
+ */
+export class AttrConflictValue implements GrpcMessage {
+  static id = 'goautowp.AttrConflictValue';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AttrConflictValue();
+    AttrConflictValue.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AttrConflictValue) {
+    _instance.value = _instance.value || '';
+    _instance.valueIsEmpty = _instance.valueIsEmpty || false;
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AttrConflictValue,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.value = _reader.readString();
+          break;
+        case 2:
+          _instance.valueIsEmpty = _reader.readBool();
+          break;
+        case 3:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AttrConflictValue.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AttrConflictValue,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.value) {
+      _writer.writeString(1, _instance.value);
+    }
+    if (_instance.valueIsEmpty) {
+      _writer.writeBool(2, _instance.valueIsEmpty);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(3, _instance.userId);
+    }
+  }
+
+  private _value: string;
+  private _valueIsEmpty: boolean;
+  private _userId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AttrConflictValue to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AttrConflictValue.AsObject>) {
+    _value = _value || {};
+    this.value = _value.value;
+    this.valueIsEmpty = _value.valueIsEmpty;
+    this.userId = _value.userId;
+    AttrConflictValue.refineValues(this);
+  }
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = value;
+  }
+  get valueIsEmpty(): boolean {
+    return this._valueIsEmpty;
+  }
+  set valueIsEmpty(value: boolean) {
+    this._valueIsEmpty = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AttrConflictValue.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AttrConflictValue.AsObject {
+    return {
+      value: this.value,
+      valueIsEmpty: this.valueIsEmpty,
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AttrConflictValue.AsProtobufJSON {
+    return {
+      value: this.value,
+      valueIsEmpty: this.valueIsEmpty,
+      userId: this.userId
+    };
+  }
+}
+export module AttrConflictValue {
+  /**
+   * Standard JavaScript object representation for AttrConflictValue
+   */
+  export interface AsObject {
+    value: string;
+    valueIsEmpty: boolean;
+    userId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for AttrConflictValue
+   */
+  export interface AsProtobufJSON {
+    value: string;
+    valueIsEmpty: boolean;
+    userId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.AttrConflict
+ */
+export class AttrConflict implements GrpcMessage {
+  static id = 'goautowp.AttrConflict';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AttrConflict();
+    AttrConflict.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AttrConflict) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.attributeId = _instance.attributeId || '0';
+    _instance.values = _instance.values || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AttrConflict,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.attributeId = _reader.readInt64String();
+          break;
+        case 5:
+          const messageInitializer5 = new AttrConflictValue();
+          _reader.readMessage(
+            messageInitializer5,
+            AttrConflictValue.deserializeBinaryFromReader
+          );
+          (_instance.values = _instance.values || []).push(messageInitializer5);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AttrConflict.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AttrConflict,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.attributeId) {
+      _writer.writeInt64String(2, _instance.attributeId);
+    }
+    if (_instance.values && _instance.values.length) {
+      _writer.writeRepeatedMessage(
+        5,
+        _instance.values as any,
+        AttrConflictValue.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _itemId: string;
+  private _attributeId: string;
+  private _values?: AttrConflictValue[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AttrConflict to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AttrConflict.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.attributeId = _value.attributeId;
+    this.values = (_value.values || []).map(m => new AttrConflictValue(m));
+    AttrConflict.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get attributeId(): string {
+    return this._attributeId;
+  }
+  set attributeId(value: string) {
+    this._attributeId = value;
+  }
+  get values(): AttrConflictValue[] | undefined {
+    return this._values;
+  }
+  set values(value: AttrConflictValue[] | undefined) {
+    this._values = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AttrConflict.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AttrConflict.AsObject {
+    return {
+      itemId: this.itemId,
+      attributeId: this.attributeId,
+      values: (this.values || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AttrConflict.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      attributeId: this.attributeId,
+      values: (this.values || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module AttrConflict {
+  /**
+   * Standard JavaScript object representation for AttrConflict
+   */
+  export interface AsObject {
+    itemId: string;
+    attributeId: string;
+    values?: AttrConflictValue.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for AttrConflict
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    attributeId: string;
+    values: AttrConflictValue.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.AttrConflictsResponse
+ */
+export class AttrConflictsResponse implements GrpcMessage {
+  static id = 'goautowp.AttrConflictsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AttrConflictsResponse();
+    AttrConflictsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AttrConflictsResponse) {
+    _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AttrConflictsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new AttrConflict();
+          _reader.readMessage(
+            messageInitializer1,
+            AttrConflict.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AttrConflictsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AttrConflictsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        AttrConflict.serializeBinaryToWriter
+      );
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: AttrConflict[];
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AttrConflictsResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AttrConflictsResponse.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new AttrConflict(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    AttrConflictsResponse.refineValues(this);
+  }
+  get items(): AttrConflict[] | undefined {
+    return this._items;
+  }
+  set items(value: AttrConflict[] | undefined) {
+    this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AttrConflictsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AttrConflictsResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AttrConflictsResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module AttrConflictsResponse {
+  /**
+   * Standard JavaScript object representation for AttrConflictsResponse
+   */
+  export interface AsObject {
+    items?: AttrConflict.AsObject[];
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for AttrConflictsResponse
+   */
+  export interface AsProtobufJSON {
+    items: AttrConflict.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.AttrUserValue
  */
 export class AttrUserValue implements GrpcMessage {

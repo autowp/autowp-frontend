@@ -5128,6 +5128,27 @@ export class AttrsClient {
         requestClass: thisProto.AttrUserValuesRequest,
         responseClass: thisProto.AttrUserValuesResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetConflicts
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AttrConflictsResponse>>
+     */
+    getConflicts: (
+      requestData: thisProto.AttrConflictsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AttrConflictsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetConflicts',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrConflictsRequest,
+        responseClass: thisProto.AttrConflictsResponse
+      });
     }
   };
 
@@ -5280,6 +5301,22 @@ export class AttrsClient {
   ): Observable<thisProto.AttrUserValuesResponse> {
     return this.$raw
       .getUserValues(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetConflicts
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AttrConflictsResponse>
+   */
+  getConflicts(
+    requestData: thisProto.AttrConflictsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AttrConflictsResponse> {
+    return this.$raw
+      .getConflicts(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
