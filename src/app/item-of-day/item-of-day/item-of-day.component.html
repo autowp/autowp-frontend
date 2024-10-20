@@ -88,7 +88,7 @@
         <span class="bi bi-text-left" aria-hidden="true"></span>
         <a [routerLink]="['/category', item.catname]" i18n>details</a>
       </span>
-      @if (item.accepted_pictures_count > 6) {
+      @if (item.accepted_pictures_count && item.accepted_pictures_count > 6) {
         <span>
           <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
           <a [routerLink]="['/category', item.catname, '/pictures']"
@@ -97,7 +97,12 @@
         </span>
       }
     }
-    @if (item.item_type_id === ItemType.ITEM_TYPE_BRAND && item.accepted_pictures_count > 6 && item.public_route) {
+    @if (
+      item.item_type_id === ItemType.ITEM_TYPE_BRAND &&
+      item.accepted_pictures_count &&
+      item.accepted_pictures_count > 6 &&
+      item.public_route
+    ) {
       <span>
         <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
         <a [routerLink]="item.public_route"
@@ -108,6 +113,7 @@
     @if (
       item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY &&
       item.item_type_id !== ItemType.ITEM_TYPE_BRAND &&
+      item.accepted_pictures_count &&
       item.accepted_pictures_count > 6 &&
       item.public_route
     ) {

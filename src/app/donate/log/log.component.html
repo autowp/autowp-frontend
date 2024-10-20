@@ -27,7 +27,9 @@
       @for (item of items; track item) {
         <tr>
           <td>
-            <span [textContent]="item.date | timeAgo" [ngbTooltip]="item.date | date: 'medium'"></span>
+            @if (item.date) {
+              <span [ngbTooltip]="item.date | date: 'medium'">{{ item.date | timeAgo }}</span>
+            }
           </td>
           <td>
             @if (item.user$ | async; as user) {

@@ -4,7 +4,7 @@ export interface ItemHeader {
   design?: {
     name: string;
     route: string[];
-  };
+  } | null;
   nameHTML: string;
   produced?: {
     count: number;

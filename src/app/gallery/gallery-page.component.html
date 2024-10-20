@@ -1,6 +1,6 @@
 @if (identity$ | async; as identity) {
   <app-gallery
-    [filter]="{itemID: null}"
+    [filter]="{itemID: undefined}"
     [current]="identity"
     [galleryPrefix]="['/picture', identity, 'gallery']"
     [picturePrefix]="['/picture']"

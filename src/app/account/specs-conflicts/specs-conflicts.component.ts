@@ -35,10 +35,12 @@ interface APIAttrConflictInList {
   values: APIAttrConflictValueInList[];
 }
 
-function mapFilter(filter: string): AttrConflictsRequest.Filter {
+function mapFilter(filter: null | string): AttrConflictsRequest.Filter {
   switch (filter) {
     case '-1':
       return AttrConflictsRequest.Filter.I_DISAGREE;
+    case '0':
+      return AttrConflictsRequest.Filter.ALL;
     case '1':
       return AttrConflictsRequest.Filter.DO_NOT_AGREE_WITH_ME;
     case 'minus-weight':
@@ -68,11 +70,11 @@ export class AccountSpecsConflictsComponent implements OnInit {
     debounceTime(10),
   );
 
-  protected readonly filter$ = this.route.queryParamMap.pipe(
+  protected readonly filter$: Observable<AttrConflictsRequest.Filter> = this.route.queryParamMap.pipe(
     map((params) => params.get('filter')),
     distinctUntilChanged(),
     debounceTime(10),
-    map((filter) => mapFilter(filter || '')),
+    map((filter) => mapFilter(filter)),
   );
 
   protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();

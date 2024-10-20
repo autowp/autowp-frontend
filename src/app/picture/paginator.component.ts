@@ -6,7 +6,7 @@ import {APIPicturePaginator} from '@services/picture';
   templateUrl: './paginator.component.html',
 })
 export class PicturePaginatorComponent {
-  @Input() paginator: APIPicturePaginator | null = null;
+  @Input() paginator: APIPicturePaginator | null | undefined = null;
   @Input() prefix: string[] = [];
 
   protected format(page: number, count: number) {

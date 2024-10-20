@@ -16,7 +16,7 @@
               [style.min-width]="operation.percent + '%'"
               placement="top"
               ngbTooltip="{{ operation.sum | currency: operation.currency }}, {{ operation.purpose }}, {{
-                operation.date | timeAgo
+                operation.date ? (operation.date | timeAgo) : ''
               }}"
             ></div>
           }
@@ -35,7 +35,7 @@
               [style.width]="operation.percent + '%'"
               placement="top"
               ngbTooltip="{{ operation.sum | currency: operation.currency }} by {{ operation.contributor }}, {{
-                operation.date | timeAgo
+                operation.date ? (operation.date | timeAgo) : ''
               }}"
             ></div>
           }

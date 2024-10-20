@@ -47,13 +47,15 @@
             ></strong>
           </p>
         }
-        <p>
-          <ng-container i18n>Last visited</ng-container>:
-          <strong
-            [textContent]="user.lastOnline.toDate() | timeAgo"
-            [ngbTooltip]="user.lastOnline.toDate() | date: 'medium'"
-          ></strong>
-        </p>
+        @if (user.lastOnline) {
+          <p>
+            <ng-container i18n>Last visited</ng-container>:
+            <strong
+              [textContent]="user.lastOnline.toDate() | timeAgo"
+              [ngbTooltip]="user.lastOnline.toDate() | date: 'medium'"
+            ></strong>
+          </p>
+        }
         <p i18n>Database id: {{ user.id }}</p>
         @if (user && isNotMe$ | async) {
           <p ngPreserveWhitespaces>
@@ -68,7 +70,7 @@
         <!--      </p>-->
         <h2 i18n>Recent activity</h2>
         <div class="card card-body mb-4">
-          @if (user.picturesAdded > 0) {
+          @if (user.picturesAdded !== '0') {
             <div>
               <p>
                 <ng-container i18n>Images uploaded:</ng-container>
@@ -86,8 +88,7 @@
                 >
               </p>
             </div>
-          }
-          @if (user.picturesAdded <= 0) {
+          } @else {
             <p i18n>Not upload pictures</p>
           }
           @if (isModer$ | async) {
@@ -163,17 +164,17 @@
                   </button>
                 }
               </div>
-              @if (userUserPreferences$ | async; as userPrefs) {
+              @if (disableCommentsNotifications$ | async; as disableCommentsNotifications) {
                 <div class="col-6">
                   <button
                     type="submit"
                     class="btn btn-lg btn-contact"
-                    [class.btn-primary]="userPrefs.disableCommentsNotifications"
-                    [class.btn-danger]="!userPrefs.disableCommentsNotifications"
-                    (click)="setCommentNotificationsDisabled(user, !userPrefs.disableCommentsNotifications)"
+                    [class.btn-primary]="disableCommentsNotifications"
+                    [class.btn-danger]="!disableCommentsNotifications"
+                    (click)="setCommentNotificationsDisabled(user, !disableCommentsNotifications)"
                   >
                     <span class="bi bi-envelope me-1" aria-hidden="true"></span>
-                    @if (userPrefs.disableCommentsNotifications) {
+                    @if (disableCommentsNotifications) {
                       <ng-container i18n>Enable comments notifications</ng-container>
                     } @else {
                       <ng-container i18n>Disable comments notifications</ng-container>
@@ -229,7 +230,7 @@
                     }
                   </div>
                 }
-                @if (ip && !ip.blacklist && ip.rights.addToBlacklist) {
+                @if (ip && !ip.blacklist && ip.rights?.addToBlacklist) {
                   <form class="form-vertical">
                     <div class="mb-3">
                       <label i18n>For period</label>

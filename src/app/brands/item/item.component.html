@@ -1,9 +1,9 @@
 <ng-template #popover>
   @if (response$ | async; as response) {
     <div>
-      @if (response.items.length > 0) {
-        @if (response.brand.brandicon) {
-          <img alt="" [src]="response.brand.brandicon.src" style="float: right; margin: 0 0 5px 5px" />
+      @if ((response.items || []).length > 0) {
+        @if (response.brand?.brandicon?.src) {
+          <img alt="" [src]="response.brand?.brandicon?.src" style="float: right; margin: 0 0 5px 5px" />
         }
         @for (item of response.items; track item.id) {
           <p [innerHTML]="item.nameHtml"></p>
@@ -21,7 +21,7 @@
     [routerLink]="['/', brand.catname]"
     class="brandicon"
     [ngClass]="'brandicon-' + cssClass(brand)"
-    [ngStyle]="{'background-image': 'url(' + icons.image + ')'}"
+    [ngStyle]="{'background-image': 'url(' + icons?.image + ')'}"
   ></a>
   <h4>
     <a [routerLink]="['/', brand.catname]" [textContent]="brand.name"></a>

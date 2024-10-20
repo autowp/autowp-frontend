@@ -5,8 +5,8 @@
         <app-item-header
           [item]="{
             nameHTML: item.name_html,
-            design: item.design,
-            produced: {count: item.produced, exactly: item.produced_exactly},
+            design: item.design || null,
+            produced: {count: item.produced || 0, exactly: item.produced_exactly},
           }"
         ></app-item-header>
       </h3>
@@ -24,8 +24,8 @@
               <a [routerLink]="picture.route" class="d-block rounded mb-4">
                 <img
                   [src]="picture.thumb.src"
-                  [alt]="picture.picture.name"
-                  [title]="picture.picture.name"
+                  [alt]="picture.picture?.name"
+                  [title]="picture.picture?.name"
                   class="rounded w-100 border border-light"
                   loading="lazy"
                 />
@@ -43,8 +43,8 @@
                   <a [routerLink]="picture.route" class="d-block rounded mb-4">
                     <img
                       [src]="picture.thumb.src"
-                      [alt]="picture.picture.name"
-                      [title]="picture.picture.name"
+                      [alt]="picture.picture?.name"
+                      [title]="picture.picture?.name"
                       class="rounded w-100 border border-light"
                       loading="lazy"
                     />

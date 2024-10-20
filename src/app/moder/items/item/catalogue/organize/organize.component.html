@@ -37,8 +37,8 @@
       [item]="newItem"
       (submitted)="submit(item, newItem.item_type_id, $event)"
       [invalidParams]="invalidParams"
-      [vehicleTypeIDs]="vehicleTypeIDs$ | async"
-      [items]="childs$ | async"
+      [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
+      [items]="(childs$ | async) || []"
     >
     </app-item-meta-form>
   }

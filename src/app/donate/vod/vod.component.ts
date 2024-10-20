@@ -3,9 +3,9 @@ import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {AuthService} from '@services/auth.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem, ItemOfDayItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {combineLatest, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {usdToRub} from '../../currencies';
@@ -55,6 +55,10 @@ export class DonateVodComponent implements OnInit {
       });
     }),
     shareReplay(1),
+  );
+
+  protected readonly itemOfDayItem$: Observable<ItemOfDayItem> = this.item$.pipe(
+    switchMap((item) => (item ? of(item) : EMPTY)),
   );
 
   protected readonly itemOfDayUser$: Observable<APIUser | null> = this.anonymous$.pipe(

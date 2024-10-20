@@ -24,7 +24,7 @@
     <div class="row">
       @for (item of chunk; track item) {
         <div class="col-sm-3">
-          <app-thumbnail [picture]="item.picture" [route]="item.route">></app-thumbnail>
+          <app-thumbnail [picture]="item.picture" [route]="item.route || []"></app-thumbnail>
         </div>
       }
     </div>

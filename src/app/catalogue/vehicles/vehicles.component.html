@@ -24,8 +24,8 @@
       <app-item-header
         [item]="{
           nameHTML: item.name_html,
-          design: item.design,
-          produced: {count: item.produced, exactly: item.produced_exactly},
+          design: item.design || null,
+          produced: {count: item.produced || 0, exactly: item.produced_exactly},
         }"
       ></app-item-header>
     </h1>
@@ -51,7 +51,7 @@
         }
       }
       @if (canAcceptPicture$ | async; as canAcceptPicture) {
-        @if (canAcceptPicture && item.inbox_pictures_count > 0) {
+        @if (canAcceptPicture && item.inbox_pictures_count && item.inbox_pictures_count > 0) {
           <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
           <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
             <ng-container i18n>inbox</ng-container> ({{ item.inbox_pictures_count }})
@@ -68,9 +68,9 @@
   }
   @if (menu$ | async; as menu) {
     <app-catalogue-item-menu
-      [header]="{nameHTML: item.name_html, produced: {count: item.produced, exactly: item.produced_exactly}}"
+      [header]="{nameHTML: item.name_html, produced: {count: item.produced || 0, exactly: item.produced_exactly}}"
       [itemRouterLink]="menu.routerLink"
-      [picturesCount]="item.accepted_pictures_count"
+      [picturesCount]="item.accepted_pictures_count || 0"
       [childsCounts]="item.childs_counts"
       [active]="menu.type"
     ></app-catalogue-item-menu>

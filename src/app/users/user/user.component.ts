@@ -175,7 +175,7 @@ export class UsersUserComponent {
 
   private readonly userUserPreferencesChanged$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly userUserPreferences$ = combineLatest([
+  protected readonly disableCommentsNotifications$ = combineLatest([
     this.user$,
     this.currentUser$,
     this.isNotMe$,
@@ -186,7 +186,9 @@ export class UsersUserComponent {
         return of(false);
       }
 
-      return this.usersGrpc.getUserPreferences(new APIUserPreferencesRequest({userId: user.id.toString()}));
+      return this.usersGrpc
+        .getUserPreferences(new APIUserPreferencesRequest({userId: user.id.toString()}))
+        .pipe(map(({disableCommentsNotifications}) => disableCommentsNotifications));
     }),
     catchError((response: unknown) => {
       this.toastService.handleError(response);

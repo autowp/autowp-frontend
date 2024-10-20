@@ -29,10 +29,10 @@
     ></div>
   }
   @if (links$ | async; as links) {
-    @if (item && (links.items.length > 0 || item.description)) {
+    @if (item && ((links.items && links.items.length > 0) || item.description)) {
       <div class="card card-body">
         <app-markdown [markdown]="item.description"></app-markdown>
-        @if (links.items.length > 0) {
+        @if (links.items && links.items.length > 0) {
           <p>
             <ng-container i18n>Web-site:</ng-container>
             @for (link of links.items; track link.id) {

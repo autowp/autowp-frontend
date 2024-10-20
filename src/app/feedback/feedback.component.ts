@@ -85,7 +85,9 @@ export class FeedbackComponent implements OnInit {
       });
   }
 
-  protected resolved(captchaResponse: string) {
-    this.form.get(CAPTCHA)?.setValue(captchaResponse);
+  protected resolved(captchaResponse: null | string) {
+    if (captchaResponse) {
+      this.form.get(CAPTCHA)?.setValue(captchaResponse);
+    }
   }
 }

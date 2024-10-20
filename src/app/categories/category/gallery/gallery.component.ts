@@ -59,7 +59,11 @@ export class CategoryGalleryComponent implements OnInit {
     }, 0);
   }
 
-  protected currentRouterLinkPrefix(category: APIItem, currentItem: APIItem, pathCatnames: string[]): null | string[] {
+  protected currentRouterLinkPrefix(
+    category: APIItem | null,
+    currentItem: APIItem,
+    pathCatnames: string[],
+  ): null | string[] {
     if (!category) {
       return null;
     }
@@ -71,13 +75,15 @@ export class CategoryGalleryComponent implements OnInit {
     return ['/category', category.catname].concat(pathCatnames);
   }
 
-  protected pictureSelected(item: APIGalleryItem) {
-    setTimeout(() => {
-      this.pageEnv.set({
-        layout: {isGalleryPage: true},
-        pageId: 187,
-        title: item.name,
-      });
-    }, 0);
+  protected pictureSelected(item: APIGalleryItem | null) {
+    if (item) {
+      setTimeout(() => {
+        this.pageEnv.set({
+          layout: {isGalleryPage: true},
+          pageId: 187,
+          title: item.name,
+        });
+      }, 0);
+    }
   }
 }

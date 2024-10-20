@@ -7,7 +7,7 @@
             [item]="item"
             order="categories_first"
             (selected)="onSelect($event)"
-            [disableItemID]="itemID$ | async"
+            [disableItemID]="(itemID$ | async) || ''"
           >
           </app-moder-items-item-select-parent-tree-item>
         </li>

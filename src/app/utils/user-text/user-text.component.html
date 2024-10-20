@@ -7,18 +7,22 @@
             <a [href]="element.url">{{ element.url }}</a>
           }
           @case ('user') {
-            <app-user [user]="element.user"></app-user>
+            @if (element.user) {
+              <app-user [user]="element.user"></app-user>
+            }
           }
           @case ('picture') {
-            <a [routerLink]="['/picture', element.picture.identity]" class="thumbnail-inline">
-              <img
-                class="card-img-top"
-                [src]="element.picture.thumb.src"
-                [alt]="element.picture.name_text"
-                [title]="element.picture.name_text"
-                loading="lazy"
-              />
-            </a>
+            @if (element.picture) {
+              <a [routerLink]="['/picture', element.picture.identity]" class="thumbnail-inline">
+                <img
+                  class="card-img-top"
+                  [src]="element.picture.thumb.src"
+                  [alt]="element.picture.name_text"
+                  [title]="element.picture.name_text"
+                  loading="lazy"
+                />
+              </a>
+            }
           }
           @case ('text') {
             {{ element.text }}

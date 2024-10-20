@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-import {combineLatest, EMPTY, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIGalleryItem} from '../../../gallery/definitions';
+import {APIGalleryFilter} from '../../../gallery/gallery.component';
 import {CatalogueService} from '../../catalogue-service';
 
 @Component({
@@ -60,12 +61,12 @@ export class CatalogueVehiclesGalleryComponent {
 
   protected readonly picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
 
-  protected readonly filter$ = combineLatest([this.exact$, this.catalogue$]).pipe(
+  protected readonly filter$: Observable<APIGalleryFilter> = combineLatest([this.exact$, this.catalogue$]).pipe(
     map(([exact, {path}]) => {
       const itemID = path[path.length - 1].item.id;
       return {
-        exactItemID: exact ? itemID : null,
-        itemID: exact ? null : itemID,
+        exactItemID: exact ? itemID : undefined,
+        itemID: exact ? undefined : itemID,
       };
     }),
   );
@@ -77,13 +78,15 @@ export class CatalogueVehiclesGalleryComponent {
     private readonly router: Router,
   ) {}
 
-  protected pictureSelected(item: APIGalleryItem) {
-    setTimeout(() => {
-      this.pageEnv.set({
-        layout: {isGalleryPage: true},
-        pageId: 34,
-        title: item.name,
-      });
-    }, 0);
+  protected pictureSelected(item: APIGalleryItem | null) {
+    if (item) {
+      setTimeout(() => {
+        this.pageEnv.set({
+          layout: {isGalleryPage: true},
+          pageId: 34,
+          title: item.name,
+        });
+      }, 0);
+    }
   }
 }

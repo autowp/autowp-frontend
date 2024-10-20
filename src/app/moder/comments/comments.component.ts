@@ -35,14 +35,14 @@ export class ModerCommentsComponent implements OnInit {
 
   protected itemID: null | string = null;
   protected itemQuery = '';
-  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[] | undefined> = (
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
       switchMap((query) => {
         if (query === '') {
-          return of([]);
+          return of([] as APIItem[]);
         }
 
         const params = new ListItemsRequest({
@@ -63,7 +63,7 @@ export class ModerCommentsComponent implements OnInit {
             this.toastService.handleError(err);
             return EMPTY;
           }),
-          map((response) => response.items),
+          map((response) => response.items || []),
         );
       }),
     );

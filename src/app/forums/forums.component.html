@@ -46,7 +46,7 @@
             }</ng-container>
           </p>
           @if (theme.themes$ | async; as themes) {
-            @if (themes.items.length > 0) {
+            @if ((themes.items || []).length > 0) {
               <div>
                 <ng-container i18n>Subforums</ng-container>
                 @for (subtheme of themes.items; track subtheme.id; let last = $last) {
@@ -73,7 +73,9 @@
             </p>
             @if (theme.lastMessage$ | async; as lastMessage) {
               <p>
-                <app-past-time-indicator [date]="lastMessage.createdAt.toDate()"></app-past-time-indicator>
+                @if (lastMessage.createdAt) {
+                  <app-past-time-indicator [date]="lastMessage.createdAt.toDate()"></app-past-time-indicator>
+                }
                 @if (theme.lastMessageAuthor$ | async; as lastMessageAuthor) {
                   <app-user [user]="lastMessageAuthor"></app-user>
                 }
@@ -94,7 +96,7 @@
         <ng-container i18n>Create new topic</ng-container>
       </a>
       @if (topics$ | async; as topics) {
-        <app-forums-topic-list [topics]="topics.items" (reload)="reload()"></app-forums-topic-list>
+        <app-forums-topic-list [topics]="topics.items || []" (reload)="reload()"></app-forums-topic-list>
         @if (topics.paginator) {
           <app-paginator [data]="topics.paginator"></app-paginator>
         }

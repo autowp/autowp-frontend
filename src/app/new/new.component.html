@@ -61,26 +61,28 @@
     </div>
   </div>
   @for (group of data.groups; track group) {
-    <div>
-      @if (group.type === 'item') {
-        <app-new-list-item
-          [item]="group.item"
-          [pictures]="group.pictures"
-          [totalPictures]="group.total_pictures"
-          [date]="date$ | async"
-        ></app-new-list-item>
-      } @else {
-        @for (chunk of group.chunks; track chunk) {
-          <div class="row">
-            @for (picture of chunk; track picture) {
-              <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
-              </div>
-            }
-          </div>
+    @if (group) {
+      <div>
+        @if (group.type === 'item' && group.item && group.pictures) {
+          <app-new-list-item
+            [item]="group.item"
+            [pictures]="group.pictures"
+            [totalPictures]="group.total_pictures || 0"
+            [date]="(date$ | async) || ''"
+          ></app-new-list-item>
+        } @else {
+          @for (chunk of group.chunks; track chunk) {
+            <div class="row">
+              @for (picture of chunk; track picture) {
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                  <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+                </div>
+              }
+            </div>
+          }
         }
-      }
-    </div>
+      </div>
+    }
   }
   @if (data.paginator) {
     <app-paginator [data]="data.paginator"></app-paginator>

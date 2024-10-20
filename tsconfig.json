@@ -33,6 +33,10 @@
     "strict": true
   },
   "angularCompilerOptions": {
-    "preserveWhitespaces": true
+    "preserveWhitespaces": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "strictMetadataEmit": true,
   }
 }

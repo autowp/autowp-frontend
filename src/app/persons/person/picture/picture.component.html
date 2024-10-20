@@ -1,11 +1,13 @@
 @if (picture$ | async; as picture) {
   @if (itemID$ | async; as itemID) {
-    <app-picture
-      [picture]="picture"
-      [prefix]="['/persons', itemID.toString()]"
-      [galleryRoute]="['/persons', itemID.toString(), 'gallery', identity$ | async]"
-      (changed)="reloadPicture()"
-    ></app-picture>
+    @if (identity$ | async; as identity) {
+      <app-picture
+        [picture]="picture"
+        [prefix]="['/persons', itemID.toString()]"
+        [galleryRoute]="['/persons', itemID.toString(), 'gallery', identity]"
+        (changed)="reloadPicture()"
+      ></app-picture>
+    }
   }
   @if (picture) {
     <div id="comments">

@@ -34,7 +34,7 @@ export class CommentsComponent {
   }
   protected readonly typeID$ = new BehaviorSubject<CommentsType | null>(null);
 
-  @Input() set limit(limit: number) {
+  @Input() set limit(limit: null | number) {
     this.limit$.next(limit);
   }
   protected readonly limit$ = new BehaviorSubject<null | number>(null);

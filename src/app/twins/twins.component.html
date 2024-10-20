@@ -59,14 +59,16 @@
               <i class="bi bi-text-left me-1" aria-hidden="true"></i>
               <a [routerLink]="['/twins/group', group.item.id]">
                 <ng-container i18n>details</ng-container> …
-                @if (group.item.comments_topic_stat.messages > 0) {
-                  <span
-                    >(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural,
-                      one {{{group.item.comments_topic_stat.messages}} comment}
-                      other {{{group.item.comments_topic_stat.messages}} comments}
-                    }</span
-                    >)</span
-                  >
+                @if (group.item.comments_topic_stat) {
+                  @if (group.item.comments_topic_stat.messages > 0) {
+                    <span
+                      >(<span i18n="@@n-comments">{group.item.comments_topic_stat.messages, plural,
+                        one {{{group.item.comments_topic_stat.messages}} comment}
+                        other {{{group.item.comments_topic_stat.messages}} comments}
+                      }</span
+                      >)</span
+                    >
+                  }
                 }
               </a>
             </li>
@@ -99,6 +101,8 @@
     }
   </div>
   <div class="col-sm-4 order-1">
-    <app-twins-sidebar [selected]="[currentBrandCatname$ | async]"></app-twins-sidebar>
+    @if (currentBrandCatname$ | async; as currentBrandCatname) {
+      <app-twins-sidebar [selected]="[currentBrandCatname]"></app-twins-sidebar>
+    }
   </div>
 </div>

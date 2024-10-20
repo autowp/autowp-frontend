@@ -13,7 +13,7 @@ export interface CatalogueListItemPicture {
 
 export interface CatalogueListItem {
   accepted_pictures_count: number | undefined;
-  can_edit_specs: boolean;
+  can_edit_specs: boolean | undefined;
   categories?: APIItem[];
   childs_counts: APIItemChildsCounts | null;
   description: null | string;

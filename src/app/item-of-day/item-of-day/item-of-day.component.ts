@@ -29,7 +29,7 @@ export class ItemOfDayComponent {
   public get item$(): Observable<ItemOfDayItem> | undefined {
     return this._item$;
   }
-  @Input() public user$?: Observable<APIUser>;
+  @Input() public user$?: Observable<APIUser | null>;
 
   protected itemOfDayPictures$?: Observable<{
     first: APIItemOfDayPicture[];

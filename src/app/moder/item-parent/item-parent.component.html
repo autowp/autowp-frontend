@@ -63,7 +63,7 @@
             class="form-control"
             [(ngModel)]="language.name"
           />
-          @for (message of language.invalidParams | invalidParams: 'name'; track message) {
+          @for (message of language.invalidParams || {} | invalidParams: 'name'; track message) {
             <p [textContent]="message" class="invalid-feedback"></p>
           }
         </div>

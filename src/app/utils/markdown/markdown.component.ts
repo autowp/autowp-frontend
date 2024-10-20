@@ -9,7 +9,7 @@ import showdown from 'showdown';
   templateUrl: './markdown.component.html',
 })
 export class MarkdownComponent {
-  @Input() set markdown(value: string) {
+  @Input() set markdown(value: null | string) {
     this.markdown$.next(value);
   }
   private readonly markdown$ = new BehaviorSubject<null | string>(null);

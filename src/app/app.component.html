@@ -1,8 +1,8 @@
-@if (!(layoutParams$ | async).isGalleryPage) {
+@if (!(layoutParams$ | async)?.isGalleryPage) {
   <app-moder-menu></app-moder-menu>
 }
 
-@if (!(layoutParams$ | async).isGalleryPage) {
+@if (!(layoutParams$ | async)?.isGalleryPage) {
   <div class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
       <button
@@ -176,12 +176,12 @@
 }
 
 <div
-  [class.container]="!(layoutParams$ | async).isGalleryPage"
-  [class.container-fluid]="(layoutParams$ | async).isGalleryPage"
+  [class.container]="!(layoutParams$ | async)?.isGalleryPage"
+  [class.container-fluid]="(layoutParams$ | async)?.isGalleryPage"
 >
   <router-outlet></router-outlet>
 
-  @if (!(layoutParams$ | async).isAdminPage && !(layoutParams$ | async).isGalleryPage) {
+  @if (!(layoutParams$ | async)?.isAdminPage && !(layoutParams$ | async)?.isGalleryPage) {
     <div class="bottom-line">
       <p>
         <strong>
@@ -193,7 +193,7 @@
     </div>
   }
 
-  @if (!(layoutParams$ | async).isAdminPage && !(layoutParams$ | async).isGalleryPage) {
+  @if (!(layoutParams$ | async)?.isAdminPage && !(layoutParams$ | async)?.isGalleryPage) {
     <footer class="footer">
       <div class="row">
         <div class="col-md-6">

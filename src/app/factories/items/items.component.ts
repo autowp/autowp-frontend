@@ -4,7 +4,7 @@ import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -107,7 +107,7 @@ export class FactoryItemsComponent {
           produced_exactly: item.produced_exactly,
           specsRouterLink:
             item.has_specs || (item.has_child_specs && item.route) ? item.route.concat(['specifications']) : null,
-        };
+        } as CatalogueListItem;
       }),
       paginator: data.paginator,
     })),

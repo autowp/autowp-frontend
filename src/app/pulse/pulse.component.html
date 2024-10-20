@@ -30,7 +30,7 @@
         width="400"
         height="150"
         [datasets]="gridData.data"
-        [labels]="labels$ | async"
+        [labels]="(labels$ | async) || undefined"
         [options]="chartOptions"
         [legend]="false"
         [type]="'bar'"

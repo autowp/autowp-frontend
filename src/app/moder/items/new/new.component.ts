@@ -24,7 +24,7 @@ interface NewAPIItem extends APIItem {
   templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {
-  protected invalidParams: InvalidParams | null = null;
+  protected invalidParams: InvalidParams | undefined = undefined;
 
   private readonly itemTypeID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') || '', 10)),

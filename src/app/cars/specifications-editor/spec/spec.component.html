@@ -115,7 +115,7 @@
                     @if (values$ | async; as values) {
                       @if (values.get(control.attr.id); as value) {
                         <div>
-                          @if (value.value.isEmpty) {
+                          @if (value.value?.isEmpty) {
                             <em i18n>none</em>
                           } @else {
                             <span>
@@ -133,7 +133,7 @@
                     @if (userValues$ | async; as userValues) {
                       @for (value of userValues.get(control.attr.id); track value) {
                         <div>
-                          @if (value.userValue.value.isEmpty) {
+                          @if (value.userValue.value?.isEmpty) {
                             <em i18n>none</em>
                           } @else {
                             <span [textContent]="value.userValue.valueText"></span>

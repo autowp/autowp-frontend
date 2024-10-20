@@ -3,35 +3,37 @@
 </div>
 <div class="row">
   @for (contact of items$ | async; track contact.contactUserId) {
-    <div class="col-md-6 mb-2">
-      <div class="d-flex justify-content-start">
-        <div class="align-self-start me-3">
-          @if (!contact.user.deleted) {
-            <a
-              [routerLink]="['/users', contact.user.identity ? contact.user.identity : 'user' + contact.user.id]"
-              class="photo"
-            >
-              @if (contact.user.avatar) {
-                <img alt="" [src]="contact.user.avatar.src" class="rounded" loading="lazy" />
-              } @else if (contact.user.gravatar) {
-                <img alt="" [src]="contact.user.gravatar" class="rounded" loading="lazy" />
-              }
-            </a>
-          }
-        </div>
-        <div class="flex-grow-1">
-          <button class="btn-close float-end" (click)="deleteContact(contact.user.id)"></button>
-          <h4>
-            <app-user [user]="contact.user"></app-user>
-          </h4>
-          @if (contact.user.lastOnline) {
-            <p
-              [textContent]="contact.user.lastOnline.toDate() | timeAgo"
-              [ngbTooltip]="contact.user.lastOnline.toDate() | date: 'medium'"
-            ></p>
-          }
+    @if (contact.user) {
+      <div class="col-md-6 mb-2">
+        <div class="d-flex justify-content-start">
+          <div class="align-self-start me-3">
+            @if (!contact.user.deleted) {
+              <a
+                [routerLink]="['/users', contact.user.identity ? contact.user.identity : 'user' + contact.user.id]"
+                class="photo"
+              >
+                @if (contact.user.avatar) {
+                  <img alt="" [src]="contact.user.avatar.src" class="rounded" loading="lazy" />
+                } @else if (contact.user.gravatar) {
+                  <img alt="" [src]="contact.user.gravatar" class="rounded" loading="lazy" />
+                }
+              </a>
+            }
+          </div>
+          <div class="flex-grow-1">
+            <button class="btn-close float-end" (click)="deleteContact(contact.user.id)"></button>
+            <h4>
+              <app-user [user]="contact.user"></app-user>
+            </h4>
+            @if (contact.user.lastOnline) {
+              <p
+                [textContent]="contact.user.lastOnline.toDate() | timeAgo"
+                [ngbTooltip]="contact.user.lastOnline.toDate() | date: 'medium'"
+              ></p>
+            }
+          </div>
         </div>
       </div>
-    </div>
+    }
   }
 </div>

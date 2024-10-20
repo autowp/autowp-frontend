@@ -6,10 +6,10 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, t
 
 import {APIGallery, APIGalleryItem} from './definitions';
 
-interface APIGalleryFilter {
-  exactItemID?: number;
+export interface APIGalleryFilter {
+  exactItemID?: number | undefined;
   exactItemLinkType?: number;
-  itemID?: number;
+  itemID?: number | undefined;
   perspectiveExclude?: string;
   perspectiveID?: number;
 }
@@ -102,7 +102,7 @@ export class GalleryComponent {
   }
   private readonly filter$ = new BehaviorSubject<APIGalleryFilter | null>(null);
 
-  @Input() set current(current: string) {
+  @Input() set current(current: null | string) {
     this.current$.next(current);
   }
   public readonly current$ = new BehaviorSubject<null | string>(null);

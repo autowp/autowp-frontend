@@ -47,12 +47,12 @@ export class MostsContentsComponent {
     ),
   );
 
-  @Input() set typeCatname(typeCatname: string) {
+  @Input() set typeCatname(typeCatname: null | string) {
     this.typeCatname$.next(typeCatname);
   }
   protected readonly typeCatname$ = new BehaviorSubject<null | string>(null);
 
-  @Input() set yearsCatname(yearsCatname: string) {
+  @Input() set yearsCatname(yearsCatname: null | string) {
     this.yearsCatname$.next(yearsCatname);
   }
   protected readonly yearsCatname$ = new BehaviorSubject<null | string>(null);

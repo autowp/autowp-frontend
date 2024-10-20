@@ -23,7 +23,7 @@
       [itemID]="topic.id"
       [typeID]="CommentsType.FORUMS_TYPE_ID"
       [limit]="limit"
-      [page]="page$ | async"
+      [page]="(page$ | async) || 0"
     ></app-comments>
     @if (user$ | async) {
       <div class="text-end mb-3">

@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
+import {APIUser} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {UserService} from '@services/user';
-import {CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
@@ -13,6 +15,10 @@ interface APIIndexSpecItemsItem extends APIItem {
 
 interface APIIndexSpecItemsResponse {
   items: APIIndexSpecItemsItem[];
+}
+
+interface ListItem extends CatalogueListItem {
+  contributors: Observable<APIUser | null>[];
 }
 
 @Component({
@@ -57,7 +63,7 @@ export class IndexSpecsCarsComponent {
             produced_exactly: item.produced_exactly,
             specsRouterLink: item.specs_route,
             twins_groups: item.twins_groups,
-          };
+          } as ListItem;
         }),
         2,
       );

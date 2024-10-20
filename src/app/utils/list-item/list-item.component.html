@@ -5,7 +5,7 @@
         [item]="{
           nameHTML: item.name_html,
           design: item.design,
-          produced: {count: item.produced, exactly: item.produced_exactly},
+          produced: {count: item.produced || 0, exactly: !!item.produced_exactly},
         }"
       ></app-item-header>
     </h3>
@@ -21,8 +21,8 @@
                 <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
                   <img
                     [src]="picture.thumb.src"
-                    [alt]="picture.picture.name_text"
-                    [title]="picture.picture.name_text"
+                    [alt]="picture.picture?.name_text"
+                    [title]="picture.picture?.name_text"
                     class="rounded w-100 border border-light"
                     loading="lazy"
                   />
@@ -41,8 +41,8 @@
                     <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
                       <img
                         [src]="picture.thumb.src"
-                        [alt]="picture.picture.name_text"
-                        [title]="picture.picture.name_text"
+                        [alt]="picture.picture?.name_text"
+                        [title]="picture.picture?.name_text"
                         class="rounded w-100 border border-light"
                         loading="lazy"
                       />
@@ -142,7 +142,7 @@
           </li>
         }
       }
-      @if (item.accepted_pictures_count > 4) {
+      @if (item.accepted_pictures_count && item.accepted_pictures_count > 4) {
         <li class="list-inline-item">
           <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
           <a [routerLink]="item.picturesRouterLink"

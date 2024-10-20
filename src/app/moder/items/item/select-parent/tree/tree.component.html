@@ -3,9 +3,9 @@
     <app-moder-items-item-select-parent-tree-item
       [item]="item"
       [typeID]="itemParent.type_id"
-      [order]="order"
+      [order]="order || ''"
       (selected)="onSelect($event)"
-      [disableItemID]="disableItemID"
+      [disableItemID]="disableItemID || ''"
     >
     </app-moder-items-item-select-parent-tree-item>
   }

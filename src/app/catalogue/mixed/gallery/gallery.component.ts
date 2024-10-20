@@ -75,13 +75,15 @@ export class CatalogueMixedGalleryComponent {
     private readonly languageService: LanguageService,
   ) {}
 
-  protected pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem) {
-    setTimeout(() => {
-      this.pageEnv.set({
-        layout: {isGalleryPage: true},
-        pageId: data.picture_page.id,
-        title: item.name,
-      });
-    }, 0);
+  protected pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem | null) {
+    if (item) {
+      setTimeout(() => {
+        this.pageEnv.set({
+          layout: {isGalleryPage: true},
+          pageId: data.picture_page.id,
+          title: item.name,
+        });
+      }, 0);
+    }
   }
 }

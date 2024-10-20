@@ -1,7 +1,7 @@
 @if (itemID$ | async; as itemID) {
   <app-gallery
     [filter]="{exactItemID: itemID, exactItemLinkType: 2}"
-    [current]="identity$ | async"
+    [current]="(identity$ | async) || null"
     [galleryPrefix]="['/persons', itemID.toString(), 'author', 'gallery']"
     [picturePrefix]="['/persons', itemID.toString(), 'author']"
     (pictureSelected)="pictureSelected($event)"

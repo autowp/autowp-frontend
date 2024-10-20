@@ -88,7 +88,7 @@
                 <a
                   [routerLink]="['/moder/items/item', parentsItem.parent_id]"
                   [queryParams]="{tab: 'catalogue'}"
-                  [innerHTML]="parentsItem.parent.name_html"
+                  [innerHTML]="parentsItem.parent?.name_html"
                 ></a>
                 @if (parentsItem.duplicate_parent) {
                   <div class="text-warning">
@@ -109,7 +109,7 @@
                 </a>
               </td>
               <td class="urls">
-                @for (route of parentsItem.parent.public_routes; track route) {
+                @for (route of parentsItem.parent?.public_routes || []; track route) {
                   <a [routerLink]="route" [textContent]="route.join('/')"></a>
                   <br />
                 }

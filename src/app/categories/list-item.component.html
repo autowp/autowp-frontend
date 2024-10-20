@@ -8,8 +8,8 @@
       <app-item-header
         [item]="{
           nameHTML: item.name_html,
-          design: item.design,
-          produced: {count: item.produced, exactly: item.produced_exactly},
+          design: item.design || null,
+          produced: {count: item.produced || 0, exactly: item.produced_exactly},
         }"
       ></app-item-header>
     </h3>
@@ -145,14 +145,22 @@
             <i class="bi bi-text-left me-1" aria-hidden="true"></i>
             <a [routerLink]="['/persons', item.id]" i18n>details</a>
           </li>
-        } @else if (item.accepted_pictures_count > 4 && item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+        } @else if (
+          item.accepted_pictures_count &&
+          item.accepted_pictures_count > 4 &&
+          item.item_type_id === ItemType.ITEM_TYPE_CATEGORY
+        ) {
           <li class="list-inline-item">
             <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
             <a [routerLink]="parentRouterLink.concat(['pictures'])"
               ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
             >
           </li>
-        } @else if (item.accepted_pictures_count > 4 && item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
+        } @else if (
+          item.accepted_pictures_count &&
+          item.accepted_pictures_count > 4 &&
+          item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY
+        ) {
           <li class="list-inline-item">
             <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
             <a [routerLink]="parentRouterLink.concat(['pictures'])"

@@ -398,10 +398,10 @@ export class ItemMetaFormComponent {
     );
   }
 
-  protected onCheckboxChange(e: Event, ctrl: FormArray<FormControl<null | string>>) {
+  protected onCheckboxChange(e: Event, ctrl: FormArray<FormControl<string>>) {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
-      ctrl.push(new FormControl<string>(target.value));
+      ctrl.push(new FormControl<string>(target.value, {nonNullable: true}));
     } else {
       let i = 0;
       ctrl.controls.forEach((item) => {
@@ -414,10 +414,10 @@ export class ItemMetaFormComponent {
     }
   }
 
-  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<null | number>>) {
+  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<number>>) {
     e.selected = !e.selected;
     if (e.selected) {
-      ctrl.push(new FormControl<number>(e.pictureItem.picture_id));
+      ctrl.push(new FormControl<number>({disabled: false, value: e.pictureItem.picture_id}, {nonNullable: true}));
     } else {
       let i = 0;
       ctrl.controls.forEach((item) => {

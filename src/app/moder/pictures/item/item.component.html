@@ -564,10 +564,10 @@
                     }
                   </p>
                 }
-                @if (ip.blacklist && ip.rights.removeFromBlacklist) {
+                @if (ip.blacklist && ip.rights?.removeFromBlacklist) {
                   <button class="btn btn-success" (click)="removeFromBlacklist(ip.address)" i18n>unban</button>
                 }
-                @if (!ip.blacklist && ip.rights.addToBlacklist) {
+                @if (!ip.blacklist && ip.rights?.addToBlacklist) {
                   <form class="form-vertical">
                     <div class="mb-3">
                       <label i18n>For period</label>

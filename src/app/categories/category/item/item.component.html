@@ -20,7 +20,7 @@
 @if (item$ | async; as item) {
   <app-categories-list-item
     [item]="item"
-    [parentRouterLink]="currentRouterLinkPrefix$ | async"
+    [parentRouterLink]="(currentRouterLinkPrefix$ | async) || []"
   ></app-categories-list-item>
 }
 

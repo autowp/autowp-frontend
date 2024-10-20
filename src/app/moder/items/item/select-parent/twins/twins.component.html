@@ -24,7 +24,7 @@
           <app-moder-items-item-select-parent-tree-item
             [item]="item"
             (selected)="onSelect($event)"
-            [disableItemID]="itemID$ | async"
+            [disableItemID]="(itemID$ | async) || ''"
           >
           </app-moder-items-item-select-parent-tree-item>
         </li>

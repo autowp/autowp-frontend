@@ -8,7 +8,7 @@
             <input
               type="text"
               [class.is-invalid]="
-                (name.invalid && (name.dirty || name.touched)) || (invalidParams && invalidParams.name)
+                (name.invalid && (name.dirty || !name.untouched)) || (invalidParams && invalidParams.name)
               "
               name="name"
               class="form-control"
@@ -27,7 +27,8 @@
           <div class="col-md-10">
             <input
               [class.is-invalid]="
-                (fullName.invalid && (fullName.dirty || fullName.touched)) || (invalidParams && invalidParams.full_name)
+                (fullName.invalid && (fullName.dirty || !fullName.untouched)) ||
+                (invalidParams && invalidParams.full_name)
               "
               type="text"
               name="full_name"
@@ -46,7 +47,7 @@
           <div class="col-md-10">
             <input
               [class.is-invalid]="
-                (catname.invalid && (catname.dirty || catname.touched)) || (invalidParams && invalidParams.catname)
+                (catname.invalid && (catname.dirty || !catname.untouched)) || (invalidParams && invalidParams.catname)
               "
               type="text"
               name="catname"
@@ -65,7 +66,7 @@
           <div class="col-md-10">
             <input
               [class.is-invalid]="
-                (body.invalid && (body.dirty || body.touched)) || (invalidParams && invalidParams.body)
+                (body.invalid && (body.dirty || !body.untouched)) || (invalidParams && invalidParams.body)
               "
               type="text"
               name="body"
@@ -85,7 +86,7 @@
           <div class="col-md-10">
             <select
               [class.is-invalid]="
-                (specID.invalid && (specID.dirty || specID.touched)) || (invalidParams && invalidParams.spec_id)
+                (specID.invalid && (specID.dirty || !specID.untouched)) || (invalidParams && invalidParams.spec_id)
               "
               name="spec_id"
               style="width: 30%"
@@ -94,7 +95,7 @@
             >
               @for (spec of specs$ | async; track spec.id) {
                 <option [ngValue]="spec.id">
-                  {{ '…'.repeat(spec.deep) + spec.short_name }}
+                  {{ '…'.repeat(spec.deep || 0) + spec.short_name }}
                 </option>
               }
             </select>
@@ -142,7 +143,7 @@
                   <input
                     type="number"
                     [class.is-invalid]="
-                      (beginYear.invalid && (beginYear.dirty || beginYear.touched)) ||
+                      (beginYear.invalid && (beginYear.dirty || !beginYear.untouched)) ||
                       (invalidParams && invalidParams.begin_model_year)
                     "
                     name="begin_model_year"
@@ -159,7 +160,7 @@
                   <select
                     class="form-select"
                     [class.is-invalid]="
-                      (beginYearFraction.invalid && (beginYearFraction.dirty || beginYearFraction.touched)) ||
+                      (beginYearFraction.invalid && (beginYearFraction.dirty || !beginYearFraction.untouched)) ||
                       (invalidParams && invalidParams.begin_model_year_fraction)
                     "
                     name="begin_model_year_fraction"
@@ -178,7 +179,7 @@
                   <input
                     type="number"
                     [class.is-invalid]="
-                      (endYear.invalid && (endYear.dirty || endYear.touched)) ||
+                      (endYear.invalid && (endYear.dirty || !endYear.untouched)) ||
                       (invalidParams && invalidParams.end_model_year)
                     "
                     name="end_model_year"
@@ -195,7 +196,7 @@
                   <select
                     class="form-select"
                     [class.is-invalid]="
-                      (endYearFraction.invalid && (endYearFraction.dirty || endYearFraction.touched)) ||
+                      (endYearFraction.invalid && (endYearFraction.dirty || !endYearFraction.untouched)) ||
                       (invalidParams && invalidParams.end_model_year_fraction)
                     "
                     name="end_model_year_fraction"
@@ -229,7 +230,7 @@
                   <input
                     type="number"
                     [class.is-invalid]="
-                      (beginYear.invalid && (beginYear.dirty || beginYear.touched)) ||
+                      (beginYear.invalid && (beginYear.dirty || !beginYear.untouched)) ||
                       (invalidParams && invalidParams.begin_year)
                     "
                     name="begin_year"
@@ -246,7 +247,7 @@
                   <select
                     name="begin_month"
                     [class.is-invalid]="
-                      (beginMonth.invalid && (beginMonth.dirty || beginMonth.touched)) ||
+                      (beginMonth.invalid && (beginMonth.dirty || !beginMonth.untouched)) ||
                       (invalidParams && invalidParams.begin_month)
                     "
                     title="month"
@@ -280,7 +281,7 @@
                   <input
                     type="number"
                     [class.is-invalid]="
-                      (endYear.invalid && (endYear.dirty || endYear.touched)) ||
+                      (endYear.invalid && (endYear.dirty || !endYear.untouched)) ||
                       (invalidParams && invalidParams.end_year)
                     "
                     name="end_year"
@@ -297,7 +298,7 @@
                   <select
                     name="end_month"
                     [class.is-invalid]="
-                      (endMonth.invalid && (endMonth.dirty || endMonth.touched)) ||
+                      (endMonth.invalid && (endMonth.dirty || !endMonth.untouched)) ||
                       (invalidParams && invalidParams.end_month)
                     "
                     title="month"
@@ -316,7 +317,7 @@
                   <select
                     name="today"
                     [class.is-invalid]="
-                      (today.invalid && (today.dirty || today.touched)) || (invalidParams && invalidParams.today)
+                      (today.invalid && (today.dirty || !today.untouched)) || (invalidParams && invalidParams.today)
                     "
                     [formControl]="today"
                     title="today"
@@ -352,7 +353,7 @@
                   <input
                     type="number"
                     [class.is-invalid]="
-                      (count.invalid && (count.dirty || count.touched)) ||
+                      (count.invalid && (count.dirty || !count.untouched)) ||
                       (invalidParams && invalidParams.produced_count)
                     "
                     name="produced"
@@ -370,7 +371,7 @@
                   <select
                     name="produced_exactly"
                     [class.is-invalid]="
-                      (exactly.invalid && (exactly.dirty || exactly.touched)) ||
+                      (exactly.invalid && (exactly.dirty || !exactly.untouched)) ||
                       (invalidParams && invalidParams.produced_exactly)
                     "
                     class="form-select"
@@ -399,7 +400,7 @@
             <select
               name="is_concept"
               [class.is-invalid]="
-                (isConcept.invalid && (isConcept.dirty || isConcept.touched)) ||
+                (isConcept.invalid && (isConcept.dirty || !isConcept.untouched)) ||
                 (invalidParams && invalidParams.is_concept)
               "
               style="width: 20%"
@@ -426,7 +427,8 @@
                   type="checkbox"
                   name="is_group"
                   [class.is-invalid]="
-                    (isGroup.invalid && (isGroup.dirty || isGroup.touched)) || (invalidParams && invalidParams.is_group)
+                    (isGroup.invalid && (isGroup.dirty || !isGroup.untouched)) ||
+                    (invalidParams && invalidParams.is_group)
                   "
                   value="1"
                   [formControl]="isGroup"
@@ -475,9 +477,9 @@
                     (click)="onPictureClick(picture, control)"
                   >
                     <img
-                      [src]="picture.pictureItem.picture.thumb_medium.src"
+                      [src]="picture.pictureItem.picture?.thumb_medium?.src"
                       alt=""
-                      [title]="picture.pictureItem.picture.name_text"
+                      [title]="picture.pictureItem.picture?.name_text"
                       class="rounded w-100"
                     />
                   </label>

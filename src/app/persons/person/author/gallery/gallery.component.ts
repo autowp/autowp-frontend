@@ -42,13 +42,15 @@ export class PersonsPersonAuthorGalleryComponent {
     private readonly router: Router,
   ) {}
 
-  protected pictureSelected(item: APIGalleryItem) {
-    setTimeout(() => {
-      this.pageEnv.set({
-        layout: {isGalleryPage: true},
-        pageId: 34,
-        title: item.name,
-      });
-    }, 0);
+  protected pictureSelected(item: APIGalleryItem | null) {
+    if (item) {
+      setTimeout(() => {
+        this.pageEnv.set({
+          layout: {isGalleryPage: true},
+          pageId: 34,
+          title: item.name,
+        });
+      }, 0);
+    }
   }
 }

@@ -13,19 +13,19 @@
       >
         {{ type.name }}
       </button>
-      @if (type.childs.length > 0) {
+      @if ((type.childs || []).length > 0) {
         <div class="mb-3 ms-4">
           @for (subtype of type.childs; track subtype.id) {
             <button
               class="btn btn-sm"
-              [class.d-block]="subtype.childs.length > 0"
+              [class.d-block]="(subtype.childs || []).length > 0"
               (click)="toggle(subtype.id)"
               [class.btn-success]="isActive(subtype.id)"
               [class.btn-outline-secondary]="!isActive(subtype.id)"
             >
               {{ subtype.name }}
             </button>
-            @if (subtype.childs.length > 0) {
+            @if ((subtype.childs || []).length > 0) {
               <div class="mb-3 ms-4">
                 @for (subsubtype of subtype.childs; track subsubtype.id) {
                   <button

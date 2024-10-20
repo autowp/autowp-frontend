@@ -67,13 +67,15 @@ export class TwinsGroupGalleryComponent {
     private readonly languageService: LanguageService,
   ) {}
 
-  protected pictureSelected(item: APIGalleryItem) {
-    setTimeout(() => {
-      this.pageEnv.set({
-        layout: {isGalleryPage: true},
-        pageId: 28,
-        title: item.name,
+  protected pictureSelected(item: APIGalleryItem | null) {
+    if (item) {
+      setTimeout(() => {
+        this.pageEnv.set({
+          layout: {isGalleryPage: true},
+          pageId: 28,
+          title: item.name,
+        });
       });
-    });
+    }
   }
 }

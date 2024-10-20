@@ -31,7 +31,7 @@
         [hidden]="loading > 0"
         [item]="newItem"
         (submitted)="submit(item, $event, pictures)"
-        [vehicleTypeIDs]="vehicleTypeIDs$ | async"
+        [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
         [invalidParams]="invalidParams"
         [pictures]="pictures"
       ></app-item-meta-form>

@@ -75,7 +75,7 @@
                       <a [routerLink]="brand.route" [textContent]="brand.name || 'unnamed'"></a>
                       <span
                         class="badge rounded-pill text-bg-secondary"
-                        [textContent]="(brand.volume > 0 ? '+' : '') + brand.volume"
+                        [textContent]="(+brand.volume > 0 ? '+' : '') + brand.volume"
                       ></span>
                       <span>, </span>
                     }
@@ -94,7 +94,7 @@
                       }
                       <span
                         class="badge rounded-pill text-bg-secondary"
-                        [textContent]="(fan.volume > 0 ? '+' : '') + fan.volume"
+                        [textContent]="(+fan.volume > 0 ? '+' : '') + fan.volume"
                       ></span>
                       <span>, </span>
                     }

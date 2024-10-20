@@ -30,11 +30,13 @@ export class GalleryPageComponent implements OnInit {
     }, 0);
   }
 
-  protected pictureSelected(item: APIGalleryItem) {
-    this.pageEnv.set({
-      layout: {isGalleryPage: true},
-      pageId: 187,
-      title: item.name,
-    });
+  protected pictureSelected(item: APIGalleryItem | null) {
+    if (item) {
+      this.pageEnv.set({
+        layout: {isGalleryPage: true},
+        pageId: 187,
+        title: item.name,
+      });
+    }
   }
 }

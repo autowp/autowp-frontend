@@ -26,8 +26,8 @@
                   @if (item.count !== undefined) {
                     <span
                       class="badge rounded-pill float-end"
-                      [class.text-bg-secondary]="item.newCount <= 0"
-                      [class.text-bg-danger]="item.newCount > 0"
+                      [class.text-bg-secondary]="(item.newCount || 0) <= 0"
+                      [class.text-bg-danger]="(item.newCount || 0) > 0"
                     >
                       @if (item.count <= 0) {
                         <span i18n="@@count-zero">none</span>

@@ -43,7 +43,7 @@ export class IndexDonateComponent {
       return {
         charges: charges.map((o) => ({
           currency: o.currency,
-          date: o.date,
+          date: o.date?.toDate(),
           percent: (-100 * o.sum * rates[o.currency]) / 100 / total,
           purpose: o.purpose,
           sum: o.sum / 100,

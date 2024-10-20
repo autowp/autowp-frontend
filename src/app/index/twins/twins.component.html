@@ -14,11 +14,11 @@
         )</span
       >
     }
-    @if (items.count > items.items.length) {
+    @if (items.count > (items.items?.length || 0)) {
       <ng-container i18n>… and</ng-container>
-      <a routerLink="/twins" i18n="@@more-n-companies">{items.count - items.items.length, plural,
-        one {more {{ items.count - items.items.length }} company}
-        other {more {{ items.count - items.items.length }} companies}
+      <a routerLink="/twins" i18n="@@more-n-companies">{items.count - (items.items?.length||0), plural,
+        one {more {{ items.count - (items.items?.length || 0) }} company}
+        other {more {{ items.count - (items.items?.length || 0) }} companies}
       }</a>
     }
   </p>
