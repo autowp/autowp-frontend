@@ -32,7 +32,9 @@ export interface APIVotingVariantVotesGetResponse {
   items: APIVotingVariantVote[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class VotingService {
   private readonly api = inject(APIService);
 

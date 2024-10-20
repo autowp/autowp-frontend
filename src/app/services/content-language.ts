@@ -4,7 +4,9 @@ import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ContentLanguageService {
   private readonly itemClient = inject(ItemsClient);
 

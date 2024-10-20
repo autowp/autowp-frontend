@@ -47,7 +47,9 @@ export interface APIMostsMenuGetResponse {
   years: APIMostsMenuYear[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MostsService {
   private readonly api = inject(APIService);
 

@@ -9,7 +9,9 @@ export interface APISpecGetResponse {
   items: Spec[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SpecService {
   private readonly grpc = inject(AutowpClient);
 

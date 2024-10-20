@@ -13,7 +13,9 @@ export interface APIVehicleType {
   nameTranslated?: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class VehicleTypeService {
   private readonly grpc = inject(AutowpClient);
 

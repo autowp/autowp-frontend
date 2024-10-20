@@ -22,7 +22,9 @@ export interface Breadcrumbs {
 
 type ParentObservableFunc = () => OperatorFunction<null | Parent, null | Parent>;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CatalogueService {
   private readonly itemParentService = inject(ItemParentService);
   private readonly itemsClient = inject(ItemsClient);

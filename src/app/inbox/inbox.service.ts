@@ -20,7 +20,9 @@ export interface APIInbox {
   } | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class InboxService {
   private readonly api = inject(APIService);
 

@@ -417,7 +417,9 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
   return params;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ItemService {
   private readonly api = inject(APIService);
   private readonly itemsClient = inject(ItemsClient);

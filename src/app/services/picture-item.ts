@@ -35,7 +35,9 @@ export interface APIPictureItem {
   type: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PictureItemService {
   private readonly api = inject(APIService);
 

@@ -19,7 +19,9 @@ export interface PageEnv {
   title?: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PageEnvService {
   private readonly pageService = inject(PageService);
   private readonly titleService = inject(Title);

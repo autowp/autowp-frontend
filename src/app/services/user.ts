@@ -4,7 +4,9 @@ import {UsersClient} from '@grpc/spec.pbsc';
 import {forkJoin, Observable, of} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
   private readonly usersClient = inject(UsersClient);
 

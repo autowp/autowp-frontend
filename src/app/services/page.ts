@@ -9,7 +9,9 @@ export interface Page {
   id: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PageService {
   private pages = new Map<number, Page>();
   private parents = new Map<number, null | number>();

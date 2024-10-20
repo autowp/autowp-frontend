@@ -38,7 +38,9 @@ export interface APIItemParentGetItemsOptions {
   type_id?: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ItemParentService {
   private readonly api = inject(APIService);
 

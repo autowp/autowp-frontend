@@ -4,7 +4,9 @@ import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable} from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ReCaptchaService {
   private readonly grpc = inject(AutowpClient);
 

@@ -20,7 +20,9 @@ export interface CategoryPipeResult {
   pathItems: PathItem[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CategoriesService {
   private readonly itemService = inject(ItemService);
 

@@ -9,7 +9,9 @@ export interface Language {
   name: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LanguageService {
   readonly localeId = inject(LOCALE_ID);
 

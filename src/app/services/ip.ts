@@ -4,7 +4,9 @@ import {AutowpClient} from '@grpc/spec.pbsc';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class IpService {
   private readonly grpc = inject(AutowpClient);
 

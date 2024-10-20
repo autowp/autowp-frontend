@@ -11,7 +11,9 @@ export interface APIContactsGetOptions {
   fields: string[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ContactsService {
   private readonly auth = inject(AuthService);
   private readonly contactsClient = inject(ContactsClient);

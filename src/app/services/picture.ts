@@ -346,7 +346,9 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
   return params;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PictureService {
   private readonly api = inject(APIService);
   private readonly auth = inject(AuthService);

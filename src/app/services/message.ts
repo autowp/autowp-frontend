@@ -14,7 +14,9 @@ import {catchError, debounceTime, map, shareReplay, switchMap, tap} from 'rxjs/o
 import {ToastsService} from '../toasts/toasts.service';
 import {AuthService} from './auth.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MessageService {
   private readonly auth = inject(AuthService);
   private readonly toasts = inject(ToastsService);

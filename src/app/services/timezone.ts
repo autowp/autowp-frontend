@@ -8,7 +8,9 @@ export interface APITimezoneGetResponse {
   items: string[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TimezoneService {
   private readonly api = inject(APIService);
 

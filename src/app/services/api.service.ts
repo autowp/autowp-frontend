@@ -45,7 +45,9 @@ export interface APIPaginator {
 
 declare type HttpObserve = 'body' | 'events' | 'response';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthInterceptor implements HttpInterceptor {
   private readonly keycloak = inject(KeycloakService);
 
@@ -74,7 +76,9 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GrpcLogInterceptor implements GrpcInterceptor {
   private dataStyle = 'color: #5c7ced;';
   private errorStyle = 'color: red;';
@@ -108,7 +112,9 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GrpcAuthInterceptor implements GrpcInterceptor {
   private readonly keycloak = inject(KeycloakService);
 
@@ -138,7 +144,9 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class APIService {
   private readonly http = inject(HttpClient);
   private readonly toasts = inject(ToastsService);

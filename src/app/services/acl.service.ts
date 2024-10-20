@@ -50,7 +50,9 @@ export enum Resource {
   USER = 'user',
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class APIACL {
   private readonly grpc = inject(AutowpClient);
 
@@ -64,7 +66,9 @@ export class APIACL {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ACLService {
   private readonly apiACL = inject(APIACL);
   private readonly auth = inject(AuthService);

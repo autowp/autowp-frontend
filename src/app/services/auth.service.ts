@@ -5,7 +5,9 @@ import {KeycloakService} from 'keycloak-angular';
 import {from, Observable, of, ReplaySubject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
   private readonly keycloak = inject(KeycloakService);
   private readonly usersClient = inject(UsersClient);
