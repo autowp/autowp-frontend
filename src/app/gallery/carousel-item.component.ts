@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges} from '@angular/core';
-import * as $ from 'jquery';
+import $ from 'jquery';
 
 import {APIGalleryItem} from './definitions';
 

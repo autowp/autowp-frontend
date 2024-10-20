@@ -4,7 +4,7 @@ import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import * as URLParse from 'url-parse';
+import URLParse from 'url-parse';
 
 interface CommentTextElement {
   picture?: APIPicture;

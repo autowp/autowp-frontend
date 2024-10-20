@@ -4,7 +4,7 @@ import {SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import * as $ from 'jquery';
+import $ from 'jquery';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 

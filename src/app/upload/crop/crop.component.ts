@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
-import * as $ from 'jquery';
+import $ from 'jquery';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
 // @ts-expect-error Legacy

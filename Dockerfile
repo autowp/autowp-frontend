@@ -9,4 +9,4 @@ COPY --chown=101:101 ./etc/nginx /etc/nginx
 
 COPY --chown=101:101 ./robots /usr/share/nginx/html/robots
 
-COPY --chown=101:101 ./dist/ /usr/share/nginx/html/
+COPY --chown=101:101 ./dist/browser/ /usr/share/nginx/html/
