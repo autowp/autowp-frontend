@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
@@ -9,7 +10,9 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-twins-group-specifications',
+  standalone: true,
   templateUrl: './specifications.component.html',
 })
 export class TwinsGroupSpecificationsComponent {

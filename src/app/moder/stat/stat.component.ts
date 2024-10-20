@@ -1,5 +1,8 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY} from 'rxjs';
@@ -8,7 +11,9 @@ import {catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, NgbProgressbar, AsyncPipe],
   selector: 'app-moder-stat',
+  standalone: true,
   templateUrl: './stat.component.html',
 })
 export class ModerStatComponent implements OnInit {

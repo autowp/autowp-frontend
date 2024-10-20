@@ -1,9 +1,12 @@
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 
 @Component({
+  imports: [RouterLink],
   selector: 'app-moder-items-too-big',
+  standalone: true,
   templateUrl: './too-big.component.html',
 })
 export class ModerItemsTooBigComponent implements OnInit {

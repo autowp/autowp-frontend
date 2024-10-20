@@ -1,4 +1,6 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {
   AddToTrafficBlacklistRequest,
   AddToTrafficWhitelistRequest,
@@ -12,13 +14,17 @@ import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
+import {UserComponent} from '../../user/user/user.component';
+
 interface ListItem {
   hostname$: Observable<string>;
   item: APITrafficTopItem;
 }
 
 @Component({
+  imports: [RouterLink, UserComponent, AsyncPipe, DatePipe],
   selector: 'app-moder-traffic',
+  standalone: true,
   templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {

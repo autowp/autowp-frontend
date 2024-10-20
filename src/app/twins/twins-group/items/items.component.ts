@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
@@ -6,8 +7,14 @@ import {PageEnvService} from '@services/page-env.service';
 import {Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../../../comments/comments/comments.component';
+import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
+import {TwinsItemComponent} from '../../item/item.component';
+
 @Component({
+  imports: [TwinsItemComponent, MarkdownComponent, CommentsComponent, AsyncPipe],
   selector: 'app-twins-group-items',
+  standalone: true,
   templateUrl: './items.component.html',
 })
 export class TwinsGroupItemsComponent {

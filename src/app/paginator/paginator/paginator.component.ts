@@ -1,9 +1,12 @@
 import {Component, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {Pages} from '@grpc/spec.pb';
 import {APIPaginator} from '@services/api.service';
 
 @Component({
+  imports: [RouterLink],
   selector: 'app-paginator',
+  standalone: true,
   templateUrl: './paginator.component.html',
 })
 export class PaginatorComponent {

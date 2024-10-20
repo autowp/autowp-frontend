@@ -1,5 +1,7 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIUser,
@@ -11,17 +13,19 @@ import {
   ItemRequest,
 } from '@grpc/spec.pb';
 import {AttrsClient, ItemsClient, UsersClient} from '@grpc/spec.pbsc';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltip, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {getUnitAbbrTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 interface AttrUserValueListItem {
   item$: Observable<APIItem | null>;
@@ -32,7 +36,9 @@ interface AttrUserValueListItem {
 }
 
 @Component({
+  imports: [RouterLink, FormsModule, NgbTypeahead, NgbTooltip, UserComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-cars-attrs-change-log',
+  standalone: true,
   styleUrls: ['./attrs-change-log.component.scss'],
   templateUrl: './attrs-change-log.component.html',
 })

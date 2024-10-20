@@ -1,18 +1,25 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, APIUser, ItemFields, ItemRequest, LogEventsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient, LogClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {UserComponent} from '../user/user/user.component';
 
 @Component({
+  imports: [RouterLink, UserComponent, NgbTooltip, PaginatorComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-log',
+  standalone: true,
   templateUrl: './log.component.html',
 })
 export class LogComponent implements OnInit {

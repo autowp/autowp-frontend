@@ -8,6 +8,8 @@ import {
   NgZone,
   OnInit,
 } from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {MapGetPointsRequest, MapPoint} from '@grpc/spec.pb';
 import {MapClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
@@ -30,7 +32,9 @@ function createMarker(lat: number, lng: number): Marker {
 }
 
 @Component({
+  imports: [RouterLink, LeafletModule],
   selector: 'app-map',
+  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './map.component.html',
 })

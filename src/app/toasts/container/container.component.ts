@@ -1,9 +1,12 @@
 import {Component, inject} from '@angular/core';
+import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 
 import {ToastsService} from '../toasts.service';
 
 @Component({
+  imports: [NgbToast],
   selector: 'app-toasts',
+  standalone: true,
   styleUrls: ['./container.component.scss'],
   templateUrl: './container.component.html',
 })

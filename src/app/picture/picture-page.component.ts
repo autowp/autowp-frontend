@@ -1,6 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -9,9 +10,13 @@ import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {PathItem} from '../categories/service';
+import {CommentsComponent} from '../comments/comments/comments.component';
+import {PictureComponent} from './picture.component';
 
 @Component({
+  imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-picture-page',
+  standalone: true,
   templateUrl: './picture-page.component.html',
 })
 export class PicturePageComponent {

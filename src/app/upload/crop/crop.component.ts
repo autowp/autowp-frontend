@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
@@ -15,7 +16,9 @@ interface JcropCrop {
 }
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-upload-crop',
+  standalone: true,
   templateUrl: './crop.component.html',
 })
 export class UploadCropComponent implements OnInit, OnDestroy {

@@ -1,14 +1,19 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
 import {EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-top-view',
+  standalone: true,
   templateUrl: './top-view.component.html',
 })
 export class TopViewComponent implements OnInit {

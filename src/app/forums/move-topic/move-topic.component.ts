@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIForumsTheme,
   APIForumsTopic,
@@ -17,7 +18,9 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxj
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-forums-move-topic',
+  standalone: true,
   templateUrl: './move-topic.component.html',
 })
 export class ForumsMoveTopicComponent implements OnInit {

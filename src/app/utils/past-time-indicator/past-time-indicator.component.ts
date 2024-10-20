@@ -1,9 +1,14 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
+  imports: [NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-past-time-indicator',
+  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './past-time-indicator.component.html',
 })

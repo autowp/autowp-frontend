@@ -1,8 +1,12 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {PageEnvService} from '@services/page-env.service';
 
+import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
+
 @Component({
+  imports: [MarkdownComponent],
   selector: 'app-account-delete-deleted',
+  standalone: true,
   templateUrl: './deleted.component.html',
 })
 export class AccountDeletedComponent implements OnInit {

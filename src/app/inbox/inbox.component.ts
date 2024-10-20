@@ -1,5 +1,7 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -8,6 +10,8 @@ import {KeycloakService} from 'keycloak-angular';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {APIInbox, InboxService} from './inbox.service';
 
@@ -20,7 +24,9 @@ interface Inbox {
 }
 
 @Component({
+  imports: [RouterLink, FormsModule, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
   selector: 'app-inbox',
+  standalone: true,
   templateUrl: './inbox.component.html',
 })
 export class InboxComponent implements OnInit {

@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {APIUser, APIUsersRequest} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -5,8 +6,12 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
+import {UserComponent} from '../../user/user/user.component';
+
 @Component({
+  imports: [UserComponent, AsyncPipe],
   selector: 'app-users-online',
+  standalone: true,
   templateUrl: './online.component.html',
 })
 export class UsersOnlineComponent {

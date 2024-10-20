@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {ForumsComponent} from './forums.component';
 import {MessageComponent} from './message/message.component';
@@ -9,7 +8,7 @@ import {ForumsNewTopicComponent} from './new-topic/new-topic.component';
 import {ForumsSubscriptionsComponent} from './subscriptions/subscriptions.component';
 import {ForumsTopicComponent} from './topic/topic.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     component: ForumsMoveMessageComponent,
     path: 'move-message',
@@ -51,9 +50,3 @@ const routes: Routes = [
     title: $localize`Forums`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class ForumsRoutingModule {}

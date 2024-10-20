@@ -1,18 +1,25 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {Contact, DeleteContactRequest} from '@grpc/spec.pb';
 import {ContactsClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {KeycloakService} from 'keycloak-angular';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 @Component({
+  imports: [RouterLink, UserComponent, NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-account-contacts',
+  standalone: true,
   templateUrl: './contacts.component.html',
 })
 export class AccountContactsComponent implements OnInit {

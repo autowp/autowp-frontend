@@ -1,117 +1,106 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {LoginComponent} from './login/login.component';
 import {PageNotFoundComponent} from './not-found.component';
 
-const appRoutes: Routes = [
-  {loadChildren: () => import('./about/about.module').then((m) => m.AboutModule), path: 'about'},
+export const appRoutes: Routes = [
+  {loadChildren: () => import('./about/about-routing.module').then((m) => m.routes), path: 'about'},
   {
-    loadChildren: () => import('./account/account.module').then((m) => m.AccountModule),
+    loadChildren: () => import('./account/account-routing.module').then((m) => m.routes),
     path: 'account',
   },
   {
-    loadChildren: () => import('./articles/articles.module').then((m) => m.ArticlesModule),
+    loadChildren: () => import('./articles/articles-routing.module').then((m) => m.routes),
     path: 'articles',
   },
-  {loadChildren: () => import('./brands/brands.module').then((m) => m.BrandsModule), path: 'brands'},
+  {loadChildren: () => import('./brands/brands-routing.module').then((m) => m.routes), path: 'brands'},
   {
-    loadChildren: () => import('./cars/cars.module').then((m) => m.CarsModule),
+    loadChildren: () => import('./cars/cars-routing.module').then((m) => m.routes),
     path: 'cars',
   },
   {
-    loadChildren: () => import('./categories/categories.module').then((m) => m.CategoriesModule),
+    loadChildren: () => import('./categories/categories-routing.module').then((m) => m.routes),
     path: 'category',
   },
-  {loadChildren: () => import('./chart/chart.module').then((m) => m.ChartModule), path: 'chart'},
-  {loadChildren: () => import('./cutaway/cutaway.module').then((m) => m.CutawayModule), path: 'cutaway'},
+  {loadChildren: () => import('./chart/chart-routing.module').then((m) => m.routes), path: 'chart'},
+  {loadChildren: () => import('./cutaway/cutaway-routing.module').then((m) => m.routes), path: 'cutaway'},
   {
-    loadChildren: () => import('./donate/donate.module').then((m) => m.DonateModule),
+    loadChildren: () => import('./donate/donate-routing.module').then((m) => m.routes),
     path: 'donate',
   },
   {
-    loadChildren: () => import('./factories/factories.module').then((m) => m.FactoriesModule),
+    loadChildren: () => import('./factories/factories-routing.module').then((m) => m.routes),
     path: 'factories',
   },
   {
-    loadChildren: () => import('./feedback/feedback.module').then((m) => m.FeedbackModule),
+    loadChildren: () => import('./feedback/feedback-routing.module').then((m) => m.routes),
     path: 'feedback',
   },
   {
-    loadChildren: () => import('./forums/forums.module').then((m) => m.ForumsModule),
+    loadChildren: () => import('./forums/forums-routing.module').then((m) => m.routes),
     path: 'forums',
   },
   {
-    loadChildren: () => import('./inbox/inbox.module').then((m) => m.InboxModule),
+    loadChildren: () => import('./inbox/inbox-routing.module').then((m) => m.routes),
     path: 'inbox',
   },
   {
-    loadChildren: () => import('./info/info.module').then((m) => m.InfoModule),
+    loadChildren: () => import('./info/info-routing.module').then((m) => m.routes),
     path: 'info',
   },
-  {loadChildren: () => import('./log/log.module').then((m) => m.LogModule), path: 'log'},
-  {loadChildren: () => import('./map/map.module').then((m) => m.MapModule), path: 'map'},
-  {loadChildren: () => import('./mascots/mascots.module').then((m) => m.MascotsModule), path: 'mascots'},
+  {loadChildren: () => import('./log/log-routing.module').then((m) => m.routes), path: 'log'},
+  {loadChildren: () => import('./map/map-routing.module').then((m) => m.routes), path: 'map'},
+  {loadChildren: () => import('./mascots/mascots-routing.module').then((m) => m.routes), path: 'mascots'},
   {
-    loadChildren: () => import('./moder/moder.module').then((m) => m.ModerModule),
+    loadChildren: () => import('./moder/moder-routing.module').then((m) => m.routes),
     path: 'moder',
   },
   {
-    loadChildren: () => import('./mosts/mosts.module').then((m) => m.MostsModule),
+    loadChildren: () => import('./mosts/mosts-routing.module').then((m) => m.routes),
     path: 'mosts',
   },
-  {loadChildren: () => import('./museum/museum.module').then((m) => m.MuseumModule), path: 'museums'},
+  {loadChildren: () => import('./museum/museum-routing.module').then((m) => m.routes), path: 'museums'},
   {
-    loadChildren: () => import('./new/new.module').then((m) => m.NewModule),
+    loadChildren: () => import('./new/new-routing.module').then((m) => m.routes),
     path: 'new',
   },
   {
-    loadChildren: () => import('./persons/persons.module').then((m) => m.PersonsModule),
+    loadChildren: () => import('./persons/persons-routing.module').then((m) => m.routes),
     path: 'persons',
   },
   {
-    loadChildren: () => import('./picture/picture.module').then((m) => m.PictureModule),
+    loadChildren: () => import('./picture/picture-routing.module').then((m) => m.routes),
     path: 'picture',
   },
   {
-    loadChildren: () => import('./gallery/gallery.module').then((m) => m.GalleryModule),
+    loadChildren: () => import('./gallery/gallery-routing.module').then((m) => m.routes),
     path: 'gallery',
   },
-  {loadChildren: () => import('./pulse/pulse.module').then((m) => m.PulseModule), path: 'pulse'},
-  {loadChildren: () => import('./rules/rules.module').then((m) => m.RulesModule), path: 'rules'},
-  {loadChildren: () => import('./policy/policy.module').then((m) => m.PolicyModule), path: 'policy'},
+  {loadChildren: () => import('./pulse/pulse-routing.module').then((m) => m.routes), path: 'pulse'},
+  {loadChildren: () => import('./rules/rules-routing.module').then((m) => m.routes), path: 'rules'},
+  {loadChildren: () => import('./policy/policy-routing.module').then((m) => m.routes), path: 'policy'},
   {
-    loadChildren: () => import('./telegram/telegram.module').then((m) => m.TelegramModule),
+    loadChildren: () => import('./telegram/telegram-routing.module').then((m) => m.routes),
     path: 'telegram',
   },
   {
-    loadChildren: () => import('./twins/twins.module').then((m) => m.TwinsModule),
+    loadChildren: () => import('./twins/twins-routing.module').then((m) => m.routes),
     path: 'twins',
   },
-  {loadChildren: () => import('./top-view/top-view.module').then((m) => m.TopViewModule), path: 'top-view'},
-  {loadChildren: () => import('./upload/upload.module').then((m) => m.UploadModule), path: 'upload'},
+  {loadChildren: () => import('./top-view/top-view-routing.module').then((m) => m.routes), path: 'top-view'},
+  {loadChildren: () => import('./upload/upload-routing.module').then((m) => m.routes), path: 'upload'},
   {
-    loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
+    loadChildren: () => import('./users/users-routing.module').then((m) => m.routes),
     path: 'users',
   },
-  {loadChildren: () => import('./voting/voting.module').then((m) => m.VotingModule), path: 'voting'},
-  {loadChildren: () => import('./index/index.module').then((m) => m.IndexModule), path: ''},
+  {loadChildren: () => import('./voting/voting-routing.module').then((m) => m.routes), path: 'voting'},
+  {loadChildren: () => import('./index/index-routing.module').then((m) => m.routes), path: ''},
   {component: PageNotFoundComponent, path: 'error-404'},
   {component: LoginComponent, path: 'login'},
   {
-    loadChildren: () => import('./catalogue/catalogue.module').then((m) => m.CatalogueModule),
+    loadChildren: () => import('./catalogue/catalogue-routing.module').then((m) => m.routes),
     // matcher: cataloguePathMatcher,
     path: ':brand',
   },
   {path: '**', redirectTo: 'error-404'},
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [
-    RouterModule.forRoot(appRoutes, {
-      scrollPositionRestoration: 'enabled',
-    }),
-  ],
-})
-export class AppRoutingModule {}

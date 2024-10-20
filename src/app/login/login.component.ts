@@ -4,6 +4,7 @@ import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   styleUrls: [],
   template: 'Redirecting …',
 })

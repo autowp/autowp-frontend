@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
@@ -7,10 +8,13 @@ import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';
+import {PaginatorComponent} from '../../../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
+  imports: [PaginatorComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-brands',
+  standalone: true,
   templateUrl: './brands.component.html',
 })
 export class ModerItemsItemSelectParentBrandsComponent {

@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -9,6 +10,8 @@ import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {CatalogueService} from '../catalogue-service';
 
 interface PictureRoute {
@@ -17,7 +20,9 @@ interface PictureRoute {
 }
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-recent',
+  standalone: true,
   templateUrl: './recent.component.html',
 })
 export class CatalogueRecentComponent {

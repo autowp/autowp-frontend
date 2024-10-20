@@ -1,5 +1,7 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {Date as grpcDate} from '@grpc/google/type/date.pb';
 import {
   APIIP,
@@ -20,6 +22,7 @@ import {
   UpdatePictureRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
@@ -28,11 +31,18 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
+import {NgDatePipesModule, NgMathPipesModule} from 'ngx-pipes';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 
+import {MarkdownEditComponent} from '../../../markdown-edit/markdown-edit/markdown-edit.component';
+import {PictureModerVoteComponent} from '../../../picture-moder-vote/picture-moder-vote/picture-moder-vote.component';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {UserComponent} from '../../../user/user/user.component';
+import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
+import {ModerPicturesPerspectivePickerComponent} from '../perspective-picker/perspective-picker.component';
 
 interface LastItemInfo {
   hasItem: boolean;
@@ -40,7 +50,27 @@ interface LastItemInfo {
 }
 
 @Component({
+  imports: [
+    RouterLink,
+    NgbTooltip,
+    ModerPicturesPerspectivePickerComponent,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbProgressbar,
+    FormsModule,
+    MarkdownComponent,
+    MarkdownEditComponent,
+    UserComponent,
+    PictureModerVoteComponent,
+    AsyncPipe,
+    DatePipe,
+    NgMathPipesModule,
+    NgDatePipesModule,
+    TimeAgoPipe,
+  ],
   selector: 'app-moder-pictures-item',
+  standalone: true,
   templateUrl: './item.component.html',
 })
 export class ModerPicturesItemComponent {

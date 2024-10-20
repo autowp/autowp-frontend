@@ -1,6 +1,6 @@
-import {DecimalPipe} from '@angular/common';
+import {AsyncPipe, DecimalPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -81,8 +81,10 @@ You can support our project by [finances](/donate) or [moral](/feedback).
 Take part in [the translation of the site](https://github.com/autowp/autowp-frontend/tree/master/src/locale) into other languages.`;
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   providers: [BytesPipe],
   selector: 'app-about',
+  standalone: true,
   templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {

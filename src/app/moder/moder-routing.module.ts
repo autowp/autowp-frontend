@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {moderGuard} from '../moder.guard';
 import {ModerAttrsAttributeComponent} from './attrs/attribute/attribute.component';
@@ -13,7 +12,7 @@ import {ModerPictureVoteTemplatesComponent} from './picture-vote-templates/pictu
 import {ModerStatComponent} from './stat/stat.component';
 import {ModerUsersComponent} from './users/users.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     canActivate: [moderGuard],
     component: ModerCommentsComponent,
@@ -26,7 +25,7 @@ const routes: Routes = [
     path: 'item-parent/:item_id/:parent_id',
   },
   {
-    loadChildren: () => import('./items/items.module').then((m) => m.ItemsModule),
+    loadChildren: () => import('./items/items-routing.module').then((m) => m.routes),
     path: 'items',
   },
   {
@@ -42,7 +41,7 @@ const routes: Routes = [
     title: $localize`Picture vote templates`,
   },
   {
-    loadChildren: () => import('./pictures/pictures.module').then((m) => m.PicturesModule),
+    loadChildren: () => import('./pictures/pictures-routing.module').then((m) => m.routes),
     path: 'pictures',
   },
   {
@@ -52,7 +51,7 @@ const routes: Routes = [
     title: $localize`Statistics`,
   },
   {
-    loadChildren: () => import('./traffic/traffic.module').then((m) => m.TrafficModule),
+    loadChildren: () => import('./traffic/traffic-routing.module').then((m) => m.routes),
     path: 'traffic',
   },
   {
@@ -89,9 +88,3 @@ const routes: Routes = [
     title: $localize`Moderator page`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class ModerRoutingModule {}

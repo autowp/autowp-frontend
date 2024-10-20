@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -10,6 +11,14 @@ import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
+import {ModerItemsItemCatalogueComponent} from './catalogue/catalogue.component';
+import {ModerItemsItemLinksComponent} from './links/links.component';
+import {ModerItemsItemLogoComponent} from './logo/logo.component';
+import {ModerItemsItemMetaComponent} from './meta/meta.component';
+import {ModerItemsItemNameComponent} from './name/name.component';
+import {ModerItemsItemPicturesComponent} from './pictures/pictures.component';
+import {ModerItemsItemTreeComponent} from './tree/tree.component';
+import {ModerItemsItemVehiclesComponent} from './vehicles/vehicles.component';
 
 export interface APIItemTreeItem {
   childs: APIItemTreeItem[];
@@ -29,7 +38,20 @@ interface Tab {
 }
 
 @Component({
+  imports: [
+    RouterLink,
+    ModerItemsItemMetaComponent,
+    ModerItemsItemNameComponent,
+    ModerItemsItemLogoComponent,
+    ModerItemsItemCatalogueComponent,
+    ModerItemsItemVehiclesComponent,
+    ModerItemsItemTreeComponent,
+    ModerItemsItemPicturesComponent,
+    ModerItemsItemLinksComponent,
+    AsyncPipe,
+  ],
   selector: 'app-moder-items-item',
+  standalone: true,
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnInit, OnDestroy {

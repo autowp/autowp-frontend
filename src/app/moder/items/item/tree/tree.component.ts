@@ -1,9 +1,12 @@
 import {Component, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 import {APIItemTreeItem} from '../item.component';
 
 @Component({
+  imports: [RouterLink],
   selector: 'app-moder-items-item-tree',
+  standalone: true,
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemTreeComponent {

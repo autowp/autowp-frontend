@@ -1,9 +1,11 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, SetPictureCropRequest} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
@@ -14,7 +16,10 @@ import {KeycloakService} from 'keycloak-angular';
 import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {UploadCropComponent} from '../crop/crop.component';
 
 interface UploadProgress {
@@ -35,7 +40,17 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
 };
 
 @Component({
+  imports: [
+    MarkdownComponent,
+    FormsModule,
+    RouterLink,
+    NgbProgressbar,
+    ThumbnailComponent,
+    AsyncPipe,
+    InvalidParamsPipe,
+  ],
   selector: 'app-upload-index',
+  standalone: true,
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {

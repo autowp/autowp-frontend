@@ -1,15 +1,22 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIUsersRequest, APIUsersResponse, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {PageEnvService} from '@services/page-env.service';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 @Component({
+  imports: [RouterLink, UserComponent, NgbTooltip, PaginatorComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-moder-users',
+  standalone: true,
   templateUrl: './users.component.html',
 })
 export class ModerUsersComponent implements OnInit {

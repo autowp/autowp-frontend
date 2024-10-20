@@ -1,11 +1,25 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {APIGetItemLanguagesRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  NgbNav,
+  NgbNavContent,
+  NgbNavItem,
+  NgbNavItemRole,
+  NgbNavLink,
+  NgbNavLinkBase,
+  NgbNavOutlet,
+} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
 import {APIItem} from '@services/item';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
+
+import {MarkdownEditComponent} from '../../../../markdown-edit/markdown-edit/markdown-edit.component';
 
 export interface ItemLanguage {
   fullText: null | string;
@@ -17,7 +31,21 @@ export interface ItemLanguage {
 }
 
 @Component({
+  imports: [
+    NgbNav,
+    NgbNavItem,
+    NgbNavItemRole,
+    NgbNavLink,
+    NgbNavLinkBase,
+    NgbNavContent,
+    FormsModule,
+    MarkdownEditComponent,
+    RouterLink,
+    NgbNavOutlet,
+    AsyncPipe,
+  ],
   selector: 'app-moder-items-item-name',
+  standalone: true,
   templateUrl: './name.component.html',
 })
 export class ModerItemsItemNameComponent {

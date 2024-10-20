@@ -1,7 +1,10 @@
+import {AsyncPipe, CurrencyPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {DonationsClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {map} from 'rxjs/operators';
 
 import {ethToEur, eurToRub} from '../../currencies';
@@ -13,7 +16,9 @@ const rates: {[key: string]: number} = {
 };
 
 @Component({
+  imports: [NgbTooltip, AsyncPipe, CurrencyPipe, TimeAgoPipe],
   selector: 'app-index-donate',
+  standalone: true,
   styleUrls: ['./donate.component.scss'],
   templateUrl: './donate.component.html',
 })

@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ArticleByCatnameRequest} from '@grpc/spec.pb';
 import {ArticlesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -10,7 +11,9 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-articles-article',
+  standalone: true,
   templateUrl: './article.component.html',
 })
 export class ArticlesArticleComponent {

@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {CategoriesCategoryComponent} from './category/category.component';
 import {CategoryGalleryComponent} from './category/gallery/gallery.component';
@@ -9,7 +8,7 @@ import {CategoriesCategoryPicturesComponent} from './category/pictures/pictures.
 import {CategoriesIndexComponent} from './index.component';
 import {categoriesPathMatcher} from './matcher';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     children: [
       {
@@ -48,9 +47,3 @@ const routes: Routes = [
     title: $localize`Categories`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class CategoriesRoutingModule {}

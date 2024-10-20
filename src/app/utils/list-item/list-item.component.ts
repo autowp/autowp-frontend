@@ -1,9 +1,14 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
 import {APIItem, APIItemChildsCounts} from '@services/item';
 import {APIPicture} from '@services/picture';
+
+import {ItemHeaderComponent} from '../item-header/item-header.component';
+import {MarkdownComponent} from '../markdown/markdown.component';
 
 export interface CatalogueListItemPicture {
   picture: APIPicture | null;
@@ -48,7 +53,9 @@ export interface CatalogueListItem {
 }
 
 @Component({
+  imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-catalogue-list-item',
+  standalone: true,
   templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {

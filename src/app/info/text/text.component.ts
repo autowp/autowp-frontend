@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIGetTextRequest, APIUser} from '@grpc/spec.pb';
 import {TextClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
@@ -9,6 +10,7 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 interface Diff {
   added: boolean;
@@ -34,7 +36,9 @@ interface InfoText {
 }
 
 @Component({
+  imports: [RouterLink, UserComponent, AsyncPipe],
   selector: 'app-info-text',
+  standalone: true,
   templateUrl: './text.component.html',
 })
 export class InfoTextComponent implements OnInit {

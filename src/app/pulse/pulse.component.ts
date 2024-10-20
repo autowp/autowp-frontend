@@ -1,13 +1,17 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {PulseRequest} from '@grpc/spec.pb';
 import {StatisticsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {ChartConfiguration} from 'chart.js';
+import {BaseChartDirective} from 'ng2-charts';
 import {BehaviorSubject, combineLatest, EMPTY, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
+import {UserComponent} from '../user/user/user.component';
 
 interface Period {
   active: boolean;
@@ -16,7 +20,9 @@ interface Period {
 }
 
 @Component({
+  imports: [RouterLink, BaseChartDirective, UserComponent, AsyncPipe],
   selector: 'app-pulse',
+  standalone: true,
   templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {

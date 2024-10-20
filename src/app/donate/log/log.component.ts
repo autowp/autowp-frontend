@@ -1,12 +1,20 @@
+import {AsyncPipe, CurrencyPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {DonationsClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {map} from 'rxjs/operators';
 
+import {UserComponent} from '../../user/user/user.component';
+
 @Component({
+  imports: [RouterLink, NgbTooltip, UserComponent, AsyncPipe, CurrencyPipe, DatePipe, TimeAgoPipe],
   selector: 'app-donate-log',
+  standalone: true,
   templateUrl: './log.component.html',
 })
 export class DonateLogComponent implements OnInit {

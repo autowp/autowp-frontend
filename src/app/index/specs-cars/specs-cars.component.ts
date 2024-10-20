@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
@@ -8,6 +10,8 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
+import {UserComponent} from '../../user/user/user.component';
+import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 interface APIIndexSpecItemsItem extends APIItem {
   contributors: number[];
@@ -22,7 +26,9 @@ interface ListItem extends CatalogueListItem {
 }
 
 @Component({
+  imports: [RouterLink, CatalogueListItemComponent, UserComponent, AsyncPipe],
   selector: 'app-index-specs-cars',
+  standalone: true,
   templateUrl: './specs-cars.component.html',
 })
 export class IndexSpecsCarsComponent {

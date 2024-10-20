@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
@@ -5,7 +6,9 @@ import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-cars-specifications-editor-result',
+  standalone: true,
   templateUrl: './result.component.html',
 })
 export class CarsSpecificationsEditorResultComponent {

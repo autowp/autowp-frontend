@@ -1,10 +1,9 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {NewItemComponent} from './item/item.component';
 import {NewComponent} from './new.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     component: NewComponent,
     path: ':date',
@@ -31,9 +30,3 @@ const routes: Routes = [
     title: $localize`New pictures`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class NewRoutingModule {}

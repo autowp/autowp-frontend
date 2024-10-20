@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -11,7 +12,9 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, RouterOutlet, AsyncPipe],
   selector: 'app-persons-person',
+  standalone: true,
   templateUrl: './person.component.html',
 })
 export class PersonsPersonComponent {

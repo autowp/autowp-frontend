@@ -1,4 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {APIDeleteUserRequest} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -11,9 +12,13 @@ import {switchMap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 
 @Component({
+  imports: [MarkdownComponent, FormsModule, InvalidParamsPipe],
   selector: 'app-account-delete',
+  standalone: true,
   templateUrl: './delete.component.html',
 })
 export class AccountDeleteComponent implements OnInit {

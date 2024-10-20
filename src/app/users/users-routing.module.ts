@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {UsersRatingComponent} from './rating/rating.component';
 import {UsersUserCommentsComponent} from './user/comments/comments.component';
@@ -7,7 +6,7 @@ import {UsersUserPicturesBrandComponent} from './user/pictures/brand/brand.compo
 import {UsersUserPicturesComponent} from './user/pictures/pictures.component';
 import {UsersUserComponent} from './user/user.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     children: [
       {
@@ -38,9 +37,3 @@ const routes: Routes = [
     path: ':identity',
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class UsersRoutingModule {}

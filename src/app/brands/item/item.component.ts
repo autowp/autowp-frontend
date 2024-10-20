@@ -1,13 +1,18 @@
+import {AsyncPipe, NgClass, NgStyle} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {BrandIcons, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {APIBrandsBrand} from '@services/brands.service';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
+  imports: [RouterLink, NgClass, NgStyle, NgbPopover, AsyncPipe],
   selector: 'app-brands-item',
+  standalone: true,
   templateUrl: './item.component.html',
 })
 export class BrandsItemComponent {

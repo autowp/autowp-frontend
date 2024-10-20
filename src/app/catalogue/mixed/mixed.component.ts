@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -9,10 +10,14 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {BrandPerspectivePageData} from '../catalogue.module';
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-mixed',
+  standalone: true,
   templateUrl: './mixed.component.html',
 })
 export class CatalogueMixedComponent {

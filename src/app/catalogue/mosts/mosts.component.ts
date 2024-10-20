@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -7,8 +8,12 @@ import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {MostsContentsComponent} from '../../mosts/contents/contents.component';
+
 @Component({
+  imports: [RouterLink, MostsContentsComponent, AsyncPipe],
   selector: 'app-catalogue-mosts',
+  standalone: true,
   templateUrl: './mosts.component.html',
 })
 export class CatalogueMostsComponent {

@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIMessage, APIUser, MessagingGetMessagesRequest, Pages} from '@grpc/spec.pb';
 import {MessagingClient} from '@grpc/spec.pbsc';
 import {MessageService} from '@services/message';
@@ -9,10 +10,16 @@ import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
+import {PastTimeIndicatorComponent} from '../../utils/past-time-indicator/past-time-indicator.component';
+import {UserTextComponent} from '../../utils/user-text/user-text.component';
 
 @Component({
+  imports: [UserComponent, RouterLink, UserTextComponent, PastTimeIndicatorComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-messages',
+  standalone: true,
   templateUrl: './messages.component.html',
 })
 export class AccountMessagesComponent {

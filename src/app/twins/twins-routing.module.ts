@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {TwinsComponent} from './twins.component';
 import {TwinsGroupGalleryComponent} from './twins-group/gallery/twins-group-gallery.component';
@@ -9,7 +8,7 @@ import {TwinsGroupPictureComponent} from './twins-group/pictures/picture/picture
 import {TwinsGroupSpecificationsComponent} from './twins-group/specifications/specifications.component';
 import {TwinsGroupComponent} from './twins-group/twins-group.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     children: [
       {
@@ -49,9 +48,3 @@ const routes: Routes = [
   {component: TwinsComponent, path: ':brand', title: $localize`Twins`},
   {component: TwinsComponent, path: '', pathMatch: 'full', title: $localize`Twins`},
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class TwinsRoutingModule {}

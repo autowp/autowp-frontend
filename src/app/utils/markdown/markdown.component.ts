@@ -1,10 +1,13 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import showdown from 'showdown';
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-markdown',
+  standalone: true,
   styleUrls: ['markdown.component.scss'],
   templateUrl: './markdown.component.html',
 })

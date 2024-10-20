@@ -1,7 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
 import {ChartOptions} from 'chart.js';
+import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 import {ToastsService} from '../toasts/toasts.service';
 
@@ -26,7 +28,10 @@ export interface APIChartData {
 }
 
 @Component({
+  imports: [RouterLink, BaseChartDirective],
+  providers: [provideCharts(withDefaultRegisterables())],
   selector: 'app-chart',
+  standalone: true,
   templateUrl: './chart.component.html',
 })
 export class ChartComponent implements OnInit {

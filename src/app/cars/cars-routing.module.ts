@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {CarsAttrsChangeLogComponent} from './attrs-change-log/attrs-change-log.component';
 import {CarsDatelessComponent} from './dateless/dateless.component';
@@ -7,7 +6,7 @@ import {CarsEngineSelectComponent} from './specifications-editor/engine/select/s
 import {CarsSpecificationsEditorComponent} from './specifications-editor/specifications-editor.component';
 import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     component: CarsAttrsChangeLogComponent,
     path: 'attrs-change-log',
@@ -32,9 +31,3 @@ const routes: Routes = [
     title: $localize`Specifications Admin`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class CarsRoutingModule {}

@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
@@ -6,9 +8,12 @@ import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../../chunk';
+import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, AsyncPipe],
   selector: 'app-moder-items-item-pictures',
+  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class ModerItemsItemPicturesComponent {

@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APICreateTopicRequest, APIForumsTheme, APIGetForumsThemeRequest} from '@grpc/spec.pb';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -12,9 +14,13 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxj
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 
 @Component({
+  imports: [RouterLink, FormsModule, MarkdownComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-forums-new-topic',
+  standalone: true,
   templateUrl: './new-topic.component.html',
 })
 export class ForumsNewTopicComponent implements OnInit {

@@ -1,6 +1,6 @@
-import {formatDate} from '@angular/common';
+import {AsyncPipe, formatDate} from '@angular/common';
 import {Component, inject, LOCALE_ID, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {AuthService} from '@services/auth.service';
 import {APIItem, ItemOfDayItem, ItemService} from '@services/item';
@@ -9,12 +9,16 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {usdToRub} from '../../currencies';
+import {ItemOfDayComponent} from '../../item-of-day/item-of-day/item-of-day.component';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {DonateService} from '../donate.service';
 
 const VOD_TIMEZONE = 'UTC';
 
 @Component({
+  imports: [RouterLink, MarkdownComponent, ItemOfDayComponent, AsyncPipe],
   selector: 'app-donate-vod',
+  standalone: true,
   templateUrl: './vod.component.html',
 })
 export class DonateVodComponent implements OnInit {

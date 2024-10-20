@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   BrandVehicleType,
@@ -18,8 +19,13 @@ import {getVehicleTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
+
 @Component({
+  imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-cars',
+  standalone: true,
   templateUrl: './cars.component.html',
 })
 export class CatalogueCarsComponent {

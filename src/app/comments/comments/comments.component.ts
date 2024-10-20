@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {
@@ -15,10 +16,16 @@ import {AuthService} from '@services/auth.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
+import {CommentsFormComponent} from '../form/form.component';
+import {CommentsListComponent} from '../list/list.component';
 
 @Component({
+  imports: [CommentsListComponent, PaginatorComponent, CommentsFormComponent, MarkdownComponent, AsyncPipe],
   selector: 'app-comments',
+  standalone: true,
   templateUrl: './comments.component.html',
 })
 export class CommentsComponent {

@@ -1,5 +1,6 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -8,10 +9,14 @@ import {PictureService} from '@services/picture';
 import {combineLatest, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
   selector: 'app-new-item',
+  standalone: true,
   templateUrl: './item.component.html',
 })
 export class NewItemComponent {

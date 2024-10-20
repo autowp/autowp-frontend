@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -11,6 +12,8 @@ import {combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../chunk';
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {TwinsSidebarComponent} from './sidebar.component';
 
 interface ChunkedGroup {
   childs: APIItem[][];
@@ -19,7 +22,9 @@ interface ChunkedGroup {
 }
 
 @Component({
+  imports: [RouterLink, PaginatorComponent, TwinsSidebarComponent, AsyncPipe],
   selector: 'app-twins',
+  standalone: true,
   templateUrl: './twins.component.html',
 })
 export class TwinsComponent implements OnInit {

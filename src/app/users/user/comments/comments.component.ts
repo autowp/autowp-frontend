@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIUser, CommentMessageFields, GetMessagesRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
@@ -7,6 +8,7 @@ import {UserService} from '@services/user';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 interface Order {
@@ -16,7 +18,9 @@ interface Order {
 }
 
 @Component({
+  imports: [RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-users-user-comments',
+  standalone: true,
   templateUrl: './comments.component.html',
 })
 export class UsersUserCommentsComponent {

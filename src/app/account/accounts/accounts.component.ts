@@ -1,6 +1,8 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
@@ -8,7 +10,9 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {APIAccount, APIAccountItemsGetResponse} from '../account.service';
 
 @Component({
+  imports: [MarkdownComponent, AsyncPipe],
   selector: 'app-account-accounts',
+  standalone: true,
   templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {

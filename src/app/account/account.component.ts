@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {ForumsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {AuthService} from '@services/auth.service';
@@ -22,7 +24,9 @@ interface SidebarItem {
 }
 
 @Component({
+  imports: [RouterLink, RouterOutlet, AsyncPipe],
   selector: 'app-account',
+  standalone: true,
   templateUrl: './account.component.html',
 })
 export class AccountComponent {

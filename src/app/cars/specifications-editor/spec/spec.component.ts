@@ -1,6 +1,7 @@
+import {AsyncPipe, DatePipe, NgStyle} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
-import {FormArray, FormControl} from '@angular/forms';
+import {FormArray, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   APIUser,
   AttrAttributeType,
@@ -13,12 +14,14 @@ import {
   AttrValueValue,
 } from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {
   getAttrDescriptionTranslation,
   getAttrListOptionsTranslation,
@@ -31,6 +34,8 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxj
 
 import {APIAttrAttributeValue, APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {UserComponent} from '../../../user/user/user.component';
+import {InvalidParamsPipe} from '../../../utils/invalid-params.pipe';
 
 export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
   deep: number;
@@ -82,7 +87,19 @@ export class AttrFormControl<TValue> extends FormControl {
 }
 
 @Component({
+  imports: [
+    FormsModule,
+    NgStyle,
+    ReactiveFormsModule,
+    UserComponent,
+    NgbTooltip,
+    AsyncPipe,
+    DatePipe,
+    InvalidParamsPipe,
+    TimeAgoPipe,
+  ],
   selector: 'app-cars-specifications-editor-spec',
+  standalone: true,
   styleUrls: ['./spec.component.scss'],
   templateUrl: './spec.component.html',
 })

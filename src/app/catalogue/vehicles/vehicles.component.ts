@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
@@ -12,10 +13,25 @@ import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ItemHeaderComponent} from '../../utils/item-header/item-header.component';
+import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {CatalogueService} from '../catalogue-service';
+import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
 
 @Component({
+  imports: [
+    RouterLink,
+    ItemHeaderComponent,
+    CatalogueItemMenuComponent,
+    MarkdownComponent,
+    CatalogueListItemComponent,
+    PaginatorComponent,
+    AsyncPipe,
+  ],
   selector: 'app-catalogue-vehicles',
+  standalone: true,
   templateUrl: './vehicles.component.html',
 })
 export class CatalogueVehiclesComponent {

@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -7,10 +8,14 @@ import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list
 import {EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 @Component({
+  imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cutaway-authors',
+  standalone: true,
   templateUrl: './authors.component.html',
 })
 export class CutawayAuthorsComponent implements OnInit {

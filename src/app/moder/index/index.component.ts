@@ -1,9 +1,12 @@
 import {AfterViewInit, Component, inject} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 
 @Component({
+  imports: [RouterLink],
   selector: 'app-moder-index',
+  standalone: true,
   templateUrl: './index.component.html',
 })
 export class ModerIndexComponent implements AfterViewInit {

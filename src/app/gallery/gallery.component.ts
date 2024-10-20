@@ -1,9 +1,11 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, HostListener, inject, Input, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {APIService} from '@services/api.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
+import {CarouselItemComponent} from './carousel-item.component';
 import {APIGallery, APIGalleryItem} from './definitions';
 
 export interface APIGalleryFilter {
@@ -92,7 +94,9 @@ class Gallery {
 }
 
 @Component({
+  imports: [CarouselItemComponent, RouterLink, AsyncPipe],
   selector: 'app-gallery',
+  standalone: true,
   styleUrls: ['./gallery.component.scss'],
   templateUrl: './gallery.component.html',
 })

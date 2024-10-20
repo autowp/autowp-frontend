@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIPaginator} from '@services/api.service';
@@ -7,6 +8,8 @@ import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../chunk';
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
 import {CategoriesService} from '../../service';
 
 interface PictureRoute {
@@ -15,7 +18,9 @@ interface PictureRoute {
 }
 
 @Component({
+  imports: [ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-categories-category-pictures',
+  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class CategoriesCategoryPicturesComponent {

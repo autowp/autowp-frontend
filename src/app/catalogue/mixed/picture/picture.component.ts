@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, CommentsType, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -8,10 +9,14 @@ import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../../../comments/comments/comments.component';
+import {PictureComponent} from '../../../picture/picture.component';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
+  imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-catalogue-mixed-picture',
+  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class CatalogueMixedPictureComponent {

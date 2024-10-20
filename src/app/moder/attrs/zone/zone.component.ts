@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AttrZone, AttrZoneAttributesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
@@ -7,9 +8,12 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
+import {ModerAttrsZoneAttributeListComponent} from './attribute-list/attribute-list.component';
 
 @Component({
+  imports: [RouterLink, ModerAttrsZoneAttributeListComponent, AsyncPipe],
   selector: 'app-moder-attrs-zone',
+  standalone: true,
   templateUrl: './zone.component.html',
 })
 export class ModerAttrsZoneComponent {

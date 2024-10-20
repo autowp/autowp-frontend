@@ -1,5 +1,6 @@
+import {AsyncPipe, DecimalPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIUsersRatingResponse, UserRatingDetailsRequest} from '@grpc/spec.pb';
 import {RatingClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -10,6 +11,7 @@ import {EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 enum Rating {
   COMMENT_LIKES = 'likes',
@@ -19,7 +21,9 @@ enum Rating {
 }
 
 @Component({
+  imports: [RouterLink, UserComponent, AsyncPipe, DecimalPipe],
   selector: 'app-users-rating',
+  standalone: true,
   templateUrl: './rating.component.html',
 })
 export class UsersRatingComponent implements OnInit {

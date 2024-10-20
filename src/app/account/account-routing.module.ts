@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {authGuard} from '../auth.guard';
 import {AccountAccessComponent} from './access/access.component';
@@ -14,7 +13,7 @@ import {AccountMessagesComponent} from './messages/messages.component';
 import {AccountProfileComponent} from './profile/profile.component';
 import {AccountSpecsConflictsComponent} from './specs-conflicts/specs-conflicts.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     children: [
       {
@@ -83,9 +82,3 @@ const routes: Routes = [
   },
   {path: '', pathMatch: 'full', redirectTo: 'profile'},
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class AccountRoutingModule {}

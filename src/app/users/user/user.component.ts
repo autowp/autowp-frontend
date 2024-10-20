@@ -1,5 +1,7 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   AddToTrafficBlacklistRequest,
   APICommentsMessage,
@@ -15,6 +17,7 @@ import {
   UserFields,
 } from '@grpc/spec.pb';
 import {CommentsClient, ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
@@ -23,14 +26,18 @@ import {IpService} from '@services/ip';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 @Component({
+  imports: [RouterLink, NgbTooltip, UserComponent, FormsModule, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-users-user',
+  standalone: true,
   styleUrls: ['./user.component.scss'],
   templateUrl: './user.component.html',
 })

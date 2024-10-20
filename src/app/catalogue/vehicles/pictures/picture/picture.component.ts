@@ -1,15 +1,20 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, CommentsType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../../../../comments/comments/comments.component';
+import {PictureComponent} from '../../../../picture/picture.component';
 import {CatalogueService} from '../../../catalogue-service';
 
 @Component({
+  imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-catalogue-vehicles-pictures-picture',
+  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class CatalogueVehiclesPicturesPictureComponent {

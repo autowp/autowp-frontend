@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
@@ -7,6 +9,9 @@ import {APIPicture} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
+import {ItemHeaderComponent} from '../utils/item-header/item-header.component';
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
+
 interface PictureThumbRoute {
   picture: APIPicture | null;
   route: null | string[];
@@ -14,7 +19,9 @@ interface PictureThumbRoute {
 }
 
 @Component({
+  imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-categories-list-item',
+  standalone: true,
   templateUrl: './list-item.component.html',
 })
 export class CategoriesListItemComponent {

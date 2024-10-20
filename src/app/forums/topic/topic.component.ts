@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIForumsTopic,
   APIGetForumsThemeRequest,
@@ -15,11 +16,14 @@ import {getForumsThemeTranslation} from '@utils/translations';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../../comments/comments/comments.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
+  imports: [RouterLink, CommentsComponent, AsyncPipe],
   selector: 'app-forums-topic',
+  standalone: true,
   templateUrl: './topic.component.html',
 })
 export class ForumsTopicComponent {

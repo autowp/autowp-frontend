@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APICommentMessage,
   APIForumsTheme,
@@ -20,6 +21,11 @@ import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@
 import {BehaviorSubject, combineLatest, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {UserComponent} from '../user/user/user.component';
+import {PastTimeIndicatorComponent} from '../utils/past-time-indicator/past-time-indicator.component';
+import {ForumsTopicListComponent} from './topic-list/topic-list.component';
+
 interface Theme extends APIForumsTheme.AsObject {
   lastMessage$: Observable<APICommentMessage | null>;
   lastMessageAuthor$: Observable<APIUser | null>;
@@ -28,7 +34,16 @@ interface Theme extends APIForumsTheme.AsObject {
 }
 
 @Component({
+  imports: [
+    RouterLink,
+    PastTimeIndicatorComponent,
+    UserComponent,
+    ForumsTopicListComponent,
+    PaginatorComponent,
+    AsyncPipe,
+  ],
   selector: 'app-forums',
+  standalone: true,
   styles: ['app-forums {display:block}'],
   templateUrl: './forums.component.html',
 })

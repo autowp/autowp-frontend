@@ -1,6 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -13,14 +14,16 @@ import {EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
-import {ItemMetaFormResult, ParentIsConcept} from '../item-meta-form/item-meta-form.component';
+import {ItemMetaFormComponent, ItemMetaFormResult, ParentIsConcept} from '../item-meta-form/item-meta-form.component';
 
 interface NewAPIItem extends APIItem {
   is_concept_inherit: boolean;
 }
 
 @Component({
+  imports: [RouterLink, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-new',
+  standalone: true,
   templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {

@@ -1,11 +1,17 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIUser, ItemType} from '@grpc/spec.pb';
 import {APIItemOfDayPicture, ItemOfDayItem} from '@services/item';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
+import {UserComponent} from '../../user/user/user.component';
+
 @Component({
+  imports: [UserComponent, RouterLink, AsyncPipe],
   selector: 'app-item-of-day',
+  standalone: true,
   styleUrls: ['./item-of-day.component.scss'],
   templateUrl: './item-of-day.component.html',
 })

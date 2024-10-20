@@ -1,5 +1,14 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIItem} from '@services/item';
@@ -14,6 +23,8 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
+import {InvalidParamsPipe} from '../../../utils/invalid-params.pipe';
+import {MapPointComponent} from './map-point/map-point.component';
 
 function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];
@@ -118,7 +129,9 @@ export interface ParentIsConcept {
 }
 
 @Component({
+  imports: [FormsModule, ReactiveFormsModule, MapPointComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-item-meta-form',
+  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './item-meta-form.component.html',
 })

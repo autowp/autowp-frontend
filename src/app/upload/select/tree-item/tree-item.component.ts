@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
@@ -6,7 +8,9 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-upload-select-tree-item',
+  standalone: true,
   templateUrl: './tree-item.component.html',
 })
 export class UploadSelectTreeItemComponent {

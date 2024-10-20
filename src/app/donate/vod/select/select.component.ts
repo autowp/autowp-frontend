@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
@@ -19,9 +19,13 @@ import {combineLatest, Observable, of, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../chunk';
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {DonateVodSelectItemComponent} from './item/item.component';
 
 @Component({
+  imports: [RouterLink, DonateVodSelectItemComponent, PaginatorComponent],
   selector: 'app-donate-vod-select',
+  standalone: true,
   templateUrl: './select.component.html',
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {

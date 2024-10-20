@@ -1,17 +1,22 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {APIUser, AttrUserValue, AttrUserValuesFields, AttrUserValuesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {getUnitAbbrTranslation} from '@utils/translations';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 interface AttrUserValueListItem {
   path$: Observable<string[]>;
@@ -21,7 +26,9 @@ interface AttrUserValueListItem {
 }
 
 @Component({
+  imports: [NgbTooltip, UserComponent, FormsModule, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-cars-specs-admin',
+  standalone: true,
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {

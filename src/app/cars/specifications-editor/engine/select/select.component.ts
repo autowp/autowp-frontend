@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   ItemFields,
@@ -19,10 +21,14 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunk} from '../../../../chunk';
+import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {CarsSelectEngineTreeItemComponent} from './tree-item/tree-item.component';
 
 @Component({
+  imports: [RouterLink, CarsSelectEngineTreeItemComponent, FormsModule, PaginatorComponent, AsyncPipe],
   selector: 'app-cars-engine-select',
+  standalone: true,
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {

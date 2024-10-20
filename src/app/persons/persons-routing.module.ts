@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {PersonsPersonAuthorGalleryComponent} from './person/author/gallery/gallery.component';
 import {PersonsPersonAuthorPictureComponent} from './person/author/picture/picture.component';
@@ -9,7 +8,7 @@ import {PersonsPersonComponent} from './person/person.component';
 import {PersonsPersonPictureComponent} from './person/picture/picture.component';
 import {PersonsComponent} from './persons.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     component: PersonsComponent,
     data: {
@@ -61,9 +60,3 @@ const routes: Routes = [
     title: $localize`Persons`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class PersonsRoutingModule {}

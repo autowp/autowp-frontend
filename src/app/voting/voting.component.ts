@@ -1,19 +1,24 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../comments/comments/comments.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {VotingVotesComponent} from './votes/votes.component';
 import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
 
 @Component({
+  imports: [RouterLink, FormsModule, NgbProgressbar, CommentsComponent, AsyncPipe, DatePipe],
   selector: 'app-voting',
+  standalone: true,
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {

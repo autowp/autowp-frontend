@@ -1,5 +1,6 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIPaginator, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -8,7 +9,10 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../chunk';
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {NewListItemComponent} from './list-item/list-item.component';
 
 interface APINewGroupRepacked {
   chunks?: APIPicture[][];
@@ -39,7 +43,9 @@ interface APINewGetResponse {
 }
 
 @Component({
+  imports: [RouterLink, NewListItemComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
   selector: 'app-new',
+  standalone: true,
   templateUrl: './new.component.html',
 })
 export class NewComponent implements OnInit {

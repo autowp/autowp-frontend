@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {PictureItemType} from '@grpc/spec.pb';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
@@ -7,7 +8,9 @@ import {switchMap} from 'rxjs/operators';
 import {PictureItemMoveSelection} from '../move.component';
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-moder-picture-move-item',
+  standalone: true,
   styles: [
     `
       :host {

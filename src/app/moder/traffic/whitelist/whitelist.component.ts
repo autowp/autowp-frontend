@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {APITrafficWhitelistItem, DeleteFromTrafficWhitelistRequest} from '@grpc/spec.pb';
 import {TrafficClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -8,7 +9,9 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-traffic-whitelist',
+  standalone: true,
   templateUrl: './whitelist.component.html',
 })
 export class ModerTrafficWhitelistComponent implements OnInit {

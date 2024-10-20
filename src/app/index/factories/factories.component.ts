@@ -1,10 +1,16 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {GetTopFactoriesListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 
+import {IndexFactoriesFactoryComponent} from './factory/factory.component';
+
 @Component({
+  imports: [RouterLink, IndexFactoriesFactoryComponent, AsyncPipe],
   selector: 'app-index-factories',
+  standalone: true,
   templateUrl: './factories.component.html',
 })
 export class IndexFactoriesComponent {

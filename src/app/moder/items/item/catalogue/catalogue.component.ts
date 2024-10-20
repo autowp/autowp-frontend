@@ -1,6 +1,15 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbTypeahead,
+  NgbTypeaheadSelectItemEvent,
+} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -9,7 +18,9 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
+  imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
   selector: 'app-moder-items-item-catalogue',
+  standalone: true,
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemCatalogueComponent {

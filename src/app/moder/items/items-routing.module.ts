@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {moderGuard} from '../../moder.guard';
 import {ModerItemsAlphaComponent} from './alpha/alpha.component';
@@ -11,7 +10,7 @@ import {ModerItemsComponent} from './items.component';
 import {ModerItemsNewComponent} from './new/new.component';
 import {ModerItemsTooBigComponent} from './too-big/too-big.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     canActivate: [moderGuard],
     component: ModerItemsAlphaComponent,
@@ -64,9 +63,3 @@ const routes: Routes = [
     title: $localize`Items`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class ItemsRoutingModule {}

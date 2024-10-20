@@ -10,6 +10,7 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
   selector: 'app-forums-message',
+  standalone: true,
   template: '<h2>Redirecting …</h2>',
 })
 export class MessageComponent implements OnInit, OnDestroy {

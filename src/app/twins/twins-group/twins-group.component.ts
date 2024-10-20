@@ -1,12 +1,17 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {TwinsSidebarComponent} from '../sidebar.component';
+
 @Component({
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, TwinsSidebarComponent, AsyncPipe],
   selector: 'app-twins-group',
+  standalone: true,
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {

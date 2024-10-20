@@ -1,11 +1,14 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 
 import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 @Component({
+  imports: [FormsModule],
   selector: 'app-picture-moder-vote-modal',
+  standalone: true,
   templateUrl: './modal.component.html',
 })
 export class PictureModerVoteModalComponent {

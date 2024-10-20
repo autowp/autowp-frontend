@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
@@ -20,7 +20,9 @@ interface Crop {
 }
 
 @Component({
+  imports: [RouterLink],
   selector: 'app-moder-pictures-item-crop',
+  standalone: true,
   templateUrl: './crop.component.html',
 })
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {

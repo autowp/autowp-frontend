@@ -1,11 +1,10 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {moderGuard} from '../../moder.guard';
 import {ModerTrafficComponent} from './traffic.component';
 import {ModerTrafficWhitelistComponent} from './whitelist/whitelist.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     canActivate: [moderGuard],
     component: ModerTrafficWhitelistComponent,
@@ -19,9 +18,3 @@ const routes: Routes = [
     title: $localize`Traffic`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class TrafficRoutingModule {}

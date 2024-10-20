@@ -1,4 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {PageEnvService} from '@services/page-env.service';
 import {APIVehicleType} from '@services/vehicle-type';
 import {
@@ -12,6 +15,7 @@ import {
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {APIMostsItem, MostsService} from '../mosts.service';
 
 function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
@@ -29,7 +33,9 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
 }
 
 @Component({
+  imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLink, MarkdownComponent, NgbTooltip, AsyncPipe],
   selector: 'app-mosts-contents',
+  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './contents.component.html',
 })

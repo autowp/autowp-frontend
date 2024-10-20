@@ -1,12 +1,17 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APITopFactoriesListItem, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
+  imports: [RouterLink, NgbPopover, AsyncPipe],
   selector: 'app-index-factories-factory',
+  standalone: true,
   styleUrls: ['./factory.component.scss'],
   templateUrl: './factory.component.html',
 })

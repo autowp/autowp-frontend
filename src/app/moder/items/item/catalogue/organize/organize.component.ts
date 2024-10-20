@@ -1,6 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -11,10 +12,13 @@ import {InvalidParams} from '@utils/invalid-params.pipe';
 import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
+import {MarkdownComponent} from '../../../../../utils/markdown/markdown.component';
+import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
+  imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-item-organize',
+  standalone: true,
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemOrganizeComponent implements OnInit {

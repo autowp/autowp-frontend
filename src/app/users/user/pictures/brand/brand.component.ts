@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -9,10 +10,14 @@ import {UserService} from '@services/user';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-users-user-pictures-brand',
+  standalone: true,
   templateUrl: './brand.component.html',
 })
 export class UsersUserPicturesBrandComponent {

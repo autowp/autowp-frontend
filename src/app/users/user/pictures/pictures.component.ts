@@ -1,5 +1,6 @@
+import {AsyncPipe, NgClass, NgStyle} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   ItemFields,
@@ -36,7 +37,9 @@ function addCSS(url: string) {
 }
 
 @Component({
+  imports: [RouterLink, NgClass, NgStyle, AsyncPipe],
   selector: 'app-users-user-pictures',
+  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class UsersUserPicturesComponent implements OnInit {

@@ -4,6 +4,7 @@ import showdown from 'showdown';
 
 @Component({
   selector: 'app-markdown2',
+  standalone: true,
   styleUrls: ['markdown2.component.scss'],
   templateUrl: './markdown2.component.html',
 })

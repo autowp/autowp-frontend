@@ -1,4 +1,7 @@
+import {AsyncPipe, DecimalPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {APIUser, Perspective, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -10,13 +13,16 @@ import {catchError, switchMap} from 'rxjs/operators';
 
 import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 interface ThumbnailAPIPicture extends APIPicture {
   selected?: boolean;
 }
 
 @Component({
+  imports: [RouterLink, UserComponent, FormsModule, AsyncPipe, DecimalPipe],
   selector: 'app-thumbnail',
+  standalone: true,
   styleUrls: ['./thumbnail.component.scss'],
   templateUrl: './thumbnail.component.html',
 })

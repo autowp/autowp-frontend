@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '@services/auth.service';
@@ -6,10 +7,14 @@ import {PictureService} from '@services/picture';
 import {combineLatest, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-inbox-pictures',
+  standalone: true,
   templateUrl: './inbox-pictures.component.html',
 })
 export class AccountInboxPicturesComponent implements OnInit {

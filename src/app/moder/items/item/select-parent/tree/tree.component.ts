@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -6,8 +7,12 @@ import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
+import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-item.component';
+
 @Component({
+  imports: [ModerItemsItemSelectParentTreeItemComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-tree',
+  standalone: true,
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemSelectParentTreeComponent {

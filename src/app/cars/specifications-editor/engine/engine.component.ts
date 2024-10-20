@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -12,7 +14,9 @@ import {shareReplay, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-cars-specifications-editor-engine',
+  standalone: true,
   templateUrl: './engine.component.html',
 })
 export class CarsSpecificationsEditorEngineComponent {

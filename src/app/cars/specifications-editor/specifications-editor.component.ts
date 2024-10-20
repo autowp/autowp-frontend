@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
@@ -10,9 +11,22 @@ import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
+import {CarsSpecificationsEditorEngineComponent} from './engine/engine.component';
+import {CarsSpecificationsEditorResultComponent} from './result/result.component';
+import {CarsSpecificationsEditorSpecComponent} from './spec/spec.component';
 
 @Component({
+  imports: [
+    RouterLink,
+    MarkdownComponent,
+    CarsSpecificationsEditorEngineComponent,
+    CarsSpecificationsEditorSpecComponent,
+    CarsSpecificationsEditorResultComponent,
+    AsyncPipe,
+  ],
   selector: 'app-cars-specifications-editor',
+  standalone: true,
   templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {

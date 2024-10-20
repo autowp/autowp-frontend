@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {APIItem} from '@grpc/spec.pb';
 import {ItemParentService} from '@services/item-parent';
@@ -5,9 +6,12 @@ import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
 
 @Component({
+  imports: [ModerItemsItemSelectParentTreeComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-tree-item',
+  standalone: true,
   templateUrl: './tree-item.component.html',
 })
 export class ModerItemsItemSelectParentTreeItemComponent {

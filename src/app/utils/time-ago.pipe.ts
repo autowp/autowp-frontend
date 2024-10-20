@@ -3,7 +3,11 @@ import {LanguageService} from '@services/language';
 
 const is = (interval: number, cycle: number) => (Math.abs(cycle) >= interval ? Math.round(cycle / interval) : 0);
 
-@Pipe({name: 'timeAgo', pure: false})
+@Pipe({
+  name: 'timeAgo',
+  pure: false,
+  standalone: true,
+})
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);

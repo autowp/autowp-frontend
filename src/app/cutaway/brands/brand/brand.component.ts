@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -8,10 +9,14 @@ import {PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cutaway',
+  standalone: true,
   templateUrl: './brand.component.html',
 })
 export class CutawayBrandsBrandComponent implements OnInit {

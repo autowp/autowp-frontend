@@ -1,9 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {MostsComponent} from './mosts.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     component: MostsComponent,
     path: '',
@@ -25,9 +24,3 @@ const routes: Routes = [
     title: $localize`Mostly`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class MostsRoutingModule {}

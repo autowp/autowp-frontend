@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
@@ -9,6 +10,9 @@ import {APIPicture, PictureService} from '@services/picture';
 import {combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
+import {CategoriesListItemComponent} from '../../list-item.component';
 import {CategoriesService} from '../../service';
 
 interface PictureRoute {
@@ -17,7 +21,9 @@ interface PictureRoute {
 }
 
 @Component({
+  imports: [MarkdownComponent, CategoriesListItemComponent, RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-categories-category-item',
+  standalone: true,
   templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {

@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {environment} from '@environment/environment';
 import {APIImage, APIMeRequest, APIUser, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -14,9 +16,13 @@ import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 
 @Component({
+  imports: [MarkdownComponent, FormsModule, AsyncPipe, InvalidParamsPipe],
   selector: 'app-account-profile',
+  standalone: true,
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {

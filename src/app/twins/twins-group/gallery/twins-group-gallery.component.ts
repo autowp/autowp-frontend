@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
@@ -8,9 +9,12 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {APIGalleryItem} from '../../../gallery/definitions';
+import {GalleryComponent} from '../../../gallery/gallery.component';
 
 @Component({
+  imports: [GalleryComponent, AsyncPipe],
   selector: 'app-twins-group-gallery',
+  standalone: true,
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {

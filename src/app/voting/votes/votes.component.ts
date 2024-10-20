@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {APIUser} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -6,10 +7,13 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 import {VotingService} from '../voting.service';
 
 @Component({
+  imports: [UserComponent, AsyncPipe],
   selector: 'app-voting-votes',
+  standalone: true,
   templateUrl: './votes.component.html',
 })
 export class VotingVotesComponent {

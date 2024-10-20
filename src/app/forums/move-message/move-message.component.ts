@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIForumsTheme,
   APIForumsTopic,
@@ -19,7 +20,9 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {MESSAGES_PER_PAGE} from '../forums.module';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-forums-move-message',
+  standalone: true,
   templateUrl: './move-message.component.html',
 })
 export class ForumsMoveMessageComponent implements OnInit {

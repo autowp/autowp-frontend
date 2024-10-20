@@ -6,6 +6,7 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
+  standalone: true,
   templateUrl: './tree-item.component.html',
 })
 export class CarsSelectEngineTreeItemComponent {

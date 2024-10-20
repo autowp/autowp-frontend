@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIUser,
@@ -21,6 +22,8 @@ import {combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../api/attrs/attrs.service';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {UserComponent} from '../../user/user/user.component';
 
 interface APIAttrConflictValueInList {
   user$: Observable<APIUser | null>;
@@ -51,7 +54,9 @@ function mapFilter(filter: null | string): AttrConflictsRequest.Filter {
 }
 
 @Component({
+  imports: [RouterLink, UserComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-specs-conflicts',
+  standalone: true,
   templateUrl: './specs-conflicts.component.html',
 })
 export class AccountSpecsConflictsComponent implements OnInit {

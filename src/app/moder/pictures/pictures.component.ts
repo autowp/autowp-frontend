@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetUserRequest,
   APIItem,
@@ -13,7 +15,13 @@ import {
   VehicleType,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient, UsersClient} from '@grpc/spec.pbsc';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbTypeahead,
+  NgbTypeaheadSelectItemEvent,
+} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {APIPaginator} from '@services/api.service';
 import {LanguageService} from '@services/language';
@@ -28,6 +36,8 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {chunkBy} from '../../chunk';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 interface VehicleTypeInPictures {
@@ -57,7 +67,19 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
 }
 
 @Component({
+  imports: [
+    RouterLink,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbTypeahead,
+    FormsModule,
+    PaginatorComponent,
+    ThumbnailComponent,
+    AsyncPipe,
+  ],
   selector: 'app-moder-pictures',
+  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class ModerPicturesComponent implements OnInit, OnDestroy {

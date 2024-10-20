@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
@@ -9,10 +11,14 @@ import {icon, latLng, Marker, marker, tileLayer} from 'leaflet';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
 
 @Component({
+  imports: [RouterLink, LeafletModule, MarkdownComponent, ThumbnailComponent, AsyncPipe],
   selector: 'app-factories',
+  standalone: true,
   templateUrl: './factories.component.html',
 })
 export class FactoryComponent {

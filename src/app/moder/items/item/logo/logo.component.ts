@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
+import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
@@ -8,9 +10,13 @@ import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../../../utils/invalid-params.pipe';
+import {MarkdownComponent} from '../../../../utils/markdown/markdown.component';
 
 @Component({
+  imports: [MarkdownComponent, NgbProgressbar, AsyncPipe, InvalidParamsPipe],
   selector: 'app-moder-items-item-logo',
+  standalone: true,
   templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {

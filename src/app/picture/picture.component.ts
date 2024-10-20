@@ -1,5 +1,6 @@
+import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {
   APIUser,
   CommentsSubscribeRequest,
@@ -11,19 +12,49 @@ import {
   SetPictureStatusRequest,
 } from '@grpc/spec.pb';
 import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
+import {NgDatePipesModule, NgMathPipesModule} from 'ngx-pipes';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
+import {ModerPicturesPerspectivePickerComponent} from '../moder/pictures/perspective-picker/perspective-picker.component';
+import {PictureModerVoteComponent} from '../picture-moder-vote/picture-moder-vote/picture-moder-vote.component';
+import {ShareComponent} from '../share/share.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {UserComponent} from '../user/user/user.component';
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
+import {PicturePaginatorComponent} from './paginator.component';
 
 @Component({
+  imports: [
+    RouterLink,
+    ShareComponent,
+    MarkdownComponent,
+    UserComponent,
+    NgbTooltip,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    PicturePaginatorComponent,
+    PictureModerVoteComponent,
+    NgbProgressbar,
+    ModerPicturesPerspectivePickerComponent,
+    AsyncPipe,
+    DecimalPipe,
+    DatePipe,
+    NgMathPipesModule,
+    NgDatePipesModule,
+    TimeAgoPipe,
+  ],
   selector: 'app-picture',
+  standalone: true,
   styleUrls: ['./picture.component.scss'],
   templateUrl: './picture.component.html',
 })

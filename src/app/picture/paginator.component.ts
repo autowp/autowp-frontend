@@ -1,8 +1,11 @@
 import {Component, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIPicturePaginator} from '@services/picture';
 
 @Component({
+  imports: [RouterLink],
   selector: 'app-picture-paginator',
+  standalone: true,
   templateUrl: './paginator.component.html',
 })
 export class PicturePaginatorComponent {

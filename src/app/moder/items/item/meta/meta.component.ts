@@ -1,7 +1,9 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
 import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -9,10 +11,12 @@ import {InvalidParams} from '@utils/invalid-params.pipe';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
-import {ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
+import {ItemMetaFormComponent, ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
 
 @Component({
+  imports: [NgbProgressbar, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-item-meta',
+  standalone: true,
   templateUrl: './meta.component.html',
 })
 export class ModerItemsItemMetaComponent {

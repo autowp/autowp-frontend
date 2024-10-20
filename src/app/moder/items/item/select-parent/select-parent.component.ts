@@ -1,6 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -10,9 +11,24 @@ import {EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {ModerItemsItemSelectParentBrandsComponent} from './brands/brands.component';
+import {ModerItemsItemSelectParentCatalogueComponent} from './catalogue/catalogue.component';
+import {ModerItemsItemSelectParentCategoriesComponent} from './categories/categories.component';
+import {ModerItemsItemSelectParentFactoriesComponent} from './factories/factories.component';
+import {ModerItemsItemSelectParentTwinsComponent} from './twins/twins.component';
 
 @Component({
+  imports: [
+    RouterLink,
+    ModerItemsItemSelectParentCatalogueComponent,
+    ModerItemsItemSelectParentBrandsComponent,
+    ModerItemsItemSelectParentCategoriesComponent,
+    ModerItemsItemSelectParentTwinsComponent,
+    ModerItemsItemSelectParentFactoriesComponent,
+    AsyncPipe,
+  ],
   selector: 'app-moder-items-item-select-parent',
+  standalone: true,
   templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit {

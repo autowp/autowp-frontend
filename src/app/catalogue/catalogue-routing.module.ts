@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {CatalogueCarsComponent} from './cars/cars.component';
 import {CatalogueConceptsComponent} from './concepts/concepts.component';
@@ -17,7 +16,7 @@ import {CatalogueVehiclesPicturesComponent} from './vehicles/pictures/pictures.c
 import {CatalogueVehiclesSpecificationsComponent} from './vehicles/specifications/specifications.component';
 import {CatalogueVehiclesComponent} from './vehicles/vehicles.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     component: CatalogueRecentComponent,
     path: 'recent',
@@ -215,9 +214,3 @@ const routes: Routes = [
     pathMatch: 'full',
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class CatalogueRoutingModule {}

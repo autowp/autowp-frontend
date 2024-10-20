@@ -1,5 +1,6 @@
 import {Component, inject, NgZone} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {icon, LatLng, latLng, Layer, LeafletMouseEvent, Map, MapOptions, marker, tileLayer} from 'leaflet';
 
 export interface Point {
@@ -35,6 +36,7 @@ const center = (lat: null | number | string, lng: null | number | string): LatLn
 };
 
 @Component({
+  imports: [FormsModule, LeafletModule],
   providers: [
     {
       multi: true,
@@ -43,6 +45,7 @@ const center = (lat: null | number | string, lng: null | number | string): LatLn
     },
   ],
   selector: 'app-map-point',
+  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: 'map-point.component.html',
 })

@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {PerspectivePage} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -10,7 +12,9 @@ import {catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-perspectives',
+  standalone: true,
   templateUrl: './perspectives.component.html',
 })
 export class ModerPerspectivesComponent implements OnInit {

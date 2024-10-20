@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {DonateComponent} from './donate.component';
 import {DonateLogComponent} from './log/log.component';
@@ -8,7 +7,7 @@ import {DonateVodSelectComponent} from './vod/select/select.component';
 import {DonateVodSuccessComponent} from './vod/success/success.component';
 import {DonateVodComponent} from './vod/vod.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {component: DonateLogComponent, path: 'log', title: $localize`Donate log`},
   {component: DonateSuccessComponent, path: 'success', title: $localize`Donate success`},
   {
@@ -22,9 +21,3 @@ const routes: Routes = [
   },
   {component: DonateComponent, path: '', title: $localize`Donate`},
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class DonateRoutingModule {}

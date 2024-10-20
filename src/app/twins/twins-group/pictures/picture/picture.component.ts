@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
@@ -9,8 +10,13 @@ import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../../../../comments/comments/comments.component';
+import {PictureComponent} from '../../../../picture/picture.component';
+
 @Component({
+  imports: [PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-twins-group-picture',
+  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class TwinsGroupPictureComponent {

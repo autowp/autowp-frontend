@@ -1,10 +1,15 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {RouterLink} from '@angular/router';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
+
 @Component({
+  imports: [RouterLink, MarkdownComponent],
   selector: 'app-donate',
+  standalone: true,
   styleUrls: ['./donate.component.scss'],
   templateUrl: './donate.component.html',
 })

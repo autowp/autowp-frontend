@@ -1,12 +1,16 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 
 import {APIGalleryItem} from './definitions';
+import {GalleryComponent} from './gallery.component';
 
 @Component({
+  imports: [GalleryComponent, AsyncPipe],
   selector: 'app-gallery-page',
+  standalone: true,
   templateUrl: './gallery-page.component.html',
 })
 export class GalleryPageComponent implements OnInit {

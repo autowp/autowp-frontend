@@ -1,5 +1,6 @@
+import {AsyncPipe, NgStyle} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {UserService} from '@services/user';
@@ -7,10 +8,13 @@ import {BehaviorSubject} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
+import {UserComponent} from '../../user/user/user.component';
 import {PictureModerVoteModalComponent} from './modal/modal.component';
 
 @Component({
+  imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, UserComponent, NgStyle, AsyncPipe],
   selector: 'app-picture-moder-vote',
+  standalone: true,
   templateUrl: './picture-moder-vote.component.html',
 })
 export class PictureModerVoteComponent {

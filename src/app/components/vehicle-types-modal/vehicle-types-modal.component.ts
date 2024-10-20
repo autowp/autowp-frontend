@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {VehicleType} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +15,9 @@ const translateNames = (types: VehicleType[]): VehicleType[] => {
 };
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-vehicle-types-modal',
+  standalone: true,
   templateUrl: './vehicle-types-modal.component.html',
 })
 export class VehicleTypesModalComponent {

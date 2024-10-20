@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
@@ -6,9 +8,12 @@ import {EMPTY} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {InfoSpecRowComponent} from './row/row.component';
 
 @Component({
+  imports: [RouterLink, InfoSpecRowComponent, AsyncPipe],
   selector: 'app-info-spec',
+  standalone: true,
   templateUrl: './spec.component.html',
 })
 export class InfoSpecComponent implements OnInit {

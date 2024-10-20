@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIGetUserRequest, APIUser, GetTopPersonsListRequest, PictureItemType} from '@grpc/spec.pb';
 import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -8,13 +10,37 @@ import {PageEnvService} from '@services/page-env.service';
 import {combineLatest, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {ItemOfDayComponent} from '../item-of-day/item-of-day/item-of-day.component';
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
+import {IndexBrandsComponent} from './brands/brands.component';
+import {IndexCategoriesComponent} from './categories/categories.component';
+import {IndexDonateComponent} from './donate/donate.component';
+import {IndexFactoriesComponent} from './factories/factories.component';
+import {IndexPicturesComponent} from './pictures/pictures.component';
+import {IndexSpecsCarsComponent} from './specs-cars/specs-cars.component';
+import {IndexTwinsComponent} from './twins/twins.component';
+
 interface APIIndexItemOfDay {
   item: ItemOfDayItem;
   user_id: string;
 }
 
 @Component({
+  imports: [
+    ItemOfDayComponent,
+    IndexDonateComponent,
+    IndexBrandsComponent,
+    IndexPicturesComponent,
+    IndexTwinsComponent,
+    IndexCategoriesComponent,
+    RouterLink,
+    MarkdownComponent,
+    IndexFactoriesComponent,
+    IndexSpecsCarsComponent,
+    AsyncPipe,
+  ],
   selector: 'app-index',
+  standalone: true,
   templateUrl: './index.component.html',
 })
 export class IndexComponent implements OnInit {

@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {environment} from '@environment/environment';
 import {APIMeRequest, UserFields} from '@grpc/spec.pb';
@@ -9,7 +10,9 @@ import {catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [AsyncPipe],
   selector: 'app-account-email',
+  standalone: true,
   templateUrl: './email.component.html',
 })
 export class AccountEmailComponent implements OnInit {

@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {
   APICommentMessage,
   APIForumsTopic,
@@ -16,6 +18,8 @@ import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
+import {PastTimeIndicatorComponent} from '../../utils/past-time-indicator/past-time-indicator.component';
 
 interface Topic {
   author$: Observable<APIUser | null>;
@@ -31,7 +35,9 @@ interface Topic {
 }
 
 @Component({
+  imports: [RouterLink, PastTimeIndicatorComponent, UserComponent, AsyncPipe],
   selector: 'app-forums-topic-list',
+  standalone: true,
   templateUrl: './topic-list.component.html',
 })
 export class ForumsTopicListComponent {

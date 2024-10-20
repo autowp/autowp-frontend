@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
@@ -9,7 +11,9 @@ import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-donate-vod-select-item',
+  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './item.component.html',
 })

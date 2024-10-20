@@ -1,4 +1,7 @@
+import {AsyncPipe, NgClass} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {PictureService} from '@services/picture';
@@ -16,7 +19,9 @@ interface MenuItem {
 }
 
 @Component({
+  imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLink, NgClass, AsyncPipe],
   selector: 'app-moder-menu',
+  standalone: true,
   styleUrls: ['./menu.component.scss'],
   templateUrl: './menu.component.html',
 })

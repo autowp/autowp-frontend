@@ -1,5 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIGetItemParentLanguagesRequest, APIItem, ItemFields, ItemParentLanguage, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -16,9 +17,12 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
 
 @Component({
+  imports: [RouterLink, FormsModule, InvalidParamsPipe],
   selector: 'app-moder-item-parent',
+  standalone: true,
   templateUrl: './item-parent.component.html',
 })
 export class ModerItemParentComponent implements OnInit, OnDestroy {

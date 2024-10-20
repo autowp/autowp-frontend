@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemService} from '@services/item';
@@ -9,8 +10,13 @@ import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
+
 @Component({
+  imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-concepts',
+  standalone: true,
   templateUrl: './concepts.component.html',
 })
 export class CatalogueConceptsComponent {

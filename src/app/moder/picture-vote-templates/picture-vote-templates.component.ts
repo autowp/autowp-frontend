@@ -1,11 +1,16 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {ModerVoteTemplate} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 @Component({
+  imports: [RouterLink, FormsModule, AsyncPipe],
   selector: 'app-moder-picture-vote-templates',
+  standalone: true,
   templateUrl: './picture-vote-templates.component.html',
 })
 export class ModerPictureVoteTemplatesComponent implements OnInit {

@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {moderGuard} from '../../moder.guard';
 import {ModerPicturesItemAreaComponent} from './item/area/area.component';
@@ -9,7 +8,7 @@ import {ModerPicturesItemMoveComponent} from './item/move/move.component';
 import {ModerPicturesItemPlaceComponent} from './item/place/place.component';
 import {ModerPicturesComponent} from './pictures.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     children: [
       {
@@ -51,9 +50,3 @@ const routes: Routes = [
     title: $localize`Pictures`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class PicturesRoutingModule {}

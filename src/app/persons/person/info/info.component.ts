@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIGetItemLinksRequest, APIItem, APIItemLink, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
@@ -9,10 +10,15 @@ import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
 
 @Component({
+  imports: [MarkdownComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-persons-person-info',
+  standalone: true,
   templateUrl: './info.component.html',
 })
 export class PersonsPersonInfoComponent {

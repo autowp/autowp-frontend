@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
@@ -8,10 +9,13 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {APIGalleryItem} from '../../../gallery/definitions';
+import {GalleryComponent} from '../../../gallery/gallery.component';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
+  imports: [GalleryComponent, AsyncPipe],
   selector: 'app-catalogue-mixed-gallery',
+  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class CatalogueMixedGalleryComponent {

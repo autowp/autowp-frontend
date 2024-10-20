@@ -1,5 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
@@ -19,12 +20,16 @@ import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'r
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {chunk} from '../../chunk';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UploadSelectTreeItemComponent} from './tree-item/tree-item.component';
 
 import Order = ListItemsRequest.Order;
 
 @Component({
+  imports: [FormsModule, RouterLink, PaginatorComponent, UploadSelectTreeItemComponent],
   selector: 'app-upload-select',
+  standalone: true,
   templateUrl: './select.component.html',
 })
 export class UploadSelectComponent implements OnInit {

@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemLinksRequest,
   APIItem,
@@ -21,7 +22,9 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunk, chunkBy} from '../../chunk';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {CatalogueService} from '../catalogue-service';
 
 interface APIBrandSectionGroup {
@@ -42,7 +45,9 @@ interface PictureRoute {
 }
 
 @Component({
+  imports: [MarkdownComponent, RouterLink, ThumbnailComponent, AsyncPipe],
   selector: 'app-catalogue-index',
+  standalone: true,
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {

@@ -1,8 +1,9 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ListItemsRequest, Spec, VehicleType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIPaginator} from '@services/api.service';
 import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
@@ -14,7 +15,9 @@ import {getVehicleTypeTranslation} from '@utils/translations';
 import {EMPTY, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 interface APIVehicleTypeInItems {
   deep?: number;
@@ -56,7 +59,9 @@ function toPlainSpec(options: APISpecInItems[], deep: number): APISpecInItems[] 
 const DEFAULT_ORDER = 'id_desc';
 
 @Component({
+  imports: [RouterLink, FormsModule, NgbTypeahead, CatalogueListItemComponent, PaginatorComponent],
   selector: 'app-items',
+  standalone: true,
   templateUrl: './items.component.html',
 })
 export class ModerItemsComponent implements OnInit, OnDestroy {

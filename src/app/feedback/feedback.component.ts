@@ -1,20 +1,25 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import {APICreateFeedbackRequest} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {PageEnvService} from '@services/page-env.service';
 import {ReCaptchaService} from '@services/recaptcha';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {RecaptchaModule} from 'ng-recaptcha-2';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {ToastsService} from '../toasts/toasts.service';
+import {InvalidParamsPipe} from '../utils/invalid-params.pipe';
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
 
 const CAPTCHA = 'captcha';
 
 @Component({
+  imports: [RouterLink, FormsModule, ReactiveFormsModule, RecaptchaModule, MarkdownComponent, InvalidParamsPipe],
   selector: 'app-feedback',
+  standalone: true,
   templateUrl: './feedback.component.html',
 })
 export class FeedbackComponent implements OnInit {

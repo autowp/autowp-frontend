@@ -1,3 +1,4 @@
+import {NgStyle} from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -8,8 +9,11 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import {RouterLink} from '@angular/router';
 import $ from 'jquery';
+import {NgMathPipesModule} from 'ngx-pipes';
 
+import {AreaComponent} from './area.component';
 import {APIGalleryItem} from './definitions';
 
 interface Dimension {
@@ -61,7 +65,9 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 }
 
 @Component({
+  imports: [NgStyle, AreaComponent, RouterLink, NgMathPipesModule],
   selector: 'app-gallery-carousel-item',
+  standalone: true,
   styleUrls: ['./carousel-item.component.scss'],
   templateUrl: './carousel-item.component.html',
 })

@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
@@ -11,10 +12,23 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../chunk';
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
+import {ItemHeaderComponent} from '../../../utils/item-header/item-header.component';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
+import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
 
 @Component({
+  imports: [
+    RouterLink,
+    ItemHeaderComponent,
+    CatalogueItemMenuComponent,
+    ThumbnailComponent,
+    PaginatorComponent,
+    AsyncPipe,
+  ],
   selector: 'app-catalogue-vehicles-pictures',
+  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class CatalogueVehiclesPicturesComponent {

@@ -1,11 +1,10 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {UploadIndexComponent} from './index/index.component';
 import {UploadSelectComponent} from './select/select.component';
 import {UploadComponent} from './upload.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     children: [
       {component: UploadSelectComponent, path: 'select', title: $localize`Select brand`},
@@ -16,9 +15,3 @@ const routes: Routes = [
     title: $localize`Add picture`,
   },
 ];
-
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes)],
-})
-export class UploadRoutingModule {}

@@ -1,11 +1,14 @@
 import {Component, inject, Input} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MessageService} from '@services/message';
 
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [FormsModule],
   selector: 'app-modal-message',
+  standalone: true,
   templateUrl: './modal-message.component.html',
 })
 export class ModalMessageComponent {

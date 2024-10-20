@@ -3,6 +3,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-share',
+  standalone: true,
   styleUrls: ['./share.component.scss'],
   templateUrl: './share.component.html',
 })

@@ -1,7 +1,9 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {ItemFields, ItemListOptions, ItemParentListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
@@ -21,7 +23,9 @@ interface PathItem {
 }
 
 @Component({
+  imports: [RouterLink, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLinkActive, RouterOutlet, AsyncPipe],
   selector: 'app-categories-category',
+  standalone: true,
   templateUrl: './category.component.html',
 })
 export class CategoriesCategoryComponent {

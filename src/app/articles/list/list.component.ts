@@ -1,13 +1,18 @@
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIUser, ArticlesRequest} from '@grpc/spec.pb';
 import {ArticlesClient} from '@grpc/spec.pbsc';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 interface Article {
   author$: Observable<APIUser>;
@@ -20,7 +25,9 @@ interface Article {
 }
 
 @Component({
+  imports: [RouterLink, UserComponent, NgbTooltip, PaginatorComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-articles-list',
+  standalone: true,
   styleUrls: ['./list.component.scss'],
   templateUrl: './list.component.html',
 })

@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
@@ -7,10 +8,13 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {APIGalleryItem} from '../../../gallery/definitions';
+import {GalleryComponent} from '../../../gallery/gallery.component';
 import {CategoriesService, CategoryPipeResult} from '../../service';
 
 @Component({
+  imports: [GalleryComponent, AsyncPipe],
   selector: 'app-category-gallery',
+  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class CategoryGalleryComponent implements OnInit {

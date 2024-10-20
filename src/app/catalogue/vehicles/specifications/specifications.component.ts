@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
@@ -9,7 +10,9 @@ import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {CatalogueService} from '../../catalogue-service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-catalogue-vehicles-specifications',
+  standalone: true,
   templateUrl: './specifications.component.html',
 })
 export class CatalogueVehiclesSpecificationsComponent {

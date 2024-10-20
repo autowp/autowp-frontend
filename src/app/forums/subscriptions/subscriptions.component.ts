@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIForumsTopic, APIGetForumsTopicsRequest, Pages} from '@grpc/spec.pb';
@@ -6,10 +7,14 @@ import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {ForumsTopicListComponent} from '../topic-list/topic-list.component';
 
 @Component({
+  imports: [ForumsTopicListComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-forums-subscriptions',
+  standalone: true,
   templateUrl: './subscriptions.component.html',
 })
 export class ForumsSubscriptionsComponent implements OnInit {

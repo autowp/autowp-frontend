@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AttrAttribute} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {getAttrListOptionsTranslation, getAttrsTranslation, getUnitNameTranslation} from '@utils/translations';
@@ -9,7 +10,9 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
 import {APIAttrsService} from '../../../api/attrs/attrs.service';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-attrs-attribute',
+  standalone: true,
   templateUrl: './attribute.component.html',
 })
 export class ModerAttrsAttributeComponent {

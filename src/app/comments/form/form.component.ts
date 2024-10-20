@@ -1,4 +1,5 @@
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {AddCommentRequest, CommentsType} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
@@ -8,9 +9,12 @@ import {switchMap, take, tap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
+import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
 
 @Component({
+  imports: [FormsModule, InvalidParamsPipe],
   selector: 'app-comments-form',
+  standalone: true,
   templateUrl: './form.component.html',
 })
 export class CommentsFormComponent implements OnInit, OnDestroy {

@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
@@ -6,10 +7,14 @@ import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-item.component';
 
 @Component({
+  imports: [ModerItemsItemSelectParentTreeItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-factories',
+  standalone: true,
   templateUrl: './factories.component.html',
 })
 export class ModerItemsItemSelectParentFactoriesComponent {

@@ -1,6 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   CreatePictureItemRequest,
@@ -22,7 +23,9 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../chunk';
+import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
+import {ModerPictureMoveItemComponent} from './item/item.component';
 
 export interface PictureItemMoveSelection {
   itemId: string;
@@ -47,7 +50,9 @@ interface HtmlAndSelectItemParams {
 }
 
 @Component({
+  imports: [RouterLink, PaginatorComponent, FormsModule, ReactiveFormsModule, ModerPictureMoveItemComponent, AsyncPipe],
   selector: 'app-moder-pictures-item-move',
+  standalone: true,
   templateUrl: './move.component.html',
 })
 export class ModerPicturesItemMoveComponent implements OnInit {

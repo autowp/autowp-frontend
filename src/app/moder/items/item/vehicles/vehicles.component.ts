@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -6,7 +8,9 @@ import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-items-item-vehicles',
+  standalone: true,
   templateUrl: './vehicles.component.html',
 })
 export class ModerItemsItemVehiclesComponent {

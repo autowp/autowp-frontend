@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
@@ -5,9 +6,12 @@ import {EMPTY, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIGalleryItem} from '../../../gallery/definitions';
+import {GalleryComponent} from '../../../gallery/gallery.component';
 
 @Component({
+  imports: [GalleryComponent, AsyncPipe],
   selector: 'app-persons-person-gallery',
+  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonGalleryComponent {

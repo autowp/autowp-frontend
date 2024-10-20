@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -7,7 +9,9 @@ import {map} from 'rxjs/operators';
 import {chunkBy} from '../chunk';
 
 @Component({
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-categories-index',
+  standalone: true,
   templateUrl: './index.component.html',
 })
 export class CategoriesIndexComponent implements OnInit {

@@ -1,13 +1,18 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {ToastsService} from '../../toasts/toasts.service';
+import {ModerAttrsAttributeListComponent} from './attribute-list/attribute-list.component';
 
 @Component({
+  imports: [RouterLink, ModerAttrsAttributeListComponent, AsyncPipe],
   selector: 'app-moder-attrs',
+  standalone: true,
   templateUrl: './attrs.component.html',
 })
 export class ModerAttrsComponent implements OnInit {

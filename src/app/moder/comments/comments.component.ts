@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APICommentsMessage,
   APIGetUserRequest,
@@ -17,17 +19,21 @@ import {
   PictureStatus,
 } from '@grpc/spec.pb';
 import {CommentsClient, ItemsClient, UsersClient} from '@grpc/spec.pbsc';
-import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 @Component({
+  imports: [RouterLink, FormsModule, NgbTypeahead, UserComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-moder-comments',
+  standalone: true,
   templateUrl: './comments.component.html',
 })
 export class ModerCommentsComponent implements OnInit {

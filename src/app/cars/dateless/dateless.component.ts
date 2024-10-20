@@ -1,14 +1,19 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+import {ItemComponent} from '../../item/item/item.component';
+import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  imports: [RouterLink, ItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cars-deteless',
+  standalone: true,
   templateUrl: './dateless.component.html',
 })
 export class CarsDatelessComponent implements OnInit {

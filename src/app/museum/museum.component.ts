@@ -1,5 +1,7 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {APIGetItemLinksRequest, CommentsType, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -10,10 +12,15 @@ import {icon, latLng, marker, tileLayer} from 'leaflet';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
+import {CommentsComponent} from '../comments/comments/comments.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {MarkdownComponent} from '../utils/markdown/markdown.component';
 
 @Component({
+  imports: [RouterLink, LeafletModule, MarkdownComponent, ThumbnailComponent, CommentsComponent, AsyncPipe],
   selector: 'app-museum',
+  standalone: true,
   templateUrl: './museum.component.html',
 })
 export class MuseumComponent {

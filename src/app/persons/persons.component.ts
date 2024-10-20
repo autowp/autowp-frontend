@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -7,8 +8,13 @@ import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list
 import {combineLatest} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {CatalogueListItemComponent} from '../utils/list-item/list-item.component';
+
 @Component({
+  imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-persons',
+  standalone: true,
   templateUrl: './persons.component.html',
 })
 export class PersonsComponent implements OnInit {

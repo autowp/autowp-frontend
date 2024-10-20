@@ -1,4 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -9,7 +11,9 @@ import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  imports: [FormsModule, AsyncPipe],
   selector: 'app-moder-items-item-links',
+  standalone: true,
   templateUrl: './links.component.html',
 })
 export class ModerItemsItemLinksComponent {

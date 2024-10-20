@@ -1,5 +1,6 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem as GRPCAPIItem,
   ItemFields,
@@ -17,10 +18,14 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';
+import {PaginatorComponent} from '../../../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
 
 @Component({
+  imports: [RouterLink, PaginatorComponent, ModerItemsItemSelectParentTreeComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-catalogue',
+  standalone: true,
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemSelectParentCatalogueComponent {

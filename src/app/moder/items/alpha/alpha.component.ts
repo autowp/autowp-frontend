@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, APIItemList, ItemFields, ItemListOptions, ListItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
@@ -8,12 +8,16 @@ import {PageEnvService} from '@services/page-env.service';
 import {combineLatest, of, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+
 export interface APIItemAlphaGetResponse {
   groups: string[][];
 }
 
 @Component({
+  imports: [RouterLink, PaginatorComponent],
   selector: 'app-moder-items-alpha',
+  standalone: true,
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {

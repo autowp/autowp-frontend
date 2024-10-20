@@ -1,23 +1,50 @@
+import {AsyncPipe, NgClass} from '@angular/common';
 import {Component, inject, Renderer2} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
+import {NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {environment} from '@environment/environment';
 import {APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapse,
+  NgbDropdown,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbModal,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {Language, LanguageService} from '@services/language';
 import {MessageService} from '@services/message';
 import {LayoutParams, PageEnvService} from '@services/page-env.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import {KeycloakService} from 'keycloak-angular';
 import {Observable} from 'rxjs';
 import {shareReplay} from 'rxjs/operators';
 
+import {MenuComponent} from './moder/menu/menu/menu.component';
+import {ContainerComponent} from './toasts/container/container.component';
 import {UsersOnlineComponent} from './users/online/online.component';
 
 @Component({
+  imports: [
+    MenuComponent,
+    RouterLink,
+    NgbCollapse,
+    RouterLinkActive,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgClass,
+    RouterOutlet,
+    NgbTooltip,
+    MarkdownComponent,
+    ContainerComponent,
+    AsyncPipe,
+  ],
   selector: 'app-root',
+  standalone: true,
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
 })

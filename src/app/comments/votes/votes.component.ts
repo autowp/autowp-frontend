@@ -1,3 +1,4 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {CommentVote, GetCommentVotesRequest} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
@@ -6,9 +7,12 @@ import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import {UserComponent} from '../../user/user/user.component';
 
 @Component({
+  imports: [UserComponent, AsyncPipe],
   selector: 'app-comments-votes',
+  standalone: true,
   templateUrl: './votes.component.html',
 })
 export class CommentsVotesComponent {

@@ -1,10 +1,14 @@
+import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import URLParse from 'url-parse';
+
+import {UserComponent} from '../../user/user/user.component';
 
 interface CommentTextElement {
   picture?: APIPicture;
@@ -19,7 +23,9 @@ interface CommentTextLine {
 }
 
 @Component({
+  imports: [UserComponent, RouterLink, AsyncPipe],
   selector: 'app-user-text',
+  standalone: true,
   templateUrl: './user-text.component.html',
 })
 export class UserTextComponent {
