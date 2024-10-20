@@ -1,16 +1,21 @@
 import {Routes} from '@angular/router';
 
-import {UploadIndexComponent} from './index/index.component';
-import {UploadSelectComponent} from './select/select.component';
-import {UploadComponent} from './upload.component';
-
 export const routes: Routes = [
   {
     children: [
-      {component: UploadSelectComponent, path: 'select', title: $localize`Select brand`},
-      {component: UploadIndexComponent, path: '', pathMatch: 'full', title: $localize`Add picture`},
+      {
+        loadComponent: () => import('./select/select.component').then((m) => m.UploadSelectComponent),
+        path: 'select',
+        title: $localize`Select brand`,
+      },
+      {
+        loadComponent: () => import('./index/index.component').then((m) => m.UploadIndexComponent),
+        path: '',
+        pathMatch: 'full',
+        title: $localize`Add picture`,
+      },
     ],
-    component: UploadComponent,
+    loadComponent: () => import('./upload.component').then((m) => m.UploadComponent),
     path: '',
     title: $localize`Add picture`,
   },

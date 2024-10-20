@@ -1,5 +1,10 @@
 import {Routes} from '@angular/router';
 
-import {ChartComponent} from './chart.component';
-
-export const routes: Routes = [{component: ChartComponent, path: '', pathMatch: 'full', title: $localize`Charts`}];
+export const routes: Routes = [
+  {
+    loadComponent: () => import('./chart.component').then((m) => m.ChartComponent),
+    path: '',
+    pathMatch: 'full',
+    title: $localize`Charts`,
+  },
+];

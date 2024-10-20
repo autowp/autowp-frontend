@@ -1,13 +1,14 @@
 import {Routes} from '@angular/router';
 
-import {FactoryComponent} from './factories.component';
-import {FactoryItemsComponent} from './items/items.component';
-
 export const routes: Routes = [
   {
     children: [
-      {component: FactoryItemsComponent, path: 'items'},
-      {component: FactoryComponent, path: '', pathMatch: 'full'},
+      {loadComponent: () => import('./items/items.component').then((m) => m.FactoryItemsComponent), path: 'items'},
+      {
+        loadComponent: () => import('./factories.component').then((m) => m.FactoryComponent),
+        path: '',
+        pathMatch: 'full',
+      },
     ],
     path: ':id',
     title: $localize`Products`,

@@ -1,5 +1,10 @@
 import {Routes} from '@angular/router';
 
-import {PulseComponent} from './pulse.component';
-
-export const routes: Routes = [{component: PulseComponent, path: '', pathMatch: 'full', title: $localize`Pulse`}];
+export const routes: Routes = [
+  {
+    loadComponent: () => import('./pulse.component').then((m) => m.PulseComponent),
+    path: '',
+    pathMatch: 'full',
+    title: $localize`Pulse`,
+  },
+];

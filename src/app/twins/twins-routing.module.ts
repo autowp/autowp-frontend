@@ -1,24 +1,18 @@
 import {Routes} from '@angular/router';
 
-import {TwinsComponent} from './twins.component';
-import {TwinsGroupGalleryComponent} from './twins-group/gallery/twins-group-gallery.component';
-import {TwinsGroupItemsComponent} from './twins-group/items/items.component';
-import {TwinsGroupPicturesListComponent} from './twins-group/pictures/list/list.component';
-import {TwinsGroupPictureComponent} from './twins-group/pictures/picture/picture.component';
-import {TwinsGroupSpecificationsComponent} from './twins-group/specifications/specifications.component';
-import {TwinsGroupComponent} from './twins-group/twins-group.component';
-
 export const routes: Routes = [
   {
     children: [
       {
         children: [
           {
-            component: TwinsGroupPictureComponent,
+            loadComponent: () =>
+              import('./twins-group/pictures/picture/picture.component').then((m) => m.TwinsGroupPictureComponent),
             path: ':identity',
           },
           {
-            component: TwinsGroupPicturesListComponent,
+            loadComponent: () =>
+              import('./twins-group/pictures/list/list.component').then((m) => m.TwinsGroupPicturesListComponent),
             path: '',
             pathMatch: 'full',
           },
@@ -28,23 +22,43 @@ export const routes: Routes = [
       {
         children: [
           {
-            component: TwinsGroupGalleryComponent,
+            loadComponent: () =>
+              import('./twins-group/gallery/twins-group-gallery.component').then((m) => m.TwinsGroupGalleryComponent),
             path: ':identity',
           },
           {
-            component: TwinsGroupGalleryComponent,
+            loadComponent: () =>
+              import('./twins-group/gallery/twins-group-gallery.component').then((m) => m.TwinsGroupGalleryComponent),
             path: '',
             pathMatch: 'full',
           },
         ],
         path: 'gallery',
       },
-      {component: TwinsGroupSpecificationsComponent, path: 'specifications'},
-      {component: TwinsGroupItemsComponent, path: ''},
+      {
+        loadComponent: () =>
+          import('./twins-group/specifications/specifications.component').then(
+            (m) => m.TwinsGroupSpecificationsComponent,
+          ),
+        path: 'specifications',
+      },
+      {
+        loadComponent: () => import('./twins-group/items/items.component').then((m) => m.TwinsGroupItemsComponent),
+        path: '',
+      },
     ],
-    component: TwinsGroupComponent,
+    loadComponent: () => import('./twins-group/twins-group.component').then((m) => m.TwinsGroupComponent),
     path: 'group/:group',
   },
-  {component: TwinsComponent, path: ':brand', title: $localize`Twins`},
-  {component: TwinsComponent, path: '', pathMatch: 'full', title: $localize`Twins`},
+  {
+    loadComponent: () => import('./twins.component').then((m) => m.TwinsComponent),
+    path: ':brand',
+    title: $localize`Twins`,
+  },
+  {
+    loadComponent: () => import('./twins.component').then((m) => m.TwinsComponent),
+    path: '',
+    pathMatch: 'full',
+    title: $localize`Twins`,
+  },
 ];

@@ -1,10 +1,8 @@
 import {Routes} from '@angular/router';
 
-import {PicturePageComponent} from './picture-page.component';
-
 export const routes: Routes = [
   {
-    component: PicturePageComponent,
+    loadComponent: () => import('./picture-page.component').then((m) => m.PicturePageComponent),
     path: ':identity',
   },
 ];

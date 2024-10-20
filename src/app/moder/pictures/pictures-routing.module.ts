@@ -1,43 +1,37 @@
 import {Routes} from '@angular/router';
 
 import {moderGuard} from '../../moder.guard';
-import {ModerPicturesItemAreaComponent} from './item/area/area.component';
-import {ModerPicturesItemCropComponent} from './item/crop/crop.component';
-import {ModerPicturesItemComponent} from './item/item.component';
-import {ModerPicturesItemMoveComponent} from './item/move/move.component';
-import {ModerPicturesItemPlaceComponent} from './item/place/place.component';
-import {ModerPicturesComponent} from './pictures.component';
 
 export const routes: Routes = [
   {
     children: [
       {
         canActivate: [moderGuard],
-        component: ModerPicturesItemAreaComponent,
+        loadComponent: () => import('./item/area/area.component').then((m) => m.ModerPicturesItemAreaComponent),
         path: 'area',
         title: $localize`Cropper`,
       },
       {
         canActivate: [moderGuard],
-        component: ModerPicturesItemCropComponent,
+        loadComponent: () => import('./item/crop/crop.component').then((m) => m.ModerPicturesItemCropComponent),
         path: 'crop',
         title: $localize`Cropper`,
       },
       {
         canActivate: [moderGuard],
-        component: ModerPicturesItemMoveComponent,
+        loadComponent: () => import('./item/move/move.component').then((m) => m.ModerPicturesItemMoveComponent),
         path: 'move',
         title: $localize`Move picture`,
       },
       {
         canActivate: [moderGuard],
-        component: ModerPicturesItemPlaceComponent,
+        loadComponent: () => import('./item/place/place.component').then((m) => m.ModerPicturesItemPlaceComponent),
         path: 'place',
         title: $localize`Location`,
       },
       {
         canActivate: [moderGuard],
-        component: ModerPicturesItemComponent,
+        loadComponent: () => import('./item/item.component').then((m) => m.ModerPicturesItemComponent),
         path: '',
       },
     ],
@@ -45,7 +39,7 @@ export const routes: Routes = [
   },
   {
     canActivate: [moderGuard],
-    component: ModerPicturesComponent,
+    loadComponent: () => import('./pictures.component').then((m) => m.ModerPicturesComponent),
     path: '',
     title: $localize`Pictures`,
   },

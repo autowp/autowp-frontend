@@ -1,8 +1,5 @@
 import {Routes} from '@angular/router';
 
-import {LoginComponent} from './login/login.component';
-import {PageNotFoundComponent} from './not-found.component';
-
 export const appRoutes: Routes = [
   {loadChildren: () => import('./about/about-routing.module').then((m) => m.routes), path: 'about'},
   {
@@ -95,8 +92,8 @@ export const appRoutes: Routes = [
   },
   {loadChildren: () => import('./voting/voting-routing.module').then((m) => m.routes), path: 'voting'},
   {loadChildren: () => import('./index/index-routing.module').then((m) => m.routes), path: ''},
-  {component: PageNotFoundComponent, path: 'error-404'},
-  {component: LoginComponent, path: 'login'},
+  {loadComponent: () => import('./not-found.component').then((m) => m.PageNotFoundComponent), path: 'error-404'},
+  {loadComponent: () => import('./login/login.component').then((m) => m.LoginComponent), path: 'login'},
   {
     loadChildren: () => import('./catalogue/catalogue-routing.module').then((m) => m.routes),
     // matcher: cataloguePathMatcher,

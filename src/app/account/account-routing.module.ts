@@ -1,45 +1,38 @@
 import {Routes} from '@angular/router';
 
 import {authGuard} from '../auth.guard';
-import {AccountAccessComponent} from './access/access.component';
-import {AccountComponent} from './account.component';
-import {AccountAccountsComponent} from './accounts/accounts.component';
-import {AccountContactsComponent} from './contacts/contacts.component';
-import {AccountDeleteComponent} from './delete/delete.component';
-import {AccountDeletedComponent} from './delete/deleted/deleted.component';
-import {AccountEmailComponent} from './email/email.component';
-import {AccountInboxPicturesComponent} from './inbox-pictures/inbox-pictures.component';
-import {AccountMessagesComponent} from './messages/messages.component';
-import {AccountProfileComponent} from './profile/profile.component';
-import {AccountSpecsConflictsComponent} from './specs-conflicts/specs-conflicts.component';
 
 export const routes: Routes = [
   {
     children: [
       {
         canActivate: [authGuard],
-        component: AccountAccessComponent,
+        loadComponent: () => import('./access/access.component').then((m) => m.AccountAccessComponent),
         path: 'access',
         title: $localize`Access Control`,
       },
       {
         canActivate: [authGuard],
-        component: AccountAccountsComponent,
+        loadComponent: () => import('./accounts/accounts.component').then((m) => m.AccountAccountsComponent),
         path: 'accounts',
         title: $localize`My accounts`,
       },
       {
         canActivate: [authGuard],
-        component: AccountContactsComponent,
+        loadComponent: () => import('./contacts/contacts.component').then((m) => m.AccountContactsComponent),
         path: 'contacts',
         title: $localize`Contacts`,
       },
       {
         children: [
-          {component: AccountDeletedComponent, path: 'deleted', title: $localize`Account deleted`},
+          {
+            loadComponent: () => import('./delete/deleted/deleted.component').then((m) => m.AccountDeletedComponent),
+            path: 'deleted',
+            title: $localize`Account deleted`,
+          },
           {
             canActivate: [authGuard],
-            component: AccountDeleteComponent,
+            loadComponent: () => import('./delete/delete.component').then((m) => m.AccountDeleteComponent),
             path: '',
           },
         ],
@@ -48,35 +41,37 @@ export const routes: Routes = [
       },
       {
         canActivate: [authGuard],
-        component: AccountEmailComponent,
+        loadComponent: () => import('./email/email.component').then((m) => m.AccountEmailComponent),
         path: 'email',
         title: $localize`My e-mail`,
       },
       {
         canActivate: [authGuard],
-        component: AccountInboxPicturesComponent,
+        loadComponent: () =>
+          import('./inbox-pictures/inbox-pictures.component').then((m) => m.AccountInboxPicturesComponent),
         path: 'inbox-pictures',
         title: $localize`Unmoderated`,
       },
       {
         canActivate: [authGuard],
-        component: AccountMessagesComponent,
+        loadComponent: () => import('./messages/messages.component').then((m) => m.AccountMessagesComponent),
         path: 'messages',
       },
       {
         canActivate: [authGuard],
-        component: AccountProfileComponent,
+        loadComponent: () => import('./profile/profile.component').then((m) => m.AccountProfileComponent),
         path: 'profile',
         title: $localize`Profile`,
       },
       {
         canActivate: [authGuard],
-        component: AccountSpecsConflictsComponent,
+        loadComponent: () =>
+          import('./specs-conflicts/specs-conflicts.component').then((m) => m.AccountSpecsConflictsComponent),
         path: 'specs-conflicts',
         title: $localize`Conflicts`,
       },
     ],
-    component: AccountComponent,
+    loadComponent: () => import('./account.component').then((m) => m.AccountComponent),
     path: '',
     title: $localize`Account`,
   },

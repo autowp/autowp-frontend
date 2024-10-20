@@ -1,9 +1,14 @@
 import {Routes} from '@angular/router';
 
-import {ArticlesArticleComponent} from './article/article.component';
-import {ListComponent} from './list/list.component';
-
 export const routes: Routes = [
-  {component: ArticlesArticleComponent, path: ':catname'},
-  {component: ListComponent, path: '', pathMatch: 'full', title: $localize`Articles`},
+  {
+    loadComponent: () => import('./article/article.component').then((m) => m.ArticlesArticleComponent),
+    path: ':catname',
+  },
+  {
+    loadComponent: () => import('./list/list.component').then((m) => m.ListComponent),
+    path: '',
+    pathMatch: 'full',
+    title: $localize`Articles`,
+  },
 ];

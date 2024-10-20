@@ -1,5 +1,10 @@
 import {Routes} from '@angular/router';
 
-import {TelegramComponent} from './telegram.component';
-
-export const routes: Routes = [{component: TelegramComponent, path: '', pathMatch: 'full', title: $localize`Telegram`}];
+export const routes: Routes = [
+  {
+    loadComponent: () => import('./telegram.component').then((m) => m.TelegramComponent),
+    path: '',
+    pathMatch: 'full',
+    title: $localize`Telegram`,
+  },
+];

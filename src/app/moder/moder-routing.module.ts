@@ -1,27 +1,17 @@
 import {Routes} from '@angular/router';
 
 import {moderGuard} from '../moder.guard';
-import {ModerAttrsAttributeComponent} from './attrs/attribute/attribute.component';
-import {ModerAttrsComponent} from './attrs/attrs.component';
-import {ModerAttrsZoneComponent} from './attrs/zone/zone.component';
-import {ModerCommentsComponent} from './comments/comments.component';
-import {ModerIndexComponent} from './index/index.component';
-import {ModerItemParentComponent} from './item-parent/item-parent.component';
-import {ModerPerspectivesComponent} from './perspectives/perspectives.component';
-import {ModerPictureVoteTemplatesComponent} from './picture-vote-templates/picture-vote-templates.component';
-import {ModerStatComponent} from './stat/stat.component';
-import {ModerUsersComponent} from './users/users.component';
 
 export const routes: Routes = [
   {
     canActivate: [moderGuard],
-    component: ModerCommentsComponent,
+    loadComponent: () => import('./comments/comments.component').then((m) => m.ModerCommentsComponent),
     path: 'comments',
     title: $localize`Comments`,
   },
   {
     canActivate: [moderGuard],
-    component: ModerItemParentComponent,
+    loadComponent: () => import('./item-parent/item-parent.component').then((m) => m.ModerItemParentComponent),
     path: 'item-parent/:item_id/:parent_id',
   },
   {
@@ -30,13 +20,16 @@ export const routes: Routes = [
   },
   {
     canActivate: [moderGuard],
-    component: ModerPerspectivesComponent,
+    loadComponent: () => import('./perspectives/perspectives.component').then((m) => m.ModerPerspectivesComponent),
     path: 'perspectives',
     title: $localize`Perspectives`,
   },
   {
     canActivate: [moderGuard],
-    component: ModerPictureVoteTemplatesComponent,
+    loadComponent: () =>
+      import('./picture-vote-templates/picture-vote-templates.component').then(
+        (m) => m.ModerPictureVoteTemplatesComponent,
+      ),
     path: 'picture-vote-templates',
     title: $localize`Picture vote templates`,
   },
@@ -46,7 +39,7 @@ export const routes: Routes = [
   },
   {
     canActivate: [moderGuard],
-    component: ModerStatComponent,
+    loadComponent: () => import('./stat/stat.component').then((m) => m.ModerStatComponent),
     path: 'stat',
     title: $localize`Statistics`,
   },
@@ -56,7 +49,7 @@ export const routes: Routes = [
   },
   {
     canActivate: [moderGuard],
-    component: ModerUsersComponent,
+    loadComponent: () => import('./users/users.component').then((m) => m.ModerUsersComponent),
     path: 'users',
     title: $localize`Users`,
   },
@@ -64,17 +57,18 @@ export const routes: Routes = [
     children: [
       {
         canActivate: [moderGuard],
-        component: ModerAttrsAttributeComponent,
+        loadComponent: () =>
+          import('./attrs/attribute/attribute.component').then((m) => m.ModerAttrsAttributeComponent),
         path: 'attribute/:id',
       },
       {
         canActivate: [moderGuard],
-        component: ModerAttrsZoneComponent,
+        loadComponent: () => import('./attrs/zone/zone.component').then((m) => m.ModerAttrsZoneComponent),
         path: 'zone/:id',
       },
       {
         canActivate: [moderGuard],
-        component: ModerAttrsComponent,
+        loadComponent: () => import('./attrs/attrs.component').then((m) => m.ModerAttrsComponent),
         path: '',
       },
     ],
@@ -83,7 +77,7 @@ export const routes: Routes = [
   },
   {
     canActivate: [moderGuard],
-    component: ModerIndexComponent,
+    loadComponent: () => import('./index/index.component').then((m) => m.ModerIndexComponent),
     path: '',
     title: $localize`Moderator page`,
   },

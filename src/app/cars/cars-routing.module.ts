@@ -1,32 +1,31 @@
 import {Routes} from '@angular/router';
 
-import {CarsAttrsChangeLogComponent} from './attrs-change-log/attrs-change-log.component';
-import {CarsDatelessComponent} from './dateless/dateless.component';
-import {CarsEngineSelectComponent} from './specifications-editor/engine/select/select.component';
-import {CarsSpecificationsEditorComponent} from './specifications-editor/specifications-editor.component';
-import {CarsSpecsAdminComponent} from './specs-admin/specs-admin.component';
-
 export const routes: Routes = [
   {
-    component: CarsAttrsChangeLogComponent,
+    loadComponent: () =>
+      import('./attrs-change-log/attrs-change-log.component').then((m) => m.CarsAttrsChangeLogComponent),
     path: 'attrs-change-log',
     title: $localize`History`,
   },
   {
-    component: CarsDatelessComponent,
+    loadComponent: () => import('./dateless/dateless.component').then((m) => m.CarsDatelessComponent),
     path: 'dateless',
     title: $localize`Dateless`,
   },
   {
-    component: CarsEngineSelectComponent,
+    loadComponent: () =>
+      import('./specifications-editor/engine/select/select.component').then((m) => m.CarsEngineSelectComponent),
     path: 'select-engine',
   },
   {
-    component: CarsSpecificationsEditorComponent,
+    loadComponent: () =>
+      import('./specifications-editor/specifications-editor.component').then(
+        (m) => m.CarsSpecificationsEditorComponent,
+      ),
     path: 'specifications-editor',
   },
   {
-    component: CarsSpecsAdminComponent,
+    loadComponent: () => import('./specs-admin/specs-admin.component').then((m) => m.CarsSpecsAdminComponent),
     path: 'specs-admin',
     title: $localize`Specifications Admin`,
   },

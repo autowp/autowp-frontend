@@ -1,20 +1,14 @@
 import {Routes} from '@angular/router';
 
-import {UsersRatingComponent} from './rating/rating.component';
-import {UsersUserCommentsComponent} from './user/comments/comments.component';
-import {UsersUserPicturesBrandComponent} from './user/pictures/brand/brand.component';
-import {UsersUserPicturesComponent} from './user/pictures/pictures.component';
-import {UsersUserComponent} from './user/user.component';
-
 export const routes: Routes = [
   {
     children: [
       {
-        component: UsersRatingComponent,
+        loadComponent: () => import('./rating/rating.component').then((m) => m.UsersRatingComponent),
         path: ':rating',
       },
       {
-        component: UsersRatingComponent,
+        loadComponent: () => import('./rating/rating.component').then((m) => m.UsersRatingComponent),
         path: '',
       },
     ],
@@ -23,16 +17,27 @@ export const routes: Routes = [
   },
   {
     children: [
-      {component: UsersUserCommentsComponent, path: 'comments', title: $localize`Comments`},
+      {
+        loadComponent: () => import('./user/comments/comments.component').then((m) => m.UsersUserCommentsComponent),
+        path: 'comments',
+        title: $localize`Comments`,
+      },
       {
         children: [
-          {component: UsersUserPicturesBrandComponent, path: ':brand'},
-          {component: UsersUserPicturesComponent, path: ''},
+          {
+            loadComponent: () =>
+              import('./user/pictures/brand/brand.component').then((m) => m.UsersUserPicturesBrandComponent),
+            path: ':brand',
+          },
+          {
+            loadComponent: () => import('./user/pictures/pictures.component').then((m) => m.UsersUserPicturesComponent),
+            path: '',
+          },
         ],
         path: 'pictures',
         title: $localize`User's pictures`,
       },
-      {component: UsersUserComponent, path: ''},
+      {loadComponent: () => import('./user/user.component').then((m) => m.UsersUserComponent), path: ''},
     ],
     path: ':identity',
   },

@@ -1,10 +1,8 @@
 import {Routes} from '@angular/router';
 
-import {GalleryPageComponent} from './gallery-page.component';
-
 export const routes: Routes = [
   {
-    component: GalleryPageComponent,
+    loadComponent: () => import('./gallery-page.component').then((m) => m.GalleryPageComponent),
     path: ':identity',
   },
 ];

@@ -1,23 +1,35 @@
 import {Routes} from '@angular/router';
 
-import {DonateComponent} from './donate.component';
-import {DonateLogComponent} from './log/log.component';
-import {DonateSuccessComponent} from './success/success.component';
-import {DonateVodSelectComponent} from './vod/select/select.component';
-import {DonateVodSuccessComponent} from './vod/success/success.component';
-import {DonateVodComponent} from './vod/vod.component';
-
 export const routes: Routes = [
-  {component: DonateLogComponent, path: 'log', title: $localize`Donate log`},
-  {component: DonateSuccessComponent, path: 'success', title: $localize`Donate success`},
+  {
+    loadComponent: () => import('./log/log.component').then((m) => m.DonateLogComponent),
+    path: 'log',
+    title: $localize`Donate log`,
+  },
+  {
+    loadComponent: () => import('./success/success.component').then((m) => m.DonateSuccessComponent),
+    path: 'success',
+    title: $localize`Donate success`,
+  },
   {
     children: [
-      {component: DonateVodSelectComponent, path: 'select'},
-      {component: DonateVodSuccessComponent, path: 'success', title: $localize`Donate success`},
-      {component: DonateVodComponent, path: ''},
+      {
+        loadComponent: () => import('./vod/select/select.component').then((m) => m.DonateVodSelectComponent),
+        path: 'select',
+      },
+      {
+        loadComponent: () => import('./vod/success/success.component').then((m) => m.DonateVodSuccessComponent),
+        path: 'success',
+        title: $localize`Donate success`,
+      },
+      {loadComponent: () => import('./vod/vod.component').then((m) => m.DonateVodComponent), path: ''},
     ],
     path: 'vod',
     title: $localize`Donate`,
   },
-  {component: DonateComponent, path: '', title: $localize`Donate`},
+  {
+    loadComponent: () => import('./donate.component').then((m) => m.DonateComponent),
+    path: '',
+    title: $localize`Donate`,
+  },
 ];

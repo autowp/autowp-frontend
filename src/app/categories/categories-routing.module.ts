@@ -1,11 +1,5 @@
 import {Routes} from '@angular/router';
 
-import {CategoriesCategoryComponent} from './category/category.component';
-import {CategoryGalleryComponent} from './category/gallery/gallery.component';
-import {CategoriesCategoryItemComponent} from './category/item/item.component';
-import {CategoryPictureComponent} from './category/picture/picture.component';
-import {CategoriesCategoryPicturesComponent} from './category/pictures/pictures.component';
-import {CategoriesIndexComponent} from './index.component';
 import {categoriesPathMatcher} from './matcher';
 
 export const routes: Routes = [
@@ -14,11 +8,12 @@ export const routes: Routes = [
       {
         children: [
           {
-            component: CategoryPictureComponent,
+            loadComponent: () => import('./category/picture/picture.component').then((m) => m.CategoryPictureComponent),
             path: ':identity',
           },
           {
-            component: CategoriesCategoryPicturesComponent,
+            loadComponent: () =>
+              import('./category/pictures/pictures.component').then((m) => m.CategoriesCategoryPicturesComponent),
             path: '',
             pathMatch: 'full',
             title: $localize`Pictures`,
@@ -27,21 +22,21 @@ export const routes: Routes = [
         path: 'pictures',
       },
       {
-        component: CategoryGalleryComponent,
+        loadComponent: () => import('./category/gallery/gallery.component').then((m) => m.CategoryGalleryComponent),
         path: 'gallery/:identity',
         pathMatch: 'full',
       },
       {
-        component: CategoriesCategoryItemComponent,
+        loadComponent: () => import('./category/item/item.component').then((m) => m.CategoriesCategoryItemComponent),
         path: '',
         pathMatch: 'full',
       },
     ],
-    component: CategoriesCategoryComponent,
+    loadComponent: () => import('./category/category.component').then((m) => m.CategoriesCategoryComponent),
     matcher: categoriesPathMatcher,
   },
   {
-    component: CategoriesIndexComponent,
+    loadComponent: () => import('./index.component').then((m) => m.CategoriesIndexComponent),
     path: '',
     pathMatch: 'full',
     title: $localize`Categories`,
