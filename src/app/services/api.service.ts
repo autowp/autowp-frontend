@@ -162,8 +162,7 @@ export class APIService {
    *
    * @return An `Observable` of the response, with the response body of type string.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options: {
@@ -195,8 +194,7 @@ export class APIService {
    * @return An `Observable` of all `HttpEvents` for the reques,
    * with the response body of type string.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options: {
@@ -227,8 +225,7 @@ export class APIService {
    * @return An `Observable` of all `HttpEvents` for the request,
    *  with the response body of type `Object`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options: {
@@ -259,8 +256,7 @@ export class APIService {
    * @return An `Observable` of all `HttpEvents` for the request,
    * with the response body of type `R`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request<R>(
+  request$<R>(
     method: string,
     url: string,
     options: {
@@ -291,8 +287,7 @@ export class APIService {
    *
    * @return An `Observable` of the HTTP response, with the response body of type string.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options: {
@@ -323,8 +318,7 @@ export class APIService {
    * @return An `Observable` of the full `HTTPResponse`,
    * with the response body of type `Object`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options: {
@@ -355,8 +349,7 @@ export class APIService {
    *
    * @return  An `Observable` of the full `HTTPResponse`, with the response body of type `R`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request<R>(
+  request$<R>(
     method: string,
     url: string,
     options: {
@@ -387,8 +380,7 @@ export class APIService {
    *
    * @return An `Observable` of the `HTTPResponse`, with the response body of type `Object`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options?: {
@@ -419,8 +411,7 @@ export class APIService {
    *
    * @return An `Observable` of the `HTTPResponse`, with the response body of type `R`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request<R>(
+  request$<R>(
     method: string,
     url: string,
     options?: {
@@ -450,8 +441,7 @@ export class APIService {
    *
    * @return An `Observable` of the requested response, with body of type `any`.
    */
-  // eslint-disable-next-line rxjs/finnish
-  request(
+  request$(
     method: string,
     url: string,
     options?: {
@@ -473,8 +463,7 @@ export class APIService {
     },
   ): Observable<unknown>;
 
-  // eslint-disable-next-line rxjs/finnish
-  public request(
+  public request$(
     method: string,
     url: string,
     options?: {

@@ -8,6 +8,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {icon, latLng, marker, tileLayer} from 'leaflet';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -15,7 +16,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {CommentsComponent} from '../comments/comments/comments.component';
 import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
-import {MarkdownComponent} from '../utils/markdown/markdown.component';
 
 @Component({
   imports: [RouterLink, LeafletModule, MarkdownComponent, ThumbnailComponent, CommentsComponent, AsyncPipe],

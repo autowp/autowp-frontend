@@ -61,7 +61,7 @@ export class MostsService {
       return cached$;
     }
 
-    const o$ = this.api.request<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
+    const o$ = this.api.request$<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
       params: {
         brand_id: brandID.toString(),
       },
@@ -90,7 +90,7 @@ export class MostsService {
       params.brand_id = options.brand_id.toString();
     }
 
-    return this.api.request<APIMostsItemsGetResponse>('GET', 'mosts/items', {
+    return this.api.request$<APIMostsItemsGetResponse>('GET', 'mosts/items', {
       params,
     });
   }

@@ -73,7 +73,7 @@ export class VotingComponent {
     }
 
     this.api
-      .request<void>('PATCH', 'voting/' + voting.id, {
+      .request$<void>('PATCH', 'voting/' + voting.id, {
         body: {
           vote: ids,
         },

@@ -84,7 +84,7 @@ export class ChartComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
 
-    this.api.request<APIChartParameters>('GET', 'chart/parameters').subscribe({
+    this.api.request$<APIChartParameters>('GET', 'chart/parameters').subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: (response) => {
         this.parameters = response.parameters;
@@ -97,7 +97,7 @@ export class ChartComponent implements OnInit {
     this.chart.data = [];
 
     this.api
-      .request<APIChartData>('GET', 'chart/data', {
+      .request$<APIChartData>('GET', 'chart/data', {
         params: {id: id.toString()},
       })
       .subscribe({

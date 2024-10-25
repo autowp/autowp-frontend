@@ -5,13 +5,12 @@ import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
-import {InvalidParamsPipe} from '../../../../utils/invalid-params.pipe';
-import {MarkdownComponent} from '../../../../utils/markdown/markdown.component';
 
 @Component({
   imports: [MarkdownComponent, NgbProgressbar, AsyncPipe, InvalidParamsPipe],
@@ -55,7 +54,7 @@ export class ModerItemsItemLogoComponent {
 
     if (this.item) {
       this.api
-        .request('POST', 'item/' + this.item.id + '/logo', {
+        .request$('POST', 'item/' + this.item.id + '/logo', {
           body: formData,
           observe: 'events',
           reportProgress: true,
@@ -98,7 +97,7 @@ export class ModerItemsItemLogoComponent {
                 return EMPTY;
               }
 
-              return this.api.request<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
+              return this.api.request$<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
                 tap((subresponse) => {
                   if (this.progress) {
                     this.progress.percentage = 100;

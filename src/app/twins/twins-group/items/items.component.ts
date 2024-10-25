@@ -4,11 +4,11 @@ import {ActivatedRoute} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../../../comments/comments/comments.component';
-import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
 import {TwinsItemComponent} from '../../item/item.component';
 
 @Component({

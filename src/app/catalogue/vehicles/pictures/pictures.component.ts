@@ -7,6 +7,7 @@ import {APIItem} from '@services/item';
 import {APIItemParent} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
+import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -14,7 +15,6 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {chunkBy} from '../../../chunk';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
-import {ItemHeaderComponent} from '../../../utils/item-header/item-header.component';
 import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
 import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
 

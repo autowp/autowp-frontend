@@ -10,14 +10,17 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {EMPTY, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
-import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 interface APIVehicleTypeInItems {
   deep?: number;

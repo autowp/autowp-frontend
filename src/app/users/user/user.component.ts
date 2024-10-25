@@ -261,7 +261,7 @@ export class UsersUserComponent {
       return;
     }
 
-    this.api.request<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
+    this.api.request$<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         user.photo = undefined;

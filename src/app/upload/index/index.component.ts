@@ -11,15 +11,14 @@ import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {KeycloakService} from 'keycloak-angular';
 import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
-import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {UploadCropComponent} from '../crop/crop.component';
 
 interface UploadProgress {
@@ -196,7 +195,7 @@ export class UploadIndexComponent implements OnInit {
         return formData;
       }),
       switchMap((formData) =>
-        this.api.request('POST', 'picture', {
+        this.api.request$('POST', 'picture', {
           body: formData,
           observe: 'events',
           reportProgress: true,

@@ -9,10 +9,10 @@ import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item'
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {MarkdownComponent} from '../../../../../utils/markdown/markdown.component';
 import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
@@ -163,7 +163,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     };
 
     this.api
-      .request<void>('POST', 'item', {
+      .request$<void>('POST', 'item', {
         body: data,
         observe: 'response',
       })
@@ -179,7 +179,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') || '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
-            this.api.request<void>('POST', 'item-parent', {
+            this.api.request$<void>('POST', 'item-parent', {
               body: {
                 item_id: newItem.id,
                 parent_id: item.id,
@@ -193,7 +193,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
           for (const child of event.items) {
             promises.push(
-              this.api.request<void>('PUT', 'item-parent/' + child + '/' + item.id, {body: {parent_id: newItem.id}}),
+              this.api.request$<void>('PUT', 'item-parent/' + child + '/' + item.id, {body: {parent_id: newItem.id}}),
             );
           }
 

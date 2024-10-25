@@ -13,12 +13,12 @@ import {
 } from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {AuthService} from '@services/auth.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {CommentsFormComponent} from '../form/form.component';
 import {CommentsListComponent} from '../list/list.component';
 

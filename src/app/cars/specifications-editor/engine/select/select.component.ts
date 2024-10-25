@@ -137,7 +137,7 @@ export class CarsEngineSelectComponent {
 
   protected selectEngine(itemID: number, engineId: number) {
     this.api
-      .request<void>('PUT', 'item/' + itemID, {
+      .request$<void>('PUT', 'item/' + itemID, {
         body: {
           engine_id: engineId,
         },

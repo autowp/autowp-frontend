@@ -4,8 +4,7 @@ import {RouterLink} from '@angular/router';
 import {GetTopTwinsBrandsListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 
 @Component({
   imports: [RouterLink, MarkdownComponent, AsyncPipe],

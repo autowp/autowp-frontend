@@ -99,7 +99,7 @@ export class ItemParentService {
       params.catname = options.catname;
     }
 
-    return this.api.request<APIItemParentGetResponse>('GET', 'item-parent', {
+    return this.api.request$<APIItemParentGetResponse>('GET', 'item-parent', {
       params,
     });
   }

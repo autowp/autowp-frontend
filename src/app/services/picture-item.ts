@@ -55,7 +55,7 @@ export class PictureItemService {
 
     const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
 
-    return this.api.request<APIPictureItem>('GET', url, {
+    return this.api.request$<APIPictureItem>('GET', url, {
       params,
     });
   }
@@ -79,7 +79,7 @@ export class PictureItemService {
       params.order = options.order;
     }
 
-    return this.api.request<APIPictureItemsGetResponse>('GET', 'picture-item', {
+    return this.api.request$<APIPictureItemsGetResponse>('GET', 'picture-item', {
       params,
     });
   }

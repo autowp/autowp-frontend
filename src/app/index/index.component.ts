@@ -7,11 +7,11 @@ import {APIService} from '@services/api.service';
 import {APIItem, ItemOfDayItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ItemOfDayComponent} from '../item-of-day/item-of-day/item-of-day.component';
-import {MarkdownComponent} from '../utils/markdown/markdown.component';
 import {IndexBrandsComponent} from './brands/brands.component';
 import {IndexCategoriesComponent} from './categories/categories.component';
 import {IndexDonateComponent} from './donate/donate.component';
@@ -70,7 +70,7 @@ export class IndexComponent implements OnInit {
   ];
 
   protected readonly itemOfDay$: Observable<{item: APIItem; user: APIUser | null}> = this.api
-    .request<APIIndexItemOfDay>('GET', 'index/item-of-day')
+    .request$<APIIndexItemOfDay>('GET', 'index/item-of-day')
     .pipe(
       switchMap((itemOfDay) =>
         combineLatest([

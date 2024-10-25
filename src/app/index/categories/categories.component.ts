@@ -4,8 +4,8 @@ import {RouterLink} from '@angular/router';
 import {GetTopCategoriesListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
+import {Markdown2Component} from '@utils/markdown2/markdown2.component';
 
-import {Markdown2Component} from '../../utils/markdown2/markdown2.component';
 import {IndexCategoriesCategoryComponent} from './category/category.component';
 
 @Component({

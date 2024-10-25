@@ -7,13 +7,13 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPictureGetResponse, PictureService} from '@services/picture';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
 
 @Component({
   imports: [MarkdownComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe],

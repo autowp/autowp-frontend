@@ -477,7 +477,7 @@ export class ItemService {
   }
 
   public getItemByLocation$(url: string, options: GetItemServiceOptions): Observable<APIItem> {
-    return this.api.request<APIItem>('GET', this.api.resolveLocation(url), {
+    return this.api.request$<APIItem>('GET', this.api.resolveLocation(url), {
       params: convertItemOptions(options),
     });
   }
@@ -486,19 +486,19 @@ export class ItemService {
     if (!id) {
       return of(null);
     }
-    return this.api.request<APIItem>('GET', 'item/' + id, {
+    return this.api.request$<APIItem>('GET', 'item/' + id, {
       params: convertItemOptions(options ? options : {}),
     });
   }
 
   public getItems$(options?: GetItemsServiceOptions): Observable<APIItemsGetResponse> {
-    return this.api.request<APIItemsGetResponse>('GET', 'item', {
+    return this.api.request$<APIItemsGetResponse>('GET', 'item', {
       params: convertItemsOptions(options ? options : ({} as GetItemsServiceOptions)),
     });
   }
 
   public getPath$(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {
-    return this.api.request<APIItemsGetPathResponse>('GET', 'item/path', {
+    return this.api.request$<APIItemsGetPathResponse>('GET', 'item/path', {
       params: options,
     });
   }

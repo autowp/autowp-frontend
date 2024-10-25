@@ -113,7 +113,7 @@ export class ModerItemsItemNameComponent {
     for (const language of itemLanguages) {
       this.loadingNumber++;
       this.api
-        .request<void>('PUT', 'item/' + itemId + '/language/' + language.language, {
+        .request$<void>('PUT', 'item/' + itemId + '/language/' + language.language, {
           body: {
             full_text: language.fullText,
             name: language.name,

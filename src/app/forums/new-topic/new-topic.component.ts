@@ -7,15 +7,14 @@ import {ForumsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getForumsThemeTranslation} from '@utils/translations';
 import {EMPTY} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
-import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 
 @Component({
   imports: [RouterLink, FormsModule, MarkdownComponent, AsyncPipe, InvalidParamsPipe],

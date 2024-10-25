@@ -34,6 +34,6 @@ export class InboxService {
       params.date = date;
     }
 
-    return this.api.request<APIInbox>('GET', 'inbox', {params});
+    return this.api.request$<APIInbox>('GET', 'inbox', {params});
   }
 }

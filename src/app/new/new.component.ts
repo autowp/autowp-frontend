@@ -96,7 +96,7 @@ export class NewComponent implements OnInit {
         q.page = page.toString();
       }
       return this.api
-        .request<APINewGetResponse>('GET', 'new', {
+        .request$<APINewGetResponse>('GET', 'new', {
           params: q,
         })
         .pipe(

@@ -1,8 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
-
-import {Markdown2Component} from '../utils/markdown2/markdown2.component';
+import {Markdown2Component} from '@utils/markdown2/markdown2.component';
 
 @Component({
   imports: [RouterLink, Markdown2Component],

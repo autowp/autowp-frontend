@@ -5,12 +5,12 @@ import {APIUser} from '@grpc/spec.pb';
 import {AuthService} from '@services/auth.service';
 import {APIItem, ItemOfDayItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {usdToRub} from '../../currencies';
 import {ItemOfDayComponent} from '../../item-of-day/item-of-day/item-of-day.component';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {DonateService} from '../donate.service';
 
 const VOD_TIMEZONE = 'UTC';

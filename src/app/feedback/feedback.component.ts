@@ -6,13 +6,12 @@ import {AutowpClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {PageEnvService} from '@services/page-env.service';
 import {ReCaptchaService} from '@services/recaptcha';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {RecaptchaModule} from 'ng-recaptcha-2';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {ToastsService} from '../toasts/toasts.service';
-import {InvalidParamsPipe} from '../utils/invalid-params.pipe';
-import {MarkdownComponent} from '../utils/markdown/markdown.component';
 
 const CAPTCHA = 'captcha';
 

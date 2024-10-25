@@ -105,7 +105,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
 
   protected select(itemID: string, parentID: string) {
     this.api
-      .request<void>('POST', 'item-parent', {
+      .request$<void>('POST', 'item-parent', {
         body: {
           item_id: itemID,
           parent_id: parentID,

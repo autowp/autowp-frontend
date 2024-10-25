@@ -16,14 +16,13 @@ import {LanguageService} from '@services/language';
 import {APIPictureItem} from '@services/picture-item';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
-import {InvalidParamsPipe} from '../../../utils/invalid-params.pipe';
 import {MapPointComponent} from './map-point/map-point.component';
 
 function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {

@@ -7,11 +7,11 @@ import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {CarsSpecificationsEditorEngineComponent} from './engine/engine.component';
 import {CarsSpecificationsEditorResultComponent} from './result/result.component';
 import {CarsSpecificationsEditorSpecComponent} from './spec/spec.component';
@@ -78,7 +78,7 @@ export class CarsSpecificationsEditorComponent {
   }
 
   protected refreshInheritance(item: APIItem) {
-    this.api.request<void>('POST', 'item/' + item.id + '/refresh-inheritance', {body: {}}).subscribe({
+    this.api.request$<void>('POST', 'item/' + item.id + '/refresh-inheritance', {body: {}}).subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.router.navigate(['/cars/specifications-editor'], {

@@ -9,10 +9,10 @@ import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {MarkdownComponent} from '../../../../../utils/markdown/markdown.component';
 import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
@@ -150,11 +150,11 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     };
 
     forkJoin([
-      this.api.request<void>('POST', 'item', {
+      this.api.request$<void>('POST', 'item', {
         body: data,
         observe: 'response',
       }),
-      item.is_group ? of(null) : this.api.request<void>('PUT', 'item/' + item.id, {body: {is_group: true}}),
+      item.is_group ? of(null) : this.api.request$<void>('PUT', 'item/' + item.id, {body: {is_group: true}}),
     ])
       .pipe(
         catchError((response: unknown) => {
@@ -167,7 +167,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         switchMap((responses) => this.itemService.getItemByLocation$(responses[0].headers.get('Location') || '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
-            this.api.request<void>('POST', 'item-parent', {
+            this.api.request$<void>('POST', 'item-parent', {
               body: {
                 item_id: newItem.id,
                 parent_id: item.id,

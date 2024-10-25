@@ -17,12 +17,12 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
+import {UserTextComponent} from '@utils/user-text/user-text.component';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
-import {UserTextComponent} from '../../utils/user-text/user-text.component';
 import {CommentsFormComponent} from '../form/form.component';
 import {CommentsVotesComponent} from '../votes/votes.component';
 

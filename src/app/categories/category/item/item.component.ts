@@ -7,11 +7,11 @@ import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
 import {CategoriesListItemComponent} from '../../list-item.component';
 import {CategoriesService} from '../../service';
 

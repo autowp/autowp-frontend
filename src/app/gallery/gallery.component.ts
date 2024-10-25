@@ -138,7 +138,7 @@ export class GalleryComponent {
       if (!gallery.getGalleryItem(identity)) {
         const params = gallery.filterParams();
         params.picture_identity = identity;
-        return this.api.request<APIGallery>('GET', 'gallery', {params}).pipe(
+        return this.api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
           tap((response) => {
             gallery.applyResponse(response);
           }),
@@ -189,7 +189,7 @@ export class GalleryComponent {
     const params = gallery.filterParams();
     params.status = gallery.status;
     params.page = page + '';
-    return this.api.request<APIGallery>('GET', 'gallery', {params}).pipe(
+    return this.api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
       tap((response) => {
         gallery.applyResponse(response);
       }),

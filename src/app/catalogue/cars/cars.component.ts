@@ -15,12 +15,12 @@ import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {CatalogueListItemComponent} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],

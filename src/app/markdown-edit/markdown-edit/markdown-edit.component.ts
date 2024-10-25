@@ -9,9 +9,8 @@ import {
   NgbNavLinkBase,
   NgbNavOutlet,
 } from '@ng-bootstrap/ng-bootstrap';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {AutosizeModule} from 'ngx-autosize';
-
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 
 @Component({
   imports: [

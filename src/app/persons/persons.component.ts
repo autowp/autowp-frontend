@@ -4,12 +4,15 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {combineLatest} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
-import {CatalogueListItemComponent} from '../utils/list-item/list-item.component';
 
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],

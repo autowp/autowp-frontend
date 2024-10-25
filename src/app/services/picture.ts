@@ -382,23 +382,23 @@ export class PictureService {
     );
 
   public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
-    return this.api.request<APIPicture>('GET', this.api.resolveLocation(url), {
+    return this.api.request$<APIPicture>('GET', this.api.resolveLocation(url), {
       params: convertPictureOptions(options ? options : {}),
     });
   }
 
   public getPicture$(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
-    return this.api.request<APIPicture>('GET', 'picture/' + id, {
+    return this.api.request$<APIPicture>('GET', 'picture/' + id, {
       params: convertPictureOptions(options ? options : {}),
     });
   }
 
   public getCanonicalRoute$(identity: string): Observable<null | string[]> {
-    return this.api.request<null | string[]>('GET', 'picture/' + identity + '/canonical-route');
+    return this.api.request$<null | string[]>('GET', 'picture/' + identity + '/canonical-route');
   }
 
   public getPictures$(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
-    return this.api.request<APIPictureGetResponse>('GET', 'picture', {
+    return this.api.request$<APIPictureGetResponse>('GET', 'picture', {
       params: converPicturesOptions(options ? options : {}),
     });
   }
@@ -414,13 +414,5 @@ export class PictureService {
         value,
       }),
     );
-  }
-
-  public setPictureStatus$(id: number, status: string): Observable<void> {
-    return this.api.request<void>('PUT', 'picture/' + id.toString(), {
-      body: {
-        status,
-      },
-    });
   }
 }

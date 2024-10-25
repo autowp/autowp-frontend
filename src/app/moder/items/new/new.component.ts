@@ -186,7 +186,7 @@ export class ModerItemsNewComponent {
     };
 
     this.api
-      .request<void>('POST', 'item', {
+      .request$<void>('POST', 'item', {
         body: data,
         observe: 'response',
       })
@@ -207,7 +207,7 @@ export class ModerItemsNewComponent {
               switchMap((parent) =>
                 parent
                   ? this.api
-                      .request<void>('POST', 'item-parent', {
+                      .request$<void>('POST', 'item-parent', {
                         body: {
                           item_id: item.id,
                           parent_id: parent.id,

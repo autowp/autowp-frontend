@@ -17,6 +17,7 @@ import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getCatalogueSectionsTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -24,7 +25,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {chunk, chunkBy} from '../../chunk';
 import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {CatalogueService} from '../catalogue-service';
 
 interface APIBrandSectionGroup {
@@ -191,7 +191,7 @@ export class CatalogueIndexComponent {
   protected readonly sections$: Observable<
     {halfChunks: APIBrandSectionGroup[][][]; name: string; routerLink: string[]}[]
   > = this.brand$.pipe(
-    switchMap((brand) => this.api.request<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
+    switchMap((brand) => this.api.request$<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
     map((response) =>
       response.map((section) => ({
         halfChunks: chunk(section.groups, 2).map((halfChunk) => chunk(halfChunk, 2)),

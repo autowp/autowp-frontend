@@ -46,7 +46,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
 
     this.querySub = combineLatest([
       this.route.queryParamMap,
-      this.api.request<APIItemAlphaGetResponse>('GET', 'item/alpha'),
+      this.api.request$<APIItemAlphaGetResponse>('GET', 'item/alpha'),
     ])
       .pipe(
         switchMap(([query, groups]) =>

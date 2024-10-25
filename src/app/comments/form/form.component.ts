@@ -3,13 +3,12 @@ import {FormsModule} from '@angular/forms';
 import {AddCommentRequest, CommentsType} from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {switchMap, take, tap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
-import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
 
 @Component({
   imports: [FormsModule, InvalidParamsPipe],

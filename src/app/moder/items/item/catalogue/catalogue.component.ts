@@ -146,7 +146,7 @@ export class ModerItemsItemCatalogueComponent {
 
   protected addParent(item: APIItem, parentId: number) {
     this.api
-      .request<void>('POST', 'item-parent', {
+      .request$<void>('POST', 'item-parent', {
         body: {
           item_id: item.id,
           parent_id: parentId,
@@ -161,7 +161,7 @@ export class ModerItemsItemCatalogueComponent {
   }
 
   private deleteItemParent(itemID: number, parentID: number) {
-    this.api.request<void>('DELETE', 'item-parent/' + itemID + '/' + parentID).subscribe(() => {
+    this.api.request$<void>('DELETE', 'item-parent/' + itemID + '/' + parentID).subscribe(() => {
       this.reloadChilds$.next();
       this.reloadParents$.next();
       this.reloadSuggestions$.next();

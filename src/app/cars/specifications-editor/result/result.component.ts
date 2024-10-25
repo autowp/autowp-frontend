@@ -22,7 +22,7 @@ export class CarsSpecificationsEditorResultComponent {
   protected readonly html$ = this.item$.pipe(
     switchMap((item) =>
       item
-        ? this.api.request('GET', 'item/' + item.id + '/specifications', {
+        ? this.api.request$('GET', 'item/' + item.id + '/specifications', {
             responseType: 'text',
           })
         : EMPTY,

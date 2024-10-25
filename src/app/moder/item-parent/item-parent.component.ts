@@ -10,14 +10,13 @@ import {ContentLanguageService} from '@services/content-language';
 import {APIItemParent} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, forkJoin, Observable, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
-import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
 
 @Component({
   imports: [RouterLink, FormsModule, InvalidParamsPipe],
@@ -73,7 +72,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
         debounceTime(30),
         switchMap((params) => {
           return combineLatest([
-            this.api.request<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
+            this.api.request$<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
             this.itemsClient.item(
               new ItemRequest({
                 fields: new ItemFields({
@@ -140,7 +139,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
   protected reloadItemParent() {
     if (this.itemParent) {
       this.api
-        .request<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
+        .request$<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
         .subscribe((response) => {
           this.itemParent = response;
         });
@@ -152,7 +151,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
       return;
     }
     const promises: Observable<Empty | void>[] = [
-      this.api.request<Empty | void>(
+      this.api.request$<Empty | void>(
         'PUT',
         'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id,
         {

@@ -22,7 +22,7 @@ export class AccountAccountsComponent implements OnInit {
 
   private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly accounts$: Observable<APIAccount[]> = combineLatest([
-    this.api.request<APIAccountItemsGetResponse>('GET', 'account'),
+    this.api.request$<APIAccountItemsGetResponse>('GET', 'account'),
     this.reload$,
   ]).pipe(
     catchError((error: unknown) => {
@@ -39,7 +39,7 @@ export class AccountAccountsComponent implements OnInit {
   }
 
   protected remove(account: APIAccount) {
-    this.api.request('DELETE', 'account/' + account.id).subscribe({
+    this.api.request$('DELETE', 'account/' + account.id).subscribe({
       error: (response: unknown) => {
         this.disconnectFailed = true;
         this.toastService.handleError(response);

@@ -40,7 +40,7 @@ export class TwinsGroupSpecificationsComponent {
 
   protected readonly html$: Observable<string> = this.id$.pipe(
     switchMap((id) =>
-      this.api.request('GET', 'item/' + id + '/child-specifications', {
+      this.api.request$('GET', 'item/' + id + '/child-specifications', {
         responseType: 'text',
       }),
     ),

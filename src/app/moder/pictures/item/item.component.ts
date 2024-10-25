@@ -31,6 +31,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {NgDatePipesModule, NgMathPipesModule} from 'ngx-pipes';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
@@ -41,7 +42,6 @@ import {MarkdownEditComponent} from '../../../markdown-edit/markdown-edit/markdo
 import {PictureModerVoteComponent} from '../../../picture-moder-vote/picture-moder-vote/picture-moder-vote.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {UserComponent} from '../../../user/user/user.component';
-import {MarkdownComponent} from '../../../utils/markdown/markdown.component';
 import {ModerPicturesPerspectivePickerComponent} from '../perspective-picker/perspective-picker.component';
 
 interface LastItemInfo {
@@ -474,7 +474,7 @@ export class ModerPicturesItemComponent {
 
   protected correctFileNames(id: number) {
     this.repairLoading = true;
-    this.api.request<void>('PUT', 'picture/' + id + '/correct-file-names', {}).subscribe({
+    this.api.request$<void>('PUT', 'picture/' + id + '/correct-file-names', {}).subscribe({
       error: () => {
         this.repairLoading = false;
       },
@@ -565,14 +565,14 @@ export class ModerPicturesItemComponent {
   }
 
   protected removeFromBlacklist(ip: string) {
-    this.api.request<void>('DELETE', 'traffic/blacklist/' + ip).subscribe(() => {
+    this.api.request$<void>('DELETE', 'traffic/blacklist/' + ip).subscribe(() => {
       this.change$.next();
     });
   }
 
   protected addToBlacklist(ip: string) {
     this.api
-      .request<void>('POST', 'traffic/blacklist', {
+      .request$<void>('POST', 'traffic/blacklist', {
         body: {
           ip,
           period: this.banPeriod,

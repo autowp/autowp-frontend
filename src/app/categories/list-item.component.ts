@@ -6,11 +6,10 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {APIPicture} from '@services/picture';
+import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
-
-import {ItemHeaderComponent} from '../utils/item-header/item-header.component';
-import {MarkdownComponent} from '../utils/markdown/markdown.component';
 
 interface PictureThumbRoute {
   picture: APIPicture | null;

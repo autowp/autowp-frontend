@@ -39,7 +39,7 @@ export class BrandsComponent implements OnInit {
   private readonly toastService = inject(ToastsService);
   private readonly grpc = inject(AutowpClient);
 
-  protected readonly items$: Observable<APIBrandsLines> = this.api.request<APIBrandsGetResponse>('GET', 'brands').pipe(
+  protected readonly items$: Observable<APIBrandsLines> = this.api.request$<APIBrandsGetResponse>('GET', 'brands').pipe(
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;

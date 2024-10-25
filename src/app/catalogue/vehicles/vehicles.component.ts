@@ -8,15 +8,18 @@ import {APIItem, ItemService} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
+import {
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {ItemHeaderComponent} from '../../utils/item-header/item-header.component';
-import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 import {CatalogueService} from '../catalogue-service';
 import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
 

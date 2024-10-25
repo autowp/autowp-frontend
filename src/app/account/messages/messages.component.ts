@@ -6,6 +6,8 @@ import {MessagingClient} from '@grpc/spec.pbsc';
 import {MessageService} from '@services/message';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {PastTimeIndicatorComponent} from '@utils/past-time-indicator/past-time-indicator.component';
+import {UserTextComponent} from '@utils/user-text/user-text.component';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
@@ -13,8 +15,6 @@ import {MessageDialogService} from '../../message-dialog/message-dialog.service'
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
-import {PastTimeIndicatorComponent} from '../../utils/past-time-indicator/past-time-indicator.component';
-import {UserTextComponent} from '../../utils/user-text/user-text.component';
 
 @Component({
   imports: [UserComponent, RouterLink, UserTextComponent, PastTimeIndicatorComponent, PaginatorComponent, AsyncPipe],

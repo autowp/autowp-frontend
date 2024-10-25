@@ -19,6 +19,7 @@ import {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {NgDatePipesModule, NgMathPipesModule} from 'ngx-pipes';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
@@ -29,7 +30,6 @@ import {PictureModerVoteComponent} from '../picture-moder-vote/picture-moder-vot
 import {ShareComponent} from '../share/share.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {UserComponent} from '../user/user/user.component';
-import {MarkdownComponent} from '../utils/markdown/markdown.component';
 import {PicturePaginatorComponent} from './paginator.component';
 
 @Component({

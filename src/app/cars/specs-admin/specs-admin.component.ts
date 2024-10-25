@@ -90,7 +90,7 @@ export class CarsSpecsAdminComponent implements OnInit {
 
   protected deleteValue(value: AttrUserValueListItem) {
     this.api
-      .request(
+      .request$<void>(
         'DELETE',
         'attr/user-value/' + value.userValue.attributeId + '/' + value.userValue.itemId + '/' + value.userValue.userId,
       )
@@ -104,7 +104,7 @@ export class CarsSpecsAdminComponent implements OnInit {
 
   protected moveValues(itemID: string) {
     this.api
-      .request<void>('PATCH', 'attr/user-value', {
+      .request$<void>('PATCH', 'attr/user-value', {
         body: {
           item_id: this.move.item_id,
         },

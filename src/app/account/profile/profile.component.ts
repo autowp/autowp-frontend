@@ -10,14 +10,13 @@ import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {TimezoneService} from '@services/timezone';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {KeycloakService} from 'keycloak-angular';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
-import {InvalidParamsPipe} from '../../utils/invalid-params.pipe';
-import {MarkdownComponent} from '../../utils/markdown/markdown.component';
 
 @Component({
   imports: [MarkdownComponent, FormsModule, AsyncPipe, InvalidParamsPipe],
@@ -118,7 +117,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   protected sendSettings() {
     this.settingsInvalidParams = {};
 
-    this.api.request<void>('PUT', 'user/me', {body: this.settings}).subscribe({
+    this.api.request$<void>('PUT', 'user/me', {body: this.settings}).subscribe({
       error: (response: unknown) => {
         if (response instanceof HttpErrorResponse && response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
@@ -138,7 +137,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   }*/
 
   protected resetPhoto() {
-    this.api.request('DELETE', 'user/me/photo').subscribe({
+    this.api.request$('DELETE', 'user/me/photo').subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         if (this.user) {
@@ -161,7 +160,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
     formData.append('file', file);
 
     return this.api
-      .request('POST', 'user/me/photo', {body: formData})
+      .request$('POST', 'user/me/photo', {body: formData})
       .pipe(
         catchError((response: unknown) => {
           if (this.input) {

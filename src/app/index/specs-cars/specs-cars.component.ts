@@ -5,13 +5,16 @@ import {APIUser} from '@grpc/spec.pb';
 import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {UserService} from '@services/user';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
 import {UserComponent} from '../../user/user/user.component';
-import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 interface APIIndexSpecItemsItem extends APIItem {
   contributors: number[];
@@ -35,7 +38,7 @@ export class IndexSpecsCarsComponent {
   private readonly api = inject(APIService);
   private readonly userService = inject(UserService);
 
-  protected readonly items$ = this.api.request<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
+  protected readonly items$ = this.api.request$<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
     map((response) => {
       return chunkBy(
         response.items.map((item) => {

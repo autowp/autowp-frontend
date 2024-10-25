@@ -58,13 +58,13 @@ export class CatalogueVehiclesSpecificationsComponent {
   protected readonly html$ = this.item$.pipe(
     switchMap((item) => {
       if (item.has_child_specs) {
-        return this.api.request('GET', 'item/' + item.id + '/child-specifications', {
+        return this.api.request$('GET', 'item/' + item.id + '/child-specifications', {
           responseType: 'text',
         });
       }
 
       if (item.has_specs) {
-        return this.api.request('GET', 'item/' + item.id + '/specifications', {
+        return this.api.request$('GET', 'item/' + item.id + '/specifications', {
           responseType: 'text',
         });
       }

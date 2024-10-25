@@ -56,7 +56,7 @@ export class CarsSpecificationsEditorEngineComponent {
 
   private setEngineID(item: APIItem, value: string) {
     this.api
-      .request<void>('PUT', 'item/' + item.id, {
+      .request$<void>('PUT', 'item/' + item.id, {
         body: {
           engine_id: value,
         },

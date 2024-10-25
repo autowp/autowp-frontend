@@ -282,7 +282,7 @@ export class CarsSpecificationsEditorSpecComponent {
     this.loading++;
     this.invalidParams.clear();
     this.api
-      .request<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {
+      .request$<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {
         body: {
           items,
         },

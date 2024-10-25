@@ -14,12 +14,12 @@ import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {UserService} from '@services/user';
+import {PastTimeIndicatorComponent} from '@utils/past-time-indicator/past-time-indicator.component';
 import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
-import {PastTimeIndicatorComponent} from '../../utils/past-time-indicator/past-time-indicator.component';
 
 interface Topic {
   author$: Observable<APIUser | null>;

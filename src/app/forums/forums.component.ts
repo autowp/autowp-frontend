@@ -17,13 +17,13 @@ import {ForumsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
+import {PastTimeIndicatorComponent} from '@utils/past-time-indicator/past-time-indicator.component';
 import {getForumsThemeDescriptionTranslation, getForumsThemeTranslation} from '@utils/translations';
 import {BehaviorSubject, combineLatest, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
 import {UserComponent} from '../user/user/user.component';
-import {PastTimeIndicatorComponent} from '../utils/past-time-indicator/past-time-indicator.component';
 import {ForumsTopicListComponent} from './topic-list/topic-list.component';
 
 interface Theme extends APIForumsTheme.AsObject {

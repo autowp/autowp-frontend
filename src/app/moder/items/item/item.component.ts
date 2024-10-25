@@ -244,7 +244,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   private initTreeTab() {
     if (this.item) {
-      this.api.request<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
+      this.api.request$<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
         next: (response) => {
           this.tree = response.item;
         },
@@ -256,7 +256,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
     if (this.item) {
       const newValue = !this.item.subscription;
       this.api
-        .request<void>('PUT', 'item/' + this.item.id, {
+        .request$<void>('PUT', 'item/' + this.item.id, {
           body: {
             subscription: newValue ? 1 : 0,
           },

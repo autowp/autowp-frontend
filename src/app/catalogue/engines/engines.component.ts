@@ -7,11 +7,11 @@ import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
+import {CatalogueListItemComponent} from '@utils/list-item/list-item.component';
 import {combineLatest, EMPTY, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {CatalogueListItemComponent} from '../../utils/list-item/list-item.component';
 
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],

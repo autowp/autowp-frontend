@@ -82,7 +82,7 @@ export class ModerItemsItemMetaComponent {
     };
 
     const pipes: Observable<void>[] = [
-      this.api.request<void>('PUT', 'item/' + item.id, {body: data}).pipe(
+      this.api.request$<void>('PUT', 'item/' + item.id, {body: data}).pipe(
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse) {
             this.invalidParams = response.error.invalid_params;
