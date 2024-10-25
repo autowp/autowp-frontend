@@ -42,9 +42,6 @@
             "type": "attribute"
           }
         ],
-        "rxjs-angular/prefer-async-pipe": "off",
-        "rxjs-angular/prefer-composition": "off",
-        "rxjs-angular/prefer-takeuntil": "off",
         "rxjs/finnish": "error",
         "rxjs/no-compat": "error",
         "perfectionist/sort-classes": "off"
