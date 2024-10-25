@@ -91,7 +91,7 @@
       @if (item.accepted_pictures_count && item.accepted_pictures_count > 6) {
         <span>
           <span class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></span>
-          <a [routerLink]="['/category', item.catname, '/pictures']"
+          <a [routerLink]="['/category', item.catname, 'pictures']"
             ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
           >
         </span>
