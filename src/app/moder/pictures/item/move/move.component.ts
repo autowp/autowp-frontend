@@ -70,19 +70,19 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   private readonly srcItemID$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('src_item_id') || '', 10)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly srcType$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('src_type') || '', 10) as PictureItemType),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly id$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly src$ = combineLatest([this.id$, this.srcItemID$, this.srcType$]).pipe(
@@ -92,7 +92,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   private isSrcTypeOrEmpty$(pictureItemType: PictureItemType) {
     return this.srcType$.pipe(
       map((srcType) => !srcType || srcType === pictureItemType),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
   }
 
@@ -128,7 +128,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
       ),
     ]).pipe(
       map(([srcTypeIsContentOrEmpty, srcItemID, active]) => srcTypeIsContentOrEmpty && active && !srcItemID),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
   }
 
@@ -148,7 +148,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
       ([showAuthors, {srcItemID, srcType}, active]) =>
         showAuthors && !srcItemID && (active || srcType === PictureItemType.PICTURE_ITEM_AUTHOR),
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly copyrightsActive$ = this.tabActive$('show_copyrights', PictureItemType.PICTURE_ITEM_COPYRIGHTS);
@@ -165,7 +165,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
       ([srcTypeIsContentOrEmpty, showFactories, showMuseums, showPersons, showAuthors, showCopyrights]) =>
         srcTypeIsContentOrEmpty && !showFactories && !showMuseums && !showPersons && !showAuthors && !showCopyrights,
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly searchBrandControl = new FormControl('');
@@ -175,13 +175,13 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   private readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly brandId$ = this.route.queryParamMap.pipe(
     map((params) => params.get('brand_id')),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private getItems$(

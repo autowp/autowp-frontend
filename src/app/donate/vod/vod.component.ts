@@ -39,7 +39,7 @@ export class DonateVodComponent implements OnInit {
     this.user$,
   ]).pipe(
     map(([anonymous, user]) => (user ? !!anonymous : true)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly date$ = this.route.queryParamMap.pipe(
@@ -65,7 +65,7 @@ export class DonateVodComponent implements OnInit {
         fields: 'name_html,item_of_day_pictures',
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly itemOfDayItem$: Observable<ItemOfDayItem> = this.item$.pipe(
@@ -78,7 +78,7 @@ export class DonateVodComponent implements OnInit {
 
   protected readonly userID$ = this.user$.pipe(map((user) => (user ? user.id : null)));
 
-  protected readonly vod$ = this.donateService.getVOD$().pipe(shareReplay(1));
+  protected readonly vod$ = this.donateService.getVOD$().pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly dates$ = combineLatest([this.vod$, this.date$]).pipe(
     map(([vod, currentDate]) =>

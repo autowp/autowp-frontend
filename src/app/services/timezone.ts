@@ -16,7 +16,7 @@ export class TimezoneService {
 
   private readonly timezones$: Observable<string[]> = this.api.request<APITimezoneGetResponse>('GET', 'timezone').pipe(
     map((response) => response.items),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public getTimezones$(): Observable<string[]> {

@@ -69,7 +69,7 @@ export class PersonsPersonComponent {
         title: item.nameText,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();

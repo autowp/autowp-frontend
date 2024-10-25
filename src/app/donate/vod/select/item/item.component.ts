@@ -62,7 +62,7 @@ export class DonateVodSelectItemComponent {
       return EMPTY;
     }),
     map((items) => items.items),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected toggleItem() {

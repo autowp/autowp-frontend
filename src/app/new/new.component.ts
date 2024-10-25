@@ -65,7 +65,7 @@ export class NewComponent implements OnInit {
     map((params) => params.get('date')),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly data$: Observable<{

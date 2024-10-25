@@ -61,7 +61,7 @@ export class BrandsComponent implements OnInit {
     tap((icons) => {
       addCSS(icons.css);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   ngOnInit(): void {

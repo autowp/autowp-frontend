@@ -55,7 +55,7 @@ export class CatalogueVehiclesPicturesComponent {
         }
         return of(data);
       }),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   private readonly page$ = this.route.queryParamMap.pipe(

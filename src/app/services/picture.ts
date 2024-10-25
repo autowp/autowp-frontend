@@ -362,7 +362,7 @@ export class PictureService {
       }
       return this.pictures.getUserSummary(new Empty());
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly inboxSize$: Observable<null | number> = this.acl
@@ -378,7 +378,7 @@ export class PictureService {
           status: 'inbox',
         }).pipe(map((response) => response.paginator.totalItemCount));
       }),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {

@@ -68,7 +68,7 @@ export class ForumsTopicListComponent {
             }
             return throwError(() => error);
           }),
-          shareReplay(1),
+          shareReplay({bufferSize: 1, refCount: false}),
         );
         const lastMessageAuthor$ = lastMessage$.pipe(
           switchMap((msg) => {

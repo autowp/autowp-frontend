@@ -17,7 +17,7 @@ export class SpecService {
 
   private readonly specs$: Observable<Spec[]> = this.grpc.getSpecs(new Empty()).pipe(
     map((response) => (response.items ? response.items : [])),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public getSpecs$(): Observable<Spec[]> {

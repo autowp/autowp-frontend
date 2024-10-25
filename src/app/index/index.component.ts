@@ -79,7 +79,7 @@ export class IndexComponent implements OnInit {
         ]),
       ),
       map(([user, item]) => ({item, user})),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   protected readonly itemOfDayItem$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.item));

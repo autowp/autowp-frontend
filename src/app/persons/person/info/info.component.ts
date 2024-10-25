@@ -42,7 +42,7 @@ export class PersonsPersonInfoComponent {
   private readonly itemID$: Observable<string> = this.route.parent!.paramMap.pipe(
     map((params) => params.get('id') || ''),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
@@ -81,7 +81,7 @@ export class PersonsPersonInfoComponent {
         title: item.nameText,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly links$: Observable<APIItemLink[]> = this.itemID$.pipe(

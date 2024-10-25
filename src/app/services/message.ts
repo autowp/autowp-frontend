@@ -62,7 +62,7 @@ export class MessageService {
 
       return this.messagingClient.getMessagesSummary(new Empty());
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public seen(messages: APIMessage[]) {

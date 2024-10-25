@@ -36,7 +36,7 @@ export class PersonsPersonGalleryComponent {
   protected readonly itemID$ = this.route.parent!.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected pictureSelected(item: APIGalleryItem | null) {

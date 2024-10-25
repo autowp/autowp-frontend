@@ -37,13 +37,13 @@ export class PersonsPersonPictureComponent {
 
       return of(identity);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly itemID$ = this.route.parent!.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly picture$: Observable<APIPicture | null> = combineLatest([this.itemID$, this.identity$]).pipe(
@@ -75,7 +75,7 @@ export class PersonsPersonPictureComponent {
         title: picture ? picture.name_text : '',
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly CommentsType = CommentsType;

@@ -48,7 +48,7 @@ export class CarsEngineSelectComponent {
     map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
@@ -79,7 +79,7 @@ export class CarsEngineSelectComponent {
         title: $localize`Specs editor of ${item.nameText}`,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly items$: Observable<APIItemParentGetResponse> = combineLatest([this.brandID$, this.page$]).pipe(

@@ -31,7 +31,7 @@ export class TwinsGroupPicturesListComponent {
   protected readonly id$: Observable<string> = this.route.parent!.parent!.paramMap.pipe(
     map((params) => params.get('group') || ''),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly group$: Observable<APIItem> = this.id$.pipe(
@@ -63,7 +63,7 @@ export class TwinsGroupPicturesListComponent {
         0,
       );
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(

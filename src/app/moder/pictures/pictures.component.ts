@@ -152,7 +152,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         })),
       ),
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected perspectiveID: 'null' | null | number = null;
@@ -352,7 +352,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
 
   protected readonly vehicleTypeOptions$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => this.defaultVehicleTypeOptions.concat(toPlainVehicleTypes(types, 0))),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly change$ = new BehaviorSubject<void>(void 0);
@@ -461,10 +461,12 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
       paginator: response.paginator,
       pictures: response.pictures,
     })),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
+  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService
+    .getTemplates$()
+    .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   ngOnInit(): void {
     setTimeout(

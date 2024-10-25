@@ -38,7 +38,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
@@ -51,7 +51,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
       }),
     ),
     map((response) => response.items),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(

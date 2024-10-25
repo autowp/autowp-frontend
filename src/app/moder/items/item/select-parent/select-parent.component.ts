@@ -43,14 +43,14 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
   protected readonly tab$ = this.route.queryParamMap.pipe(
     map((params) => params.get('tab') || 'catalogue'),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly itemID$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     map((itemID) => (itemID ? itemID : '')),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly item$: Observable<GRPCAPIItem> = this.itemID$.pipe(
@@ -76,7 +76,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
       this.toastService.handleError(error);
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly showCatalogueTab$ = this.item$.pipe(

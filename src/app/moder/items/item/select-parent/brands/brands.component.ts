@@ -30,7 +30,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
     map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly search$ = this.route.queryParamMap.pipe(

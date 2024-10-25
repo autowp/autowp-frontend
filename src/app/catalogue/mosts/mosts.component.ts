@@ -79,6 +79,6 @@ export class CatalogueMostsComponent {
         title: $localize`${brand.nameText} Engines`,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 }

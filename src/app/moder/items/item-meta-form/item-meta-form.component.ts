@@ -189,7 +189,7 @@ export class ItemMetaFormComponent {
         return type;
       }),
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly todayOptions = [

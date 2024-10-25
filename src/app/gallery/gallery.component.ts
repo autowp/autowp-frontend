@@ -121,10 +121,14 @@ export class GalleryComponent {
   protected readonly currentFilter$ = this.filter$.pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(50),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly identity$ = this.current$.pipe(distinctUntilChanged(), debounceTime(10), shareReplay(1));
+  protected readonly identity$ = this.current$.pipe(
+    distinctUntilChanged(),
+    debounceTime(10),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
 
   protected readonly gallery$: Observable<Gallery> = combineLatest([
     this.currentFilter$.pipe(switchMap((filter) => (filter ? of(new Gallery(filter, [] as APIGalleryItem[])) : EMPTY))),
@@ -150,7 +154,7 @@ export class GalleryComponent {
       this.pictureSelected.emit(currentItem);
     }),
     map(({gallery}) => gallery),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   @HostListener('document:keydown.escape')

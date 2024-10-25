@@ -63,7 +63,9 @@ export class AppComponent {
   protected languages: Language[] = environment.languages;
   protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();
   protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
-  protected readonly newPersonalMessages$ = this.messageService.getNew$().pipe(shareReplay(1));
+  protected readonly newPersonalMessages$ = this.messageService
+    .getNew$()
+    .pipe(shareReplay({bufferSize: 1, refCount: false}));
   protected searchHostname: string;
   protected readonly categories$ = this.itemsClient.list(
     new ListItemsRequest({

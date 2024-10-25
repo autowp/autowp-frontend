@@ -40,7 +40,9 @@ export class PictureModerVoteComponent {
     ),
   );
 
-  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService.getTemplates$().pipe(shareReplay(1));
+  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService
+    .getTemplates$()
+    .pipe(shareReplay({bufferSize: 1, refCount: false}));
   protected vote: null | number = null;
   protected reason = '';
   protected save = false;

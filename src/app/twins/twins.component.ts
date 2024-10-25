@@ -47,7 +47,7 @@ export class TwinsComponent implements OnInit {
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly brand$: Observable<GRPCAPIItem | null> = this.currentBrandCatname$.pipe(
@@ -84,7 +84,7 @@ export class TwinsComponent implements OnInit {
         }
       }, 0);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly data$: Observable<{

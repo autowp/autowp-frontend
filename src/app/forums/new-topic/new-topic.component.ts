@@ -49,7 +49,7 @@ export class ForumsNewTopicComponent implements OnInit {
       });
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
   protected readonly user$ = this.auth.getUser$();
 

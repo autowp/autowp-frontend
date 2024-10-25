@@ -45,7 +45,7 @@ export class UsersUserCommentsComponent {
     )
     .pipe(
       map((order) => order || 'date_desc'),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
@@ -66,7 +66,7 @@ export class UsersUserCommentsComponent {
       }
       return of(user);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly comments$ = combineLatest([this.user$, this.page$, this.order$]).pipe(

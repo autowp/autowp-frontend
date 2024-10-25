@@ -37,14 +37,14 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     map((params) => parseInt(params.get('item_type_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly itemID$ = this.route.paramMap.pipe(
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly childs$: Observable<APIItem[]> = combineLatest([
@@ -91,7 +91,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         ].join(','),
       }),
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
     switchMap((item) => {
       if (!item) {
         this.router.navigate(['/error-404'], {

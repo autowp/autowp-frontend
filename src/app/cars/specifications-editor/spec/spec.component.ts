@@ -20,7 +20,7 @@ import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
-import {InvalidParams} from '@utils/invalid-params.pipe';
+import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {
   getAttrDescriptionTranslation,
@@ -32,10 +32,9 @@ import {
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIAttrAttributeValue, APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
+import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {UserComponent} from '../../../user/user/user.component';
-import {InvalidParamsPipe} from '../../../utils/invalid-params.pipe';
 
 export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
   deep: number;
@@ -136,7 +135,7 @@ export class CarsSpecificationsEditorSpecComponent {
       return EMPTY;
     }),
     map((attributes) => this.toPlain(attributes, 0)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly AttrAttributeTypeId = AttrAttributeType.Id;
@@ -240,7 +239,7 @@ export class CarsSpecificationsEditorSpecComponent {
       }
       return values;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly userValues$: Observable<Map<string, AttrUserValueWithUser[]>> = combineLatest([
@@ -264,7 +263,7 @@ export class CarsSpecificationsEditorSpecComponent {
       this.applyUserValues(uv, response?.items || []);
       return uv;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected saveSpecs(
@@ -272,35 +271,13 @@ export class CarsSpecificationsEditorSpecComponent {
     item: APIItem,
     form: FormArray<AttrFormControl<boolean | null | number | string | string[]>>,
   ) {
-    const items = form.controls.map((control) => {
-      let value: APIAttrAttributeValue | null = null;
-      switch (control.attr.typeId) {
-        case AttrAttributeType.Id.BOOLEAN:
-          value = control.value || null;
-          break;
-        case AttrAttributeType.Id.FLOAT:
-          value = control.value || null;
-          break;
-        case AttrAttributeType.Id.INTEGER:
-          value = control.value || null;
-          break;
-        case AttrAttributeType.Id.LIST:
-        case AttrAttributeType.Id.TREE:
-          value = control.value || null;
-          break;
-        case AttrAttributeType.Id.STRING:
-        case AttrAttributeType.Id.TEXT:
-          value = control.value || null;
-          break;
-      }
-      return {
-        attribute_id: control.attr.id,
-        empty: control.disabled,
-        item_id: item.id,
-        user_id: user.id,
-        value: value,
-      };
-    });
+    const items = form.controls.map((control) => ({
+      attribute_id: control.attr.id,
+      empty: control.disabled,
+      item_id: item.id,
+      user_id: user.id,
+      value: control.value || null,
+    }));
 
     this.loading++;
     this.invalidParams.clear();
@@ -340,7 +317,7 @@ export class CarsSpecificationsEditorSpecComponent {
           name: getAttrListOptionsTranslation(i.name),
         })),
       ),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   private listOptionsTree(items: AttrListOption.AsObject[], parentID: string): ListOption[] {

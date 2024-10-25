@@ -108,7 +108,7 @@ export class ModerPicturesItemComponent {
         });
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly picture$ = combineLatest([this.id$, this.change$]).pipe(
@@ -145,7 +145,7 @@ export class ModerPicturesItemComponent {
       });
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly changeStatusUser$: Observable<APIUser | null> = this.picture$.pipe(
@@ -198,7 +198,7 @@ export class ModerPicturesItemComponent {
           map((item) => ({hasItem: item ? this.hasItem(picture.items, item.id) : false, item})),
         );
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly banPeriods = [

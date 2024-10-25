@@ -117,7 +117,7 @@ export class UsersUserComponent {
 
       return of(user);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$: Observable<APIPicture[]> = this.user$.pipe(
@@ -194,7 +194,7 @@ export class UsersUserComponent {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly userUserPreferencesChanged$ = new BehaviorSubject<void>(void 0);
@@ -218,7 +218,7 @@ export class UsersUserComponent {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected openMessageForm(user: APIUser) {

@@ -27,7 +27,7 @@ export class ModerAttrsZoneComponent {
     map((params) => params.get('id')),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly zone$: Observable<AttrZone> = this.zoneID$.pipe(
@@ -48,7 +48,7 @@ export class ModerAttrsZoneComponent {
         title: zone.name,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly attributes$: Observable<AttrAttributeTreeItem[]> = this.attrsService.getAttributes$(null, null);

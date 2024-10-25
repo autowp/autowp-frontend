@@ -65,7 +65,9 @@ export class CatalogueIndexComponent {
 
   protected readonly ItemType = ItemType;
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(shareReplay(1));
+  protected readonly isModer$ = this.acl
+    .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
+    .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly brand$: Observable<APIItem> = combineLatest([
     this.isModer$,
@@ -128,7 +130,7 @@ export class CatalogueIndexComponent {
         title: brand.nameText,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$ = this.brand$.pipe(

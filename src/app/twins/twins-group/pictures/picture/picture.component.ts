@@ -51,7 +51,7 @@ export class TwinsGroupPictureComponent {
       }
       return of(group);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly identity$ = this.route.paramMap.pipe(

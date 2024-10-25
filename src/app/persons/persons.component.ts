@@ -32,7 +32,7 @@ export class PersonsComponent implements OnInit {
     map((params) => !!params.authors),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly data$ = combineLatest([this.page$, this.authors$]).pipe(

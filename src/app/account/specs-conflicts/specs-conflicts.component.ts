@@ -91,7 +91,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     if (!o$) {
       o$ = this.itemsClient
         .item(new ItemRequest({fields: new ItemFields({nameHtml: true}), id, language: this.languageService.language}))
-        .pipe(shareReplay(1));
+        .pipe(shareReplay({bufferSize: 1, refCount: false}));
       this.itemsCache.set(id, o$);
     }
     return o$;

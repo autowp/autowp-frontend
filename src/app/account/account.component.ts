@@ -46,7 +46,7 @@ export class AccountComponent {
         }
         return this.forumsClient.getUserSummary(new Empty());
       }),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     ),
     this.messageService.getSummary$(),
     this.pictureService.summary$,

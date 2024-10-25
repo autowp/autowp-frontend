@@ -49,7 +49,7 @@ export class TwinsGroupComponent {
         0,
       );
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly selectedBrands$ = this.group$.pipe(

@@ -45,7 +45,7 @@ export class UsersUserPicturesBrandComponent {
       }
       return of(user);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
@@ -84,7 +84,7 @@ export class UsersUserPicturesBrandComponent {
 
       return of(brand);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} pictures`));

@@ -26,7 +26,7 @@ export class TwinsGroupSpecificationsComponent {
   protected readonly id$: Observable<string> = this.route.parent!.paramMap.pipe(
     map((params) => params.get('group')),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
     switchMap((id) => {
       if (!id) {
         this.router.navigate(['/error-404'], {

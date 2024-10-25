@@ -42,7 +42,7 @@ export class ModerItemsNewComponent {
     map((params) => parseInt(params.get('item_type_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
     tap((itemTypeID) => {
       this.pageEnv.set({
         layout: {isAdminPage: true},
@@ -115,7 +115,7 @@ export class ModerItemsNewComponent {
           twins_groups: [],
         }) as NewAPIItem,
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly parentID$: Observable<string> = this.route.queryParamMap.pipe(
@@ -137,7 +137,7 @@ export class ModerItemsNewComponent {
         }),
       );
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly parentIsConcept$: Observable<null | ParentIsConcept> = this.parent$.pipe(

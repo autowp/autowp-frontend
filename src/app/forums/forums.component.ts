@@ -95,7 +95,7 @@ export class ForumsComponent {
               }
               return throwError(() => error);
             }),
-            shareReplay(1),
+            shareReplay({bufferSize: 1, refCount: false}),
           );
           const lastMessage$ = lastTopic$.pipe(
             switchMap((topic) => {
@@ -111,7 +111,7 @@ export class ForumsComponent {
               }
               return throwError(() => error);
             }),
-            shareReplay(1),
+            shareReplay({bufferSize: 1, refCount: false}),
           );
           const lastMessageAuthor$ = lastMessage$.pipe(
             switchMap((msg) => {
@@ -145,7 +145,7 @@ export class ForumsComponent {
         this.pageEnv.set({pageId: 42});
       }
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly reloadTopics$ = new BehaviorSubject<void>(void 0);

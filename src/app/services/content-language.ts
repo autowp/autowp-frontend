@@ -12,6 +12,6 @@ export class ContentLanguageService {
 
   public readonly languages$: Observable<string[]> = this.itemClient.getContentLanguages(new Empty()).pipe(
     map((response) => response.languages),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 }

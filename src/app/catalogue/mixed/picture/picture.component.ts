@@ -63,10 +63,12 @@ export class CatalogueMixedPictureComponent {
       }
       return of(brand);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(shareReplay(1));
+  protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
 
   protected readonly identity$ = this.route.paramMap.pipe(
     map((route) => route.get('identity')),

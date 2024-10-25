@@ -64,7 +64,7 @@ export class FactoryComponent {
         title: factory.name_text,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$ = this.item$.pipe(

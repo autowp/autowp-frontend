@@ -42,7 +42,9 @@ export class ModerItemsItemCatalogueComponent {
 
   protected itemQuery = '';
 
-  protected readonly canMove$ = this.acl.isAllowed$(Resource.CAR, Privilege.MOVE).pipe(shareReplay(1));
+  protected readonly canMove$ = this.acl
+    .isAllowed$(Resource.CAR, Privilege.MOVE)
+    .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly organizeTypeId$ = this.item$.pipe(
     switchMap((item) => (item ? of(item) : EMPTY)),

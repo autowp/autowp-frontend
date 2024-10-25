@@ -39,7 +39,7 @@ export class MuseumComponent {
     map((params) => parseInt(params.get('id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly links$ = this.itemID$.pipe(
@@ -94,7 +94,7 @@ export class MuseumComponent {
         title: item.name_text,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly map$ = this.item$.pipe(

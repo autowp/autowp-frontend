@@ -32,7 +32,7 @@ export class CatalogueVehiclesSpecificationsComponent {
       }
       return of(data);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(
@@ -43,7 +43,7 @@ export class CatalogueVehiclesSpecificationsComponent {
         title: $localize`Specifications of` + ' ' + brand.nameHtml,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly breadcrumbs$ = this.catalogue$.pipe(
@@ -52,7 +52,7 @@ export class CatalogueVehiclesSpecificationsComponent {
 
   protected readonly item$ = this.catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly html$ = this.item$.pipe(

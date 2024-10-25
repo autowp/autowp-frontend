@@ -28,7 +28,7 @@ export class VehicleTypesModalComponent {
   @Output() changed = new EventEmitter<string[]>();
   protected readonly types$ = this.vehicleTypeService.getTypes$().pipe(
     map((types) => translateNames(types)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected isActive(id: number): boolean {

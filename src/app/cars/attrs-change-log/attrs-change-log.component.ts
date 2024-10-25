@@ -99,7 +99,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
         };
       }),
     })),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected userQuery = '';
@@ -147,7 +147,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
         .item(
           new ItemRequest({fields: new ItemFields({nameHtml: true}), id: id, language: this.languageService.language}),
         )
-        .pipe(shareReplay(1));
+        .pipe(shareReplay({bufferSize: 1, refCount: false}));
       this.itemsCache.set(id, o$);
     }
     return o$;

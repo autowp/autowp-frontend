@@ -90,7 +90,7 @@ export class UserService {
 
     const o$ = this.usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(
       map((user) => (user ? user : null)),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
     this.cache2.set(id, o$);
 

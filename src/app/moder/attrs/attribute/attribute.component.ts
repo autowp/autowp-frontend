@@ -24,7 +24,7 @@ export class ModerAttrsAttributeComponent {
   private readonly attributeID$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly attribute$: Observable<AttrAttribute> = this.attributeID$.pipe(
@@ -45,7 +45,7 @@ export class ModerAttrsAttributeComponent {
         title: getAttrsTranslation(attribute.name),
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly attributes$ = this.attributeID$.pipe(

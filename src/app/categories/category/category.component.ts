@@ -48,12 +48,12 @@ export class CategoriesCategoryComponent {
         });
       }, 0);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
     map(({current}) => current),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly category$: Observable<{queryParams: Params; title: string}> = this.categoryData$.pipe(
@@ -62,7 +62,7 @@ export class CategoriesCategoryComponent {
       queryParams: {item_type_id: category.item_type_id, parent_id: category.id},
       title: getItemTypeTranslation(category.item_type_id, 'add-sub-item'),
     })),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly path$: Observable<PathItem[]> = this.categoryData$.pipe(
@@ -75,7 +75,7 @@ export class CategoriesCategoryComponent {
         routerLink: pi.routerLink,
       })),
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();

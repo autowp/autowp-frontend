@@ -47,7 +47,6 @@
         "rxjs-angular/prefer-takeuntil": "off",
         "rxjs/finnish": "error",
         "rxjs/no-compat": "error",
-        "rxjs/no-sharereplay": "off",
         "perfectionist/sort-classes": "off"
       }
     },

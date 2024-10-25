@@ -85,7 +85,7 @@ export class ACLService {
 
     const o$ = this.auth.getUser$().pipe(
       switchMap(() => this.apiACL.isAllowed$(resource, privilege)),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
     this.isAllowedCache.set(key, o$);
     return o$;

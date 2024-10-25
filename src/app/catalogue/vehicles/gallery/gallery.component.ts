@@ -40,7 +40,7 @@ export class CatalogueVehiclesGalleryComponent {
     map((params) => !!params.exact),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
@@ -53,7 +53,7 @@ export class CatalogueVehiclesGalleryComponent {
       }
       return of(data);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(

@@ -49,7 +49,7 @@ export class UsersRatingComponent implements OnInit {
           return Rating.SPECS;
       }
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly valueTitle$: Observable<string> = this.rating$.pipe(

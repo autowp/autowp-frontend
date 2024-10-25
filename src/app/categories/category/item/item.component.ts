@@ -44,7 +44,7 @@ export class CategoriesCategoryItemComponent {
         title: current.name_text,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
@@ -86,7 +86,7 @@ export class CategoriesCategoryItemComponent {
           })),
         ),
     ),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$: Observable<PictureRoute[]> = combineLatest([
@@ -155,6 +155,6 @@ export class CategoriesCategoryItemComponent {
 
   protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
     map(({current}) => current),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 }

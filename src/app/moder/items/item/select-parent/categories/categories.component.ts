@@ -34,7 +34,7 @@ export class ModerItemsItemSelectParentCategoriesComponent {
     map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly categories$ = this.page$.pipe(

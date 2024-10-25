@@ -73,7 +73,7 @@ export class CatalogueConceptsComponent {
         });
       }
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(

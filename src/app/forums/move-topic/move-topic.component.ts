@@ -50,7 +50,7 @@ export class ForumsMoveTopicComponent implements OnInit {
       });
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly theme$ = this.topic$.pipe(

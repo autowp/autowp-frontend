@@ -50,7 +50,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
       );
     }),
     switchMap((response) => (response.items && response.items.length > 0 ? of(response.items[0]) : EMPTY)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(

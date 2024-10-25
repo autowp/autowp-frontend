@@ -55,14 +55,14 @@ export class UsersUserPicturesComponent implements OnInit {
     tap((icons) => {
       addCSS(icons.css);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly userId$: Observable<string> = this.route.paramMap.pipe(
     map((params) => params.get('identity') || ''),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly user$ = this.userId$.pipe(
@@ -78,7 +78,7 @@ export class UsersUserPicturesComponent implements OnInit {
       identity: user.identity ? user.identity : 'user' + user.id,
       name: user.name,
     })),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly brands$: Observable<APIItem[]> = this.user$.pipe(

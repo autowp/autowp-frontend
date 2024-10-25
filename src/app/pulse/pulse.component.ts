@@ -71,7 +71,7 @@ export class PulseComponent implements OnInit {
       this.toastService.handleError(response);
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly legend$ = this.data$.pipe(

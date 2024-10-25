@@ -21,7 +21,7 @@ export class VehicleTypeService {
 
   private readonly types$: Observable<VehicleType[]> = this.grpc.getVehicleTypes(new Empty()).pipe(
     map((data) => (data.items ? data.items : [])),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private walkTypes(types: VehicleType[], callback: (type: VehicleType) => void) {

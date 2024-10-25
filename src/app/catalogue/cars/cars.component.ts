@@ -60,7 +60,7 @@ export class CatalogueCarsComponent {
         .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));
     }),
     switchMap((brand) => (brand ? of(brand) : EMPTY)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly vehicleTypes$: Observable<BrandVehicleType[]> = this.brand$.pipe(
@@ -72,7 +72,7 @@ export class CatalogueCarsComponent {
       ),
     ),
     map((vehicleTypes) => (vehicleTypes.items ? vehicleTypes.items : [])),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly currentVehicleType$ = combineLatest([
@@ -102,7 +102,7 @@ export class CatalogueCarsComponent {
 
       return currentVehicleType;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly title$ = combineLatest([this.brand$, this.currentVehicleType$]).pipe(

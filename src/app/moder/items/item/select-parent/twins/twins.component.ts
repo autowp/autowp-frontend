@@ -43,14 +43,14 @@ export class ModerItemsItemSelectParentTwinsComponent {
   protected readonly brandID$ = this.route.queryParamMap.pipe(
     map((params) => params.get('brand_id')),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly twinsBrands$: Observable<{brands: GRPCAPIItem[][]; paginator?: Pages} | null> = this.brandID$.pipe(

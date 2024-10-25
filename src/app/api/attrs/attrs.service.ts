@@ -42,19 +42,19 @@ export class APIAttrsService {
 
   private readonly attrs$ = this.attrsClient.getAttributes(new AttrAttributesRequest()).pipe(
     map((response) => response.items),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public readonly attributeTypes$: Observable<AttrAttributeType[]> = this.attrsClient
     .getAttributeTypes(new Empty())
     .pipe(
       map((response) => (response.items ? response.items : [])),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   public readonly zones$: Observable<AttrZone[]> = this.attrsClient.getZones(new Empty()).pipe(
     map((response) => (response.items ? response.items : [])),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public getZone$(id: string): Observable<AttrZone | null> {

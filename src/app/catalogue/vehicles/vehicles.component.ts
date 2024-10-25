@@ -59,7 +59,7 @@ export class CatalogueVehiclesComponent {
         }
         return of(data);
       }),
-      shareReplay(1),
+      shareReplay({bufferSize: 1, refCount: false}),
     );
 
   protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
@@ -73,7 +73,7 @@ export class CatalogueVehiclesComponent {
       }
       return routerLink;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly menu$: Observable<{routerLink: string[]; type: string}> = combineLatest([
@@ -116,7 +116,7 @@ export class CatalogueVehiclesComponent {
         title: item.name_text,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
@@ -200,7 +200,7 @@ export class CatalogueVehiclesComponent {
           })),
         );
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly otherPictures$: Observable<{

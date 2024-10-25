@@ -36,7 +36,7 @@ export class PersonsPersonAuthorPictureComponent {
       }
       return of(identity);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly personID$ = this.route.parent!.paramMap.pipe(

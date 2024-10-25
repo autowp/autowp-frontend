@@ -75,7 +75,7 @@ export class MostsContentsComponent {
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((brandID) => this.mostsService.getMenu$(brandID || 0)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly years$ = this.menu$.pipe(map((menu) => menu.years));
@@ -84,7 +84,7 @@ export class MostsContentsComponent {
 
   protected readonly vehicleTypes$ = this.menu$.pipe(
     map((menu) => vehicleTypesToList(menu.vehilce_types)),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly defaultTypeCatname$ = this.vehicleTypes$.pipe(map((vehicleTypes) => vehicleTypes[0].catname));

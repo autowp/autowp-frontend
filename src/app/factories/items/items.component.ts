@@ -63,7 +63,7 @@ export class FactoryItemsComponent {
 
       return of(factory);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(

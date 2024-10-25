@@ -52,7 +52,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     map((params) => parseInt(params.get('page') || '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly search$ = this.route.queryParamMap.pipe(
@@ -65,7 +65,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     map((params) => parseInt(params.get('brand_id') || '', 10)),
     map((brandID) => (brandID ? brandID : 0)),
     distinctUntilChanged(),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly catalogueBrands$: Observable<{brands: GRPCAPIItem[][]; paginator?: Pages} | null> =

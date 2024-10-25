@@ -50,7 +50,7 @@ export class CategoryPictureComponent {
       }
       return of(data);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(

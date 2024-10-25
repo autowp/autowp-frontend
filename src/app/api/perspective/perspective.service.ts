@@ -13,7 +13,7 @@ export class APIPerspectiveService {
 
   private readonly perspectives$: Observable<Perspective[]> = this.grpc.getPerspectives(new Empty()).pipe(
     map((response) => (response.items ? response.items : [])),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public getPerspectives$(): Observable<Perspective[]> {

@@ -31,7 +31,7 @@ export class NewItemComponent {
     map((params) => parseInt(params.get('item_id') || '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly date$ = this.route.paramMap.pipe(
@@ -69,7 +69,7 @@ export class NewItemComponent {
         title: item.nameText,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(

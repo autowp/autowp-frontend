@@ -34,7 +34,7 @@ export class CarsSpecificationsEditorEngineComponent {
   @Output() changed = new EventEmitter<void>();
   protected readonly isAllowedEditEngine$ = this.acl
     .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
-    .pipe(shareReplay(1));
+    .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly engine$: Observable<GRPCAPIItem | null> = this.item$.pipe(
     switchMap((item) => {
@@ -50,7 +50,7 @@ export class CarsSpecificationsEditorEngineComponent {
         }),
       );
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
   protected loading = 0;
 

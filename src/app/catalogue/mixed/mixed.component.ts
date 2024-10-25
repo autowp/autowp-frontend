@@ -63,7 +63,7 @@ export class CatalogueMixedComponent {
       }
       return of(brand);
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
@@ -79,7 +79,7 @@ export class CatalogueMixedComponent {
         title: data.title,
       });
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
@@ -99,6 +99,6 @@ export class CatalogueMixedComponent {
       paginator: response.paginator,
       pictures: chunkBy(response.pictures, 4),
     })),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 }

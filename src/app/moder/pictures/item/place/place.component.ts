@@ -76,7 +76,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       });
       return EMPTY;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly form$ = this.picture$.pipe(
@@ -92,7 +92,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
 
       return this.form;
     }),
-    shareReplay(1),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly map$ = this.form$.pipe(
