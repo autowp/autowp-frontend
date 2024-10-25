@@ -29,7 +29,7 @@
  * }}}
  */
 
-import * as $ from 'jquery';
+import $ from 'jquery';
 import {hasTouchSupport} from "./touch";
 
 // Global Defaults {{{
