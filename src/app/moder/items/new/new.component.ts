@@ -10,7 +10,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, forkJoin, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -140,11 +140,7 @@ export class ModerItemsNewComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly parentIsConcept$: Observable<null | ParentIsConcept> = this.parent$.pipe(
-    map((parent) => (parent ? {isConcept: parent.isConcept} : null)),
-  );
-
-  protected readonly vehicleTypeIDs$: Observable<string[]> = this.parent$.pipe(
+  private readonly vehicleTypeIDs$: Observable<string[]> = this.parent$.pipe(
     switchMap((item) => {
       if (item && [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
         return this.itemsClient
@@ -234,4 +230,16 @@ export class ModerItemsNewComponent {
       )
       .subscribe();
   }
+
+  protected readonly formParams$: Observable<{
+    item: NewAPIItem;
+    parentIsConcept: ParentIsConcept;
+    vehicleTypeIDs: string[];
+  }> = combineLatest([this.item$, this.parent$, this.vehicleTypeIDs$]).pipe(
+    map(([item, parent, vehicleTypeIDs]) => ({
+      item,
+      parentIsConcept: {isConcept: parent ? parent.isConcept : false},
+      vehicleTypeIDs,
+    })),
+  );
 }

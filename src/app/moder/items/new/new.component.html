@@ -25,17 +25,13 @@
   </p>
 }
 
-@if (item$ | async; as item) {
-  @if (parentIsConcept$ | async; as parentIsConcept) {
-    @if (vehicleTypeIDs$ | async; as vehicleTypeIDs) {
-      <app-item-meta-form
-        [item]="item"
-        (submitted)="submit(item.item_type_id, $event)"
-        [parentIsConcept]="parentIsConcept"
-        [vehicleTypeIDs]="vehicleTypeIDs"
-        [invalidParams]="invalidParams"
-        class="d-block mb-4"
-      ></app-item-meta-form>
-    }
-  }
+@if (formParams$ | async; as formParams) {
+  <app-item-meta-form
+    [item]="formParams.item"
+    (submitted)="submit(formParams.item.item_type_id, $event)"
+    [parentIsConcept]="formParams.parentIsConcept"
+    [vehicleTypeIDs]="formParams.vehicleTypeIDs"
+    [invalidParams]="invalidParams"
+    class="d-block mb-4"
+  ></app-item-meta-form>
 }
