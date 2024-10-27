@@ -39,7 +39,7 @@
     "core-js": "^3.28.0",
     "google-proto-files": "^4.2.0",
     "keycloak-angular": "^16",
-    "keycloak-js": "^25",
+    "keycloak-js": "^25 || ^26",
     "leaflet": "^1.9.3",
     "ng-recaptcha-2": "^14.0.0",
     "ng2-charts": "^6",
@@ -48,9 +48,9 @@
     "npm": "^10.2.1",
     "sprintf-js": "^1.1.2",
     "tslib": "^2.5.0",
-    "typescript": ">=5.4.0 && <5.5.0",
+    "typescript": ">=5.4.0 && <5.6.0",
     "url-parse": "^1.5.10",
-    "zone.js": "^0.14.4"
+    "zone.js": "^0.14.4 || ^0.15"
   },
   "devDependencies": {
     "@angular-eslint/builder": "^18",
