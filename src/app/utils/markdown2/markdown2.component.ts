@@ -1,4 +1,4 @@
-import {isPlatformBrowser} from '@angular/common';
+import {DOCUMENT, isPlatformBrowser} from '@angular/common';
 import {AfterViewInit, Component, ElementRef, inject, PLATFORM_ID} from '@angular/core';
 import showdown from 'showdown';
 
@@ -11,10 +11,11 @@ import showdown from 'showdown';
 export class Markdown2Component implements AfterViewInit {
   private readonly element = inject(ElementRef);
   private readonly platform = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
 
   private decodeHtml(html: string): string {
     if (isPlatformBrowser(this.platform)) {
-      const textarea = document.createElement('textarea');
+      const textarea = this.document.createElement('textarea');
       textarea.innerHTML = html;
       return textarea.value;
     }

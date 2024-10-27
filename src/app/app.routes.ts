@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 
-export const appRoutes: Routes = [
+export const routes: Routes = [
   {loadChildren: () => import('./about/about-routing.module').then((m) => m.routes), path: 'about'},
   {
     loadChildren: () => import('./account/account-routing.module').then((m) => m.routes),

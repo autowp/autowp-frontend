@@ -4,12 +4,9 @@ import {SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import $ from 'jquery';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
-// @ts-expect-error Legacy
-import Jcrop from '../../../../jcrop/jquery.Jcrop.js';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 interface Crop {
@@ -36,14 +33,12 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private routeSub?: Subscription;
   protected aspect = '';
   protected resolution = '';
-  private jcrop: Jcrop;
   private currentCrop: Crop = {
     h: 0,
     w: 0,
     x: 0,
     y: 0,
   };
-  private minSize = [400, 300];
   protected picture?: APIPicture;
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
 
@@ -72,10 +67,6 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
         this.picture = data.picture;
 
         if (data.img) {
-          const $img = $(data.img);
-          const $body = $img.parent();
-
-          this.jcrop = null;
           if (this.picture.crop) {
             this.currentCrop = {
               h: this.picture.crop.height || 0,
@@ -91,30 +82,6 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
               y: 0,
             };
           }
-
-          const bWidth = $body.width() || 1;
-
-          const scale = this.picture.width / bWidth;
-          const width = this.picture.width / scale;
-          const height = this.picture.height / scale;
-
-          this.jcrop = Jcrop($img[0], {
-            boxHeight: height,
-            boxWidth: width,
-            keySupport: false,
-            minSize: this.minSize,
-            onSelect: (c: Crop) => {
-              this.currentCrop = c;
-              this.updateSelectionText();
-            },
-            setSelect: [
-              this.currentCrop.x,
-              this.currentCrop.y,
-              this.currentCrop.x + this.currentCrop.w,
-              this.currentCrop.y + this.currentCrop.h,
-            ],
-            trueSize: [this.picture.width, this.picture.height],
-          });
         }
       });
   }
@@ -125,11 +92,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected selectAll() {
-    if (this.picture) {
-      this.jcrop.setSelect([0, 0, this.picture.width, this.picture.height]);
-    }
-  }
+  protected selectAll() {}
 
   protected saveCrop() {
     if (this.picture) {
@@ -155,16 +118,6 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           }
         });
     }
-  }
-
-  private updateSelectionText() {
-    const text = Math.round(this.currentCrop.w) + '×' + Math.round(this.currentCrop.h);
-    const pw = 4;
-    const ph = (pw * this.currentCrop.h) / this.currentCrop.w;
-    const phRound = Math.round(ph * 10) / 10;
-
-    this.aspect = pw + ':' + phRound;
-    this.resolution = text;
   }
 
   protected onLoad(e: Event) {

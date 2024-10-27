@@ -1,8 +1,9 @@
-import {inject, Injectable} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
+import {inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {APIMeRequest, APIUser} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {KeycloakService} from 'keycloak-angular';
-import {from, Observable, of, ReplaySubject} from 'rxjs';
+import {EMPTY, from, Observable, of, ReplaySubject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
 @Injectable({
@@ -11,10 +12,16 @@ import {catchError, tap} from 'rxjs/operators';
 export class AuthService {
   private readonly keycloak = inject(KeycloakService);
   private readonly usersClient = inject(UsersClient);
+  private readonly platform = inject(PLATFORM_ID);
 
   private user$ = new ReplaySubject<APIUser | null>(1);
 
   constructor() {
+    if (!isPlatformBrowser(this.platform)) {
+      this.setUser(null);
+      return;
+    }
+
     this.keycloak.getToken().then(
       (accessToken) => {
         if (accessToken) {
@@ -39,6 +46,9 @@ export class AuthService {
   }
 
   public signOut$(): Observable<void> {
+    if (!isPlatformBrowser(this.platform)) {
+      return EMPTY;
+    }
     return from(this.keycloak.logout(window.location.href)).pipe(tap(() => this.setUser(null)));
   }
 

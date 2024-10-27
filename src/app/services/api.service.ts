@@ -1,3 +1,4 @@
+import {isPlatformBrowser} from '@angular/common';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -9,7 +10,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {environment} from '@environment/environment';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
@@ -50,8 +51,13 @@ declare type HttpObserve = 'body' | 'events' | 'response';
 })
 export class AuthInterceptor implements HttpInterceptor {
   private readonly keycloak = inject(KeycloakService);
+  private readonly platform = inject(PLATFORM_ID);
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler) {
+    if (!isPlatformBrowser(this.platform)) {
+      return next.handle(req);
+    }
+
     const promise = this.keycloak.getToken();
 
     promise.catch((d) => console.error(d));
@@ -117,11 +123,16 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 })
 export class GrpcAuthInterceptor implements GrpcInterceptor {
   private readonly keycloak = inject(KeycloakService);
+  private readonly platform = inject(PLATFORM_ID);
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
     next: GrpcHandler,
   ): Observable<GrpcEvent<S>> {
+    if (!isPlatformBrowser(this.platform)) {
+      return next.handle(request);
+    }
+
     const promise = this.keycloak.getToken();
 
     promise.catch((d) => console.error(d));

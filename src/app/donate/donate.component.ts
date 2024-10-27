@@ -1,3 +1,4 @@
+import {DOCUMENT} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
@@ -16,6 +17,7 @@ export class DonateComponent implements OnInit {
   private readonly pageEnv = inject(PageEnvService);
   private readonly languageService = inject(LanguageService);
   private readonly domSanitizer = inject(DomSanitizer);
+  private readonly document = inject(DOCUMENT);
 
   protected frameUrl: SafeResourceUrl;
   protected readonly language: string = this.languageService.language;
@@ -48,9 +50,9 @@ export class DonateComponent implements OnInit {
       'mobile-payment-type-choice': 'on',
       'payment-type-choice': 'on',
       'project-name': $localize`WheelsAge.org`,
-      'project-site': 'https://' + window.location.host + '/',
+      'project-site': 'https://' + this.document.defaultView?.location.host + '/',
       quickpay: 'shop',
-      successURL: 'https://' + window.location.host + '/donate/success',
+      successURL: 'https://' + this.document.defaultView?.location.host + '/donate/success',
       'target-visibility': 'on',
       targets: $localize`For website work`,
       'targets-hint': $localize`Your wish`,

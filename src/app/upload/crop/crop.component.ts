@@ -5,9 +5,6 @@ import {APIPicture} from '@services/picture';
 import $ from 'jquery';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
-// @ts-expect-error Legacy
-import Jcrop from '../../jcrop/jquery.Jcrop';
-
 interface JcropCrop {
   h: number;
   w: number;
@@ -31,9 +28,6 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   }
   protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
 
-  private readonly minSize = [400, 300];
-
-  private jcrop: Jcrop = null;
   protected aspect: string = '';
   protected resolution: string = '';
   protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
@@ -51,7 +45,6 @@ export class UploadCropComponent implements OnInit, OnDestroy {
         const $img = $(img);
         const $body = $img.parent();
 
-        this.jcrop = null;
         if (picture.crop) {
           this.currentCrop = {
             h: picture.crop.height || 0,
@@ -78,30 +71,6 @@ export class UploadCropComponent implements OnInit, OnDestroy {
           height,
           width,
         });
-
-        this.jcrop = Jcrop($img[0], {
-          boxHeight: height,
-          boxWidth: width,
-          keySupport: false,
-          minSize: this.minSize,
-          onSelect: (c: JcropCrop) => {
-            this.currentCrop = c;
-            if (this.currentCrop.y < 0) {
-              this.currentCrop.y = 0;
-            }
-            if (this.currentCrop.x < 0) {
-              this.currentCrop.x = 0;
-            }
-            this.updateSelectionText();
-          },
-          setSelect: [
-            this.currentCrop.x,
-            this.currentCrop.y,
-            this.currentCrop.x + this.currentCrop.w,
-            this.currentCrop.y + this.currentCrop.h,
-          ],
-          trueSize: [picture.width, picture.height],
-        });
       }
     });
   }
@@ -112,21 +81,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected selectAll(picture: APIPicture) {
-    if (this.jcrop) {
-      this.jcrop.setSelect([0, 0, picture.width, picture.height]);
-    }
-  }
-
-  private updateSelectionText() {
-    const text = Math.round(this.currentCrop.w) + '×' + Math.round(this.currentCrop.h);
-    const pw = 4;
-    const ph = (pw * this.currentCrop.h) / this.currentCrop.w;
-    const phRound = Math.round(ph * 10) / 10;
-
-    this.aspect = pw + ':' + phRound;
-    this.resolution = text;
-  }
+  protected selectAll(picture: APIPicture) {}
 
   protected onLoad(e: Event) {
     if (e.target && e.target instanceof HTMLElement) {

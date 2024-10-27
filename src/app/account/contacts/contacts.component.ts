@@ -1,5 +1,5 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {AsyncPipe, DatePipe, isPlatformBrowser} from '@angular/common';
+import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Contact, DeleteContactRequest} from '@grpc/spec.pb';
 import {ContactsClient} from '@grpc/spec.pbsc';
@@ -30,16 +30,19 @@ export class AccountContactsComponent implements OnInit {
   private readonly contacts = inject(ContactsClient);
   private readonly languageService = inject(LanguageService);
   private readonly keycloak = inject(KeycloakService);
+  private readonly platform = inject(PLATFORM_ID);
 
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<Contact[]> = this.auth.getUser$().pipe(
     map((user) => {
       if (!user) {
-        this.keycloak.login({
-          locale: this.languageService.language,
-          redirectUri: window.location.href,
-        });
+        if (isPlatformBrowser(this.platform)) {
+          this.keycloak.login({
+            locale: this.languageService.language,
+            redirectUri: window.location.href,
+          });
+        }
         return EMPTY;
       }
       return user;

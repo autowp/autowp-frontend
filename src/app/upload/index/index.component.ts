@@ -1,6 +1,6 @@
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, isPlatformBrowser} from '@angular/common';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, SetPictureCropRequest} from '@grpc/spec.pb';
@@ -64,6 +64,7 @@ export class UploadIndexComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly picturesClient = inject(PicturesClient);
+  private readonly platform = inject(PLATFORM_ID);
 
   protected files: File[] | undefined;
   protected note: string = '';
@@ -125,10 +126,12 @@ export class UploadIndexComponent implements OnInit {
   }
 
   protected doLogin() {
-    this.keycloak.login({
-      locale: this.languageService.language,
-      redirectUri: window.location.href,
-    });
+    if (isPlatformBrowser(this.platform)) {
+      this.keycloak.login({
+        locale: this.languageService.language,
+        redirectUri: window.location.href,
+      });
+    }
   }
 
   protected onChange(event: Event) {

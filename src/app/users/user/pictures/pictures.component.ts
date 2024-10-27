@@ -1,4 +1,4 @@
-import {AsyncPipe, NgClass, NgStyle} from '@angular/common';
+import {AsyncPipe, DOCUMENT, NgClass, NgStyle} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
@@ -22,20 +22,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {ToastsService} from '../../../toasts/toasts.service';
 
-function addCSS(url: string) {
-  const cssId = 'brands-css';
-  if (!document.getElementById(cssId)) {
-    const head = document.getElementsByTagName('head')[0];
-    const link = document.createElement('link');
-    link.id = cssId;
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = url;
-    link.media = 'all';
-    head.appendChild(link);
-  }
-}
-
 @Component({
   imports: [RouterLink, NgClass, NgStyle, AsyncPipe],
   selector: 'app-users-user-pictures',
@@ -50,10 +36,11 @@ export class UsersUserPicturesComponent implements OnInit {
   private readonly toastService = inject(ToastsService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
-      addCSS(icons.css);
+      this.addCSS(icons.css);
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -121,5 +108,19 @@ export class UsersUserPicturesComponent implements OnInit {
 
   protected cssClass(item: APIItem) {
     return item.catname.replace(/\./g, '_');
+  }
+
+  private addCSS(url: string) {
+    const cssId = 'brands-css';
+    if (!this.document.getElementById(cssId)) {
+      const head = this.document.getElementsByTagName('head')[0];
+      const link = this.document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = url;
+      link.media = 'all';
+      head.appendChild(link);
+    }
   }
 }

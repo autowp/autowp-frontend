@@ -1,6 +1,6 @@
 export const environment = {
-  apiUrl: '/api/',
-  grpcHost: '',
+  apiUrl: 'https://en.localhost/api/',
+  grpcHost: 'https://localhost',
   keycloak: {
     clientId: 'frontend',
     realm: 'autowp',

@@ -1,3 +1,4 @@
+import {DOCUMENT} from '@angular/common';
 import {
   ApplicationRef,
   Component,
@@ -46,6 +47,7 @@ export class MapComponent implements OnInit {
   private readonly appRef = inject(ApplicationRef);
   private readonly toastService = inject(ToastsService);
   private readonly mapClient = inject(MapClient);
+  private readonly document = inject(DOCUMENT);
 
   private compRef?: ComponentRef<MapPopupComponent>;
   protected markers: Marker[] = [];
@@ -128,7 +130,7 @@ export class MapComponent implements OnInit {
             this.compRef = compFactory.create(this.injector);
             this.compRef.instance.item = item;
 
-            const div = document.createElement('div');
+            const div = this.document.createElement('div');
             div.appendChild(this.compRef.location.nativeElement);
 
             popup.setContent(div);

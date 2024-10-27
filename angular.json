@@ -55,9 +55,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": {
-              "base": "dist"
-            },
+            "outputPath": "dist/wheelsage/browser",
             "index": "src/index.html",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": [
@@ -102,7 +100,7 @@
               "src/assets/flags/flags.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.js"
+
             ],
             "localize": [
               "be",
@@ -116,13 +114,18 @@
               "it",
               "he"
             ],
-            "browser": "src/main.ts"
+            "browser": "src/main.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            },
+            "server": "src/main.server.ts"
           },
           "configurations": {
             "serve": {
               "optimization": false,
               "sourceMap": false,
-              "namedChunks": false,
+              "namedChunks": true,
               "aot": true,
               "extractLicenses": false,
               "fileReplacements": [
@@ -168,11 +171,11 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "browserTarget": "wheelsage:build"
+            "buildTarget": "wheelsage:build"
           },
           "configurations": {
             "serve": {
-              "browserTarget": "wheelsage:build:serve"
+              "buildTarget": "wheelsage:build:serve"
             }
           }
         },
@@ -190,6 +193,52 @@
               "src/**/*.html"
             ]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/wheelsage/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "src/tsconfig.server.json"
+          },
+          "configurations": {
+            "serve": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": false,
+              "sourceMap": false,
+              "extractLicenses": false
+            },
+            "development": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": false,
+              "sourceMap": false,
+              "extractLicenses": false
+            },
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": true,
+              "extractLicenses": true
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

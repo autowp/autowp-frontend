@@ -1,6 +1,6 @@
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, isPlatformBrowser} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {environment} from '@environment/environment';
 import {APIImage, APIMeRequest, APIUser, UserFields} from '@grpc/spec.pb';
@@ -33,6 +33,7 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
   private readonly timezone = inject(TimezoneService);
   private readonly toastService = inject(ToastsService);
   private readonly usersClient = inject(UsersClient);
+  private readonly platform = inject(PLATFORM_ID);
 
   protected user?: APIUser;
 
@@ -67,10 +68,12 @@ export class AccountProfileComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((user) => {
           if (!user) {
-            this.keycloak.login({
-              locale: this.languageService.language,
-              redirectUri: window.location.href,
-            });
+            if (isPlatformBrowser(this.platform)) {
+              this.keycloak.login({
+                locale: this.languageService.language,
+                redirectUri: window.location.href,
+              });
+            }
             return EMPTY;
           }
 

@@ -1,4 +1,4 @@
-import {AsyncPipe, DecimalPipe} from '@angular/common';
+import {AsyncPipe, DecimalPipe, DOCUMENT} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
@@ -94,6 +94,7 @@ export class AboutComponent implements OnInit {
   private readonly bytesPipe = inject(BytesPipe);
   private readonly pageEnv = inject(PageEnvService);
   private readonly statGrpc = inject(StatisticsClient);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly version = versionJson;
 
@@ -152,7 +153,7 @@ export class AboutComponent implements OnInit {
     if (!user) {
       return '';
     }
-    const span = document.createElement('span');
+    const span = this.document.createElement('span');
     const classes = ['user'];
     if (user.deleted) {
       classes.push('muted');
@@ -164,7 +165,7 @@ export class AboutComponent implements OnInit {
       classes.push('green-man');
     }
     span.setAttribute('class', classes.join(' '));
-    const a = document.createElement('a');
+    const a = this.document.createElement('a');
     a.setAttribute(
       'href',
       this.router.createUrlTree(['/users', user.identity ? user.identity : 'user' + user.id]).toString(),

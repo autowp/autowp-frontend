@@ -1,5 +1,5 @@
-import {AsyncPipe, NgClass} from '@angular/common';
-import {Component, inject, Renderer2} from '@angular/core';
+import {AsyncPipe, DOCUMENT, isPlatformBrowser, NgClass} from '@angular/common';
+import {Component, inject, PLATFORM_ID, Renderer2} from '@angular/core';
 import {NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {environment} from '@environment/environment';
 import {APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
@@ -59,6 +59,8 @@ export class AppComponent {
   private readonly renderer = inject(Renderer2);
   private readonly keycloak = inject(KeycloakService);
   private readonly itemsClient = inject(ItemsClient);
+  private readonly platform = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
 
   protected languages: Language[] = environment.languages;
   protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();
@@ -90,9 +92,9 @@ export class AppComponent {
 
     this.layoutParams$.subscribe((params) => {
       if (params.isGalleryPage) {
-        this.renderer.addClass(document.body, 'gallery');
+        this.renderer.addClass(this.document.body, 'gallery');
       } else {
-        this.renderer.removeClass(document.body, 'gallery');
+        this.renderer.removeClass(this.document.body, 'gallery');
       }
     });
 
@@ -117,10 +119,12 @@ export class AppComponent {
   }
 
   protected doLogin() {
-    this.keycloak.login({
-      locale: this.languageService.language,
-      redirectUri: window.location.href,
-    });
+    if (isPlatformBrowser(this.platform)) {
+      this.keycloak.login({
+        locale: this.languageService.language,
+        redirectUri: window.location.href,
+      });
+    }
   }
 
   protected signOut() {

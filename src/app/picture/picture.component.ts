@@ -1,5 +1,5 @@
-import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {AsyncPipe, DatePipe, DecimalPipe, isPlatformBrowser} from '@angular/common';
+import {Component, EventEmitter, inject, Input, Output, PLATFORM_ID} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {
   APIUser,
@@ -67,6 +67,7 @@ export class PictureComponent {
   private readonly picturesClient = inject(PicturesClient);
   private readonly userService = inject(UserService);
   private readonly toastService = inject(ToastsService);
+  private readonly platform = inject(PLATFORM_ID);
 
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[] = [];
@@ -164,7 +165,9 @@ export class PictureComponent {
   }
 
   protected openSource(picture: APIPicture) {
-    window.open(picture.image.src);
+    if (isPlatformBrowser(this.platform)) {
+      window.open(picture.image.src);
+    }
   }
 
   protected openGallery(picture: APIPicture, $event: MouseEvent) {

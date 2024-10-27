@@ -1,4 +1,4 @@
-import {AsyncPipe, formatDate} from '@angular/common';
+import {AsyncPipe, DOCUMENT, formatDate} from '@angular/common';
 import {Component, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
@@ -28,6 +28,7 @@ export class DonateVodComponent implements OnInit {
   private readonly donateService = inject(DonateService);
   private readonly pageEnv = inject(PageEnvService);
   protected readonly locale = inject(LOCALE_ID);
+  private readonly document = inject(DOCUMENT);
 
   private readonly user$ = this.auth.getUser$();
 
@@ -121,7 +122,7 @@ export class DonateVodComponent implements OnInit {
         {name: 'label', value: label},
         {name: 'quickpay-form', value: 'donate'},
         {name: 'targets', value: $localize`Order ${label}`},
-        {name: 'successURL', value: 'https://' + window.location.host + '/donate/vod/success'},
+        {name: 'successURL', value: 'https://' + this.document.defaultView?.location.host + '/donate/vod/success'},
       ];
     }),
   );

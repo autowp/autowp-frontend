@@ -1,10 +1,11 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {AclEnforceRequest} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Observable, of} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {AuthService} from './auth.service';
+import {isPlatformBrowser} from '@angular/common';
 
 export enum Privilege {
   ACCEPT = 'accept',
@@ -55,8 +56,13 @@ export enum Resource {
 })
 export class APIACL {
   private readonly grpc = inject(AutowpClient);
+  private readonly platform = inject(PLATFORM_ID);
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
+    if (!isPlatformBrowser(this.platform)) {
+      return of(false);
+    }
+
     return this.grpc.aclEnforce(new AclEnforceRequest({privilege, resource})).pipe(
       map((response) => response.result),
       catchError(() => {

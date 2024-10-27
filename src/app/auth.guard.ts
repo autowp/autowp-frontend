@@ -1,4 +1,5 @@
-import {inject} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
+import {inject, PLATFORM_ID} from '@angular/core';
 import {CanActivateFn} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
@@ -9,14 +10,17 @@ export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
   const keycloak = inject(KeycloakService);
   const language = inject(LanguageService);
+  const platform = inject(PLATFORM_ID);
 
   return auth.getUser$().pipe(
     map((user) => {
       if (!user) {
-        keycloak.login({
-          locale: language.language,
-          redirectUri: window.location.href,
-        });
+        if (isPlatformBrowser(platform)) {
+          keycloak.login({
+            locale: language.language,
+            redirectUri: window.location.href,
+          });
+        }
         return false;
       }
       return true;

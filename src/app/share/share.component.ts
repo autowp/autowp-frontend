@@ -1,5 +1,6 @@
+import {isPlatformBrowser} from '@angular/common';
 import {HttpParams} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, PLATFORM_ID} from '@angular/core';
 
 @Component({
   selector: 'app-share',
@@ -10,6 +11,8 @@ import {Component, Input} from '@angular/core';
 export class ShareComponent {
   @Input() url: string = '';
   @Input() text: string = '';
+
+  private readonly platform = inject(PLATFORM_ID);
 
   buildURL(url: string, params: {[s: string]: string}): string {
     let p = new HttpParams();
@@ -23,11 +26,13 @@ export class ShareComponent {
   protected share(href: string) {
     // ga('send', 'event', 'share', $this.attr('title'));
 
-    window.open(
-      href,
-      undefined,
-      'height=600,width=600,resizable=yes,scrollbars=no,status=no,toolbar=no,location=no,directories=no',
-    );
+    if (isPlatformBrowser(this.platform)) {
+      window.open(
+        href,
+        undefined,
+        'height=600,width=600,resizable=yes,scrollbars=no,status=no,toolbar=no,location=no,directories=no',
+      );
+    }
 
     return false;
   }

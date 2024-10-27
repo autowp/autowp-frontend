@@ -1,4 +1,4 @@
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, DOCUMENT} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {BrandIcons} from '@grpc/spec.pb';
@@ -13,20 +13,6 @@ import {catchError, map, shareReplay, tap} from 'rxjs/operators';
 import {ToastsService} from '../toasts/toasts.service';
 import {BrandsItemComponent} from './item/item.component';
 
-function addCSS(url: string) {
-  const cssId = 'brands-css';
-  if (!document.getElementById(cssId)) {
-    const head = document.getElementsByTagName('head')[0];
-    const link = document.createElement('link');
-    link.id = cssId;
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = url;
-    link.media = 'all';
-    head.appendChild(link);
-  }
-}
-
 @Component({
   imports: [RouterLink, BrandsItemComponent, AsyncPipe],
   selector: 'app-brands',
@@ -38,6 +24,7 @@ export class BrandsComponent implements OnInit {
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly grpc = inject(AutowpClient);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly items$: Observable<APIBrandsLines> = this.api.request$<APIBrandsGetResponse>('GET', 'brands').pipe(
     catchError((response: unknown) => {
@@ -59,7 +46,7 @@ export class BrandsComponent implements OnInit {
 
   protected readonly icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
-      addCSS(icons.css);
+      this.addCSS(icons.css);
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -69,10 +56,24 @@ export class BrandsComponent implements OnInit {
   }
 
   protected scrollTo(info: APIBrandsChar) {
-    const element = document.getElementById('char' + info.id);
+    const element = this.document.getElementById('char' + info.id);
     if (element) {
       element.scrollIntoView({behavior: 'smooth'});
     }
     return false;
+  }
+
+  private addCSS(url: string) {
+    const cssId = 'brands-css';
+    if (!this.document.getElementById(cssId)) {
+      const head = this.document.getElementsByTagName('head')[0];
+      const link = this.document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = url;
+      link.media = 'all';
+      head.appendChild(link);
+    }
   }
 }

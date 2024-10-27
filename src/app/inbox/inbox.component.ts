@@ -1,5 +1,5 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {AsyncPipe, DatePipe, isPlatformBrowser} from '@angular/common';
+import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AuthService} from '@services/auth.service';
@@ -39,14 +39,17 @@ export class InboxComponent implements OnInit {
   private readonly inboxService = inject(InboxService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
+  private readonly platform = inject(PLATFORM_ID);
 
   protected readonly inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
-        this.keycloak.login({
-          locale: this.languageService.language,
-          redirectUri: window.location.href,
-        });
+        if (isPlatformBrowser(this.platform)) {
+          this.keycloak.login({
+            locale: this.languageService.language,
+            redirectUri: window.location.href,
+          });
+        }
         return EMPTY;
       }
 

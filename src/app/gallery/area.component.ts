@@ -1,5 +1,5 @@
-import {NgStyle} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {DOCUMENT, NgStyle} from '@angular/common';
+import {Component, inject, Input} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {APIGalleryItemArea} from './definitions';
@@ -15,8 +15,10 @@ export class AreaComponent {
   @Input() styles?: {[key: string]: number} = {};
   @Input() area?: APIGalleryItemArea;
 
+  private readonly document = inject(DOCUMENT);
+
   protected placement(): string {
-    const winHeight = window.innerHeight;
+    const winHeight = this.document.defaultView?.innerHeight;
     const nodeOffset = this.styles && this.styles['top.px'] ? this.styles['top.px'] : 0;
     const nodeHeight = this.styles && this.styles['height.px'] ? this.styles['height.px'] : 0;
     const winCenter = winHeight === undefined ? 0 : winHeight / 2;

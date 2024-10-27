@@ -13,7 +13,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private readonly ngZone = inject(NgZone);
   private readonly languageService = inject(LanguageService);
 
-  private currentTimer: null | number = null;
+  private currentTimer: NodeJS.Timeout | null | number = null;
   private lastTime: null | number = null;
   private lastValue: Date | null = null;
   private lastText: string = '';
@@ -97,25 +97,21 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     if (this.lastValue) {
       const timeToUpdate = this.getSecondsUntilUpdate(this.lastValue) * 1000;
       this.currentTimer = this.ngZone.runOutsideAngular(() => {
-        if (typeof window !== 'undefined') {
-          return window.setTimeout(() => {
-            if (this.lastValue) {
-              this.lastText = this.format(this.lastValue);
-            }
+        return setTimeout(() => {
+          if (this.lastValue) {
+            this.lastText = this.format(this.lastValue);
+          }
 
-            this.currentTimer = null;
-            this.ngZone.run(() => this.cdRef.markForCheck());
-          }, timeToUpdate);
-        } else {
-          return null;
-        }
+          this.currentTimer = null;
+          this.ngZone.run(() => this.cdRef.markForCheck());
+        }, timeToUpdate);
       });
     }
   }
 
   private removeTimer() {
     if (this.currentTimer) {
-      window.clearTimeout(this.currentTimer);
+      clearTimeout(this.currentTimer);
       this.currentTimer = null;
     }
   }
