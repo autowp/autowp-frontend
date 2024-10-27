@@ -45,7 +45,7 @@ export class MostsContentsComponent {
 
   @Input() prefix: string[] = ['/mosts'];
 
-  @Input() set ratingCatname(ratingCatname: string) {
+  @Input() set ratingCatname(ratingCatname: null | string) {
     this.ratingCatname$.next(ratingCatname);
   }
   protected readonly ratingCatname$ = new BehaviorSubject<null | string>(null);

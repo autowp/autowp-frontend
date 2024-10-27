@@ -12,15 +12,13 @@
 </nav>
 
 @if (brand$ | async; as brand) {
-  @if (ratingCatname$ | async; as ratingCatname) {
-    <app-mosts-contents
-      [prefix]="['/', brand.catname, 'mosts']"
-      [ratingCatname]="ratingCatname"
-      [typeCatname]="(typeCatname$ | async) || null"
-      [yearsCatname]="(yearsCatname$ | async) || null"
-      [brandID]="+brand.id"
-    ></app-mosts-contents>
-  }
+  <app-mosts-contents
+    [prefix]="['/', brand.catname, 'mosts']"
+    [ratingCatname]="ratingCatname$ | async"
+    [typeCatname]="(typeCatname$ | async) || null"
+    [yearsCatname]="(yearsCatname$ | async) || null"
+    [brandID]="+brand.id"
+  ></app-mosts-contents>
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 }
