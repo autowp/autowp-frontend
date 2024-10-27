@@ -101,8 +101,6 @@
     }
   </div>
   <div class="col-sm-4 order-1">
-    @if (currentBrandCatname$ | async; as currentBrandCatname) {
-      <app-twins-sidebar [selected]="[currentBrandCatname]"></app-twins-sidebar>
-    }
+    <app-twins-sidebar [selected]="[(currentBrandCatname$ | async) || '']"></app-twins-sidebar>
   </div>
 </div>
