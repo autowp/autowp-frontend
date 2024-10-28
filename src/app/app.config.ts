@@ -4,7 +4,7 @@ import {APP_INITIALIZER, ApplicationConfig, enableProdMode, importProvidersFrom}
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
-import {provideRouter} from '@angular/router';
+import {provideRouter, withInMemoryScrolling} from '@angular/router';
 import {environment} from '@environment/environment';
 import {NgbCollapseModule, NgbDropdownModule, NgbModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
@@ -121,7 +121,12 @@ export const appConfig: ApplicationConfig = {
     LanguageService,
     TimezoneService,
     IpService,
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+      }),
+    ),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     provideAnimations(),
   ],
