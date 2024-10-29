@@ -70,16 +70,16 @@
         <!--      </p>-->
         <h2 i18n>Recent activity</h2>
         <div class="card card-body mb-4">
-          @if (user.picturesAdded !== '0') {
+          @if (user.picturesAdded > 0) {
             <div>
               <p>
                 <ng-container i18n>Images uploaded:</ng-container>
-                <strong [textContent]="user.picturesAdded"></strong>
+                <strong>{{ user.picturesAdded }}</strong>
               </p>
               @if (user.picturesAcceptedCount < user.picturesAdded) {
                 <p>
                   <ng-container i18n>left on site:</ng-container>
-                  <strong [textContent]="user.picturesAcceptedCount"></strong>
+                  <strong>{{ user.picturesAcceptedCount }}</strong>
                 </p>
               }
               <p>

@@ -9215,8 +9215,8 @@ export class APIUser implements GrpcMessage {
     _instance.photo = _instance.photo || undefined;
     _instance.isModer = _instance.isModer || false;
     _instance.regDate = _instance.regDate || undefined;
-    _instance.picturesAdded = _instance.picturesAdded || '0';
-    _instance.picturesAcceptedCount = _instance.picturesAcceptedCount || '0';
+    _instance.picturesAdded = _instance.picturesAdded || 0;
+    _instance.picturesAcceptedCount = _instance.picturesAcceptedCount || 0;
     _instance.lastIp = _instance.lastIp || '';
     _instance.login = _instance.login || '';
   }
@@ -9318,10 +9318,10 @@ export class APIUser implements GrpcMessage {
           );
           break;
         case 23:
-          _instance.picturesAdded = _reader.readInt64String();
+          _instance.picturesAdded = _reader.readInt32();
           break;
         case 24:
-          _instance.picturesAcceptedCount = _reader.readInt64String();
+          _instance.picturesAcceptedCount = _reader.readInt32();
           break;
         case 25:
           _instance.lastIp = _reader.readString();
@@ -9427,10 +9427,10 @@ export class APIUser implements GrpcMessage {
       );
     }
     if (_instance.picturesAdded) {
-      _writer.writeInt64String(23, _instance.picturesAdded);
+      _writer.writeInt32(23, _instance.picturesAdded);
     }
     if (_instance.picturesAcceptedCount) {
-      _writer.writeInt64String(24, _instance.picturesAcceptedCount);
+      _writer.writeInt32(24, _instance.picturesAcceptedCount);
     }
     if (_instance.lastIp) {
       _writer.writeString(25, _instance.lastIp);
@@ -9461,8 +9461,8 @@ export class APIUser implements GrpcMessage {
   private _photo?: APIImage;
   private _isModer: boolean;
   private _regDate?: googleProtobuf002.Timestamp;
-  private _picturesAdded: string;
-  private _picturesAcceptedCount: string;
+  private _picturesAdded: number;
+  private _picturesAcceptedCount: number;
   private _lastIp: string;
   private _login: string;
 
@@ -9629,16 +9629,16 @@ export class APIUser implements GrpcMessage {
   set regDate(value: googleProtobuf002.Timestamp | undefined) {
     this._regDate = value;
   }
-  get picturesAdded(): string {
+  get picturesAdded(): number {
     return this._picturesAdded;
   }
-  set picturesAdded(value: string) {
+  set picturesAdded(value: number) {
     this._picturesAdded = value;
   }
-  get picturesAcceptedCount(): string {
+  get picturesAcceptedCount(): number {
     return this._picturesAcceptedCount;
   }
-  set picturesAcceptedCount(value: string) {
+  set picturesAcceptedCount(value: number) {
     this._picturesAcceptedCount = value;
   }
   get lastIp(): string {
@@ -9770,8 +9770,8 @@ export module APIUser {
     photo?: APIImage.AsObject;
     isModer: boolean;
     regDate?: googleProtobuf002.Timestamp.AsObject;
-    picturesAdded: string;
-    picturesAcceptedCount: string;
+    picturesAdded: number;
+    picturesAcceptedCount: number;
     lastIp: string;
     login: string;
   }
@@ -9801,8 +9801,8 @@ export module APIUser {
     photo: APIImage.AsProtobufJSON | null;
     isModer: boolean;
     regDate: googleProtobuf002.Timestamp.AsProtobufJSON | null;
-    picturesAdded: string;
-    picturesAcceptedCount: string;
+    picturesAdded: number;
+    picturesAcceptedCount: number;
     lastIp: string;
     login: string;
   }
