@@ -2,9 +2,8 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpEvent,
-  HttpHandler,
+  HttpHandlerFn,
   HttpHeaders,
-  HttpInterceptor,
   HttpParams,
   HttpRequest,
   HttpResponse,
@@ -45,35 +44,30 @@ export interface APIPaginator {
 
 declare type HttpObserve = 'body' | 'events' | 'response';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthInterceptor implements HttpInterceptor {
-  private readonly keycloak = inject(KeycloakService);
+export function authInterceptor$(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  const keycloak = inject(KeycloakService);
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler) {
-    const promise = this.keycloak.getToken();
+  const promise = keycloak.getToken();
 
-    promise.catch((d) => console.error(d));
+  promise.catch((d) => console.error(d));
 
-    return from(promise).pipe(
-      catchError((e: unknown) => {
-        console.error(e);
-        return of('');
-      }),
-      switchMap((accessToken) => {
-        if (!accessToken) {
-          return next.handle(req);
-        }
+  return from(promise).pipe(
+    catchError((e: unknown) => {
+      console.error(e);
+      return of('');
+    }),
+    switchMap((accessToken) => {
+      if (!accessToken) {
+        return next(req);
+      }
 
-        const authReq = req.clone({
-          headers: req.headers.set('Authorization', 'Bearer ' + accessToken),
-        });
+      const authReq = req.clone({
+        headers: req.headers.set('Authorization', 'Bearer ' + accessToken),
+      });
 
-        return next.handle(authReq);
-      }),
-    );
-  }
+      return next(authReq);
+    }),
+  );
 }
 
 @Injectable({

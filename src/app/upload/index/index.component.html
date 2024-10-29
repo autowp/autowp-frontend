@@ -82,12 +82,12 @@
                     [value]="p.percentage"
                   >
                     <div>
-                      <span class="d-inline file-name" [textContent]="p.filename">: </span>
+                      <span class="d-inline file-name">{{ p.filename }}: </span>
                       @if (p.percentage < 100) {
-                        <span class="d-inline percentage" [textContent]="p.percentage + '% '"></span>
+                        <span class="d-inline percentage">{{ p.percentage }}%</span>
                       }
                       @for (message of p.invalidParams | invalidParams: 'file'; track message) {
-                        <span class="d-inline" [textContent]="message + ' '"></span>
+                        <span class="d-inline">{{ message }} </span>
                       }
                     </div>
                   </ngb-progressbar>

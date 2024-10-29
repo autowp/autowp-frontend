@@ -1,5 +1,5 @@
 import {DecimalPipe} from '@angular/common';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {APP_INITIALIZER, ApplicationConfig, enableProdMode, importProvidersFrom} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
@@ -10,7 +10,7 @@ import {NgbCollapseModule, NgbDropdownModule, NgbModule, NgbTooltipModule} from 
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 import {ACLService, APIACL} from '@services/acl.service';
-import {APIService, AuthInterceptor, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
+import {APIService, authInterceptor$, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {ContentLanguageService} from '@services/content-language';
@@ -90,7 +90,6 @@ export const appConfig: ApplicationConfig = {
       Angulartics2Module.forRoot(),
       NgbModule,
     ),
-    {multi: true, provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor},
     {multi: true, provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor},
     {multi: true, provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor},
     {
@@ -127,7 +126,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
       }),
     ),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideHttpClient(withInterceptors([authInterceptor$])),
     provideAnimations(),
   ],
 };
