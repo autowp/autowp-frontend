@@ -1,10 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItemList, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../../../paginator/paginator/paginator.component';
@@ -37,7 +37,7 @@ export class ModerItemsItemSelectParentCategoriesComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly categories$ = this.page$.pipe(
+  protected readonly categories$: Observable<APIItemList> = this.page$.pipe(
     switchMap((page) =>
       this.itemsClient.list(
         new ListItemsRequest({
