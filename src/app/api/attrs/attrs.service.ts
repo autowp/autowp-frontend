@@ -13,8 +13,6 @@ import {getAttrsTranslation} from '@utils/translations';
 import {Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
-export type APIAttrAttributeValue = boolean | number | string | string[];
-
 export interface APIAttrUnit {
   abbr: string;
   id: number;

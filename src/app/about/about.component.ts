@@ -6,7 +6,7 @@ import {StatisticsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import {escapeRegExp} from 'lodash';
+import escapeStringRegexp from 'escape-string-regexp';
 import {BytesPipe} from 'ngx-pipes';
 import {map, switchMap} from 'rxjs/operators';
 import showdown from 'showdown';
@@ -14,7 +14,7 @@ import showdown from 'showdown';
 import * as versionJson from '../../version.json';
 
 function replaceAll(str: string, find: string, replace: string): string {
-  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+  return str.replace(new RegExp(escapeStringRegexp(find), 'g'), replace);
 }
 
 function replacePairs(str: string, pairs: {[key: string]: string}): string {

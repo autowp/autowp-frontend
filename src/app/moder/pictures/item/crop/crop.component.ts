@@ -4,7 +4,6 @@ import {SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import $ from 'jquery';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -45,7 +44,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   };
   private minSize = [400, 300];
   protected picture?: APIPicture;
-  protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
+  protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
 
   ngOnInit(): void {
     setTimeout(
@@ -72,8 +71,10 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
         this.picture = data.picture;
 
         if (data.img) {
-          const $img = $(data.img);
-          const $body = $img.parent();
+          const body = data.img.parentElement;
+          if (!body) {
+            return;
+          }
 
           this.jcrop = null;
           if (this.picture.crop) {
@@ -92,13 +93,17 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
             };
           }
 
-          const bWidth = $body.width() || 1;
+          const styles = window.getComputedStyle(body, null);
+          const bWidth = body.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight) || 1;
 
           const scale = this.picture.width / bWidth;
           const width = this.picture.width / scale;
           const height = this.picture.height / scale;
 
-          this.jcrop = Jcrop($img[0], {
+          data.img.style.width = width + 'px';
+          data.img.style.height = height + 'px';
+
+          this.jcrop = Jcrop(data.img, {
             boxHeight: height,
             boxWidth: width,
             keySupport: false,
@@ -168,7 +173,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   }
 
   protected onLoad(e: Event) {
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof HTMLImageElement) {
       this.img$.next(e.target);
     }
   }

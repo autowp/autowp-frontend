@@ -10,7 +10,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {RouterLink} from '@angular/router';
-import $ from 'jquery';
 import {NgMathPipesModule} from 'ngx-pipes';
 
 import {AreaComponent} from './area.component';
@@ -72,7 +71,7 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
   templateUrl: './carousel-item.component.html',
 })
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
-  private readonly el = inject(ElementRef);
+  private readonly el: ElementRef<HTMLElement> = inject(ElementRef);
 
   @Input() item?: APIGalleryItem;
   @Input() prefix: string[] = [];
@@ -134,9 +133,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       return;
     }
 
-    const $inner = $(this.el.nativeElement);
-    const w = $inner.width() || 0;
-    const h = $inner.height() || 0;
+    const w = this.el.nativeElement.clientWidth || 0;
+    const h = this.el.nativeElement.clientHeight || 0;
 
     const cSize: Dimension = {
       height: h,

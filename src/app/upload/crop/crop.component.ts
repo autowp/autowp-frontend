@@ -2,7 +2,6 @@ import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {APIPicture} from '@services/picture';
-import $ from 'jquery';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
 // @ts-expect-error Legacy
@@ -36,7 +35,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   private jcrop: Jcrop = null;
   protected aspect: string = '';
   protected resolution: string = '';
-  protected readonly img$ = new BehaviorSubject<HTMLElement | null>(null);
+  protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
   private currentCrop: JcropCrop = {
     h: 0,
     w: 0,
@@ -48,8 +47,11 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
       if (img && picture) {
-        const $img = $(img);
-        const $body = $img.parent();
+        const body = img.parentElement;
+
+        if (!body) {
+          return;
+        }
 
         this.jcrop = null;
         if (picture.crop) {
@@ -68,18 +70,17 @@ export class UploadCropComponent implements OnInit, OnDestroy {
           };
         }
 
-        const bWidth = $body.width() || 1;
+        const styles = window.getComputedStyle(body, null);
+        const bWidth = body.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight) || 1;
 
         const scale = picture.width / bWidth;
         const width = picture.width / scale;
         const height = picture.height / scale;
 
-        $img.css({
-          height,
-          width,
-        });
+        img.style.width = width + 'px';
+        img.style.height = height + 'px';
 
-        this.jcrop = Jcrop($img[0], {
+        this.jcrop = Jcrop(img, {
           boxHeight: height,
           boxWidth: width,
           keySupport: false,
@@ -129,7 +130,7 @@ export class UploadCropComponent implements OnInit, OnDestroy {
   }
 
   protected onLoad(e: Event) {
-    if (e.target && e.target instanceof HTMLElement) {
+    if (e.target && e.target instanceof HTMLImageElement) {
       this.img$.next(e.target);
     }
   }

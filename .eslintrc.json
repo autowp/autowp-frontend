@@ -22,7 +22,7 @@
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended",
         "plugin:rxjs/recommended",
-        "plugin:perfectionist/recommended-natural-legacy"
+        "plugin:depend/recommended"
       ],
       "plugins": ["rxjs","rxjs-angular"],
       "rules": {
