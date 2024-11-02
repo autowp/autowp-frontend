@@ -56,10 +56,10 @@ export class UploadCropComponent implements OnInit, OnDestroy {
         this.jcrop = null;
         if (picture.crop) {
           this.currentCrop = {
-            h: picture.crop.height || 0,
-            w: picture.crop.width || 0,
-            x: picture.crop.left || 0,
-            y: picture.crop.top || 0,
+            h: picture.crop.height ?? 0,
+            w: picture.crop.width ?? 0,
+            x: picture.crop.left ?? 0,
+            y: picture.crop.top ?? 0,
           };
         } else {
           this.currentCrop = {

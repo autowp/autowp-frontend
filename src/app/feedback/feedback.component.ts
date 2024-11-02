@@ -57,10 +57,10 @@ export class FeedbackComponent implements OnInit {
     this.grpc
       .createFeedback(
         new APICreateFeedbackRequest({
-          captcha: formValue.captcha || undefined,
-          email: formValue.email || undefined,
-          message: formValue.message || undefined,
-          name: formValue.name || undefined,
+          captcha: formValue.captcha ?? undefined,
+          email: formValue.email ?? undefined,
+          message: formValue.message ?? undefined,
+          name: formValue.name ?? undefined,
         }),
       )
       .subscribe({

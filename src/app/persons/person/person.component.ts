@@ -29,7 +29,7 @@ export class PersonsPersonComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly itemID$: Observable<string> = this.route.paramMap.pipe(
-    map((params) => params.get('id') || ''),
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
   );
 

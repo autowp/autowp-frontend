@@ -134,7 +134,7 @@ export class AboutComponent implements OnInit {
             '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
           '%pt-br-translator%': this.userHtml(data.users.get(data.about.ptBrTranslator)),
           '%total-comments%': data.about.totalComments.toString(),
-          '%total-pictures%': this.decimalPipe.transform(data.about.totalPictures) || '',
+          '%total-pictures%': this.decimalPipe.transform(data.about.totalPictures) ?? '',
           '%total-size%': this.bytesPipe.transform(data.about.picturesSize * 1024 * 1024, 1).toString(),
           '%total-users%': data.about.totalUsers.toString(),
           '%total-vehicles%': data.about.totalItems.toString(),

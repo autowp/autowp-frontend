@@ -1,5 +1,6 @@
 import {UrlSegment} from '@angular/router';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function cataloguePathMatcher(url: UrlSegment[]) {
   if (url.length <= 0) {
     return null;

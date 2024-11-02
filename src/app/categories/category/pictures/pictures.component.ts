@@ -30,7 +30,7 @@ export class CategoriesCategoryPicturesComponent {
   private readonly categoriesService = inject(CategoriesService);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
 

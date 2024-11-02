@@ -39,7 +39,7 @@ export class ModerUsersComponent implements OnInit {
             regDate: true,
           }),
           limit: '30',
-          page: params.get('page') || undefined,
+          page: params.get('page') ?? undefined,
         }),
       ),
     ),

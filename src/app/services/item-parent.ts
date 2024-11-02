@@ -13,7 +13,7 @@ export interface APIItemParent {
   catname: string;
   duplicate_child?: APIItem;
   duplicate_parent?: APIItem;
-  expanded?: boolean; // TODO: remove
+  expanded?: boolean;
   item: APIItem;
   item_id: number;
   name?: string;
@@ -29,13 +29,13 @@ export interface APIItemParentGetItemsOptions {
   exclude_concept?: boolean;
   fields?: string;
   is_group?: boolean;
-  item_id?: number;
+  item_id?: number | null;
   item_type_id?: number;
   limit: number;
   order?: string;
   page?: number;
   parent_id?: number;
-  type_id?: number;
+  type_id?: number | null;
 }
 
 @Injectable({

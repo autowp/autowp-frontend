@@ -49,7 +49,7 @@ export class UsersUserPicturesBrandComponent {
   );
 
   private readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
-    map((params) => params.get('brand') || ''),
+    map((params) => params.get('brand') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((catname) =>
@@ -67,7 +67,7 @@ export class UsersUserPicturesBrandComponent {
             }),
           }),
         )
-        .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null))),
+        .pipe(map((response) => (response.items?.length ? response.items[0] : null))),
     ),
     switchMap((brand) => {
       if (!brand) {
@@ -93,7 +93,7 @@ export class UsersUserPicturesBrandComponent {
     this.user$,
     this.brand$,
     this.route.queryParamMap.pipe(
-      map((params) => parseInt(params.get('page') || '', 10)),
+      map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),

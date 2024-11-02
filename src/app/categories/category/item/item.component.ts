@@ -48,7 +48,7 @@ export class CategoriesCategoryItemComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((query) => parseInt(query.get('page') || '', 10)),
+    map((query) => parseInt(query.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -77,7 +77,8 @@ export class CategoriesCategoryItemComponent {
                 '/category',
                 ...(itemParent.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY
                   ? [itemParent.item.catname]
-                  : category
+                  : // eslint-disable-next-line sonarjs/no-nested-conditional
+                    category
                     ? [category.catname, ...pathCatnames, itemParent.catname]
                     : []),
               ],

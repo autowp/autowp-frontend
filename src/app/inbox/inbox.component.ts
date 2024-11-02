@@ -54,7 +54,7 @@ export class InboxComponent implements OnInit {
     }),
     map((params) => ({
       brand: params.get('brand'),
-      date: params.get('date') || '',
+      date: params.get('date') ?? '',
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
@@ -92,7 +92,7 @@ export class InboxComponent implements OnInit {
         brandCatname: brandID ? brandID.toString() : 'all',
         inbox: inbox,
         pictures$: this.route.queryParamMap.pipe(
-          map((params) => parseInt(params.get('page') || '', 10)),
+          map((params) => parseInt(params.get('page') ?? '', 10)),
           distinctUntilChanged(),
           switchMap((page) =>
             this.pictureService.getPictures$({

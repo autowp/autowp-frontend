@@ -34,7 +34,7 @@ export class ForumsMoveMessageComponent implements OnInit {
   private readonly grpc = inject(ForumsClient);
 
   protected readonly messageID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('message_id') || '', 10)),
+    map((params) => parseInt(params.get('message_id') ?? '', 10)),
     distinctUntilChanged(),
   );
 

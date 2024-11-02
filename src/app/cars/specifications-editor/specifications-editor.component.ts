@@ -42,11 +42,11 @@ export class CarsSpecificationsEditorComponent {
   private readonly change$ = new BehaviorSubject<void>(void 0);
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly isSpecsAdmin$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.ADMIN);
-  protected readonly tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') || 'info'));
+  protected readonly tab$ = this.route.queryParamMap.pipe(map((params) => params.get('tab') ?? 'info'));
   protected readonly user$ = this.auth.getUser$();
 
   protected readonly data$: Observable<APIItem> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') || '', 10)),
+    map((params) => parseInt(params.get('item_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((itemID) =>

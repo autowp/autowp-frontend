@@ -18,17 +18,17 @@ export class MostsComponent implements OnInit {
   private readonly pageEnv = inject(PageEnvService);
 
   protected readonly ratingCatname$: Observable<string> = this.route.paramMap.pipe(
-    map((params) => params.get('rating_catname') || ''),
+    map((params) => params.get('rating_catname') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
   protected readonly typeCatname$: Observable<string> = this.route.paramMap.pipe(
-    map((params) => params.get('type_catname') || ''),
+    map((params) => params.get('type_catname') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
   protected readonly yearsCatname$: Observable<string> = this.route.paramMap.pipe(
-    map((params) => params.get('years_catname') || ''),
+    map((params) => params.get('years_catname') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );

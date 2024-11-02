@@ -54,11 +54,11 @@ export class LogComponent implements OnInit {
     switchMap((params) =>
       this.logClient.getEvents(
         new LogEventsRequest({
-          articleId: params.article_id || undefined,
-          itemId: params.item_id || undefined,
-          page: +(params.page || 0),
-          pictureId: params.picture_id || undefined,
-          userId: params.user_id || undefined,
+          articleId: params.article_id ?? undefined,
+          itemId: params.item_id ?? undefined,
+          page: +(params.page ?? 0),
+          pictureId: params.picture_id ?? undefined,
+          userId: params.user_id ?? undefined,
         }),
       ),
     ),

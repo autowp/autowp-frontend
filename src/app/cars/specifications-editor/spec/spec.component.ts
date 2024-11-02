@@ -85,6 +85,8 @@ export class AttrFormControl<TValue> extends FormControl {
   }
 }
 
+type AttrValues = boolean | null | number | string | string[];
+
 @Component({
   imports: [
     FormsModule,
@@ -126,7 +128,7 @@ export class CarsSpecificationsEditorSpecComponent {
   protected readonly attributes$: Observable<APIAttrAttributeInSpecEditor[]> = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
-      item && item.attr_zone_id
+      item?.attr_zone_id
         ? this.attrsService.getAttributes$(item.attr_zone_id + '', null)
         : throwError(() => new Error('Failed to detect attr_zone_id')),
     ),
@@ -178,34 +180,34 @@ export class CarsSpecificationsEditorSpecComponent {
     }),
   );
 
-  protected readonly form$: Observable<FormArray<AttrFormControl<boolean | null | number | string | string[]>>> =
-    combineLatest([this.attributes$, this.currentUserValues$]).pipe(
-      map(([attributes, currentUserValues]) => {
-        const controls: AttrFormControl<boolean | null | number | string | string[]>[] = attributes
-          .map((attr) => {
-            const currentUserValue = currentUserValues[+attr.id].value;
-            const disabled = !!currentUserValue?.isEmpty;
+  protected readonly form$: Observable<FormArray<AttrFormControl<AttrValues>>> = combineLatest([
+    this.attributes$,
+    this.currentUserValues$,
+  ]).pipe(
+    map(([attributes, currentUserValues]) => {
+      const controls: AttrFormControl<boolean | null | number | string | string[]>[] = attributes.map((attr) => {
+        const currentUserValue = currentUserValues[+attr.id].value;
+        const disabled = !!currentUserValue?.isEmpty;
 
-            switch (attr.typeId) {
-              case AttrAttributeType.Id.BOOLEAN:
-                return new AttrFormControl<boolean>(attr, currentUserValue?.boolValue || false, disabled);
-              case AttrAttributeType.Id.FLOAT:
-                return new AttrFormControl<null | number>(attr, currentUserValue?.floatValue || null, disabled);
-              case AttrAttributeType.Id.INTEGER:
-                return new AttrFormControl<null | number>(attr, currentUserValue?.intValue || null, disabled);
-              case AttrAttributeType.Id.LIST:
-              case AttrAttributeType.Id.TREE:
-                return new AttrFormControl<string[]>(attr, currentUserValue?.listValue || [], disabled);
-              case AttrAttributeType.Id.STRING:
-              case AttrAttributeType.Id.TEXT:
-                return new AttrFormControl<string>(attr, currentUserValue?.stringValue || '', disabled);
-            }
-            return new AttrFormControl<null>(attr, null, disabled);
-          })
-          .filter((control): control is Exclude<typeof control, null> => control !== null);
-        return new FormArray<AttrFormControl<boolean | null | number | string | string[]>>(controls);
-      }),
-    );
+        switch (attr.typeId) {
+          case AttrAttributeType.Id.BOOLEAN:
+            return new AttrFormControl<boolean>(attr, currentUserValue?.boolValue || false, disabled);
+          case AttrAttributeType.Id.FLOAT:
+            return new AttrFormControl<null | number>(attr, currentUserValue?.floatValue ?? null, disabled);
+          case AttrAttributeType.Id.INTEGER:
+            return new AttrFormControl<null | number>(attr, currentUserValue?.intValue ?? null, disabled);
+          case AttrAttributeType.Id.LIST:
+          case AttrAttributeType.Id.TREE:
+            return new AttrFormControl<string[]>(attr, currentUserValue?.listValue || [], disabled);
+          case AttrAttributeType.Id.STRING:
+          case AttrAttributeType.Id.TEXT:
+            return new AttrFormControl<string>(attr, currentUserValue?.stringValue ?? '', disabled);
+        }
+        return new AttrFormControl<null>(attr, null, disabled);
+      });
+      return new FormArray<AttrFormControl<AttrValues>>(controls);
+    }),
+  );
 
   private applyUserValues(userValues: Map<string, AttrUserValueWithUser[]>, items: AttrUserValue[]) {
     for (const userValue of items) {

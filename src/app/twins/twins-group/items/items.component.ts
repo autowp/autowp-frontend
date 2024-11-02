@@ -23,7 +23,7 @@ export class TwinsGroupItemsComponent {
   private readonly pageEnv = inject(PageEnvService);
 
   protected readonly group$: Observable<APIItem | null> = this.route.parent!.paramMap.pipe(
-    map((params) => parseInt(params.get('group') || '', 10)),
+    map((params) => parseInt(params.get('group') ?? '', 10)),
     distinctUntilChanged(),
     switchMap((group) => {
       if (!group) {

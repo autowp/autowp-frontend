@@ -114,7 +114,7 @@ export class PictureComponent {
       .setPictureItemPerspective(
         new SetPictureItemPerspectiveRequest({
           itemId: '' + item.item_id,
-          perspectiveId: perspectiveID || undefined,
+          perspectiveId: perspectiveID ?? undefined,
           pictureId: '' + item.picture_id,
           type: item.type,
         }),

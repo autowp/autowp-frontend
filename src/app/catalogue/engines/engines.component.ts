@@ -28,7 +28,7 @@ export class CatalogueEnginesComponent {
   private readonly languageService = inject(LanguageService);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );

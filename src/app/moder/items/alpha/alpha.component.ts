@@ -62,7 +62,7 @@ export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
                     options: new ItemListOptions({
                       name: query.get('char') + '%',
                     }),
-                    page: parseInt(query.get('page') || '', 10),
+                    page: parseInt(query.get('page') ?? '', 10),
                   }),
                 )
               : of({

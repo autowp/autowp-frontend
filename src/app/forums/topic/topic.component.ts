@@ -37,14 +37,14 @@ export class ForumsTopicComponent {
   protected readonly limit = MESSAGES_PER_PAGE;
   protected readonly user$ = this.auth.getUser$();
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
 
   protected readonly CommentsType = CommentsType;
 
   protected readonly topic$: Observable<APIForumsTopic> = this.route.paramMap.pipe(
-    map((params) => params.get('topic_id') || undefined),
+    map((params) => params.get('topic_id') ?? undefined),
     distinctUntilChanged(),
     switchMap((topicID) => this.grpc.getTopic(new APIGetForumsTopicRequest({id: topicID}))),
     tap((topic) => {

@@ -41,7 +41,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
 
   protected readonly tab$ = this.route.queryParamMap.pipe(
-    map((params) => params.get('tab') || 'catalogue'),
+    map((params) => params.get('tab') ?? 'catalogue'),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );

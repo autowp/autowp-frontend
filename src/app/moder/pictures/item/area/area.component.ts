@@ -63,7 +63,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
 
     this.sub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id') || '', 10)),
+        map((params) => parseInt(params.get('id') ?? '', 10)),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap((id) =>
@@ -78,8 +78,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         switchMap((picture) =>
           this.route.queryParamMap.pipe(
             map((params) => ({
-              item_id: parseInt(params.get('item_id') || '', 10),
-              type: parseInt(params.get('type') || '', 10),
+              item_id: parseInt(params.get('item_id') ?? '', 10),
+              type: parseInt(params.get('type') ?? '', 10),
             })),
             distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
             debounceTime(30),

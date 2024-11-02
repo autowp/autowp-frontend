@@ -54,7 +54,7 @@ export class CatalogueVehiclesComponent {
   private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: APIItemParent[]; type: string}> =
     this.catalogueService.resolveCatalogue$(this.route, '').pipe(
       switchMap((data) => {
-        if (!data || !data.brand || !data.path || data.path.length <= 0) {
+        if (!data?.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
@@ -123,7 +123,7 @@ export class CatalogueVehiclesComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -165,8 +165,7 @@ export class CatalogueVehiclesComponent {
 
               const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
                 picture: picture?.picture ? picture.picture : null,
-                routerLink:
-                  picture && picture.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : [],
+                routerLink: picture?.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : [],
                 thumb: picture ? picture.thumb : null,
               }));
 
@@ -254,7 +253,7 @@ export class CatalogueVehiclesComponent {
   private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
     const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
       picture: picture?.picture ? picture.picture : null,
-      routerLink: picture && picture.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
+      routerLink: picture?.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
       thumb: picture ? picture.thumb : null,
     }));
 

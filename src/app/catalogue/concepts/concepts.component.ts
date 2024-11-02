@@ -28,7 +28,7 @@ export class CatalogueConceptsComponent {
   private readonly languageService = inject(LanguageService);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((queryParams) => parseInt(queryParams.get('page') || '', 10)),
+    map((queryParams) => parseInt(queryParams.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -55,7 +55,7 @@ export class CatalogueConceptsComponent {
         }),
       );
     }),
-    map((response) => (response.items && response.items.length ? response.items[0] : null)),
+    map((response) => (response.items?.length ? response.items[0] : null)),
     switchMap((brand) => {
       if (!brand) {
         this.router.navigate(['/error-404'], {
@@ -127,7 +127,7 @@ export class CatalogueConceptsComponent {
           },
           produced: item.produced,
           produced_exactly: item.produced_exactly,
-          specsRouterLink: null, // TODO
+          specsRouterLink: null,
         };
       });
 

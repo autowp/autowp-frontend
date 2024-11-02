@@ -39,7 +39,7 @@ export class ModerItemsNewComponent {
   protected invalidParams: InvalidParams | undefined = undefined;
 
   private readonly itemTypeID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_type_id') || '', 10)),
+    map((params) => parseInt(params.get('item_type_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -119,7 +119,7 @@ export class ModerItemsNewComponent {
   );
 
   private readonly parentID$: Observable<string> = this.route.queryParamMap.pipe(
-    map((params) => params.get('parent_id') || ''),
+    map((params) => params.get('parent_id') ?? ''),
     distinctUntilChanged(),
   );
 
@@ -195,7 +195,7 @@ export class ModerItemsNewComponent {
           }
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') || '', {})),
+        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') ?? '', {})),
         switchMap((item) => {
           const pipes: Observable<null>[] = [
             this.parent$.pipe(

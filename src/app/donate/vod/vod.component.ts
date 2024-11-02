@@ -49,7 +49,7 @@ export class DonateVodComponent implements OnInit {
   );
 
   private readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') || '', 10)),
+    map((params) => parseInt(params.get('item_id') ?? '', 10)),
     distinctUntilChanged(),
   );
 

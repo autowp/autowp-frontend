@@ -78,7 +78,7 @@ export class UserTextComponent {
   private prepareLine$(line: string): Observable<CommentTextElement[]> {
     const out: Observable<CommentTextElement>[] = [];
 
-    const re = new RegExp(/(https?:\/\/[\w:.,/?&_=~+%#'!|()-]{3,})|(www.[\w.,/?&_=~+%#'!|()-]{3,})/i, 'i');
+    const re = new RegExp(/(https?:\/\/[\w:.,/?&=~+%#'!|()-]{3,})|(www.[\w.,/?&=~+%#'!|()-]{3,})/i, 'i');
 
     let res: null | RegExpExecArray = null;
     let umatch: string;
@@ -192,7 +192,7 @@ export class UserTextComponent {
     let pictureId: null | number = null;
     let pictureIdentity: null | string = matches[1];
 
-    const re2 = new RegExp(/^([0-9]+)$/i, 'i');
+    const re2 = new RegExp(/^(\d+)$/i, 'i');
     const match = re2.exec(pictureIdentity);
     if (match) {
       pictureIdentity = null;

@@ -33,7 +33,7 @@ export class VotingComponent {
 
   private readonly reload$ = new BehaviorSubject<void>(void 0);
   protected readonly voting$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') || '', 10)),
+    map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) => this.reload$.pipe(switchMap(() => this.votingService.getVoting$(id)))),

@@ -54,7 +54,7 @@ export class PageEnvService {
   public isActive$(id: number): Observable<boolean> {
     return this.pageEnv$.pipe(
       switchMap((data) => {
-        if (!data || !data.pageId) {
+        if (!data?.pageId) {
           return of(false);
         }
         return this.pageService.isDescendant$(data.pageId, id);

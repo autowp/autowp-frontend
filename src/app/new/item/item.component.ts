@@ -28,7 +28,7 @@ export class NewItemComponent {
   private readonly languageService = inject(LanguageService);
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('item_id') || '', 10)),
+    map((params) => parseInt(params.get('item_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -41,7 +41,7 @@ export class NewItemComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((query) => parseInt(query.get('page') || '', 10)),
+    map((query) => parseInt(query.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
   );

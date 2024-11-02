@@ -32,7 +32,7 @@ export class UsersUserCommentsComponent {
   private readonly commentsClient = inject(CommentsClient);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -44,7 +44,7 @@ export class UsersUserCommentsComponent {
       debounceTime(10),
     )
     .pipe(
-      map((order) => order || 'date_desc'),
+      map((order) => order ?? 'date_desc'),
       shareReplay({bufferSize: 1, refCount: false}),
     );
 

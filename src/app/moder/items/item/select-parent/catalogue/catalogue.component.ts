@@ -49,7 +49,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   protected readonly itemTypeID$ = new BehaviorSubject<null | number>(null);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -62,7 +62,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('brand_id') || '', 10)),
+    map((params) => parseInt(params.get('brand_id') ?? '', 10)),
     map((brandID) => (brandID ? brandID : 0)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),

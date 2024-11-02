@@ -67,7 +67,7 @@ export class ModerCommentsComponent implements OnInit {
           limit: 10,
         });
         const options = new ItemListOptions();
-        if (query.substring(0, 1) === '#') {
+        if (query.startsWith('#')) {
           options.id = query.substring(1);
         } else {
           options.name = '%' + query + '%';
@@ -96,7 +96,7 @@ export class ModerCommentsComponent implements OnInit {
           return of([]);
         }
 
-        if (query.substring(0, 1) === '#') {
+        if (query.startsWith('#')) {
           return this.usersClient.getUser(new APIGetUserRequest({userId: query.substring(1) || ''})).pipe(
             catchError((err: unknown) => {
               this.toastService.handleError(err);
@@ -132,7 +132,7 @@ export class ModerCommentsComponent implements OnInit {
   );
 
   private readonly moderatorAttention$: Observable<ModeratorAttention> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('moderator_attention') || '', 10) as ModeratorAttention),
+    map((params) => parseInt(params.get('moderator_attention') ?? '', 10) as ModeratorAttention),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -144,7 +144,7 @@ export class ModerCommentsComponent implements OnInit {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     debounceTime(10),

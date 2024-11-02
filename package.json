@@ -81,6 +81,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-rxjs": "^5.0.2",
     "eslint-plugin-rxjs-angular": "^2.0.0",
+    "eslint-plugin-sonarjs": "^2.0.4",
     "google-protobuf": "^3.21.2",
     "grpc-web": "^1.4.2",
     "html-comment-regex": "^1.1.2",

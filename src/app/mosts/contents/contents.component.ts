@@ -74,7 +74,7 @@ export class MostsContentsComponent {
   private readonly menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((brandID) => this.mostsService.getMenu$(brandID || 0)),
+    switchMap((brandID) => this.mostsService.getMenu$(brandID ?? 0)),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
@@ -101,10 +101,10 @@ export class MostsContentsComponent {
       this.brandID$.pipe(
         switchMap((brandID) =>
           this.mostsService.getItems$({
-            brand_id: brandID || 0,
+            brand_id: brandID ?? 0,
             rating_catname: ratingCatname,
-            type_catname: typeCatname || '',
-            years_catname: yearsCatname || '',
+            type_catname: typeCatname ?? '',
+            years_catname: yearsCatname ?? '',
           }),
         ),
       ),

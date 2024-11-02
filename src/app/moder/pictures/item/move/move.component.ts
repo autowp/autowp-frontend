@@ -68,19 +68,19 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected conceptsExpanded = false;
 
   private readonly srcItemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('src_item_id') || '', 10)),
+    map((params) => parseInt(params.get('src_item_id') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly srcType$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('src_type') || '', 10) as PictureItemType),
+    map((params) => parseInt(params.get('src_type') ?? '', 10) as PictureItemType),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly id$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') || '', 10)),
+    map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -173,7 +173,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly searchAuthorControl = new FormControl('');
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );

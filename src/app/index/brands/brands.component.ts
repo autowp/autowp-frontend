@@ -19,6 +19,7 @@ export class IndexBrandsComponent {
   private readonly items = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
+  // eslint-disable-next-line sonarjs/pseudo-random
   protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5)).map(
     (item) => ({width: item}),
   );

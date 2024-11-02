@@ -34,14 +34,14 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   protected invalidParams?: InvalidParams;
 
   private readonly itemTypeID$: Observable<number> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_type_id') || '', 10)),
+    map((params) => parseInt(params.get('item_type_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') || '', 10)),
+    map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -105,7 +105,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
   protected readonly newItem$: Observable<APIItem> = combineLatest([this.itemTypeID$, this.item$]).pipe(
     map(([itemTypeID, item]) => {
-      const newItem = Object.assign({}, item);
+      const newItem = {...item};
       newItem.item_type_id = itemTypeID;
       return newItem;
     }),
@@ -176,7 +176,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') || '', {})),
+        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') ?? '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
             this.api.request$<void>('POST', 'item-parent', {

@@ -34,7 +34,7 @@ export class PersonsPersonGalleryComponent {
   );
 
   protected readonly itemID$ = this.route.parent!.paramMap.pipe(
-    map((params) => parseInt(params.get('id') || '', 10)),
+    map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );

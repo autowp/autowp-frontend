@@ -113,7 +113,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id') || '', 10)),
+        map((params) => parseInt(params.get('id') ?? '', 10)),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap((id) => {

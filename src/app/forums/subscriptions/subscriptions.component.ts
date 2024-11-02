@@ -27,7 +27,7 @@ export class ForumsSubscriptionsComponent implements OnInit {
 
   protected readonly data$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
     this.route.queryParamMap.pipe(
-      map((params) => parseInt(params.get('page') || '', 10)),
+      map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
     ),
     this.reload$,

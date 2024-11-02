@@ -60,26 +60,14 @@ export class ToastsService {
   }
 
   public response(response: HttpResponseBase) {
-    if (response === undefined) {
-      this.error('undefined');
-      return;
-    }
     this.error(response.status + ': ' + response.statusText);
   }
 
   public errorResponse(response: HttpErrorResponse) {
-    if (response === undefined) {
-      this.error('undefined');
-      return;
-    }
     this.error(response.status + ': ' + response.statusText);
   }
 
   public grpcErrorResponse(event: GrpcStatusEvent) {
-    if (event === undefined) {
-      this.error('undefined');
-      return;
-    }
     this.error(event.statusMessage);
   }
 

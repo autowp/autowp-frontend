@@ -877,11 +877,11 @@ export function getItemTypeTranslation(id: number, type: string): string {
 }
 
 export function getUnitAbbrTranslation(id: string): string {
-  return units[id] && units[id].abbr ? units[id].abbr : id;
+  return units[id]?.abbr ? units[id].abbr : id;
 }
 
 export function getUnitNameTranslation(id: string): string {
-  return units[id] && units[id].name ? units[id].name : id;
+  return units[id]?.name ? units[id].name : id;
 }
 
 export function getForumsThemeTranslation(id: string): string {

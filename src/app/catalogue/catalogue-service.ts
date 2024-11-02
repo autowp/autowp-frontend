@@ -57,7 +57,7 @@ export class CatalogueService {
   ): Observable<{brand: APIItem; path: APIItemParent[]; type: string} | null> {
     const pathPipeRecursive: ParentObservableFunc = () =>
       switchMap((parent: null | Parent) => {
-        if (!parent || !parent.id || parent.path.length <= 0) {
+        if (!parent?.id || parent.path.length <= 0) {
           return of(parent);
         }
 
@@ -114,19 +114,13 @@ export class CatalogueService {
             if (!parent) {
               return of(null);
             }
-            return of({
-              brand,
-              path: parent.items,
-            }).pipe(
-              switchMap((params) => {
-                return this.getType$(route).pipe(
-                  map((type) => ({
-                    brand: params.brand,
-                    path: params.path,
-                    type,
-                  })),
-                );
-              }),
+
+            return this.getType$(route).pipe(
+              map((type) => ({
+                brand,
+                path: parent.items,
+                type,
+              })),
             );
           }),
         );
@@ -136,7 +130,7 @@ export class CatalogueService {
 
   private getType$(route: ActivatedRoute): Observable<string> {
     return route.paramMap.pipe(
-      map((paramMap) => paramMap.get('type') || 'default'),
+      map((paramMap) => paramMap.get('type') ?? 'default'),
       distinctUntilChanged(),
       debounceTime(10),
     );
@@ -165,7 +159,7 @@ export class CatalogueService {
               }),
             }),
           )
-          .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));
+          .pipe(map((response) => (response.items?.length ? response.items[0] : null)));
       }),
     );
   }
@@ -187,6 +181,7 @@ export class CatalogueService {
     return null;
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   public picturePathToRoute(picture: APIPicture): null | string[] {
     for (const pictureItem of picture.path) {
       if (pictureItem.type === 1) {

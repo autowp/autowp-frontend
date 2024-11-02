@@ -75,13 +75,13 @@ export class UploadIndexComponent implements OnInit {
   @ViewChild('input') public input: ElementRef | null = null;
 
   protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('perspective_id') || '', 10)),
+    map((params) => parseInt(params.get('perspective_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly replace$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('replace') || '', 10)),
+    map((params) => parseInt(params.get('replace') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -93,7 +93,7 @@ export class UploadIndexComponent implements OnInit {
   );
 
   protected readonly itemID$: Observable<string> = this.route.queryParamMap.pipe(
-    map((params) => params.get('item_id') || ''),
+    map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -115,7 +115,7 @@ export class UploadIndexComponent implements OnInit {
 
   protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
-      name: replace ? replace.name_html : item ? item.nameHtml : '',
+      name: replace?.name_html ?? item?.nameHtml ?? '',
       selected: !!(replace || item),
     })),
   );
@@ -230,7 +230,7 @@ export class UploadIndexComponent implements OnInit {
           progress.percentage = 75;
           progress.success = true;
 
-          const location = event.headers.get('Location') || '';
+          const location = event.headers.get('Location') ?? '';
 
           return this.pictureService
             .getPictureByLocation$(location, {

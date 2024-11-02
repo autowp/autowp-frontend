@@ -49,7 +49,7 @@ export class CarsSpecsAdminComponent implements OnInit {
   };
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => params.get('item_id') || ''),
+    map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),

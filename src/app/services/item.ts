@@ -164,8 +164,8 @@ export interface GetItemsServiceOptions {
   ancestor_id?: number;
   autocomplete?: string;
   catname?: string;
-  concept?: boolean;
-  concept_inherit?: boolean;
+  concept?: boolean | null;
+  concept_inherit?: boolean | null;
   dateful?: boolean;
   dateless?: boolean;
   descendant_pictures?: {
@@ -180,7 +180,7 @@ export interface GetItemsServiceOptions {
   fields: string;
   from_year?: number;
   have_childs_with_parent_of_type?: number;
-  have_common_childs_with?: null | number | undefined;
+  have_common_childs_with?: null | number;
   id?: number;
   is_group?: boolean;
   limit: number;
@@ -242,6 +242,7 @@ function convertItemOptions(options: GetItemServiceOptions): {[param: string]: s
   return params;
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 

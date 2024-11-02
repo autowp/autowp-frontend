@@ -29,7 +29,7 @@ export class TwinsGroupPicturesListComponent {
   private readonly languageService = inject(LanguageService);
 
   protected readonly id$: Observable<string> = this.route.parent!.parent!.paramMap.pipe(
-    map((params) => params.get('group') || ''),
+    map((params) => params.get('group') ?? ''),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -67,7 +67,7 @@ export class TwinsGroupPicturesListComponent {
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
 

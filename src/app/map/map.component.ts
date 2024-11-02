@@ -1,13 +1,4 @@
-import {
-  ApplicationRef,
-  Component,
-  ComponentFactoryResolver,
-  ComponentRef,
-  inject,
-  Injector,
-  NgZone,
-  OnInit,
-} from '@angular/core';
+import {Component, ComponentRef, inject, NgZone, OnInit, ViewContainerRef} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {MapGetPointsRequest, MapPoint} from '@grpc/spec.pb';
@@ -41,9 +32,7 @@ function createMarker(lat: number, lng: number): Marker {
 export class MapComponent implements OnInit {
   private readonly pageEnv = inject(PageEnvService);
   private readonly zone = inject(NgZone);
-  private readonly resolver = inject(ComponentFactoryResolver);
-  private readonly injector = inject(Injector);
-  private readonly appRef = inject(ApplicationRef);
+  private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly toastService = inject(ToastsService);
   private readonly mapClient = inject(MapClient);
 
@@ -124,21 +113,13 @@ export class MapComponent implements OnInit {
               this.compRef.destroy();
             }
 
-            const compFactory = this.resolver.resolveComponentFactory(MapPopupComponent);
-            this.compRef = compFactory.create(this.injector);
+            this.compRef = this.viewContainerRef.createComponent(MapPopupComponent);
             this.compRef.instance.item = item;
 
             const div = document.createElement('div');
             div.appendChild(this.compRef.location.nativeElement);
 
             popup.setContent(div);
-
-            this.appRef.attachView(this.compRef.hostView);
-            this.compRef.onDestroy(() => {
-              if (this.compRef) {
-                this.appRef.detachView(this.compRef.hostView);
-              }
-            });
           });
         });
 

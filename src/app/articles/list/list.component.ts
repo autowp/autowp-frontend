@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
   private readonly userService = inject(UserService);
 
   protected readonly articles$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10) || 1),
+    map((params) => parseInt(params.get('page') ?? '', 10) || 1),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>

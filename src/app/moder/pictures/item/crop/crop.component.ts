@@ -57,7 +57,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     );
     this.routeSub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id') || '', 10)),
+        map((params) => parseInt(params.get('id') ?? '', 10)),
         distinctUntilChanged(),
         debounceTime(10),
         switchMap((id) =>
@@ -79,10 +79,10 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           this.jcrop = null;
           if (this.picture.crop) {
             this.currentCrop = {
-              h: this.picture.crop.height || 0,
-              w: this.picture.crop.width || 0,
-              x: this.picture.crop.left || 0,
-              y: this.picture.crop.top || 0,
+              h: this.picture.crop.height ?? 0,
+              w: this.picture.crop.width ?? 0,
+              x: this.picture.crop.left ?? 0,
+              y: this.picture.crop.top ?? 0,
             };
           } else {
             this.currentCrop = {

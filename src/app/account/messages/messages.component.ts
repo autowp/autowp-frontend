@@ -42,13 +42,13 @@ export class AccountMessagesComponent {
   }> = this.route.queryParamMap.pipe(
     map((params) => ({
       folder: params.get('folder'),
-      page: parseInt(params.get('page') || '', 10),
+      page: parseInt(params.get('page') ?? '', 10),
       user_id: params.get('user_id'),
     })),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
     switchMap((params) => {
-      this.folder = params.folder || 'inbox';
+      this.folder = params.folder ?? 'inbox';
       let pageId: number = 0;
       let userID: string = '';
 
@@ -56,7 +56,7 @@ export class AccountMessagesComponent {
         case 'dialog':
           pageId = 49;
           this.pageName = $localize`Personal messages`;
-          userID = params.user_id || '';
+          userID = params.user_id ?? '';
           break;
         case 'inbox':
           pageId = 128;

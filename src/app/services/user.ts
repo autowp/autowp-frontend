@@ -98,7 +98,7 @@ export class UserService {
   }
 
   public getByIdentity$(identity: string, fields: undefined | UserFields): Observable<APIUser | null> {
-    const result = identity.match(/^user([0-9]+)$/);
+    const result = RegExp(/^user(\d+)$/).exec(identity);
 
     if (result) {
       return this.usersClient.getUser(new APIGetUserRequest({fields, userId: result[1]}));

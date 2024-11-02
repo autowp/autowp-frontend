@@ -127,6 +127,13 @@ export interface ParentIsConcept {
   isConcept: boolean;
 }
 
+function localizeInherited(parentIsConcept: ParentIsConcept | null) {
+  if (!parentIsConcept) {
+    return $localize`inherited`;
+  }
+  return parentIsConcept.isConcept ? $localize`inherited (yes)` : $localize`inherited (no)`;
+}
+
 @Component({
   imports: [FormsModule, ReactiveFormsModule, MapPointComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-item-meta-form',
@@ -263,11 +270,7 @@ export class ItemMetaFormComponent {
         value: true,
       },
       {
-        name: parentIsConcept
-          ? parentIsConcept.isConcept
-            ? $localize`inherited (yes)`
-            : $localize`inherited (no)`
-          : $localize`inherited`,
+        name: localizeInherited(parentIsConcept),
         value: 'inherited',
       },
     ]),
@@ -299,6 +302,7 @@ export class ItemMetaFormComponent {
     this.items$,
     this.pictures$,
   ]).pipe(
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
       const elements: Form = {
         name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]),

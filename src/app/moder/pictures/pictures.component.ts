@@ -282,7 +282,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        if (query.substring(0, 1) === '#') {
+        if (query.startsWith('#')) {
           return this.usersClient.getUser(new APIGetUserRequest({userId: query.substring(1) || ''})).pipe(
             catchError((err: unknown) => {
               this.toastService.handleError(err);
@@ -330,7 +330,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           limit: 10,
         });
         const options = new ItemListOptions();
-        if (query.substring(0, 1) === '#') {
+        if (query.startsWith('#')) {
           const id = parseInt(query.substring(1), 10);
           if (id) {
             options.id = '' + id;
@@ -371,20 +371,18 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
   }> = this.route.queryParamMap.pipe(
     distinctUntilChanged(),
     debounceTime(10),
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     switchMap((params) => {
       this.addedFrom = params.get('added_from') ? params.get('added_from') : null;
       this.status = params.get('status') ? params.get('status') : null;
-      this.vehicleTypeID = params.get('vehicle_type_id') ? parseInt(params.get('vehicle_type_id') || '', 10) : null;
-      this.perspectiveID = params.get('perspective_id')
-        ? params.get('perspective_id') === 'null'
-          ? 'null'
-          : parseInt(params.get('perspective_id') || '', 10)
-        : null;
-      this.itemID = params.get('item_id') ? parseInt(params.get('item_id') || '', 10) : 0;
+      this.vehicleTypeID = params.get('vehicle_type_id') ? parseInt(params.get('vehicle_type_id') ?? '', 10) : null;
+      const perspectiveID = params.get('perspective_id');
+      this.perspectiveID = (perspectiveID === 'null' ? 'null' : parseInt(perspectiveID ?? '', 10)) ?? null;
+      this.itemID = params.get('item_id') ? parseInt(params.get('item_id') ?? '', 10) : 0;
       if (this.itemID && !this.itemQuery) {
         this.itemQuery = '#' + this.itemID;
       }
-      this.excludeItemID = params.get('exclude_item_id') ? parseInt(params.get('exclude_item_id') || '', 10) : 0;
+      this.excludeItemID = params.get('exclude_item_id') ? parseInt(params.get('exclude_item_id') ?? '', 10) : 0;
       if (this.excludeItemID && !this.excludeItemQuery) {
         this.excludeItemQuery = '#' + this.excludeItemID;
       }
@@ -399,7 +397,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           this.comments = null;
           break;
       }
-      this.ownerID = parseInt(params.get('owner_id') || '', 10);
+      this.ownerID = parseInt(params.get('owner_id') ?? '', 10);
       if (this.ownerID && !this.ownerQuery) {
         this.ownerQuery = '#' + this.ownerID;
       }
@@ -414,13 +412,13 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
           this.replace = null;
           break;
       }
-      this.requests = params.get('requests') ? parseInt(params.get('requests') || '', 10) : null;
+      this.requests = params.get('requests') ? parseInt(params.get('requests') ?? '', 10) : null;
       this.specialName = !!params.get('special_name');
       this.lost = !!params.get('lost');
       this.gps = !!params.get('gps');
       this.similar = !!params.get('similar');
-      this.order = params.get('order') ? parseInt(params.get('order') || '', 10) : 1;
-      this.addedFrom = params.get('added_from') || '';
+      this.order = params.get('order') ? parseInt(params.get('order') ?? '', 10) : 1;
+      this.addedFrom = params.get('added_from') ?? '';
 
       this.selected = [];
       this.hasSelectedItem = false;
@@ -436,7 +434,7 @@ export class ModerPicturesComponent implements OnInit, OnDestroy {
         lost: this.lost,
         order: this.order,
         owner_id: this.ownerID ? this.ownerID.toString() : undefined,
-        page: parseInt(params.get('page') || '', 10),
+        page: parseInt(params.get('page') ?? '', 10),
         perspective_id: this.perspectiveID,
         replace: this.replace,
         requests: this.requests,

@@ -47,7 +47,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
   );
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),

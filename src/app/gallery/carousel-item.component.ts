@@ -207,28 +207,26 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
         this.areasToBounds(offsetBounds);
       }
-    } else {
-      if (full) {
-        const bounds = maxBounds(
-          bound(cSize, {
-            height: full.height,
-            width: full.width,
-          }),
-          {
-            height: full.height,
-            width: full.width,
-          },
-        );
-        const offsetBounds = boundCenter(cSize, bounds);
-        this.fullStyle = {
-          'height.px': offsetBounds.height,
-          'left.px': offsetBounds.left,
-          'top.px': offsetBounds.top,
-          'width.px': offsetBounds.width,
-        };
+    } else if (full) {
+      const bounds = maxBounds(
+        bound(cSize, {
+          height: full.height,
+          width: full.width,
+        }),
+        {
+          height: full.height,
+          width: full.width,
+        },
+      );
+      const offsetBounds = boundCenter(cSize, bounds);
+      this.fullStyle = {
+        'height.px': offsetBounds.height,
+        'left.px': offsetBounds.left,
+        'top.px': offsetBounds.top,
+        'width.px': offsetBounds.width,
+      };
 
-        this.areasToBounds(offsetBounds);
-      }
+      this.areasToBounds(offsetBounds);
     }
   }
 

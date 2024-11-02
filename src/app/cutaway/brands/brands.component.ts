@@ -28,7 +28,7 @@ export class CutawayBrandsComponent implements OnInit {
   private readonly toastService = inject(ToastsService);
 
   protected readonly query$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
@@ -80,7 +80,7 @@ export class CutawayBrandsComponent implements OnInit {
         description: item.description,
         design: null,
         details: {
-          count: item.current_pictures_count || 0,
+          count: item.current_pictures_count ?? 0,
           routerLink: itemRouterLink,
         },
         engine_vehicles: undefined,

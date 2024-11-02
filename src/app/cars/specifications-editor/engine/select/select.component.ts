@@ -45,20 +45,20 @@ export class CarsEngineSelectComponent {
   private readonly search$ = new BehaviorSubject<string>('');
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') || '', 10)),
+    map((params) => parseInt(params.get('item_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('brand_id') || '', 10)),
+    map((params) => parseInt(params.get('brand_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );

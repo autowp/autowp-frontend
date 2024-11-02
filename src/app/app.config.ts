@@ -35,6 +35,18 @@ import {NgPipesModule} from 'ngx-pipes';
 
 import {routes} from './app.routes';
 
+function bindTokenUpdate(keycloak: KeycloakService): void {
+  keycloak.keycloakEvents$.subscribe({
+    next: (e) => {
+      if (e.type == KeycloakEventType.OnTokenExpired) {
+        keycloak.updateToken().catch((error) => {
+          console.error('Failed to refresh token', error);
+        });
+      }
+    },
+  });
+}
+
 function initializeKeycloak(keycloak: KeycloakService) {
   return () => {
     return new Promise((resolve, reject) => {
@@ -50,15 +62,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
           loadUserProfileAtStartUp: false,
         })
         .then((res) => {
-          keycloak.keycloakEvents$.subscribe({
-            next: (e) => {
-              if (e.type == KeycloakEventType.OnTokenExpired) {
-                keycloak.updateToken().catch((error) => {
-                  console.error('Failed to refresh token', error);
-                });
-              }
-            },
-          });
+          bindTokenUpdate(keycloak);
 
           resolve(res);
         })

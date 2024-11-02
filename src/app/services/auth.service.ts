@@ -12,9 +12,13 @@ export class AuthService {
   private readonly keycloak = inject(KeycloakService);
   private readonly usersClient = inject(UsersClient);
 
-  private user$ = new ReplaySubject<APIUser | null>(1);
+  private readonly user$ = new ReplaySubject<APIUser | null>(1);
 
   constructor() {
+    this.init();
+  }
+
+  private init() {
     this.keycloak.getToken().then(
       (accessToken) => {
         if (accessToken) {
@@ -42,7 +46,7 @@ export class AuthService {
     return from(this.keycloak.logout(window.location.href)).pipe(tap(() => this.setUser(null)));
   }
 
-  public loadMe$(): Observable<APIUser | null> {
+  private loadMe$(): Observable<APIUser | null> {
     return this.usersClient.me(new APIMeRequest({})).pipe(
       catchError(() => {
         this.setUser(null);

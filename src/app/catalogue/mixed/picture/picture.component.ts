@@ -53,7 +53,7 @@ export class CatalogueMixedPictureComponent {
         }),
       );
     }),
-    map((response) => (response.items && response.items.length ? response.items[0] : null)),
+    map((response) => (response.items?.length ? response.items[0] : null)),
     switchMap((brand) => {
       if (!brand) {
         this.router.navigate(['/error-404'], {
@@ -112,7 +112,7 @@ export class CatalogueMixedPictureComponent {
             perspective_id: data.perspective_id,
           }),
         ),
-        map((response) => (response && response.pictures.length ? response.pictures[0] : null)),
+        map((response) => (response?.pictures.length ? response.pictures[0] : null)),
         switchMap((picture) => {
           if (!picture) {
             this.router.navigate(['/error-404'], {

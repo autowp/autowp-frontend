@@ -63,13 +63,13 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly userID$: Observable<string> = this.route.queryParamMap.pipe(
-    map((params) => params.get('user_id') || ''),
+    map((params) => params.get('user_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => params.get('item_id') || ''),
+    map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -113,7 +113,7 @@ export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
           return of([]);
         }
 
-        if (query.substring(0, 1) === '#') {
+        if (query.startsWith('#')) {
           return this.userService.getUser$(query.substring(1) || '').pipe(
             catchError((err: unknown) => {
               this.toastService.handleError(err);

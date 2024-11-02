@@ -108,7 +108,7 @@ export class UsersRatingComponent implements OnInit {
 
   protected readonly users$ = this.rating$.pipe(
     switchMap((rating) => {
-      let o$: Observable<APIUsersRatingResponse> = EMPTY;
+      let o$: Observable<APIUsersRatingResponse>;
       switch (rating) {
         case Rating.COMMENT_LIKES:
           o$ = this.ratingClient.getUserCommentsRating(new Empty());

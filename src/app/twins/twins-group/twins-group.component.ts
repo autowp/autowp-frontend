@@ -21,7 +21,7 @@ export class TwinsGroupComponent {
   private readonly router = inject(Router);
 
   protected readonly group$: Observable<APIItem> = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('group') || '', 10)),
+    map((params) => parseInt(params.get('group') ?? '', 10)),
     distinctUntilChanged(),
     switchMap((group) =>
       group

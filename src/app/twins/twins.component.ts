@@ -38,7 +38,7 @@ export class TwinsComponent implements OnInit {
   protected readonly canEdit$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((query) => parseInt(query.get('page') || '', 10)),
+    map((query) => parseInt(query.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -70,7 +70,7 @@ export class TwinsComponent implements OnInit {
             }),
           }),
         )
-        .pipe(map((response) => (response && response.items && response.items.length > 0 ? response.items[0] : null)));
+        .pipe(map((response) => (response?.items && response.items.length > 0 ? response.items[0] : null)));
     }),
     tap((brand) => {
       setTimeout(() => {
@@ -121,7 +121,7 @@ export class TwinsComponent implements OnInit {
         }
       }
     }
-    return (group.accepted_pictures_count || 0) > count;
+    return (group.accepted_pictures_count ?? 0) > count;
   }
 
   ngOnInit(): void {

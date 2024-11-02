@@ -68,7 +68,7 @@ export class CatalogueListItemComponent {
   protected havePhoto(item: CatalogueListItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
-        if (picture && picture.picture) {
+        if (picture?.picture) {
           return true;
         }
       }

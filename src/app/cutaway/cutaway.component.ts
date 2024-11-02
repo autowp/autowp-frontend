@@ -28,7 +28,7 @@ export class CutawayComponent implements OnInit {
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 12,
         order: 15,
-        page: parseInt(params.get('page') || '', 10),
+        page: parseInt(params.get('page') ?? '', 10),
         perspective_id: 9,
         status: 'accepted',
       }),

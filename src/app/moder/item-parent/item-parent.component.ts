@@ -65,8 +65,8 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.paramMap
       .pipe(
         map((params) => ({
-          item_id: parseInt(params.get('item_id') || '', 10),
-          parent_id: parseInt(params.get('parent_id') || '', 10),
+          item_id: parseInt(params.get('item_id') ?? '', 10),
+          parent_id: parseInt(params.get('parent_id') ?? '', 10),
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),
@@ -171,7 +171,7 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
             new ItemParentLanguage({
               itemId: '' + this.itemParent.item_id,
               language: language.language,
-              name: language.name || undefined,
+              name: language.name ?? undefined,
               parentId: '' + this.itemParent.parent_id,
             }),
           )

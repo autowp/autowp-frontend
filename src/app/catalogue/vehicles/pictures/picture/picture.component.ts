@@ -50,7 +50,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
 
   private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
     switchMap((data) => {
-      if (!data || !data.brand || !data.path || data.path.length <= 0) {
+      if (!data?.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });

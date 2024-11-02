@@ -62,6 +62,7 @@ export class DonateComponent implements OnInit {
       url.searchParams.append(key, map[key]);
     }
 
+    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
     this.frameUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
   }
 

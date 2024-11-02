@@ -128,7 +128,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
           limit: 10,
         });
         const options = new ItemListOptions();
-        if (query.substring(0, 1) === '#') {
+        if (query.startsWith('#')) {
           options.id = query.substring(1);
         } else {
           options.name = '%' + query + '%';
@@ -168,23 +168,23 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
     this.querySub = this.route.queryParamMap
       .pipe(
         map((params) => ({
-          ancestorID: parseInt(params.get('ancestor_id') || '', 10) || null,
-          fromYear: parseInt(params.get('from_year') || '', 10) || null,
-          itemTypeID: parseInt(params.get('item_type_id') || '', 10),
+          ancestorID: parseInt(params.get('ancestor_id') ?? '', 10) || null,
+          fromYear: parseInt(params.get('from_year') ?? '', 10) || null,
+          itemTypeID: parseInt(params.get('item_type_id') ?? '', 10),
           listMode: !!params.get('list_mode'),
-          name: params.get('name') || '',
-          nameExclude: params.get('name_exclude') || '',
+          name: params.get('name') ?? '',
+          nameExclude: params.get('name_exclude') ?? '',
           noParent: !!params.get('no_parent'),
-          order: params.get('order') || DEFAULT_ORDER,
-          page: parseInt(params.get('page') || '', 10) || 1,
-          specID: parseInt(params.get('spec_id') || '', 10) || null,
-          text: params.get('text') || '',
-          toYear: parseInt(params.get('to_year') || '', 10) || null,
-          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id') || '', 10) || null,
+          order: params.get('order') ?? DEFAULT_ORDER,
+          page: parseInt(params.get('page') ?? '', 10) || 1,
+          specID: parseInt(params.get('spec_id') ?? '', 10) || null,
+          text: params.get('text') ?? '',
+          toYear: parseInt(params.get('to_year') ?? '', 10) || null,
+          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id') ?? '', 10) || null,
           vehicleTypeID:
             params.get('vehicle_type_id') === 'empty'
               ? 'empty'
-              : parseInt(params.get('vehicle_type_id') || '', 10) || null,
+              : parseInt(params.get('vehicle_type_id') ?? '', 10) || null,
         })),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         debounceTime(30),

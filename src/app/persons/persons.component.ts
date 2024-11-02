@@ -26,7 +26,7 @@ export class PersonsComponent implements OnInit {
   private readonly pageEnv = inject(PageEnvService);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -93,7 +93,7 @@ export class PersonsComponent implements OnInit {
         item.preview_pictures?.pictures ? item.preview_pictures.pictures : []
       ).map((picture) => ({
         picture: picture?.picture ? picture.picture : null,
-        routerLink: picture && picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
+        routerLink: picture?.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
         thumb: picture ? picture.thumb : null,
       }));
 

@@ -34,13 +34,13 @@ export class PersonsPersonInfoComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   private readonly itemID$: Observable<string> = this.route.parent!.paramMap.pipe(
-    map((params) => params.get('id') || ''),
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );

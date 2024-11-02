@@ -22,9 +22,10 @@
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended",
         "plugin:rxjs/recommended",
-        "plugin:depend/recommended"
+        "plugin:depend/recommended",
+        "plugin:sonarjs/recommended-legacy"
       ],
-      "plugins": ["rxjs","rxjs-angular"],
+      "plugins": ["rxjs","rxjs-angular", "sonarjs"],
       "rules": {
         "@angular-eslint/component-selector": [
           "error",

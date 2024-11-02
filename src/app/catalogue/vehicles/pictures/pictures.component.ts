@@ -47,7 +47,7 @@ export class CatalogueVehiclesPicturesComponent {
   private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: APIItemParent[]; type: string}> =
     this.catalogueService.resolveCatalogue$(this.route, '').pipe(
       switchMap((data) => {
-        if (!data || !data.brand || !data.path || data.path.length <= 0) {
+        if (!data?.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
@@ -59,7 +59,7 @@ export class CatalogueVehiclesPicturesComponent {
     );
 
   private readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );

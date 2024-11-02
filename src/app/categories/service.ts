@@ -28,12 +28,12 @@ export class CategoriesService {
 
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
     const categoryPipe$ = route.paramMap.pipe(
-      map((params) => params.get('category') || ''),
+      map((params) => params.get('category') ?? ''),
       distinctUntilChanged(),
     );
 
     const pathPipe$ = route.paramMap.pipe(
-      map((params) => params.get('path') || ''),
+      map((params) => params.get('path') ?? ''),
       distinctUntilChanged(),
     );
 

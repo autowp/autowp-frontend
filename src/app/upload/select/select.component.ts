@@ -70,7 +70,7 @@ export class UploadSelectComponent implements OnInit {
       this.route.queryParamMap.pipe(
         map((params) => ({
           brandId: params.get('brand_id'),
-          page: parseInt(params.get('page') || '', 10),
+          page: parseInt(params.get('page') ?? '', 10),
         })),
       ),
     ])

@@ -68,7 +68,7 @@ export class CategoriesListItemComponent {
   protected isHavePhoto(item: APIItem) {
     if (item.preview_pictures) {
       for (const picture of item.preview_pictures.pictures) {
-        if (picture && picture.picture) {
+        if (picture?.picture) {
           return true;
         }
       }

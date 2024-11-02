@@ -57,7 +57,7 @@ export class CatalogueCarsComponent {
             }),
           }),
         )
-        .pipe(map((response) => (response.items && response.items.length ? response.items[0] : null)));
+        .pipe(map((response) => (response.items?.length ? response.items[0] : null)));
     }),
     switchMap((brand) => (brand ? of(brand) : EMPTY)),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -137,7 +137,7 @@ export class CatalogueCarsComponent {
     this.brand$,
     this.currentVehicleType$,
     this.route.queryParamMap.pipe(
-      map((params) => parseInt(params.get('page') || '', 10)),
+      map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),
@@ -167,9 +167,7 @@ export class CatalogueCarsComponent {
               const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
                 picture: picture?.picture ? picture.picture : null,
                 routerLink:
-                  item.route && picture && picture.picture
-                    ? item.route.concat(['pictures', picture.picture.identity])
-                    : [],
+                  item.route && picture?.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
                 thumb: picture ? picture.thumb : null,
               }));
 
@@ -197,7 +195,7 @@ export class CatalogueCarsComponent {
                 },
                 produced: item.produced,
                 produced_exactly: item.produced_exactly,
-                specsRouterLink: null, // TODO
+                specsRouterLink: null,
               };
             });
 

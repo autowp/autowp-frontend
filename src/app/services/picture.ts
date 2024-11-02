@@ -173,14 +173,14 @@ export interface APIGetPicturesOptions {
   exact_item_link_type?: number;
   exclude_item_id?: number;
   fields?: string;
-  gps?: boolean;
+  gps?: boolean | null;
   identity?: string;
   item_id?: number;
   items?: {
     type_id?: number;
   };
   limit?: number;
-  lost?: boolean;
+  lost?: boolean | null;
   order?: number;
   owner_id?: string;
   page?: number;
@@ -197,7 +197,7 @@ export interface APIGetPicturesOptions {
   replace?: boolean | null;
   requests?: null | number;
   similar?: boolean;
-  special_name?: boolean;
+  special_name?: boolean | null;
   status?: string;
 }
 
@@ -215,6 +215,7 @@ function convertPictureOptions(options: APIGetPictureOptions): {[param: string]:
   return params;
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 
@@ -318,10 +319,8 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
     params.accepted_in_days = options.accepted_in_days.toString();
   }
 
-  if (options.items) {
-    if (options.items.type_id) {
-      params['items[type_id]'] = options.items.type_id.toString();
-    }
+  if (options.items?.type_id) {
+    params['items[type_id]'] = options.items.type_id.toString();
   }
 
   if (options.paginator) {

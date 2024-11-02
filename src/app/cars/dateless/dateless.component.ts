@@ -23,7 +23,7 @@ export class CarsDatelessComponent implements OnInit {
   private readonly toastService = inject(ToastsService);
 
   protected readonly data$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     switchMap((page) =>
       this.itemService.getItems$({

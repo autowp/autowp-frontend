@@ -70,7 +70,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
   private readonly attrsService = inject(APIAttrsService);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('page') || '', 10)),
+    map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );

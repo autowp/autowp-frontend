@@ -97,7 +97,7 @@ export class ModerPicturesItemComponent {
   private readonly change$ = new BehaviorSubject<void>(void 0);
 
   protected readonly id$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') || '', 10)),
+    map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     tap((id) => {
       setTimeout(() => {
@@ -262,7 +262,7 @@ export class ModerPicturesItemComponent {
       .setPictureItemPerspective(
         new SetPictureItemPerspectiveRequest({
           itemId: '' + item.item_id,
-          perspectiveId: perspectiveId || undefined,
+          perspectiveId: perspectiveId ?? undefined,
           pictureId: '' + item.picture_id,
           type: item.type,
         }),
