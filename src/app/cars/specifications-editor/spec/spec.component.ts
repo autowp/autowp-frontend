@@ -52,7 +52,7 @@ interface APIAttrUserValuePatchResponse {
 }
 
 interface ListOption {
-  id: null | string;
+  id: null | string | boolean;
   name: string;
 }
 
@@ -67,11 +67,11 @@ const booleanOptions: ListOption[] = [
     name: '—',
   },
   {
-    id: '0',
+    id: false,
     name: $localize`no`,
   },
   {
-    id: '1',
+    id: true,
     name: $localize`yes`,
   },
 ];
@@ -85,7 +85,11 @@ export class AttrFormControl<TValue> extends FormControl {
   }
 }
 
-type AttrValues = boolean | null | number | string | string[];
+type AttrFormControls =
+  | AttrFormControl<null | boolean>
+  | AttrFormControl<null | number>
+  | AttrFormControl<string[]>
+  | AttrFormControl<string>;
 
 @Component({
   imports: [
@@ -180,32 +184,45 @@ export class CarsSpecificationsEditorSpecComponent {
     }),
   );
 
-  protected readonly form$: Observable<FormArray<AttrFormControl<AttrValues>>> = combineLatest([
+  protected readonly form$: Observable<FormArray<AttrFormControls>> = combineLatest([
     this.attributes$,
     this.currentUserValues$,
   ]).pipe(
     map(([attributes, currentUserValues]) => {
-      const controls: AttrFormControl<boolean | null | number | string | string[]>[] = attributes.map((attr) => {
-        const currentUserValue = currentUserValues[+attr.id].value;
+      const controls: AttrFormControls[] = attributes.map((attr) => {
+        const currentUserValue = currentUserValues[attr.id].value;
         const disabled = !!currentUserValue?.isEmpty;
+        const valid = currentUserValue?.valid && !disabled;
 
         switch (attr.typeId) {
           case AttrAttributeType.Id.BOOLEAN:
-            return new AttrFormControl<boolean>(attr, currentUserValue?.boolValue || false, disabled);
+            return new AttrFormControl<null | boolean>(
+              attr,
+              valid ? (currentUserValue?.boolValue ?? null) : null,
+              disabled,
+            );
           case AttrAttributeType.Id.FLOAT:
-            return new AttrFormControl<null | number>(attr, currentUserValue?.floatValue ?? null, disabled);
+            return new AttrFormControl<null | number>(
+              attr,
+              valid ? (currentUserValue?.floatValue ?? null) : null,
+              disabled,
+            );
           case AttrAttributeType.Id.INTEGER:
-            return new AttrFormControl<null | number>(attr, currentUserValue?.intValue ?? null, disabled);
+            return new AttrFormControl<null | number>(
+              attr,
+              valid ? (currentUserValue?.intValue ?? null) : null,
+              disabled,
+            );
           case AttrAttributeType.Id.LIST:
           case AttrAttributeType.Id.TREE:
-            return new AttrFormControl<string[]>(attr, currentUserValue?.listValue || [], disabled);
+            return new AttrFormControl<string[]>(attr, valid ? currentUserValue?.listValue || [] : [], disabled);
           case AttrAttributeType.Id.STRING:
           case AttrAttributeType.Id.TEXT:
-            return new AttrFormControl<string>(attr, currentUserValue?.stringValue ?? '', disabled);
+            return new AttrFormControl<string>(attr, valid ? (currentUserValue?.stringValue ?? '') : '', disabled);
         }
         return new AttrFormControl<null>(attr, null, disabled);
       });
-      return new FormArray<AttrFormControl<AttrValues>>(controls);
+      return new FormArray<AttrFormControls>(controls);
     }),
   );
 
@@ -268,17 +285,13 @@ export class CarsSpecificationsEditorSpecComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected saveSpecs(
-    user: APIUser,
-    item: APIItem,
-    form: FormArray<AttrFormControl<boolean | null | number | string | string[]>>,
-  ) {
+  protected saveSpecs(user: APIUser, item: APIItem, form: FormArray<AttrFormControls>) {
     const items = form.controls.map((control) => ({
       attribute_id: control.attr.id,
       empty: control.disabled,
       item_id: item.id,
       user_id: user.id,
-      value: control.value || null,
+      value: control.disabled ? null : control.value,
     }));
 
     this.loading++;

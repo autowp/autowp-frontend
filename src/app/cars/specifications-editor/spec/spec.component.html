@@ -43,7 +43,6 @@
                         </button>
                       </div>
                       @if (
-                        control.attr.typeId === AttrAttributeTypeId.BOOLEAN ||
                         control.attr.typeId === AttrAttributeTypeId.LIST ||
                         control.attr.typeId === AttrAttributeTypeId.TREE
                       ) {
@@ -57,9 +56,20 @@
                           "
                         >
                           @for (option of control.attr.options$ | async; track option.id) {
-                            <option [ngValue]="option.id">
-                              {{ option.name }}
-                            </option>
+                            <option [ngValue]="option.id">{{ option.name }}</option>
+                          }
+                        </select>
+                      } @else if (control.attr.typeId === AttrAttributeTypeId.BOOLEAN) {
+                        <select
+                          class="form-select form-select-sm"
+                          [formControl]="control"
+                          [class.is-invalid]="
+                            (control.invalid && (control.dirty || !control.untouched)) ||
+                            invalidParams.get(control.attr.id)?.value
+                          "
+                        >
+                          @for (option of control.attr.options$ | async; track option.id) {
+                            <option [ngValue]="option.id">{{ option.name }}</option>
                           }
                         </select>
                       } @else if (control.attr.typeId === AttrAttributeTypeId.INTEGER) {
