@@ -877,57 +877,57 @@ export function getItemTypeTranslation(id: number, type: string): string {
 }
 
 export function getUnitAbbrTranslation(id: string): string {
-  return units[id]?.abbr ? units[id].abbr : id;
+  return units[id]?.abbr ?? id;
 }
 
 export function getUnitNameTranslation(id: string): string {
-  return units[id]?.name ? units[id].name : id;
+  return units[id]?.name ?? id;
 }
 
 export function getForumsThemeTranslation(id: string): string {
-  return themes[id] ? themes[id] : id;
+  return themes[id] ?? id;
 }
 
 export function getForumsThemeDescriptionTranslation(id: string): string {
-  return themesDescription[id] ? themesDescription[id] : id;
+  return themesDescription[id] ?? id;
 }
 
 export function getPerspectiveTranslation(id: string): string {
-  return prespectives[id] ? prespectives[id] : id;
+  return prespectives[id] ?? id;
 }
 
 export function getVehicleTypeTranslation(id: string): string {
-  return vehicleTypes[id] ? vehicleTypes[id] : id;
+  return vehicleTypes[id] ?? id;
 }
 
 export function getVehicleTypeRpTranslation(id: string): string {
-  return vehicleTypesRp[id] ? vehicleTypesRp[id] : id;
+  return vehicleTypesRp[id] ?? id;
 }
 
 export function getAttrsTranslation(id: string): string {
-  return attrs[id] ? attrs[id] : id;
+  return attrs[id] ?? id;
 }
 
 export function getAttrListOptionsTranslation(id: string): string {
-  return attrListOptions[id] ? attrListOptions[id] : id;
+  return attrListOptions[id] ?? id;
 }
 
 export function getAttrDescriptionTranslation(id: string): string {
-  return attrDescriptions[id] ? attrDescriptions[id] : id;
+  return attrDescriptions[id] ?? id;
 }
 
 export function getMostsRatingsTranslation(id: string): string {
-  return mostsRatings[id] ? mostsRatings[id] : id;
+  return mostsRatings[id] ?? id;
 }
 
 export function getMostsRatingParamsTranslation(id: string): string {
-  return mostsRatingsParam[id] ? mostsRatingsParam[id] : id;
+  return mostsRatingsParam[id] ?? id;
 }
 
 export function getMostsPeriodsTranslation(id: string): string {
-  return mostsPeriods[id] ? mostsPeriods[id] : id;
+  return mostsPeriods[id] ?? id;
 }
 
 export function getCatalogueSectionsTranslation(id: string): string {
-  return catalogueSection[id] ? catalogueSection[id] : id;
+  return catalogueSection[id] ?? id;
 }
