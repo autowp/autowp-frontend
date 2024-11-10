@@ -3004,6 +3004,341 @@ export module AttrZone {
 }
 
 /**
+ * Message implementation for goautowp.MoveAttrUserValuesRequest
+ */
+export class MoveAttrUserValuesRequest implements GrpcMessage {
+  static id = 'goautowp.MoveAttrUserValuesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MoveAttrUserValuesRequest();
+    MoveAttrUserValuesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MoveAttrUserValuesRequest) {
+    _instance.srcItemId = _instance.srcItemId || '0';
+    _instance.destItemId = _instance.destItemId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MoveAttrUserValuesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.srcItemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.destItemId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MoveAttrUserValuesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MoveAttrUserValuesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.srcItemId) {
+      _writer.writeInt64String(1, _instance.srcItemId);
+    }
+    if (_instance.destItemId) {
+      _writer.writeInt64String(2, _instance.destItemId);
+    }
+  }
+
+  private _srcItemId: string;
+  private _destItemId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MoveAttrUserValuesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MoveAttrUserValuesRequest.AsObject>) {
+    _value = _value || {};
+    this.srcItemId = _value.srcItemId;
+    this.destItemId = _value.destItemId;
+    MoveAttrUserValuesRequest.refineValues(this);
+  }
+  get srcItemId(): string {
+    return this._srcItemId;
+  }
+  set srcItemId(value: string) {
+    this._srcItemId = value;
+  }
+  get destItemId(): string {
+    return this._destItemId;
+  }
+  set destItemId(value: string) {
+    this._destItemId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MoveAttrUserValuesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MoveAttrUserValuesRequest.AsObject {
+    return {
+      srcItemId: this.srcItemId,
+      destItemId: this.destItemId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MoveAttrUserValuesRequest.AsProtobufJSON {
+    return {
+      srcItemId: this.srcItemId,
+      destItemId: this.destItemId
+    };
+  }
+}
+export module MoveAttrUserValuesRequest {
+  /**
+   * Standard JavaScript object representation for MoveAttrUserValuesRequest
+   */
+  export interface AsObject {
+    srcItemId: string;
+    destItemId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MoveAttrUserValuesRequest
+   */
+  export interface AsProtobufJSON {
+    srcItemId: string;
+    destItemId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteAttrUserValuesRequest
+ */
+export class DeleteAttrUserValuesRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteAttrUserValuesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteAttrUserValuesRequest();
+    DeleteAttrUserValuesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteAttrUserValuesRequest) {
+    _instance.attributeId = _instance.attributeId || '0';
+    _instance.itemId = _instance.itemId || '0';
+    _instance.userId = _instance.userId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteAttrUserValuesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.attributeId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.userId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteAttrUserValuesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteAttrUserValuesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.attributeId) {
+      _writer.writeInt64String(1, _instance.attributeId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(2, _instance.itemId);
+    }
+    if (_instance.userId) {
+      _writer.writeInt64String(3, _instance.userId);
+    }
+  }
+
+  private _attributeId: string;
+  private _itemId: string;
+  private _userId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteAttrUserValuesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DeleteAttrUserValuesRequest.AsObject>) {
+    _value = _value || {};
+    this.attributeId = _value.attributeId;
+    this.itemId = _value.itemId;
+    this.userId = _value.userId;
+    DeleteAttrUserValuesRequest.refineValues(this);
+  }
+  get attributeId(): string {
+    return this._attributeId;
+  }
+  set attributeId(value: string) {
+    this._attributeId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteAttrUserValuesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteAttrUserValuesRequest.AsObject {
+    return {
+      attributeId: this.attributeId,
+      itemId: this.itemId,
+      userId: this.userId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteAttrUserValuesRequest.AsProtobufJSON {
+    return {
+      attributeId: this.attributeId,
+      itemId: this.itemId,
+      userId: this.userId
+    };
+  }
+}
+export module DeleteAttrUserValuesRequest {
+  /**
+   * Standard JavaScript object representation for DeleteAttrUserValuesRequest
+   */
+  export interface AsObject {
+    attributeId: string;
+    itemId: string;
+    userId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteAttrUserValuesRequest
+   */
+  export interface AsProtobufJSON {
+    attributeId: string;
+    itemId: string;
+    userId: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.AttrUserValuesFields
  */
 export class AttrUserValuesFields implements GrpcMessage {
@@ -3383,6 +3718,154 @@ export module AttrUserValuesRequest {
     itemId: string;
     language: string;
     fields: AttrUserValuesFields.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.AttrSetUserValuesRequest
+ */
+export class AttrSetUserValuesRequest implements GrpcMessage {
+  static id = 'goautowp.AttrSetUserValuesRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AttrSetUserValuesRequest();
+    AttrSetUserValuesRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AttrSetUserValuesRequest) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AttrSetUserValuesRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new AttrUserValue();
+          _reader.readMessage(
+            messageInitializer1,
+            AttrUserValue.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AttrSetUserValuesRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AttrSetUserValuesRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        AttrUserValue.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: AttrUserValue[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AttrSetUserValuesRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AttrSetUserValuesRequest.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new AttrUserValue(m));
+    AttrSetUserValuesRequest.refineValues(this);
+  }
+  get items(): AttrUserValue[] | undefined {
+    return this._items;
+  }
+  set items(value: AttrUserValue[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AttrSetUserValuesRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AttrSetUserValuesRequest.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AttrSetUserValuesRequest.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module AttrSetUserValuesRequest {
+  /**
+   * Standard JavaScript object representation for AttrSetUserValuesRequest
+   */
+  export interface AsObject {
+    items?: AttrUserValue.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for AttrSetUserValuesRequest
+   */
+  export interface AsProtobufJSON {
+    items: AttrUserValue.AsProtobufJSON[] | null;
   }
 }
 

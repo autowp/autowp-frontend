@@ -6,6 +6,7 @@ import {
   APIUser,
   AttrAttributeType,
   AttrListOption,
+  AttrSetUserValuesRequest,
   AttrUserValue,
   AttrUserValuesFields,
   AttrUserValuesRequest,
@@ -15,7 +16,6 @@ import {
 } from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
@@ -42,13 +42,6 @@ export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
   step: number;
   unitAbbr: string;
   unitName: string;
-}
-
-interface APIAttrUserValuePatchResponse {
-  detail: string;
-  status: number;
-  title: string;
-  type: string;
 }
 
 interface ListOption {
@@ -109,7 +102,6 @@ type AttrFormControls =
   templateUrl: './spec.component.html',
 })
 export class CarsSpecificationsEditorSpecComponent {
-  private readonly api = inject(APIService);
   private readonly attrsService = inject(APIAttrsService);
   private readonly auth = inject(AuthService);
   private readonly toastService = inject(ToastsService);
@@ -285,43 +277,81 @@ export class CarsSpecificationsEditorSpecComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected saveSpecs(user: APIUser, item: APIItem, form: FormArray<AttrFormControls>) {
-    const items = form.controls.map((control) => ({
-      attribute_id: control.attr.id,
-      empty: control.disabled,
-      item_id: item.id,
-      user_id: user.id,
-      value: control.disabled ? null : control.value,
-    }));
+  protected saveSpecs(item: APIItem, form: FormArray<AttrFormControls>) {
+    const items = form.controls.map((control) => {
+      const typeId = control.attr.typeId;
+      let valid = false;
+      let stringValue = undefined;
+      let listValue = [];
+      let boolValue = undefined;
+      let floatValue = undefined;
+      let intValue = undefined;
+      switch (typeId) {
+        case AttrAttributeType.Id.INTEGER:
+          valid = control.value !== null;
+          intValue = control.value | 0;
+          break;
+        case AttrAttributeType.Id.LIST:
+        case AttrAttributeType.Id.TREE:
+          valid = control.value !== null && control.value !== undefined && control.value.length > 0;
+          listValue = (control.value || []).filter((v: unknown) => !!v);
+          break;
+        case AttrAttributeType.Id.STRING:
+        case AttrAttributeType.Id.TEXT:
+          valid = control.value !== null && control.value !== undefined && control.value.length > 0;
+          stringValue = control.value;
+          break;
+        case AttrAttributeType.Id.BOOLEAN:
+          valid = control.value !== null;
+          boolValue = control.value;
+          break;
+        case AttrAttributeType.Id.FLOAT:
+          valid = control.value !== null;
+          floatValue = control.value;
+          break;
+        default:
+          valid = control.value !== null;
+          break;
+      }
+      return new AttrUserValue({
+        attributeId: control.attr.id,
+        itemId: '' + item.id,
+        value: new AttrValueValue({
+          valid,
+          isEmpty: control.disabled,
+          type: typeId,
+          boolValue,
+          floatValue,
+          intValue,
+          stringValue,
+          listValue,
+        }),
+      });
+    });
 
     this.loading++;
     this.invalidParams.clear();
-    this.api
-      .request$<APIAttrUserValuePatchResponse>('PATCH', 'attr/user-value', {
-        body: {
-          items,
-        },
-      })
-      .subscribe({
-        error: (response: unknown) => {
-          if (response instanceof HttpErrorResponse && response.status === 400) {
-            this.invalidParams.clear();
-            const ipItems = response.error.invalid_params.items;
-            items.forEach((v, i) => {
-              if (ipItems[i]) {
-                this.invalidParams.set(v.attribute_id, ipItems[i]);
-              }
-            });
-          } else {
-            this.toastService.handleError(response);
-          }
-          this.loading--;
-        },
-        next: () => {
-          this.change$.next();
-          this.loading--;
-        },
-      });
+
+    this.attrsClient.setUserValues(new AttrSetUserValuesRequest({items})).subscribe({
+      error: (response: unknown) => {
+        if (response instanceof HttpErrorResponse && response.status === 400) {
+          this.invalidParams.clear();
+          const ipItems = response.error.invalid_params.items;
+          items.forEach((v, i) => {
+            if (ipItems[i]) {
+              this.invalidParams.set(v.attributeId, ipItems[i]);
+            }
+          });
+        } else {
+          this.toastService.handleError(response);
+        }
+        this.loading--;
+      },
+      next: () => {
+        this.change$.next();
+        this.loading--;
+      },
+    });
   }
 
   private listOptions$: Observable<{attributeId: string; id: string; name: string; parentId: string}[]> =

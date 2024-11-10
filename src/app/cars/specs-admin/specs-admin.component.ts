@@ -2,10 +2,16 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {APIUser, AttrUserValue, AttrUserValuesFields, AttrUserValuesRequest} from '@grpc/spec.pb';
+import {
+  APIUser,
+  AttrUserValue,
+  AttrUserValuesFields,
+  AttrUserValuesRequest,
+  DeleteAttrUserValuesRequest,
+  MoveAttrUserValuesRequest,
+} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
@@ -32,20 +38,20 @@ interface AttrUserValueListItem {
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {
-  private readonly api = inject(APIService);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly userService = inject(UserService);
-
   private readonly attrsClient = inject(AttrsClient);
   private readonly languageService = inject(LanguageService);
   private readonly attrsService = inject(APIAttrsService);
 
   private readonly reload$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly move = {
-    item_id: null,
+  protected readonly move: {
+    item_id: string;
+  } = {
+    item_id: '',
   };
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
@@ -89,10 +95,13 @@ export class CarsSpecsAdminComponent implements OnInit {
   }
 
   protected deleteValue(value: AttrUserValueListItem) {
-    this.api
-      .request$<void>(
-        'DELETE',
-        'attr/user-value/' + value.userValue.attributeId + '/' + value.userValue.itemId + '/' + value.userValue.userId,
+    this.attrsClient
+      .deleteUserValues(
+        new DeleteAttrUserValuesRequest({
+          attributeId: value.userValue.attributeId,
+          itemId: value.userValue.itemId,
+          userId: value.userValue.userId,
+        }),
       )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
@@ -103,15 +112,17 @@ export class CarsSpecsAdminComponent implements OnInit {
   }
 
   protected moveValues(itemID: string) {
-    this.api
-      .request$<void>('PATCH', 'attr/user-value', {
-        body: {
-          item_id: this.move.item_id,
-        },
-        params: {
-          item_id: itemID,
-        },
-      })
+    if (this.move.item_id) {
+      return;
+    }
+
+    this.attrsClient
+      .moveUserValues(
+        new MoveAttrUserValuesRequest({
+          srcItemId: itemID,
+          destItemId: this.move.item_id,
+        }),
+      )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {

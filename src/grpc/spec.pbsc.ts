@@ -5130,6 +5130,69 @@ export class AttrsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Attrs/SetUserValues
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setUserValues: (
+      requestData: thisProto.AttrSetUserValuesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/SetUserValues',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.AttrSetUserValuesRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/DeleteUserValues
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteUserValues: (
+      requestData: thisProto.DeleteAttrUserValuesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/DeleteUserValues',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteAttrUserValuesRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/MoveUserValues
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    moveUserValues: (
+      requestData: thisProto.MoveAttrUserValuesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/MoveUserValues',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MoveAttrUserValuesRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Attrs/GetConflicts
      *
      * @param requestMessage Request message
@@ -5301,6 +5364,54 @@ export class AttrsClient {
   ): Observable<thisProto.AttrUserValuesResponse> {
     return this.$raw
       .getUserValues(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/SetUserValues
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  setUserValues(
+    requestData: thisProto.AttrSetUserValuesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .setUserValues(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/DeleteUserValues
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteUserValues(
+    requestData: thisProto.DeleteAttrUserValuesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteUserValues(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/MoveUserValues
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  moveUserValues(
+    requestData: thisProto.MoveAttrUserValuesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .moveUserValues(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
