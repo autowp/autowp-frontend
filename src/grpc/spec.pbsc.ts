@@ -2640,6 +2640,27 @@ export class ItemsClient {
         requestClass: thisProto.MoveItemParentRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/RefreshInheritance
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    refreshInheritance: (
+      requestData: thisProto.RefreshInheritanceRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/RefreshInheritance',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.RefreshInheritanceRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -3112,6 +3133,22 @@ export class ItemsClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .moveItemParent(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/RefreshInheritance
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  refreshInheritance(
+    requestData: thisProto.RefreshInheritanceRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .refreshInheritance(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

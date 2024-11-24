@@ -1,9 +1,8 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {ItemType, RefreshInheritanceRequest} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
@@ -15,6 +14,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {CarsSpecificationsEditorEngineComponent} from './engine/engine.component';
 import {CarsSpecificationsEditorResultComponent} from './result/result.component';
 import {CarsSpecificationsEditorSpecComponent} from './spec/spec.component';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   imports: [
@@ -30,7 +30,6 @@ import {CarsSpecificationsEditorSpecComponent} from './spec/spec.component';
   templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {
-  private readonly api = inject(APIService);
   private readonly itemService = inject(ItemService);
   private readonly acl = inject(ACLService);
   private readonly router = inject(Router);
@@ -38,6 +37,7 @@ export class CarsSpecificationsEditorComponent {
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly auth = inject(AuthService);
+  private readonly itemsClient = inject(ItemsClient);
 
   private readonly change$ = new BehaviorSubject<void>(void 0);
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
@@ -78,7 +78,7 @@ export class CarsSpecificationsEditorComponent {
   }
 
   protected refreshInheritance(item: APIItem) {
-    this.api.request$<void>('POST', 'item/' + item.id + '/refresh-inheritance', {body: {}}).subscribe({
+    this.itemsClient.refreshInheritance(new RefreshInheritanceRequest({itemId: '' + item.id})).subscribe({
       error: (response: unknown) => this.toastService.handleError(response),
       next: () => {
         this.router.navigate(['/cars/specifications-editor'], {
