@@ -1,7 +1,14 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIGetItemParentLanguagesRequest, APIItem, ItemFields, ItemParentLanguage, ItemRequest} from '@grpc/spec.pb';
+import {
+  APIGetItemParentLanguagesRequest,
+  APIItem,
+  ItemFields,
+  ItemParent,
+  ItemParentLanguage,
+  ItemRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -151,15 +158,13 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
       return;
     }
     const promises: Observable<Empty | void>[] = [
-      this.api.request$<Empty | void>(
-        'PUT',
-        'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id,
-        {
-          body: {
-            catname: this.itemParent.catname,
-            type_id: this.itemParent.type_id,
-          },
-        },
+      this.itemsClient.updateItemParent(
+        new ItemParent({
+          itemId: '' + this.itemParent.item_id,
+          parentId: '' + this.itemParent.parent_id,
+          catname: this.itemParent.catname,
+          type: this.itemParent.type_id,
+        }),
       ),
     ];
 

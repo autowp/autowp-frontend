@@ -34,6 +34,12 @@ export enum ItemType {
   ITEM_TYPE_PERSON = 8,
   ITEM_TYPE_COPYRIGHT = 9
 }
+export enum ItemParentType {
+  ITEM_TYPE_DEFAULT = 0,
+  ITEM_TYPE_TUNING = 1,
+  ITEM_TYPE_SPORT = 2,
+  ITEM_TYPE_DESIGN = 3
+}
 export enum PictureStatus {
   PICTURE_STATUS_UNKNOWN = 0,
   PICTURE_STATUS_ACCEPTED = 1,
@@ -37562,6 +37568,534 @@ export module NewItemsResponse {
   export interface AsProtobufJSON {
     brand: APIItem.AsProtobufJSON | null;
     items: APIItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ItemParent
+ */
+export class ItemParent implements GrpcMessage {
+  static id = 'goautowp.ItemParent';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemParent();
+    ItemParent.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemParent) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+    _instance.type = _instance.type || 0;
+    _instance.catname = _instance.catname || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemParent,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.type = _reader.readEnum();
+          break;
+        case 4:
+          _instance.catname = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemParent.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: ItemParent, _writer: BinaryWriter) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(2, _instance.parentId);
+    }
+    if (_instance.type) {
+      _writer.writeEnum(3, _instance.type);
+    }
+    if (_instance.catname) {
+      _writer.writeString(4, _instance.catname);
+    }
+  }
+
+  private _itemId: string;
+  private _parentId: string;
+  private _type: ItemParentType;
+  private _catname: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemParent to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemParent.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    this.type = _value.type;
+    this.catname = _value.catname;
+    ItemParent.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get type(): ItemParentType {
+    return this._type;
+  }
+  set type(value: ItemParentType) {
+    this._type = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemParent.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemParent.AsObject {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      type: this.type,
+      catname: this.catname
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemParent.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      type:
+        ItemParentType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ],
+      catname: this.catname
+    };
+  }
+}
+export module ItemParent {
+  /**
+   * Standard JavaScript object representation for ItemParent
+   */
+  export interface AsObject {
+    itemId: string;
+    parentId: string;
+    type: ItemParentType;
+    catname: string;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemParent
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    parentId: string;
+    type: string;
+    catname: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteItemParentRequest
+ */
+export class DeleteItemParentRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteItemParentRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteItemParentRequest();
+    DeleteItemParentRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteItemParentRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteItemParentRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteItemParentRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteItemParentRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(2, _instance.parentId);
+    }
+  }
+
+  private _itemId: string;
+  private _parentId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteItemParentRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DeleteItemParentRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    DeleteItemParentRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteItemParentRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteItemParentRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteItemParentRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId
+    };
+  }
+}
+export module DeleteItemParentRequest {
+  /**
+   * Standard JavaScript object representation for DeleteItemParentRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    parentId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteItemParentRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    parentId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MoveItemParentRequest
+ */
+export class MoveItemParentRequest implements GrpcMessage {
+  static id = 'goautowp.MoveItemParentRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MoveItemParentRequest();
+    MoveItemParentRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MoveItemParentRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.parentId = _instance.parentId || '0';
+    _instance.destParentId = _instance.destParentId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MoveItemParentRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        case 3:
+          _instance.destParentId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MoveItemParentRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MoveItemParentRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(2, _instance.parentId);
+    }
+    if (_instance.destParentId) {
+      _writer.writeInt64String(3, _instance.destParentId);
+    }
+  }
+
+  private _itemId: string;
+  private _parentId: string;
+  private _destParentId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MoveItemParentRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MoveItemParentRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.parentId = _value.parentId;
+    this.destParentId = _value.destParentId;
+    MoveItemParentRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+  get destParentId(): string {
+    return this._destParentId;
+  }
+  set destParentId(value: string) {
+    this._destParentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MoveItemParentRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MoveItemParentRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      destParentId: this.destParentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MoveItemParentRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      parentId: this.parentId,
+      destParentId: this.destParentId
+    };
+  }
+}
+export module MoveItemParentRequest {
+  /**
+   * Standard JavaScript object representation for MoveItemParentRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    parentId: string;
+    destParentId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MoveItemParentRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    parentId: string;
+    destParentId: string;
   }
 }
 

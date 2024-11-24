@@ -2,9 +2,8 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemFields, ItemParent, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable} from 'rxjs';
@@ -32,7 +31,6 @@ import {ModerItemsItemSelectParentTwinsComponent} from './twins/twins.component'
   templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit {
-  private readonly api = inject(APIService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
@@ -104,13 +102,13 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
   }
 
   protected select(itemID: string, parentID: string) {
-    this.api
-      .request$<void>('POST', 'item-parent', {
-        body: {
-          item_id: itemID,
-          parent_id: parentID,
-        },
-      })
+    this.itemsClient
+      .createItemParent(
+        new ItemParent({
+          itemId: itemID,
+          parentId: parentID,
+        }),
+      )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => {

@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemParent, ItemType, MoveItemParentRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item';
@@ -179,12 +179,14 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') ?? '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
-            this.api.request$<void>('POST', 'item-parent', {
-              body: {
-                item_id: newItem.id,
-                parent_id: item.id,
-              },
-            }),
+            this.itemsClient
+              .createItemParent(
+                new ItemParent({
+                  itemId: '' + newItem.id,
+                  parentId: '' + item.id,
+                }),
+              )
+              .pipe(map(() => void 0)),
           ];
 
           if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(itemTypeID)) {
@@ -193,7 +195,15 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
           for (const child of event.items) {
             promises.push(
-              this.api.request$<void>('PUT', 'item-parent/' + child + '/' + item.id, {body: {parent_id: newItem.id}}),
+              this.itemsClient
+                .moveItemParent(
+                  new MoveItemParentRequest({
+                    itemId: '' + child,
+                    parentId: '' + item.id,
+                    destParentId: '' + newItem.id,
+                  }),
+                )
+                .pipe(map(() => void 0)),
             );
           }
 

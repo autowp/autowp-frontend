@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, ItemType, SetPictureItemItemIDRequest} from '@grpc/spec.pb';
+import {APIGetItemVehicleTypesRequest, ItemParent, ItemType, SetPictureItemItemIDRequest} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -167,12 +167,14 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         switchMap((responses) => this.itemService.getItemByLocation$(responses[0].headers.get('Location') ?? '', {})),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
-            this.api.request$<void>('POST', 'item-parent', {
-              body: {
-                item_id: newItem.id,
-                parent_id: item.id,
-              },
-            }),
+            this.itemsClient
+              .createItemParent(
+                new ItemParent({
+                  itemId: '' + newItem.id,
+                  parentId: '' + item.id,
+                }),
+              )
+              .pipe(map(() => void 0)),
           ];
 
           if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(newItem.item_type_id)) {

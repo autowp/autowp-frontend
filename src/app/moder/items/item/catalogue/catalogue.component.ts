@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {DeleteItemParentRequest, ItemParent, ItemType} from '@grpc/spec.pb';
 import {
   NgbDropdown,
   NgbDropdownMenu,
@@ -11,11 +11,11 @@ import {
   NgbTypeaheadSelectItemEvent,
 } from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
@@ -25,9 +25,9 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
 })
 export class ModerItemsItemCatalogueComponent {
   private readonly acl = inject(ACLService);
-  private readonly api = inject(APIService);
   private readonly itemService = inject(ItemService);
   private readonly itemParentService = inject(ItemParentService);
+  private readonly itemsClient = inject(ItemsClient);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -145,13 +145,13 @@ export class ModerItemsItemCatalogueComponent {
   }
 
   protected addParent(item: APIItem, parentId: number) {
-    this.api
-      .request$<void>('POST', 'item-parent', {
-        body: {
-          item_id: item.id,
-          parent_id: parentId,
-        },
-      })
+    this.itemsClient
+      .createItemParent(
+        new ItemParent({
+          itemId: '' + item.id,
+          parentId: '' + parentId,
+        }),
+      )
       .subscribe(() => {
         this.reloadParents$.next();
         this.reloadSuggestions$.next();
@@ -161,11 +161,18 @@ export class ModerItemsItemCatalogueComponent {
   }
 
   private deleteItemParent(itemID: number, parentID: number) {
-    this.api.request$<void>('DELETE', 'item-parent/' + itemID + '/' + parentID).subscribe(() => {
-      this.reloadChilds$.next();
-      this.reloadParents$.next();
-      this.reloadSuggestions$.next();
-    });
+    this.itemsClient
+      .deleteItemParent(
+        new DeleteItemParentRequest({
+          itemId: '' + itemID,
+          parentId: '' + parentID,
+        }),
+      )
+      .subscribe(() => {
+        this.reloadChilds$.next();
+        this.reloadParents$.next();
+        this.reloadSuggestions$.next();
+      });
   }
 
   protected deleteChild(item: APIItem, itemId: number) {

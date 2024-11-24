@@ -2,7 +2,14 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, APIItem as GRPCAPIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {
+  APIGetItemVehicleTypesRequest,
+  APIItem as GRPCAPIItem,
+  ItemFields,
+  ItemParent,
+  ItemRequest,
+  ItemType,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -202,13 +209,13 @@ export class ModerItemsNewComponent {
               take(1),
               switchMap((parent) =>
                 parent
-                  ? this.api
-                      .request$<void>('POST', 'item-parent', {
-                        body: {
-                          item_id: item.id,
-                          parent_id: parent.id,
-                        },
-                      })
+                  ? this.itemsClient
+                      .createItemParent(
+                        new ItemParent({
+                          itemId: '' + item.id,
+                          parentId: parent.id,
+                        }),
+                      )
                       .pipe(map(() => null))
                   : of(null),
               ),
