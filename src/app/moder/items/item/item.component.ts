@@ -19,6 +19,8 @@ import {ModerItemsItemNameComponent} from './name/name.component';
 import {ModerItemsItemPicturesComponent} from './pictures/pictures.component';
 import {ModerItemsItemTreeComponent} from './tree/tree.component';
 import {ModerItemsItemVehiclesComponent} from './vehicles/vehicles.component';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {SetUserItemSubscriptionRequest} from '@grpc/spec.pb';
 
 export interface APIItemTreeItem {
   childs: APIItemTreeItem[];
@@ -63,6 +65,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
 
   private routeSub?: Subscription;
   protected loading = 0;
@@ -255,12 +258,13 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   protected toggleSubscription() {
     if (this.item) {
       const newValue = !this.item.subscription;
-      this.api
-        .request$<void>('PUT', 'item/' + this.item.id, {
-          body: {
-            subscription: newValue ? 1 : 0,
-          },
-        })
+      this.itemsClient
+        .setUserItemSubscription(
+          new SetUserItemSubscriptionRequest({
+            itemId: this.item.id + '',
+            subscribed: newValue,
+          }),
+        )
         .subscribe(() => {
           if (this.item) {
             this.item.subscription = newValue;

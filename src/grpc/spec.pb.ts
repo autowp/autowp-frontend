@@ -28319,6 +28319,174 @@ export module SetPictureCropRequest {
 }
 
 /**
+ * Message implementation for goautowp.SetItemPointRequest
+ */
+export class SetItemPointRequest implements GrpcMessage {
+  static id = 'goautowp.SetItemPointRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new SetItemPointRequest();
+    SetItemPointRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: SetItemPointRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.point = _instance.point || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: SetItemPointRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.point = new googleType003.LatLng();
+          _reader.readMessage(
+            _instance.point,
+            googleType003.LatLng.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    SetItemPointRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: SetItemPointRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.point) {
+      _writer.writeMessage(
+        2,
+        _instance.point as any,
+        googleType003.LatLng.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _itemId: string;
+  private _point?: googleType003.LatLng;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of SetItemPointRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<SetItemPointRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.point = _value.point
+      ? new googleType003.LatLng(_value.point)
+      : undefined;
+    SetItemPointRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get point(): googleType003.LatLng | undefined {
+    return this._point;
+  }
+  set point(value: googleType003.LatLng | undefined) {
+    this._point = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    SetItemPointRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): SetItemPointRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      point: this.point ? this.point.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): SetItemPointRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      point: this.point ? this.point.toProtobufJSON(options) : null
+    };
+  }
+}
+export module SetItemPointRequest {
+  /**
+   * Standard JavaScript object representation for SetItemPointRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    point?: googleType003.LatLng.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for SetItemPointRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    point: googleType003.LatLng.AsProtobufJSON | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.SetPicturePointRequest
  */
 export class SetPicturePointRequest implements GrpcMessage {
@@ -38235,6 +38403,166 @@ export module RefreshInheritanceRequest {
    */
   export interface AsProtobufJSON {
     itemId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.SetUserItemSubscriptionRequest
+ */
+export class SetUserItemSubscriptionRequest implements GrpcMessage {
+  static id = 'goautowp.SetUserItemSubscriptionRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new SetUserItemSubscriptionRequest();
+    SetUserItemSubscriptionRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: SetUserItemSubscriptionRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.subscribed = _instance.subscribed || false;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: SetUserItemSubscriptionRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.subscribed = _reader.readBool();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    SetUserItemSubscriptionRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: SetUserItemSubscriptionRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.subscribed) {
+      _writer.writeBool(2, _instance.subscribed);
+    }
+  }
+
+  private _itemId: string;
+  private _subscribed: boolean;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of SetUserItemSubscriptionRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<SetUserItemSubscriptionRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.subscribed = _value.subscribed;
+    SetUserItemSubscriptionRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get subscribed(): boolean {
+    return this._subscribed;
+  }
+  set subscribed(value: boolean) {
+    this._subscribed = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    SetUserItemSubscriptionRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): SetUserItemSubscriptionRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      subscribed: this.subscribed
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): SetUserItemSubscriptionRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      subscribed: this.subscribed
+    };
+  }
+}
+export module SetUserItemSubscriptionRequest {
+  /**
+   * Standard JavaScript object representation for SetUserItemSubscriptionRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    subscribed: boolean;
+  }
+
+  /**
+   * Protobuf JSON representation for SetUserItemSubscriptionRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    subscribed: boolean;
   }
 }
 

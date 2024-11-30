@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {APIGetItemLanguagesRequest} from '@grpc/spec.pb';
+import {APIGetItemLanguagesRequest, ItemLanguage} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {
   NgbNav,
@@ -13,22 +13,12 @@ import {
   NgbNavLinkBase,
   NgbNavOutlet,
 } from '@ng-bootstrap/ng-bootstrap';
-import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
 import {APIItem} from '@services/item';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {MarkdownEditComponent} from '../../../../markdown-edit/markdown-edit/markdown-edit.component';
-
-export interface ItemLanguage {
-  fullText: null | string;
-  fullTextId: null | number;
-  language: string;
-  name: null | string;
-  text: null | string;
-  textId: null | number;
-}
 
 @Component({
   imports: [
@@ -49,7 +39,6 @@ export interface ItemLanguage {
   templateUrl: './name.component.html',
 })
 export class ModerItemsItemNameComponent {
-  private readonly api = inject(APIService);
   private readonly contentLanguage = inject(ContentLanguageService);
   private readonly itemsClient = inject(ItemsClient);
 
@@ -64,14 +53,17 @@ export class ModerItemsItemNameComponent {
       const languages = new Map<string, ItemLanguage>();
 
       for (const language of contentLanguages) {
-        languages.set(language, {
-          fullText: null,
-          fullTextId: null,
+        languages.set(
           language,
-          name: null,
-          text: null,
-          textId: null,
-        });
+          new ItemLanguage({
+            fullText: '',
+            fullTextId: 0,
+            language,
+            name: '',
+            text: '',
+            textId: 0,
+          }),
+        );
       }
 
       return languages;
@@ -80,54 +72,40 @@ export class ModerItemsItemNameComponent {
 
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
-  protected readonly data$: Observable<{itemId: number; languages: ItemLanguage[]}> = this.item$.pipe(
+  protected readonly data$: Observable<ItemLanguage[]> = this.item$.pipe(
     switchMap((item) =>
       item
         ? combineLatest([
-            of(item.id),
+            of(item.id + ''),
             this.itemsClient.getItemLanguages(new APIGetItemLanguagesRequest({itemId: '' + item.id})),
             this.languages$,
           ])
         : EMPTY,
     ),
     map(([itemId, {items}, languages]) => {
+      languages.forEach((language) => {
+        language.itemId = itemId;
+      });
+
       for (const value of items ? items : []) {
-        languages.set(value.language, {
-          fullText: value.fullText,
-          fullTextId: value.fullTextId === 0 ? null : value.fullTextId,
-          language: value.language,
-          name: value.name,
-          text: value.text,
-          textId: value.textId === 0 ? null : value.textId,
-        });
+        languages.set(value.language, value);
       }
 
-      return {
-        itemId: itemId,
-        languages: Array.from(languages.values()),
-      };
+      return Array.from(languages.values());
     }),
   );
 
-  protected saveLanguages(itemId: number, itemLanguages: ItemLanguage[]) {
-    for (const language of itemLanguages) {
+  protected saveLanguages(itemLanguages: ItemLanguage[]) {
+    for (const itemLanguage of itemLanguages) {
       this.loadingNumber++;
-      this.api
-        .request$<void>('PUT', 'item/' + itemId + '/language/' + language.language, {
-          body: {
-            full_text: language.fullText,
-            name: language.name,
-            text: language.text,
-          },
-        })
-        .subscribe({
-          error: () => {
-            this.loadingNumber--;
-          },
-          next: () => {
-            this.loadingNumber--;
-          },
-        });
+      this.itemsClient.updateItemLanguage(itemLanguage).subscribe({
+        error: () => {
+          this.loadingNumber--;
+        },
+        next: () => {
+          this.loadingNumber--;
+        },
+      });
     }
   }
 }

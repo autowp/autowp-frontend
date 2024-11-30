@@ -2453,6 +2453,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/UpdateItemLanguage
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updateItemLanguage: (
+      requestData: thisProto.ItemLanguage,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/UpdateItemLanguage',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ItemLanguage,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/GetItemParentLanguages
      *
      * @param requestMessage Request message
@@ -2659,6 +2680,48 @@ export class ItemsClient {
         requestData,
         requestMetadata,
         requestClass: thisProto.RefreshInheritanceRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/SetUserItemSubscription
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setUserItemSubscription: (
+      requestData: thisProto.SetUserItemSubscriptionRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/SetUserItemSubscription',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.SetUserItemSubscriptionRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/SetItemPoint
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    setItemPoint: (
+      requestData: thisProto.SetItemPointRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/SetItemPoint',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.SetItemPointRequest,
         responseClass: googleProtobuf001.Empty
       });
     }
@@ -2993,6 +3056,22 @@ export class ItemsClient {
   }
 
   /**
+   * Unary call @/goautowp.Items/UpdateItemLanguage
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  updateItemLanguage(
+    requestData: thisProto.ItemLanguage,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .updateItemLanguage(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
    * Unary call @/goautowp.Items/GetItemParentLanguages
    *
    * @param requestMessage Request message
@@ -3149,6 +3228,38 @@ export class ItemsClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .refreshInheritance(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/SetUserItemSubscription
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  setUserItemSubscription(
+    requestData: thisProto.SetUserItemSubscriptionRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .setUserItemSubscription(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/SetItemPoint
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  setItemPoint(
+    requestData: thisProto.SetItemPointRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .setItemPoint(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }
