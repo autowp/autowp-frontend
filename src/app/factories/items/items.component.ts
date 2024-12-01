@@ -1,9 +1,9 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
+import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {
   CatalogueListItem,
@@ -15,6 +15,8 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
@@ -29,6 +31,8 @@ export class FactoryItemsComponent {
   private readonly acl = inject(ACLService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -39,13 +43,20 @@ export class FactoryItemsComponent {
   );
 
   protected readonly factory$: Observable<APIItem> = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') ?? '', 10)),
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: ['name_text', 'name_html', 'lat', 'lng', 'description'].join(','),
-      }),
+      this.itemsClient.item(
+        new ItemRequest({
+          language: this.languageService.language,
+          id,
+          fields: new ItemFields({
+            nameText: true,
+            nameHtml: true,
+          }),
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -55,7 +66,7 @@ export class FactoryItemsComponent {
       return EMPTY;
     }),
     switchMap((factory) => {
-      if (!factory || factory.item_type_id !== ItemType.ITEM_TYPE_FACTORY) {
+      if (!factory || factory.itemTypeId !== ItemType.ITEM_TYPE_FACTORY) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
@@ -81,7 +92,7 @@ export class FactoryItemsComponent {
         ].join(','),
         limit: 10,
         page,
-        related_groups_of: factory.id,
+        related_groups_of: +factory.id,
       }),
     ),
     catchError((err: unknown) => {

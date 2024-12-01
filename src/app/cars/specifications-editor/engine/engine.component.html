@@ -8,7 +8,7 @@
           <p>
             <a [routerLink]="['/moder/items/item', engine.id]" [innerHTML]="engine.nameHtml"></a>
           </p>
-          @if (item.engine_inherit) {
+          @if (item.engineInherit) {
             <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
             <em>
               <ng-container i18n>Inherited from</ng-container>
@@ -19,8 +19,10 @@
           <a routerLink="/cars/select-engine" [queryParams]="{item_id: item.id}" class="btn btn-primary" i18n
             >Select another engine</a
           >
-          <button class="btn btn-warning" (click)="cancelInheritance(item)" i18n>Cancel engine</button>
-          @if (!item.engine_inherit) {
+          @if (item.engineItemId) {
+            <button class="btn btn-warning" (click)="cancelInheritance(item)" i18n>Cancel engine</button>
+          }
+          @if (!item.engineInherit) {
             <button class="btn btn-warning" (click)="inheritEngine(item)" i18n>Inherit engine</button>
           }
         </div>
@@ -29,7 +31,7 @@
         <a routerLink="/cars/select-engine" [queryParams]="{item_id: item.id}" class="btn btn-primary" i18n
           >Select engine</a
         >
-        @if (!item.engine_inherit) {
+        @if (!item.engineInherit) {
           <button class="btn btn-warning" (click)="inheritEngine(item)" i18n>Inherit engine</button>
         } @else {
           <button class="btn btn-warning" (click)="cancelInheritance(item)" i18n>Don't inherit engine</button>
@@ -41,7 +43,7 @@
     @if (engine && (isAllowedEditEngine$ | async) === false) {
       <div>
         <p [innerHTML]="engine.nameHtml"></p>
-        @if (item.engine_inherit) {
+        @if (item.engineInherit) {
           <!--TODO: h6 *ngFor="let car of engineInheritedFrom">
             <em>
               <ng-container i18n>Inherited from</ng-container>

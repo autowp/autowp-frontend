@@ -1,11 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem, SetItemEngineRequest} from '@grpc/spec.pb';
+import {APIItem, APIItem as GRPCAPIItem, SetItemEngineRequest} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {shareReplay, switchMap} from 'rxjs/operators';
@@ -36,14 +35,14 @@ export class CarsSpecificationsEditorEngineComponent {
 
   protected readonly engine$: Observable<GRPCAPIItem | null> = this.item$.pipe(
     switchMap((item) => {
-      if (!item?.engine_id) {
+      if (!item?.engineItemId || item?.engineItemId === '0') {
         return of(null);
       }
 
       return this.itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameHtml: true}),
-          id: item.engine_id.toString(),
+          id: item.engineItemId,
           language: this.languageService.language,
         }),
       );

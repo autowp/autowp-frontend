@@ -1,10 +1,9 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {ItemType, RefreshInheritanceRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemRequest, ItemType, RefreshInheritanceRequest} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
-import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
@@ -15,6 +14,7 @@ import {CarsSpecificationsEditorEngineComponent} from './engine/engine.component
 import {CarsSpecificationsEditorResultComponent} from './result/result.component';
 import {CarsSpecificationsEditorSpecComponent} from './spec/spec.component';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [
@@ -30,7 +30,6 @@ import {ItemsClient} from '@grpc/spec.pbsc';
   templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {
-  private readonly itemService = inject(ItemService);
   private readonly acl = inject(ACLService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -38,6 +37,7 @@ export class CarsSpecificationsEditorComponent {
   private readonly toastService = inject(ToastsService);
   private readonly auth = inject(AuthService);
   private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   private readonly change$ = new BehaviorSubject<void>(void 0);
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
@@ -46,15 +46,23 @@ export class CarsSpecificationsEditorComponent {
   protected readonly user$ = this.auth.getUser$();
 
   protected readonly data$: Observable<APIItem> = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') ?? '', 10)),
+    map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((itemID) =>
       this.change$.pipe(
         switchMap(() =>
-          this.itemService.getItem$(itemID, {
-            fields: 'name_html,name_text,engine_id,attr_zone_id',
-          }),
+          this.itemsClient.item(
+            new ItemRequest({
+              language: this.languageService.language,
+              id: itemID,
+              fields: new ItemFields({
+                nameHtml: true,
+                nameText: true,
+                attrZoneId: true,
+              }),
+            }),
+          ),
         ),
       ),
     ),
@@ -67,7 +75,7 @@ export class CarsSpecificationsEditorComponent {
       }
       this.pageEnv.set({
         pageId: 102,
-        title: $localize`Specs editor of ${item.name_text}`,
+        title: $localize`Specs editor of ${item.nameText}`,
       });
       return of(item);
     }),

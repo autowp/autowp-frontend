@@ -20233,6 +20233,8 @@ export class ItemFields implements GrpcMessage {
       _instance.commentsAttentionsCount || false;
     _instance.isCompilesItemOfDay = _instance.isCompilesItemOfDay || false;
     _instance.brandicon = _instance.brandicon || false;
+    _instance.attrZoneId = _instance.attrZoneId || false;
+    _instance.location = _instance.location || false;
   }
 
   /**
@@ -20309,6 +20311,12 @@ export class ItemFields implements GrpcMessage {
         case 19:
           _instance.brandicon = _reader.readBool();
           break;
+        case 20:
+          _instance.attrZoneId = _reader.readBool();
+          break;
+        case 21:
+          _instance.location = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -20384,6 +20392,12 @@ export class ItemFields implements GrpcMessage {
     if (_instance.brandicon) {
       _writer.writeBool(19, _instance.brandicon);
     }
+    if (_instance.attrZoneId) {
+      _writer.writeBool(20, _instance.attrZoneId);
+    }
+    if (_instance.location) {
+      _writer.writeBool(21, _instance.location);
+    }
   }
 
   private _nameOnly: boolean;
@@ -20405,6 +20419,8 @@ export class ItemFields implements GrpcMessage {
   private _commentsAttentionsCount: boolean;
   private _isCompilesItemOfDay: boolean;
   private _brandicon: boolean;
+  private _attrZoneId: boolean;
+  private _location: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -20433,6 +20449,8 @@ export class ItemFields implements GrpcMessage {
     this.commentsAttentionsCount = _value.commentsAttentionsCount;
     this.isCompilesItemOfDay = _value.isCompilesItemOfDay;
     this.brandicon = _value.brandicon;
+    this.attrZoneId = _value.attrZoneId;
+    this.location = _value.location;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -20549,6 +20567,18 @@ export class ItemFields implements GrpcMessage {
   set brandicon(value: boolean) {
     this._brandicon = value;
   }
+  get attrZoneId(): boolean {
+    return this._attrZoneId;
+  }
+  set attrZoneId(value: boolean) {
+    this._attrZoneId = value;
+  }
+  get location(): boolean {
+    return this._location;
+  }
+  set location(value: boolean) {
+    this._location = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -20585,7 +20615,9 @@ export class ItemFields implements GrpcMessage {
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
       isCompilesItemOfDay: this.isCompilesItemOfDay,
-      brandicon: this.brandicon
+      brandicon: this.brandicon,
+      attrZoneId: this.attrZoneId,
+      location: this.location
     };
   }
 
@@ -20626,7 +20658,9 @@ export class ItemFields implements GrpcMessage {
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
       isCompilesItemOfDay: this.isCompilesItemOfDay,
-      brandicon: this.brandicon
+      brandicon: this.brandicon,
+      attrZoneId: this.attrZoneId,
+      location: this.location
     };
   }
 }
@@ -20654,6 +20688,8 @@ export module ItemFields {
     commentsAttentionsCount: boolean;
     isCompilesItemOfDay: boolean;
     brandicon: boolean;
+    attrZoneId: boolean;
+    location: boolean;
   }
 
   /**
@@ -20679,6 +20715,8 @@ export module ItemFields {
     commentsAttentionsCount: boolean;
     isCompilesItemOfDay: boolean;
     brandicon: boolean;
+    attrZoneId: boolean;
+    location: boolean;
   }
 }
 
@@ -22504,6 +22542,9 @@ export class APIItem implements GrpcMessage {
     _instance.commentsAttentionsCount = _instance.commentsAttentionsCount || 0;
     _instance.isCompilesItemOfDay = _instance.isCompilesItemOfDay || false;
     _instance.brandicon = _instance.brandicon || undefined;
+    _instance.attrZoneId = _instance.attrZoneId || '0';
+    _instance.engineInherit = _instance.engineInherit || false;
+    _instance.location = _instance.location || undefined;
   }
 
   /**
@@ -22594,6 +22635,19 @@ export class APIItem implements GrpcMessage {
           _reader.readMessage(
             _instance.brandicon,
             APIImage.deserializeBinaryFromReader
+          );
+          break;
+        case 24:
+          _instance.attrZoneId = _reader.readInt64String();
+          break;
+        case 25:
+          _instance.engineInherit = _reader.readBool();
+          break;
+        case 26:
+          _instance.location = new googleType003.LatLng();
+          _reader.readMessage(
+            _instance.location,
+            googleType003.LatLng.deserializeBinaryFromReader
           );
           break;
         default:
@@ -22687,6 +22741,19 @@ export class APIItem implements GrpcMessage {
         APIImage.serializeBinaryToWriter
       );
     }
+    if (_instance.attrZoneId) {
+      _writer.writeInt64String(24, _instance.attrZoneId);
+    }
+    if (_instance.engineInherit) {
+      _writer.writeBool(25, _instance.engineInherit);
+    }
+    if (_instance.location) {
+      _writer.writeMessage(
+        26,
+        _instance.location as any,
+        googleType003.LatLng.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -22712,6 +22779,9 @@ export class APIItem implements GrpcMessage {
   private _commentsAttentionsCount: number;
   private _isCompilesItemOfDay: boolean;
   private _brandicon?: APIImage;
+  private _attrZoneId: string;
+  private _engineInherit: boolean;
+  private _location?: googleType003.LatLng;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -22743,6 +22813,11 @@ export class APIItem implements GrpcMessage {
     this.isCompilesItemOfDay = _value.isCompilesItemOfDay;
     this.brandicon = _value.brandicon
       ? new APIImage(_value.brandicon)
+      : undefined;
+    this.attrZoneId = _value.attrZoneId;
+    this.engineInherit = _value.engineInherit;
+    this.location = _value.location
+      ? new googleType003.LatLng(_value.location)
       : undefined;
     APIItem.refineValues(this);
   }
@@ -22884,6 +22959,24 @@ export class APIItem implements GrpcMessage {
   set brandicon(value: APIImage | undefined) {
     this._brandicon = value;
   }
+  get attrZoneId(): string {
+    return this._attrZoneId;
+  }
+  set attrZoneId(value: string) {
+    this._attrZoneId = value;
+  }
+  get engineInherit(): boolean {
+    return this._engineInherit;
+  }
+  set engineInherit(value: boolean) {
+    this._engineInherit = value;
+  }
+  get location(): googleType003.LatLng | undefined {
+    return this._location;
+  }
+  set location(value: googleType003.LatLng | undefined) {
+    this._location = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -22922,7 +23015,10 @@ export class APIItem implements GrpcMessage {
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
       isCompilesItemOfDay: this.isCompilesItemOfDay,
-      brandicon: this.brandicon ? this.brandicon.toObject() : undefined
+      brandicon: this.brandicon ? this.brandicon.toObject() : undefined,
+      attrZoneId: this.attrZoneId,
+      engineInherit: this.engineInherit,
+      location: this.location ? this.location.toObject() : undefined
     };
   }
 
@@ -22970,7 +23066,10 @@ export class APIItem implements GrpcMessage {
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
       isCompilesItemOfDay: this.isCompilesItemOfDay,
-      brandicon: this.brandicon ? this.brandicon.toProtobufJSON(options) : null
+      brandicon: this.brandicon ? this.brandicon.toProtobufJSON(options) : null,
+      attrZoneId: this.attrZoneId,
+      engineInherit: this.engineInherit,
+      location: this.location ? this.location.toProtobufJSON(options) : null
     };
   }
 }
@@ -23002,6 +23101,9 @@ export module APIItem {
     commentsAttentionsCount: number;
     isCompilesItemOfDay: boolean;
     brandicon?: APIImage.AsObject;
+    attrZoneId: string;
+    engineInherit: boolean;
+    location?: googleType003.LatLng.AsObject;
   }
 
   /**
@@ -23031,6 +23133,9 @@ export module APIItem {
     commentsAttentionsCount: number;
     isCompilesItemOfDay: boolean;
     brandicon: APIImage.AsProtobufJSON | null;
+    attrZoneId: string;
+    engineInherit: boolean;
+    location: googleType003.LatLng.AsProtobufJSON | null;
   }
 }
 

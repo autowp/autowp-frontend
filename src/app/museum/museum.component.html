@@ -11,7 +11,7 @@
 
 @if (item$ | async; as item) {
   <div class="page-header">
-    <h1>{{ item.name }}</h1>
+    <h1 [innerHTML]="item.nameHtml"></h1>
   </div>
   @if (museumModer$ | async) {
     <p>
@@ -62,5 +62,5 @@
 }
 
 @if (item$ | async; as item) {
-  <app-comments [itemID]="item.id + ''" [typeID]="CommentsType.ITEM_TYPE_ID"></app-comments>
+  <app-comments [itemID]="item.id" [typeID]="CommentsType.ITEM_TYPE_ID"></app-comments>
 }

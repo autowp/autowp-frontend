@@ -8,7 +8,7 @@
     </li>
     @if (factory$ | async; as factory) {
       <li class="breadcrumb-item">
-        <a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
+        <a [routerLink]="['/factories', factory.id]" [innerHTML]="factory.nameHtml"></a>
       </li>
     }
   </ol>
@@ -20,7 +20,7 @@
 
 @if (factory$ | async; as factory) {
   <ul class="nav nav-pills mb-3">
-    <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.name_html"></a>
+    <a class="nav-link" [routerLink]="['/factories', factory.id]" [innerHTML]="factory.nameHtml"></a>
     <a class="nav-link active" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
     @if (isModer$ | async) {
       <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]">

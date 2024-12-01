@@ -3,6 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
 import {FormArray, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
+  APIItem,
   APIUser,
   AttrAttributeType,
   AttrListOption,
@@ -17,7 +18,6 @@ import {
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from '@services/auth.service';
-import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
@@ -124,8 +124,8 @@ export class CarsSpecificationsEditorSpecComponent {
   protected readonly attributes$: Observable<APIAttrAttributeInSpecEditor[]> = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
-      item?.attr_zone_id
-        ? this.attrsService.getAttributes$(item.attr_zone_id + '', null)
+      item?.attrZoneId
+        ? this.attrsService.getAttributes$(item.attrZoneId, null)
         : throwError(() => new Error('Failed to detect attr_zone_id')),
     ),
     catchError((response: unknown) => {
@@ -149,10 +149,10 @@ export class CarsSpecificationsEditorSpecComponent {
         ? this.attrsClient
             .getUserValues(
               new AttrUserValuesRequest({
-                itemId: '' + item.id,
+                itemId: item.id,
                 language: this.languageService.language,
                 userId: user.id,
-                zoneId: '' + item.attr_zone_id,
+                zoneId: item.attrZoneId,
               }),
             )
             .pipe(map((response) => ({attributes, response})))
@@ -236,9 +236,9 @@ export class CarsSpecificationsEditorSpecComponent {
       item
         ? this.attrsClient.getValues(
             new AttrValuesRequest({
-              itemId: '' + item.id,
+              itemId: item.id,
               language: this.languageService.language,
-              zoneId: '' + item.attr_zone_id,
+              zoneId: item.attrZoneId,
             }),
           )
         : EMPTY,
@@ -262,9 +262,9 @@ export class CarsSpecificationsEditorSpecComponent {
         ? this.attrsClient.getUserValues(
             new AttrUserValuesRequest({
               fields: new AttrUserValuesFields({valueText: true}),
-              itemId: '' + item.id,
+              itemId: item.id,
               language: this.languageService.language,
-              zoneId: '' + item.attr_zone_id,
+              zoneId: item.attrZoneId,
             }),
           )
         : EMPTY,
@@ -315,7 +315,7 @@ export class CarsSpecificationsEditorSpecComponent {
       }
       return new AttrUserValue({
         attributeId: control.attr.id,
-        itemId: '' + item.id,
+        itemId: item.id,
         value: new AttrValueValue({
           valid,
           isEmpty: control.disabled,

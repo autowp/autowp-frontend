@@ -1,9 +1,9 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+import {APIItem} from '@grpc/spec.pb';
 
 @Component({
   imports: [AsyncPipe],

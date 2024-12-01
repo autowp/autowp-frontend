@@ -2,10 +2,9 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
-import {APIGetItemLinksRequest, CommentsType, ItemType} from '@grpc/spec.pb';
+import {APIGetItemLinksRequest, APIItem, CommentsType, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -16,6 +15,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {CommentsComponent} from '../comments/comments/comments.component';
 import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, LeafletModule, MarkdownComponent, ThumbnailComponent, CommentsComponent, AsyncPipe],
@@ -25,25 +25,25 @@ import {ToastsService} from '../toasts/toasts.service';
 })
 export class MuseumComponent {
   private readonly acl = inject(ACLService);
-  private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly pictureService = inject(PictureService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') ?? '', 10)),
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   protected readonly links$ = this.itemID$.pipe(
-    switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
+    switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: itemID}))),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return of(null);
@@ -53,7 +53,7 @@ export class MuseumComponent {
   protected readonly pictures$ = this.itemID$.pipe(
     switchMap((itemID) =>
       this.pictureService.getPictures$({
-        exact_item_id: itemID,
+        exact_item_id: +itemID,
         fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
         limit: 20,
         order: 12,
@@ -68,9 +68,18 @@ export class MuseumComponent {
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: ['name_text', 'lat', 'lng', 'description'].join(','),
-      }),
+      this.itemsClient.item(
+        new ItemRequest({
+          language: this.languageService.language,
+          id,
+          fields: new ItemFields({
+            nameText: true,
+            nameHtml: true,
+            location: true,
+            description: true,
+          }),
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -80,7 +89,7 @@ export class MuseumComponent {
       return EMPTY;
     }),
     switchMap((item) => {
-      if (!item || item.item_type_id !== ItemType.ITEM_TYPE_MUSEUM) {
+      if (!item || item.itemTypeId !== ItemType.ITEM_TYPE_MUSEUM) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
@@ -91,7 +100,7 @@ export class MuseumComponent {
     tap((item) => {
       this.pageEnv.set({
         pageId: 159,
-        title: item.name_text,
+        title: item.nameText,
       });
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -99,11 +108,11 @@ export class MuseumComponent {
 
   protected readonly map$ = this.item$.pipe(
     map((item) => {
-      if (!item.lat || !item.lng) {
+      if (!item.location?.latitude || !item.location?.longitude) {
         return null;
       }
 
-      const center = latLng([item.lat, item.lng]);
+      const center = latLng([item.location.latitude, item.location.longitude]);
       return {
         markers: [
           marker(center, {
