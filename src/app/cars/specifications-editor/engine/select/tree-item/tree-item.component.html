@@ -23,7 +23,7 @@
         </li>
       }
       <li style="margin-left: 16px">
-        <a href="#" (click)="selectEngine(item.item_id)" i18n>other modification</a>
+        <a href="#" (click)="selectEngine(item.item_id + '')" i18n>other modification</a>
       </li>
     </ul>
   </div>
@@ -37,6 +37,6 @@
     } @else if (item.type_id === 3) {
       <span i18n>Design</span>
     }
-    <a href="#" (click)="selectEngine(item.item_id)" [innerHTML]="item.item.name_html"></a>
+    <a href="#" (click)="selectEngine(item.item_id + '')" [innerHTML]="item.item.name_html"></a>
   </span>
 }

@@ -2705,23 +2705,23 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary call: /goautowp.Items/SetItemPoint
+     * Unary call: /goautowp.Items/SetItemEngine
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
      * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
      */
-    setItemPoint: (
-      requestData: thisProto.SetItemPointRequest,
+    setItemEngine: (
+      requestData: thisProto.SetItemEngineRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
-        path: '/goautowp.Items/SetItemPoint',
+        path: '/goautowp.Items/SetItemEngine',
         requestData,
         requestMetadata,
-        requestClass: thisProto.SetItemPointRequest,
+        requestClass: thisProto.SetItemEngineRequest,
         responseClass: googleProtobuf001.Empty
       });
     }
@@ -3248,18 +3248,18 @@ export class ItemsClient {
   }
 
   /**
-   * Unary call @/goautowp.Items/SetItemPoint
+   * Unary call @/goautowp.Items/SetItemEngine
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
    * @returns Observable<googleProtobuf001.Empty>
    */
-  setItemPoint(
-    requestData: thisProto.SetItemPointRequest,
+  setItemEngine(
+    requestData: thisProto.SetItemEngineRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
-      .setItemPoint(requestData, requestMetadata)
+      .setItemEngine(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

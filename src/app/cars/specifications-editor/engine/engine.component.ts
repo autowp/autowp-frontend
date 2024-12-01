@@ -1,11 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, SetItemEngineRequest} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
 import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, Observable, of} from 'rxjs';
@@ -22,7 +21,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
 export class CarsSpecificationsEditorEngineComponent {
   private readonly acl = inject(ACLService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly api = inject(APIService);
   private readonly toastService = inject(ToastsService);
   private readonly languageService = inject(LanguageService);
 
@@ -54,13 +52,15 @@ export class CarsSpecificationsEditorEngineComponent {
   );
   protected loading = 0;
 
-  private setEngineID(item: APIItem, value: string) {
-    this.api
-      .request$<void>('PUT', 'item/' + item.id, {
-        body: {
-          engine_id: value,
-        },
-      })
+  private setEngineID(item: APIItem, value: string, inherited: boolean) {
+    this.itemsClient
+      .setItemEngine(
+        new SetItemEngineRequest({
+          itemId: '' + item.id,
+          engineItemId: value,
+          engineInherited: inherited,
+        }),
+      )
       .subscribe({
         error: (response: unknown) => this.toastService.handleError(response),
         next: () => this.changed.emit(),
@@ -68,10 +68,10 @@ export class CarsSpecificationsEditorEngineComponent {
   }
 
   protected inheritEngine(item: APIItem) {
-    this.setEngineID(item, 'inherited');
+    this.setEngineID(item, '0', true);
   }
 
   protected cancelInheritance(item: APIItem) {
-    this.setEngineID(item, '');
+    this.setEngineID(item, '0', false);
   }
 }

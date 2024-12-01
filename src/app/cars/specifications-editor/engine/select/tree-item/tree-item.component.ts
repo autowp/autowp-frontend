@@ -14,7 +14,7 @@ export class CarsSelectEngineTreeItemComponent {
   private readonly toastService = inject(ToastsService);
 
   @Input() item?: APIItemParent;
-  @Output() selected = new EventEmitter<number>();
+  @Output() selected = new EventEmitter<string>();
 
   protected open = false;
   protected loading = false;
@@ -44,7 +44,7 @@ export class CarsSelectEngineTreeItemComponent {
     }
   }
 
-  protected selectEngine(engineId: number) {
+  protected selectEngine(engineId: string) {
     this.selected.emit(engineId);
     return false;
   }

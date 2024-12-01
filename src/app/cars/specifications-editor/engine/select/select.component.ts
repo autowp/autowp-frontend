@@ -11,9 +11,9 @@ import {
   ItemType,
   ListItemsRequest,
   Pages,
+  SetItemEngineRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIService} from '@services/api.service';
 import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -32,7 +32,6 @@ import {CarsSelectEngineTreeItemComponent} from './tree-item/tree-item.component
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {
-  private readonly api = inject(APIService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -45,7 +44,7 @@ export class CarsEngineSelectComponent {
   private readonly search$ = new BehaviorSubject<string>('');
 
   protected readonly itemID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('item_id') ?? '', 10)),
+    map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -68,7 +67,7 @@ export class CarsEngineSelectComponent {
       this.itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameText: true}),
-          id: '' + itemID,
+          id: itemID,
           language: this.languageService.language,
         }),
       ),
@@ -135,13 +134,15 @@ export class CarsEngineSelectComponent {
     this.search$.next(this.search);
   }
 
-  protected selectEngine(itemID: number, engineId: number) {
-    this.api
-      .request$<void>('PUT', 'item/' + itemID, {
-        body: {
-          engine_id: engineId,
-        },
-      })
+  protected selectEngine(itemID: string, engineId: string) {
+    this.itemsClient
+      .setItemEngine(
+        new SetItemEngineRequest({
+          itemId: itemID,
+          engineItemId: engineId,
+          engineInherited: false,
+        }),
+      )
       .pipe(
         catchError((response: unknown) => {
           this.toastService.handleError(response);
