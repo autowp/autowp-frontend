@@ -11,17 +11,17 @@
 </div>
 
 @if (items$ | async; as items) {
-  @for (line of items; track line) {
-    <div>
+  @for (line of items.lines; track line) {
+    <div class="mb-3">
       @if (line) {
         <div>
           <div class="btn-group">
-            @for (info of line; track info.id) {
+            @for (info of line.characters; track info.id) {
               <a
                 class="btn btn-secondary"
                 [href]="'#char' + info.id"
                 (click)="scrollTo(info)"
-                [textContent]="info.char"
+                [textContent]="info.character"
               ></a>
             }
           </div>
@@ -30,13 +30,13 @@
     </div>
   }
 
-  @for (line of items; track line) {
+  @for (line of items.lines; track line) {
     <div>
-      @for (info of line; track info) {
+      @for (info of line.characters; track info) {
         <div>
-          <h2 [id]="'char' + info.id">→ {{ info.char }}</h2>
+          <h2 [id]="'char' + info.id">→ {{ info.character }}</h2>
           <div class="brand-icons row">
-            @for (brand of info.brands; track brand.id) {
+            @for (brand of info.items; track brand.id) {
               <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                 @if (icons$ | async; as icons) {
                   <app-brands-item [brand]="brand" [icons]="icons"></app-brands-item>

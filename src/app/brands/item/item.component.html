@@ -25,22 +25,20 @@
   ></a>
   <h4>
     <a [routerLink]="['/', brand.catname]" [textContent]="brand.name"></a>
-    <small
-      >({{ brand.totalCars - brand.newCars }}
-      @if (brand.newCars > 0) {
-        <span
-          [ngbPopover]="popover"
-          triggers="mouseenter:mouseleave"
-          popoverTitle="New {{ brand.name }} vehicles"
-          [textContent]="'+' + brand.newCars"
-          i18n-popoverTitle
-        ></span>
-      }
-      )</small
-    >
+    <small class="badge bg-secondary-subtle text-secondary-emphasis">
+      {{ brand.itemsCount - brand.newItemsCount
+      }}<span
+        *ngIf="brand.newItemsCount > 0"
+        [ngbPopover]="popover"
+        triggers="mouseenter:mouseleave"
+        popoverTitle="New {{ brand.name }} vehicles"
+        i18n-popoverTitle
+        >+{{ brand.newItemsCount }}</span
+      >
+    </small>
   </h4>
   <p>
-    <small><ng-container i18n>pictures:</ng-container> {{ brand.totalPictures }}</small>
+    <small><ng-container i18n>pictures:</ng-container> {{ brand.acceptedPicturesCount }}</small>
   </p>
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

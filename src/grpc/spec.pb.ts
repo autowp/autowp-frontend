@@ -17046,6 +17046,895 @@ export module GetTopBrandsListRequest {
 }
 
 /**
+ * Message implementation for goautowp.GetBrandsRequest
+ */
+export class GetBrandsRequest implements GrpcMessage {
+  static id = 'goautowp.GetBrandsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetBrandsRequest();
+    GetBrandsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetBrandsRequest) {
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetBrandsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetBrandsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetBrandsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.language) {
+      _writer.writeString(1, _instance.language);
+    }
+  }
+
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetBrandsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetBrandsRequest.AsObject>) {
+    _value = _value || {};
+    this.language = _value.language;
+    GetBrandsRequest.refineValues(this);
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetBrandsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetBrandsRequest.AsObject {
+    return {
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetBrandsRequest.AsProtobufJSON {
+    return {
+      language: this.language
+    };
+  }
+}
+export module GetBrandsRequest {
+  /**
+   * Standard JavaScript object representation for GetBrandsRequest
+   */
+  export interface AsObject {
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for GetBrandsRequest
+   */
+  export interface AsProtobufJSON {
+    language: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIBrandsListItem
+ */
+export class APIBrandsListItem implements GrpcMessage {
+  static id = 'goautowp.APIBrandsListItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIBrandsListItem();
+    APIBrandsListItem.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIBrandsListItem) {
+    _instance.id = _instance.id || '0';
+    _instance.catname = _instance.catname || '';
+    _instance.name = _instance.name || '';
+    _instance.itemsCount = _instance.itemsCount || 0;
+    _instance.newItemsCount = _instance.newItemsCount || 0;
+    _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIBrandsListItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.catname = _reader.readString();
+          break;
+        case 3:
+          _instance.name = _reader.readString();
+          break;
+        case 4:
+          _instance.itemsCount = _reader.readInt32();
+          break;
+        case 5:
+          _instance.newItemsCount = _reader.readInt32();
+          break;
+        case 6:
+          _instance.acceptedPicturesCount = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIBrandsListItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIBrandsListItem,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.catname) {
+      _writer.writeString(2, _instance.catname);
+    }
+    if (_instance.name) {
+      _writer.writeString(3, _instance.name);
+    }
+    if (_instance.itemsCount) {
+      _writer.writeInt32(4, _instance.itemsCount);
+    }
+    if (_instance.newItemsCount) {
+      _writer.writeInt32(5, _instance.newItemsCount);
+    }
+    if (_instance.acceptedPicturesCount) {
+      _writer.writeInt32(6, _instance.acceptedPicturesCount);
+    }
+  }
+
+  private _id: string;
+  private _catname: string;
+  private _name: string;
+  private _itemsCount: number;
+  private _newItemsCount: number;
+  private _acceptedPicturesCount: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIBrandsListItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIBrandsListItem.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.catname = _value.catname;
+    this.name = _value.name;
+    this.itemsCount = _value.itemsCount;
+    this.newItemsCount = _value.newItemsCount;
+    this.acceptedPicturesCount = _value.acceptedPicturesCount;
+    APIBrandsListItem.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get itemsCount(): number {
+    return this._itemsCount;
+  }
+  set itemsCount(value: number) {
+    this._itemsCount = value;
+  }
+  get newItemsCount(): number {
+    return this._newItemsCount;
+  }
+  set newItemsCount(value: number) {
+    this._newItemsCount = value;
+  }
+  get acceptedPicturesCount(): number {
+    return this._acceptedPicturesCount;
+  }
+  set acceptedPicturesCount(value: number) {
+    this._acceptedPicturesCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIBrandsListItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIBrandsListItem.AsObject {
+    return {
+      id: this.id,
+      catname: this.catname,
+      name: this.name,
+      itemsCount: this.itemsCount,
+      newItemsCount: this.newItemsCount,
+      acceptedPicturesCount: this.acceptedPicturesCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIBrandsListItem.AsProtobufJSON {
+    return {
+      id: this.id,
+      catname: this.catname,
+      name: this.name,
+      itemsCount: this.itemsCount,
+      newItemsCount: this.newItemsCount,
+      acceptedPicturesCount: this.acceptedPicturesCount
+    };
+  }
+}
+export module APIBrandsListItem {
+  /**
+   * Standard JavaScript object representation for APIBrandsListItem
+   */
+  export interface AsObject {
+    id: string;
+    catname: string;
+    name: string;
+    itemsCount: number;
+    newItemsCount: number;
+    acceptedPicturesCount: number;
+  }
+
+  /**
+   * Protobuf JSON representation for APIBrandsListItem
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    catname: string;
+    name: string;
+    itemsCount: number;
+    newItemsCount: number;
+    acceptedPicturesCount: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIBrandsListCharacter
+ */
+export class APIBrandsListCharacter implements GrpcMessage {
+  static id = 'goautowp.APIBrandsListCharacter';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIBrandsListCharacter();
+    APIBrandsListCharacter.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIBrandsListCharacter) {
+    _instance.character = _instance.character || '';
+    _instance.id = _instance.id || '';
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIBrandsListCharacter,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.character = _reader.readString();
+          break;
+        case 2:
+          _instance.id = _reader.readString();
+          break;
+        case 3:
+          const messageInitializer3 = new APIBrandsListItem();
+          _reader.readMessage(
+            messageInitializer3,
+            APIBrandsListItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer3);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIBrandsListCharacter.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIBrandsListCharacter,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.character) {
+      _writer.writeString(1, _instance.character);
+    }
+    if (_instance.id) {
+      _writer.writeString(2, _instance.id);
+    }
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        3,
+        _instance.items as any,
+        APIBrandsListItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _character: string;
+  private _id: string;
+  private _items?: APIBrandsListItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIBrandsListCharacter to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIBrandsListCharacter.AsObject>) {
+    _value = _value || {};
+    this.character = _value.character;
+    this.id = _value.id;
+    this.items = (_value.items || []).map(m => new APIBrandsListItem(m));
+    APIBrandsListCharacter.refineValues(this);
+  }
+  get character(): string {
+    return this._character;
+  }
+  set character(value: string) {
+    this._character = value;
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get items(): APIBrandsListItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APIBrandsListItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIBrandsListCharacter.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIBrandsListCharacter.AsObject {
+    return {
+      character: this.character,
+      id: this.id,
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIBrandsListCharacter.AsProtobufJSON {
+    return {
+      character: this.character,
+      id: this.id,
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIBrandsListCharacter {
+  /**
+   * Standard JavaScript object representation for APIBrandsListCharacter
+   */
+  export interface AsObject {
+    character: string;
+    id: string;
+    items?: APIBrandsListItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIBrandsListCharacter
+   */
+  export interface AsProtobufJSON {
+    character: string;
+    id: string;
+    items: APIBrandsListItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIBrandsListLine
+ */
+export class APIBrandsListLine implements GrpcMessage {
+  static id = 'goautowp.APIBrandsListLine';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIBrandsListLine();
+    APIBrandsListLine.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIBrandsListLine) {
+    _instance.category = _instance.category || 0;
+    _instance.characters = _instance.characters || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIBrandsListLine,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.category = _reader.readEnum();
+          break;
+        case 2:
+          const messageInitializer2 = new APIBrandsListCharacter();
+          _reader.readMessage(
+            messageInitializer2,
+            APIBrandsListCharacter.deserializeBinaryFromReader
+          );
+          (_instance.characters = _instance.characters || []).push(
+            messageInitializer2
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIBrandsListLine.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIBrandsListLine,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.category) {
+      _writer.writeEnum(1, _instance.category);
+    }
+    if (_instance.characters && _instance.characters.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.characters as any,
+        APIBrandsListCharacter.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _category: APIBrandsListLine.Category;
+  private _characters?: APIBrandsListCharacter[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIBrandsListLine to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIBrandsListLine.AsObject>) {
+    _value = _value || {};
+    this.category = _value.category;
+    this.characters = (_value.characters || []).map(
+      m => new APIBrandsListCharacter(m)
+    );
+    APIBrandsListLine.refineValues(this);
+  }
+  get category(): APIBrandsListLine.Category {
+    return this._category;
+  }
+  set category(value: APIBrandsListLine.Category) {
+    this._category = value;
+  }
+  get characters(): APIBrandsListCharacter[] | undefined {
+    return this._characters;
+  }
+  set characters(value: APIBrandsListCharacter[] | undefined) {
+    this._characters = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIBrandsListLine.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIBrandsListLine.AsObject {
+    return {
+      category: this.category,
+      characters: (this.characters || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIBrandsListLine.AsProtobufJSON {
+    return {
+      category:
+        APIBrandsListLine.Category[
+          this.category === null || this.category === undefined
+            ? 0
+            : this.category
+        ],
+      characters: (this.characters || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIBrandsListLine {
+  /**
+   * Standard JavaScript object representation for APIBrandsListLine
+   */
+  export interface AsObject {
+    category: APIBrandsListLine.Category;
+    characters?: APIBrandsListCharacter.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIBrandsListLine
+   */
+  export interface AsProtobufJSON {
+    category: string;
+    characters: APIBrandsListCharacter.AsProtobufJSON[] | null;
+  }
+  export enum Category {
+    DEFAULT = 0,
+    NUMBER = 1,
+    CYRILLIC = 2,
+    LATIN = 3
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIBrandsList
+ */
+export class APIBrandsList implements GrpcMessage {
+  static id = 'goautowp.APIBrandsList';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIBrandsList();
+    APIBrandsList.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIBrandsList) {
+    _instance.lines = _instance.lines || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIBrandsList,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIBrandsListLine();
+          _reader.readMessage(
+            messageInitializer1,
+            APIBrandsListLine.deserializeBinaryFromReader
+          );
+          (_instance.lines = _instance.lines || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIBrandsList.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIBrandsList,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.lines && _instance.lines.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.lines as any,
+        APIBrandsListLine.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _lines?: APIBrandsListLine[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIBrandsList to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIBrandsList.AsObject>) {
+    _value = _value || {};
+    this.lines = (_value.lines || []).map(m => new APIBrandsListLine(m));
+    APIBrandsList.refineValues(this);
+  }
+  get lines(): APIBrandsListLine[] | undefined {
+    return this._lines;
+  }
+  set lines(value: APIBrandsListLine[] | undefined) {
+    this._lines = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIBrandsList.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIBrandsList.AsObject {
+    return {
+      lines: (this.lines || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIBrandsList.AsProtobufJSON {
+    return {
+      lines: (this.lines || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIBrandsList {
+  /**
+   * Standard JavaScript object representation for APIBrandsList
+   */
+  export interface AsObject {
+    lines?: APIBrandsListLine.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIBrandsList
+   */
+  export interface AsProtobufJSON {
+    lines: APIBrandsListLine.AsProtobufJSON[] | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.APITopBrandsList
  */
 export class APITopBrandsList implements GrpcMessage {
