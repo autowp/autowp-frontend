@@ -2054,6 +2054,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/GetBrandSections
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIBrandSections>>
+     */
+    getBrandSections: (
+      requestData: thisProto.GetBrandSectionsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIBrandSections>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetBrandSections',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetBrandSectionsRequest,
+        responseClass: thisProto.APIBrandSections
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/GetTopBrandsList
      *
      * @param requestMessage Request message
@@ -2769,6 +2790,22 @@ export class ItemsClient {
   ): Observable<thisProto.APIBrandsList> {
     return this.$raw
       .getBrands(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetBrandSections
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIBrandSections>
+   */
+  getBrandSections(
+    requestData: thisProto.GetBrandSectionsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIBrandSections> {
+    return this.$raw
+      .getBrandSections(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

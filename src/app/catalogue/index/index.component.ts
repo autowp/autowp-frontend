@@ -5,6 +5,7 @@ import {
   APIGetItemLinksRequest,
   APIItem,
   APIItemLink,
+  GetBrandSectionsRequest,
   ItemFields,
   ItemListOptions,
   ItemType,
@@ -12,7 +13,6 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
 import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -29,12 +29,6 @@ import {CatalogueService} from '../catalogue-service';
 
 interface APIBrandSectionGroup {
   count: number;
-  name: string;
-  routerLink: string[];
-}
-
-interface APIBrandSection {
-  groups: APIBrandSectionGroup[];
   name: string;
   routerLink: string[];
 }
@@ -56,7 +50,6 @@ export class CatalogueIndexComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly pictureService = inject(PictureService);
   private readonly acl = inject(ACLService);
-  private readonly api = inject(APIService);
   private readonly router = inject(Router);
   private readonly catalogue = inject(CatalogueService);
   private readonly itemsClient = inject(ItemsClient);
@@ -191,10 +184,17 @@ export class CatalogueIndexComponent {
   protected readonly sections$: Observable<
     {halfChunks: APIBrandSectionGroup[][][]; name: string; routerLink: string[]}[]
   > = this.brand$.pipe(
-    switchMap((brand) => this.api.request$<APIBrandSection[]>('GET', 'brands/' + brand.id + '/sections')),
+    switchMap((brand) =>
+      this.itemsClient.getBrandSections(
+        new GetBrandSectionsRequest({
+          itemId: brand.id,
+          language: this.languageService.language,
+        }),
+      ),
+    ),
     map((response) =>
-      response.map((section) => ({
-        halfChunks: chunk(section.groups, 2).map((halfChunk) => chunk(halfChunk, 2)),
+      (response.sections || []).map((section) => ({
+        halfChunks: chunk(section.groups || [], 2).map((halfChunk) => chunk(halfChunk, 2)),
         name: getCatalogueSectionsTranslation(section.name),
         routerLink: section.routerLink,
       })),
