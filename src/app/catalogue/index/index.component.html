@@ -128,7 +128,7 @@
               </div>
             }
           </div>
-          @if (section.routerLink && section.name) {
+          @if (section.routerLink.length > 0 && section.name) {
             <a [routerLink]="section.routerLink" i18n>details</a>
           }
         </div>
