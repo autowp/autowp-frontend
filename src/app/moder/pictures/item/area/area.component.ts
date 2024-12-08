@@ -1,10 +1,9 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {SetPictureItemAreaRequest} from '@grpc/spec.pb';
+import {GetPictureItemRequest, SetPictureItemAreaRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
-import {PictureItemService} from '@services/picture-item';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
@@ -26,7 +25,6 @@ interface Crop {
   templateUrl: './area.component.html',
 })
 export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
-  private readonly pictureItemService = inject(PictureItemService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly pictureService = inject(PictureService);
@@ -35,7 +33,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastsService);
 
   private id: number = 0;
-  private itemID: number = 0;
+  private itemID: string = '';
   private type: number = 0;
   private sub?: Subscription;
   protected aspect = '';
@@ -78,7 +76,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         switchMap((picture) =>
           this.route.queryParamMap.pipe(
             map((params) => ({
-              item_id: parseInt(params.get('item_id') ?? '', 10),
+              item_id: params.get('item_id') || '',
               type: parseInt(params.get('type') ?? '', 10),
             })),
             distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
@@ -90,10 +88,14 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           this.itemID = data.params.item_id;
           this.type = data.params.type;
         }),
-        switchMap((data) =>
-          this.pictureItemService.get$(data.picture.id, data.params.item_id, data.params.type, {
-            fields: 'area',
-          }),
+        switchMap(({picture, params}) =>
+          this.picturesClient.getPictureItem(
+            new GetPictureItemRequest({
+              pictureId: '' + picture.id,
+              itemId: params.item_id,
+              type: params.type,
+            }),
+          ),
         ),
         switchMap((data) => this.img$.pipe(map((img) => ({img, pictureItem: data})))),
       )
@@ -104,8 +106,6 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           });
         },
         next: (data) => {
-          const area = data.pictureItem.area;
-
           if (data.img && this.picture) {
             const body = data.img.parentElement;
             if (!body) {
@@ -113,12 +113,12 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             }
 
             this.jcrop = null;
-            if (area) {
+            if (data.pictureItem.cropHeight > 0 && data.pictureItem.cropWidth > 0) {
               this.currentCrop = {
-                h: area.height,
-                w: area.width,
-                x: area.left,
-                y: area.top,
+                h: data.pictureItem.cropHeight,
+                w: data.pictureItem.cropWidth,
+                x: data.pictureItem.cropLeft,
+                y: data.pictureItem.cropTop,
               };
             } else {
               this.currentCrop = {
@@ -192,7 +192,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             cropLeft: Math.round(this.currentCrop.x),
             cropTop: Math.round(this.currentCrop.y),
             cropWidth: Math.round(this.currentCrop.w),
-            itemId: '' + this.itemID,
+            itemId: this.itemID,
             pictureId: '' + this.id,
             type: this.type,
           }),

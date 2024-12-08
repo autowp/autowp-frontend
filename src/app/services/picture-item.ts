@@ -5,10 +5,6 @@ import {APIService} from './api.service';
 import {APIItem} from './item';
 import {APIPicture} from './picture';
 
-export interface APIPictureItemGetOptions {
-  fields: string;
-}
-
 export interface APIPictureItemsGetOptions {
   fields: string;
   item_id: number;
@@ -40,25 +36,6 @@ export interface APIPictureItem {
 })
 export class PictureItemService {
   private readonly api = inject(APIService);
-
-  public get$(
-    pictureId: number,
-    itemId: number,
-    type: number,
-    options: APIPictureItemGetOptions,
-  ): Observable<APIPictureItem> {
-    const params: {[param: string]: string} = {};
-
-    if (options.fields) {
-      params['fields'] = options.fields;
-    }
-
-    const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
-
-    return this.api.request$<APIPictureItem>('GET', url, {
-      params,
-    });
-  }
 
   public getItems$(options: APIPictureItemsGetOptions): Observable<APIPictureItemsGetResponse> {
     const params: {[param: string]: string} = {};
