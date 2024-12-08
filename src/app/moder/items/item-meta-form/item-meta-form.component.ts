@@ -9,11 +9,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
+import {ItemType, PictureItem, Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import type {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
-import {APIPictureItem} from '@services/picture-item';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {InvalidParamsPipe} from '@utils/invalid-params.pipe';
@@ -25,6 +24,7 @@ import {sprintf} from 'sprintf-js';
 
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {MapPointComponent} from './map-point/map-point.component';
+import {APIPicture, PictureService} from '@services/picture';
 
 function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];
@@ -70,7 +70,7 @@ export interface ItemMetaFormResult {
     end_year_fraction: string;
   };
   name: string;
-  pictures: number[];
+  pictures: string[];
   point: {
     lat: number;
     lng: number;
@@ -84,8 +84,9 @@ export interface ItemMetaFormResult {
 }
 
 interface PicturesListItem {
-  pictureItem: APIPictureItem;
+  pictureItem: PictureItem;
   selected: boolean;
+  picture$: Observable<APIPicture>;
 }
 
 interface Form {
@@ -111,7 +112,7 @@ interface Form {
     end_year_fraction: FormControl<null | string>;
   }>;
   name: FormControl<null | string>;
-  pictures?: FormArray<FormControl<number>>;
+  pictures?: FormArray<FormControl<string>>;
   point?: FormControl<{
     lat: number;
     lng: number;
@@ -147,6 +148,7 @@ export class ItemMetaFormComponent {
   private readonly vehicleTypeService = inject(VehicleTypeService);
   private readonly languageService = inject(LanguageService);
   private readonly modalService = inject(NgbModal);
+  private readonly pictureService = inject(PictureService);
 
   @Input() submitNotify: () => void = () => {};
   @Input() invalidParams?: InvalidParams;
@@ -177,11 +179,12 @@ export class ItemMetaFormComponent {
   }
   protected readonly items$ = new BehaviorSubject<APIItem[] | null>(null);
 
-  @Input() set pictures(pictures: APIPictureItem[]) {
+  @Input() set pictures(pictures: PictureItem[]) {
     this.pictures$.next(
       pictures
         ? pictures.map((p) => ({
             pictureItem: p,
+            picture$: this.pictureService.getPicture$(+p.pictureId, {fields: 'thumb_medium,name_text'}),
             selected: false,
           }))
         : null,
@@ -368,7 +371,7 @@ export class ItemMetaFormComponent {
         elements.items = new FormArray<FormControl<string>>([], {validators: Validators.required});
       }
       if (pictures) {
-        elements.pictures = new FormArray<FormControl<number>>([], {validators: Validators.required});
+        elements.pictures = new FormArray<FormControl<string>>([], {validators: Validators.required});
       }
       return new FormGroup<Form>(elements);
     }),
@@ -431,14 +434,15 @@ export class ItemMetaFormComponent {
     }
   }
 
-  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<number>>) {
+  protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<string>>) {
     e.selected = !e.selected;
+    console.log('e.selected', e.selected);
     if (e.selected) {
-      ctrl.push(new FormControl<number>({disabled: false, value: e.pictureItem.picture_id}, {nonNullable: true}));
+      ctrl.push(new FormControl<string>({disabled: false, value: e.pictureItem.pictureId}, {nonNullable: true}));
     } else {
       let i = 0;
       ctrl.controls.forEach((item) => {
-        if (item.value == e.pictureItem.picture_id) {
+        if (item.value == e.pictureItem.pictureId) {
           ctrl.removeAt(i);
           return;
         }

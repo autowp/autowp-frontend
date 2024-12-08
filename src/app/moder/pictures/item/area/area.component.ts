@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {GetPictureItemRequest, SetPictureItemAreaRequest} from '@grpc/spec.pb';
+import {GetPictureItemsRequest, SetPictureItemAreaRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
@@ -90,7 +90,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         }),
         switchMap(({picture, params}) =>
           this.picturesClient.getPictureItem(
-            new GetPictureItemRequest({
+            new GetPictureItemsRequest({
               pictureId: '' + picture.id,
               itemId: params.item_id,
               type: params.type,

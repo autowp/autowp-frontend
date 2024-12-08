@@ -2,12 +2,18 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, ItemParent, ItemType, SetPictureItemItemIDRequest} from '@grpc/spec.pb';
+import {
+  APIGetItemVehicleTypesRequest,
+  GetPictureItemsRequest,
+  ItemParent,
+  ItemType,
+  PictureItem,
+  SetPictureItemItemIDRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPictureItem, PictureItemService} from '@services/picture-item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY, forkJoin, Observable, of} from 'rxjs';
@@ -26,7 +32,6 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   private readonly itemService = inject(ItemService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureItemService = inject(PictureItemService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly picturesClient = inject(PicturesClient);
@@ -41,16 +46,15 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly pictures$: Observable<APIPictureItem[]> = this.itemID$.pipe(
+  protected readonly pictures$: Observable<PictureItem[]> = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.pictureItemService.getItems$({
-        fields: 'picture.thumb_medium,picture.name_text',
-        item_id: itemID,
-        limit: 500,
-        order: 'status',
-      }),
+      this.picturesClient.getPictureItems(
+        new GetPictureItemsRequest({
+          itemId: '' + itemID,
+        }),
+      ),
     ),
-    map((response) => response.items),
+    map((response) => response.items || []),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
@@ -121,7 +125,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     }, 0);
   }
 
-  protected submit(item: APIItem, event: ItemMetaFormResult, pictures: APIPictureItem[]) {
+  protected submit(item: APIItem, event: ItemMetaFormResult, pictures: PictureItem[]) {
     this.loading++;
 
     const data = {
@@ -183,14 +187,14 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
           promises.push(
             ...pictures
-              .filter((p) => event.pictures.includes(p.picture_id))
+              .filter((p) => event.pictures.includes(p.pictureId))
               .map((picture) =>
                 this.picturesClient
                   .setPictureItemItemID(
                     new SetPictureItemItemIDRequest({
-                      itemId: '' + picture.item_id,
+                      itemId: picture.itemId,
                       newItemId: '' + newItem.id,
-                      pictureId: '' + picture.picture_id,
+                      pictureId: picture.pictureId,
                       type: picture.type,
                     }),
                   )

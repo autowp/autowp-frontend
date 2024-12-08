@@ -4234,7 +4234,7 @@ export class PicturesClient {
      * @returns Observable<GrpcEvent<thisProto.PictureItem>>
      */
     getPictureItem: (
-      requestData: thisProto.GetPictureItemRequest,
+      requestData: thisProto.GetPictureItemsRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.PictureItem>> => {
       return this.handler.handle({
@@ -4243,8 +4243,29 @@ export class PicturesClient {
         path: '/goautowp.Pictures/GetPictureItem',
         requestData,
         requestMetadata,
-        requestClass: thisProto.GetPictureItemRequest,
+        requestClass: thisProto.GetPictureItemsRequest,
         responseClass: thisProto.PictureItem
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/GetPictureItems
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.PictureItems>>
+     */
+    getPictureItems: (
+      requestData: thisProto.GetPictureItemsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.PictureItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetPictureItems',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetPictureItemsRequest,
+        responseClass: thisProto.PictureItems
       });
     },
     /**
@@ -4709,11 +4730,27 @@ export class PicturesClient {
    * @returns Observable<thisProto.PictureItem>
    */
   getPictureItem(
-    requestData: thisProto.GetPictureItemRequest,
+    requestData: thisProto.GetPictureItemsRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.PictureItem> {
     return this.$raw
       .getPictureItem(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetPictureItems
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.PictureItems>
+   */
+  getPictureItems(
+    requestData: thisProto.GetPictureItemsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.PictureItems> {
+    return this.$raw
+      .getPictureItems(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

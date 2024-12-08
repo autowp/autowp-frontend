@@ -22,7 +22,6 @@ import {MessageService} from '@services/message';
 import {PageService} from '@services/page';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
-import {PictureItemService} from '@services/picture-item';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {ReCaptchaService} from '@services/recaptcha';
 import {SpecService} from '@services/spec';
@@ -117,7 +116,6 @@ export const appConfig: ApplicationConfig = {
     PictureModerVoteService,
     VehicleTypeService,
     SpecService,
-    PictureItemService,
     ContactsService,
     PageEnvService,
     ContentLanguageService,
