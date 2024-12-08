@@ -1,6 +1,7 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ItemType} from '@grpc/spec.pb';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {ItemParentService} from '@services/item-parent';
+import type {APIItemParent} from '@services/item-parent';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
 

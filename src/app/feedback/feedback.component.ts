@@ -69,7 +69,7 @@ export class FeedbackComponent implements OnInit {
             const fieldViolations = extractFieldViolations(response);
             this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
 
-            if (this.invalidParams.captcha) {
+            if (this.invalidParams['captcha']) {
               if (!this.form.get(CAPTCHA)) {
                 const control = this.fb.control('', Validators.required);
                 this.form.addControl(CAPTCHA, control);

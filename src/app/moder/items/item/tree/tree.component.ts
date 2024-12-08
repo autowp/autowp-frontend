@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {APIItemTreeItem} from '../item.component';
+import type {APIItemTreeItem} from '../item.component';
 
 @Component({
   imports: [RouterLink],

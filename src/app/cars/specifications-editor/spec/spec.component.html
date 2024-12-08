@@ -1,12 +1,6 @@
 @if (item$ | async; as item) {
   @if (form$ | async; as form) {
     <form class="spec-editor-form" (submit)="saveSpecs(item, form)">
-      @if (invalidParams.size > 0) {
-        <p class="alert alert-danger">
-          <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
-          <ng-container i18n>Data not saved because of error. Details below</ng-container>
-        </p>
-      }
       <table class="table table-condensed">
         <caption i18n>
           Attributes
@@ -49,10 +43,7 @@
                         class="form-select form-select-sm"
                         [formControl]="control"
                         [multiple]="control.attr.isMultiple"
-                        [class.is-invalid]="
-                          (control.invalid && (control.dirty || !control.untouched)) ||
-                          invalidParams.get(control.attr.id)?.value
-                        "
+                        [class.is-invalid]="control.invalid && (control.dirty || !control.untouched)"
                       >
                         @for (option of control.attr.options$ | async; track option.id) {
                           <option [ngValue]="option.id">{{ option.name }}</option>
@@ -62,10 +53,7 @@
                       <select
                         class="form-select form-select-sm"
                         [formControl]="control"
-                        [class.is-invalid]="
-                          (control.invalid && (control.dirty || !control.untouched)) ||
-                          invalidParams.get(control.attr.id)?.value
-                        "
+                        [class.is-invalid]="control.invalid && (control.dirty || !control.untouched)"
                       >
                         @for (option of control.attr.options$ | async; track option.id) {
                           <option [ngValue]="option.id">{{ option.name }}</option>
@@ -78,10 +66,7 @@
                         [formControl]="control"
                         min="-2147483649"
                         max="2147483648"
-                        [class.is-invalid]="
-                          (control.invalid && (control.dirty || !control.untouched)) ||
-                          invalidParams.get(control.attr.id)?.value
-                        "
+                        [class.is-invalid]="control.invalid && (control.dirty || !control.untouched)"
                       />
                     } @else if (control.attr.typeId === AttrAttributeTypeId.FLOAT) {
                       <input
@@ -91,20 +76,14 @@
                         [step]="control.attr.step"
                         min="-2147483649"
                         max="2147483648"
-                        [class.is-invalid]="
-                          (control.invalid && (control.dirty || !control.untouched)) ||
-                          invalidParams.get(control.attr.id)?.value
-                        "
+                        [class.is-invalid]="control.invalid && (control.dirty || !control.untouched)"
                       />
                     } @else if (control.attr.typeId === AttrAttributeTypeId.STRING) {
                       <input
                         type="text"
                         class="form-control form-control-sm"
                         [formControl]="control"
-                        [class.is-invalid]="
-                          (control.invalid && (control.dirty || !control.untouched)) ||
-                          invalidParams.get(control.attr.id)?.value
-                        "
+                        [class.is-invalid]="control.invalid && (control.dirty || !control.untouched)"
                       />
                     }
                     @if (control.attr.unitId !== '0') {
@@ -113,9 +92,6 @@
                       }}</span>
                     }
                   </div>
-                  @for (message of invalidParams.get(control.attr.id) | invalidParams: 'value'; track message) {
-                    <p class="invalid-feedback d-block">{{ message }}</p>
-                  }
                   @if (control.attr.description) {
                     <small>{{ control.attr.description }}</small>
                   }

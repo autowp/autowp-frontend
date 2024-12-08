@@ -32,7 +32,7 @@ export class PersonsComponent implements OnInit {
   );
 
   protected readonly authors$ = this.route.data.pipe(
-    map((params) => !!params.authors),
+    map((params) => !!params['authors']),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),

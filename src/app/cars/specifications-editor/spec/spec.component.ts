@@ -1,5 +1,4 @@
 import {AsyncPipe, DatePipe, NgStyle} from '@angular/common';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
 import {FormArray, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
@@ -20,7 +19,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
-import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {
   getAttrDescriptionTranslation,
@@ -116,7 +115,6 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected loading = 0;
   private readonly change$ = new BehaviorSubject<void>(void 0);
-  protected readonly invalidParams = new Map<string, InvalidParams>();
 
   protected readonly user$ = this.auth.getUser$();
 
@@ -330,21 +328,10 @@ export class CarsSpecificationsEditorSpecComponent {
     });
 
     this.loading++;
-    this.invalidParams.clear();
 
     this.attrsClient.setUserValues(new AttrSetUserValuesRequest({items})).subscribe({
       error: (response: unknown) => {
-        if (response instanceof HttpErrorResponse && response.status === 400) {
-          this.invalidParams.clear();
-          const ipItems = response.error.invalid_params.items;
-          items.forEach((v, i) => {
-            if (ipItems[i]) {
-              this.invalidParams.set(v.attributeId, ipItems[i]);
-            }
-          });
-        } else {
-          this.toastService.handleError(response);
-        }
+        this.toastService.handleError(response);
         this.loading--;
       },
       next: () => {

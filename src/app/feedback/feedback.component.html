@@ -28,7 +28,8 @@
                   size="80"
                   autocomplete="name"
                   [class.is-invalid]="
-                    (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.name)
+                    (control.invalid && (control.dirty || !control.untouched)) ||
+                    (invalidParams && invalidParams['name'])
                   "
                   class="form-control"
                   placeholder="John"
@@ -52,7 +53,8 @@
                   size="80"
                   autocomplete="email"
                   [class.is-invalid]="
-                    (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.email)
+                    (control.invalid && (control.dirty || !control.untouched)) ||
+                    (invalidParams && invalidParams['email'])
                   "
                   class="form-control"
                   placeholder="john@example.com"
@@ -75,7 +77,8 @@
                   cols="80"
                   rows="8"
                   [class.is-invalid]="
-                    (control.invalid && (control.dirty || control.touched)) || (invalidParams && invalidParams.message)
+                    (control.invalid && (control.dirty || !control.untouched)) ||
+                    (invalidParams && invalidParams['message'])
                   "
                   class="form-control"
                   formControlName="message"

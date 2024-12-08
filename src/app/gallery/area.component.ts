@@ -2,7 +2,7 @@ import {NgStyle} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import {APIGalleryItemArea} from './definitions';
+import type {APIGalleryItemArea} from './definitions';
 
 @Component({
   imports: [NgStyle, NgbTooltip],

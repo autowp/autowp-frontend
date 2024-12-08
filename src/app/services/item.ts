@@ -236,7 +236,7 @@ function convertItemOptions(options: GetItemServiceOptions): {[param: string]: s
   }
 
   if (options.fields) {
-    params.fields = options.fields;
+    params['fields'] = options.fields;
   }
 
   return params;
@@ -247,131 +247,131 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
   const params: {[param: string]: string} = {};
 
   if (options.id) {
-    params.id = options.id.toString();
+    params['id'] = options.id.toString();
   }
 
   if (options.fields) {
-    params.fields = options.fields;
+    params['fields'] = options.fields;
   }
 
   if (options.type_id) {
-    params.type_id = options.type_id.toString();
+    params['type_id'] = options.type_id.toString();
   }
 
   if (options.parent_id) {
-    params.parent_id = options.parent_id.toString();
+    params['parent_id'] = options.parent_id.toString();
   }
 
   if (options.order) {
-    params.order = options.order;
+    params['order'] = options.order;
   }
 
   if (options.limit) {
-    params.limit = options.limit.toString();
+    params['limit'] = options.limit.toString();
   }
 
   if (options.name) {
-    params.name = options.name;
+    params['name'] = options.name;
   }
 
   if (options.name_exclude) {
-    params.name_exclude = options.name_exclude;
+    params['name_exclude'] = options.name_exclude;
   }
 
   if (options.concept !== undefined && options.concept !== null) {
-    params.concept = options.concept ? '1' : '0';
+    params['concept'] = options.concept ? '1' : '0';
   }
 
   if (options.concept_inherit !== undefined && options.concept_inherit !== null) {
-    params.concept_inherit = options.concept_inherit ? '1' : '0';
+    params['concept_inherit'] = options.concept_inherit ? '1' : '0';
   }
 
   if (options.dateless) {
-    params.dateless = '1';
+    params['dateless'] = '1';
   }
 
   if (options.dateful) {
-    params.dateful = '1';
+    params['dateful'] = '1';
   }
 
   if (options.page) {
-    params.page = options.page.toString();
+    params['page'] = options.page.toString();
   }
 
   if (options.name) {
-    params.name = options.name;
+    params['name'] = options.name;
   }
 
   if (options.autocomplete) {
-    params.autocomplete = options.autocomplete;
+    params['autocomplete'] = options.autocomplete;
   }
 
   if (options.vehicle_type_id) {
-    params.vehicle_type_id = options.vehicle_type_id.toString();
+    params['vehicle_type_id'] = options.vehicle_type_id.toString();
   }
 
   if (options.vehicle_childs_type_id) {
-    params.vehicle_childs_type_id = options.vehicle_childs_type_id.toString();
+    params['vehicle_childs_type_id'] = options.vehicle_childs_type_id.toString();
   }
 
   if (options.spec) {
-    params.spec = options.spec.toString();
+    params['spec'] = options.spec.toString();
   }
 
   if (options.no_parent) {
-    params.no_parent = '1';
+    params['no_parent'] = '1';
   }
 
   if (options.text) {
-    params.text = options.text;
+    params['text'] = options.text;
   }
 
   if (options.from_year) {
-    params.from_year = options.from_year.toString();
+    params['from_year'] = options.from_year.toString();
   }
 
   if (options.to_year) {
-    params.to_year = options.to_year.toString();
+    params['to_year'] = options.to_year.toString();
   }
 
   if (options.ancestor_id) {
-    params.ancestor_id = options.ancestor_id.toString();
+    params['ancestor_id'] = options.ancestor_id.toString();
   }
 
   if (options.suggestions_to) {
-    params.suggestions_to = options.suggestions_to.toString();
+    params['suggestions_to'] = options.suggestions_to.toString();
   }
 
   if (options.exclude_self_and_childs) {
-    params.exclude_self_and_childs = options.exclude_self_and_childs.toString();
+    params['exclude_self_and_childs'] = options.exclude_self_and_childs.toString();
   }
 
   if (options.parent_types_of) {
-    params.parent_types_of = options.parent_types_of.toString();
+    params['parent_types_of'] = options.parent_types_of.toString();
   }
 
   if (options.is_group) {
-    params.is_group = '1';
+    params['is_group'] = '1';
   }
 
   if (options.have_common_childs_with) {
-    params.have_common_childs_with = options.have_common_childs_with.toString();
+    params['have_common_childs_with'] = options.have_common_childs_with.toString();
   }
 
   if (options.have_childs_with_parent_of_type) {
-    params.have_childs_with_parent_of_type = options.have_childs_with_parent_of_type.toString();
+    params['have_childs_with_parent_of_type'] = options.have_childs_with_parent_of_type.toString();
   }
 
   if (options.related_groups_of) {
-    params.related_groups_of = options.related_groups_of.toString();
+    params['related_groups_of'] = options.related_groups_of.toString();
   }
 
   if (options.catname) {
-    params.catname = options.catname;
+    params['catname'] = options.catname;
   }
 
   if (options.factories_of_brand) {
-    params.factories_of_brand = options.factories_of_brand.toString();
+    params['factories_of_brand'] = options.factories_of_brand.toString();
   }
 
   if (options.descendant_pictures) {
@@ -412,7 +412,7 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
   }
 
   if (options.route_brand_id) {
-    params.route_brand_id = options.route_brand_id.toString();
+    params['route_brand_id'] = options.route_brand_id.toString();
   }
 
   return params;

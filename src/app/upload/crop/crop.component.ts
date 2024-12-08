@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {APIPicture} from '@services/picture';
+import type {APIPicture} from '@services/picture';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
 // @ts-expect-error Legacy

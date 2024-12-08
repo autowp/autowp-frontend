@@ -75,19 +75,19 @@ export class MostsService {
     const params: {[param: string]: string} = {};
 
     if (options.rating_catname) {
-      params.rating_catname = options.rating_catname;
+      params['rating_catname'] = options.rating_catname;
     }
 
     if (options.type_catname) {
-      params.type_catname = options.type_catname;
+      params['type_catname'] = options.type_catname;
     }
 
     if (options.years_catname) {
-      params.years_catname = options.years_catname;
+      params['years_catname'] = options.years_catname;
     }
 
     if (options.brand_id) {
-      params.brand_id = options.brand_id.toString();
+      params['brand_id'] = options.brand_id.toString();
     }
 
     return this.api.request$<APIMostsItemsGetResponse>('GET', 'mosts/items', {

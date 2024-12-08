@@ -4,7 +4,7 @@ import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
-import {APIItem} from '@services/item';
+import type {APIItem} from '@services/item';
 import {APIPicture} from '@services/picture';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';

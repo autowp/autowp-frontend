@@ -14,7 +14,7 @@ import {
   NgbNavOutlet,
 } from '@ng-bootstrap/ng-bootstrap';
 import {ContentLanguageService} from '@services/content-language';
-import {APIItem} from '@services/item';
+import type {APIItem} from '@services/item';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 

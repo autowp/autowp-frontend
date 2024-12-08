@@ -13,7 +13,7 @@ import {RouterLink} from '@angular/router';
 import {NgMathPipesModule} from 'ngx-pipes';
 
 import {AreaComponent} from './area.component';
-import {APIGalleryItem} from './definitions';
+import type {APIGalleryItem} from './definitions';
 
 interface Dimension {
   height: number;
@@ -86,17 +86,17 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   protected cropLoading = true;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.item) {
+    if (changes['item']) {
       this.cropLoading = true;
       this.fullLoading = true;
-      this.cropMode = !!changes.item.currentValue.crop;
+      this.cropMode = !!changes['item'].currentValue.crop;
       this.fixSize();
 
-      if (!changes.item.currentValue.crop) {
+      if (!changes['item'].currentValue.crop) {
         this.cropLoading = false;
       }
 
-      if (!changes.item.currentValue.full) {
+      if (!changes['item'].currentValue.full) {
         this.fullLoading = false;
       }
     }

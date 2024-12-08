@@ -50,7 +50,7 @@ export class PictureItemService {
     const params: {[param: string]: string} = {};
 
     if (options.fields) {
-      params.fields = options.fields;
+      params['fields'] = options.fields;
     }
 
     const url = 'picture-item/' + pictureId + '/' + itemId + '/' + type;
@@ -64,19 +64,19 @@ export class PictureItemService {
     const params: {[param: string]: string} = {};
 
     if (options.item_id) {
-      params.item_id = options.item_id.toString();
+      params['item_id'] = options.item_id.toString();
     }
 
     if (options.limit) {
-      params.limit = options.limit.toString();
+      params['limit'] = options.limit.toString();
     }
 
     if (options.fields) {
-      params.fields = options.fields;
+      params['fields'] = options.fields;
     }
 
     if (options.order) {
-      params.order = options.order;
+      params['order'] = options.order;
     }
 
     return this.api.request$<APIPictureItemsGetResponse>('GET', 'picture-item', {

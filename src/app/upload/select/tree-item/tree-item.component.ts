@@ -1,7 +1,8 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {ItemParentService} from '@services/item-parent';
+import type {APIItemParent} from '@services/item-parent';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 

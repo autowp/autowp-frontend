@@ -1,7 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItemChildsCounts} from '@services/item';
-import {ItemHeader, ItemHeaderComponent} from '@utils/item-header/item-header.component';
+import type {APIItemChildsCounts} from '@services/item';
+import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
+import type {ItemHeader} from '@utils/item-header/item-header.component';
 
 @Component({
   imports: [RouterLink, ItemHeaderComponent],

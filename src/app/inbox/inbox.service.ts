@@ -31,7 +31,7 @@ export class InboxService {
       brand_id: brandID ? brandID.toString() : '',
     };
     if (date) {
-      params.date = date;
+      params['date'] = date;
     }
 
     return this.api.request$<APIInbox>('GET', 'inbox', {params});

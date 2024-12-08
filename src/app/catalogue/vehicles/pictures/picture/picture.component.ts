@@ -42,7 +42,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
   );
 
   private readonly exact$ = this.route.data.pipe(
-    map((params) => !!params.exact),
+    map((params) => !!params['exact']),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),

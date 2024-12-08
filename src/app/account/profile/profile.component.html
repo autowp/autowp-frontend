@@ -49,7 +49,7 @@
           name="language"
           id="language"
           class="form-select"
-          [class.is-invalid]="settingsInvalidParams.language"
+          [class.is-invalid]="settingsInvalidParams['language']"
           [(ngModel)]="settings.language"
         >
           @for (language of languages; track language.value) {
@@ -69,7 +69,7 @@
           id="timezone"
           class="form-select"
           [(ngModel)]="settings.timezone"
-          [class.is-invalid]="settingsInvalidParams.timezone"
+          [class.is-invalid]="settingsInvalidParams['timezone']"
         >
           @for (timezone of timezones$ | async; track timezone) {
             <option [value]="timezone">{{ timezone }}</option>

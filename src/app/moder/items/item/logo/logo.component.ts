@@ -4,7 +4,7 @@ import {Component, inject, Input} from '@angular/core';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
+import type {APIItem} from '@services/item';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY} from 'rxjs';

@@ -48,55 +48,55 @@ export class ItemParentService {
     const params: {[param: string]: string} = {};
 
     if (options.item_type_id) {
-      params.item_type_id = options.item_type_id.toString();
+      params['item_type_id'] = options.item_type_id.toString();
     }
 
     if (options.parent_id) {
-      params.parent_id = options.parent_id.toString();
+      params['parent_id'] = options.parent_id.toString();
     }
 
     if (options.fields) {
-      params.fields = options.fields;
+      params['fields'] = options.fields;
     }
 
     if (options.limit) {
-      params.limit = options.limit.toString();
+      params['limit'] = options.limit.toString();
     }
 
     if (options.page) {
-      params.page = options.page.toString();
+      params['page'] = options.page.toString();
     }
 
     if (options.concept) {
-      params.concept = '1';
+      params['concept'] = '1';
     }
 
     if (options.ancestor_id) {
-      params.ancestor_id = options.ancestor_id.toString();
+      params['ancestor_id'] = options.ancestor_id.toString();
     }
 
     if (typeof options.type_id !== 'undefined' && options.type_id !== null) {
-      params.type_id = options.type_id.toString();
+      params['type_id'] = options.type_id.toString();
     }
 
     if (options.order) {
-      params.order = options.order;
+      params['order'] = options.order;
     }
 
     if (typeof options.item_id !== 'undefined' && options.item_id !== null) {
-      params.item_id = options.item_id.toString();
+      params['item_id'] = options.item_id.toString();
     }
 
     if (options.is_group) {
-      params.is_group = '1';
+      params['is_group'] = '1';
     }
 
     if (options.exclude_concept) {
-      params.exclude_concept = '1';
+      params['exclude_concept'] = '1';
     }
 
     if (options.catname) {
-      params.catname = options.catname;
+      params['catname'] = options.catname;
     }
 
     return this.api.request$<APIItemParentGetResponse>('GET', 'item-parent', {

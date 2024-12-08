@@ -16,7 +16,8 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTool
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
-import {APIPicture, PictureService} from '@services/picture';
+import {PictureService} from '@services/picture';
+import type {APIPicture} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';

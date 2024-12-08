@@ -34,19 +34,19 @@ class Gallery {
   public filterParams(): {[key: string]: string} {
     const params: {[key: string]: string} = {};
     if (this.filter.itemID) {
-      params.item_id = this.filter.itemID.toString();
+      params['item_id'] = this.filter.itemID.toString();
     }
     if (this.filter.exactItemID) {
-      params.exact_item_id = this.filter.exactItemID.toString();
+      params['exact_item_id'] = this.filter.exactItemID.toString();
     }
     if (this.filter.exactItemLinkType) {
-      params.exact_item_link_type = this.filter.exactItemLinkType.toString();
+      params['exact_item_link_type'] = this.filter.exactItemLinkType.toString();
     }
     if (this.filter.perspectiveID) {
-      params.perspective_id = this.filter.perspectiveID.toString();
+      params['perspective_id'] = this.filter.perspectiveID.toString();
     }
     if (this.filter.perspectiveExclude) {
-      params.perspective_exclude = this.filter.perspectiveExclude;
+      params['perspective_exclude'] = this.filter.perspectiveExclude;
     }
     return params;
   }
@@ -137,7 +137,7 @@ export class GalleryComponent {
     switchMap(([gallery, identity]) => {
       if (!gallery.getGalleryItem(identity)) {
         const params = gallery.filterParams();
-        params.picture_identity = identity;
+        params['picture_identity'] = identity;
         return this.api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
           tap((response) => {
             gallery.applyResponse(response);
@@ -187,8 +187,8 @@ export class GalleryComponent {
 
   private loadPage$(page: number, gallery: Gallery): Observable<APIGallery> {
     const params = gallery.filterParams();
-    params.status = gallery.status;
-    params.page = page + '';
+    params['status'] = gallery.status;
+    params['page'] = page + '';
     return this.api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
       tap((response) => {
         gallery.applyResponse(response);

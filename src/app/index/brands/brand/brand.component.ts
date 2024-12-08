@@ -1,4 +1,4 @@
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APITopBrandsListItem, NewItemsRequest} from '@grpc/spec.pb';
@@ -9,7 +9,7 @@ import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
-  imports: [RouterLink, NgbPopover, AsyncPipe],
+  imports: [RouterLink, NgbPopover, AsyncPipe, NgIf],
   selector: 'app-index-brands-brand',
   standalone: true,
   styleUrls: ['./brand.component.scss'],

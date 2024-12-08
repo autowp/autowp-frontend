@@ -11,12 +11,13 @@ import {
 } from '@angular/forms';
 import {ItemType, Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {APIItem} from '@services/item';
+import type {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {APIPictureItem} from '@services/picture-item';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
-import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import {InvalidParamsPipe} from '@utils/invalid-params.pipe';
+import type {InvalidParams} from '@utils/invalid-params.pipe';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';

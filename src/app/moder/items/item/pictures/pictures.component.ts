@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ItemType} from '@grpc/spec.pb';
-import {APIItem} from '@services/item';
+import type {APIItem} from '@services/item';
 import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
