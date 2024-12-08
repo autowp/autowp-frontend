@@ -1577,6 +1577,48 @@ export class UsersClient {
         requestClass: thisProto.APIUsersRequest,
         responseClass: thisProto.APIUsersResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Users/GetAccounts
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.APIAccountsResponse>>
+     */
+    getAccounts: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.APIAccountsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/GetAccounts',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.APIAccountsResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Users/DeleteUserAccount
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteUserAccount: (
+      requestData: thisProto.DeleteUserAccountRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/DeleteUserAccount',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteUserAccountRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -1697,6 +1739,38 @@ export class UsersClient {
   ): Observable<thisProto.APIUsersResponse> {
     return this.$raw
       .getUsers(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/GetAccounts
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.APIAccountsResponse>
+   */
+  getAccounts(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.APIAccountsResponse> {
+    return this.$raw
+      .getAccounts(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/DeleteUserAccount
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteUserAccount(
+    requestData: thisProto.DeleteUserAccountRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteUserAccount(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

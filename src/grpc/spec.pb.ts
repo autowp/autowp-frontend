@@ -33980,6 +33980,508 @@ export module APIUsersResponse {
 }
 
 /**
+ * Message implementation for goautowp.APIAccountsResponse
+ */
+export class APIAccountsResponse implements GrpcMessage {
+  static id = 'goautowp.APIAccountsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIAccountsResponse();
+    APIAccountsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIAccountsResponse) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIAccountsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIAccountsAccount();
+          _reader.readMessage(
+            messageInitializer1,
+            APIAccountsAccount.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIAccountsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIAccountsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIAccountsAccount.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIAccountsAccount[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIAccountsResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIAccountsResponse.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIAccountsAccount(m));
+    APIAccountsResponse.refineValues(this);
+  }
+  get items(): APIAccountsAccount[] | undefined {
+    return this._items;
+  }
+  set items(value: APIAccountsAccount[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIAccountsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIAccountsResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIAccountsResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module APIAccountsResponse {
+  /**
+   * Standard JavaScript object representation for APIAccountsResponse
+   */
+  export interface AsObject {
+    items?: APIAccountsAccount.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for APIAccountsResponse
+   */
+  export interface AsProtobufJSON {
+    items: APIAccountsAccount.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.APIAccountsAccount
+ */
+export class APIAccountsAccount implements GrpcMessage {
+  static id = 'goautowp.APIAccountsAccount';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new APIAccountsAccount();
+    APIAccountsAccount.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: APIAccountsAccount) {
+    _instance.canRemove = _instance.canRemove || false;
+    _instance.icon = _instance.icon || '';
+    _instance.id = _instance.id || '0';
+    _instance.link = _instance.link || '';
+    _instance.name = _instance.name || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: APIAccountsAccount,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.canRemove = _reader.readBool();
+          break;
+        case 2:
+          _instance.icon = _reader.readString();
+          break;
+        case 3:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 4:
+          _instance.link = _reader.readString();
+          break;
+        case 5:
+          _instance.name = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    APIAccountsAccount.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: APIAccountsAccount,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.canRemove) {
+      _writer.writeBool(1, _instance.canRemove);
+    }
+    if (_instance.icon) {
+      _writer.writeString(2, _instance.icon);
+    }
+    if (_instance.id) {
+      _writer.writeInt64String(3, _instance.id);
+    }
+    if (_instance.link) {
+      _writer.writeString(4, _instance.link);
+    }
+    if (_instance.name) {
+      _writer.writeString(5, _instance.name);
+    }
+  }
+
+  private _canRemove: boolean;
+  private _icon: string;
+  private _id: string;
+  private _link: string;
+  private _name: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of APIAccountsAccount to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<APIAccountsAccount.AsObject>) {
+    _value = _value || {};
+    this.canRemove = _value.canRemove;
+    this.icon = _value.icon;
+    this.id = _value.id;
+    this.link = _value.link;
+    this.name = _value.name;
+    APIAccountsAccount.refineValues(this);
+  }
+  get canRemove(): boolean {
+    return this._canRemove;
+  }
+  set canRemove(value: boolean) {
+    this._canRemove = value;
+  }
+  get icon(): string {
+    return this._icon;
+  }
+  set icon(value: string) {
+    this._icon = value;
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get link(): string {
+    return this._link;
+  }
+  set link(value: string) {
+    this._link = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    APIAccountsAccount.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): APIAccountsAccount.AsObject {
+    return {
+      canRemove: this.canRemove,
+      icon: this.icon,
+      id: this.id,
+      link: this.link,
+      name: this.name
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): APIAccountsAccount.AsProtobufJSON {
+    return {
+      canRemove: this.canRemove,
+      icon: this.icon,
+      id: this.id,
+      link: this.link,
+      name: this.name
+    };
+  }
+}
+export module APIAccountsAccount {
+  /**
+   * Standard JavaScript object representation for APIAccountsAccount
+   */
+  export interface AsObject {
+    canRemove: boolean;
+    icon: string;
+    id: string;
+    link: string;
+    name: string;
+  }
+
+  /**
+   * Protobuf JSON representation for APIAccountsAccount
+   */
+  export interface AsProtobufJSON {
+    canRemove: boolean;
+    icon: string;
+    id: string;
+    link: string;
+    name: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.DeleteUserAccountRequest
+ */
+export class DeleteUserAccountRequest implements GrpcMessage {
+  static id = 'goautowp.DeleteUserAccountRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new DeleteUserAccountRequest();
+    DeleteUserAccountRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: DeleteUserAccountRequest) {
+    _instance.id = _instance.id || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: DeleteUserAccountRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    DeleteUserAccountRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: DeleteUserAccountRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+  }
+
+  private _id: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of DeleteUserAccountRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<DeleteUserAccountRequest.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    DeleteUserAccountRequest.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    DeleteUserAccountRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): DeleteUserAccountRequest.AsObject {
+    return {
+      id: this.id
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): DeleteUserAccountRequest.AsProtobufJSON {
+    return {
+      id: this.id
+    };
+  }
+}
+export module DeleteUserAccountRequest {
+  /**
+   * Standard JavaScript object representation for DeleteUserAccountRequest
+   */
+  export interface AsObject {
+    id: string;
+  }
+
+  /**
+   * Protobuf JSON representation for DeleteUserAccountRequest
+   */
+  export interface AsProtobufJSON {
+    id: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.APIUsersRatingUserBrand
  */
 export class APIUsersRatingUserBrand implements GrpcMessage {
