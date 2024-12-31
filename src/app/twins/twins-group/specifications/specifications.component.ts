@@ -41,7 +41,11 @@ export class TwinsGroupSpecificationsComponent {
 
   protected readonly html$ = this.id$.pipe(
     switchMap((id) =>
-      id ? this.attrsClient.getChildSpecifications(new GetSpecificationsRequest({itemId: id})) : EMPTY,
+      id
+        ? this.attrsClient.getChildSpecifications(
+            new GetSpecificationsRequest({itemId: id, language: this.languageService.language}),
+          )
+        : EMPTY,
     ),
     // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
     map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),

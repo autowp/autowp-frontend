@@ -5,6 +5,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {DomSanitizer} from '@angular/platform-browser';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [AsyncPipe],
@@ -15,6 +16,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class CarsSpecificationsEditorResultComponent {
   private readonly attrsClient = inject(AttrsClient);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -23,7 +25,11 @@ export class CarsSpecificationsEditorResultComponent {
 
   protected readonly html$ = this.item$.pipe(
     switchMap((item) =>
-      item ? this.attrsClient.getSpecifications(new GetSpecificationsRequest({itemId: item.id})) : EMPTY,
+      item
+        ? this.attrsClient.getSpecifications(
+            new GetSpecificationsRequest({itemId: item.id, language: this.languageService.language}),
+          )
+        : EMPTY,
     ),
     // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
     map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),

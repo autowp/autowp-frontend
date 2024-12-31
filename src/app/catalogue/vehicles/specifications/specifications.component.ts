@@ -9,6 +9,7 @@ import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {CatalogueService} from '../../catalogue-service';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {DomSanitizer} from '@angular/platform-browser';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, AsyncPipe],
@@ -23,6 +24,7 @@ export class CatalogueVehiclesSpecificationsComponent {
   private readonly router = inject(Router);
   private readonly attrsClient = inject(AttrsClient);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly languageService = inject(LanguageService);
 
   private catalogue$ = this.catalogueService.resolveCatalogue$(this.route, 'item.has_specs,item.has_child_specs').pipe(
     switchMap((data) => {
@@ -60,11 +62,15 @@ export class CatalogueVehiclesSpecificationsComponent {
   protected readonly html$ = this.item$.pipe(
     switchMap((item) => {
       if (item.has_child_specs) {
-        return this.attrsClient.getChildSpecifications(new GetSpecificationsRequest({itemId: '' + item.id}));
+        return this.attrsClient.getChildSpecifications(
+          new GetSpecificationsRequest({itemId: '' + item.id, language: this.languageService.language}),
+        );
       }
 
       if (item.has_specs) {
-        return this.attrsClient.getSpecifications(new GetSpecificationsRequest({itemId: '' + item.id}));
+        return this.attrsClient.getSpecifications(
+          new GetSpecificationsRequest({itemId: '' + item.id, language: this.languageService.language}),
+        );
       }
 
       this.router.navigate(['/error-404'], {
