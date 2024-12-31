@@ -1,9 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
-import {APIService} from '@services/api.service';
 import {BehaviorSubject, EMPTY} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
-import {APIItem} from '@grpc/spec.pb';
+import {map, switchMap} from 'rxjs/operators';
+import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
+import {AttrsClient} from '@grpc/spec.pbsc';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   imports: [AsyncPipe],
@@ -12,7 +13,8 @@ import {APIItem} from '@grpc/spec.pb';
   templateUrl: './result.component.html',
 })
 export class CarsSpecificationsEditorResultComponent {
-  private readonly api = inject(APIService);
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly sanitizer = inject(DomSanitizer);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -21,11 +23,9 @@ export class CarsSpecificationsEditorResultComponent {
 
   protected readonly html$ = this.item$.pipe(
     switchMap((item) =>
-      item
-        ? this.api.request$('GET', 'item/' + item.id + '/specifications', {
-            responseType: 'text',
-          })
-        : EMPTY,
+      item ? this.attrsClient.getSpecifications(new GetSpecificationsRequest({itemId: item.id})) : EMPTY,
     ),
+    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
+    map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),
   );
 }

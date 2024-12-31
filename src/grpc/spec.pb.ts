@@ -4597,6 +4597,303 @@ export module AttrConflictsResponse {
 }
 
 /**
+ * Message implementation for goautowp.GetSpecificationsRequest
+ */
+export class GetSpecificationsRequest implements GrpcMessage {
+  static id = 'goautowp.GetSpecificationsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetSpecificationsRequest();
+    GetSpecificationsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetSpecificationsRequest) {
+    _instance.itemId = _instance.itemId || '0';
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetSpecificationsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetSpecificationsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetSpecificationsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.itemId) {
+      _writer.writeInt64String(1, _instance.itemId);
+    }
+    if (_instance.language) {
+      _writer.writeString(2, _instance.language);
+    }
+  }
+
+  private _itemId: string;
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetSpecificationsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetSpecificationsRequest.AsObject>) {
+    _value = _value || {};
+    this.itemId = _value.itemId;
+    this.language = _value.language;
+    GetSpecificationsRequest.refineValues(this);
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetSpecificationsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetSpecificationsRequest.AsObject {
+    return {
+      itemId: this.itemId,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetSpecificationsRequest.AsProtobufJSON {
+    return {
+      itemId: this.itemId,
+      language: this.language
+    };
+  }
+}
+export module GetSpecificationsRequest {
+  /**
+   * Standard JavaScript object representation for GetSpecificationsRequest
+   */
+  export interface AsObject {
+    itemId: string;
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for GetSpecificationsRequest
+   */
+  export interface AsProtobufJSON {
+    itemId: string;
+    language: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetSpecificationsResponse
+ */
+export class GetSpecificationsResponse implements GrpcMessage {
+  static id = 'goautowp.GetSpecificationsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetSpecificationsResponse();
+    GetSpecificationsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetSpecificationsResponse) {
+    _instance.html = _instance.html || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetSpecificationsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.html = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetSpecificationsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetSpecificationsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.html) {
+      _writer.writeString(1, _instance.html);
+    }
+  }
+
+  private _html: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetSpecificationsResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetSpecificationsResponse.AsObject>) {
+    _value = _value || {};
+    this.html = _value.html;
+    GetSpecificationsResponse.refineValues(this);
+  }
+  get html(): string {
+    return this._html;
+  }
+  set html(value: string) {
+    this._html = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetSpecificationsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetSpecificationsResponse.AsObject {
+    return {
+      html: this.html
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetSpecificationsResponse.AsProtobufJSON {
+    return {
+      html: this.html
+    };
+  }
+}
+export module GetSpecificationsResponse {
+  /**
+   * Standard JavaScript object representation for GetSpecificationsResponse
+   */
+  export interface AsObject {
+    html: string;
+  }
+
+  /**
+   * Protobuf JSON representation for GetSpecificationsResponse
+   */
+  export interface AsProtobufJSON {
+    html: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.AttrUserValue
  */
 export class AttrUserValue implements GrpcMessage {

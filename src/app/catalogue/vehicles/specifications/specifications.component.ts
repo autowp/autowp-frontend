@@ -1,13 +1,14 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem} from '@grpc/spec.pb';
-import {APIService} from '@services/api.service';
+import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CatalogueService} from '../../catalogue-service';
+import {AttrsClient} from '@grpc/spec.pbsc';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   imports: [RouterLink, AsyncPipe],
@@ -20,7 +21,8 @@ export class CatalogueVehiclesSpecificationsComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly catalogueService = inject(CatalogueService);
   private readonly router = inject(Router);
-  private readonly api = inject(APIService);
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly sanitizer = inject(DomSanitizer);
 
   private catalogue$ = this.catalogueService.resolveCatalogue$(this.route, 'item.has_specs,item.has_child_specs').pipe(
     switchMap((data) => {
@@ -58,15 +60,11 @@ export class CatalogueVehiclesSpecificationsComponent {
   protected readonly html$ = this.item$.pipe(
     switchMap((item) => {
       if (item.has_child_specs) {
-        return this.api.request$('GET', 'item/' + item.id + '/child-specifications', {
-          responseType: 'text',
-        });
+        return this.attrsClient.getChildSpecifications(new GetSpecificationsRequest({itemId: '' + item.id}));
       }
 
       if (item.has_specs) {
-        return this.api.request$('GET', 'item/' + item.id + '/specifications', {
-          responseType: 'text',
-        });
+        return this.attrsClient.getSpecifications(new GetSpecificationsRequest({itemId: '' + item.id}));
       }
 
       this.router.navigate(['/error-404'], {
@@ -74,5 +72,7 @@ export class CatalogueVehiclesSpecificationsComponent {
       });
       return EMPTY;
     }),
+    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
+    map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),
   );
 }

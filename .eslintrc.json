@@ -25,7 +25,7 @@
         "plugin:depend/recommended",
         "plugin:sonarjs/recommended-legacy"
       ],
-      "plugins": ["rxjs","rxjs-angular", "sonarjs"],
+      "plugins": ["rxjs","rxjs-angular", "sonarjs", "perfectionist"],
       "rules": {
         "@angular-eslint/component-selector": [
           "error",

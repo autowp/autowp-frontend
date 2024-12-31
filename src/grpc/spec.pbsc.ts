@@ -5730,6 +5730,48 @@ export class AttrsClient {
         requestClass: thisProto.AttrConflictsRequest,
         responseClass: thisProto.AttrConflictsResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetSpecifications
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.GetSpecificationsResponse>>
+     */
+    getSpecifications: (
+      requestData: thisProto.GetSpecificationsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.GetSpecificationsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetSpecifications',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetSpecificationsRequest,
+        responseClass: thisProto.GetSpecificationsResponse
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetChildSpecifications
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.GetSpecificationsResponse>>
+     */
+    getChildSpecifications: (
+      requestData: thisProto.GetSpecificationsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.GetSpecificationsResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetChildSpecifications',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetSpecificationsRequest,
+        responseClass: thisProto.GetSpecificationsResponse
+      });
     }
   };
 
@@ -5946,6 +5988,38 @@ export class AttrsClient {
   ): Observable<thisProto.AttrConflictsResponse> {
     return this.$raw
       .getConflicts(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetSpecifications
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.GetSpecificationsResponse>
+   */
+  getSpecifications(
+    requestData: thisProto.GetSpecificationsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.GetSpecificationsResponse> {
+    return this.$raw
+      .getSpecifications(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetChildSpecifications
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.GetSpecificationsResponse>
+   */
+  getChildSpecifications(
+    requestData: thisProto.GetSpecificationsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.GetSpecificationsResponse> {
+    return this.$raw
+      .getChildSpecifications(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

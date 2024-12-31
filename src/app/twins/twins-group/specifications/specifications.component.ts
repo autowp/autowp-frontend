@@ -1,13 +1,13 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIService} from '@services/api.service';
+import {APIItem, GetSpecificationsRequest, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {AttrsClient, ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   imports: [AsyncPipe],
@@ -18,10 +18,11 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
 export class TwinsGroupSpecificationsComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly api = inject(APIService);
   private readonly router = inject(Router);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
+  private readonly attrsClient = inject(AttrsClient);
+  private readonly sanitizer = inject(DomSanitizer);
 
   protected readonly id$: Observable<string> = this.route.parent!.paramMap.pipe(
     map((params) => params.get('group')),
@@ -38,12 +39,12 @@ export class TwinsGroupSpecificationsComponent {
     }),
   );
 
-  protected readonly html$: Observable<string> = this.id$.pipe(
+  protected readonly html$ = this.id$.pipe(
     switchMap((id) =>
-      this.api.request$('GET', 'item/' + id + '/child-specifications', {
-        responseType: 'text',
-      }),
+      id ? this.attrsClient.getChildSpecifications(new GetSpecificationsRequest({itemId: id})) : EMPTY,
     ),
+    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
+    map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),
   );
 
   protected readonly group$: Observable<APIItem> = this.id$.pipe(
