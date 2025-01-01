@@ -3,8 +3,6 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommentsType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {AuthService} from '@services/auth.service';
-import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -20,37 +18,17 @@ import {PictureComponent} from '../../../../picture/picture.component';
   templateUrl: './picture.component.html',
 })
 export class TwinsGroupPictureComponent {
-  private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
   private readonly acl = inject(ACLService);
   private readonly pictureService = inject(PictureService);
-  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  protected readonly user$ = this.auth.getUser$();
   private readonly changed$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly group$: Observable<APIItem | null> = this.route.parent!.parent!.paramMap.pipe(
-    map((route) => parseInt(route.get('group') ?? '', 10)),
+  protected readonly groupId$ = this.route.parent!.parent!.paramMap.pipe(
+    map((route) => route.get('group') ?? ''),
     distinctUntilChanged(),
-    switchMap((groupID) => {
-      if (!groupID) {
-        return of(null);
-      }
-      return this.itemService.getItem$(groupID, {
-        fields: 'name_text,name_html,childs.brands',
-      });
-    }),
-    switchMap((group) => {
-      if (!group) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
-      }
-      return of(group);
-    }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
@@ -69,11 +47,11 @@ export class TwinsGroupPictureComponent {
   );
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([
-    this.group$,
+    this.groupId$,
     this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT),
     this.identity$,
   ]).pipe(
-    switchMap(([group, isModer, identity]) => {
+    switchMap(([groupId, isModer, identity]) => {
       let fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
         'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
@@ -89,13 +67,13 @@ export class TwinsGroupPictureComponent {
           this.pictureService.getPictures$({
             fields,
             identity: identity,
-            item_id: group?.id,
+            item_id: +groupId,
             items: {
               type_id: 1,
             },
             limit: 1,
             paginator: {
-              item_id: group?.id,
+              item_id: +groupId,
             },
           }),
         ),

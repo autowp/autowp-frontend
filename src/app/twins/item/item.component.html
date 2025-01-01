@@ -1,4 +1,4 @@
-@if (group && item) {
+@if (groupId && item) {
   <div class="car item-list-item">
     <h3>
       <app-item-header
@@ -18,7 +18,7 @@
           <div class="col-6 col-lg-3">
             @if (picture && picture.picture && picture.thumb) {
               <a
-                [routerLink]="['/twins/group', group.id, 'pictures', picture.picture.identity]"
+                [routerLink]="['/twins/group', groupId, 'pictures', picture.picture.identity]"
                 class="d-block rounded mb-4"
               >
                 <img

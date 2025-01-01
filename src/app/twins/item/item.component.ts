@@ -17,7 +17,7 @@ export class TwinsItemComponent {
   private readonly acl = inject(ACLService);
 
   @Input() item: APIItem | null = null;
-  @Input() group: APIItem | null = null;
+  @Input() groupId: string = '';
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 

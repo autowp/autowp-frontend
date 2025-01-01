@@ -21936,6 +21936,8 @@ export class ItemFields implements GrpcMessage {
     _instance.brandicon = _instance.brandicon || false;
     _instance.attrZoneId = _instance.attrZoneId || false;
     _instance.location = _instance.location || false;
+    _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || false;
+    _instance.hasChildSpecs = _instance.hasChildSpecs || false;
   }
 
   /**
@@ -22018,6 +22020,12 @@ export class ItemFields implements GrpcMessage {
         case 21:
           _instance.location = _reader.readBool();
           break;
+        case 22:
+          _instance.acceptedPicturesCount = _reader.readBool();
+          break;
+        case 23:
+          _instance.hasChildSpecs = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -22099,6 +22107,12 @@ export class ItemFields implements GrpcMessage {
     if (_instance.location) {
       _writer.writeBool(21, _instance.location);
     }
+    if (_instance.acceptedPicturesCount) {
+      _writer.writeBool(22, _instance.acceptedPicturesCount);
+    }
+    if (_instance.hasChildSpecs) {
+      _writer.writeBool(23, _instance.hasChildSpecs);
+    }
   }
 
   private _nameOnly: boolean;
@@ -22122,6 +22136,8 @@ export class ItemFields implements GrpcMessage {
   private _brandicon: boolean;
   private _attrZoneId: boolean;
   private _location: boolean;
+  private _acceptedPicturesCount: boolean;
+  private _hasChildSpecs: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -22152,6 +22168,8 @@ export class ItemFields implements GrpcMessage {
     this.brandicon = _value.brandicon;
     this.attrZoneId = _value.attrZoneId;
     this.location = _value.location;
+    this.acceptedPicturesCount = _value.acceptedPicturesCount;
+    this.hasChildSpecs = _value.hasChildSpecs;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -22280,6 +22298,18 @@ export class ItemFields implements GrpcMessage {
   set location(value: boolean) {
     this._location = value;
   }
+  get acceptedPicturesCount(): boolean {
+    return this._acceptedPicturesCount;
+  }
+  set acceptedPicturesCount(value: boolean) {
+    this._acceptedPicturesCount = value;
+  }
+  get hasChildSpecs(): boolean {
+    return this._hasChildSpecs;
+  }
+  set hasChildSpecs(value: boolean) {
+    this._hasChildSpecs = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -22318,7 +22348,9 @@ export class ItemFields implements GrpcMessage {
       isCompilesItemOfDay: this.isCompilesItemOfDay,
       brandicon: this.brandicon,
       attrZoneId: this.attrZoneId,
-      location: this.location
+      location: this.location,
+      acceptedPicturesCount: this.acceptedPicturesCount,
+      hasChildSpecs: this.hasChildSpecs
     };
   }
 
@@ -22361,7 +22393,9 @@ export class ItemFields implements GrpcMessage {
       isCompilesItemOfDay: this.isCompilesItemOfDay,
       brandicon: this.brandicon,
       attrZoneId: this.attrZoneId,
-      location: this.location
+      location: this.location,
+      acceptedPicturesCount: this.acceptedPicturesCount,
+      hasChildSpecs: this.hasChildSpecs
     };
   }
 }
@@ -22391,6 +22425,8 @@ export module ItemFields {
     brandicon: boolean;
     attrZoneId: boolean;
     location: boolean;
+    acceptedPicturesCount: boolean;
+    hasChildSpecs: boolean;
   }
 
   /**
@@ -22418,6 +22454,8 @@ export module ItemFields {
     brandicon: boolean;
     attrZoneId: boolean;
     location: boolean;
+    acceptedPicturesCount: boolean;
+    hasChildSpecs: boolean;
   }
 }
 
@@ -23079,6 +23117,8 @@ export class ItemParentListOptions implements GrpcMessage {
   static refineValues(_instance: ItemParentListOptions) {
     _instance.parentId = _instance.parentId || '0';
     _instance.parent = _instance.parent || undefined;
+    _instance.itemParentParentByChild =
+      _instance.itemParentParentByChild || undefined;
   }
 
   /**
@@ -23102,6 +23142,13 @@ export class ItemParentListOptions implements GrpcMessage {
           _reader.readMessage(
             _instance.parent,
             ItemListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.itemParentParentByChild = new ItemParentListOptions();
+          _reader.readMessage(
+            _instance.itemParentParentByChild,
+            ItemParentListOptions.deserializeBinaryFromReader
           );
           break;
         default:
@@ -23131,10 +23178,18 @@ export class ItemParentListOptions implements GrpcMessage {
         ItemListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.itemParentParentByChild) {
+      _writer.writeMessage(
+        3,
+        _instance.itemParentParentByChild as any,
+        ItemParentListOptions.serializeBinaryToWriter
+      );
+    }
   }
 
   private _parentId: string;
   private _parent?: ItemListOptions;
+  private _itemParentParentByChild?: ItemParentListOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23145,6 +23200,9 @@ export class ItemParentListOptions implements GrpcMessage {
     this.parentId = _value.parentId;
     this.parent = _value.parent
       ? new ItemListOptions(_value.parent)
+      : undefined;
+    this.itemParentParentByChild = _value.itemParentParentByChild
+      ? new ItemParentListOptions(_value.itemParentParentByChild)
       : undefined;
     ItemParentListOptions.refineValues(this);
   }
@@ -23159,6 +23217,12 @@ export class ItemParentListOptions implements GrpcMessage {
   }
   set parent(value: ItemListOptions | undefined) {
     this._parent = value;
+  }
+  get itemParentParentByChild(): ItemParentListOptions | undefined {
+    return this._itemParentParentByChild;
+  }
+  set itemParentParentByChild(value: ItemParentListOptions | undefined) {
+    this._itemParentParentByChild = value;
   }
 
   /**
@@ -23177,7 +23241,10 @@ export class ItemParentListOptions implements GrpcMessage {
   toObject(): ItemParentListOptions.AsObject {
     return {
       parentId: this.parentId,
-      parent: this.parent ? this.parent.toObject() : undefined
+      parent: this.parent ? this.parent.toObject() : undefined,
+      itemParentParentByChild: this.itemParentParentByChild
+        ? this.itemParentParentByChild.toObject()
+        : undefined
     };
   }
 
@@ -23199,7 +23266,10 @@ export class ItemParentListOptions implements GrpcMessage {
   ): ItemParentListOptions.AsProtobufJSON {
     return {
       parentId: this.parentId,
-      parent: this.parent ? this.parent.toProtobufJSON(options) : null
+      parent: this.parent ? this.parent.toProtobufJSON(options) : null,
+      itemParentParentByChild: this.itemParentParentByChild
+        ? this.itemParentParentByChild.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -23210,6 +23280,7 @@ export module ItemParentListOptions {
   export interface AsObject {
     parentId: string;
     parent?: ItemListOptions.AsObject;
+    itemParentParentByChild?: ItemParentListOptions.AsObject;
   }
 
   /**
@@ -23218,6 +23289,7 @@ export module ItemParentListOptions {
   export interface AsProtobufJSON {
     parentId: string;
     parent: ItemListOptions.AsProtobufJSON | null;
+    itemParentParentByChild: ItemParentListOptions.AsProtobufJSON | null;
   }
 }
 
@@ -23514,6 +23586,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.ancestor = _instance.ancestor || undefined;
     _instance.parent = _instance.parent || undefined;
     _instance.engineId = _instance.engineId || '0';
+    _instance.child = _instance.child || undefined;
   }
 
   /**
@@ -23577,6 +23650,13 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 17:
           _instance.engineId = _reader.readInt64String();
+          break;
+        case 18:
+          _instance.child = new ItemParentListOptions();
+          _reader.readMessage(
+            _instance.child,
+            ItemParentListOptions.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -23644,6 +23724,13 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.engineId) {
       _writer.writeInt64String(17, _instance.engineId);
     }
+    if (_instance.child) {
+      _writer.writeMessage(
+        18,
+        _instance.child as any,
+        ItemParentListOptions.serializeBinaryToWriter
+      );
+    }
   }
 
   private _typeId: ItemType;
@@ -23657,6 +23744,7 @@ export class ItemListOptions implements GrpcMessage {
   private _ancestor?: ItemParentCacheListOptions;
   private _parent?: ItemParentListOptions;
   private _engineId: string;
+  private _child?: ItemParentListOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23683,6 +23771,9 @@ export class ItemListOptions implements GrpcMessage {
       ? new ItemParentListOptions(_value.parent)
       : undefined;
     this.engineId = _value.engineId;
+    this.child = _value.child
+      ? new ItemParentListOptions(_value.child)
+      : undefined;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -23751,6 +23842,12 @@ export class ItemListOptions implements GrpcMessage {
   set engineId(value: string) {
     this._engineId = value;
   }
+  get child(): ItemParentListOptions | undefined {
+    return this._child;
+  }
+  set child(value: ItemParentListOptions | undefined) {
+    this._child = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -23779,7 +23876,8 @@ export class ItemListOptions implements GrpcMessage {
       descendant: this.descendant ? this.descendant.toObject() : undefined,
       ancestor: this.ancestor ? this.ancestor.toObject() : undefined,
       parent: this.parent ? this.parent.toObject() : undefined,
-      engineId: this.engineId
+      engineId: this.engineId,
+      child: this.child ? this.child.toObject() : undefined
     };
   }
 
@@ -23817,7 +23915,8 @@ export class ItemListOptions implements GrpcMessage {
         : null,
       ancestor: this.ancestor ? this.ancestor.toProtobufJSON(options) : null,
       parent: this.parent ? this.parent.toProtobufJSON(options) : null,
-      engineId: this.engineId
+      engineId: this.engineId,
+      child: this.child ? this.child.toProtobufJSON(options) : null
     };
   }
 }
@@ -23837,6 +23936,7 @@ export module ItemListOptions {
     ancestor?: ItemParentCacheListOptions.AsObject;
     parent?: ItemParentListOptions.AsObject;
     engineId: string;
+    child?: ItemParentListOptions.AsObject;
   }
 
   /**
@@ -23854,6 +23954,7 @@ export module ItemListOptions {
     ancestor: ItemParentCacheListOptions.AsProtobufJSON | null;
     parent: ItemParentListOptions.AsProtobufJSON | null;
     engineId: string;
+    child: ItemParentListOptions.AsProtobufJSON | null;
   }
 }
 
@@ -24246,6 +24347,8 @@ export class APIItem implements GrpcMessage {
     _instance.attrZoneId = _instance.attrZoneId || '0';
     _instance.engineInherit = _instance.engineInherit || false;
     _instance.location = _instance.location || undefined;
+    _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || 0;
+    _instance.hasChildSpecs = _instance.hasChildSpecs || false;
   }
 
   /**
@@ -24351,6 +24454,12 @@ export class APIItem implements GrpcMessage {
             googleType003.LatLng.deserializeBinaryFromReader
           );
           break;
+        case 27:
+          _instance.acceptedPicturesCount = _reader.readInt32();
+          break;
+        case 28:
+          _instance.hasChildSpecs = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -24455,6 +24564,12 @@ export class APIItem implements GrpcMessage {
         googleType003.LatLng.serializeBinaryToWriter
       );
     }
+    if (_instance.acceptedPicturesCount) {
+      _writer.writeInt32(27, _instance.acceptedPicturesCount);
+    }
+    if (_instance.hasChildSpecs) {
+      _writer.writeBool(28, _instance.hasChildSpecs);
+    }
   }
 
   private _id: string;
@@ -24483,6 +24598,8 @@ export class APIItem implements GrpcMessage {
   private _attrZoneId: string;
   private _engineInherit: boolean;
   private _location?: googleType003.LatLng;
+  private _acceptedPicturesCount: number;
+  private _hasChildSpecs: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -24520,6 +24637,8 @@ export class APIItem implements GrpcMessage {
     this.location = _value.location
       ? new googleType003.LatLng(_value.location)
       : undefined;
+    this.acceptedPicturesCount = _value.acceptedPicturesCount;
+    this.hasChildSpecs = _value.hasChildSpecs;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -24678,6 +24797,18 @@ export class APIItem implements GrpcMessage {
   set location(value: googleType003.LatLng | undefined) {
     this._location = value;
   }
+  get acceptedPicturesCount(): number {
+    return this._acceptedPicturesCount;
+  }
+  set acceptedPicturesCount(value: number) {
+    this._acceptedPicturesCount = value;
+  }
+  get hasChildSpecs(): boolean {
+    return this._hasChildSpecs;
+  }
+  set hasChildSpecs(value: boolean) {
+    this._hasChildSpecs = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -24719,7 +24850,9 @@ export class APIItem implements GrpcMessage {
       brandicon: this.brandicon ? this.brandicon.toObject() : undefined,
       attrZoneId: this.attrZoneId,
       engineInherit: this.engineInherit,
-      location: this.location ? this.location.toObject() : undefined
+      location: this.location ? this.location.toObject() : undefined,
+      acceptedPicturesCount: this.acceptedPicturesCount,
+      hasChildSpecs: this.hasChildSpecs
     };
   }
 
@@ -24770,7 +24903,9 @@ export class APIItem implements GrpcMessage {
       brandicon: this.brandicon ? this.brandicon.toProtobufJSON(options) : null,
       attrZoneId: this.attrZoneId,
       engineInherit: this.engineInherit,
-      location: this.location ? this.location.toProtobufJSON(options) : null
+      location: this.location ? this.location.toProtobufJSON(options) : null,
+      acceptedPicturesCount: this.acceptedPicturesCount,
+      hasChildSpecs: this.hasChildSpecs
     };
   }
 }
@@ -24805,6 +24940,8 @@ export module APIItem {
     attrZoneId: string;
     engineInherit: boolean;
     location?: googleType003.LatLng.AsObject;
+    acceptedPicturesCount: number;
+    hasChildSpecs: boolean;
   }
 
   /**
@@ -24837,6 +24974,8 @@ export module APIItem {
     attrZoneId: string;
     engineInherit: boolean;
     location: googleType003.LatLng.AsProtobufJSON | null;
+    acceptedPicturesCount: number;
+    hasChildSpecs: boolean;
   }
 }
 

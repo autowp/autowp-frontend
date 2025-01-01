@@ -1,9 +1,9 @@
 @if (picture$ | async; as picture) {
-  @if (group$ | async; as group) {
+  @if (groupId$ | async; as groupId) {
     <app-picture
       [picture]="picture"
-      [prefix]="['/twins/group', group.id + '', 'pictures']"
-      [galleryRoute]="['/twins/group', group.id + '', 'gallery', picture.identity]"
+      [prefix]="['/twins/group', groupId, 'pictures']"
+      [galleryRoute]="['/twins/group', groupId, 'gallery', picture.identity]"
       (changed)="reloadPicture()"
     ></app-picture>
   }

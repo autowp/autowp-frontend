@@ -1,12 +1,22 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {TwinsSidebarComponent} from '../sidebar.component';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemParentListOptions,
+  ItemRequest,
+  ItemType,
+  ListItemsRequest,
+} from '@grpc/spec.pb';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, RouterLinkActive, RouterOutlet, TwinsSidebarComponent, AsyncPipe],
@@ -15,19 +25,29 @@ import {TwinsSidebarComponent} from '../sidebar.component';
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {
-  private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
   private readonly router = inject(Router);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   protected readonly group$: Observable<APIItem> = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('group') ?? '', 10)),
+    map((params) => params.get('group') ?? ''),
     distinctUntilChanged(),
     switchMap((group) =>
       group
-        ? this.itemService.getItem$(group, {
-            fields: 'name_text,name_html,has_child_specs,accepted_pictures_count,childs.brands',
-          })
+        ? this.itemsClient.item(
+            new ItemRequest({
+              id: group,
+              language: this.languageService.language,
+              fields: new ItemFields({
+                nameText: true,
+                nameHtml: true,
+                acceptedPicturesCount: true,
+                hasChildSpecs: true,
+              }),
+            }),
+          )
         : EMPTY,
     ),
     switchMap((group) => {
@@ -44,7 +64,7 @@ export class TwinsGroupComponent {
         () =>
           this.pageEnv.set({
             pageId: 25,
-            title: group.name_text,
+            title: group.nameText,
           }),
         0,
       );
@@ -52,17 +72,22 @@ export class TwinsGroupComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly selectedBrands$ = this.group$.pipe(
-    map((group) => {
-      const result: string[] = [];
-      for (const item of group.childs ? group.childs : []) {
-        for (const brand of item.brands) {
-          result.push(brand.catname);
-        }
-      }
-
-      return result;
-    }),
+  protected readonly selectedBrands$: Observable<string[]> = this.group$.pipe(
+    switchMap((group) =>
+      this.itemsClient.list(
+        new ListItemsRequest({
+          options: new ItemListOptions({
+            typeId: ItemType.ITEM_TYPE_BRAND,
+            child: new ItemParentListOptions({
+              itemParentParentByChild: new ItemParentListOptions({
+                parentId: group.id,
+              }),
+            }),
+          }),
+        }),
+      ),
+    ),
+    map((response) => (response.items || []).map((item) => item.catname)),
   );
 
   protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
