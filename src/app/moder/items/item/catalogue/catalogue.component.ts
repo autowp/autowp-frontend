@@ -2,7 +2,15 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {DeleteItemParentRequest, ItemParent, ItemType} from '@grpc/spec.pb';
+import {
+  DeleteItemParentRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemParent,
+  ItemType,
+  ListItemsRequest,
+  APIItem as GRPCAPIItem,
+} from '@grpc/spec.pb';
 import {
   NgbDropdown,
   NgbDropdownMenu,
@@ -62,7 +70,7 @@ export class ModerItemsItemCatalogueComponent {
     map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)),
   );
 
-  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
     text$: Observable<string>,
   ) =>
     this.item$.pipe(
@@ -77,16 +85,20 @@ export class ModerItemsItemCatalogueComponent {
               return of([]);
             }
 
-            return this.itemService
-              .getItems$({
-                autocomplete: query,
-                exclude_self_and_childs: item.id,
-                fields: 'name_html,name_text,brandicon',
-                is_group: true,
-                limit: 10,
-                parent_types_of: item.item_type_id,
-              })
-              .pipe(map((response) => response.items));
+            return this.itemsClient
+              .list(
+                new ListItemsRequest({
+                  fields: new ItemFields({nameText: true, nameHtml: true}),
+                  options: new ItemListOptions({
+                    parentTypesOf: item.item_type_id,
+                    isGroup: true,
+                    excludeSelfAndChilds: '' + item.id,
+                    autocomplete: query,
+                  }),
+                  limit: 10,
+                }),
+              )
+              .pipe(map((response) => response.items || []));
           }),
         ),
       ),

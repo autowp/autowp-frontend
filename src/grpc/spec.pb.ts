@@ -23587,6 +23587,10 @@ export class ItemListOptions implements GrpcMessage {
     _instance.parent = _instance.parent || undefined;
     _instance.engineId = _instance.engineId || '0';
     _instance.child = _instance.child || undefined;
+    _instance.parentTypesOf = _instance.parentTypesOf || 0;
+    _instance.isGroup = _instance.isGroup || false;
+    _instance.excludeSelfAndChilds = _instance.excludeSelfAndChilds || '0';
+    _instance.autocomplete = _instance.autocomplete || '';
   }
 
   /**
@@ -23657,6 +23661,18 @@ export class ItemListOptions implements GrpcMessage {
             _instance.child,
             ItemParentListOptions.deserializeBinaryFromReader
           );
+          break;
+        case 19:
+          _instance.parentTypesOf = _reader.readEnum();
+          break;
+        case 20:
+          _instance.isGroup = _reader.readBool();
+          break;
+        case 21:
+          _instance.excludeSelfAndChilds = _reader.readInt64String();
+          break;
+        case 22:
+          _instance.autocomplete = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -23731,6 +23747,18 @@ export class ItemListOptions implements GrpcMessage {
         ItemParentListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.parentTypesOf) {
+      _writer.writeEnum(19, _instance.parentTypesOf);
+    }
+    if (_instance.isGroup) {
+      _writer.writeBool(20, _instance.isGroup);
+    }
+    if (_instance.excludeSelfAndChilds) {
+      _writer.writeInt64String(21, _instance.excludeSelfAndChilds);
+    }
+    if (_instance.autocomplete) {
+      _writer.writeString(22, _instance.autocomplete);
+    }
   }
 
   private _typeId: ItemType;
@@ -23745,6 +23773,10 @@ export class ItemListOptions implements GrpcMessage {
   private _parent?: ItemParentListOptions;
   private _engineId: string;
   private _child?: ItemParentListOptions;
+  private _parentTypesOf: ItemType;
+  private _isGroup: boolean;
+  private _excludeSelfAndChilds: string;
+  private _autocomplete: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23774,6 +23806,10 @@ export class ItemListOptions implements GrpcMessage {
     this.child = _value.child
       ? new ItemParentListOptions(_value.child)
       : undefined;
+    this.parentTypesOf = _value.parentTypesOf;
+    this.isGroup = _value.isGroup;
+    this.excludeSelfAndChilds = _value.excludeSelfAndChilds;
+    this.autocomplete = _value.autocomplete;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -23848,6 +23884,30 @@ export class ItemListOptions implements GrpcMessage {
   set child(value: ItemParentListOptions | undefined) {
     this._child = value;
   }
+  get parentTypesOf(): ItemType {
+    return this._parentTypesOf;
+  }
+  set parentTypesOf(value: ItemType) {
+    this._parentTypesOf = value;
+  }
+  get isGroup(): boolean {
+    return this._isGroup;
+  }
+  set isGroup(value: boolean) {
+    this._isGroup = value;
+  }
+  get excludeSelfAndChilds(): string {
+    return this._excludeSelfAndChilds;
+  }
+  set excludeSelfAndChilds(value: string) {
+    this._excludeSelfAndChilds = value;
+  }
+  get autocomplete(): string {
+    return this._autocomplete;
+  }
+  set autocomplete(value: string) {
+    this._autocomplete = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -23877,7 +23937,11 @@ export class ItemListOptions implements GrpcMessage {
       ancestor: this.ancestor ? this.ancestor.toObject() : undefined,
       parent: this.parent ? this.parent.toObject() : undefined,
       engineId: this.engineId,
-      child: this.child ? this.child.toObject() : undefined
+      child: this.child ? this.child.toObject() : undefined,
+      parentTypesOf: this.parentTypesOf,
+      isGroup: this.isGroup,
+      excludeSelfAndChilds: this.excludeSelfAndChilds,
+      autocomplete: this.autocomplete
     };
   }
 
@@ -23916,7 +23980,16 @@ export class ItemListOptions implements GrpcMessage {
       ancestor: this.ancestor ? this.ancestor.toProtobufJSON(options) : null,
       parent: this.parent ? this.parent.toProtobufJSON(options) : null,
       engineId: this.engineId,
-      child: this.child ? this.child.toProtobufJSON(options) : null
+      child: this.child ? this.child.toProtobufJSON(options) : null,
+      parentTypesOf:
+        ItemType[
+          this.parentTypesOf === null || this.parentTypesOf === undefined
+            ? 0
+            : this.parentTypesOf
+        ],
+      isGroup: this.isGroup,
+      excludeSelfAndChilds: this.excludeSelfAndChilds,
+      autocomplete: this.autocomplete
     };
   }
 }
@@ -23937,6 +24010,10 @@ export module ItemListOptions {
     parent?: ItemParentListOptions.AsObject;
     engineId: string;
     child?: ItemParentListOptions.AsObject;
+    parentTypesOf: ItemType;
+    isGroup: boolean;
+    excludeSelfAndChilds: string;
+    autocomplete: string;
   }
 
   /**
@@ -23955,6 +24032,10 @@ export module ItemListOptions {
     parent: ItemParentListOptions.AsProtobufJSON | null;
     engineId: string;
     child: ItemParentListOptions.AsProtobufJSON | null;
+    parentTypesOf: string;
+    isGroup: boolean;
+    excludeSelfAndChilds: string;
+    autocomplete: string;
   }
 }
 

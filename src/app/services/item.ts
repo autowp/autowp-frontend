@@ -162,8 +162,6 @@ export interface GetItemServiceOptions {
 
 export interface GetItemsServiceOptions {
   ancestor_id?: number;
-  autocomplete?: string;
-  catname?: string;
   concept?: boolean | null;
   concept_inherit?: boolean | null;
   dateful?: boolean;
@@ -175,22 +173,16 @@ export interface GetItemsServiceOptions {
     status?: string;
     type_id?: number;
   };
-  exclude_self_and_childs?: number;
   factories_of_brand?: number;
   fields: string;
   from_year?: number;
-  have_childs_with_parent_of_type?: number;
   have_common_childs_with?: null | number;
-  id?: number;
-  is_group?: boolean;
   limit: number;
-  name?: null | string;
   name_exclude?: null | string;
   no_parent?: boolean;
   order?: string;
   page?: number;
   parent_id?: number;
-  parent_types_of?: number;
   preview_pictures?: {
     contains_perspective_id?: number;
     perspective_id?: number;
@@ -246,10 +238,6 @@ function convertItemOptions(options: GetItemServiceOptions): {[param: string]: s
 function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 
-  if (options.id) {
-    params['id'] = options.id.toString();
-  }
-
   if (options.fields) {
     params['fields'] = options.fields;
   }
@@ -268,10 +256,6 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
 
   if (options.limit) {
     params['limit'] = options.limit.toString();
-  }
-
-  if (options.name) {
-    params['name'] = options.name;
   }
 
   if (options.name_exclude) {
@@ -296,14 +280,6 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
 
   if (options.page) {
     params['page'] = options.page.toString();
-  }
-
-  if (options.name) {
-    params['name'] = options.name;
-  }
-
-  if (options.autocomplete) {
-    params['autocomplete'] = options.autocomplete;
   }
 
   if (options.vehicle_type_id) {
@@ -342,32 +318,12 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
     params['suggestions_to'] = options.suggestions_to.toString();
   }
 
-  if (options.exclude_self_and_childs) {
-    params['exclude_self_and_childs'] = options.exclude_self_and_childs.toString();
-  }
-
-  if (options.parent_types_of) {
-    params['parent_types_of'] = options.parent_types_of.toString();
-  }
-
-  if (options.is_group) {
-    params['is_group'] = '1';
-  }
-
   if (options.have_common_childs_with) {
     params['have_common_childs_with'] = options.have_common_childs_with.toString();
   }
 
-  if (options.have_childs_with_parent_of_type) {
-    params['have_childs_with_parent_of_type'] = options.have_childs_with_parent_of_type.toString();
-  }
-
   if (options.related_groups_of) {
     params['related_groups_of'] = options.related_groups_of.toString();
-  }
-
-  if (options.catname) {
-    params['catname'] = options.catname;
   }
 
   if (options.factories_of_brand) {
