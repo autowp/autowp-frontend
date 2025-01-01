@@ -25,6 +25,7 @@ import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
@@ -37,6 +38,7 @@ export class ModerItemsItemCatalogueComponent {
   private readonly itemService = inject(ItemService);
   private readonly itemParentService = inject(ItemParentService);
   private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -88,6 +90,7 @@ export class ModerItemsItemCatalogueComponent {
             return this.itemsClient
               .list(
                 new ListItemsRequest({
+                  language: this.languageService.language,
                   fields: new ItemFields({nameText: true, nameHtml: true}),
                   options: new ItemListOptions({
                     parentTypesOf: item.item_type_id,
