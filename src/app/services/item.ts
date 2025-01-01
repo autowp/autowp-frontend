@@ -178,6 +178,7 @@ export interface GetItemsServiceOptions {
   from_year?: number;
   have_common_childs_with?: null | number;
   limit: number;
+  name?: null | string;
   name_exclude?: null | string;
   no_parent?: boolean;
   order?: string;
@@ -256,6 +257,10 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
 
   if (options.limit) {
     params['limit'] = options.limit.toString();
+  }
+
+  if (options.name) {
+    params['name'] = options.name;
   }
 
   if (options.name_exclude) {
