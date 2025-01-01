@@ -22897,7 +22897,8 @@ export module ListItemsRequest {
   export enum Order {
     DEFAULT = 0,
     NAME_NAT = 1,
-    NAME = 2
+    NAME = 2,
+    CHILDS_COUNT = 3
   }
 }
 

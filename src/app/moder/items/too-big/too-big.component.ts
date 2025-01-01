@@ -25,6 +25,7 @@ export class ModerItemsTooBigComponent implements OnInit {
         language: this.languageService.language,
         limit: 100,
         fields: new ItemFields({nameHtml: true, childsCount: true}),
+        order: ListItemsRequest.Order.CHILDS_COUNT,
       }),
     )
     .pipe(map((response) => response.items || []));
