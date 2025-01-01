@@ -1,20 +1,33 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
+import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-items-too-big',
   standalone: true,
   templateUrl: './too-big.component.html',
 })
 export class ModerItemsTooBigComponent implements OnInit {
-  private readonly itemService = inject(ItemService);
   private readonly pageEnv = inject(PageEnvService);
+  private readonly itemsClient = inject(ItemsClient);
+  private readonly languageService = inject(LanguageService);
 
-  protected loading = false;
-  protected items: APIItem[] = [];
+  protected readonly items$: Observable<APIItem[]> = this.itemsClient
+    .list(
+      new ListItemsRequest({
+        language: this.languageService.language,
+        limit: 100,
+        fields: new ItemFields({nameHtml: true, childsCount: true}),
+      }),
+    )
+    .pipe(map((response) => response.items || []));
 
   ngOnInit(): void {
     setTimeout(
@@ -25,23 +38,5 @@ export class ModerItemsTooBigComponent implements OnInit {
         }),
       0,
     );
-
-    this.loading = true;
-
-    this.itemService
-      .getItems$({
-        fields: 'childs_count,name_html',
-        limit: 100,
-        order: 'childs_count',
-      })
-      .subscribe({
-        error: () => {
-          this.loading = false;
-        },
-        next: (response) => {
-          this.items = response.items;
-          this.loading = false;
-        },
-      });
   }
 }

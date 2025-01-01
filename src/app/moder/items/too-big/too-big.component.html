@@ -16,27 +16,27 @@
   <h1 id="header" i18n>Too big</h1>
 </div>
 
-<span [hidden]="!loading">
-  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-</span>
-
-<table class="table" [hidden]="loading" aria-describedby="header">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col" i18n>Name</th>
-      <th scope="col" i18n>Count</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (item of items; track item.id) {
+@if (items$ | async; as items) {
+  <table class="table" aria-describedby="header">
+    <thead>
       <tr>
-        <td [textContent]="item.id"></td>
-        <td>
-          <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
-        </td>
-        <td [textContent]="item.childs_count"></td>
+        <th scope="col">#</th>
+        <th scope="col" i18n>Name</th>
+        <th scope="col" i18n>Count</th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @for (item of items; track item.id) {
+        <tr>
+          <td [textContent]="item.id"></td>
+          <td>
+            <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
+          </td>
+          <td [textContent]="item.childsCount"></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
+  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+}
