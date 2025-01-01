@@ -19,7 +19,6 @@ import {
   NgbTypeaheadSelectItemEvent,
 } from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ItemService} from '@services/item';
 import type {APIItem} from '@services/item';
 import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -35,7 +34,6 @@ import {LanguageService} from '@services/language';
 })
 export class ModerItemsItemCatalogueComponent {
   private readonly acl = inject(ACLService);
-  private readonly itemService = inject(ItemService);
   private readonly itemParentService = inject(ItemParentService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
@@ -136,18 +134,23 @@ export class ModerItemsItemCatalogueComponent {
     map((response) => response.items),
   );
 
-  protected readonly suggestions$: Observable<APIItem[]> = combineLatest([
+  protected readonly suggestions$: Observable<GRPCAPIItem[]> = combineLatest([
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.reloadSuggestions$,
   ]).pipe(
     switchMap(([item]) =>
-      this.itemService.getItems$({
-        fields: 'name_text',
-        limit: 3,
-        suggestions_to: item.id,
-      }),
+      this.itemsClient.list(
+        new ListItemsRequest({
+          fields: new ItemFields({nameText: true}),
+          language: this.languageService.language,
+          limit: 3,
+          options: new ItemListOptions({
+            suggestionsTo: '' + item.id,
+          }),
+        }),
+      ),
     ),
-    map((response) => response.items),
+    map((response) => response.items || []),
   );
 
   protected itemFormatter(x: APIItem) {
@@ -156,16 +159,16 @@ export class ModerItemsItemCatalogueComponent {
 
   protected itemOnSelect(item: APIItem, e: NgbTypeaheadSelectItemEvent): void {
     e.preventDefault();
-    this.addParent(item, e.item.id);
+    this.addParent(item, '' + e.item.id);
     this.itemQuery = '';
   }
 
-  protected addParent(item: APIItem, parentId: number) {
+  protected addParent(item: APIItem, parentId: string) {
     this.itemsClient
       .createItemParent(
         new ItemParent({
           itemId: '' + item.id,
-          parentId: '' + parentId,
+          parentId: parentId,
         }),
       )
       .subscribe(() => {

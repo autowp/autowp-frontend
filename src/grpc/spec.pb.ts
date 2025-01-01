@@ -23592,6 +23592,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.isGroup = _instance.isGroup || false;
     _instance.excludeSelfAndChilds = _instance.excludeSelfAndChilds || '0';
     _instance.autocomplete = _instance.autocomplete || '';
+    _instance.suggestionsTo = _instance.suggestionsTo || '0';
   }
 
   /**
@@ -23674,6 +23675,9 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 22:
           _instance.autocomplete = _reader.readString();
+          break;
+        case 23:
+          _instance.suggestionsTo = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -23760,6 +23764,9 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.autocomplete) {
       _writer.writeString(22, _instance.autocomplete);
     }
+    if (_instance.suggestionsTo) {
+      _writer.writeInt64String(23, _instance.suggestionsTo);
+    }
   }
 
   private _typeId: ItemType;
@@ -23778,6 +23785,7 @@ export class ItemListOptions implements GrpcMessage {
   private _isGroup: boolean;
   private _excludeSelfAndChilds: string;
   private _autocomplete: string;
+  private _suggestionsTo: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23811,6 +23819,7 @@ export class ItemListOptions implements GrpcMessage {
     this.isGroup = _value.isGroup;
     this.excludeSelfAndChilds = _value.excludeSelfAndChilds;
     this.autocomplete = _value.autocomplete;
+    this.suggestionsTo = _value.suggestionsTo;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -23909,6 +23918,12 @@ export class ItemListOptions implements GrpcMessage {
   set autocomplete(value: string) {
     this._autocomplete = value;
   }
+  get suggestionsTo(): string {
+    return this._suggestionsTo;
+  }
+  set suggestionsTo(value: string) {
+    this._suggestionsTo = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -23942,7 +23957,8 @@ export class ItemListOptions implements GrpcMessage {
       parentTypesOf: this.parentTypesOf,
       isGroup: this.isGroup,
       excludeSelfAndChilds: this.excludeSelfAndChilds,
-      autocomplete: this.autocomplete
+      autocomplete: this.autocomplete,
+      suggestionsTo: this.suggestionsTo
     };
   }
 
@@ -23990,7 +24006,8 @@ export class ItemListOptions implements GrpcMessage {
         ],
       isGroup: this.isGroup,
       excludeSelfAndChilds: this.excludeSelfAndChilds,
-      autocomplete: this.autocomplete
+      autocomplete: this.autocomplete,
+      suggestionsTo: this.suggestionsTo
     };
   }
 }
@@ -24015,6 +24032,7 @@ export module ItemListOptions {
     isGroup: boolean;
     excludeSelfAndChilds: string;
     autocomplete: string;
+    suggestionsTo: string;
   }
 
   /**
@@ -24037,6 +24055,7 @@ export module ItemListOptions {
     isGroup: boolean;
     excludeSelfAndChilds: string;
     autocomplete: string;
+    suggestionsTo: string;
   }
 }
 
