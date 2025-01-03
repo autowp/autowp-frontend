@@ -19,9 +19,9 @@ import {UserComponent} from '../../user/user/user.component';
 export class DonateLogComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly donations = inject(DonationsClient);
+  readonly #donations = inject(DonationsClient);
 
-  protected readonly items$ = this.donations.getTransactions(new Empty()).pipe(
+  protected readonly items$ = this.#donations.getTransactions(new Empty()).pipe(
     map((response) =>
       (response.items || []).map((item) => ({
         currency: item.currency,

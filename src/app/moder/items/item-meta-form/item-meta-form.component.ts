@@ -321,12 +321,12 @@ export class ItemMetaFormComponent {
         elements.spec_id = new FormControl(item.spec_id);
         elements.model_years = new FormGroup({
           begin_year: new FormControl(item.begin_model_year > 0 ? item.begin_model_year : null, [
-            Validators.min(1800),
+            Validators.min(1700),
             Validators.max(this.modelYearMax),
           ]),
           begin_year_fraction: new FormControl(item.begin_model_year_fraction),
           end_year: new FormControl(item.end_model_year > 0 ? item.end_model_year : null, [
-            Validators.min(1800),
+            Validators.min(1700),
             Validators.max(this.modelYearMax),
           ]),
           end_year_fraction: new FormControl(item.end_model_year_fraction),
@@ -348,7 +348,7 @@ export class ItemMetaFormComponent {
         elements.begin = new FormGroup({
           month: new FormControl(item.begin_month > 0 ? item.begin_month : null),
           year: new FormControl(item.begin_year > 0 ? item.begin_year : null, [
-            Validators.min(1800),
+            Validators.min(1700),
             Validators.max(this.yearMax),
           ]),
         });
@@ -356,7 +356,7 @@ export class ItemMetaFormComponent {
           month: new FormControl(item.end_month > 0 ? item.end_month : null),
           today: new FormControl(item.today),
           year: new FormControl(item.end_year > 0 ? item.end_year : null, [
-            Validators.min(1800),
+            Validators.min(1700),
             Validators.max(this.yearMax),
           ]),
         });
