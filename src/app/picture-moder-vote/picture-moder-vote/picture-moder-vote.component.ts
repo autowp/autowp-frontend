@@ -14,7 +14,6 @@ import {PictureModerVoteModalComponent} from './modal/modal.component';
 @Component({
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, UserComponent, NgStyle, AsyncPipe],
   selector: 'app-picture-moder-vote',
-  standalone: true,
   templateUrl: './picture-moder-vote.component.html',
 })
 export class PictureModerVoteComponent {

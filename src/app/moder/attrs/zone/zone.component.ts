@@ -13,7 +13,6 @@ import {ModerAttrsZoneAttributeListComponent} from './attribute-list/attribute-l
 @Component({
   imports: [RouterLink, ModerAttrsZoneAttributeListComponent, AsyncPipe],
   selector: 'app-moder-attrs-zone',
-  standalone: true,
   templateUrl: './zone.component.html',
 })
 export class ModerAttrsZoneComponent {

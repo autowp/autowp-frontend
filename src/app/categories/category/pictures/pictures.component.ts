@@ -20,7 +20,6 @@ interface PictureRoute {
 @Component({
   imports: [ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-categories-category-pictures',
-  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class CategoriesCategoryPicturesComponent {

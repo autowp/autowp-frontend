@@ -11,7 +11,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [UserComponent, AsyncPipe],
   selector: 'app-users-online',
-  standalone: true,
   templateUrl: './online.component.html',
 })
 export class UsersOnlineComponent {

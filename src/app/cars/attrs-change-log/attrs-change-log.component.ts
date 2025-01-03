@@ -38,7 +38,6 @@ interface AttrUserValueListItem {
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, NgbTooltip, UserComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-cars-attrs-change-log',
-  standalone: true,
   styleUrls: ['./attrs-change-log.component.scss'],
   templateUrl: './attrs-change-log.component.html',
 })

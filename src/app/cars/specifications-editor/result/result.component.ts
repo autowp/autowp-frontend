@@ -10,7 +10,6 @@ import {LanguageService} from '@services/language';
 @Component({
   imports: [AsyncPipe],
   selector: 'app-cars-specifications-editor-result',
-  standalone: true,
   templateUrl: './result.component.html',
 })
 export class CarsSpecificationsEditorResultComponent {

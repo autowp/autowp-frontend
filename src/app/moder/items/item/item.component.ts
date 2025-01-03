@@ -53,7 +53,6 @@ interface Tab {
     AsyncPipe,
   ],
   selector: 'app-moder-items-item',
-  standalone: true,
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnInit, OnDestroy {

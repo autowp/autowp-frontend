@@ -20,7 +20,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-forums-move-topic',
-  standalone: true,
   templateUrl: './move-topic.component.html',
 })
 export class ForumsMoveTopicComponent implements OnInit {

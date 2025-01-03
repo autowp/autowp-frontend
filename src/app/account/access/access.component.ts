@@ -6,7 +6,6 @@ import {PageEnvService} from '@services/page-env.service';
 @Component({
   imports: [RouterLink],
   selector: 'app-account-access',
-  standalone: true,
   templateUrl: './access.component.html',
 })
 export class AccountAccessComponent implements OnInit {

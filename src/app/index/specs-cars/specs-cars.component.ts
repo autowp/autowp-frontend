@@ -31,7 +31,6 @@ interface ListItem extends CatalogueListItem {
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, UserComponent, AsyncPipe],
   selector: 'app-index-specs-cars',
-  standalone: true,
   templateUrl: './specs-cars.component.html',
 })
 export class IndexSpecsCarsComponent {

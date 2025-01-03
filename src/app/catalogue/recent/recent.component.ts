@@ -22,7 +22,6 @@ interface PictureRoute {
 @Component({
   imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-recent',
-  standalone: true,
   templateUrl: './recent.component.html',
 })
 export class CatalogueRecentComponent {

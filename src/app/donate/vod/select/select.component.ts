@@ -25,7 +25,6 @@ import {DonateVodSelectItemComponent} from './item/item.component';
 @Component({
   imports: [RouterLink, DonateVodSelectItemComponent, PaginatorComponent],
   selector: 'app-donate-vod-select',
-  standalone: true,
   templateUrl: './select.component.html',
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {

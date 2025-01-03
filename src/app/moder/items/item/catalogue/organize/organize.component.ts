@@ -18,7 +18,6 @@ import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form
 @Component({
   imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-item-organize',
-  standalone: true,
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemOrganizeComponent implements OnInit {

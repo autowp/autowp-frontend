@@ -7,7 +7,6 @@ import type {APIGalleryItemArea} from './definitions';
 @Component({
   imports: [NgStyle, NgbTooltip],
   selector: 'app-gallery-carousel-item-area',
-  standalone: true,
   styleUrls: ['./area.component.scss'],
   templateUrl: './area.component.html',
 })

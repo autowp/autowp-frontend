@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, NgZone, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {LatLng as grpcLatLng} from '@grpc/google/type/latlng.pb';
 import {SetPicturePointRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -48,7 +48,6 @@ interface PointForm {
 @Component({
   imports: [RouterLink, FormsModule, ReactiveFormsModule, LeafletModule, AsyncPipe],
   selector: 'app-moder-pictures-place',
-  standalone: true,
   templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {

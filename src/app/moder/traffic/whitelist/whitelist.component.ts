@@ -11,7 +11,6 @@ import {catchError, map} from 'rxjs/operators';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-traffic-whitelist',
-  standalone: true,
   templateUrl: './whitelist.component.html',
 })
 export class ModerTrafficWhitelistComponent implements OnInit {

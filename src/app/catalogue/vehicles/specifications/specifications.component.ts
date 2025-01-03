@@ -14,7 +14,6 @@ import {LanguageService} from '@services/language';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-catalogue-vehicles-specifications',
-  standalone: true,
   templateUrl: './specifications.component.html',
 })
 export class CatalogueVehiclesSpecificationsComponent {

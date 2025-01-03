@@ -28,7 +28,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, FormsModule, InvalidParamsPipe],
   selector: 'app-moder-item-parent',
-  standalone: true,
   templateUrl: './item-parent.component.html',
 })
 export class ModerItemParentComponent implements OnInit, OnDestroy {

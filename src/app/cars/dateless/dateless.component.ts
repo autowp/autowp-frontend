@@ -13,7 +13,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, ItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cars-deteless',
-  standalone: true,
   templateUrl: './dateless.component.html',
 })
 export class CarsDatelessComponent implements OnInit {

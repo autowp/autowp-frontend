@@ -13,7 +13,6 @@ import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.comp
 @Component({
   imports: [RouterLink, ThumbnailComponent, AsyncPipe],
   selector: 'app-moder-items-item-pictures',
-  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class ModerItemsItemPicturesComponent {

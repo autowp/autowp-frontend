@@ -20,7 +20,6 @@ interface Order {
 @Component({
   imports: [RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-users-user-comments',
-  standalone: true,
   templateUrl: './comments.component.html',
 })
 export class UsersUserCommentsComponent {

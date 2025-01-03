@@ -16,7 +16,6 @@ import {LanguageService} from '@services/language';
 @Component({
   imports: [TwinsItemComponent, MarkdownComponent, CommentsComponent, AsyncPipe],
   selector: 'app-twins-group-items',
-  standalone: true,
   templateUrl: './items.component.html',
 })
 export class TwinsGroupItemsComponent {

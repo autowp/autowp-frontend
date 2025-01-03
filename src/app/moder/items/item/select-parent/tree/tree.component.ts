@@ -12,7 +12,6 @@ import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-ite
 @Component({
   imports: [ModerItemsItemSelectParentTreeItemComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-tree',
-  standalone: true,
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemSelectParentTreeComponent {

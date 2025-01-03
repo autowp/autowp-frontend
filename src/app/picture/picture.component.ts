@@ -55,7 +55,6 @@ import {PicturePaginatorComponent} from './paginator.component';
     TimeAgoPipe,
   ],
   selector: 'app-picture',
-  standalone: true,
   styleUrls: ['./picture.component.scss'],
   templateUrl: './picture.component.html',
 })

@@ -14,7 +14,6 @@ import {CatalogueService} from '../../../catalogue-service';
 @Component({
   imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-catalogue-vehicles-pictures-picture',
-  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class CatalogueVehiclesPicturesPictureComponent {

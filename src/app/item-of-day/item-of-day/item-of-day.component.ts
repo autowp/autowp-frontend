@@ -11,7 +11,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [UserComponent, RouterLink, AsyncPipe],
   selector: 'app-item-of-day',
-  standalone: true,
   styleUrls: ['./item-of-day.component.scss'],
   templateUrl: './item-of-day.component.html',
 })

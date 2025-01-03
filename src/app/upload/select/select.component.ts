@@ -29,7 +29,6 @@ import Order = ListItemsRequest.Order;
 @Component({
   imports: [FormsModule, RouterLink, PaginatorComponent, UploadSelectTreeItemComponent],
   selector: 'app-upload-select',
-  standalone: true,
   templateUrl: './select.component.html',
 })
 export class UploadSelectComponent implements OnInit {

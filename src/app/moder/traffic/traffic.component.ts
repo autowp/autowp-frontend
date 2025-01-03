@@ -24,7 +24,6 @@ interface ListItem {
 @Component({
   imports: [RouterLink, UserComponent, AsyncPipe, DatePipe],
   selector: 'app-moder-traffic',
-  standalone: true,
   templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {

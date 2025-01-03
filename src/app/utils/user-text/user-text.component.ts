@@ -25,7 +25,6 @@ interface CommentTextLine {
 @Component({
   imports: [UserComponent, RouterLink, AsyncPipe],
   selector: 'app-user-text',
-  standalone: true,
   templateUrl: './user-text.component.html',
 })
 export class UserTextComponent {
@@ -84,7 +83,6 @@ export class UserTextComponent {
     let umatch: string;
     let url;
 
-    // eslint-disable-next-line no-cond-assign
     while (line && (res = re.exec(line))) {
       if (res[1]) {
         umatch = res[1];

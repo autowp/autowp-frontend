@@ -41,7 +41,6 @@ interface PictureRoute {
 @Component({
   imports: [MarkdownComponent, RouterLink, ThumbnailComponent, AsyncPipe],
   selector: 'app-catalogue-index',
-  standalone: true,
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {

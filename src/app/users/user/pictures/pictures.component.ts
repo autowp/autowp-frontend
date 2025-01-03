@@ -39,7 +39,6 @@ function addCSS(url: string) {
 @Component({
   imports: [RouterLink, NgClass, NgStyle, AsyncPipe],
   selector: 'app-users-user-pictures',
-  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class UsersUserPicturesComponent implements OnInit {

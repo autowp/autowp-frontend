@@ -12,7 +12,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [AsyncPipe],
   selector: 'app-account-email',
-  standalone: true,
   templateUrl: './email.component.html',
 })
 export class AccountEmailComponent implements OnInit {

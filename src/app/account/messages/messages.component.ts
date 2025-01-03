@@ -19,7 +19,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [UserComponent, RouterLink, UserTextComponent, PastTimeIndicatorComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-messages',
-  standalone: true,
   templateUrl: './messages.component.html',
 })
 export class AccountMessagesComponent {

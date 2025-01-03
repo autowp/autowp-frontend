@@ -11,7 +11,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-upload-select-tree-item',
-  standalone: true,
   templateUrl: './tree-item.component.html',
 })
 export class UploadSelectTreeItemComponent {

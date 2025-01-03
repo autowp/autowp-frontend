@@ -7,7 +7,6 @@ import showdown from 'showdown';
 @Component({
   imports: [AsyncPipe],
   selector: 'app-markdown',
-  standalone: true,
   styleUrls: ['markdown.component.scss'],
   templateUrl: './markdown.component.html',
 })

@@ -6,7 +6,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [RouterLink, MarkdownComponent],
   selector: 'app-donate-success',
-  standalone: true,
   templateUrl: './success.component.html',
 })
 export class DonateSuccessComponent implements OnInit {

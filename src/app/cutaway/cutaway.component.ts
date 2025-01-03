@@ -13,7 +13,6 @@ import {ToastsService} from '../toasts/toasts.service';
 @Component({
   imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cutaway',
-  standalone: true,
   templateUrl: './cutaway.component.html',
 })
 export class CutawayComponent implements OnInit {

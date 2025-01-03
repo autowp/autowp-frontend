@@ -12,7 +12,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [UserComponent, AsyncPipe],
   selector: 'app-comments-votes',
-  standalone: true,
   templateUrl: './votes.component.html',
 })
 export class CommentsVotesComponent {

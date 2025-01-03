@@ -17,7 +17,6 @@ import {ItemMetaFormComponent, ItemMetaFormResult} from '../../item-meta-form/it
 @Component({
   imports: [NgbProgressbar, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-item-meta',
-  standalone: true,
   templateUrl: './meta.component.html',
 })
 export class ModerItemsItemMetaComponent {

@@ -7,7 +7,6 @@ import type {ItemHeader} from '@utils/item-header/item-header.component';
 @Component({
   imports: [RouterLink, ItemHeaderComponent],
   selector: 'app-catalogue-item-menu',
-  standalone: true,
   templateUrl: './item-menu.component.html',
 })
 export class CatalogueItemMenuComponent {

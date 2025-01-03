@@ -6,7 +6,6 @@ import {APIPaginator} from '@services/api.service';
 @Component({
   imports: [RouterLink],
   selector: 'app-paginator',
-  standalone: true,
   templateUrl: './paginator.component.html',
 })
 export class PaginatorComponent {

@@ -25,7 +25,6 @@ import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
 @Component({
   imports: [RouterLink, PaginatorComponent, ModerItemsItemSelectParentTreeComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-catalogue',
-  standalone: true,
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemSelectParentCatalogueComponent {

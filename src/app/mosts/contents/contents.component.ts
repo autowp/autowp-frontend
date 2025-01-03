@@ -35,7 +35,6 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
 @Component({
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLink, MarkdownComponent, NgbTooltip, AsyncPipe],
   selector: 'app-mosts-contents',
-  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './contents.component.html',
 })

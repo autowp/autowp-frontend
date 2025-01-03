@@ -13,7 +13,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [FormsModule, InvalidParamsPipe],
   selector: 'app-comments-form',
-  standalone: true,
   templateUrl: './form.component.html',
 })
 export class CommentsFormComponent implements OnInit, OnDestroy {

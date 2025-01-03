@@ -37,7 +37,6 @@ interface Topic {
 @Component({
   imports: [RouterLink, PastTimeIndicatorComponent, UserComponent, AsyncPipe],
   selector: 'app-forums-topic-list',
-  standalone: true,
   templateUrl: './topic-list.component.html',
 })
 export class ForumsTopicListComponent {

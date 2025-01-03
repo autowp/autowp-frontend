@@ -16,7 +16,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 @Component({
   imports: [ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-twins-group-pictures-list',
-  standalone: true,
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {

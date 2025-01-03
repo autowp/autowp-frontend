@@ -21,7 +21,6 @@ import {LanguageService} from '@services/language';
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-factory-items',
-  standalone: true,
   templateUrl: './items.component.html',
 })
 export class FactoryItemsComponent {

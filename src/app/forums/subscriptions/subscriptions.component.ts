@@ -14,7 +14,6 @@ import {ForumsTopicListComponent} from '../topic-list/topic-list.component';
 @Component({
   imports: [ForumsTopicListComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-forums-subscriptions',
-  standalone: true,
   templateUrl: './subscriptions.component.html',
 })
 export class ForumsSubscriptionsComponent implements OnInit {

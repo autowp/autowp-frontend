@@ -28,7 +28,6 @@ import {CarsSelectEngineTreeItemComponent} from './tree-item/tree-item.component
 @Component({
   imports: [RouterLink, CarsSelectEngineTreeItemComponent, FormsModule, PaginatorComponent, AsyncPipe],
   selector: 'app-cars-engine-select',
-  standalone: true,
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {

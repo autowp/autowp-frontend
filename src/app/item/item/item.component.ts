@@ -9,7 +9,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-item',
-  standalone: true,
   styleUrls: ['./item.component.scss'],
   templateUrl: './item.component.html',
 })

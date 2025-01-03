@@ -6,7 +6,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [RouterLink, MarkdownComponent],
   selector: 'app-feedback-sent',
-  standalone: true,
   templateUrl: './sent.component.html',
 })
 export class FeedbackSentComponent implements OnInit {

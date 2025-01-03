@@ -29,7 +29,6 @@ import {LanguageService} from '@services/language';
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
   selector: 'app-moder-items-item-catalogue',
-  standalone: true,
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemCatalogueComponent {

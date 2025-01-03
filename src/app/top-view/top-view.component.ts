@@ -13,7 +13,6 @@ import {ToastsService} from '../toasts/toasts.service';
 @Component({
   imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-top-view',
-  standalone: true,
   templateUrl: './top-view.component.html',
 })
 export class TopViewComponent implements OnInit {

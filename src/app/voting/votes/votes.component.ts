@@ -13,7 +13,6 @@ import {VotingService} from '../voting.service';
 @Component({
   imports: [UserComponent, AsyncPipe],
   selector: 'app-voting-votes',
-  standalone: true,
   templateUrl: './votes.component.html',
 })
 export class VotingVotesComponent {

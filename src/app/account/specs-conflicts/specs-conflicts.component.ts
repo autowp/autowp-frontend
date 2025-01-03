@@ -56,7 +56,6 @@ function mapFilter(filter: null | string): AttrConflictsRequest.Filter {
 @Component({
   imports: [RouterLink, UserComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-specs-conflicts',
-  standalone: true,
   templateUrl: './specs-conflicts.component.html',
 })
 export class AccountSpecsConflictsComponent implements OnInit {

@@ -5,7 +5,6 @@ import {MapPoint} from '@grpc/spec.pb';
 @Component({
   imports: [RouterLink],
   selector: 'app-map-popup',
-  standalone: true,
   templateUrl: './popup.component.html',
 })
 export class MapPopupComponent {

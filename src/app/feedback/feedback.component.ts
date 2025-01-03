@@ -18,7 +18,6 @@ const CAPTCHA = 'captcha';
 @Component({
   imports: [RouterLink, FormsModule, ReactiveFormsModule, RecaptchaModule, MarkdownComponent, InvalidParamsPipe],
   selector: 'app-feedback',
-  standalone: true,
   templateUrl: './feedback.component.html',
 })
 export class FeedbackComponent implements OnInit {

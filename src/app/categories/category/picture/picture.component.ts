@@ -14,7 +14,6 @@ import {CategoriesService} from '../../service';
 @Component({
   imports: [PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-category-picture',
-  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class CategoryPictureComponent {

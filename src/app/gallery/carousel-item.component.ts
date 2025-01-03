@@ -66,7 +66,6 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 @Component({
   imports: [NgStyle, AreaComponent, RouterLink, NgMathPipesModule],
   selector: 'app-gallery-carousel-item',
-  standalone: true,
   styleUrls: ['./carousel-item.component.scss'],
   templateUrl: './carousel-item.component.html',
 })

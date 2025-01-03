@@ -14,7 +14,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, RouterOutlet, AsyncPipe],
   selector: 'app-persons-person',
-  standalone: true,
   templateUrl: './person.component.html',
 })
 export class PersonsPersonComponent {

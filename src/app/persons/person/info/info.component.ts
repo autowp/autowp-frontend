@@ -18,7 +18,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
 @Component({
   imports: [MarkdownComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-persons-person-info',
-  standalone: true,
   templateUrl: './info.component.html',
 })
 export class PersonsPersonInfoComponent {

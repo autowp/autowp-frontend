@@ -139,7 +139,6 @@ function localizeInherited(parentIsConcept: ParentIsConcept | null) {
 @Component({
   imports: [FormsModule, ReactiveFormsModule, MapPointComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-item-meta-form',
-  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './item-meta-form.component.html',
 })

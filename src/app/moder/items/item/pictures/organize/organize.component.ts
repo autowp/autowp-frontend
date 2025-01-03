@@ -24,7 +24,6 @@ import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form
 @Component({
   imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-item-pictures-organize',
-  standalone: true,
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemPicturesOrganizeComponent implements OnInit {

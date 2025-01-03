@@ -21,7 +21,6 @@ interface Crop {
 @Component({
   imports: [RouterLink],
   selector: 'app-moder-pictures-item-crop',
-  standalone: true,
   templateUrl: './crop.component.html',
 })
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {

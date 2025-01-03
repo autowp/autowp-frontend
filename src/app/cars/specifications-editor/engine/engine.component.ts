@@ -14,7 +14,6 @@ import {ToastsService} from '../../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-cars-specifications-editor-engine',
-  standalone: true,
   templateUrl: './engine.component.html',
 })
 export class CarsSpecificationsEditorEngineComponent {

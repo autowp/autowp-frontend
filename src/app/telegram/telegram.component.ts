@@ -6,7 +6,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [RouterLink, MarkdownComponent],
   selector: 'app-telegram',
-  standalone: true,
   templateUrl: './telegram.component.html',
 })
 export class TelegramComponent implements OnInit {

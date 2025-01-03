@@ -26,7 +26,6 @@ import {LanguageService} from '@services/language';
     AsyncPipe,
   ],
   selector: 'app-cars-specifications-editor',
-  standalone: true,
   templateUrl: './specifications-editor.component.html',
 })
 export class CarsSpecificationsEditorComponent {

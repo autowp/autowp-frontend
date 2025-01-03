@@ -18,7 +18,6 @@ const VOD_TIMEZONE = 'UTC';
 @Component({
   imports: [RouterLink, MarkdownComponent, ItemOfDayComponent, AsyncPipe],
   selector: 'app-donate-vod',
-  standalone: true,
   templateUrl: './vod.component.html',
 })
 export class DonateVodComponent implements OnInit {

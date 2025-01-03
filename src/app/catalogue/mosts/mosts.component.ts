@@ -13,7 +13,6 @@ import {MostsContentsComponent} from '../../mosts/contents/contents.component';
 @Component({
   imports: [RouterLink, MostsContentsComponent, AsyncPipe],
   selector: 'app-catalogue-mosts',
-  standalone: true,
   templateUrl: './mosts.component.html',
 })
 export class CatalogueMostsComponent {

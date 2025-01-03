@@ -26,7 +26,6 @@ import {AutosizeModule} from 'ngx-autosize';
     NgbNavOutlet,
   ],
   selector: 'app-markdown-edit',
-  standalone: true,
   templateUrl: './markdown-edit.component.html',
 })
 export class MarkdownEditComponent {

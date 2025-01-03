@@ -11,7 +11,6 @@ import {chunkBy} from '../chunk';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-categories-index',
-  standalone: true,
   templateUrl: './index.component.html',
 })
 export class CategoriesIndexComponent implements OnInit {

@@ -1,15 +1,15 @@
 import {inject, Injectable} from '@angular/core';
 import {APIMeRequest, APIUser} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
-import {KeycloakService} from 'keycloak-angular';
 import {from, Observable, of, ReplaySubject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
+import Keycloak from 'keycloak-js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly keycloak = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
   private readonly usersClient = inject(UsersClient);
 
   private readonly user$ = new ReplaySubject<APIUser | null>(1);
@@ -18,20 +18,12 @@ export class AuthService {
     this.init();
   }
 
-  private init() {
-    this.keycloak.getToken().then(
-      (accessToken) => {
-        if (accessToken) {
-          this.loadMe$().subscribe();
-        } else {
-          this.setUser(null);
-        }
-      },
-      (error) => {
-        console.error(error);
-        this.setUser(null);
-      },
-    );
+  public init() {
+    if (this.keycloak.token) {
+      this.loadMe$().subscribe();
+    } else {
+      this.setUser(null);
+    }
   }
 
   private setUser(value: APIUser | null) {
@@ -43,7 +35,7 @@ export class AuthService {
   }
 
   public signOut$(): Observable<void> {
-    return from(this.keycloak.logout(window.location.href)).pipe(tap(() => this.setUser(null)));
+    return from(this.keycloak.logout({redirectUri: window.location.href})).pipe(tap(() => this.setUser(null)));
   }
 
   private loadMe$(): Observable<APIUser | null> {

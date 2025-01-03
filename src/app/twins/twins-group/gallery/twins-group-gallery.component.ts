@@ -14,7 +14,6 @@ import {GalleryComponent} from '../../../gallery/gallery.component';
 @Component({
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-twins-group-gallery',
-  standalone: true,
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {

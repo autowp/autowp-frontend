@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {LanguageService} from '@services/language';
-import {KeycloakService} from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,7 @@ import {KeycloakService} from 'keycloak-angular';
 })
 export class LoginComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
-  private readonly keycloak = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
 
   ngOnInit(): void {
     this.keycloak.login({

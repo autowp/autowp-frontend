@@ -10,7 +10,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-new-list-item',
-  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './list-item.component.html',
 })

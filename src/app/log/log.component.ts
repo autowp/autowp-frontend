@@ -19,7 +19,6 @@ import {UserComponent} from '../user/user/user.component';
 @Component({
   imports: [RouterLink, UserComponent, NgbTooltip, PaginatorComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-log',
-  standalone: true,
   templateUrl: './log.component.html',
 })
 export class LogComponent implements OnInit {

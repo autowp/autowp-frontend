@@ -21,7 +21,6 @@ import {LanguageService} from '@services/language';
 @Component({
   imports: [RouterLink, RouterLinkActive, RouterOutlet, TwinsSidebarComponent, AsyncPipe],
   selector: 'app-twins-group',
-  standalone: true,
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {

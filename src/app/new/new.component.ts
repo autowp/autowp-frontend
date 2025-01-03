@@ -45,7 +45,6 @@ interface APINewGetResponse {
 @Component({
   imports: [RouterLink, NewListItemComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
   selector: 'app-new',
-  standalone: true,
   templateUrl: './new.component.html',
 })
 export class NewComponent implements OnInit {

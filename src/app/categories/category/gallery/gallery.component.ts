@@ -14,7 +14,6 @@ import {CategoriesService, CategoryPipeResult} from '../../service';
 @Component({
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-category-gallery',
-  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class CategoryGalleryComponent implements OnInit {

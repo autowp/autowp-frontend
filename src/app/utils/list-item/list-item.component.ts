@@ -55,7 +55,6 @@ export interface CatalogueListItem {
 @Component({
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-catalogue-list-item',
-  standalone: true,
   templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {

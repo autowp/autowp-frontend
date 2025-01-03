@@ -52,7 +52,6 @@ interface HtmlAndSelectItemParams {
 @Component({
   imports: [RouterLink, PaginatorComponent, FormsModule, ReactiveFormsModule, ModerPictureMoveItemComponent, AsyncPipe],
   selector: 'app-moder-pictures-item-move',
-  standalone: true,
   templateUrl: './move.component.html',
 })
 export class ModerPicturesItemMoveComponent implements OnInit {

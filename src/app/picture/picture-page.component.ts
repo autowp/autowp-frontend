@@ -16,7 +16,6 @@ import {PictureComponent} from './picture.component';
 @Component({
   imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-picture-page',
-  standalone: true,
   templateUrl: './picture-page.component.html',
 })
 export class PicturePageComponent {

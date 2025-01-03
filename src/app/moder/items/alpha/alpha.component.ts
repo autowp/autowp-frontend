@@ -17,7 +17,6 @@ export interface APIItemAlphaGetResponse {
 @Component({
   imports: [RouterLink, PaginatorComponent],
   selector: 'app-moder-items-alpha',
-  standalone: true,
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnInit, OnDestroy {

@@ -16,7 +16,6 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
 @Component({
   imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-catalogue-mixed-picture',
-  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class CatalogueMixedPictureComponent {

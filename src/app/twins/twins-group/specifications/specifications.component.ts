@@ -12,7 +12,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 @Component({
   imports: [AsyncPipe],
   selector: 'app-twins-group-specifications',
-  standalone: true,
   templateUrl: './specifications.component.html',
 })
 export class TwinsGroupSpecificationsComponent {

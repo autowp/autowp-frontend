@@ -16,7 +16,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
   selector: 'app-new-item',
-  standalone: true,
   templateUrl: './item.component.html',
 })
 export class NewItemComponent {

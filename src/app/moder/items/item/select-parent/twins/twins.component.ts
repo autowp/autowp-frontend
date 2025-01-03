@@ -24,7 +24,6 @@ import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-ite
 @Component({
   imports: [RouterLink, PaginatorComponent, ModerItemsItemSelectParentTreeItemComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-twins',
-  standalone: true,
   templateUrl: './twins.component.html',
 })
 export class ModerItemsItemSelectParentTwinsComponent {

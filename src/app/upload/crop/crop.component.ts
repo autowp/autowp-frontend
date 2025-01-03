@@ -17,7 +17,6 @@ interface JcropCrop {
 @Component({
   imports: [AsyncPipe],
   selector: 'app-upload-crop',
-  standalone: true,
   templateUrl: './crop.component.html',
 })
 export class UploadCropComponent implements OnInit, OnDestroy {

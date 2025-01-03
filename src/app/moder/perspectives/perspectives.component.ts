@@ -14,7 +14,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-perspectives',
-  standalone: true,
   templateUrl: './perspectives.component.html',
 })
 export class ModerPerspectivesComponent implements OnInit {

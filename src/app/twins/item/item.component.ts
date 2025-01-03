@@ -9,7 +9,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-twins-item',
-  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './item.component.html',
 })

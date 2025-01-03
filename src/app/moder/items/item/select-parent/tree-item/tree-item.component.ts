@@ -11,7 +11,6 @@ import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
 @Component({
   imports: [forwardRef(() => ModerItemsItemSelectParentTreeComponent), AsyncPipe],
   selector: 'app-moder-items-item-select-parent-tree-item',
-  standalone: true,
   templateUrl: './tree-item.component.html',
 })
 export class ModerItemsItemSelectParentTreeItemComponent {

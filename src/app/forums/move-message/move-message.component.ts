@@ -22,7 +22,6 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-forums-move-message',
-  standalone: true,
   templateUrl: './move-message.component.html',
 })
 export class ForumsMoveMessageComponent implements OnInit {

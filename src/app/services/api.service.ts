@@ -12,12 +12,12 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from '@environment/environment';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
-import {KeycloakService} from 'keycloak-angular';
-import {from, Observable, of, throwError} from 'rxjs';
-import {catchError, switchMap, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
+import Keycloak from 'keycloak-js';
 
 export interface APIImage {
   height: number;
@@ -45,29 +45,19 @@ export interface APIPaginator {
 declare type HttpObserve = 'body' | 'events' | 'response';
 
 export function authInterceptor$(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  const keycloak = inject(KeycloakService);
+  const keycloak = inject(Keycloak);
 
-  const promise = keycloak.getToken();
+  const token = keycloak.token;
 
-  promise.catch((d) => console.error(d));
+  if (!token) {
+    return next(req);
+  }
 
-  return from(promise).pipe(
-    catchError((e: unknown) => {
-      console.error(e);
-      return of('');
-    }),
-    switchMap((accessToken) => {
-      if (!accessToken) {
-        return next(req);
-      }
+  const authReq = req.clone({
+    headers: req.headers.set('Authorization', 'Bearer ' + token),
+  });
 
-      const authReq = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer ' + accessToken),
-      });
-
-      return next(authReq);
-    }),
-  );
+  return next(authReq);
 }
 
 @Injectable({
@@ -110,31 +100,21 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
   providedIn: 'root',
 })
 export class GrpcAuthInterceptor implements GrpcInterceptor {
-  private readonly keycloak = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
     next: GrpcHandler,
   ): Observable<GrpcEvent<S>> {
-    const promise = this.keycloak.getToken();
+    const token = this.keycloak.token;
 
-    promise.catch((d) => console.error(d));
+    if (!token) {
+      return next.handle(request);
+    }
 
-    return from(promise).pipe(
-      catchError((e: unknown) => {
-        console.error(e);
-        return of('');
-      }),
-      switchMap((accessToken) => {
-        if (!accessToken) {
-          return next.handle(request);
-        }
+    request.requestMetadata.set('Authorization', 'Bearer ' + token);
 
-        request.requestMetadata.set('Authorization', 'Bearer ' + accessToken);
-
-        return next.handle(request);
-      }),
-    );
+    return next.handle(request);
   }
 }
 

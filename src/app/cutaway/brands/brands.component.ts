@@ -18,7 +18,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cutaway-brands',
-  standalone: true,
   templateUrl: './brands.component.html',
 })
 export class CutawayBrandsComponent implements OnInit {

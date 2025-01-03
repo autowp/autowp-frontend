@@ -25,7 +25,6 @@ interface PathItem {
 @Component({
   imports: [RouterLink, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLinkActive, RouterOutlet, AsyncPipe],
   selector: 'app-categories-category',
-  standalone: true,
   templateUrl: './category.component.html',
 })
 export class CategoriesCategoryComponent {

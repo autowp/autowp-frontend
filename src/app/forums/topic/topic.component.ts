@@ -23,7 +23,6 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
 @Component({
   imports: [RouterLink, CommentsComponent, AsyncPipe],
   selector: 'app-forums-topic',
-  standalone: true,
   templateUrl: './topic.component.html',
 })
 export class ForumsTopicComponent {

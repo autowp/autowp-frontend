@@ -12,7 +12,6 @@ import {GalleryComponent} from '../../../../gallery/gallery.component';
 @Component({
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-persons-person-author-gallery',
-  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonAuthorGalleryComponent {

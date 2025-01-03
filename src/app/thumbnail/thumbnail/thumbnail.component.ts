@@ -22,7 +22,6 @@ interface ThumbnailAPIPicture extends APIPicture {
 @Component({
   imports: [RouterLink, UserComponent, FormsModule, AsyncPipe, DecimalPipe],
   selector: 'app-thumbnail',
-  standalone: true,
   styleUrls: ['./thumbnail.component.scss'],
   templateUrl: './thumbnail.component.html',
 })

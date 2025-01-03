@@ -10,7 +10,6 @@ import {GalleryComponent} from './gallery.component';
 @Component({
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-gallery-page',
-  standalone: true,
   templateUrl: './gallery-page.component.html',
 })
 export class GalleryPageComponent implements OnInit {

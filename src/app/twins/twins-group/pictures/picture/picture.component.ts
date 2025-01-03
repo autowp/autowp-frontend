@@ -14,7 +14,6 @@ import {PictureComponent} from '../../../../picture/picture.component';
 @Component({
   imports: [PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-twins-group-picture',
-  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class TwinsGroupPictureComponent {

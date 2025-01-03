@@ -478,7 +478,7 @@
                     (click)="onPictureClick(picture, control)"
                   >
                     @if (picture.picture$ | async; as pic) {
-                      <img [src]="pic.thumb_medium?.src" alt="" [title]="pic.name_text" class="rounded w-100" />
+                      <img [src]="pic.thumb_medium.src" alt="" [title]="pic.name_text" class="rounded w-100" />
                     }
                   </label>
                 </div>

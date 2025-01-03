@@ -10,7 +10,6 @@ import {MostsContentsComponent} from './contents/contents.component';
 @Component({
   imports: [RouterLink, MostsContentsComponent, AsyncPipe],
   selector: 'app-mosts',
-  standalone: true,
   templateUrl: './mosts.component.html',
 })
 export class MostsComponent implements OnInit {

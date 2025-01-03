@@ -19,7 +19,6 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
-import {InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {
   getAttrDescriptionTranslation,
@@ -84,19 +83,8 @@ type AttrFormControls =
   | AttrFormControl<string>;
 
 @Component({
-  imports: [
-    FormsModule,
-    NgStyle,
-    ReactiveFormsModule,
-    UserComponent,
-    NgbTooltip,
-    AsyncPipe,
-    DatePipe,
-    InvalidParamsPipe,
-    TimeAgoPipe,
-  ],
+  imports: [FormsModule, NgStyle, ReactiveFormsModule, UserComponent, NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-cars-specifications-editor-spec',
-  standalone: true,
   styleUrls: ['./spec.component.scss'],
   templateUrl: './spec.component.html',
 })

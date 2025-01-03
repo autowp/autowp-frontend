@@ -11,7 +11,6 @@ import {switchMap} from 'rxjs/operators';
 @Component({
   imports: [RouterLink, NgClass, NgStyle, NgbPopover, AsyncPipe, NgIf],
   selector: 'app-brands-item',
-  standalone: true,
   templateUrl: './item.component.html',
 })
 export class BrandsItemComponent {

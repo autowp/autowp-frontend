@@ -17,7 +17,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-users-user-pictures-brand',
-  standalone: true,
   templateUrl: './brand.component.html',
 })
 export class UsersUserPicturesBrandComponent {

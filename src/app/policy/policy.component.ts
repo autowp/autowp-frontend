@@ -5,7 +5,6 @@ import {PageEnvService} from '@services/page-env.service';
 @Component({
   imports: [RouterLink],
   selector: 'app-policy',
-  standalone: true,
   templateUrl: './policy.component.html',
 })
 export class PolicyComponent implements OnInit {

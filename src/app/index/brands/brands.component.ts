@@ -11,7 +11,6 @@ import {IndexBrandsBrandComponent} from './brand/brand.component';
 @Component({
   imports: [RouterLink, IndexBrandsBrandComponent, AsyncPipe],
   selector: 'app-index-brands',
-  standalone: true,
   styleUrls: ['./brands.component.scss'],
   templateUrl: './brands.component.html',
 })

@@ -14,7 +14,6 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
 @Component({
   imports: [PaginatorComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-brands',
-  standalone: true,
   templateUrl: './brands.component.html',
 })
 export class ModerItemsItemSelectParentBrandsComponent {

@@ -17,7 +17,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [MarkdownComponent, FormsModule, InvalidParamsPipe],
   selector: 'app-account-delete',
-  standalone: true,
   templateUrl: './delete.component.html',
 })
 export class AccountDeleteComponent implements OnInit {

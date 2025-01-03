@@ -14,7 +14,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-inbox-pictures',
-  standalone: true,
   templateUrl: './inbox-pictures.component.html',
 })
 export class AccountInboxPicturesComponent implements OnInit {

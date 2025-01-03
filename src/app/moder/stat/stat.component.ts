@@ -13,7 +13,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, NgbProgressbar, AsyncPipe],
   selector: 'app-moder-stat',
-  standalone: true,
   templateUrl: './stat.component.html',
 })
 export class ModerStatComponent implements OnInit {

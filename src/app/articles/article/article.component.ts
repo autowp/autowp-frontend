@@ -13,7 +13,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-articles-article',
-  standalone: true,
   templateUrl: './article.component.html',
 })
 export class ArticlesArticleComponent {

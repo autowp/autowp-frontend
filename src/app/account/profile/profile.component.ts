@@ -12,22 +12,21 @@ import {PageEnvService} from '@services/page-env.service';
 import {TimezoneService} from '@services/timezone';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
-import {KeycloakService} from 'keycloak-angular';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
+import Keycloak from 'keycloak-js';
 
 @Component({
   imports: [MarkdownComponent, FormsModule, AsyncPipe, InvalidParamsPipe],
   selector: 'app-account-profile',
-  standalone: true,
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnInit, OnDestroy {
   private readonly api = inject(APIService);
   private readonly languageService = inject(LanguageService);
-  private readonly keycloak = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
   private readonly auth = inject(AuthService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly timezone = inject(TimezoneService);

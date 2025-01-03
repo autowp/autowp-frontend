@@ -14,7 +14,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-donate-vod-select-item',
-  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './item.component.html',
 })

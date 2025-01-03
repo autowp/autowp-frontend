@@ -11,7 +11,6 @@ import {switchMap} from 'rxjs/operators';
 @Component({
   imports: [RouterLink, NgbPopover, AsyncPipe],
   selector: 'app-index-categories-category',
-  standalone: true,
   styleUrls: ['./category.component.scss'],
   templateUrl: './category.component.html',
 })

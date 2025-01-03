@@ -34,7 +34,6 @@ import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
     AsyncPipe,
   ],
   selector: 'app-catalogue-vehicles',
-  standalone: true,
   templateUrl: './vehicles.component.html',
 })
 export class CatalogueVehiclesComponent {

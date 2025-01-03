@@ -8,7 +8,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [FormsModule],
   selector: 'app-modal-message',
-  standalone: true,
   templateUrl: './modal-message.component.html',
 })
 export class ModalMessageComponent {

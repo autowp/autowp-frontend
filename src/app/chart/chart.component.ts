@@ -31,7 +31,6 @@ export interface APIChartData {
   imports: [RouterLink, BaseChartDirective],
   providers: [provideCharts(withDefaultRegisterables())],
   selector: 'app-chart',
-  standalone: true,
   templateUrl: './chart.component.html',
 })
 export class ChartComponent implements OnInit {

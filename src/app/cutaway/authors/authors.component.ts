@@ -18,7 +18,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-cutaway-authors',
-  standalone: true,
   templateUrl: './authors.component.html',
 })
 export class CutawayAuthorsComponent implements OnInit {

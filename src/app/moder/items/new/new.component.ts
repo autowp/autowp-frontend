@@ -30,7 +30,6 @@ interface NewAPIItem extends APIItem {
 @Component({
   imports: [RouterLink, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-new',
-  standalone: true,
   templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {

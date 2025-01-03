@@ -96,7 +96,6 @@ class Gallery {
 @Component({
   imports: [CarouselItemComponent, RouterLink, AsyncPipe],
   selector: 'app-gallery',
-  standalone: true,
   styleUrls: ['./gallery.component.scss'],
   templateUrl: './gallery.component.html',
 })

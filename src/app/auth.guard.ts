@@ -2,12 +2,12 @@ import {inject} from '@angular/core';
 import {CanActivateFn} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
-import {KeycloakService} from 'keycloak-angular';
 import {map} from 'rxjs/operators';
+import Keycloak from 'keycloak-js';
 
 export const authGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
-  const keycloak = inject(KeycloakService);
+  const keycloak = inject(Keycloak);
   const language = inject(LanguageService);
 
   return auth.getUser$().pipe(

@@ -38,7 +38,6 @@ interface InfoText {
 @Component({
   imports: [RouterLink, UserComponent, AsyncPipe],
   selector: 'app-info-text',
-  standalone: true,
   templateUrl: './text.component.html',
 })
 export class InfoTextComponent implements OnInit {

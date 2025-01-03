@@ -35,7 +35,6 @@ import {MarkdownEditComponent} from '../../../../markdown-edit/markdown-edit/mar
     AsyncPipe,
   ],
   selector: 'app-moder-items-item-name',
-  standalone: true,
   templateUrl: './name.component.html',
 })
 export class ModerItemsItemNameComponent {

@@ -11,7 +11,6 @@ import {PictureItemMoveSelection} from '../move.component';
 @Component({
   imports: [AsyncPipe],
   selector: 'app-moder-picture-move-item',
-  standalone: true,
   styles: [
     `
       :host {

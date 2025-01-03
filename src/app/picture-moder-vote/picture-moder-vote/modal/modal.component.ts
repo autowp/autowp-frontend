@@ -8,7 +8,6 @@ import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vot
 @Component({
   imports: [FormsModule],
   selector: 'app-picture-moder-vote-modal',
-  standalone: true,
   templateUrl: './modal.component.html',
 })
 export class PictureModerVoteModalComponent {

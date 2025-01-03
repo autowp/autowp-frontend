@@ -37,7 +37,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [RouterLink, NgbTooltip, UserComponent, FormsModule, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-users-user',
-  standalone: true,
   styleUrls: ['./user.component.scss'],
   templateUrl: './user.component.html',
 })

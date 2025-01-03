@@ -11,7 +11,6 @@ import {AsyncPipe} from '@angular/common';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-items-too-big',
-  standalone: true,
   templateUrl: './too-big.component.html',
 })
 export class ModerItemsTooBigComponent implements OnInit {

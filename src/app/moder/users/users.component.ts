@@ -16,7 +16,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [RouterLink, UserComponent, NgbTooltip, PaginatorComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-moder-users',
-  standalone: true,
   templateUrl: './users.component.html',
 })
 export class ModerUsersComponent implements OnInit {

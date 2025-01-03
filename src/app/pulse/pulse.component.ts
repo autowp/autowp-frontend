@@ -22,7 +22,6 @@ interface Period {
 @Component({
   imports: [RouterLink, BaseChartDirective, UserComponent, AsyncPipe],
   selector: 'app-pulse',
-  standalone: true,
   templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {

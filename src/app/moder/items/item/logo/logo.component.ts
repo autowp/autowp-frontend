@@ -15,7 +15,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 @Component({
   imports: [MarkdownComponent, NgbProgressbar, AsyncPipe, InvalidParamsPipe],
   selector: 'app-moder-items-item-logo',
-  standalone: true,
   templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {

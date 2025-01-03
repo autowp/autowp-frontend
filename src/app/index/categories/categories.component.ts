@@ -11,7 +11,6 @@ import {IndexCategoriesCategoryComponent} from './category/category.component';
 @Component({
   imports: [RouterLink, IndexCategoriesCategoryComponent, Markdown2Component, AsyncPipe],
   selector: 'app-index-categories',
-  standalone: true,
   templateUrl: './categories.component.html',
 })
 export class IndexCategoriesComponent {

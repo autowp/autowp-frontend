@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
@@ -18,7 +18,6 @@ import {ToastsService} from '../toasts/toasts.service';
 @Component({
   imports: [RouterLink, LeafletModule, MarkdownComponent, ThumbnailComponent, AsyncPipe],
   selector: 'app-factories',
-  standalone: true,
   templateUrl: './factories.component.html',
 })
 export class FactoryComponent {

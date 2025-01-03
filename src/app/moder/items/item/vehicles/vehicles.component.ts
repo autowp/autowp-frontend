@@ -10,7 +10,6 @@ import {map, switchMap} from 'rxjs/operators';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-items-item-vehicles',
-  standalone: true,
   templateUrl: './vehicles.component.html',
 })
 export class ModerItemsItemVehiclesComponent {

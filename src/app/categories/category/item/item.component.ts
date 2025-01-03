@@ -23,7 +23,6 @@ interface PictureRoute {
 @Component({
   imports: [MarkdownComponent, CategoriesListItemComponent, RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-categories-category-item',
-  standalone: true,
   templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {

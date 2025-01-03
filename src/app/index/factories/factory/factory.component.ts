@@ -11,7 +11,6 @@ import {switchMap} from 'rxjs/operators';
 @Component({
   imports: [RouterLink, NgbPopover, AsyncPipe],
   selector: 'app-index-factories-factory',
-  standalone: true,
   styleUrls: ['./factory.component.scss'],
   templateUrl: './factory.component.html',
 })

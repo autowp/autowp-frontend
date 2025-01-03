@@ -19,7 +19,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 @Component({
   imports: [RouterLink, FormsModule, MarkdownComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-forums-new-topic',
-  standalone: true,
   templateUrl: './new-topic.component.html',
 })
 export class ForumsNewTopicComponent implements OnInit {

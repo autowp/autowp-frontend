@@ -10,7 +10,6 @@ import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-t
 @Component({
   imports: [RouterLink, FormsModule, AsyncPipe],
   selector: 'app-moder-picture-vote-templates',
-  standalone: true,
   templateUrl: './picture-vote-templates.component.html',
 })
 export class ModerPictureVoteTemplatesComponent implements OnInit {

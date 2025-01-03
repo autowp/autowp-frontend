@@ -13,13 +13,13 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
-import {KeycloakService} from 'keycloak-angular';
 import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UploadCropComponent} from '../crop/crop.component';
+import Keycloak from 'keycloak-js';
 
 interface UploadProgress {
   failed: boolean;
@@ -49,7 +49,6 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
     InvalidParamsPipe,
   ],
   selector: 'app-upload-index',
-  standalone: true,
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
@@ -60,7 +59,7 @@ export class UploadIndexComponent implements OnInit {
   private readonly pageEnv = inject(PageEnvService);
   private readonly modalService = inject(NgbModal);
   private readonly toastService = inject(ToastsService);
-  private readonly keycloak = inject(KeycloakService);
+  private readonly keycloak = inject(Keycloak);
   private readonly languageService = inject(LanguageService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly picturesClient = inject(PicturesClient);

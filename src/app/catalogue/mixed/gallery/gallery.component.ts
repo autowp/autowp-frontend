@@ -15,7 +15,6 @@ import {BrandPerspectivePageData} from '../../catalogue.module';
 @Component({
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-catalogue-mixed-gallery',
-  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class CatalogueMixedGalleryComponent {

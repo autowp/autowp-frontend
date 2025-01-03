@@ -23,7 +23,6 @@ enum Rating {
 @Component({
   imports: [RouterLink, UserComponent, AsyncPipe, DecimalPipe],
   selector: 'app-users-rating',
-  standalone: true,
   templateUrl: './rating.component.html',
 })
 export class UsersRatingComponent implements OnInit {

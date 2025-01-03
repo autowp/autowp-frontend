@@ -26,7 +26,6 @@ interface SidebarItem {
 @Component({
   imports: [RouterLink, RouterOutlet, AsyncPipe],
   selector: 'app-account',
-  standalone: true,
   templateUrl: './account.component.html',
 })
 export class AccountComponent {

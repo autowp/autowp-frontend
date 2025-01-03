@@ -5,7 +5,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [MarkdownComponent],
   selector: 'app-account-delete-deleted',
-  standalone: true,
   templateUrl: './deleted.component.html',
 })
 export class AccountDeletedComponent implements OnInit {

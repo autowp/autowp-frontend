@@ -8,7 +8,6 @@ import {map} from 'rxjs/operators';
 @Component({
   imports: [NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-past-time-indicator',
-  standalone: true,
   styleUrls: ['./styles.scss'],
   templateUrl: './past-time-indicator.component.html',
 })

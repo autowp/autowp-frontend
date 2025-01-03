@@ -40,7 +40,6 @@ interface APIIndexItemOfDay {
     AsyncPipe,
   ],
   selector: 'app-index',
-  standalone: true,
   templateUrl: './index.component.html',
 })
 export class IndexComponent implements OnInit {

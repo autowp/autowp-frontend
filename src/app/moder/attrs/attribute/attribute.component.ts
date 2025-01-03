@@ -12,7 +12,6 @@ import {APIAttrsService} from '../../../api/attrs/attrs.service';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-moder-attrs-attribute',
-  standalone: true,
   templateUrl: './attribute.component.html',
 })
 export class ModerAttrsAttributeComponent {

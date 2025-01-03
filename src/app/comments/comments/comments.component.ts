@@ -25,7 +25,6 @@ import {CommentsListComponent} from '../list/list.component';
 @Component({
   imports: [CommentsListComponent, PaginatorComponent, CommentsFormComponent, MarkdownComponent, AsyncPipe],
   selector: 'app-comments',
-  standalone: true,
   templateUrl: './comments.component.html',
 })
 export class CommentsComponent {

@@ -27,7 +27,6 @@ import {ModerItemsItemSelectParentTwinsComponent} from './twins/twins.component'
     AsyncPipe,
   ],
   selector: 'app-moder-items-item-select-parent',
-  standalone: true,
   templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit {

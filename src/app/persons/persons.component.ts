@@ -17,7 +17,6 @@ import {PaginatorComponent} from '../paginator/paginator/paginator.component';
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-persons',
-  standalone: true,
   templateUrl: './persons.component.html',
 })
 export class PersonsComponent implements OnInit {

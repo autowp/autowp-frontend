@@ -13,7 +13,6 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 @Component({
   imports: [FormsModule, AsyncPipe],
   selector: 'app-moder-items-item-links',
-  standalone: true,
   templateUrl: './links.component.html',
 })
 export class ModerItemsItemLinksComponent {

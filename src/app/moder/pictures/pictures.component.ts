@@ -79,7 +79,6 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
     AsyncPipe,
   ],
   selector: 'app-moder-pictures',
-  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class ModerPicturesComponent implements OnInit, OnDestroy {

@@ -12,7 +12,6 @@ import {CatalogueService} from '../../catalogue-service';
 @Component({
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-catalogue-vehicles-gallery',
-  standalone: true,
   templateUrl: './gallery.component.html',
 })
 export class CatalogueVehiclesGalleryComponent {

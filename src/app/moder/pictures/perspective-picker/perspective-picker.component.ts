@@ -8,7 +8,6 @@ import {APIPerspectiveService} from '../../../api/perspective/perspective.servic
 @Component({
   imports: [FormsModule, AsyncPipe],
   selector: 'app-moder-pictures-perspective-picker',
-  standalone: true,
   templateUrl: './perspective-picker.component.html',
 })
 export class ModerPicturesPerspectivePickerComponent {

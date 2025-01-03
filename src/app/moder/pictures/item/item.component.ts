@@ -70,7 +70,6 @@ interface LastItemInfo {
     TimeAgoPipe,
   ],
   selector: 'app-moder-pictures-item',
-  standalone: true,
   templateUrl: './item.component.html',
 })
 export class ModerPicturesItemComponent {

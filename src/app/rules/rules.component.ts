@@ -6,7 +6,6 @@ import {Markdown2Component} from '@utils/markdown2/markdown2.component';
 @Component({
   imports: [RouterLink, Markdown2Component],
   selector: 'app-rules',
-  standalone: true,
   templateUrl: './rules.component.html',
 })
 export class RulesComponent implements OnInit {

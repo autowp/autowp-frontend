@@ -9,7 +9,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-index-twins',
-  standalone: true,
   templateUrl: './twins.component.html',
 })
 export class IndexTwinsComponent {

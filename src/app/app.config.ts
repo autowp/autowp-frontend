@@ -1,6 +1,6 @@
 import {DecimalPipe} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
-import {APP_INITIALIZER, ApplicationConfig, enableProdMode, importProvidersFrom} from '@angular/core';
+import {ApplicationConfig, enableProdMode, importProvidersFrom} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
@@ -29,48 +29,10 @@ import {TimezoneService} from '@services/timezone';
 import {UserService} from '@services/user';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {Angulartics2Module} from 'angulartics2';
-import {KeycloakAngularModule, KeycloakEventType, KeycloakService} from 'keycloak-angular';
+import {provideKeycloak} from 'keycloak-angular';
 import {NgPipesModule} from 'ngx-pipes';
 
 import {routes} from './app.routes';
-
-function bindTokenUpdate(keycloak: KeycloakService): void {
-  keycloak.keycloakEvents$.subscribe({
-    next: (e) => {
-      if (e.type == KeycloakEventType.OnTokenExpired) {
-        keycloak.updateToken().catch((error) => {
-          console.error('Failed to refresh token', error);
-        });
-      }
-    },
-  });
-}
-
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () => {
-    return new Promise((resolve, reject) => {
-      keycloak
-        .init({
-          config: environment.keycloak,
-          enableBearerInterceptor: false,
-          initOptions: {
-            enableLogging: !environment.production,
-            onLoad: 'check-sso',
-            silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-          },
-          loadUserProfileAtStartUp: false,
-        })
-        .then((res) => {
-          bindTokenUpdate(keycloak);
-
-          resolve(res);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
-}
 
 if (environment.production) {
   enableProdMode();
@@ -82,7 +44,6 @@ export const appConfig: ApplicationConfig = {
       BrowserModule,
       FormsModule,
       NgPipesModule,
-      KeycloakAngularModule,
       NgbTooltipModule,
       NgbCollapseModule,
       NgbDropdownModule,
@@ -95,12 +56,14 @@ export const appConfig: ApplicationConfig = {
     ),
     {multi: true, provide: GRPC_INTERCEPTORS, useClass: GrpcLogInterceptor},
     {multi: true, provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor},
-    {
-      deps: [KeycloakService],
-      multi: true,
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-    },
+    provideKeycloak({
+      config: environment.keycloak,
+      initOptions: {
+        enableLogging: !environment.production,
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      },
+    }),
     APIService,
     APIACL,
     AuthService,

@@ -16,7 +16,6 @@ export interface ItemHeader {
 @Component({
   imports: [RouterLink],
   selector: 'app-item-header',
-  standalone: true,
   templateUrl: './item-header.component.html',
 })
 export class ItemHeaderComponent {

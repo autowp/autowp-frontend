@@ -43,7 +43,6 @@ export interface APICommentInList extends APICommentsMessage {
     TimeAgoPipe,
   ],
   selector: 'app-comments-list',
-  standalone: true,
   templateUrl: './list.component.html',
 })
 export class CommentsListComponent {

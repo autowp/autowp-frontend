@@ -9,7 +9,6 @@ import {Observable} from 'rxjs';
 @Component({
   imports: [RouterLink, AsyncPipe],
   selector: 'app-twins-sidebar',
-  standalone: true,
   templateUrl: './sidebar.component.html',
 })
 export class TwinsSidebarComponent {

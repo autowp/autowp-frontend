@@ -27,7 +27,6 @@ interface Article {
 @Component({
   imports: [RouterLink, UserComponent, NgbTooltip, PaginatorComponent, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-articles-list',
-  standalone: true,
   styleUrls: ['./list.component.scss'],
   templateUrl: './list.component.html',
 })

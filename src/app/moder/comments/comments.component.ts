@@ -33,7 +33,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, UserComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-moder-comments',
-  standalone: true,
   templateUrl: './comments.component.html',
 })
 export class ModerCommentsComponent implements OnInit {

@@ -18,7 +18,6 @@ const rates: {[key: string]: number} = {
 @Component({
   imports: [NgbTooltip, AsyncPipe, CurrencyPipe, TimeAgoPipe],
   selector: 'app-index-donate',
-  standalone: true,
   styleUrls: ['./donate.component.scss'],
   templateUrl: './donate.component.html',
 })

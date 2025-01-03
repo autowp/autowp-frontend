@@ -64,7 +64,6 @@ const DEFAULT_ORDER = 'id_desc';
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, CatalogueListItemComponent, PaginatorComponent],
   selector: 'app-items',
-  standalone: true,
   templateUrl: './items.component.html',
 })
 export class ModerItemsComponent implements OnInit, OnDestroy {

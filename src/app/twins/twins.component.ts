@@ -24,7 +24,6 @@ interface ChunkedGroup {
 @Component({
   imports: [RouterLink, PaginatorComponent, TwinsSidebarComponent, AsyncPipe],
   selector: 'app-twins',
-  standalone: true,
   templateUrl: './twins.component.html',
 })
 export class TwinsComponent implements OnInit {

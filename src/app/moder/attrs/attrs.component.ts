@@ -12,7 +12,6 @@ import {ModerAttrsAttributeListComponent} from './attribute-list/attribute-list.
 @Component({
   imports: [RouterLink, ModerAttrsAttributeListComponent, AsyncPipe],
   selector: 'app-moder-attrs',
-  standalone: true,
   templateUrl: './attrs.component.html',
 })
 export class ModerAttrsComponent implements OnInit {

@@ -8,7 +8,6 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 @Component({
   imports: [RouterLink, MarkdownComponent],
   selector: 'app-donate',
-  standalone: true,
   styleUrls: ['./donate.component.scss'],
   templateUrl: './donate.component.html',
 })

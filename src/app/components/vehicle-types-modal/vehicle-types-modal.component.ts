@@ -17,7 +17,6 @@ const translateNames = (types: VehicleType[]): VehicleType[] => {
 @Component({
   imports: [AsyncPipe],
   selector: 'app-vehicle-types-modal',
-  standalone: true,
   templateUrl: './vehicle-types-modal.component.html',
 })
 export class VehicleTypesModalComponent {

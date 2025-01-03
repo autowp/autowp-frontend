@@ -34,7 +34,6 @@ interface AttrUserValueListItem {
 @Component({
   imports: [NgbTooltip, UserComponent, FormsModule, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-cars-specs-admin',
-  standalone: true,
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {

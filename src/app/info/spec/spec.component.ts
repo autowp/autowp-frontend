@@ -13,7 +13,6 @@ import {InfoSpecRowComponent} from './row/row.component';
 @Component({
   imports: [RouterLink, InfoSpecRowComponent, AsyncPipe],
   selector: 'app-info-spec',
-  standalone: true,
   templateUrl: './spec.component.html',
 })
 export class InfoSpecComponent implements OnInit {

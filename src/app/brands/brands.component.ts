@@ -29,7 +29,6 @@ function addCSS(url: string) {
 @Component({
   imports: [RouterLink, BrandsItemComponent, AsyncPipe],
   selector: 'app-brands',
-  standalone: true,
   templateUrl: './brands.component.html',
 })
 export class BrandsComponent implements OnInit {

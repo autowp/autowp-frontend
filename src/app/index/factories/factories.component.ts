@@ -10,7 +10,6 @@ import {IndexFactoriesFactoryComponent} from './factory/factory.component';
 @Component({
   imports: [RouterLink, IndexFactoriesFactoryComponent, AsyncPipe],
   selector: 'app-index-factories',
-  standalone: true,
   templateUrl: './factories.component.html',
 })
 export class IndexFactoriesComponent {

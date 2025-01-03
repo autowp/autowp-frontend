@@ -20,7 +20,6 @@ interface PictureThumbRoute {
 @Component({
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
   selector: 'app-categories-list-item',
-  standalone: true,
   templateUrl: './list-item.component.html',
 })
 export class CategoriesListItemComponent {

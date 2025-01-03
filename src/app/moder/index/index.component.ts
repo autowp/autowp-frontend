@@ -6,7 +6,6 @@ import {PageEnvService} from '@services/page-env.service';
 @Component({
   imports: [RouterLink],
   selector: 'app-moder-index',
-  standalone: true,
   templateUrl: './index.component.html',
 })
 export class ModerIndexComponent implements AfterViewInit {

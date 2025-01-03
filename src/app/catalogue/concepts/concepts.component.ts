@@ -16,7 +16,6 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-concepts',
-  standalone: true,
   templateUrl: './concepts.component.html',
 })
 export class CatalogueConceptsComponent {

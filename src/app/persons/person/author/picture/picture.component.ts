@@ -13,7 +13,6 @@ import {PictureComponent} from '../../../../picture/picture.component';
 @Component({
   imports: [PictureComponent, CommentsComponent, AsyncPipe],
   selector: 'app-persons-person-author-picture',
-  standalone: true,
   templateUrl: './picture.component.html',
 })
 export class PersonsPersonAuthorPictureComponent {

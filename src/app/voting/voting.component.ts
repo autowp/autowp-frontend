@@ -18,7 +18,6 @@ import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
 @Component({
   imports: [RouterLink, FormsModule, NgbProgressbar, CommentsComponent, AsyncPipe, DatePipe],
   selector: 'app-voting',
-  standalone: true,
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {

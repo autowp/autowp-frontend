@@ -84,7 +84,6 @@ Take part in [the translation of the site](https://github.com/autowp/autowp-fron
   imports: [RouterLink, AsyncPipe],
   providers: [BytesPipe],
   selector: 'app-about',
-  standalone: true,
   templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {

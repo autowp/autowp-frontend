@@ -9,7 +9,6 @@ import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component'
 @Component({
   imports: [RouterLink, ThumbnailComponent, AsyncPipe],
   selector: 'app-index-pictures',
-  standalone: true,
   templateUrl: './pictures.component.html',
 })
 export class IndexPicturesComponent {

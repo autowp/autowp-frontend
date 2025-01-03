@@ -14,7 +14,6 @@ import {UserComponent} from '../../user/user/user.component';
 @Component({
   imports: [RouterLink, NgbTooltip, UserComponent, AsyncPipe, CurrencyPipe, DatePipe, TimeAgoPipe],
   selector: 'app-donate-log',
-  standalone: true,
   templateUrl: './log.component.html',
 })
 export class DonateLogComponent implements OnInit {

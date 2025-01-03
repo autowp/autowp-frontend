@@ -13,7 +13,6 @@ import {APIAccountsAccount, DeleteUserAccountRequest} from '@grpc/spec.pb';
 @Component({
   imports: [MarkdownComponent, AsyncPipe],
   selector: 'app-account-accounts',
-  standalone: true,
   templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {

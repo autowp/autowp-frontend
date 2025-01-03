@@ -13,7 +13,6 @@ import {ToastsService} from '../toasts/toasts.service';
 @Component({
   imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-mascots',
-  standalone: true,
   templateUrl: './mascots.component.html',
 })
 export class MascotsComponent implements OnInit {

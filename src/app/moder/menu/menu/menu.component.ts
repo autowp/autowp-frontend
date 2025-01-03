@@ -21,7 +21,6 @@ interface MenuItem {
 @Component({
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLink, NgClass, AsyncPipe],
   selector: 'app-moder-menu',
-  standalone: true,
   styleUrls: ['./menu.component.scss'],
   templateUrl: './menu.component.html',
 })

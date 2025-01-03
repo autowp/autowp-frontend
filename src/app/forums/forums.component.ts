@@ -43,7 +43,6 @@ interface Theme extends APIForumsTheme.AsObject {
     AsyncPipe,
   ],
   selector: 'app-forums',
-  standalone: true,
   styles: ['app-forums {display:block}'],
   templateUrl: './forums.component.html',
 })
