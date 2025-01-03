@@ -13,18 +13,17 @@
   <div class="page-header">
     <h1>{{ factory.name }}</h1>
   </div>
-  @if (factory) {
-    <div class="nav nav-pills mb-3">
-      <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
-      <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
-      @if (isModer$ | async) {
-        <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
-          <i class="bi bi-gear-fill" aria-hidden="true"></i>
-          <ng-container i18n>edit</ng-container>
-        </a>
-      }
-    </div>
-  }
+  <div class="nav nav-pills mb-3">
+    <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
+    <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
+    @if (isModer$ | async) {
+      <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
+        <i class="bi bi-gear-fill" aria-hidden="true"></i>
+        <ng-container i18n>edit</ng-container>
+      </a>
+    }
+  </div>
+
   @if (map$ | async; as map) {
     <div
       style="height: 300px"
@@ -34,7 +33,10 @@
       [leafletLayers]="map.markers"
     ></div>
   }
-  @if (factory && factory.description) {
+
+  @if (factory.text) {
+    <app-markdown class="card card-body" [markdown]="factory.text"></app-markdown>
+  } @else if (factory.description) {
     <app-markdown class="card card-body" [markdown]="factory.description"></app-markdown>
   }
 }

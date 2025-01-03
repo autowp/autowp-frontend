@@ -37,7 +37,7 @@ export class FactoryComponent {
     debounceTime(10),
     switchMap((id) =>
       this.itemService.getItem$(id, {
-        fields: ['name_text', 'name_html', 'lat', 'lng', 'description', 'related_group_pictures'].join(','),
+        fields: ['name_text', 'name_html', 'lat', 'lng', 'description', 'text', 'related_group_pictures'].join(','),
       }),
     ),
     catchError((err: unknown) => {
