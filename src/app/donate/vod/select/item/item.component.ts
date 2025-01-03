@@ -1,10 +1,18 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {
+  APIItem,
+  GetItemParentsRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemParent,
+  ItemParentListOptions,
+  ItemParentType,
+  ItemRequest,
+  ItemType,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {ItemParentService} from '@services/item-parent';
-import type {APIItemParent} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
@@ -18,15 +26,14 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './item.component.html',
 })
 export class DonateVodSelectItemComponent {
-  private readonly itemParentService = inject(ItemParentService);
   private readonly toastService = inject(ToastsService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
-  @Input() set itemParent(itemParent: APIItemParent) {
+  @Input() set itemParent(itemParent: ItemParent) {
     this.itemParent$.next(itemParent);
   }
-  protected readonly itemParent$ = new BehaviorSubject<APIItemParent | null>(null);
+  protected readonly itemParent$ = new BehaviorSubject<ItemParent | null>(null);
   protected expanded = false;
 
   protected readonly item$: Observable<APIItem> = this.itemParent$.pipe(
@@ -39,7 +46,7 @@ export class DonateVodSelectItemComponent {
                 isCompilesItemOfDay: true,
                 nameHtml: true,
               }),
-              id: itemParent.item_id.toString(),
+              id: itemParent.itemId,
               language: this.languageService.language,
             }),
           )
@@ -47,21 +54,26 @@ export class DonateVodSelectItemComponent {
     ),
   );
 
-  protected readonly childs$: Observable<APIItemParent[]> = this.itemParent$.pipe(
+  protected readonly childs$: Observable<ItemParent[]> = this.itemParent$.pipe(
     switchMap((itemParent) =>
       itemParent
-        ? this.itemParentService.getItems$({
-            item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-            limit: 500,
-            parent_id: itemParent.item_id,
-          })
+        ? this.itemsClient.getItemParents(
+            new GetItemParentsRequest({
+              options: new ItemParentListOptions({
+                parentId: itemParent.itemId,
+                item: new ItemListOptions({
+                  typeId: ItemType.ITEM_TYPE_VEHICLE,
+                }),
+              }),
+            }),
+          )
         : EMPTY,
     ),
     catchError((e: unknown) => {
       this.toastService.handleError(e);
       return EMPTY;
     }),
-    map((items) => items.items),
+    map((items) => items.items || []),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
@@ -70,4 +82,6 @@ export class DonateVodSelectItemComponent {
 
     return false;
   }
+
+  protected readonly ItemParentType = ItemParentType;
 }

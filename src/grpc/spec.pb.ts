@@ -23120,6 +23120,11 @@ export class ItemParentListOptions implements GrpcMessage {
     _instance.parent = _instance.parent || undefined;
     _instance.itemParentParentByChild =
       _instance.itemParentParentByChild || undefined;
+    _instance.itemId = _instance.itemId || '0';
+    _instance.type = _instance.type || 0;
+    _instance.item = _instance.item || undefined;
+    _instance.itemParentCacheItemByChild =
+      _instance.itemParentCacheItemByChild || undefined;
   }
 
   /**
@@ -23150,6 +23155,26 @@ export class ItemParentListOptions implements GrpcMessage {
           _reader.readMessage(
             _instance.itemParentParentByChild,
             ItemParentListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 4:
+          _instance.itemId = _reader.readInt64String();
+          break;
+        case 5:
+          _instance.type = _reader.readEnum();
+          break;
+        case 6:
+          _instance.item = new ItemListOptions();
+          _reader.readMessage(
+            _instance.item,
+            ItemListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.itemParentCacheItemByChild = new ItemParentCacheListOptions();
+          _reader.readMessage(
+            _instance.itemParentCacheItemByChild,
+            ItemParentCacheListOptions.deserializeBinaryFromReader
           );
           break;
         default:
@@ -23186,11 +23211,35 @@ export class ItemParentListOptions implements GrpcMessage {
         ItemParentListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.itemId) {
+      _writer.writeInt64String(4, _instance.itemId);
+    }
+    if (_instance.type) {
+      _writer.writeEnum(5, _instance.type);
+    }
+    if (_instance.item) {
+      _writer.writeMessage(
+        6,
+        _instance.item as any,
+        ItemListOptions.serializeBinaryToWriter
+      );
+    }
+    if (_instance.itemParentCacheItemByChild) {
+      _writer.writeMessage(
+        7,
+        _instance.itemParentCacheItemByChild as any,
+        ItemParentCacheListOptions.serializeBinaryToWriter
+      );
+    }
   }
 
   private _parentId: string;
   private _parent?: ItemListOptions;
   private _itemParentParentByChild?: ItemParentListOptions;
+  private _itemId: string;
+  private _type: ItemParentType;
+  private _item?: ItemListOptions;
+  private _itemParentCacheItemByChild?: ItemParentCacheListOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23204,6 +23253,12 @@ export class ItemParentListOptions implements GrpcMessage {
       : undefined;
     this.itemParentParentByChild = _value.itemParentParentByChild
       ? new ItemParentListOptions(_value.itemParentParentByChild)
+      : undefined;
+    this.itemId = _value.itemId;
+    this.type = _value.type;
+    this.item = _value.item ? new ItemListOptions(_value.item) : undefined;
+    this.itemParentCacheItemByChild = _value.itemParentCacheItemByChild
+      ? new ItemParentCacheListOptions(_value.itemParentCacheItemByChild)
       : undefined;
     ItemParentListOptions.refineValues(this);
   }
@@ -23225,6 +23280,32 @@ export class ItemParentListOptions implements GrpcMessage {
   set itemParentParentByChild(value: ItemParentListOptions | undefined) {
     this._itemParentParentByChild = value;
   }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
+  }
+  get type(): ItemParentType {
+    return this._type;
+  }
+  set type(value: ItemParentType) {
+    this._type = value;
+  }
+  get item(): ItemListOptions | undefined {
+    return this._item;
+  }
+  set item(value: ItemListOptions | undefined) {
+    this._item = value;
+  }
+  get itemParentCacheItemByChild(): ItemParentCacheListOptions | undefined {
+    return this._itemParentCacheItemByChild;
+  }
+  set itemParentCacheItemByChild(
+    value: ItemParentCacheListOptions | undefined
+  ) {
+    this._itemParentCacheItemByChild = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -23245,6 +23326,12 @@ export class ItemParentListOptions implements GrpcMessage {
       parent: this.parent ? this.parent.toObject() : undefined,
       itemParentParentByChild: this.itemParentParentByChild
         ? this.itemParentParentByChild.toObject()
+        : undefined,
+      itemId: this.itemId,
+      type: this.type,
+      item: this.item ? this.item.toObject() : undefined,
+      itemParentCacheItemByChild: this.itemParentCacheItemByChild
+        ? this.itemParentCacheItemByChild.toObject()
         : undefined
     };
   }
@@ -23270,6 +23357,15 @@ export class ItemParentListOptions implements GrpcMessage {
       parent: this.parent ? this.parent.toProtobufJSON(options) : null,
       itemParentParentByChild: this.itemParentParentByChild
         ? this.itemParentParentByChild.toProtobufJSON(options)
+        : null,
+      itemId: this.itemId,
+      type:
+        ItemParentType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ],
+      item: this.item ? this.item.toProtobufJSON(options) : null,
+      itemParentCacheItemByChild: this.itemParentCacheItemByChild
+        ? this.itemParentCacheItemByChild.toProtobufJSON(options)
         : null
     };
   }
@@ -23282,6 +23378,10 @@ export module ItemParentListOptions {
     parentId: string;
     parent?: ItemListOptions.AsObject;
     itemParentParentByChild?: ItemParentListOptions.AsObject;
+    itemId: string;
+    type: ItemParentType;
+    item?: ItemListOptions.AsObject;
+    itemParentCacheItemByChild?: ItemParentCacheListOptions.AsObject;
   }
 
   /**
@@ -23291,6 +23391,10 @@ export module ItemParentListOptions {
     parentId: string;
     parent: ItemListOptions.AsProtobufJSON | null;
     itemParentParentByChild: ItemParentListOptions.AsProtobufJSON | null;
+    itemId: string;
+    type: string;
+    item: ItemListOptions.AsProtobufJSON | null;
+    itemParentCacheItemByChild: ItemParentCacheListOptions.AsProtobufJSON | null;
   }
 }
 
@@ -40694,6 +40798,303 @@ export module NewItemsResponse {
   export interface AsProtobufJSON {
     brand: APIItem.AsProtobufJSON | null;
     items: APIItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetItemParentsRequest
+ */
+export class GetItemParentsRequest implements GrpcMessage {
+  static id = 'goautowp.GetItemParentsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetItemParentsRequest();
+    GetItemParentsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetItemParentsRequest) {
+    _instance.options = _instance.options || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetItemParentsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.options = new ItemParentListOptions();
+          _reader.readMessage(
+            _instance.options,
+            ItemParentListOptions.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetItemParentsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetItemParentsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.options) {
+      _writer.writeMessage(
+        1,
+        _instance.options as any,
+        ItemParentListOptions.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _options?: ItemParentListOptions;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetItemParentsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetItemParentsRequest.AsObject>) {
+    _value = _value || {};
+    this.options = _value.options
+      ? new ItemParentListOptions(_value.options)
+      : undefined;
+    GetItemParentsRequest.refineValues(this);
+  }
+  get options(): ItemParentListOptions | undefined {
+    return this._options;
+  }
+  set options(value: ItemParentListOptions | undefined) {
+    this._options = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetItemParentsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetItemParentsRequest.AsObject {
+    return {
+      options: this.options ? this.options.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetItemParentsRequest.AsProtobufJSON {
+    return {
+      options: this.options ? this.options.toProtobufJSON(options) : null
+    };
+  }
+}
+export module GetItemParentsRequest {
+  /**
+   * Standard JavaScript object representation for GetItemParentsRequest
+   */
+  export interface AsObject {
+    options?: ItemParentListOptions.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for GetItemParentsRequest
+   */
+  export interface AsProtobufJSON {
+    options: ItemParentListOptions.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GetItemParentsResponse
+ */
+export class GetItemParentsResponse implements GrpcMessage {
+  static id = 'goautowp.GetItemParentsResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GetItemParentsResponse();
+    GetItemParentsResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GetItemParentsResponse) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GetItemParentsResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new ItemParent();
+          _reader.readMessage(
+            messageInitializer1,
+            ItemParent.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GetItemParentsResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GetItemParentsResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        ItemParent.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: ItemParent[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GetItemParentsResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GetItemParentsResponse.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new ItemParent(m));
+    GetItemParentsResponse.refineValues(this);
+  }
+  get items(): ItemParent[] | undefined {
+    return this._items;
+  }
+  set items(value: ItemParent[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GetItemParentsResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GetItemParentsResponse.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GetItemParentsResponse.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module GetItemParentsResponse {
+  /**
+   * Standard JavaScript object representation for GetItemParentsResponse
+   */
+  export interface AsObject {
+    items?: ItemParent.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for GetItemParentsResponse
+   */
+  export interface AsProtobufJSON {
+    items: ItemParent.AsProtobufJSON[] | null;
   }
 }
 

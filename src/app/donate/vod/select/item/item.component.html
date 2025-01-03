@@ -1,8 +1,8 @@
 @if (itemParent$ | async; as itemParent) {
   <div>
-    @if (itemParent.type_id === 1) {
+    @if (itemParent.type === ItemParentType.ITEM_TYPE_TUNING) {
       <span class="text-muted" i18n>Related</span>
-    } @else if (itemParent.type_id === 2) {
+    } @else if (itemParent.type === ItemParentType.ITEM_TYPE_SPORT) {
       <span class="text-muted" i18n>Sport</span>
     }
     @if (item$ | async; as item) {
@@ -10,7 +10,7 @@
         @if (item.isCompilesItemOfDay) {
           <a
             routerLink="/donate/vod"
-            [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
+            [queryParams]="{item_id: itemParent.itemId, brand_id: null}"
             queryParamsHandling="merge"
             [innerHTML]="item.nameHtml"
           ></a>
@@ -30,7 +30,7 @@
         @if (item.isCompilesItemOfDay) {
           <a
             routerLink="/donate/vod"
-            [queryParams]="{item_id: itemParent.item_id, brand_id: null}"
+            [queryParams]="{item_id: itemParent.itemId, brand_id: null}"
             queryParamsHandling="merge"
             class="mx-2"
             i18n

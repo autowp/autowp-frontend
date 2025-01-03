@@ -23,7 +23,6 @@ export interface APIItemParent {
 }
 
 export interface APIItemParentGetItemsOptions {
-  ancestor_id?: number;
   catname?: string;
   concept?: boolean;
   exclude_concept?: boolean;
@@ -69,10 +68,6 @@ export class ItemParentService {
 
     if (options.concept) {
       params['concept'] = '1';
-    }
-
-    if (options.ancestor_id) {
-      params['ancestor_id'] = options.ancestor_id.toString();
     }
 
     if (typeof options.type_id !== 'undefined' && options.type_id !== null) {

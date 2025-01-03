@@ -3,16 +3,18 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
-  APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ListItemsRequest,
   Pages,
+  ItemParent,
+  GetItemParentsRequest,
+  ItemParentListOptions,
+  GetItemParentsResponse,
+  ItemParentCacheListOptions,
 } from '@grpc/spec.pb';
 import {ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIPaginator} from '@services/api.service';
-import {APIItemParent, APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {combineLatest, Observable, of, Subscription} from 'rxjs';
@@ -29,7 +31,6 @@ import {DonateVodSelectItemComponent} from './item/item.component';
 })
 export class DonateVodSelectComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
-  private readonly itemParentService = inject(ItemParentService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
@@ -38,18 +39,17 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   protected page: number = 0;
   protected brands: APIItem[][] = [];
   protected paginator: null | Pages = null;
-  protected brand: GRPCAPIItem | null = null;
-  protected vehicles: APIItemParent[] = [];
-  protected vehiclesPaginator: APIPaginator | null = null;
-  protected concepts: APIItemParent[] = [];
+  protected brand: APIItem | null = null;
+  protected vehicles: ItemParent[] = [];
+  protected concepts: ItemParent[] = [];
   protected loading = 0;
   protected conceptsExpanded = false;
 
   private readonly select$: Observable<{
     brand: {
-      brand: GRPCAPIItem;
-      concepts: APIItemParentGetResponse;
-      vehicles: APIItemParentGetResponse;
+      brand: APIItem;
+      concepts: GetItemParentsResponse;
+      vehicles: GetItemParentsResponse;
     } | null;
     items: APIItemList | null;
   } | null> = this.route.queryParamMap.pipe(
@@ -83,19 +83,30 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
           ? this.itemsClient.item(new ItemRequest({id: '' + brandID, language: this.languageService.language})).pipe(
               switchMap((brand) =>
                 combineLatest([
-                  this.itemParentService.getItems$({
-                    item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-                    limit: 500,
-                    page: 1,
-                    parent_id: +brand.id,
-                  }),
-                  this.itemParentService.getItems$({
-                    ancestor_id: +brand.id,
-                    concept: true,
-                    item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-                    limit: 500,
-                    page: 1,
-                  }),
+                  this.itemsClient.getItemParents(
+                    new GetItemParentsRequest({
+                      options: new ItemParentListOptions({
+                        parentId: brand.id,
+                        item: new ItemListOptions({
+                          typeId: ItemType.ITEM_TYPE_VEHICLE,
+                        }),
+                      }),
+                    }),
+                  ),
+                  this.itemsClient.getItemParents(
+                    new GetItemParentsRequest({
+                      options: new ItemParentListOptions({
+                        parentId: brand.id,
+                        item: new ItemListOptions({
+                          typeId: ItemType.ITEM_TYPE_VEHICLE,
+                          isConcept: true,
+                        }),
+                        itemParentCacheItemByChild: new ItemParentCacheListOptions({
+                          parentId: brand.id,
+                        }),
+                      }),
+                    }),
+                  ),
                 ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles}))),
               ),
             )
@@ -113,17 +124,15 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
       const items = r?.items;
       if (brand) {
         this.brand = brand.brand;
-        this.vehicles = brand.vehicles.items;
-        this.vehiclesPaginator = brand.vehicles.paginator;
-        this.concepts = brand.concepts.items;
+        this.vehicles = brand.vehicles.items || [];
+        this.concepts = brand.concepts.items || [];
         this.brands = [];
         this.paginator = null;
       } else {
         this.brand = null;
         this.vehicles = [];
-        this.vehiclesPaginator = null;
         this.concepts = [];
-        this.brands = chunk(items?.items ? items.items : [], 6);
+        this.brands = chunk(items?.items || [], 6);
         this.paginator = items?.paginator ? items?.paginator : null;
       }
     });
