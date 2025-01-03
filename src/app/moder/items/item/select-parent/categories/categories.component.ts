@@ -1,7 +1,14 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItemList, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {
+  APIItemList,
+  GetItemParentsRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemType,
+  ListItemsRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
@@ -61,4 +68,6 @@ export class ModerItemsItemSelectParentCategoriesComponent {
     this.selected.emit(itemID);
     return false;
   }
+
+  protected readonly GetItemParentsRequest = GetItemParentsRequest;
 }

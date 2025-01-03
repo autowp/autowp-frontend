@@ -40826,6 +40826,9 @@ export class GetItemParentsRequest implements GrpcMessage {
    */
   static refineValues(_instance: GetItemParentsRequest) {
     _instance.options = _instance.options || undefined;
+    _instance.order = _instance.order || 0;
+    _instance.limit = _instance.limit || 0;
+    _instance.page = _instance.page || 0;
   }
 
   /**
@@ -40847,6 +40850,15 @@ export class GetItemParentsRequest implements GrpcMessage {
             _instance.options,
             ItemParentListOptions.deserializeBinaryFromReader
           );
+          break;
+        case 2:
+          _instance.order = _reader.readEnum();
+          break;
+        case 3:
+          _instance.limit = _reader.readUint32();
+          break;
+        case 4:
+          _instance.page = _reader.readUint32();
           break;
         default:
           _reader.skipField();
@@ -40872,9 +40884,21 @@ export class GetItemParentsRequest implements GrpcMessage {
         ItemParentListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.order) {
+      _writer.writeEnum(2, _instance.order);
+    }
+    if (_instance.limit) {
+      _writer.writeUint32(3, _instance.limit);
+    }
+    if (_instance.page) {
+      _writer.writeUint32(4, _instance.page);
+    }
   }
 
   private _options?: ItemParentListOptions;
+  private _order: GetItemParentsRequest.Order;
+  private _limit: number;
+  private _page: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -40885,6 +40909,9 @@ export class GetItemParentsRequest implements GrpcMessage {
     this.options = _value.options
       ? new ItemParentListOptions(_value.options)
       : undefined;
+    this.order = _value.order;
+    this.limit = _value.limit;
+    this.page = _value.page;
     GetItemParentsRequest.refineValues(this);
   }
   get options(): ItemParentListOptions | undefined {
@@ -40892,6 +40919,24 @@ export class GetItemParentsRequest implements GrpcMessage {
   }
   set options(value: ItemParentListOptions | undefined) {
     this._options = value;
+  }
+  get order(): GetItemParentsRequest.Order {
+    return this._order;
+  }
+  set order(value: GetItemParentsRequest.Order) {
+    this._order = value;
+  }
+  get limit(): number {
+    return this._limit;
+  }
+  set limit(value: number) {
+    this._limit = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
   }
 
   /**
@@ -40909,7 +40954,10 @@ export class GetItemParentsRequest implements GrpcMessage {
    */
   toObject(): GetItemParentsRequest.AsObject {
     return {
-      options: this.options ? this.options.toObject() : undefined
+      options: this.options ? this.options.toObject() : undefined,
+      order: this.order,
+      limit: this.limit,
+      page: this.page
     };
   }
 
@@ -40930,7 +40978,13 @@ export class GetItemParentsRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): GetItemParentsRequest.AsProtobufJSON {
     return {
-      options: this.options ? this.options.toProtobufJSON(options) : null
+      options: this.options ? this.options.toProtobufJSON(options) : null,
+      order:
+        GetItemParentsRequest.Order[
+          this.order === null || this.order === undefined ? 0 : this.order
+        ],
+      limit: this.limit,
+      page: this.page
     };
   }
 }
@@ -40940,6 +40994,9 @@ export module GetItemParentsRequest {
    */
   export interface AsObject {
     options?: ItemParentListOptions.AsObject;
+    order: GetItemParentsRequest.Order;
+    limit: number;
+    page: number;
   }
 
   /**
@@ -40947,6 +41004,14 @@ export module GetItemParentsRequest {
    */
   export interface AsProtobufJSON {
     options: ItemParentListOptions.AsProtobufJSON | null;
+    order: string;
+    limit: number;
+    page: number;
+  }
+  export enum Order {
+    NONE = 0,
+    AUTO = 1,
+    CATEGORIES_FIRST = 2
   }
 }
 
@@ -40975,6 +41040,7 @@ export class GetItemParentsResponse implements GrpcMessage {
    */
   static refineValues(_instance: GetItemParentsResponse) {
     _instance.items = _instance.items || [];
+    _instance.paginator = _instance.paginator || undefined;
   }
 
   /**
@@ -40997,6 +41063,13 @@ export class GetItemParentsResponse implements GrpcMessage {
             ItemParent.deserializeBinaryFromReader
           );
           (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -41022,9 +41095,17 @@ export class GetItemParentsResponse implements GrpcMessage {
         ItemParent.serializeBinaryToWriter
       );
     }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        2,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
   }
 
   private _items?: ItemParent[];
+  private _paginator?: Pages;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -41033,6 +41114,7 @@ export class GetItemParentsResponse implements GrpcMessage {
   constructor(_value?: RecursivePartial<GetItemParentsResponse.AsObject>) {
     _value = _value || {};
     this.items = (_value.items || []).map(m => new ItemParent(m));
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
     GetItemParentsResponse.refineValues(this);
   }
   get items(): ItemParent[] | undefined {
@@ -41040,6 +41122,12 @@ export class GetItemParentsResponse implements GrpcMessage {
   }
   set items(value: ItemParent[] | undefined) {
     this._items = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
   }
 
   /**
@@ -41057,7 +41145,8 @@ export class GetItemParentsResponse implements GrpcMessage {
    */
   toObject(): GetItemParentsResponse.AsObject {
     return {
-      items: (this.items || []).map(m => m.toObject())
+      items: (this.items || []).map(m => m.toObject()),
+      paginator: this.paginator ? this.paginator.toObject() : undefined
     };
   }
 
@@ -41078,7 +41167,8 @@ export class GetItemParentsResponse implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): GetItemParentsResponse.AsProtobufJSON {
     return {
-      items: (this.items || []).map(m => m.toProtobufJSON(options))
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
     };
   }
 }
@@ -41088,6 +41178,7 @@ export module GetItemParentsResponse {
    */
   export interface AsObject {
     items?: ItemParent.AsObject[];
+    paginator?: Pages.AsObject;
   }
 
   /**
@@ -41095,6 +41186,7 @@ export module GetItemParentsResponse {
    */
   export interface AsProtobufJSON {
     items: ItemParent.AsProtobufJSON[] | null;
+    paginator: Pages.AsProtobufJSON | null;
   }
 }
 

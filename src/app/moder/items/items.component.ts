@@ -1,7 +1,15 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ListItemsRequest, Spec, VehicleType} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemType,
+  ListItemsRequest,
+  Spec,
+  VehicleType,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {APIPaginator} from '@services/api.service';
@@ -91,7 +99,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
 
   protected nameExclude = '';
 
-  protected itemTypeID = 0;
+  protected itemTypeID: ItemType = ItemType.ITEM_TYPE_UNKNOWN;
 
   protected vehicleTypeID: null | number | string = null;
 
@@ -169,7 +177,7 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
         map((params) => ({
           ancestorID: parseInt(params.get('ancestor_id') ?? '', 10) || null,
           fromYear: parseInt(params.get('from_year') ?? '', 10) || null,
-          itemTypeID: parseInt(params.get('item_type_id') ?? '', 10),
+          itemTypeID: parseInt(params.get('item_type_id') ?? '', 10) as ItemType,
           listMode: !!params.get('list_mode'),
           name: params.get('name') ?? '',
           nameExclude: params.get('name_exclude') ?? '',
@@ -424,4 +432,6 @@ export class ModerItemsComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
     });
   }
+
+  protected readonly ItemType = ItemType;
 }

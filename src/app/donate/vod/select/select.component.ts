@@ -91,6 +91,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                           typeId: ItemType.ITEM_TYPE_VEHICLE,
                         }),
                       }),
+                      order: GetItemParentsRequest.Order.AUTO,
                     }),
                   ),
                   this.itemsClient.getItemParents(
@@ -105,6 +106,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                           parentId: brand.id,
                         }),
                       }),
+                      order: GetItemParentsRequest.Order.AUTO,
                     }),
                   ),
                 ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles}))),

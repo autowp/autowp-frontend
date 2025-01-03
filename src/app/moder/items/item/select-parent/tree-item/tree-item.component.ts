@@ -1,12 +1,19 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, forwardRef, inject, Input, Output} from '@angular/core';
-import {APIItem} from '@grpc/spec.pb';
-import {ItemParentService} from '@services/item-parent';
-import {BehaviorSubject, combineLatest, EMPTY} from 'rxjs';
+import {
+  APIItem,
+  GetItemParentsRequest,
+  ItemListOptions,
+  ItemParent,
+  ItemParentListOptions,
+  ItemParentType,
+} from '@grpc/spec.pb';
+import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
+import {ItemsClient} from '@grpc/spec.pbsc';
 
 @Component({
   imports: [forwardRef(() => ModerItemsItemSelectParentTreeComponent), AsyncPipe],
@@ -14,42 +21,49 @@ import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
   templateUrl: './tree-item.component.html',
 })
 export class ModerItemsItemSelectParentTreeItemComponent {
-  private readonly itemParentService = inject(ItemParentService);
   private readonly toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
 
   @Input() set item(value: APIItem) {
     this.item$.next(value);
   }
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
-  @Input() set order(value: string) {
+  @Input() set order(value: GetItemParentsRequest.Order) {
     this.order$.next(value);
   }
-  protected readonly order$ = new BehaviorSubject<string>('type_auto');
+  protected readonly order$ = new BehaviorSubject<GetItemParentsRequest.Order>(GetItemParentsRequest.Order.AUTO);
 
   @Input() disableItemID: string = '';
-  @Input() typeID: number = 0;
+  @Input() typeID: ItemParentType = ItemParentType.ITEM_TYPE_DEFAULT;
   @Output() selected = new EventEmitter<string>();
 
   protected open = false;
 
-  protected readonly childs$ = combineLatest([this.item$, this.order$.pipe(distinctUntilChanged())]).pipe(
+  protected readonly childs$: Observable<ItemParent[]> = combineLatest([
+    this.item$,
+    this.order$.pipe(distinctUntilChanged()),
+  ]).pipe(
     switchMap(([item, order]) =>
       item
-        ? this.itemParentService.getItems$({
-            fields: '',
-            is_group: true,
-            limit: 100,
-            order,
-            parent_id: +item.id,
-          })
+        ? this.#itemsClient.getItemParents(
+            new GetItemParentsRequest({
+              options: new ItemParentListOptions({
+                parentId: item.id,
+                item: new ItemListOptions({
+                  isGroup: true,
+                }),
+              }),
+              order,
+            }),
+          )
         : EMPTY,
     ),
     catchError((error: unknown) => {
       this.toastService.handleError(error);
       return EMPTY;
     }),
-    map((response) => response.items),
+    map((response) => response.items || []),
   );
 
   protected isDisabled(item: APIItem): boolean {
@@ -65,4 +79,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
     this.open = !this.open;
     return false;
   }
+
+  protected readonly ItemParentType = ItemParentType;
+  protected readonly GetItemParentsRequest = GetItemParentsRequest;
 }

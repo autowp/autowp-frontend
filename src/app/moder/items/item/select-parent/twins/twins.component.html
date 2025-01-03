@@ -25,6 +25,7 @@
             [item]="item"
             (selected)="onSelect($event)"
             [disableItemID]="(itemID$ | async) || ''"
+            [order]="GetItemParentsRequest.Order.AUTO"
           >
           </app-moder-items-item-select-parent-tree-item>
         </li>

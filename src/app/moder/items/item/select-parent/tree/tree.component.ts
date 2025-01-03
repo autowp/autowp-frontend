@@ -1,8 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {GetItemParentsRequest, ItemFields, ItemParent, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import type {APIItemParent} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
@@ -18,12 +17,12 @@ export class ModerItemsItemSelectParentTreeComponent {
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
-  @Input() set itemParent(value: APIItemParent) {
+  @Input() set itemParent(value: ItemParent) {
     this.itemParent$.next(value);
   }
-  protected readonly itemParent$ = new BehaviorSubject<APIItemParent | null>(null);
+  protected readonly itemParent$ = new BehaviorSubject<ItemParent | null>(null);
 
-  @Input() order?: string;
+  @Input() order?: GetItemParentsRequest.Order;
   @Input() disableItemID?: string;
   @Output() selected = new EventEmitter<string>();
 
@@ -33,7 +32,7 @@ export class ModerItemsItemSelectParentTreeComponent {
         ? this.itemsClient.item(
             new ItemRequest({
               fields: new ItemFields({childsCount: true, nameHtml: true}),
-              id: '' + item.item_id,
+              id: item.itemId,
               language: this.languageService.language,
             }),
           )
@@ -45,4 +44,6 @@ export class ModerItemsItemSelectParentTreeComponent {
     this.selected.emit(itemID);
     return false;
   }
+
+  protected readonly GetItemParentsRequest = GetItemParentsRequest;
 }

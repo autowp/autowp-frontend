@@ -65,6 +65,7 @@ export class DonateVodSelectItemComponent {
                   typeId: ItemType.ITEM_TYPE_VEHICLE,
                 }),
               }),
+              order: GetItemParentsRequest.Order.AUTO,
             }),
           )
         : EMPTY,

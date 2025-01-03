@@ -3,11 +3,11 @@
     <div>
       <i class="bi bi-folder2" aria-hidden="true" [hidden]="open"></i>
       <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!open"></i>
-      @if (typeID === 1) {
+      @if (typeID === ItemParentType.ITEM_TYPE_TUNING) {
         <span i18n>Related</span>
-      } @else if (typeID === 2) {
+      } @else if (typeID === ItemParentType.ITEM_TYPE_SPORT) {
         <span i18n>Sport</span>
-      } @else if (typeID === 3) {
+      } @else if (typeID === ItemParentType.ITEM_TYPE_DESIGN) {
         <span i18n>Design</span>
       }
       <a href="#" class="toggle" (click)="toggle()">
@@ -25,6 +25,7 @@
                   [itemParent]="child"
                   (selected)="onSelect($event)"
                   [disableItemID]="disableItemID"
+                  [order]="GetItemParentsRequest.Order.AUTO"
                 >
                 </app-moder-items-item-select-parent-tree>
               </li>
@@ -42,11 +43,11 @@
   }
   @if ((!item.childsCount || item.childsCount <= 0) && !isDisabled(item)) {
     <span>
-      @if (typeID === 1) {
+      @if (typeID === ItemParentType.ITEM_TYPE_TUNING) {
         <span i18n>Related</span>
-      } @else if (typeID === 2) {
+      } @else if (typeID === ItemParentType.ITEM_TYPE_SPORT) {
         <span i18n>Sport</span>
-      } @else if (typeID === 3) {
+      } @else if (typeID === ItemParentType.ITEM_TYPE_DESIGN) {
         <span i18n>Design</span>
       }
       <a href="#" (click)="onSelect(item.id)" [innerHTML]="item.nameHtml"></a>
@@ -54,11 +55,11 @@
   }
   @if (isDisabled(item)) {
     <span>
-      @if (typeID === 1) {
+      @if (typeID === ItemParentType.ITEM_TYPE_TUNING) {
         <span i18n>Related</span>
-      } @else if (typeID === 2) {
+      } @else if (typeID === ItemParentType.ITEM_TYPE_SPORT) {
         <span i18n>Sport</span>
-      } @else if (typeID === 3) {
+      } @else if (typeID === ItemParentType.ITEM_TYPE_DESIGN) {
         <span i18n>Design</span>
       }
       <span class="text-muted" [innerHTML]="item.nameHtml"></span>

@@ -2,7 +2,8 @@ import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
+  APIItem,
+  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
@@ -52,7 +53,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly twinsBrands$: Observable<{brands: GRPCAPIItem[][]; paginator?: Pages} | null> = this.brandID$.pipe(
+  protected readonly twinsBrands$: Observable<{brands: APIItem[][]; paginator?: Pages} | null> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
@@ -83,14 +84,14 @@ export class ModerItemsItemSelectParentTwinsComponent {
               return EMPTY;
             }),
             map((response) => ({
-              brands: chunk<GRPCAPIItem>(response.items ? response.items : [], 6),
+              brands: chunk<APIItem>(response.items ? response.items : [], 6),
               paginator: response.paginator,
             })),
           ),
     ),
   );
 
-  protected readonly twins$: Observable<{items?: GRPCAPIItem[]; paginator?: Pages} | null> = this.brandID$.pipe(
+  protected readonly twins$: Observable<{items?: APIItem[]; paginator?: Pages} | null> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? this.page$.pipe(
@@ -126,4 +127,6 @@ export class ModerItemsItemSelectParentTwinsComponent {
     this.selected.emit(itemID);
     return false;
   }
+
+  protected readonly GetItemParentsRequest = GetItemParentsRequest;
 }

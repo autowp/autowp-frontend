@@ -2,8 +2,8 @@
   @if (item$ | async; as item) {
     <app-moder-items-item-select-parent-tree-item
       [item]="item"
-      [typeID]="itemParent.type_id"
-      [order]="order || ''"
+      [typeID]="itemParent.type"
+      [order]="order || GetItemParentsRequest.Order.NONE"
       (selected)="onSelect($event)"
       [disableItemID]="disableItemID || ''"
     >

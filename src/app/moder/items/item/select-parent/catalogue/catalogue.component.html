@@ -32,7 +32,7 @@
         <li class="car-node">
           <app-moder-items-item-select-parent-tree
             [itemParent]="item"
-            order="type_auto"
+            [order]="GetItemParentsRequest.Order.AUTO"
             (selected)="onSelect($event)"
             [disableItemID]="(itemID$ | async) || ''"
           >

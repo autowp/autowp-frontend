@@ -51,15 +51,15 @@
         <label i18n>Item type</label>
         <select name="item_type_id" class="form-select" [(ngModel)]="itemTypeID" (change)="onItemTypeChanged()">
           <option [ngValue]="null">Any</option>
-          <option [ngValue]="1" i18n>Vehicle</option>
-          <option [ngValue]="2" i18n>Engine</option>
-          <option [ngValue]="3" i18n>Category</option>
-          <option [ngValue]="4" i18n>Twins</option>
-          <option [ngValue]="5" i18n>Brand</option>
-          <option [ngValue]="6" i18n>Factory</option>
-          <option [ngValue]="7" i18n>Museum</option>
-          <option [ngValue]="8" i18n>Person</option>
-          <option [ngValue]="9" i18n>Copyright block</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_VEHICLE" i18n>Vehicle</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_ENGINE" i18n>Engine</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_CATEGORY" i18n>Category</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_TWINS" i18n>Twins</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_BRAND" i18n>Brand</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_FACTORY" i18n>Factory</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_MUSEUM" i18n>Museum</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_PERSON" i18n>Person</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_COPYRIGHT" i18n>Copyright block</option>
         </select>
       </div>
       <div class="mb-3">
