@@ -1,12 +1,25 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {PictureItemType} from '@grpc/spec.pb';
-import {ItemParentService} from '@services/item-parent';
-import type {APIItemParent} from '@services/item-parent';
-import {BehaviorSubject, EMPTY} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {
+  GetItemParentsRequest,
+  ItemFields,
+  ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemParentType,
+  PictureItemType,
+} from '@grpc/spec.pb';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 import {PictureItemMoveSelection} from '../move.component';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
+
+interface ListItem {
+  row: ItemParent;
+  expanded: boolean;
+}
 
 @Component({
   imports: [AsyncPipe],
@@ -21,30 +34,47 @@ import {PictureItemMoveSelection} from '../move.component';
   templateUrl: './item.component.html',
 })
 export class ModerPictureMoveItemComponent {
-  private readonly itemParentService = inject(ItemParentService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: APIItemParent) {
-    this.item$.next(item);
+  @Input() set item(item: ItemParent) {
+    this.item$.next({
+      row: item,
+      expanded: false,
+    });
   }
-  protected readonly item$ = new BehaviorSubject<APIItemParent | null>(null);
+  protected readonly item$ = new BehaviorSubject<ListItem | null>(null);
 
   @Output() readonly selected = new EventEmitter<PictureItemMoveSelection>();
 
-  protected readonly childs$ = this.item$.pipe(
+  protected readonly childs$: Observable<ItemParent[]> = this.item$.pipe(
     switchMap((item) =>
       item
-        ? this.itemParentService.getItems$({
-            fields: 'item.name_html,item.childs_count',
-            limit: 500,
-            parent_id: item.item_id,
-          })
+        ? this.#itemsClient.getItemParents(
+            new GetItemParentsRequest({
+              language: this.#languageService.language,
+              options: new ItemParentListOptions({
+                parentId: item.row.itemId,
+              }),
+              limit: 500,
+              order: GetItemParentsRequest.Order.AUTO,
+              fields: new ItemParentFields({
+                item: new ItemFields({
+                  nameHtml: true,
+                  childsCount: true,
+                }),
+              }),
+            }),
+          )
         : EMPTY,
     ),
+    map((response) => response.items || []),
   );
 
   protected readonly PictureItemType = PictureItemType;
+  protected readonly ItemParentType = ItemParentType;
 
-  protected toggleItem(item: APIItemParent) {
+  protected toggleItem(item: ListItem) {
     item.expanded = !item.expanded;
     return false;
   }

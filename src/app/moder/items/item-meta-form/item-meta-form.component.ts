@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {ItemType, PictureItem, Spec, VehicleType} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemType, PictureItem, Spec, VehicleType} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import type {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
@@ -173,10 +173,10 @@ export class ItemMetaFormComponent {
   }
   private readonly vehicleTypeIDs$ = new BehaviorSubject<null | string[]>(null);
 
-  @Input() set items(items: APIItem[]) {
+  @Input() set items(items: GRPCAPIItem[]) {
     this.items$.next(items);
   }
-  protected readonly items$ = new BehaviorSubject<APIItem[] | null>(null);
+  protected readonly items$ = new BehaviorSubject<GRPCAPIItem[] | null>(null);
 
   @Input() set pictures(pictures: PictureItem[]) {
     this.pictures$.next(
@@ -435,7 +435,6 @@ export class ItemMetaFormComponent {
 
   protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<string>>) {
     e.selected = !e.selected;
-    console.log('e.selected', e.selected);
     if (e.selected) {
       ctrl.push(new FormControl<string>({disabled: false, value: e.pictureItem.pictureId}, {nonNullable: true}));
     } else {

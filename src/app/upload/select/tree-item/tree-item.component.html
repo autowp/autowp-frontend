@@ -1,5 +1,5 @@
 @if (item$ | async; as item) {
-  @if (item.item.childs_count > 0) {
+  @if ((item.item?.childsCount || 0) > 0) {
     <div>
       <button class="btn btn-link toggle" (click)="open = !open">
         @if (!open) {
@@ -7,14 +7,14 @@
         } @else {
           <i class="bi bi-folder2-open" aria-hidden="true"></i>
         }
-        @if (item.type_id === 1) {
+        @if (item.type === ItemParentType.ITEM_TYPE_TUNING) {
           <span i18n>Related</span>
-        } @else if (item.type_id === 2) {
+        } @else if (item.type === ItemParentType.ITEM_TYPE_SPORT) {
           <span i18n>Sport</span>
-        } @else if (item.type_id === 3) {
+        } @else if (item.type === ItemParentType.ITEM_TYPE_DESIGN) {
           <span i18n>Design</span>
         }
-        <span [innerHTML]="item.item.name_html"></span>
+        <span [innerHTML]="item.item?.nameHtml"></span>
       </button>
       @if (open) {
         <ul class="list-unstyled">
@@ -35,7 +35,7 @@
             <a
               class="btn btn-link"
               routerLink="/upload"
-              [queryParams]="{item_id: item.item_id, perspective_id: null}"
+              [queryParams]="{item_id: item.itemId, perspective_id: null}"
               i18n
               >other modification</a
             >
@@ -43,18 +43,17 @@
         </ul>
       }
     </div>
-  }
-  @if (!item.item.childs_count || item.item.childs_count <= 0) {
+  } @else {
     <span>
-      <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.item_id, perspective_id: null}">
-        @if (item.type_id === 1) {
+      <a class="btn btn-link" routerLink="/upload" [queryParams]="{item_id: item.itemId, perspective_id: null}">
+        @if (item.type === ItemParentType.ITEM_TYPE_TUNING) {
           <span i18n>Related</span>
-        } @else if (item.type_id === 2) {
+        } @else if (item.type === ItemParentType.ITEM_TYPE_SPORT) {
           <span i18n>Sport</span>
-        } @else if (item.type_id === 3) {
+        } @else if (item.type === ItemParentType.ITEM_TYPE_DESIGN) {
           <span i18n>Design</span>
         }
-        <span [innerHTML]="item.item.name_html"></span>
+        <span [innerHTML]="item.item?.nameHtml"></span>
       </a>
     </span>
   }

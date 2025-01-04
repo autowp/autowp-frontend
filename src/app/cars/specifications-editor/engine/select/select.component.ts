@@ -4,9 +4,13 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
+  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
+  ItemParent,
   ItemParentCacheListOptions,
+  ItemParentFields,
+  ItemParentListOptions,
   ItemRequest,
   ItemType,
   ListItemsRequest,
@@ -14,7 +18,6 @@ import {
   SetItemEngineRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
@@ -34,7 +37,6 @@ export class CarsEngineSelectComponent {
   private readonly itemsClient = inject(ItemsClient);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly itemParentService = inject(ItemParentService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly languageService = inject(LanguageService);
@@ -50,7 +52,7 @@ export class CarsEngineSelectComponent {
   );
 
   protected readonly brandID$ = this.route.queryParamMap.pipe(
-    map((params) => parseInt(params.get('brand_id') ?? '', 10)),
+    map((params) => params.get('brand_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
@@ -80,20 +82,34 @@ export class CarsEngineSelectComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly items$: Observable<APIItemParentGetResponse> = combineLatest([this.brandID$, this.page$]).pipe(
+  protected readonly items$: Observable<ItemParent[]> = combineLatest([this.brandID$, this.page$]).pipe(
     switchMap(([brandID, page]) =>
-      this.itemParentService.getItems$({
-        fields: 'item.name_html,item.childs_count',
-        item_type_id: ItemType.ITEM_TYPE_ENGINE,
-        limit: 500,
-        page,
-        parent_id: brandID,
-      }),
+      this.itemsClient.getItemParents(
+        new GetItemParentsRequest({
+          language: this.languageService.language,
+          options: new ItemParentListOptions({
+            parentId: brandID,
+            item: new ItemListOptions({
+              typeId: ItemType.ITEM_TYPE_ENGINE,
+            }),
+          }),
+          limit: 500,
+          order: GetItemParentsRequest.Order.AUTO,
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              nameHtml: true,
+              childsCount: true,
+            }),
+          }),
+          page,
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);
       return EMPTY;
     }),
+    map((response) => response.items || []),
   );
 
   protected readonly brands$: Observable<{items: APIItem[][]; paginator?: Pages}> = this.search$.pipe(

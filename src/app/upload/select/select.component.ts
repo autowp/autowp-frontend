@@ -11,9 +11,12 @@ import {
   ItemType,
   ListItemsRequest,
   Pages,
+  ItemParent,
+  GetItemParentsRequest,
+  ItemParentListOptions,
+  ItemParentFields,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
@@ -34,17 +37,16 @@ import Order = ListItemsRequest.Order;
 export class UploadSelectComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly itemParentService = inject(ItemParentService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
   protected brand: {
-    concepts: APIItemParent[];
-    engines: APIItemParent[];
+    concepts: ItemParent[];
+    engines: ItemParent[];
     item: GRPCAPIItem;
-    vehicles: APIItemParent[];
+    vehicles: ItemParent[];
   } | null = null;
   protected brands: APIItem[][] = [];
   protected paginator: Pages | undefined;
@@ -128,10 +130,10 @@ export class UploadSelectComponent implements OnInit {
   }
 
   private brandObservable$(brandId: string): Observable<{
-    concepts: APIItemParent[];
-    engines: APIItemParent[];
+    concepts: ItemParent[];
+    engines: ItemParent[];
     item: GRPCAPIItem;
-    vehicles: APIItemParent[];
+    vehicles: ItemParent[];
   }> {
     return this.itemsClient.item(new ItemRequest({id: brandId, language: this.languageService.language})).pipe(
       catchError(() => {
@@ -148,48 +150,84 @@ export class UploadSelectComponent implements OnInit {
   private brandItemsObservable(item: GRPCAPIItem) {
     return forkJoin([
       of(item),
-      this.itemParentService
-        .getItems$({
-          exclude_concept: true,
-          fields: 'item.name_html,item.childs_count',
-          item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-          limit: 500,
-          order: 'name',
-          parent_id: +item.id,
-        })
+      this.itemsClient
+        .getItemParents(
+          new GetItemParentsRequest({
+            language: this.languageService.language,
+            options: new ItemParentListOptions({
+              parentId: item.id,
+              item: new ItemListOptions({
+                typeId: ItemType.ITEM_TYPE_VEHICLE,
+                isNotConcept: true,
+              }),
+            }),
+            limit: 500,
+            order: GetItemParentsRequest.Order.AUTO,
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                nameHtml: true,
+                childsCount: true,
+              }),
+            }),
+          }),
+        )
         .pipe(
-          map((response) => response.items),
+          map((response) => response.items || []),
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
           }),
         ),
-      this.itemParentService
-        .getItems$({
-          exclude_concept: true,
-          fields: 'item.name_html,item.childs_count',
-          item_type_id: ItemType.ITEM_TYPE_ENGINE,
-          limit: 500,
-          order: 'name',
-          parent_id: +item.id,
-        })
+      this.itemsClient
+        .getItemParents(
+          new GetItemParentsRequest({
+            language: this.languageService.language,
+            options: new ItemParentListOptions({
+              parentId: item.id,
+              item: new ItemListOptions({
+                typeId: ItemType.ITEM_TYPE_ENGINE,
+                isNotConcept: true,
+              }),
+            }),
+            limit: 500,
+            order: GetItemParentsRequest.Order.AUTO,
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                nameHtml: true,
+                childsCount: true,
+              }),
+            }),
+          }),
+        )
         .pipe(
-          map((response) => response.items),
+          map((response) => response.items || []),
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;
           }),
         ),
-      this.itemParentService
-        .getItems$({
-          concept: true,
-          fields: 'item.name_html,item.childs_count',
-          limit: 500,
-          order: 'name',
-          parent_id: +item.id,
-        })
+      this.itemsClient
+        .getItemParents(
+          new GetItemParentsRequest({
+            language: this.languageService.language,
+            options: new ItemParentListOptions({
+              parentId: item.id,
+              item: new ItemListOptions({
+                isConcept: true,
+              }),
+            }),
+            limit: 500,
+            order: GetItemParentsRequest.Order.AUTO,
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                nameHtml: true,
+                childsCount: true,
+              }),
+            }),
+          }),
+        )
         .pipe(
-          map((response) => response.items),
+          map((response) => response.items || []),
           catchError((err: unknown) => {
             this.toastService.handleError(err);
             return EMPTY;

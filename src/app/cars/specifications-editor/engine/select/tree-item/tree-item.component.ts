@@ -1,9 +1,18 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {ItemType} from '@grpc/spec.pb';
-import {ItemParentService} from '@services/item-parent';
-import type {APIItemParent} from '@services/item-parent';
+import {
+  GetItemParentsRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemParentType,
+  ItemType,
+} from '@grpc/spec.pb';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
@@ -11,34 +20,47 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class CarsSelectEngineTreeItemComponent {
-  private readonly itemParentService = inject(ItemParentService);
   private readonly toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  @Input() item?: APIItemParent;
+  @Input() item?: ItemParent;
   @Output() selected = new EventEmitter<string>();
 
   protected open = false;
   protected loading = false;
-  protected childs: APIItemParent[] = [];
+  protected childs: ItemParent[] = [];
 
   private loadChildCatalogues() {
     this.loading = true;
     if (this.item) {
-      this.itemParentService
-        .getItems$({
-          fields: 'item.name_html,item.childs_count',
-          item_type_id: ItemType.ITEM_TYPE_ENGINE,
-          limit: 500,
-          order: 'type_auto',
-          parent_id: this.item.item_id,
-        })
+      this.#itemsClient
+        .getItemParents(
+          new GetItemParentsRequest({
+            language: this.#languageService.language,
+            options: new ItemParentListOptions({
+              parentId: this.item.itemId,
+              item: new ItemListOptions({
+                typeId: ItemType.ITEM_TYPE_ENGINE,
+              }),
+            }),
+            limit: 500,
+            order: GetItemParentsRequest.Order.AUTO,
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                nameHtml: true,
+                childsCount: true,
+              }),
+            }),
+          }),
+        )
         .subscribe({
           error: (response: unknown) => {
             this.toastService.handleError(response);
             this.loading = false;
           },
           next: (response) => {
-            this.childs = response.items;
+            this.childs = response.items || [];
             this.loading = false;
           },
         });
@@ -57,4 +79,6 @@ export class CarsSelectEngineTreeItemComponent {
     }
     return false;
   }
+
+  protected readonly ItemParentType = ItemParentType;
 }

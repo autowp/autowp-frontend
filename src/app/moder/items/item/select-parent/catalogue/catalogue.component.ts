@@ -110,6 +110,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
       brandID
         ? this.itemsClient.getItemParents(
             new GetItemParentsRequest({
+              language: this.languageService.language,
               options: new ItemParentListOptions({
                 parentId: brandID,
                 item: new ItemListOptions({

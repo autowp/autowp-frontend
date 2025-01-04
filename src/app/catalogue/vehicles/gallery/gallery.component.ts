@@ -42,7 +42,7 @@ export class CatalogueVehiclesGalleryComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
+  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route).pipe(
     switchMap((data) => {
       if (!data?.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -70,7 +70,7 @@ export class CatalogueVehiclesGalleryComponent {
 
   protected readonly filter$: Observable<APIGalleryFilter> = combineLatest([this.exact$, this.catalogue$]).pipe(
     map(([exact, {path}]) => {
-      const itemID = path[path.length - 1].item.id;
+      const itemID = path[path.length - 1].item?.id;
       return {
         exactItemID: exact ? itemID : undefined,
         itemID: exact ? undefined : itemID,

@@ -246,7 +246,7 @@
       <div class="select-in-brand">
         @if (vehicles$ | async; as vehicles) {
           <div class="my-1">
-            @for (item of vehicles.items; track item) {
+            @for (item of vehicles; track item) {
               <app-moder-picture-move-item
                 [item]="item"
                 (selected)="selectItem({src, selection: $event})"
@@ -257,19 +257,17 @@
           <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
         }
         @if (engines$ | async; as engines) {
-          @if (engines && engines.items.length > 0) {
+          @if (engines.length > 0) {
             <h5 i18n>Engines</h5>
           }
-          @if (engines) {
-            <div class="my-1">
-              @for (item of engines.items; track item) {
-                <app-moder-picture-move-item
-                  [item]="item"
-                  (selected)="selectItem({src, selection: $event})"
-                ></app-moder-picture-move-item>
-              }
-            </div>
-          }
+          <div class="my-1">
+            @for (item of engines; track item) {
+              <app-moder-picture-move-item
+                [item]="item"
+                (selected)="selectItem({src, selection: $event})"
+              ></app-moder-picture-move-item>
+            }
+          </div>
         } @else {
           <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
         }

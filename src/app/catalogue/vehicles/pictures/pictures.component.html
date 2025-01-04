@@ -24,9 +24,9 @@
       <ng-container i18n>All pictures of</ng-container>
       <app-item-header
         [item]="{
-          nameHTML: item.name_html,
+          nameHTML: item.nameHtml,
           design: item.design || null,
-          produced: {count: item.produced || 0, exactly: item.produced_exactly},
+          produced: {count: item.produced || 0, exactly: item.producedExactly},
         }"
       ></app-item-header>
     </h1>
@@ -36,37 +36,37 @@
       <i class="bi bi-gear-fill" aria-hidden="true"></i>
       <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
       @if (canAddItem$ | async; as canAddItem) {
-        @if (canAddItem && item.is_group) {
+        @if (canAddItem && item.isGroup) {
           <i class="bi bi-plus" aria-hidden="true"></i>
           <a
             style="text-transform: lowercase"
             routerLink="/moder/items/new"
-            [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}"
-            >{{ getItemTypeTranslation(item.item_type_id, 'add-sub-item') }}</a
+            [queryParams]="{item_type_id: item.itemTypeId, parent_id: item.id}"
+            >{{ getItemTypeTranslation(item.itemTypeId, 'add-sub-item') }}</a
           >
         }
       }
       @if (canAcceptPicture$ | async; as canAcceptPicture) {
-        @if (canAcceptPicture && item.inbox_pictures_count && item.inbox_pictures_count > 0) {
+        @if (canAcceptPicture && item.inboxPicturesCount && item.inboxPicturesCount > 0) {
           <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
           <a routerLink="/moder/pictures" [queryParams]="{item_id: item.id, status: 'inbox'}">
-            <ng-container i18n>inbox</ng-container> ({{ item.inbox_pictures_count }})
+            <ng-container i18n>inbox</ng-container> ({{ item.inboxPicturesCount }})
           </a>
         }
       }
-      @if (item.comments_attentions_count) {
+      @if (item.commentsAttentionsCount) {
         <i class="bi bi-chat-fill" aria-hidden="true"></i>
         <a routerLink="/moder/comments" [queryParams]="{pictures_of_item_id: item.id, moderator_attention: 1}">
-          <ng-container i18n>comments</ng-container> ({{ item.comments_attentions_count }})
+          <ng-container i18n>comments</ng-container> ({{ item.commentsAttentionsCount }})
         </a>
       }
     </p>
   }
   <app-catalogue-item-menu
-    [header]="{nameHTML: item.name_html, produced: {count: item.produced || 0, exactly: item.produced_exactly}}"
+    [header]="{nameHTML: item.nameHtml, produced: {count: item.produced || 0, exactly: item.producedExactly}}"
     [itemRouterLink]="(routerLink$ | async) || []"
-    [picturesCount]="item.accepted_pictures_count || 0"
-    [childsCounts]="item.childs_counts"
+    [picturesCount]="item.acceptedPicturesCount || 0"
+    [childsCounts]="convertChildsCounts(item.childsCounts || [])"
     [active]="'pictures'"
   ></app-catalogue-item-menu>
 } @else {

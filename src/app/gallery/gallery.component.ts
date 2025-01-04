@@ -9,9 +9,9 @@ import {CarouselItemComponent} from './carousel-item.component';
 import {APIGallery, APIGalleryItem} from './definitions';
 
 export interface APIGalleryFilter {
-  exactItemID?: number;
+  exactItemID?: string;
   exactItemLinkType?: number;
-  itemID?: number;
+  itemID?: string;
   perspectiveExclude?: string;
   perspectiveID?: number;
 }

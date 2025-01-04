@@ -85,6 +85,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                 combineLatest([
                   this.itemsClient.getItemParents(
                     new GetItemParentsRequest({
+                      language: this.languageService.language,
                       options: new ItemParentListOptions({
                         parentId: brand.id,
                         item: new ItemListOptions({
@@ -96,6 +97,7 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                   ),
                   this.itemsClient.getItemParents(
                     new GetItemParentsRequest({
+                      language: this.languageService.language,
                       options: new ItemParentListOptions({
                         parentId: brand.id,
                         item: new ItemListOptions({

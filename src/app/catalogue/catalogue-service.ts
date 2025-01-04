@@ -1,17 +1,28 @@
 import {inject, Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {
+  APIItem,
+  ChildsCount,
+  GetItemParentsRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemParentType,
+  ItemType,
+  ListItemsRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIPathTreeItemParent} from '@services/item';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {type APIItemChildsCounts, APIPathTreeItemParent} from '@services/item';
 import {LanguageService} from '@services/language';
 import {APIPicture} from '@services/picture';
 import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 interface Parent {
-  id: number;
-  items: APIItemParent[];
+  id: string;
+  items: ItemParent[];
   path: string[];
 }
 
@@ -26,17 +37,16 @@ type ParentObservableFunc = () => OperatorFunction<null | Parent, null | Parent>
   providedIn: 'root',
 })
 export class CatalogueService {
-  private readonly itemParentService = inject(ItemParentService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
-  public static pathToBreadcrumbs(brand: APIItem, path: APIItemParent[]): Breadcrumbs[] {
+  public static pathToBreadcrumbs(brand: APIItem, path: ItemParent[]): Breadcrumbs[] {
     const result: Breadcrumbs[] = [];
     const routerLink = ['/', brand.catname];
     for (const item of path) {
       routerLink.push(item.catname);
       result.push({
-        html: item.item.name_html,
+        html: item.item?.nameHtml || '',
         routerLink: [...routerLink],
       });
     }
@@ -53,39 +63,59 @@ export class CatalogueService {
 
   public resolveCatalogue$(
     route: ActivatedRoute,
-    fields: string,
-  ): Observable<{brand: APIItem; path: APIItemParent[]; type: string} | null> {
+    itemFields?: ItemFields,
+  ): Observable<{brand: APIItem; path: ItemParent[]; type: string} | null> {
     const pathPipeRecursive: ParentObservableFunc = () =>
       switchMap((parent: null | Parent) => {
         if (!parent?.id || parent.path.length <= 0) {
           return of(parent);
         }
 
-        let totalFields = 'item.name_html,' + fields;
+        if (!itemFields) {
+          itemFields = new ItemFields();
+        }
+        itemFields.nameHtml = true;
         const isLast = parent.path.length <= 1;
         if (isLast) {
-          totalFields +=
-            ',item.inbox_pictures_count,item.comments_attentions_count,item.other_names,item.design,' +
-            'item.name_default,item.description,item.text,item.produced,item.specs_route,item.childs_counts,' +
-            'item.name_text,item.accepted_pictures_count';
+          itemFields.inboxPicturesCount = true;
+          itemFields.commentsAttentionsCount = true;
+          itemFields.otherNames = true;
+          itemFields.design = true;
+          itemFields.nameDefault = true;
+          itemFields.description = true;
+          itemFields.fullText = true;
+          itemFields.specsRoute = true;
+          itemFields.childsCounts = true;
+          itemFields.nameText = true;
+          itemFields.acceptedPicturesCount = true;
         }
 
-        return this.itemParentService
-          .getItems$({
-            catname: parent.path[0],
-            fields: totalFields,
-            limit: 1,
-            parent_id: parent.id,
-          })
+        const totalFields = new ItemParentFields({
+          item: itemFields,
+        });
+
+        return this.itemsClient
+          .getItemParents(
+            new GetItemParentsRequest({
+              language: this.languageService.language,
+              options: new ItemParentListOptions({
+                catname: parent.path[0],
+                parentId: parent.id,
+              }),
+              limit: 1,
+              fields: totalFields,
+            }),
+          )
           .pipe(
             map((response): null | Parent => {
-              if (response.items.length <= 0) {
+              const items = response.items || [];
+              if (items.length <= 0) {
                 return null;
               }
-              const parentItem = response.items[0];
+              const parentItem = items[0];
 
               return {
-                id: parentItem.item_id,
+                id: parentItem.itemId,
                 items: parent.items.concat([parentItem]),
                 path: parent.path.splice(1),
               };
@@ -104,7 +134,7 @@ export class CatalogueService {
           map(
             (data) =>
               ({
-                id: +brand.id,
+                id: brand.id,
                 items: [],
                 path: data ? data.split('/') : [],
               }) as Parent,
@@ -211,3 +241,26 @@ export class CatalogueService {
     return null;
   }
 }
+
+export const convertChildsCounts = (value: ChildsCount[]): APIItemChildsCounts => {
+  const result = {
+    sport: 0,
+    stock: 0,
+    tuning: 0,
+  };
+  value.forEach((v) => {
+    switch (v.type) {
+      case ItemParentType.ITEM_TYPE_TUNING:
+        result.tuning = v.count;
+        break;
+      case ItemParentType.ITEM_TYPE_SPORT:
+        result.sport = v.count;
+        break;
+      case ItemParentType.ITEM_TYPE_DEFAULT:
+        result.stock = v.count;
+        break;
+    }
+  });
+
+  return result;
+};

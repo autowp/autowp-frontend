@@ -1,11 +1,11 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemParent} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
+import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
@@ -20,7 +20,7 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {CatalogueService} from '../catalogue-service';
+import {CatalogueService, convertChildsCounts} from '../catalogue-service';
 import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
 
 @Component({
@@ -50,8 +50,8 @@ export class CatalogueVehiclesComponent {
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
   protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
 
-  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: APIItemParent[]; type: string}> =
-    this.catalogueService.resolveCatalogue$(this.route, '').pipe(
+  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> =
+    this.catalogueService.resolveCatalogue$(this.route).pipe(
       switchMap((data) => {
         if (!data?.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
@@ -91,11 +91,68 @@ export class CatalogueVehiclesComponent {
     switchMap(({path}) => {
       const last = path[path.length - 1];
 
-      if (last.item.is_group) {
-        return of(last.item);
+      if (last.item?.isGroup) {
+        return of({
+          alt_names: [],
+          accepted_pictures_count: last.item?.acceptedPicturesCount,
+          attr_zone_id: +last.item.attrZoneId,
+          begin_model_year: 0,
+          begin_model_year_fraction: '',
+          begin_month: 0,
+          begin_year: 0,
+          body: '',
+          brands: [],
+          catname: last.item.catname,
+          childs_count: 0,
+          childs_counts: convertChildsCounts(last.item.childsCounts || []),
+          comments_attentions_count: last.item.commentsAttentionsCount,
+          description: last.item.description,
+          design: last.item?.design,
+          descendants_count: 0,
+          end_model_year: 0,
+          end_model_year_fraction: '',
+          end_month: 0,
+          end_year: 0,
+          engine_id: +last.item.engineItemId,
+          engine_inherit: last.item.engineInherit,
+          engine_vehicles_count: 0,
+          full_name: '',
+          id: +last.item.id,
+          item_language_count: 0,
+          item_of_day_pictures: [],
+          inbox_pictures_count: last.item?.inboxPicturesCount,
+          is_concept: last.item.isConceptInherit ? 'inherited' : last.item.isConcept,
+          is_group: last.item.isGroup,
+          item_type_id: last.item.itemTypeId,
+          lat: 0,
+          links_count: 0,
+          lng: 0,
+          name_html: last.item.nameHtml,
+          name_only: last.item.nameOnly,
+          name_text: last.item.nameText,
+          name: '',
+          name_default: '',
+          parents_count: 0,
+          pictures_count: 0,
+          other_names: last.item.otherNames,
+          preview_pictures: {
+            large_format: false,
+            pictures: [],
+          },
+          related_group_pictures: [],
+          produced: last.item.produced,
+          produced_exactly: last.item.producedExactly,
+          spec_id: last.item.specId,
+          specs_route: last.item.specsRoute,
+          text: last.item.fullText,
+          subscription: false,
+          today: null,
+          twins_groups: [],
+          route: [],
+        } as APIItem);
       }
 
-      return this.itemService.getItem$(last.item_id, {
+      return this.itemService.getItem$(+last.itemId, {
         fields: [
           'name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
           'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups.name_html,design',
@@ -103,7 +160,7 @@ export class CatalogueVehiclesComponent {
         ].join(','),
       });
     }),
-    switchMap((item) => {
+    switchMap((item: APIItem | null) => {
       if (!item) {
         this.router.navigate(['/error-404'], {
           skipLocationChange: true,

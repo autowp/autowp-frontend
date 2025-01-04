@@ -24,8 +24,8 @@ export class CatalogueMixedGalleryComponent {
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
-  protected readonly identity$ = this.route.paramMap.pipe(
-    map((route) => route.get('identity')),
+  protected readonly identity$: Observable<string> = this.route.paramMap.pipe(
+    map((route) => route.get('identity') || ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((identity) => {

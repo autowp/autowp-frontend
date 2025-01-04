@@ -14,6 +14,7 @@ import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [forwardRef(() => ModerItemsItemSelectParentTreeComponent), AsyncPipe],
@@ -23,6 +24,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 export class ModerItemsItemSelectParentTreeItemComponent {
   private readonly toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set item(value: APIItem) {
     this.item$.next(value);
@@ -48,6 +50,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
       item
         ? this.#itemsClient.getItemParents(
             new GetItemParentsRequest({
+              language: this.#languageService.language,
               options: new ItemParentListOptions({
                 parentId: item.id,
                 item: new ItemListOptions({

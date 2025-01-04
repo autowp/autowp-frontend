@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
+import {APIItem, GetSpecificationsRequest, ItemFields} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
@@ -25,18 +25,26 @@ export class CatalogueVehiclesSpecificationsComponent {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly languageService = inject(LanguageService);
 
-  private catalogue$ = this.catalogueService.resolveCatalogue$(this.route, 'item.has_specs,item.has_child_specs').pipe(
-    switchMap((data) => {
-      if (!data?.brand || !data.path || data.path.length <= 0) {
-        this.router.navigate(['/error-404'], {
-          skipLocationChange: true,
-        });
-        return EMPTY;
-      }
-      return of(data);
-    }),
-    shareReplay({bufferSize: 1, refCount: false}),
-  );
+  private catalogue$ = this.catalogueService
+    .resolveCatalogue$(
+      this.route,
+      new ItemFields({
+        hasSpecs: true,
+        hasChildSpecs: true,
+      }),
+    )
+    .pipe(
+      switchMap((data) => {
+        if (!data?.brand || !data.path || data.path.length <= 0) {
+          this.router.navigate(['/error-404'], {
+            skipLocationChange: true,
+          });
+          return EMPTY;
+        }
+        return of(data);
+      }),
+      shareReplay({bufferSize: 1, refCount: false}),
+    );
 
   protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(
     map(({brand}) => brand),
@@ -60,15 +68,15 @@ export class CatalogueVehiclesSpecificationsComponent {
 
   protected readonly html$ = this.item$.pipe(
     switchMap((item) => {
-      if (item.has_child_specs) {
+      if (item?.hasChildSpecs) {
         return this.attrsClient.getChildSpecifications(
-          new GetSpecificationsRequest({itemId: '' + item.id, language: this.languageService.language}),
+          new GetSpecificationsRequest({itemId: item.id, language: this.languageService.language}),
         );
       }
 
-      if (item.has_specs) {
+      if (item?.hasSpecs) {
         return this.attrsClient.getSpecifications(
-          new GetSpecificationsRequest({itemId: '' + item.id, language: this.languageService.language}),
+          new GetSpecificationsRequest({itemId: item.id, language: this.languageService.language}),
         );
       }
 

@@ -59,6 +59,7 @@ export class DonateVodSelectItemComponent {
       itemParent
         ? this.itemsClient.getItemParents(
             new GetItemParentsRequest({
+              language: this.languageService.language,
               options: new ItemParentListOptions({
                 parentId: itemParent.itemId,
                 item: new ItemListOptions({

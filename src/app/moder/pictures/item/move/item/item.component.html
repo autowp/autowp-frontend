@@ -1,25 +1,25 @@
 @if (item$ | async; as item) {
-  @if (item.type_id === 1) {
+  @if (item.row.type === ItemParentType.ITEM_TYPE_TUNING) {
     <span class="text-muted" i18n>Related</span>
-  } @else if (item.type_id === 2) {
+  } @else if (item.row.type === ItemParentType.ITEM_TYPE_SPORT) {
     <span class="text-muted" i18n>Sport</span>
   }
-  @if (item.item.childs_count <= 0) {
+  @if ((item.row.item?.childsCount || 0) <= 0) {
     <button
       class="btn btn-link d-block text-start"
-      (click)="selectItem({itemId: '' + item.item_id, perspectiveId: 0, type: PictureItemType.PICTURE_ITEM_CONTENT})"
-      [innerHTML]="item.item.name_html"
+      (click)="selectItem({itemId: item.row.itemId, perspectiveId: 0, type: PictureItemType.PICTURE_ITEM_CONTENT})"
+      [innerHTML]="item.row.item?.nameHtml"
     ></button>
   } @else {
     <div>
       <button class="btn btn-link d-block text-start" (click)="toggleItem(item)">
         <i class="bi me-1" [class.bi-plus-circle]="!item.expanded" [class.bi-dash-circle]="item.expanded"></i>
-        <span [innerHTML]="item.item.name_html"></span>
+        <span [innerHTML]="item.row.item?.nameHtml"></span>
       </button>
       @if (item.expanded) {
         <div class="mb-1 ms-4">
           @if (childs$ | async; as childs) {
-            @for (child of childs.items; track child) {
+            @for (child of childs; track child) {
               <app-moder-picture-move-item [item]="child" (selected)="selectItem($event)"></app-moder-picture-move-item>
             }
           } @else {
@@ -28,7 +28,7 @@
           <button
             class="btn btn-link d-block text-start"
             (click)="
-              selectItem({itemId: '' + item.item_id, perspectiveId: 0, type: PictureItemType.PICTURE_ITEM_CONTENT})
+              selectItem({itemId: item.row.itemId, perspectiveId: 0, type: PictureItemType.PICTURE_ITEM_CONTENT})
             "
             i18n
           >

@@ -2,11 +2,20 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIGetItemVehicleTypesRequest, ItemParent, ItemType, MoveItemParentRequest} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  APIGetItemVehicleTypesRequest,
+  GetItemParentsRequest,
+  ItemFields,
+  ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemType,
+  MoveItemParentRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item';
-import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -14,6 +23,7 @@ import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
@@ -25,7 +35,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   private readonly itemService = inject(ItemService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly itemParentService = inject(ItemParentService);
+  private readonly languageService = inject(LanguageService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly itemsClient = inject(ItemsClient);
 
@@ -40,35 +50,48 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   );
 
   private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') ?? '', 10)),
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly childs$: Observable<APIItem[]> = combineLatest([
+  protected readonly childs$: Observable<GRPCAPIItem[]> = combineLatest([
     this.itemID$.pipe(
       switchMap((id) =>
-        this.itemParentService.getItems$({
-          fields: 'item.name_html',
-          limit: 500,
-          order: 'type_auto',
-          parent_id: id,
-        }),
+        this.itemsClient.getItemParents(
+          new GetItemParentsRequest({
+            language: this.languageService.language,
+            options: new ItemParentListOptions({
+              parentId: id,
+            }),
+            limit: 500,
+            order: GetItemParentsRequest.Order.AUTO,
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                nameHtml: true,
+              }),
+            }),
+          }),
+        ),
       ),
     ),
     this.itemTypeID$,
   ]).pipe(
     map(([data, itemTypeID]) =>
-      data.items
-        .filter((i) => allowedItemTypeCombinations[itemTypeID as ItemType].includes(i.item.item_type_id))
-        .map((i) => i.item),
+      (data.items || [])
+        .map((i) => i.item)
+        .filter((i): i is GRPCAPIItem => !!i)
+        .filter(
+          (item) =>
+            item && item?.itemTypeId && allowedItemTypeCombinations[itemTypeID as ItemType].includes(item?.itemTypeId),
+        ),
     ),
   );
 
   protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem$(id, {
+      this.itemService.getItem$(+id, {
         fields: [
           'name_text',
           'name',

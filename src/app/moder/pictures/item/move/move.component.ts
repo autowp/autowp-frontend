@@ -5,9 +5,13 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   CreatePictureItemRequest,
+  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
+  ItemParent,
   ItemParentCacheListOptions,
+  ItemParentFields,
+  ItemParentListOptions,
   ItemType,
   ListItemsRequest,
   Pages,
@@ -16,7 +20,6 @@ import {
   SetPictureItemPerspectiveRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
-import {APIItemParentGetResponse, ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -57,7 +60,6 @@ interface HtmlAndSelectItemParams {
 export class ModerPicturesItemMoveComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly itemParentService = inject(ItemParentService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
@@ -288,28 +290,54 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     ),
   );
 
-  protected readonly vehicles$: Observable<APIItemParentGetResponse> = this.brandId$.pipe(
+  protected readonly vehicles$: Observable<ItemParent[]> = this.brandId$.pipe(
     switchMap((brandID) =>
-      this.itemParentService.getItems$({
-        fields: 'item.name_html,item.childs_count',
-        item_type_id: ItemType.ITEM_TYPE_VEHICLE,
-        limit: 500,
-        page: 1,
-        parent_id: brandID ? +brandID : undefined,
-      }),
+      this.itemsClient.getItemParents(
+        new GetItemParentsRequest({
+          language: this.languageService.language,
+          options: new ItemParentListOptions({
+            parentId: brandID ? brandID : undefined,
+            item: new ItemListOptions({
+              typeId: ItemType.ITEM_TYPE_VEHICLE,
+            }),
+          }),
+          limit: 500,
+          order: GetItemParentsRequest.Order.AUTO,
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              nameHtml: true,
+              childsCount: true,
+            }),
+          }),
+        }),
+      ),
     ),
+    map((response) => response.items || []),
   );
 
-  protected readonly engines$: Observable<APIItemParentGetResponse> = this.brandId$.pipe(
+  protected readonly engines$: Observable<ItemParent[]> = this.brandId$.pipe(
     switchMap((brandID) =>
-      this.itemParentService.getItems$({
-        fields: 'item.name_html,item.childs_count',
-        item_type_id: ItemType.ITEM_TYPE_ENGINE,
-        limit: 500,
-        page: 1,
-        parent_id: brandID ? +brandID : undefined,
-      }),
+      this.itemsClient.getItemParents(
+        new GetItemParentsRequest({
+          language: this.languageService.language,
+          options: new ItemParentListOptions({
+            parentId: brandID ? brandID : undefined,
+            item: new ItemListOptions({
+              typeId: ItemType.ITEM_TYPE_ENGINE,
+            }),
+          }),
+          limit: 500,
+          order: GetItemParentsRequest.Order.AUTO,
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              nameHtml: true,
+              childsCount: true,
+            }),
+          }),
+        }),
+      ),
     ),
+    map((response) => response.items || []),
   );
 
   protected readonly concepts$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> = this.brandId$.pipe(

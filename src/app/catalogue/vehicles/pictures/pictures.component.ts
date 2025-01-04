@@ -1,22 +1,21 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemParent} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem} from '@services/item';
-import {APIItemParent} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureService} from '@services/picture';
+import {APIPicture, PictureService} from '@services/picture';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../chunk';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
-import {Breadcrumbs, CatalogueService} from '../../catalogue-service';
+import {Breadcrumbs, CatalogueService, convertChildsCounts} from '../../catalogue-service';
 import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
+import {APIPaginator} from '@services/api.service';
 
 @Component({
   imports: [
@@ -43,8 +42,8 @@ export class CatalogueVehiclesPicturesComponent {
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: APIItemParent[]; type: string}> =
-    this.catalogueService.resolveCatalogue$(this.route, '').pipe(
+  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> =
+    this.catalogueService.resolveCatalogue$(this.route).pipe(
       switchMap((data) => {
         if (!data?.brand || !data.path || data.path.length <= 0) {
           this.router.navigate(['/error-404'], {
@@ -83,22 +82,27 @@ export class CatalogueVehiclesPicturesComponent {
     map(([routerLink, exact]) => [...routerLink, ...(exact ? ['exact'] : []), 'pictures']),
   );
 
-  protected readonly item$: Observable<APIItem> = this.catalogue$.pipe(
+  protected readonly item$: Observable<GRPCAPIItem> = this.catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
-    tap((item: APIItem) => {
+    filter((item) => !!item),
+    tap((item: GRPCAPIItem) => {
       this.pageEnv.set({
         pageId: 34,
-        title: $localize`All pictures of ${item.name_text}`,
+        title: $localize`All pictures of ${item.nameText}`,
       });
     }),
   );
 
-  protected readonly pictures$ = combineLatest([this.exact$, this.item$, this.page$]).pipe(
+  protected readonly pictures$: Observable<{paginator: APIPaginator; pictures: APIPicture[][]}> = combineLatest([
+    this.exact$,
+    this.item$,
+    this.page$,
+  ]).pipe(
     switchMap(([exact, item, page]) =>
       this.pictureService.getPictures$({
-        exact_item_id: exact ? item.id : undefined,
+        exact_item_id: exact ? +item.id : undefined,
         fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-        item_id: exact ? undefined : item.id,
+        item_id: exact ? undefined : +item.id,
         limit: 20,
         order: 16,
         page,
@@ -114,4 +118,6 @@ export class CatalogueVehiclesPicturesComponent {
   protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
+
+  protected readonly convertChildsCounts = convertChildsCounts;
 }

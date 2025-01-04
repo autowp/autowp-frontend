@@ -47,7 +47,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route, '').pipe(
+  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route).pipe(
     switchMap((data) => {
       if (!data?.brand || !data.path || data.path.length <= 0) {
         this.router.navigate(['/error-404'], {
@@ -85,7 +85,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
 
   protected readonly picture$: Observable<APIPicture> = combineLatest([this.catalogue$, this.identity$]).pipe(
     switchMap(([{path}, identity]) => {
-      const itemID = path[path.length - 1].item_id;
+      const itemID = path[path.length - 1].itemId;
 
       const fields =
         'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
@@ -98,13 +98,13 @@ export class CatalogueVehiclesPicturesPictureComponent {
           this.pictureService.getPictures$({
             fields,
             identity,
-            item_id: itemID,
+            item_id: +itemID,
             items: {
               type_id: 1,
             },
             limit: 1,
             paginator: {
-              item_id: itemID,
+              item_id: +itemID,
             },
           }),
         ),

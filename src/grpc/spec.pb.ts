@@ -21938,6 +21938,12 @@ export class ItemFields implements GrpcMessage {
     _instance.location = _instance.location || false;
     _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || false;
     _instance.hasChildSpecs = _instance.hasChildSpecs || false;
+    _instance.hasSpecs = _instance.hasSpecs || false;
+    _instance.fullText = _instance.fullText || false;
+    _instance.otherNames = _instance.otherNames || false;
+    _instance.design = _instance.design || false;
+    _instance.specsRoute = _instance.specsRoute || false;
+    _instance.childsCounts = _instance.childsCounts || false;
   }
 
   /**
@@ -22026,6 +22032,24 @@ export class ItemFields implements GrpcMessage {
         case 23:
           _instance.hasChildSpecs = _reader.readBool();
           break;
+        case 24:
+          _instance.hasSpecs = _reader.readBool();
+          break;
+        case 25:
+          _instance.fullText = _reader.readBool();
+          break;
+        case 26:
+          _instance.otherNames = _reader.readBool();
+          break;
+        case 27:
+          _instance.design = _reader.readBool();
+          break;
+        case 28:
+          _instance.specsRoute = _reader.readBool();
+          break;
+        case 29:
+          _instance.childsCounts = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -22113,6 +22137,24 @@ export class ItemFields implements GrpcMessage {
     if (_instance.hasChildSpecs) {
       _writer.writeBool(23, _instance.hasChildSpecs);
     }
+    if (_instance.hasSpecs) {
+      _writer.writeBool(24, _instance.hasSpecs);
+    }
+    if (_instance.fullText) {
+      _writer.writeBool(25, _instance.fullText);
+    }
+    if (_instance.otherNames) {
+      _writer.writeBool(26, _instance.otherNames);
+    }
+    if (_instance.design) {
+      _writer.writeBool(27, _instance.design);
+    }
+    if (_instance.specsRoute) {
+      _writer.writeBool(28, _instance.specsRoute);
+    }
+    if (_instance.childsCounts) {
+      _writer.writeBool(29, _instance.childsCounts);
+    }
   }
 
   private _nameOnly: boolean;
@@ -22138,6 +22180,12 @@ export class ItemFields implements GrpcMessage {
   private _location: boolean;
   private _acceptedPicturesCount: boolean;
   private _hasChildSpecs: boolean;
+  private _hasSpecs: boolean;
+  private _fullText: boolean;
+  private _otherNames: boolean;
+  private _design: boolean;
+  private _specsRoute: boolean;
+  private _childsCounts: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -22170,6 +22218,12 @@ export class ItemFields implements GrpcMessage {
     this.location = _value.location;
     this.acceptedPicturesCount = _value.acceptedPicturesCount;
     this.hasChildSpecs = _value.hasChildSpecs;
+    this.hasSpecs = _value.hasSpecs;
+    this.fullText = _value.fullText;
+    this.otherNames = _value.otherNames;
+    this.design = _value.design;
+    this.specsRoute = _value.specsRoute;
+    this.childsCounts = _value.childsCounts;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -22310,6 +22364,42 @@ export class ItemFields implements GrpcMessage {
   set hasChildSpecs(value: boolean) {
     this._hasChildSpecs = value;
   }
+  get hasSpecs(): boolean {
+    return this._hasSpecs;
+  }
+  set hasSpecs(value: boolean) {
+    this._hasSpecs = value;
+  }
+  get fullText(): boolean {
+    return this._fullText;
+  }
+  set fullText(value: boolean) {
+    this._fullText = value;
+  }
+  get otherNames(): boolean {
+    return this._otherNames;
+  }
+  set otherNames(value: boolean) {
+    this._otherNames = value;
+  }
+  get design(): boolean {
+    return this._design;
+  }
+  set design(value: boolean) {
+    this._design = value;
+  }
+  get specsRoute(): boolean {
+    return this._specsRoute;
+  }
+  set specsRoute(value: boolean) {
+    this._specsRoute = value;
+  }
+  get childsCounts(): boolean {
+    return this._childsCounts;
+  }
+  set childsCounts(value: boolean) {
+    this._childsCounts = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -22350,7 +22440,13 @@ export class ItemFields implements GrpcMessage {
       attrZoneId: this.attrZoneId,
       location: this.location,
       acceptedPicturesCount: this.acceptedPicturesCount,
-      hasChildSpecs: this.hasChildSpecs
+      hasChildSpecs: this.hasChildSpecs,
+      hasSpecs: this.hasSpecs,
+      fullText: this.fullText,
+      otherNames: this.otherNames,
+      design: this.design,
+      specsRoute: this.specsRoute,
+      childsCounts: this.childsCounts
     };
   }
 
@@ -22395,7 +22491,13 @@ export class ItemFields implements GrpcMessage {
       attrZoneId: this.attrZoneId,
       location: this.location,
       acceptedPicturesCount: this.acceptedPicturesCount,
-      hasChildSpecs: this.hasChildSpecs
+      hasChildSpecs: this.hasChildSpecs,
+      hasSpecs: this.hasSpecs,
+      fullText: this.fullText,
+      otherNames: this.otherNames,
+      design: this.design,
+      specsRoute: this.specsRoute,
+      childsCounts: this.childsCounts
     };
   }
 }
@@ -22427,6 +22529,12 @@ export module ItemFields {
     location: boolean;
     acceptedPicturesCount: boolean;
     hasChildSpecs: boolean;
+    hasSpecs: boolean;
+    fullText: boolean;
+    otherNames: boolean;
+    design: boolean;
+    specsRoute: boolean;
+    childsCounts: boolean;
   }
 
   /**
@@ -22456,6 +22564,12 @@ export module ItemFields {
     location: boolean;
     acceptedPicturesCount: boolean;
     hasChildSpecs: boolean;
+    hasSpecs: boolean;
+    fullText: boolean;
+    otherNames: boolean;
+    design: boolean;
+    specsRoute: boolean;
+    childsCounts: boolean;
   }
 }
 
@@ -23125,6 +23239,7 @@ export class ItemParentListOptions implements GrpcMessage {
     _instance.item = _instance.item || undefined;
     _instance.itemParentCacheItemByChild =
       _instance.itemParentCacheItemByChild || undefined;
+    _instance.catname = _instance.catname || '';
   }
 
   /**
@@ -23176,6 +23291,9 @@ export class ItemParentListOptions implements GrpcMessage {
             _instance.itemParentCacheItemByChild,
             ItemParentCacheListOptions.deserializeBinaryFromReader
           );
+          break;
+        case 8:
+          _instance.catname = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -23231,6 +23349,9 @@ export class ItemParentListOptions implements GrpcMessage {
         ItemParentCacheListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.catname) {
+      _writer.writeString(8, _instance.catname);
+    }
   }
 
   private _parentId: string;
@@ -23240,6 +23361,7 @@ export class ItemParentListOptions implements GrpcMessage {
   private _type: ItemParentType;
   private _item?: ItemListOptions;
   private _itemParentCacheItemByChild?: ItemParentCacheListOptions;
+  private _catname: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23260,6 +23382,7 @@ export class ItemParentListOptions implements GrpcMessage {
     this.itemParentCacheItemByChild = _value.itemParentCacheItemByChild
       ? new ItemParentCacheListOptions(_value.itemParentCacheItemByChild)
       : undefined;
+    this.catname = _value.catname;
     ItemParentListOptions.refineValues(this);
   }
   get parentId(): string {
@@ -23306,6 +23429,12 @@ export class ItemParentListOptions implements GrpcMessage {
   ) {
     this._itemParentCacheItemByChild = value;
   }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -23332,7 +23461,8 @@ export class ItemParentListOptions implements GrpcMessage {
       item: this.item ? this.item.toObject() : undefined,
       itemParentCacheItemByChild: this.itemParentCacheItemByChild
         ? this.itemParentCacheItemByChild.toObject()
-        : undefined
+        : undefined,
+      catname: this.catname
     };
   }
 
@@ -23366,7 +23496,8 @@ export class ItemParentListOptions implements GrpcMessage {
       item: this.item ? this.item.toProtobufJSON(options) : null,
       itemParentCacheItemByChild: this.itemParentCacheItemByChild
         ? this.itemParentCacheItemByChild.toProtobufJSON(options)
-        : null
+        : null,
+      catname: this.catname
     };
   }
 }
@@ -23382,6 +23513,7 @@ export module ItemParentListOptions {
     type: ItemParentType;
     item?: ItemListOptions.AsObject;
     itemParentCacheItemByChild?: ItemParentCacheListOptions.AsObject;
+    catname: string;
   }
 
   /**
@@ -23395,6 +23527,7 @@ export module ItemParentListOptions {
     type: string;
     item: ItemListOptions.AsProtobufJSON | null;
     itemParentCacheItemByChild: ItemParentCacheListOptions.AsProtobufJSON | null;
+    catname: string;
   }
 }
 
@@ -23697,6 +23830,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.excludeSelfAndChilds = _instance.excludeSelfAndChilds || '0';
     _instance.autocomplete = _instance.autocomplete || '';
     _instance.suggestionsTo = _instance.suggestionsTo || '0';
+    _instance.isNotConcept = _instance.isNotConcept || false;
   }
 
   /**
@@ -23782,6 +23916,9 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 23:
           _instance.suggestionsTo = _reader.readInt64String();
+          break;
+        case 24:
+          _instance.isNotConcept = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -23871,6 +24008,9 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.suggestionsTo) {
       _writer.writeInt64String(23, _instance.suggestionsTo);
     }
+    if (_instance.isNotConcept) {
+      _writer.writeBool(24, _instance.isNotConcept);
+    }
   }
 
   private _typeId: ItemType;
@@ -23890,6 +24030,7 @@ export class ItemListOptions implements GrpcMessage {
   private _excludeSelfAndChilds: string;
   private _autocomplete: string;
   private _suggestionsTo: string;
+  private _isNotConcept: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -23924,6 +24065,7 @@ export class ItemListOptions implements GrpcMessage {
     this.excludeSelfAndChilds = _value.excludeSelfAndChilds;
     this.autocomplete = _value.autocomplete;
     this.suggestionsTo = _value.suggestionsTo;
+    this.isNotConcept = _value.isNotConcept;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -24028,6 +24170,12 @@ export class ItemListOptions implements GrpcMessage {
   set suggestionsTo(value: string) {
     this._suggestionsTo = value;
   }
+  get isNotConcept(): boolean {
+    return this._isNotConcept;
+  }
+  set isNotConcept(value: boolean) {
+    this._isNotConcept = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -24062,7 +24210,8 @@ export class ItemListOptions implements GrpcMessage {
       isGroup: this.isGroup,
       excludeSelfAndChilds: this.excludeSelfAndChilds,
       autocomplete: this.autocomplete,
-      suggestionsTo: this.suggestionsTo
+      suggestionsTo: this.suggestionsTo,
+      isNotConcept: this.isNotConcept
     };
   }
 
@@ -24111,7 +24260,8 @@ export class ItemListOptions implements GrpcMessage {
       isGroup: this.isGroup,
       excludeSelfAndChilds: this.excludeSelfAndChilds,
       autocomplete: this.autocomplete,
-      suggestionsTo: this.suggestionsTo
+      suggestionsTo: this.suggestionsTo,
+      isNotConcept: this.isNotConcept
     };
   }
 }
@@ -24137,6 +24287,7 @@ export module ItemListOptions {
     excludeSelfAndChilds: string;
     autocomplete: string;
     suggestionsTo: string;
+    isNotConcept: boolean;
   }
 
   /**
@@ -24160,6 +24311,7 @@ export module ItemListOptions {
     excludeSelfAndChilds: string;
     autocomplete: string;
     suggestionsTo: string;
+    isNotConcept: boolean;
   }
 }
 
@@ -24554,6 +24706,14 @@ export class APIItem implements GrpcMessage {
     _instance.location = _instance.location || undefined;
     _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || 0;
     _instance.hasChildSpecs = _instance.hasChildSpecs || false;
+    _instance.hasSpecs = _instance.hasSpecs || false;
+    _instance.produced = _instance.produced || 0;
+    _instance.producedExactly = _instance.producedExactly || false;
+    _instance.otherNames = _instance.otherNames || [];
+    _instance.design = _instance.design || undefined;
+    _instance.specsRoute = _instance.specsRoute || [];
+    _instance.isGroup = _instance.isGroup || false;
+    _instance.childsCounts = _instance.childsCounts || [];
   }
 
   /**
@@ -24665,6 +24825,45 @@ export class APIItem implements GrpcMessage {
         case 28:
           _instance.hasChildSpecs = _reader.readBool();
           break;
+        case 29:
+          _instance.hasSpecs = _reader.readBool();
+          break;
+        case 30:
+          _instance.produced = _reader.readInt32();
+          break;
+        case 31:
+          _instance.producedExactly = _reader.readBool();
+          break;
+        case 32:
+          (_instance.otherNames = _instance.otherNames || []).push(
+            _reader.readString()
+          );
+          break;
+        case 33:
+          _instance.design = new Design();
+          _reader.readMessage(
+            _instance.design,
+            Design.deserializeBinaryFromReader
+          );
+          break;
+        case 34:
+          (_instance.specsRoute = _instance.specsRoute || []).push(
+            _reader.readString()
+          );
+          break;
+        case 35:
+          _instance.isGroup = _reader.readBool();
+          break;
+        case 36:
+          const messageInitializer36 = new ChildsCount();
+          _reader.readMessage(
+            messageInitializer36,
+            ChildsCount.deserializeBinaryFromReader
+          );
+          (_instance.childsCounts = _instance.childsCounts || []).push(
+            messageInitializer36
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -24775,6 +24974,38 @@ export class APIItem implements GrpcMessage {
     if (_instance.hasChildSpecs) {
       _writer.writeBool(28, _instance.hasChildSpecs);
     }
+    if (_instance.hasSpecs) {
+      _writer.writeBool(29, _instance.hasSpecs);
+    }
+    if (_instance.produced) {
+      _writer.writeInt32(30, _instance.produced);
+    }
+    if (_instance.producedExactly) {
+      _writer.writeBool(31, _instance.producedExactly);
+    }
+    if (_instance.otherNames && _instance.otherNames.length) {
+      _writer.writeRepeatedString(32, _instance.otherNames);
+    }
+    if (_instance.design) {
+      _writer.writeMessage(
+        33,
+        _instance.design as any,
+        Design.serializeBinaryToWriter
+      );
+    }
+    if (_instance.specsRoute && _instance.specsRoute.length) {
+      _writer.writeRepeatedString(34, _instance.specsRoute);
+    }
+    if (_instance.isGroup) {
+      _writer.writeBool(35, _instance.isGroup);
+    }
+    if (_instance.childsCounts && _instance.childsCounts.length) {
+      _writer.writeRepeatedMessage(
+        36,
+        _instance.childsCounts as any,
+        ChildsCount.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -24805,6 +25036,14 @@ export class APIItem implements GrpcMessage {
   private _location?: googleType003.LatLng;
   private _acceptedPicturesCount: number;
   private _hasChildSpecs: boolean;
+  private _hasSpecs: boolean;
+  private _produced: number;
+  private _producedExactly: boolean;
+  private _otherNames: string[];
+  private _design?: Design;
+  private _specsRoute: string[];
+  private _isGroup: boolean;
+  private _childsCounts?: ChildsCount[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -24844,6 +25083,16 @@ export class APIItem implements GrpcMessage {
       : undefined;
     this.acceptedPicturesCount = _value.acceptedPicturesCount;
     this.hasChildSpecs = _value.hasChildSpecs;
+    this.hasSpecs = _value.hasSpecs;
+    this.produced = _value.produced;
+    this.producedExactly = _value.producedExactly;
+    this.otherNames = (_value.otherNames || []).slice();
+    this.design = _value.design ? new Design(_value.design) : undefined;
+    this.specsRoute = (_value.specsRoute || []).slice();
+    this.isGroup = _value.isGroup;
+    this.childsCounts = (_value.childsCounts || []).map(
+      m => new ChildsCount(m)
+    );
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -25014,6 +25263,54 @@ export class APIItem implements GrpcMessage {
   set hasChildSpecs(value: boolean) {
     this._hasChildSpecs = value;
   }
+  get hasSpecs(): boolean {
+    return this._hasSpecs;
+  }
+  set hasSpecs(value: boolean) {
+    this._hasSpecs = value;
+  }
+  get produced(): number {
+    return this._produced;
+  }
+  set produced(value: number) {
+    this._produced = value;
+  }
+  get producedExactly(): boolean {
+    return this._producedExactly;
+  }
+  set producedExactly(value: boolean) {
+    this._producedExactly = value;
+  }
+  get otherNames(): string[] {
+    return this._otherNames;
+  }
+  set otherNames(value: string[]) {
+    this._otherNames = value;
+  }
+  get design(): Design | undefined {
+    return this._design;
+  }
+  set design(value: Design | undefined) {
+    this._design = value;
+  }
+  get specsRoute(): string[] {
+    return this._specsRoute;
+  }
+  set specsRoute(value: string[]) {
+    this._specsRoute = value;
+  }
+  get isGroup(): boolean {
+    return this._isGroup;
+  }
+  set isGroup(value: boolean) {
+    this._isGroup = value;
+  }
+  get childsCounts(): ChildsCount[] | undefined {
+    return this._childsCounts;
+  }
+  set childsCounts(value: ChildsCount[] | undefined) {
+    this._childsCounts = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25057,7 +25354,15 @@ export class APIItem implements GrpcMessage {
       engineInherit: this.engineInherit,
       location: this.location ? this.location.toObject() : undefined,
       acceptedPicturesCount: this.acceptedPicturesCount,
-      hasChildSpecs: this.hasChildSpecs
+      hasChildSpecs: this.hasChildSpecs,
+      hasSpecs: this.hasSpecs,
+      produced: this.produced,
+      producedExactly: this.producedExactly,
+      otherNames: (this.otherNames || []).slice(),
+      design: this.design ? this.design.toObject() : undefined,
+      specsRoute: (this.specsRoute || []).slice(),
+      isGroup: this.isGroup,
+      childsCounts: (this.childsCounts || []).map(m => m.toObject())
     };
   }
 
@@ -25110,7 +25415,17 @@ export class APIItem implements GrpcMessage {
       engineInherit: this.engineInherit,
       location: this.location ? this.location.toProtobufJSON(options) : null,
       acceptedPicturesCount: this.acceptedPicturesCount,
-      hasChildSpecs: this.hasChildSpecs
+      hasChildSpecs: this.hasChildSpecs,
+      hasSpecs: this.hasSpecs,
+      produced: this.produced,
+      producedExactly: this.producedExactly,
+      otherNames: (this.otherNames || []).slice(),
+      design: this.design ? this.design.toProtobufJSON(options) : null,
+      specsRoute: (this.specsRoute || []).slice(),
+      isGroup: this.isGroup,
+      childsCounts: (this.childsCounts || []).map(m =>
+        m.toProtobufJSON(options)
+      )
     };
   }
 }
@@ -25147,6 +25462,14 @@ export module APIItem {
     location?: googleType003.LatLng.AsObject;
     acceptedPicturesCount: number;
     hasChildSpecs: boolean;
+    hasSpecs: boolean;
+    produced: number;
+    producedExactly: boolean;
+    otherNames: string[];
+    design?: Design.AsObject;
+    specsRoute: string[];
+    isGroup: boolean;
+    childsCounts?: ChildsCount.AsObject[];
   }
 
   /**
@@ -25181,6 +25504,321 @@ export module APIItem {
     location: googleType003.LatLng.AsProtobufJSON | null;
     acceptedPicturesCount: number;
     hasChildSpecs: boolean;
+    hasSpecs: boolean;
+    produced: number;
+    producedExactly: boolean;
+    otherNames: string[];
+    design: Design.AsProtobufJSON | null;
+    specsRoute: string[];
+    isGroup: boolean;
+    childsCounts: ChildsCount.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.ChildsCount
+ */
+export class ChildsCount implements GrpcMessage {
+  static id = 'goautowp.ChildsCount';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ChildsCount();
+    ChildsCount.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ChildsCount) {
+    _instance.type = _instance.type || 0;
+    _instance.count = _instance.count || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ChildsCount,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.type = _reader.readEnum();
+          break;
+        case 2:
+          _instance.count = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ChildsCount.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ChildsCount,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.type) {
+      _writer.writeEnum(1, _instance.type);
+    }
+    if (_instance.count) {
+      _writer.writeInt32(2, _instance.count);
+    }
+  }
+
+  private _type: ItemParentType;
+  private _count: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ChildsCount to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ChildsCount.AsObject>) {
+    _value = _value || {};
+    this.type = _value.type;
+    this.count = _value.count;
+    ChildsCount.refineValues(this);
+  }
+  get type(): ItemParentType {
+    return this._type;
+  }
+  set type(value: ItemParentType) {
+    this._type = value;
+  }
+  get count(): number {
+    return this._count;
+  }
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ChildsCount.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ChildsCount.AsObject {
+    return {
+      type: this.type,
+      count: this.count
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ChildsCount.AsProtobufJSON {
+    return {
+      type:
+        ItemParentType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ],
+      count: this.count
+    };
+  }
+}
+export module ChildsCount {
+  /**
+   * Standard JavaScript object representation for ChildsCount
+   */
+  export interface AsObject {
+    type: ItemParentType;
+    count: number;
+  }
+
+  /**
+   * Protobuf JSON representation for ChildsCount
+   */
+  export interface AsProtobufJSON {
+    type: string;
+    count: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Design
+ */
+export class Design implements GrpcMessage {
+  static id = 'goautowp.Design';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Design();
+    Design.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Design) {
+    _instance.name = _instance.name || '';
+    _instance.route = _instance.route || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: Design, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.name = _reader.readString();
+          break;
+        case 2:
+          (_instance.route = _instance.route || []).push(_reader.readString());
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Design.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Design, _writer: BinaryWriter) {
+    if (_instance.name) {
+      _writer.writeString(1, _instance.name);
+    }
+    if (_instance.route && _instance.route.length) {
+      _writer.writeRepeatedString(2, _instance.route);
+    }
+  }
+
+  private _name: string;
+  private _route: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Design to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Design.AsObject>) {
+    _value = _value || {};
+    this.name = _value.name;
+    this.route = (_value.route || []).slice();
+    Design.refineValues(this);
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get route(): string[] {
+    return this._route;
+  }
+  set route(value: string[]) {
+    this._route = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Design.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Design.AsObject {
+    return {
+      name: this.name,
+      route: (this.route || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Design.AsProtobufJSON {
+    return {
+      name: this.name,
+      route: (this.route || []).slice()
+    };
+  }
+}
+export module Design {
+  /**
+   * Standard JavaScript object representation for Design
+   */
+  export interface AsObject {
+    name: string;
+    route: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for Design
+   */
+  export interface AsProtobufJSON {
+    name: string;
+    route: string[];
   }
 }
 
@@ -40802,6 +41440,153 @@ export module NewItemsResponse {
 }
 
 /**
+ * Message implementation for goautowp.ItemParentFields
+ */
+export class ItemParentFields implements GrpcMessage {
+  static id = 'goautowp.ItemParentFields';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new ItemParentFields();
+    ItemParentFields.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: ItemParentFields) {
+    _instance.item = _instance.item || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: ItemParentFields,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.item = new ItemFields();
+          _reader.readMessage(
+            _instance.item,
+            ItemFields.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    ItemParentFields.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: ItemParentFields,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.item) {
+      _writer.writeMessage(
+        1,
+        _instance.item as any,
+        ItemFields.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _item?: ItemFields;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of ItemParentFields to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<ItemParentFields.AsObject>) {
+    _value = _value || {};
+    this.item = _value.item ? new ItemFields(_value.item) : undefined;
+    ItemParentFields.refineValues(this);
+  }
+  get item(): ItemFields | undefined {
+    return this._item;
+  }
+  set item(value: ItemFields | undefined) {
+    this._item = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    ItemParentFields.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): ItemParentFields.AsObject {
+    return {
+      item: this.item ? this.item.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): ItemParentFields.AsProtobufJSON {
+    return {
+      item: this.item ? this.item.toProtobufJSON(options) : null
+    };
+  }
+}
+export module ItemParentFields {
+  /**
+   * Standard JavaScript object representation for ItemParentFields
+   */
+  export interface AsObject {
+    item?: ItemFields.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for ItemParentFields
+   */
+  export interface AsProtobufJSON {
+    item: ItemFields.AsProtobufJSON | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.GetItemParentsRequest
  */
 export class GetItemParentsRequest implements GrpcMessage {
@@ -40829,6 +41614,8 @@ export class GetItemParentsRequest implements GrpcMessage {
     _instance.order = _instance.order || 0;
     _instance.limit = _instance.limit || 0;
     _instance.page = _instance.page || 0;
+    _instance.fields = _instance.fields || undefined;
+    _instance.language = _instance.language || '';
   }
 
   /**
@@ -40859,6 +41646,16 @@ export class GetItemParentsRequest implements GrpcMessage {
           break;
         case 4:
           _instance.page = _reader.readUint32();
+          break;
+        case 5:
+          _instance.fields = new ItemParentFields();
+          _reader.readMessage(
+            _instance.fields,
+            ItemParentFields.deserializeBinaryFromReader
+          );
+          break;
+        case 6:
+          _instance.language = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -40893,12 +41690,24 @@ export class GetItemParentsRequest implements GrpcMessage {
     if (_instance.page) {
       _writer.writeUint32(4, _instance.page);
     }
+    if (_instance.fields) {
+      _writer.writeMessage(
+        5,
+        _instance.fields as any,
+        ItemParentFields.serializeBinaryToWriter
+      );
+    }
+    if (_instance.language) {
+      _writer.writeString(6, _instance.language);
+    }
   }
 
   private _options?: ItemParentListOptions;
   private _order: GetItemParentsRequest.Order;
   private _limit: number;
   private _page: number;
+  private _fields?: ItemParentFields;
+  private _language: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -40912,6 +41721,10 @@ export class GetItemParentsRequest implements GrpcMessage {
     this.order = _value.order;
     this.limit = _value.limit;
     this.page = _value.page;
+    this.fields = _value.fields
+      ? new ItemParentFields(_value.fields)
+      : undefined;
+    this.language = _value.language;
     GetItemParentsRequest.refineValues(this);
   }
   get options(): ItemParentListOptions | undefined {
@@ -40938,6 +41751,18 @@ export class GetItemParentsRequest implements GrpcMessage {
   set page(value: number) {
     this._page = value;
   }
+  get fields(): ItemParentFields | undefined {
+    return this._fields;
+  }
+  set fields(value: ItemParentFields | undefined) {
+    this._fields = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -40957,7 +41782,9 @@ export class GetItemParentsRequest implements GrpcMessage {
       options: this.options ? this.options.toObject() : undefined,
       order: this.order,
       limit: this.limit,
-      page: this.page
+      page: this.page,
+      fields: this.fields ? this.fields.toObject() : undefined,
+      language: this.language
     };
   }
 
@@ -40984,7 +41811,9 @@ export class GetItemParentsRequest implements GrpcMessage {
           this.order === null || this.order === undefined ? 0 : this.order
         ],
       limit: this.limit,
-      page: this.page
+      page: this.page,
+      fields: this.fields ? this.fields.toProtobufJSON(options) : null,
+      language: this.language
     };
   }
 }
@@ -40997,6 +41826,8 @@ export module GetItemParentsRequest {
     order: GetItemParentsRequest.Order;
     limit: number;
     page: number;
+    fields?: ItemParentFields.AsObject;
+    language: string;
   }
 
   /**
@@ -41007,6 +41838,8 @@ export module GetItemParentsRequest {
     order: string;
     limit: number;
     page: number;
+    fields: ItemParentFields.AsProtobufJSON | null;
+    language: string;
   }
   export enum Order {
     NONE = 0,
@@ -41215,6 +42048,7 @@ export class ItemParent implements GrpcMessage {
     _instance.parentId = _instance.parentId || '0';
     _instance.type = _instance.type || 0;
     _instance.catname = _instance.catname || '';
+    _instance.item = _instance.item || undefined;
   }
 
   /**
@@ -41242,6 +42076,13 @@ export class ItemParent implements GrpcMessage {
         case 4:
           _instance.catname = _reader.readString();
           break;
+        case 5:
+          _instance.item = new APIItem();
+          _reader.readMessage(
+            _instance.item,
+            APIItem.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -41268,12 +42109,20 @@ export class ItemParent implements GrpcMessage {
     if (_instance.catname) {
       _writer.writeString(4, _instance.catname);
     }
+    if (_instance.item) {
+      _writer.writeMessage(
+        5,
+        _instance.item as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
   }
 
   private _itemId: string;
   private _parentId: string;
   private _type: ItemParentType;
   private _catname: string;
+  private _item?: APIItem;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -41285,6 +42134,7 @@ export class ItemParent implements GrpcMessage {
     this.parentId = _value.parentId;
     this.type = _value.type;
     this.catname = _value.catname;
+    this.item = _value.item ? new APIItem(_value.item) : undefined;
     ItemParent.refineValues(this);
   }
   get itemId(): string {
@@ -41311,6 +42161,12 @@ export class ItemParent implements GrpcMessage {
   set catname(value: string) {
     this._catname = value;
   }
+  get item(): APIItem | undefined {
+    return this._item;
+  }
+  set item(value: APIItem | undefined) {
+    this._item = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -41330,7 +42186,8 @@ export class ItemParent implements GrpcMessage {
       itemId: this.itemId,
       parentId: this.parentId,
       type: this.type,
-      catname: this.catname
+      catname: this.catname,
+      item: this.item ? this.item.toObject() : undefined
     };
   }
 
@@ -41357,7 +42214,8 @@ export class ItemParent implements GrpcMessage {
         ItemParentType[
           this.type === null || this.type === undefined ? 0 : this.type
         ],
-      catname: this.catname
+      catname: this.catname,
+      item: this.item ? this.item.toProtobufJSON(options) : null
     };
   }
 }
@@ -41370,6 +42228,7 @@ export module ItemParent {
     parentId: string;
     type: ItemParentType;
     catname: string;
+    item?: APIItem.AsObject;
   }
 
   /**
@@ -41380,6 +42239,7 @@ export module ItemParent {
     parentId: string;
     type: string;
     catname: string;
+    item: APIItem.AsProtobufJSON | null;
   }
 }
 
