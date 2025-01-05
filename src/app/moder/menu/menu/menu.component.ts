@@ -32,7 +32,7 @@ export class MenuComponent {
 
   protected readonly items$: Observable<MenuItem[] | null> = combineLatest([
     this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE),
-    this.pictureService.getInboxSize$(),
+    this.pictureService.inboxSize$,
     this.commentService.attentionCommentsCount$,
   ]).pipe(
     map(([isModer, inboxCount, attentionItemCount]) => {

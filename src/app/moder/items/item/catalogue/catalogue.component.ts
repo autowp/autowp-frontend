@@ -3,13 +3,17 @@ import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {
+  APIItem as GRPCAPIItem,
   DeleteItemParentRequest,
+  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemParentType,
   ItemType,
   ListItemsRequest,
-  APIItem as GRPCAPIItem,
 } from '@grpc/spec.pb';
 import {
   NgbDropdown,
@@ -20,11 +24,11 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import type {APIItem} from '@services/item';
-import {APIItemParent, ItemParentService} from '@services/item-parent';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
+import Order = GetItemParentsRequest.Order;
 
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
@@ -33,7 +37,6 @@ import {LanguageService} from '@services/language';
 })
 export class ModerItemsItemCatalogueComponent {
   private readonly acl = inject(ACLService);
-  private readonly itemParentService = inject(ItemParentService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
@@ -104,33 +107,48 @@ export class ModerItemsItemCatalogueComponent {
       ),
     );
 
-  protected readonly childs$: Observable<APIItemParent[]> = combineLatest([
+  protected readonly childs$: Observable<ItemParent[]> = combineLatest([
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.reloadChilds$,
   ]).pipe(
     switchMap(([item]) =>
-      this.itemParentService.getItems$({
-        fields: 'name,duplicate_child.name_html,item.name_html,item.name,item.public_routes',
-        limit: 500,
-        order: 'type_auto',
-        parent_id: item.id,
-      }),
+      this.itemsClient.getItemParents(
+        new GetItemParentsRequest({
+          options: new ItemParentListOptions({
+            parentId: '' + item.id,
+          }),
+          fields: new ItemParentFields({
+            duplicateChild: new ItemFields({nameHtml: true}),
+            item: new ItemFields({nameHtml: true, publicRoutes: true}),
+          }),
+          limit: 10,
+          order: Order.AUTO,
+        }),
+      ),
     ),
-    map((response) => response.items),
+    map((response) => response.items || []),
   );
 
-  protected readonly parents$: Observable<APIItemParent[]> = combineLatest([
+  protected readonly parents$: Observable<ItemParent[]> = combineLatest([
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.reloadParents$,
   ]).pipe(
     switchMap(([item]) =>
-      this.itemParentService.getItems$({
-        fields: 'name,duplicate_parent.name_html,parent.name_html,parent.name,parent.public_routes',
-        item_id: item.id,
-        limit: 500,
-      }),
+      this.itemsClient.getItemParents(
+        new GetItemParentsRequest({
+          options: new ItemParentListOptions({
+            itemId: '' + item.id,
+          }),
+          fields: new ItemParentFields({
+            duplicateParent: new ItemFields({nameHtml: true}),
+            parent: new ItemFields({nameHtml: true, publicRoutes: true}),
+          }),
+          limit: 10,
+          order: Order.AUTO,
+        }),
+      ),
     ),
-    map((response) => response.items),
+    map((response) => response.items || []),
   );
 
   protected readonly suggestions$: Observable<GRPCAPIItem[]> = combineLatest([
@@ -178,12 +196,12 @@ export class ModerItemsItemCatalogueComponent {
     return false;
   }
 
-  private deleteItemParent(itemID: number, parentID: number) {
+  private deleteItemParent(itemID: string, parentID: string) {
     this.itemsClient
       .deleteItemParent(
         new DeleteItemParentRequest({
-          itemId: '' + itemID,
-          parentId: '' + parentID,
+          itemId: itemID,
+          parentId: parentID,
         }),
       )
       .subscribe(() => {
@@ -193,11 +211,13 @@ export class ModerItemsItemCatalogueComponent {
       });
   }
 
-  protected deleteChild(item: APIItem, itemId: number) {
-    this.deleteItemParent(itemId, item.id);
+  protected deleteChild(item: APIItem, itemId: string) {
+    this.deleteItemParent(itemId, '' + item.id);
   }
 
-  protected deleteParent(item: APIItem, parentId: number) {
-    this.deleteItemParent(item.id, parentId);
+  protected deleteParent(item: APIItem, parentId: string) {
+    this.deleteItemParent('' + item.id, parentId);
   }
+
+  protected readonly ItemParentType = ItemParentType;
 }

@@ -1,5 +1,12 @@
 import {inject, Injectable} from '@angular/core';
-import {PicturesUserSummary, PicturesVoteRequest, PicturesVoteSummary} from '@grpc/spec.pb';
+import {
+  GetPicturesRequest,
+  PicturesOptions,
+  PictureStatus,
+  PicturesUserSummary,
+  PicturesVoteRequest,
+  PicturesVoteSummary,
+} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable, of} from 'rxjs';
@@ -352,33 +359,38 @@ export class PictureService {
   private readonly api = inject(APIService);
   private readonly auth = inject(AuthService);
   private readonly acl = inject(ACLService);
-  private readonly pictures = inject(PicturesClient);
+  private readonly picturesClient = inject(PicturesClient);
 
   public readonly summary$: Observable<null | PicturesUserSummary> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         return of(null);
       }
-      return this.pictures.getUserSummary(new Empty());
+      return this.picturesClient.getUserSummary(new Empty());
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly inboxSize$: Observable<null | number> = this.acl
-    .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
-    .pipe(
-      switchMap((isModer) => {
-        if (!isModer) {
-          return of(null);
-        }
+  public readonly inboxSize$: Observable<null | number> = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE).pipe(
+    switchMap((isModer) => {
+      if (!isModer) {
+        return of(null);
+      }
 
-        return this.getPictures$({
-          limit: 0,
-          status: 'inbox',
-        }).pipe(map((response) => response.paginator.totalItemCount));
-      }),
-      shareReplay({bufferSize: 1, refCount: false}),
-    );
+      return this.picturesClient
+        .getPictures(
+          new GetPicturesRequest({
+            options: new PicturesOptions({
+              status: PictureStatus.PICTURE_STATUS_INBOX,
+            }),
+            paginator: true,
+            limit: 0,
+          }),
+        )
+        .pipe(map((response) => response.paginator?.totalItemCount || null));
+    }),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
 
   public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request$<APIPicture>('GET', this.api.resolveLocation(url), {
@@ -402,12 +414,8 @@ export class PictureService {
     });
   }
 
-  public getInboxSize$(): Observable<null | number> {
-    return this.inboxSize$;
-  }
-
   public vote$(pictureID: number, value: number): Observable<PicturesVoteSummary> {
-    return this.pictures.vote(
+    return this.picturesClient.vote(
       new PicturesVoteRequest({
         pictureId: pictureID.toString(),
         value,

@@ -131,7 +131,7 @@ export class CatalogueVehiclesComponent {
           name_only: last.item.nameOnly,
           name_text: last.item.nameText,
           name: '',
-          name_default: '',
+          name_default: last.item.nameDefault,
           parents_count: 0,
           pictures_count: 0,
           other_names: last.item.otherNames,

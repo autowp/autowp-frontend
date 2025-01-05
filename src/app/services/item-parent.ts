@@ -11,8 +11,6 @@ export interface APIItemParentGetResponse {
 
 export interface APIItemParent {
   catname: string;
-  duplicate_child?: APIItem;
-  duplicate_parent?: APIItem;
   expanded?: boolean;
   item: APIItem;
   item_id: number;

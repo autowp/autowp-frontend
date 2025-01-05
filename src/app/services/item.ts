@@ -133,7 +133,6 @@ export interface APIItem {
 
   produced_exactly: boolean;
 
-  public_routes?: string[][];
   related_group_pictures: APIItemRelatedGroupItem[];
   route: string[];
   spec_id: null | number | string;

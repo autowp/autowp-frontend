@@ -86,31 +86,31 @@
               <td ngPreserveWhitespaces>
                 <i class="bi bi-arrow-up" aria-hidden="true"></i>
                 <a
-                  [routerLink]="['/moder/items/item', parentsItem.parent_id]"
+                  [routerLink]="['/moder/items/item', parentsItem.parentId]"
                   [queryParams]="{tab: 'catalogue'}"
-                  [innerHTML]="parentsItem.parent?.name_html"
+                  [innerHTML]="parentsItem.parent?.nameHtml"
                 ></a>
-                @if (parentsItem.duplicate_parent) {
+                @if (parentsItem.duplicateParent) {
                   <div class="text-warning">
                     <small>
                       <ng-container i18n>Possible duplicate: vehicle already inherited via:</ng-container>
                       <a
-                        [routerLink]="['/moder/items/item', parentsItem.duplicate_parent.id]"
-                        [innerHTML]="parentsItem.duplicate_parent.name_html"
+                        [routerLink]="['/moder/items/item', parentsItem.duplicateParent.id]"
+                        [innerHTML]="parentsItem.duplicateParent.nameHtml"
                       ></a>
                     </small>
                   </div>
                 }
               </td>
               <td>
-                <a [routerLink]="['/moder/item-parent', parentsItem.item_id, parentsItem.parent_id]">
+                <a [routerLink]="['/moder/item-parent', parentsItem.itemId, parentsItem.parentId]">
                   {{ item.name }}
                   <span class="bi bi-pencil-fill" aria-hidden="true"></span>
                 </a>
               </td>
               <td class="urls">
-                @for (route of parentsItem.parent?.public_routes || []; track route) {
-                  <a [routerLink]="route" [textContent]="route.join('/')"></a>
+                @for (route of parentsItem.parent?.publicRoutes || []; track route) {
+                  <a [routerLink]="route.route" [textContent]="route.route.join('/')"></a>
                   <br />
                 }
               </td>
@@ -119,7 +119,7 @@
                   <button
                     type="submit"
                     class="btn btn-sm btn-danger"
-                    (click)="deleteParent(item, parentsItem.parent_id)"
+                    (click)="deleteParent(item, parentsItem.parentId)"
                   >
                     <i class="bi bi-x" aria-hidden="true"></i>
                   </button>
@@ -147,45 +147,45 @@
             <tr>
               <td>
                 <i class="bi bi-arrow-down" aria-hidden="true"></i>
-                @if (childsItem.type_id === 1) {
+                @if (childsItem.type === ItemParentType.ITEM_TYPE_TUNING) {
                   <span i18n>Related:</span>
-                } @else if (childsItem.type_id === 3) {
+                } @else if (childsItem.type === ItemParentType.ITEM_TYPE_DESIGN) {
                   <span i18n>Design:</span>
-                } @else if (childsItem.type_id === 2) {
+                } @else if (childsItem.type === ItemParentType.ITEM_TYPE_SPORT) {
                   <span i18n>Sport:</span>
                 }
                 <a
-                  [routerLink]="['/moder/items/item', childsItem.item_id]"
+                  [routerLink]="['/moder/items/item', childsItem.itemId]"
                   [queryParams]="{tab: 'catalogue'}"
-                  [innerHTML]="childsItem.item.name_html"
+                  [innerHTML]="childsItem.item?.nameHtml"
                 ></a>
-                @if (childsItem.duplicate_child) {
+                @if (childsItem.duplicateChild) {
                   <div class="text-warning">
                     <small>
                       <ng-container i18n>Possible duplicate: vehicle already in submodel:</ng-container>
                       <a
-                        [routerLink]="['/moder/items/item', childsItem.duplicate_child.id]"
-                        [innerHTML]="childsItem.duplicate_child.name_html"
+                        [routerLink]="['/moder/items/item', childsItem.duplicateChild.id]"
+                        [innerHTML]="childsItem.duplicateChild.nameHtml"
                       ></a>
                     </small>
                   </div>
                 }
               </td>
               <td>
-                <a [routerLink]="['/moder/item-parent', childsItem.item_id, childsItem.parent_id]">
+                <a [routerLink]="['/moder/item-parent', childsItem.itemId, childsItem.parentId]">
                   {{ item.name }}
                   <span class="bi bi-pencil-fill" aria-hidden="true"></span>
                 </a>
               </td>
               <td class="urls">
-                @for (route of childsItem.item.public_routes; track route) {
-                  <a [routerLink]="route" [textContent]="route.join('/')"></a>
+                @for (route of childsItem.item?.publicRoutes; track route) {
+                  <a [routerLink]="route.route" [textContent]="route.route.join('/')"></a>
                   <br />
                 }
               </td>
               @if (canMove) {
                 <td>
-                  <button class="btn btn-sm btn-danger" (click)="deleteChild(item, childsItem.item_id)">
+                  <button class="btn btn-sm btn-danger" (click)="deleteChild(item, childsItem.itemId)">
                     <i class="bi bi-x" aria-hidden="true"></i>
                   </button>
                 </td>

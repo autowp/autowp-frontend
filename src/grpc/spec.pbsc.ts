@@ -4264,6 +4264,27 @@ export class PicturesClient {
       });
     },
     /**
+     * Unary call: /goautowp.Pictures/GetPictures
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.GetPicturesResponse>>
+     */
+    getPictures: (
+      requestData: thisProto.GetPicturesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.GetPicturesResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetPictures',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.GetPicturesRequest,
+        responseClass: thisProto.GetPicturesResponse
+      });
+    },
+    /**
      * Unary call: /goautowp.Pictures/GetPictureItem
      *
      * @param requestMessage Request message
@@ -4756,6 +4777,22 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .repair(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetPictures
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.GetPicturesResponse>
+   */
+  getPictures(
+    requestData: thisProto.GetPicturesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.GetPicturesResponse> {
+    return this.$raw
+      .getPictures(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
