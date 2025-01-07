@@ -16,6 +16,7 @@ import Keycloak from 'keycloak-js';
 import {
   GetPicturesRequest,
   GetPicturesResponse,
+  ItemParentCacheListOptions,
   PictureFields,
   PictureItemOptions,
   PicturesOptions,
@@ -118,7 +119,9 @@ export class InboxComponent implements OnInit {
                   addDate: parseDate(inbox.current.date),
                   status: PictureStatus.PICTURE_STATUS_INBOX,
                   pictureItem: new PictureItemOptions({
-                    itemId: '' + brandID,
+                    itemParentCacheAncestor: brandID
+                      ? new ItemParentCacheListOptions({parentId: '' + brandID})
+                      : undefined,
                   }),
                 }),
                 fields: new PictureFields({
