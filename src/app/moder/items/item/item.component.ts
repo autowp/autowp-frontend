@@ -5,9 +5,8 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, of, Subscription} from 'rxjs';
+import {EMPTY, of, Subscription, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -19,8 +18,17 @@ import {ModerItemsItemNameComponent} from './name/name.component';
 import {ModerItemsItemPicturesComponent} from './pictures/pictures.component';
 import {ModerItemsItemTreeComponent} from './tree/tree.component';
 import {ModerItemsItemVehiclesComponent} from './vehicles/vehicles.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {SetUserItemSubscriptionRequest} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {
+  GetPicturesRequest,
+  ItemParentCacheListOptions,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  SetUserItemSubscriptionRequest,
+} from '@grpc/spec.pb';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface APIItemTreeItem {
   childs: APIItemTreeItem[];
@@ -61,10 +69,10 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
   private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly itemsClient = inject(ItemsClient);
+  readonly #picturesClient = inject(PicturesClient);
 
   private routeSub?: Subscription;
   protected loading = 0;
@@ -75,7 +83,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   protected tree?: APIItemTreeItem;
 
-  protected randomPicture?: APIPicture;
+  protected randomPicture: Picture | null = null;
 
   protected readonly metaTab: Tab = {
     count: 0,
@@ -196,29 +204,46 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
         }),
         switchMap((item) => {
           this.loading++;
-          return this.pictureService
-            .getPictures$({
-              fields: 'thumb_medium',
-              item_id: item.id,
-              limit: 1,
-            })
+          return this.#picturesClient
+            .getPicture(
+              new GetPicturesRequest({
+                options: new PicturesOptions({
+                  pictureItem: new PictureItemOptions({
+                    itemParentCacheAncestor: new ItemParentCacheListOptions({
+                      parentId: '' + item.id,
+                    }),
+                  }),
+                }),
+                fields: new PictureFields({thumbMedium: true}),
+                order: GetPicturesRequest.Order.ADD_DATE_DESC,
+                limit: 1,
+              }),
+            )
             .pipe(
-              map((pictures) => ({
+              catchError((error: unknown) => {
+                if (error instanceof GrpcStatusEvent && error.statusCode == 5) {
+                  // NOT_FOUND
+                  return of(null);
+                }
+                console.error(error);
+                return throwError(() => error);
+              }),
+              map((picture) => ({
                 item,
-                pictures: pictures.pictures,
+                picture,
               })),
             );
         }),
         finalize(() => {
           this.loading--;
         }),
-        tap((data) => {
+        tap(({item, picture}) => {
           this.pageEnv.set({
             layout: {isAdminPage: true},
             pageId: 78,
-            title: data.item.name_text,
+            title: item.name_text,
           });
-          this.randomPicture = data.pictures.length > 0 ? data.pictures[0] : null;
+          this.randomPicture = picture;
         }),
         switchMap(() => this.route.queryParamMap),
         map((params) => params.get('tab')),

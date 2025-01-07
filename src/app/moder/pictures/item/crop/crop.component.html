@@ -24,7 +24,7 @@
 @if (picture) {
   <div>
     <div class="crop-area mb-3">
-      <img alt="" [src]="picture.image.src" (load)="onLoad($event)" />
+      <img alt="" [src]="picture.image?.src" (load)="onLoad($event)" />
     </div>
     <div style="margin-bottom: 100px">
       <span i18n>{{ resolution }} (aspect is about {{ aspect }})</span>

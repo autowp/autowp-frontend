@@ -78,8 +78,8 @@ export class UserService {
     );
   }
 
-  public getUser$(id: string): Observable<APIUser | null> {
-    if (!id) {
+  public getUser$(id: string | undefined): Observable<APIUser | null> {
+    if (!id || id === '0') {
       return of(null);
     }
 

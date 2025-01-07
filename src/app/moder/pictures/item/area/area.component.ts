@@ -1,9 +1,15 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {GetPictureItemsRequest, SetPictureItemAreaRequest} from '@grpc/spec.pb';
+import {
+  GetPictureItemsRequest,
+  GetPicturesRequest,
+  Picture,
+  PictureFields,
+  PicturesOptions,
+  SetPictureItemAreaRequest,
+} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
@@ -26,12 +32,11 @@ interface Crop {
 export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly picturesClient = inject(PicturesClient);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
 
-  private id: number = 0;
+  private id: string = '';
   private itemID: string = '';
   private type: number = 0;
   private sub?: Subscription;
@@ -45,7 +50,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [50, 50];
-  protected picture: APIPicture | null = null;
+  protected picture: Picture | null = null;
   protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
 
   ngOnInit(): void {
@@ -60,13 +65,16 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
 
     this.sub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id') ?? '', 10)),
+        map((params) => params.get('id') ?? ''),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap((id) =>
-          this.pictureService.getPicture$(id, {
-            fields: 'crop,image',
-          }),
+          this.picturesClient.getPicture(
+            new GetPicturesRequest({
+              options: new PicturesOptions({id}),
+              fields: new PictureFields({image: true}),
+            }),
+          ),
         ),
         tap((picture) => {
           this.id = picture.id;
@@ -90,7 +98,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         switchMap(({picture, params}) =>
           this.picturesClient.getPictureItem(
             new GetPictureItemsRequest({
-              pictureId: '' + picture.id,
+              pictureId: picture.id,
               itemId: params.item_id,
               type: params.type,
             }),
@@ -192,13 +200,13 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
             cropTop: Math.round(this.currentCrop.y),
             cropWidth: Math.round(this.currentCrop.w),
             itemId: this.itemID,
-            pictureId: '' + this.id,
+            pictureId: this.id,
             type: this.type,
           }),
         )
         .pipe(
           catchError((error: unknown) => {
-            this.toastService.handleError(error);
+            this.#toastService.handleError(error);
             return EMPTY;
           }),
         )

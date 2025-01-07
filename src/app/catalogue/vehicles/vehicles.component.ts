@@ -1,13 +1,21 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemParent} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  GetPicturesRequest,
+  ItemParent,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {
   CatalogueListItem,
@@ -17,11 +25,14 @@ import {
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {CatalogueService, convertChildsCounts} from '../catalogue-service';
 import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   imports: [
@@ -43,8 +54,10 @@ export class CatalogueVehiclesComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly acl = inject(ACLService);
   private readonly catalogueService = inject(CatalogueService);
-  private readonly pictureService = inject(PictureService);
   private readonly router = inject(Router);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastsService);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
@@ -263,7 +276,7 @@ export class CatalogueVehiclesComponent {
 
   protected readonly otherPictures$: Observable<{
     count: number;
-    pictures: APIPicture[];
+    pictures: Picture[];
     routerLink: string[];
   } | null> = this.catalogue$.pipe(
     switchMap(({type}) => {
@@ -280,23 +293,41 @@ export class CatalogueVehiclesComponent {
           return this.item$.pipe(
             switchMap((item) =>
               combineLatest([
-                this.pictureService.getPictures$({
-                  exact_item_id: item.id,
-                  fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-                  limit: 4,
-                  order: 3,
-                  status: 'accepted',
-                }),
+                this.#picturesClient
+                  .getPictures(
+                    new GetPicturesRequest({
+                      options: new PicturesOptions({
+                        pictureItem: new PictureItemOptions({
+                          itemId: '' + item.id,
+                        }),
+                        status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                      }),
+                      fields: new PictureFields({
+                        thumbMedium: true,
+                        nameText: true,
+                      }),
+                      limit: 4,
+                      language: this.#languageService.language,
+                      order: GetPicturesRequest.Order.RESOLUTION_DESC,
+                      paginator: true,
+                    }),
+                  )
+                  .pipe(
+                    catchError((err: unknown) => {
+                      this.toastService.handleError(err);
+                      return EMPTY;
+                    }),
+                  ),
                 this.routerLink$,
               ]),
             ),
             map(([response, routerLink]) => {
-              if (response.pictures.length <= 0) {
+              if ((response.items || []).length <= 0) {
                 return null;
               }
               return {
-                count: response.paginator.totalItemCount,
-                pictures: response.pictures,
+                count: response.paginator?.totalItemCount || 0,
+                pictures: response.items || [],
                 routerLink: routerLink.concat(['exact', 'pictures']),
               };
             }),

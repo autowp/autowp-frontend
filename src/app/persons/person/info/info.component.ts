@@ -1,34 +1,47 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIGetItemLinksRequest, APIItem, APIItemLink, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIGetItemLinksRequest,
+  APIItem,
+  APIItemLink,
+  GetPicturesRequest,
+  GetPicturesResponse,
+  ItemFields,
+  ItemRequest,
+  ItemType,
+  PictureFields,
+  PictureItemOptions,
+  PictureItemType,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
-  imports: [MarkdownComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe],
+  imports: [MarkdownComponent, Thumbnail2Component, PaginatorComponent, AsyncPipe],
   selector: 'app-persons-person-info',
   templateUrl: './info.component.html',
 })
 export class PersonsPersonInfoComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly acl = inject(ACLService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -53,7 +66,7 @@ export class PersonsPersonInfoComponent {
             nameText: true,
           }),
           id,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),
@@ -92,20 +105,36 @@ export class PersonsPersonInfoComponent {
     map((response) => (response.items ? response.items : [])),
   );
 
-  protected readonly authorPictures$: Observable<APIPictureGetResponse | null> = combineLatest([
+  protected readonly authorPictures$: Observable<GetPicturesResponse | null> = combineLatest([
     this.itemID$,
     this.page$,
   ]).pipe(
     switchMap(([itemID, page]) =>
-      this.pictureService.getPictures$({
-        exact_item_id: +itemID,
-        exact_item_link_type: 2,
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        limit: 12,
-        order: 12,
-        page,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+            pictureItem: new PictureItemOptions({
+              itemId: itemID,
+              typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
+            }),
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 12,
+          page,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.LIKES,
+          paginator: true,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
@@ -113,27 +142,40 @@ export class PersonsPersonInfoComponent {
     }),
   );
 
-  protected readonly contentPictures$: Observable<APIPictureGetResponse | null> = combineLatest([
+  protected readonly contentPictures$: Observable<GetPicturesResponse | null> = combineLatest([
     this.itemID$,
     this.page$,
   ]).pipe(
     switchMap(([itemID, page]) =>
-      this.pictureService
-        .getPictures$({
-          exact_item_id: +itemID,
-          exact_item_link_type: 1,
-          fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-          limit: 12,
-          order: 12,
-          page,
-          status: 'accepted',
-        })
-        .pipe(
-          catchError((err: unknown) => {
-            this.toastService.handleError(err);
-            return of(null);
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+            pictureItem: new PictureItemOptions({
+              itemId: itemID,
+              typeId: PictureItemType.PICTURE_ITEM_CONTENT,
+            }),
           }),
-        ),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 12,
+          page,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.LIKES,
+          paginator: true,
+        }),
+      ),
     ),
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
+      return of(null);
+    }),
   );
 }

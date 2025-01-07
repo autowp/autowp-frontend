@@ -1,30 +1,41 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  GetPicturesRequest,
+  GetPicturesResponse,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ListItemsRequest,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
   selector: 'app-cutaway',
   templateUrl: './brand.component.html',
 })
 export class CutawayBrandsBrandComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => '' + params.get('brand')),
@@ -40,7 +51,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
             nameHtml: true,
             nameText: true,
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 1,
           options: new ItemListOptions({
             catname,
@@ -52,17 +63,36 @@ export class CutawayBrandsBrandComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly query$ = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
+  protected readonly query$: Observable<GetPicturesResponse> = combineLatest([
+    this.brand$,
+    this.route.queryParamMap,
+  ]).pipe(
     switchMap(([brand, params]) =>
-      this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        item_id: +brand.id,
-        limit: 12,
-        order: 15,
-        page: parseInt(params.get('page') ?? '', 10),
-        perspective_id: 9,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            pictureItem: new PictureItemOptions({
+              itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
+              perspectiveId: 9,
+            }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 12,
+          page: parseInt(params.get('page') ?? '', 10),
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          paginator: true,
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);

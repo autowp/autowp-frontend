@@ -5,26 +5,44 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {APIInbox, InboxService} from './inbox.service';
 import Keycloak from 'keycloak-js';
+import {
+  GetPicturesRequest,
+  GetPicturesResponse,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {Date as GrpcDate} from '@grpc/google/type/date.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 
 const ALL_BRANDS = 'all';
 
 interface Inbox {
   brandCatname: string;
   inbox: APIInbox;
-  pictures$: Observable<APIPictureGetResponse>;
+  pictures$: Observable<GetPicturesResponse>;
 }
 
+const parseDate = (date: string): GrpcDate => {
+  const parts = date.split('-');
+  const year = parts.length > 0 ? parseInt(parts[0], 10) : 0;
+  const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
+  const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
+
+  return new GrpcDate({year, month, day});
+};
+
 @Component({
-  imports: [RouterLink, FormsModule, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
+  imports: [RouterLink, FormsModule, Thumbnail2Component, PaginatorComponent, AsyncPipe, DatePipe],
   selector: 'app-inbox',
   templateUrl: './inbox.component.html',
 })
@@ -32,18 +50,18 @@ export class InboxComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
-  private readonly languageService = inject(LanguageService);
+  readonly #languageService = inject(LanguageService);
   private readonly keycloak = inject(Keycloak);
-  private readonly pictureService = inject(PictureService);
   private readonly inboxService = inject(InboxService);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
 
   protected readonly inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
         this.keycloak.login({
-          locale: this.languageService.language,
+          locale: this.#languageService.language,
           redirectUri: window.location.href,
         });
         return EMPTY;
@@ -74,7 +92,7 @@ export class InboxComponent implements OnInit {
         of(params.date),
         this.inboxService.get$(brandID, params.date).pipe(
           catchError((err: unknown) => {
-            this.toastService.handleError(err);
+            this.#toastService.handleError(err);
             return EMPTY;
           }),
         ),
@@ -94,16 +112,36 @@ export class InboxComponent implements OnInit {
           map((params) => parseInt(params.get('page') ?? '', 10)),
           distinctUntilChanged(),
           switchMap((page) =>
-            this.pictureService.getPictures$({
-              add_date: inbox.current.date,
-              fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-              item_id: brandID,
-              limit: 24,
-              order: 1,
-              page: page,
-              status: 'inbox',
-            }),
+            this.#picturesClient.getPictures(
+              new GetPicturesRequest({
+                options: new PicturesOptions({
+                  addDate: parseDate(inbox.current.date),
+                  status: PictureStatus.PICTURE_STATUS_INBOX,
+                  pictureItem: new PictureItemOptions({
+                    itemId: '' + brandID,
+                  }),
+                }),
+                fields: new PictureFields({
+                  thumbMedium: true,
+                  nameText: true,
+                  nameHtml: true,
+                  votes: true,
+                  views: true,
+                  commentsCount: true,
+                  moderVote: true,
+                }),
+                limit: 24,
+                language: this.#languageService.language,
+                order: GetPicturesRequest.Order.ADD_DATE_DESC,
+                page,
+                paginator: true,
+              }),
+            ),
           ),
+          catchError((err: unknown) => {
+            this.#toastService.handleError(err);
+            return EMPTY;
+          }),
         ),
       });
     }),

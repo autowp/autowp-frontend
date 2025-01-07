@@ -1,31 +1,44 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  GetPicturesRequest,
+  ItemFields,
+  ItemListOptions,
+  ListItemsRequest,
+  Pages,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
 import {BrandPerspectivePageData} from '../catalogue.module';
+import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-mixed',
   templateUrl: './mixed.component.html',
 })
 export class CatalogueMixedComponent {
   private readonly pageEnv = inject(PageEnvService);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly router = inject(Router);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastsService);
 
   protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
     map((params) => params.get('brand')),
@@ -44,7 +57,7 @@ export class CatalogueMixedComponent {
             nameHtml: true,
             nameText: true,
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 1,
           options: new ItemListOptions({
             catname,
@@ -81,22 +94,46 @@ export class CatalogueMixedComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly pictures$ = combineLatest([this.page$, this.brand$, this.data$]).pipe(
+  protected readonly pictures$: Observable<{paginator: Pages | undefined; pictures: Picture[][]}> = combineLatest([
+    this.page$,
+    this.brand$,
+    this.data$,
+  ]).pipe(
     switchMap(([page, brand, data]) =>
-      this.pictureService.getPictures$({
-        exact_item_id: +brand.id,
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        limit: 12,
-        order: 3,
-        page: page,
-        perspective_exclude_id: data.perspective_exclude_id,
-        perspective_id: data.perspective_id,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            pictureItem: new PictureItemOptions({
+              itemId: brand.id,
+              perspectiveId: data.perspective_id,
+              excludePerspectiveId: data.perspective_exclude_id ? [+data.perspective_exclude_id] : undefined,
+            }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 12,
+          page,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.RESOLUTION_DESC,
+          paginator: true,
+        }),
+      ),
     ),
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
+      return EMPTY;
+    }),
     map((response) => ({
       paginator: response.paginator,
-      pictures: chunkBy(response.pictures, 4),
+      pictures: chunkBy(response.items || [], 4),
     })),
     shareReplay({bufferSize: 1, refCount: false}),
   );

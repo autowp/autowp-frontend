@@ -1,21 +1,33 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem, APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  APIUser,
+  GetPicturesRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemType,
+  ListItemsRequest,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureService} from '@services/picture';
 import {UserService} from '@services/user';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
   selector: 'app-users-user-pictures-brand',
   templateUrl: './brand.component.html',
 })
@@ -23,11 +35,11 @@ export class UsersUserPicturesBrandComponent {
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly toastService = inject(ToastsService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
     map((params) => params.get('identity')),
@@ -58,7 +70,7 @@ export class UsersUserPicturesBrandComponent {
             fields: new ItemFields({
               nameOnly: true,
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 1,
             options: new ItemListOptions({
               catname,
@@ -98,15 +110,31 @@ export class UsersUserPicturesBrandComponent {
     ),
   ]).pipe(
     switchMap(([user, brand, page]) =>
-      this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        item_id: +brand.id,
-        limit: 30,
-        order: 1,
-        owner_id: user.id,
-        page,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+            ownerId: user.id,
+            pictureItem: new PictureItemOptions({
+              itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
+            }),
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 30,
+          page,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          paginator: true,
+        }),
+      ),
     ),
     catchError((response: unknown) => {
       this.toastService.handleError(response);

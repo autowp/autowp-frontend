@@ -2,21 +2,29 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
-import {ItemType} from '@grpc/spec.pb';
+import {
+  GetPicturesRequest,
+  ItemType,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureService} from '@services/picture';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {icon, latLng, Marker, marker, tileLayer} from 'leaflet';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
-import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../toasts/toasts.service';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 @Component({
-  imports: [RouterLink, LeafletModule, MarkdownComponent, ThumbnailComponent, AsyncPipe],
+  imports: [RouterLink, LeafletModule, MarkdownComponent, Thumbnail2Component, AsyncPipe],
   selector: 'app-factories',
   templateUrl: './factories.component.html',
 })
@@ -24,10 +32,11 @@ export class FactoryComponent {
   private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly acl = inject(ACLService);
   private readonly toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -68,12 +77,27 @@ export class FactoryComponent {
 
   protected readonly pictures$ = this.item$.pipe(
     switchMap((factory) =>
-      this.pictureService.getPictures$({
-        exact_item_id: factory.id,
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        limit: 24,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            pictureItem: new PictureItemOptions({itemId: '' + factory.id}),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 24,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          paginator: false,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);

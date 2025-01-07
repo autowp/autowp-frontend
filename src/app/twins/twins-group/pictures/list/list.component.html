@@ -4,12 +4,12 @@
   </div>
   @if (data$ | async; as data) {
     <div class="row">
-      @for (picture of data.pictures; track picture) {
+      @for (picture of data.items || []; track picture) {
         <div class="col-lg-3 col-md-3">
-          <app-thumbnail
+          <app-thumbnail2
             [picture]="picture"
             [route]="['/twins/group', group.id + '', 'pictures', picture.identity]"
-          ></app-thumbnail>
+          ></app-thumbnail2>
         </div>
       }
     </div>

@@ -170,9 +170,6 @@ export interface APIGetPictureOptions {
 }
 
 export interface APIGetPicturesOptions {
-  accept_date?: string;
-  accepted_in_days?: number;
-  add_date?: string;
   added_from?: string;
   car_type_id?: number;
   comments?: boolean | null;
@@ -270,10 +267,6 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
     params['exclude_item_id'] = options.exclude_item_id.toString();
   }
 
-  if (options.add_date) {
-    params['add_date'] = options.add_date;
-  }
-
   if (options.car_type_id) {
     params['car_type_id'] = options.car_type_id.toString();
   }
@@ -310,20 +303,12 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
     params['similar'] = '1';
   }
 
-  if (options.accept_date) {
-    params['accept_date'] = options.accept_date;
-  }
-
   if (options.exact_item_link_type) {
     params['exact_item_link_type'] = options.exact_item_link_type.toString();
   }
 
   if (options.added_from) {
     params['added_from'] = options.added_from;
-  }
-
-  if (options.accepted_in_days) {
-    params['accepted_in_days'] = options.accepted_in_days.toString();
   }
 
   if (options.items?.type_id) {

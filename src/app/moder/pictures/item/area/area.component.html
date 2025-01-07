@@ -23,7 +23,7 @@
 
 @if (picture) {
   <div class="crop-area mb-3">
-    <img alt="" [src]="picture.image.src" (load)="onLoad($event)" />
+    <img alt="" [src]="picture.image?.src" (load)="onLoad($event)" />
   </div>
 
   <div class="mb-4">

@@ -1,28 +1,40 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemParent} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  GetPicturesRequest,
+  ItemParent,
+  ItemParentCacheListOptions,
+  Pages,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 import {chunkBy} from '../../../chunk';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
 import {Breadcrumbs, CatalogueService, convertChildsCounts} from '../../catalogue-service';
 import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
-import {APIPaginator} from '@services/api.service';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   imports: [
     RouterLink,
     ItemHeaderComponent,
     CatalogueItemMenuComponent,
-    ThumbnailComponent,
+    Thumbnail2Component,
     PaginatorComponent,
     AsyncPipe,
   ],
@@ -31,11 +43,13 @@ import {APIPaginator} from '@services/api.service';
 })
 export class CatalogueVehiclesPicturesComponent {
   private readonly pageEnv = inject(PageEnvService);
-  private readonly pictureService = inject(PictureService);
   private readonly route = inject(ActivatedRoute);
   private readonly catalogueService = inject(CatalogueService);
   private readonly acl = inject(ACLService);
   private readonly router = inject(Router);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
+  private readonly toastService = inject(ToastsService);
 
   protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
   protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
@@ -93,25 +107,45 @@ export class CatalogueVehiclesPicturesComponent {
     }),
   );
 
-  protected readonly pictures$: Observable<{paginator: APIPaginator; pictures: APIPicture[][]}> = combineLatest([
+  protected readonly pictures$: Observable<{paginator: Pages | undefined; pictures: Picture[][]}> = combineLatest([
     this.exact$,
     this.item$,
     this.page$,
   ]).pipe(
     switchMap(([exact, item, page]) =>
-      this.pictureService.getPictures$({
-        exact_item_id: exact ? +item.id : undefined,
-        fields: 'owner,thumb_medium,moder_vote,votes,views,comments_count,name_html,name_text',
-        item_id: exact ? undefined : +item.id,
-        limit: 20,
-        order: 16,
-        page,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            pictureItem: new PictureItemOptions({
+              itemId: exact ? item.id : undefined,
+              itemParentCacheAncestor: exact ? undefined : new ItemParentCacheListOptions({parentId: item.id}),
+            }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 20,
+          page: page,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.PERSPECTIVES,
+          paginator: true,
+        }),
+      ),
     ),
+    catchError((err: unknown) => {
+      this.toastService.handleError(err);
+      return EMPTY;
+    }),
     map((response) => ({
       paginator: response.paginator,
-      pictures: chunkBy(response.pictures, 4),
+      pictures: chunkBy(response.items || [], 4),
     })),
   );
 

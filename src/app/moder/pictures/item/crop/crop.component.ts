@@ -1,9 +1,8 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {SetPictureCropRequest} from '@grpc/spec.pb';
+import {GetPicturesRequest, Picture, PictureFields, PicturesOptions, SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -26,7 +25,6 @@ interface Crop {
 export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly picturesClient = inject(PicturesClient);
   private readonly toastService = inject(ToastsService);
@@ -42,7 +40,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [400, 300];
-  protected picture?: APIPicture;
+  protected picture?: Picture;
   protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
 
   ngOnInit(): void {
@@ -56,13 +54,16 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
     );
     this.routeSub = this.route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id') ?? '', 10)),
+        map((params) => params.get('id') ?? ''),
         distinctUntilChanged(),
         debounceTime(10),
         switchMap((id) =>
-          this.pictureService.getPicture$(id, {
-            fields: 'crop,image',
-          }),
+          this.picturesClient.getPicture(
+            new GetPicturesRequest({
+              options: new PicturesOptions({id}),
+              fields: new PictureFields({image: true}),
+            }),
+          ),
         ),
         switchMap((picture) => this.img$.pipe(map((img) => ({img, picture})))),
       )
@@ -76,12 +77,12 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
           }
 
           this.jcrop = null;
-          if (this.picture.crop) {
+          if (this.picture.image) {
             this.currentCrop = {
-              h: this.picture.crop.height ?? 0,
-              w: this.picture.crop.width ?? 0,
-              x: this.picture.crop.left ?? 0,
-              y: this.picture.crop.top ?? 0,
+              h: this.picture.image.cropHeight,
+              w: this.picture.image.cropWidth,
+              x: this.picture.image.cropLeft,
+              y: this.picture.image.cropTop,
             };
           } else {
             this.currentCrop = {
@@ -144,7 +145,7 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
             cropLeft: Math.round(this.currentCrop.x),
             cropTop: Math.round(this.currentCrop.y),
             cropWidth: Math.round(this.currentCrop.w),
-            pictureId: '' + this.picture.id,
+            pictureId: this.picture.id,
           }),
         )
         .pipe(

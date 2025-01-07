@@ -1,31 +1,41 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  GetPicturesRequest,
+  GetPicturesResponse,
+  ItemFields,
+  ItemParentCacheListOptions,
+  ItemRequest,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPictureGetResponse, PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
-  imports: [ThumbnailComponent, PaginatorComponent, AsyncPipe],
+  imports: [Thumbnail2Component, PaginatorComponent, AsyncPipe],
   selector: 'app-twins-group-pictures-list',
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly pictureService = inject(PictureService);
   private readonly toastService = inject(ToastsService);
   private readonly router = inject(Router);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly id$: Observable<string> = this.route.parent!.parent!.paramMap.pipe(
     map((params) => params.get('group') ?? ''),
@@ -48,7 +58,7 @@ export class TwinsGroupPicturesListComponent {
             nameText: true,
           }),
           id: group,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       );
     }),
@@ -70,16 +80,32 @@ export class TwinsGroupPicturesListComponent {
     distinctUntilChanged(),
   );
 
-  protected readonly data$: Observable<APIPictureGetResponse | null> = combineLatest([this.page$, this.id$]).pipe(
+  protected readonly data$: Observable<GetPicturesResponse | null> = combineLatest([this.page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
-      this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text',
-        item_id: +groupId,
-        limit: 24,
-        order: 16,
-        page: page,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+            pictureItem: new PictureItemOptions({
+              itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: groupId}),
+            }),
+          }),
+          fields: new PictureFields({
+            thumbMedium: true,
+            nameText: true,
+            nameHtml: true,
+            votes: true,
+            views: true,
+            commentsCount: true,
+            moderVote: true,
+          }),
+          limit: 24,
+          page,
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.PERSPECTIVES,
+          paginator: true,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);

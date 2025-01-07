@@ -1,22 +1,24 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {GetPicturesRequest, ItemType, Picture, PictureFields, PictureItemOptions, PicturesOptions} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
-import {combineLatest, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {CategoriesListItemComponent} from '../../list-item.component';
 import {CategoriesService} from '../../service';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
+import {ToastsService} from '../../../toasts/toasts.service';
 
 interface PictureRoute {
-  picture: APIPicture;
+  picture: Picture;
   route: string[];
 }
 
@@ -28,11 +30,13 @@ interface PictureRoute {
 export class CategoriesCategoryItemComponent {
   private readonly itemService = inject(ItemService);
   private readonly itemParentService = inject(ItemParentService);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly route = inject(ActivatedRoute);
   private readonly acl = inject(ACLService);
   private readonly categoriesService = inject(CategoriesService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
@@ -98,15 +102,26 @@ export class CategoriesCategoryItemComponent {
         return of([]);
       }
 
-      return this.pictureService
-        .getPictures$({
-          exact_item_id: current.id,
-          fields: 'thumb_medium,name_text',
-          limit: 4,
-        })
+      return this.#picturesClient
+        .getPictures(
+          new GetPicturesRequest({
+            options: new PicturesOptions({
+              pictureItem: new PictureItemOptions({
+                itemId: '' + current.id,
+              }),
+            }),
+            fields: new PictureFields({thumbMedium: true, nameText: true}),
+            limit: 4,
+            language: this.#languageService.language,
+          }),
+        )
         .pipe(
+          catchError((err: unknown) => {
+            this.#toastService.handleError(err);
+            return EMPTY;
+          }),
           map((response) =>
-            response.pictures.map((picture) => ({
+            (response.items || []).map((picture) => ({
               picture,
               route: [
                 '/category',

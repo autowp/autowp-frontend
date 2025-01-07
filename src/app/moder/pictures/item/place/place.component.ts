@@ -4,12 +4,11 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {LatLng as grpcLatLng} from '@grpc/google/type/latlng.pb';
-import {SetPicturePointRequest} from '@grpc/spec.pb';
+import {GetPicturesRequest, Picture, PicturesOptions, SetPicturePointRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {icon, LatLng, latLng, LeafletMouseEvent, Map, Marker, marker, TileLayer, tileLayer} from 'leaflet';
-import {EMPTY} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
@@ -53,7 +52,6 @@ interface PointForm {
 export class ModerPicturesItemPlaceComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly zone = inject(NgZone);
   private readonly picturesClient = inject(PicturesClient);
@@ -64,11 +62,17 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     lng: new FormControl<string>(''),
   });
 
-  protected readonly picture$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') ?? '', 10)),
+  protected readonly picture$: Observable<Picture> = this.route.paramMap.pipe(
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((id) => this.pictureService.getPicture$(id, {fields: 'point'})),
+    switchMap((id) =>
+      this.picturesClient.getPicture(
+        new GetPicturesRequest({
+          options: new PicturesOptions({id}),
+        }),
+      ),
+    ),
     catchError(() => {
       this.router.navigate(['/error-404'], {
         skipLocationChange: true,
@@ -82,9 +86,9 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     map((picture) => {
       let lat = null,
         lng = null;
-      if (picture?.point?.lat && picture.point.lng) {
-        lat = picture.point.lat + '';
-        lng = picture.point.lng + '';
+      if (picture?.point?.latitude && picture.point.longitude) {
+        lat = picture.point.latitude + '';
+        lng = picture.point.longitude + '';
       }
 
       this.form.setValue({lat, lng});
@@ -156,11 +160,11 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     });
   }
 
-  protected doSubmit(form: FormGroup<PointForm>, picture: APIPicture) {
+  protected doSubmit(form: FormGroup<PointForm>, picture: Picture) {
     this.picturesClient
       .setPicturePoint(
         new SetPicturePointRequest({
-          pictureId: '' + picture.id,
+          pictureId: picture.id,
           point: new grpcLatLng({
             latitude: form.controls.lat.value ? parseFloat(form.controls.lat.value) : 0,
             longitude: form.controls.lng.value ? parseFloat(form.controls.lng.value) : 0,
