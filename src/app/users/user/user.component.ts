@@ -14,9 +14,13 @@ import {
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest,
   GetMessagesRequest,
+  GetPicturesRequest,
+  Picture,
+  PictureFields,
+  PicturesOptions,
   UserFields,
 } from '@grpc/spec.pb';
-import {CommentsClient, ContactsClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
+import {CommentsClient, ContactsClient, PicturesClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
@@ -24,7 +28,6 @@ import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {IpService} from '@services/ip';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -33,6 +36,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
+import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, NgbTooltip, UserComponent, FormsModule, AsyncPipe, DatePipe, TimeAgoPipe],
@@ -49,14 +53,15 @@ export class UsersUserComponent {
   private readonly userService = inject(UserService);
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
-  private readonly pictureService = inject(PictureService);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   private readonly ipService = inject(IpService);
   private readonly contactsClient = inject(ContactsClient);
   private readonly usersGrpc = inject(UsersClient);
   private readonly trafficClient = inject(TrafficClient);
   private readonly commentsClient = inject(CommentsClient);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly banPeriods = [
     {name: $localize`hour`, value: 1},
@@ -94,7 +99,7 @@ export class UsersUserComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
     switchMap((user) => {
@@ -119,17 +124,24 @@ export class UsersUserComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly pictures$: Observable<APIPicture[]> = this.user$.pipe(
+  protected readonly pictures$: Observable<Picture[]> = this.user$.pipe(
     switchMap((user) =>
-      this.pictureService
-        .getPictures$({
-          fields: 'url,name_html',
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          options: new PicturesOptions({ownerId: user.id}),
+          fields: new PictureFields({nameHtml: true}),
           limit: 12,
-          order: 1,
-          owner_id: user.id.toString(),
-        })
-        .pipe(map((response) => response.pictures)),
+          language: this.#languageService.language,
+          order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          paginator: false,
+        }),
+      ),
     ),
+    catchError((err: unknown) => {
+      this.#toastService.handleError(err);
+      return EMPTY;
+    }),
+    map((response) => response.items || []),
   );
 
   protected readonly comments$: Observable<APICommentsMessage[]> = this.user$.pipe(
@@ -190,7 +202,7 @@ export class UsersUserComponent {
       return this.contacts.isInContacts$(user.id.toString());
     }),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -214,7 +226,7 @@ export class UsersUserComponent {
         .pipe(map(({disableCommentsNotifications}) => disableCommentsNotifications));
     }),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -261,7 +273,7 @@ export class UsersUserComponent {
     }
 
     this.api.request$<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
         user.photo = undefined;
       },
@@ -279,7 +291,7 @@ export class UsersUserComponent {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
           user.deleted = true;
         },
@@ -288,7 +300,7 @@ export class UsersUserComponent {
 
   protected removeFromBlacklist(ip: string) {
     this.trafficClient.deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip})).subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
         this.ipChange$.next();
       },
@@ -305,7 +317,7 @@ export class UsersUserComponent {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
           this.ipChange$.next();
         },

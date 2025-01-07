@@ -3,7 +3,16 @@ import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest, SetPictureCropRequest} from '@grpc/spec.pb';
+import {
+  APIItem,
+  GetPicturesRequest,
+  ItemFields,
+  ItemRequest,
+  Picture,
+  PictureFields,
+  PicturesOptions,
+  SetPictureCropRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbModal, NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {APIService} from '@services/api.service';
@@ -58,9 +67,10 @@ export class UploadIndexComponent implements OnInit {
   protected readonly auth = inject(AuthService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly modalService = inject(NgbModal);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   private readonly keycloak = inject(Keycloak);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
   private readonly itemsClient = inject(ItemsClient);
   private readonly picturesClient = inject(PicturesClient);
 
@@ -85,9 +95,24 @@ export class UploadIndexComponent implements OnInit {
     debounceTime(10),
   );
 
-  private readonly replacePicture$: Observable<APIPicture | null> = this.replace$.pipe(
+  private readonly replacePicture$: Observable<Picture | null> = this.replace$.pipe(
     switchMap((replace) => {
-      return replace ? this.pictureService.getPicture$(replace, {fields: 'name_html'}) : of(null);
+      return replace
+        ? this.#picturesClient
+            .getPicture(
+              new GetPicturesRequest({
+                options: new PicturesOptions({id: '' + replace}),
+                fields: new PictureFields({nameHtml: true}),
+                language: this.#languageService.language,
+              }),
+            )
+            .pipe(
+              catchError((response: unknown) => {
+                this.#toastService.handleError(response);
+                return EMPTY;
+              }),
+            )
+        : of(null);
     }),
   );
 
@@ -106,7 +131,7 @@ export class UploadIndexComponent implements OnInit {
         new ItemRequest({
           fields: new ItemFields({nameHtml: true}),
           id,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       );
     }),
@@ -114,7 +139,7 @@ export class UploadIndexComponent implements OnInit {
 
   protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
     map(([replace, item]) => ({
-      name: replace?.name_html ?? item?.nameHtml ?? '',
+      name: replace?.nameHtml ?? item?.nameHtml ?? '',
       selected: !!(replace || item),
     })),
   );
@@ -125,7 +150,7 @@ export class UploadIndexComponent implements OnInit {
 
   protected doLogin() {
     this.keycloak.login({
-      locale: this.languageService.language,
+      locale: this.#languageService.language,
       redirectUri: window.location.href,
     });
   }
@@ -246,7 +271,7 @@ export class UploadIndexComponent implements OnInit {
               }),
               catchError((response: unknown) => {
                 if (response instanceof HttpErrorResponse) {
-                  this.toastService.response(response);
+                  this.#toastService.response(response);
                 }
                 return EMPTY;
               }),
@@ -279,7 +304,7 @@ export class UploadIndexComponent implements OnInit {
           ),
         ),
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
         switchMap(() =>
@@ -288,7 +313,7 @@ export class UploadIndexComponent implements OnInit {
           }),
         ),
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
         tap((response: APIPicture) => {

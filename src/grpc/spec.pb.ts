@@ -21493,6 +21493,7 @@ export class PicturesOptions implements GrpcMessage {
    */
   static refineValues(_instance: PicturesOptions) {
     _instance.id = _instance.id || '0';
+    _instance.identity = _instance.identity || '';
     _instance.status = _instance.status || 0;
     _instance.pictureItem = _instance.pictureItem || undefined;
     _instance.ownerId = _instance.ownerId || '0';
@@ -21516,6 +21517,9 @@ export class PicturesOptions implements GrpcMessage {
       switch (_reader.getFieldNumber()) {
         case 4:
           _instance.id = _reader.readInt64String();
+          break;
+        case 8:
+          _instance.identity = _reader.readString();
           break;
         case 1:
           _instance.status = _reader.readEnum();
@@ -21567,6 +21571,9 @@ export class PicturesOptions implements GrpcMessage {
     if (_instance.id) {
       _writer.writeInt64String(4, _instance.id);
     }
+    if (_instance.identity) {
+      _writer.writeString(8, _instance.identity);
+    }
     if (_instance.status) {
       _writer.writeEnum(1, _instance.status);
     }
@@ -21600,6 +21607,7 @@ export class PicturesOptions implements GrpcMessage {
   }
 
   private _id: string;
+  private _identity: string;
   private _status: PictureStatus;
   private _pictureItem?: PictureItemOptions;
   private _ownerId: string;
@@ -21614,6 +21622,7 @@ export class PicturesOptions implements GrpcMessage {
   constructor(_value?: RecursivePartial<PicturesOptions.AsObject>) {
     _value = _value || {};
     this.id = _value.id;
+    this.identity = _value.identity;
     this.status = _value.status;
     this.pictureItem = _value.pictureItem
       ? new PictureItemOptions(_value.pictureItem)
@@ -21633,6 +21642,12 @@ export class PicturesOptions implements GrpcMessage {
   }
   set id(value: string) {
     this._id = value;
+  }
+  get identity(): string {
+    return this._identity;
+  }
+  set identity(value: string) {
+    this._identity = value;
   }
   get status(): PictureStatus {
     return this._status;
@@ -21687,6 +21702,7 @@ export class PicturesOptions implements GrpcMessage {
   toObject(): PicturesOptions.AsObject {
     return {
       id: this.id,
+      identity: this.identity,
       status: this.status,
       pictureItem: this.pictureItem ? this.pictureItem.toObject() : undefined,
       ownerId: this.ownerId,
@@ -21714,6 +21730,7 @@ export class PicturesOptions implements GrpcMessage {
   ): PicturesOptions.AsProtobufJSON {
     return {
       id: this.id,
+      identity: this.identity,
       status:
         PictureStatus[
           this.status === null || this.status === undefined ? 0 : this.status
@@ -21736,6 +21753,7 @@ export module PicturesOptions {
    */
   export interface AsObject {
     id: string;
+    identity: string;
     status: PictureStatus;
     pictureItem?: PictureItemOptions.AsObject;
     ownerId: string;
@@ -21749,6 +21767,7 @@ export module PicturesOptions {
    */
   export interface AsProtobufJSON {
     id: string;
+    identity: string;
     status: string;
     pictureItem: PictureItemOptions.AsProtobufJSON | null;
     ownerId: string;
@@ -21790,6 +21809,7 @@ export class PictureFields implements GrpcMessage {
     _instance.votes = _instance.votes || false;
     _instance.commentsCount = _instance.commentsCount || false;
     _instance.moderVote = _instance.moderVote || false;
+    _instance.thumb = _instance.thumb || false;
   }
 
   /**
@@ -21828,6 +21848,9 @@ export class PictureFields implements GrpcMessage {
           break;
         case 8:
           _instance.moderVote = _reader.readBool();
+          break;
+        case 9:
+          _instance.thumb = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -21870,6 +21893,9 @@ export class PictureFields implements GrpcMessage {
     if (_instance.moderVote) {
       _writer.writeBool(8, _instance.moderVote);
     }
+    if (_instance.thumb) {
+      _writer.writeBool(9, _instance.thumb);
+    }
   }
 
   private _nameText: boolean;
@@ -21880,6 +21906,7 @@ export class PictureFields implements GrpcMessage {
   private _votes: boolean;
   private _commentsCount: boolean;
   private _moderVote: boolean;
+  private _thumb: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -21895,6 +21922,7 @@ export class PictureFields implements GrpcMessage {
     this.votes = _value.votes;
     this.commentsCount = _value.commentsCount;
     this.moderVote = _value.moderVote;
+    this.thumb = _value.thumb;
     PictureFields.refineValues(this);
   }
   get nameText(): boolean {
@@ -21945,6 +21973,12 @@ export class PictureFields implements GrpcMessage {
   set moderVote(value: boolean) {
     this._moderVote = value;
   }
+  get thumb(): boolean {
+    return this._thumb;
+  }
+  set thumb(value: boolean) {
+    this._thumb = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -21968,7 +22002,8 @@ export class PictureFields implements GrpcMessage {
       views: this.views,
       votes: this.votes,
       commentsCount: this.commentsCount,
-      moderVote: this.moderVote
+      moderVote: this.moderVote,
+      thumb: this.thumb
     };
   }
 
@@ -21996,7 +22031,8 @@ export class PictureFields implements GrpcMessage {
       views: this.views,
       votes: this.votes,
       commentsCount: this.commentsCount,
-      moderVote: this.moderVote
+      moderVote: this.moderVote,
+      thumb: this.thumb
     };
   }
 }
@@ -22013,6 +22049,7 @@ export module PictureFields {
     votes: boolean;
     commentsCount: boolean;
     moderVote: boolean;
+    thumb: boolean;
   }
 
   /**
@@ -22027,6 +22064,7 @@ export module PictureFields {
     votes: boolean;
     commentsCount: boolean;
     moderVote: boolean;
+    thumb: boolean;
   }
 }
 
@@ -30776,6 +30814,7 @@ export class Picture implements GrpcMessage {
     _instance.commentsCountNew = _instance.commentsCountNew || 0;
     _instance.moderVoteVote = _instance.moderVoteVote || 0;
     _instance.moderVoteCount = _instance.moderVoteCount || 0;
+    _instance.thumb = _instance.thumb || undefined;
   }
 
   /**
@@ -30870,6 +30909,13 @@ export class Picture implements GrpcMessage {
         case 21:
           _instance.moderVoteCount = _reader.readInt32();
           break;
+        case 22:
+          _instance.thumb = new APIImage();
+          _reader.readMessage(
+            _instance.thumb,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -30963,6 +31009,13 @@ export class Picture implements GrpcMessage {
     if (_instance.moderVoteCount) {
       _writer.writeInt32(21, _instance.moderVoteCount);
     }
+    if (_instance.thumb) {
+      _writer.writeMessage(
+        22,
+        _instance.thumb as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -30986,6 +31039,7 @@ export class Picture implements GrpcMessage {
   private _commentsCountNew: number;
   private _moderVoteVote: number;
   private _moderVoteCount: number;
+  private _thumb?: APIImage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -31020,6 +31074,7 @@ export class Picture implements GrpcMessage {
     this.commentsCountNew = _value.commentsCountNew;
     this.moderVoteVote = _value.moderVoteVote;
     this.moderVoteCount = _value.moderVoteCount;
+    this.thumb = _value.thumb ? new APIImage(_value.thumb) : undefined;
     Picture.refineValues(this);
   }
   get id(): string {
@@ -31148,6 +31203,12 @@ export class Picture implements GrpcMessage {
   set moderVoteCount(value: number) {
     this._moderVoteCount = value;
   }
+  get thumb(): APIImage | undefined {
+    return this._thumb;
+  }
+  set thumb(value: APIImage | undefined) {
+    this._thumb = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -31184,7 +31245,8 @@ export class Picture implements GrpcMessage {
       commentsCountTotal: this.commentsCountTotal,
       commentsCountNew: this.commentsCountNew,
       moderVoteVote: this.moderVoteVote,
-      moderVoteCount: this.moderVoteCount
+      moderVoteCount: this.moderVoteCount,
+      thumb: this.thumb ? this.thumb.toObject() : undefined
     };
   }
 
@@ -31230,7 +31292,8 @@ export class Picture implements GrpcMessage {
       commentsCountTotal: this.commentsCountTotal,
       commentsCountNew: this.commentsCountNew,
       moderVoteVote: this.moderVoteVote,
-      moderVoteCount: this.moderVoteCount
+      moderVoteCount: this.moderVoteCount,
+      thumb: this.thumb ? this.thumb.toProtobufJSON(options) : null
     };
   }
 }
@@ -31260,6 +31323,7 @@ export module Picture {
     commentsCountNew: number;
     moderVoteVote: number;
     moderVoteCount: number;
+    thumb?: APIImage.AsObject;
   }
 
   /**
@@ -31287,6 +31351,7 @@ export module Picture {
     commentsCountNew: number;
     moderVoteVote: number;
     moderVoteCount: number;
+    thumb: APIImage.AsProtobufJSON | null;
   }
 }
 

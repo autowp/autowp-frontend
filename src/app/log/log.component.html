@@ -44,7 +44,7 @@
               <div>
                 Picture:
                 @if (picture$ | async; as picture) {
-                  <a [routerLink]="['/moder/pictures', picture.id]" [innerHTML]="picture.name_html"></a>
+                  <a [routerLink]="['/moder/pictures', picture.id]" [innerHTML]="picture.nameHtml"></a>
                 }
               </div>
             }

@@ -1,17 +1,18 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIUser} from '@grpc/spec.pb';
-import {APIPicture, PictureService} from '@services/picture';
+import {APIUser, GetPicturesRequest, Picture, PictureFields, PicturesOptions} from '@grpc/spec.pb';
 import {UserService} from '@services/user';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import URLParse from 'url-parse';
 
 import {UserComponent} from '../../user/user/user.component';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 
 interface CommentTextElement {
-  picture?: APIPicture;
+  picture?: Picture;
   text?: string;
   type: 'a' | 'picture' | 'text' | 'user';
   url?: string;
@@ -29,7 +30,8 @@ interface CommentTextLine {
 })
 export class UserTextComponent {
   private readonly userService = inject(UserService);
-  private readonly pictureService = inject(PictureService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set text(text: string) {
     this.text$.next(text);
@@ -197,34 +199,57 @@ export class UserTextComponent {
       pictureId = parseInt(matches[1] || '', 10);
     }
 
-    const fields = 'owner,thumb,votes,views,comments_count,name_html,name_text';
+    const fields = new PictureFields({
+      thumb: true,
+      nameText: true,
+      votes: true,
+      views: true,
+      commentsCount: true,
+      moderVote: true,
+    });
 
     if (pictureId) {
-      return this.pictureService.getPicture$(pictureId, {fields}).pipe(
-        catchError(() => of(null)),
-        map((picture) =>
-          picture
-            ? {
-                picture,
-                type: 'picture',
-              }
-            : null,
-        ),
-      );
+      return this.#picturesClient
+        .getPicture(
+          new GetPicturesRequest({
+            options: new PicturesOptions({id: '' + pictureId}),
+            fields,
+            language: this.#languageService.language,
+          }),
+        )
+        .pipe(
+          catchError(() => of(null)),
+          map((picture) =>
+            picture
+              ? {
+                  picture,
+                  type: 'picture',
+                }
+              : null,
+          ),
+        );
     }
 
     if (pictureIdentity) {
-      return this.pictureService.getPictures$({fields, identity: pictureIdentity}).pipe(
-        catchError(() => of(null)),
-        map((pictures) =>
-          pictures && pictures.pictures.length > 0
-            ? {
-                picture: pictures.pictures[0],
-                type: 'picture',
-              }
-            : null,
-        ),
-      );
+      return this.#picturesClient
+        .getPicture(
+          new GetPicturesRequest({
+            options: new PicturesOptions({identity: pictureIdentity}),
+            fields,
+            language: this.#languageService.language,
+          }),
+        )
+        .pipe(
+          catchError(() => of(null)),
+          map((picture) =>
+            picture
+              ? {
+                  picture,
+                  type: 'picture',
+                }
+              : null,
+          ),
+        );
     }
 
     return of(null);

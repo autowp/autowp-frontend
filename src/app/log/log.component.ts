@@ -1,12 +1,22 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem, APIUser, ItemFields, ItemRequest, LogEventsRequest, Pages} from '@grpc/spec.pb';
-import {ItemsClient, LogClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  APIUser,
+  GetPicturesRequest,
+  ItemFields,
+  ItemRequest,
+  LogEventsRequest,
+  Pages,
+  Picture,
+  PictureFields,
+  PicturesOptions,
+} from '@grpc/spec.pb';
+import {ItemsClient, LogClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {EMPTY, Observable} from 'rxjs';
@@ -24,19 +34,19 @@ import {UserComponent} from '../user/user/user.component';
 export class LogComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   private readonly logClient = inject(LogClient);
   private readonly userService = inject(UserService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly pictureService = inject(PictureService);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   protected readonly response$: Observable<{
     items: {
       createdAt: Date | undefined;
       description: string;
       items: Observable<APIItem | null>[];
-      pictures: Observable<APIPicture>[];
+      pictures: Observable<Picture>[];
       user$: Observable<APIUser | null>;
     }[];
     paginator: Pages | undefined;
@@ -62,7 +72,7 @@ export class LogComponent implements OnInit {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
@@ -74,11 +84,26 @@ export class LogComponent implements OnInit {
             new ItemRequest({
               fields: new ItemFields({nameHtml: true}),
               id: item,
-              language: this.languageService.language,
+              language: this.#languageService.language,
             }),
           ),
         ),
-        pictures: event.pictures.map((item) => this.pictureService.getPicture$(+item, {fields: 'name_html'})),
+        pictures: event.pictures.map((item) =>
+          this.#picturesClient
+            .getPicture(
+              new GetPicturesRequest({
+                options: new PicturesOptions({id: item}),
+                fields: new PictureFields({nameHtml: true}),
+                language: this.#languageService.language,
+              }),
+            )
+            .pipe(
+              catchError((response: unknown) => {
+                this.#toastService.handleError(response);
+                return EMPTY;
+              }),
+            ),
+        ),
         user$: this.userService.getUser$(event.userId),
       })),
       paginator: response.paginator,
