@@ -9,7 +9,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {APIItem as GRPCAPIItem, ItemType, PictureItem, Spec, VehicleType} from '@grpc/spec.pb';
+import {
+  APIItem as GRPCAPIItem,
+  GetPicturesRequest,
+  ItemType,
+  Picture,
+  PictureFields,
+  PictureItem,
+  PicturesOptions,
+  Spec,
+  VehicleType,
+} from '@grpc/spec.pb';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import type {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
@@ -24,7 +34,7 @@ import {sprintf} from 'sprintf-js';
 
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {MapPointComponent} from './map-point/map-point.component';
-import {APIPicture, PictureService} from '@services/picture';
+import {PicturesClient} from '@grpc/spec.pbsc';
 
 function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   const result: ItemMetaFormAPISpec[] = [];
@@ -86,7 +96,7 @@ export interface ItemMetaFormResult {
 interface PicturesListItem {
   pictureItem: PictureItem;
   selected: boolean;
-  picture$: Observable<APIPicture>;
+  picture$: Observable<Picture>;
 }
 
 interface Form {
@@ -145,9 +155,9 @@ function localizeInherited(parentIsConcept: ParentIsConcept | null) {
 export class ItemMetaFormComponent {
   private readonly specService = inject(SpecService);
   private readonly vehicleTypeService = inject(VehicleTypeService);
-  private readonly languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
   private readonly modalService = inject(NgbModal);
-  private readonly pictureService = inject(PictureService);
 
   @Input() submitNotify: () => void = () => {};
   @Input() invalidParams?: InvalidParams;
@@ -183,7 +193,13 @@ export class ItemMetaFormComponent {
       pictures
         ? pictures.map((p) => ({
             pictureItem: p,
-            picture$: this.pictureService.getPicture$(+p.pictureId, {fields: 'thumb_medium,name_text'}),
+            picture$: this.#picturesClient.getPicture(
+              new GetPicturesRequest({
+                options: new PicturesOptions({id: p.pictureId}),
+                fields: new PictureFields({thumbMedium: true, nameText: true}),
+                language: this.#languageService.language,
+              }),
+            ),
             selected: false,
           }))
         : null,
@@ -380,7 +396,7 @@ export class ItemMetaFormComponent {
     const date = new Date(Date.UTC(2000, 1, 1, 0, 0, 0, 0));
     for (let i = 0; i < 12; i++) {
       date.setMonth(i);
-      const language = this.languageService.language;
+      const language = this.#languageService.language;
       if (language) {
         const month = date.toLocaleString(language, {month: 'long'});
         this.monthOptions.push({
