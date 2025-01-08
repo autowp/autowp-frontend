@@ -15,7 +15,7 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {ACLService, Privilege, Resource} from './acl.service';
 import {APIImage, APIPaginator, APIService} from './api.service';
 import {AuthService} from './auth.service';
-import {APIItem, APIPathTreeItem} from './item';
+import {APIItem} from './item';
 import {APIPictureItem} from './picture-item';
 
 export interface APIGetPictureOptions {
@@ -56,12 +56,6 @@ export interface APIGetPicturesOptions {
   similar?: boolean;
   special_name?: boolean | null;
   status?: string;
-}
-
-export interface APIPathTreePictureItem {
-  item: APIPathTreeItem;
-  perspective_id?: number;
-  type: number;
 }
 
 export interface APIPicture {
@@ -118,7 +112,6 @@ export interface APIPicture {
   }[];
   owner_id: null | string;
   paginator?: APIPicturePaginator;
-  path: APIPathTreePictureItem[];
   perspective_item: {
     item_id: number;
     perspective_id: number;
@@ -205,8 +198,22 @@ export interface APIPictureVotes {
   value: number;
 }
 
+function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
+
+  if (!options) {
+    options = {};
+  }
+
+  if (options.fields) {
+    params['fields'] = options.fields;
+  }
+
+  return params;
+}
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
-function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]: string} {
+function convertPicturesOptions(options: APIGetPicturesOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
 
   if (options.identity) {
@@ -323,20 +330,6 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
   return params;
 }
 
-function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
-  const params: {[param: string]: string} = {};
-
-  if (!options) {
-    options = {};
-  }
-
-  if (options.fields) {
-    params['fields'] = options.fields;
-  }
-
-  return params;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -395,7 +388,7 @@ export class PictureService {
 
   public getPictures$(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
     return this.api.request$<APIPictureGetResponse>('GET', 'picture', {
-      params: converPicturesOptions(options ? options : {}),
+      params: convertPicturesOptions(options ? options : {}),
     });
   }
 

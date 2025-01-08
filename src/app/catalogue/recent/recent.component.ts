@@ -1,36 +1,50 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {
+  APIItem,
+  GetPicturesRequest,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ListItemsRequest,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturePathRequest,
+  PicturesOptions,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {combineLatest, EMPTY, Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunkBy} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueService} from '../catalogue-service';
 
 interface PictureRoute {
-  picture: APIPicture;
+  picture: Picture;
   route: null | string[];
 }
 
 @Component({
-  imports: [RouterLink, ThumbnailComponent, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
   selector: 'app-catalogue-recent',
   templateUrl: './recent.component.html',
 })
 export class CatalogueRecentComponent {
   private readonly pageEnv = inject(PageEnvService);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly catalogue = inject(CatalogueService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
 
   private readonly page$ = this.route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page') ?? '', 10)),
@@ -53,7 +67,7 @@ export class CatalogueRecentComponent {
               nameHtml: true,
               nameOnly: true,
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 1,
             options: new ItemListOptions({
               catname,
@@ -78,18 +92,39 @@ export class CatalogueRecentComponent {
   protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
     switchMap(([brand, page]) =>
       brand
-        ? this.pictureService.getPictures$({
-            fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-            item_id: +brand.id,
-            limit: 12,
-            order: 15,
-            page,
-            status: 'accepted',
-          })
+        ? this.#picturesClient.getPictures(
+            new GetPicturesRequest({
+              fields: new PictureFields({
+                commentsCount: true,
+                moderVote: true,
+                nameHtml: true,
+                nameText: true,
+                path: new PicturePathRequest({parentId: brand.id}),
+                thumbMedium: true,
+                views: true,
+                votes: true,
+              }),
+              language: this.#languageService.language,
+              limit: 12,
+              options: new PicturesOptions({
+                pictureItem: new PictureItemOptions({
+                  itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
+                }),
+                status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+              }),
+              order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+              page,
+              paginator: true,
+            }),
+          )
         : EMPTY,
     ),
+    catchError((err: unknown) => {
+      this.#toastService.handleError(err);
+      return EMPTY;
+    }),
     map((response) => {
-      const pictures: PictureRoute[] = response.pictures.map((picture) => ({
+      const pictures: PictureRoute[] = (response.items || []).map((picture) => ({
         picture,
         route: this.catalogue.picturePathToRoute(picture),
       }));

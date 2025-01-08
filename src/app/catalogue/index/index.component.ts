@@ -6,24 +6,31 @@ import {
   APIItem,
   APIItemLink,
   GetBrandSectionsRequest,
+  GetPicturesRequest,
   ItemFields,
   ItemListOptions,
+  ItemParentCacheListOptions,
   ItemType,
   ListItemsRequest,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturePathRequest,
+  PicturesOptions,
+  PictureStatus,
 } from '@grpc/spec.pb';
-import {ItemsClient} from '@grpc/spec.pbsc';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getCatalogueSectionsTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunk, chunkBy} from '../../chunk';
-import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueService} from '../catalogue-service';
 
@@ -34,12 +41,12 @@ interface APIBrandSectionGroup {
 }
 
 interface PictureRoute {
-  picture: APIPicture;
+  picture: Picture;
   route: null | string[];
 }
 
 @Component({
-  imports: [MarkdownComponent, RouterLink, ThumbnailComponent, AsyncPipe],
+  imports: [MarkdownComponent, RouterLink, Thumbnail2Component, AsyncPipe],
   selector: 'app-catalogue-index',
   templateUrl: './index.component.html',
 })
@@ -47,13 +54,13 @@ export class CatalogueIndexComponent {
   private readonly pageEnv = inject(PageEnvService);
   private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly acl = inject(ACLService);
   private readonly router = inject(Router);
   private readonly catalogue = inject(CatalogueService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
-  private readonly toastService = inject(ToastsService);
+  readonly #languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
 
   protected readonly ItemType = ItemType;
 
@@ -94,7 +101,7 @@ export class CatalogueIndexComponent {
       return this.itemsClient.list(
         new ListItemsRequest({
           fields,
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 1,
           options: new ItemListOptions({
             catname,
@@ -103,7 +110,7 @@ export class CatalogueIndexComponent {
       );
     }),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     switchMap((response) => {
@@ -127,16 +134,32 @@ export class CatalogueIndexComponent {
 
   protected readonly pictures$ = this.brand$.pipe(
     switchMap((brand) =>
-      this.pictureService.getPictures$({
-        fields: 'owner,thumb_medium,votes,views,comments_count,name_html,name_text,path',
-        item_id: +brand.id,
-        limit: 12,
-        order: 12,
-        status: 'accepted',
-      }),
+      this.#picturesClient.getPictures(
+        new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            path: new PicturePathRequest({parentId: brand.id}),
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 12,
+          options: new PicturesOptions({
+            pictureItem: new PictureItemOptions({
+              itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
+            }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+          }),
+          order: GetPicturesRequest.Order.LIKES,
+        }),
+      ),
     ),
     map((response) => {
-      const pictures: PictureRoute[] = response.pictures.map((pic) => ({
+      const pictures: PictureRoute[] = (response.items || []).map((pic) => ({
         picture: pic,
         route: this.catalogue.picturePathToRoute(pic),
       }));
@@ -187,7 +210,7 @@ export class CatalogueIndexComponent {
       this.itemsClient.getBrandSections(
         new GetBrandSectionsRequest({
           itemId: brand.id,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),

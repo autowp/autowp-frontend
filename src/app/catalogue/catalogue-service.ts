@@ -12,11 +12,12 @@ import {
   ItemParentType,
   ItemType,
   ListItemsRequest,
+  PathTreeItemParent,
+  Picture,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {type APIItemChildsCounts, APIPathTreeItemParent} from '@services/item';
+import {type APIItemChildsCounts} from '@services/item';
 import {LanguageService} from '@services/language';
-import {APIPicture} from '@services/picture';
 import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -194,13 +195,13 @@ export class CatalogueService {
     );
   }
 
-  private pictureRouterLinkItem(parent: APIPathTreeItemParent): null | string[] {
-    switch (parent.item.item_type_id) {
+  private pictureRouterLinkItem(parent: PathTreeItemParent): null | string[] {
+    switch (parent.item?.itemTypeId) {
       case ItemType.ITEM_TYPE_BRAND:
         return ['/', parent.item.catname, parent.catname];
       case ItemType.ITEM_TYPE_ENGINE:
       case ItemType.ITEM_TYPE_VEHICLE:
-        for (const sparent of parent.item.parents) {
+        for (const sparent of parent.item.parents || []) {
           const path = this.pictureRouterLinkItem(sparent);
           if (path) {
             return path.concat([parent.catname]);
@@ -211,30 +212,27 @@ export class CatalogueService {
     return null;
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  public picturePathToRoute(picture: APIPicture): null | string[] {
-    for (const pictureItem of picture.path) {
-      if (pictureItem.type === 1) {
-        switch (pictureItem.item.item_type_id) {
-          case ItemType.ITEM_TYPE_BRAND:
-            switch (pictureItem.perspective_id) {
-              case 22: // logo
-                return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
-              case 25: // mixed
-                return ['/', pictureItem.item.catname, 'mixed', picture.identity];
-              default:
-                return ['/', pictureItem.item.catname, 'other', picture.identity];
+  public picturePathToRoute(picture: Picture): null | string[] {
+    for (const pictureItem of picture.path || []) {
+      switch (pictureItem.item?.itemTypeId) {
+        case ItemType.ITEM_TYPE_BRAND:
+          switch (pictureItem.perspectiveId) {
+            case '22': // logo
+              return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
+            case '25': // mixed
+              return ['/', pictureItem.item.catname, 'mixed', picture.identity];
+            default:
+              return ['/', pictureItem.item.catname, 'other', picture.identity];
+          }
+        case ItemType.ITEM_TYPE_ENGINE:
+        case ItemType.ITEM_TYPE_VEHICLE:
+          for (const parent of pictureItem.item.parents || []) {
+            const path = this.pictureRouterLinkItem(parent);
+            if (path) {
+              return path.concat(['pictures', picture.identity]);
             }
-          case ItemType.ITEM_TYPE_ENGINE:
-          case ItemType.ITEM_TYPE_VEHICLE:
-            for (const parent of pictureItem.item.parents) {
-              const path = this.pictureRouterLinkItem(parent);
-              if (path) {
-                return path.concat(['pictures', picture.identity]);
-              }
-            }
-            break;
-        }
+          }
+          break;
       }
     }
 

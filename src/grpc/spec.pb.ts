@@ -21778,6 +21778,528 @@ export module PicturesOptions {
 }
 
 /**
+ * Message implementation for goautowp.PathTreeItem
+ */
+export class PathTreeItem implements GrpcMessage {
+  static id = 'goautowp.PathTreeItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PathTreeItem();
+    PathTreeItem.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PathTreeItem) {
+    _instance.catname = _instance.catname || '';
+    _instance.itemTypeId = _instance.itemTypeId || 0;
+    _instance.parents = _instance.parents || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PathTreeItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.catname = _reader.readString();
+          break;
+        case 2:
+          _instance.itemTypeId = _reader.readEnum();
+          break;
+        case 3:
+          const messageInitializer3 = new PathTreeItemParent();
+          _reader.readMessage(
+            messageInitializer3,
+            PathTreeItemParent.deserializeBinaryFromReader
+          );
+          (_instance.parents = _instance.parents || []).push(
+            messageInitializer3
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PathTreeItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PathTreeItem,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.catname) {
+      _writer.writeString(1, _instance.catname);
+    }
+    if (_instance.itemTypeId) {
+      _writer.writeEnum(2, _instance.itemTypeId);
+    }
+    if (_instance.parents && _instance.parents.length) {
+      _writer.writeRepeatedMessage(
+        3,
+        _instance.parents as any,
+        PathTreeItemParent.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _catname: string;
+  private _itemTypeId: ItemType;
+  private _parents?: PathTreeItemParent[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PathTreeItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PathTreeItem.AsObject>) {
+    _value = _value || {};
+    this.catname = _value.catname;
+    this.itemTypeId = _value.itemTypeId;
+    this.parents = (_value.parents || []).map(m => new PathTreeItemParent(m));
+    PathTreeItem.refineValues(this);
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get itemTypeId(): ItemType {
+    return this._itemTypeId;
+  }
+  set itemTypeId(value: ItemType) {
+    this._itemTypeId = value;
+  }
+  get parents(): PathTreeItemParent[] | undefined {
+    return this._parents;
+  }
+  set parents(value: PathTreeItemParent[] | undefined) {
+    this._parents = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PathTreeItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PathTreeItem.AsObject {
+    return {
+      catname: this.catname,
+      itemTypeId: this.itemTypeId,
+      parents: (this.parents || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PathTreeItem.AsProtobufJSON {
+    return {
+      catname: this.catname,
+      itemTypeId:
+        ItemType[
+          this.itemTypeId === null || this.itemTypeId === undefined
+            ? 0
+            : this.itemTypeId
+        ],
+      parents: (this.parents || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module PathTreeItem {
+  /**
+   * Standard JavaScript object representation for PathTreeItem
+   */
+  export interface AsObject {
+    catname: string;
+    itemTypeId: ItemType;
+    parents?: PathTreeItemParent.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for PathTreeItem
+   */
+  export interface AsProtobufJSON {
+    catname: string;
+    itemTypeId: string;
+    parents: PathTreeItemParent.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PathTreeItemParent
+ */
+export class PathTreeItemParent implements GrpcMessage {
+  static id = 'goautowp.PathTreeItemParent';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PathTreeItemParent();
+    PathTreeItemParent.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PathTreeItemParent) {
+    _instance.catname = _instance.catname || '';
+    _instance.item = _instance.item || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PathTreeItemParent,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.catname = _reader.readString();
+          break;
+        case 2:
+          _instance.item = new PathTreeItem();
+          _reader.readMessage(
+            _instance.item,
+            PathTreeItem.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PathTreeItemParent.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PathTreeItemParent,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.catname) {
+      _writer.writeString(1, _instance.catname);
+    }
+    if (_instance.item) {
+      _writer.writeMessage(
+        2,
+        _instance.item as any,
+        PathTreeItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _catname: string;
+  private _item?: PathTreeItem;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PathTreeItemParent to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PathTreeItemParent.AsObject>) {
+    _value = _value || {};
+    this.catname = _value.catname;
+    this.item = _value.item ? new PathTreeItem(_value.item) : undefined;
+    PathTreeItemParent.refineValues(this);
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get item(): PathTreeItem | undefined {
+    return this._item;
+  }
+  set item(value: PathTreeItem | undefined) {
+    this._item = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PathTreeItemParent.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PathTreeItemParent.AsObject {
+    return {
+      catname: this.catname,
+      item: this.item ? this.item.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PathTreeItemParent.AsProtobufJSON {
+    return {
+      catname: this.catname,
+      item: this.item ? this.item.toProtobufJSON(options) : null
+    };
+  }
+}
+export module PathTreeItemParent {
+  /**
+   * Standard JavaScript object representation for PathTreeItemParent
+   */
+  export interface AsObject {
+    catname: string;
+    item?: PathTreeItem.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for PathTreeItemParent
+   */
+  export interface AsProtobufJSON {
+    catname: string;
+    item: PathTreeItem.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PathTreePictureItem
+ */
+export class PathTreePictureItem implements GrpcMessage {
+  static id = 'goautowp.PathTreePictureItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PathTreePictureItem();
+    PathTreePictureItem.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PathTreePictureItem) {
+    _instance.item = _instance.item || undefined;
+    _instance.perspectiveId = _instance.perspectiveId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PathTreePictureItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.item = new PathTreeItem();
+          _reader.readMessage(
+            _instance.item,
+            PathTreeItem.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.perspectiveId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PathTreePictureItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PathTreePictureItem,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.item) {
+      _writer.writeMessage(
+        1,
+        _instance.item as any,
+        PathTreeItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.perspectiveId) {
+      _writer.writeInt64String(2, _instance.perspectiveId);
+    }
+  }
+
+  private _item?: PathTreeItem;
+  private _perspectiveId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PathTreePictureItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PathTreePictureItem.AsObject>) {
+    _value = _value || {};
+    this.item = _value.item ? new PathTreeItem(_value.item) : undefined;
+    this.perspectiveId = _value.perspectiveId;
+    PathTreePictureItem.refineValues(this);
+  }
+  get item(): PathTreeItem | undefined {
+    return this._item;
+  }
+  set item(value: PathTreeItem | undefined) {
+    this._item = value;
+  }
+  get perspectiveId(): string {
+    return this._perspectiveId;
+  }
+  set perspectiveId(value: string) {
+    this._perspectiveId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PathTreePictureItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PathTreePictureItem.AsObject {
+    return {
+      item: this.item ? this.item.toObject() : undefined,
+      perspectiveId: this.perspectiveId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PathTreePictureItem.AsProtobufJSON {
+    return {
+      item: this.item ? this.item.toProtobufJSON(options) : null,
+      perspectiveId: this.perspectiveId
+    };
+  }
+}
+export module PathTreePictureItem {
+  /**
+   * Standard JavaScript object representation for PathTreePictureItem
+   */
+  export interface AsObject {
+    item?: PathTreeItem.AsObject;
+    perspectiveId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PathTreePictureItem
+   */
+  export interface AsProtobufJSON {
+    item: PathTreeItem.AsProtobufJSON | null;
+    perspectiveId: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.PictureFields
  */
 export class PictureFields implements GrpcMessage {
@@ -21810,6 +22332,7 @@ export class PictureFields implements GrpcMessage {
     _instance.commentsCount = _instance.commentsCount || false;
     _instance.moderVote = _instance.moderVote || false;
     _instance.thumb = _instance.thumb || false;
+    _instance.path = _instance.path || undefined;
   }
 
   /**
@@ -21851,6 +22374,13 @@ export class PictureFields implements GrpcMessage {
           break;
         case 9:
           _instance.thumb = _reader.readBool();
+          break;
+        case 10:
+          _instance.path = new PicturePathRequest();
+          _reader.readMessage(
+            _instance.path,
+            PicturePathRequest.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -21896,6 +22426,13 @@ export class PictureFields implements GrpcMessage {
     if (_instance.thumb) {
       _writer.writeBool(9, _instance.thumb);
     }
+    if (_instance.path) {
+      _writer.writeMessage(
+        10,
+        _instance.path as any,
+        PicturePathRequest.serializeBinaryToWriter
+      );
+    }
   }
 
   private _nameText: boolean;
@@ -21907,6 +22444,7 @@ export class PictureFields implements GrpcMessage {
   private _commentsCount: boolean;
   private _moderVote: boolean;
   private _thumb: boolean;
+  private _path?: PicturePathRequest;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -21923,6 +22461,7 @@ export class PictureFields implements GrpcMessage {
     this.commentsCount = _value.commentsCount;
     this.moderVote = _value.moderVote;
     this.thumb = _value.thumb;
+    this.path = _value.path ? new PicturePathRequest(_value.path) : undefined;
     PictureFields.refineValues(this);
   }
   get nameText(): boolean {
@@ -21979,6 +22518,12 @@ export class PictureFields implements GrpcMessage {
   set thumb(value: boolean) {
     this._thumb = value;
   }
+  get path(): PicturePathRequest | undefined {
+    return this._path;
+  }
+  set path(value: PicturePathRequest | undefined) {
+    this._path = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -22003,7 +22548,8 @@ export class PictureFields implements GrpcMessage {
       votes: this.votes,
       commentsCount: this.commentsCount,
       moderVote: this.moderVote,
-      thumb: this.thumb
+      thumb: this.thumb,
+      path: this.path ? this.path.toObject() : undefined
     };
   }
 
@@ -22032,7 +22578,8 @@ export class PictureFields implements GrpcMessage {
       votes: this.votes,
       commentsCount: this.commentsCount,
       moderVote: this.moderVote,
-      thumb: this.thumb
+      thumb: this.thumb,
+      path: this.path ? this.path.toProtobufJSON(options) : null
     };
   }
 }
@@ -22050,6 +22597,7 @@ export module PictureFields {
     commentsCount: boolean;
     moderVote: boolean;
     thumb: boolean;
+    path?: PicturePathRequest.AsObject;
   }
 
   /**
@@ -22065,6 +22613,146 @@ export module PictureFields {
     commentsCount: boolean;
     moderVote: boolean;
     thumb: boolean;
+    path: PicturePathRequest.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PicturePathRequest
+ */
+export class PicturePathRequest implements GrpcMessage {
+  static id = 'goautowp.PicturePathRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PicturePathRequest();
+    PicturePathRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PicturePathRequest) {
+    _instance.parentId = _instance.parentId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PicturePathRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PicturePathRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PicturePathRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.parentId) {
+      _writer.writeInt64String(1, _instance.parentId);
+    }
+  }
+
+  private _parentId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PicturePathRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PicturePathRequest.AsObject>) {
+    _value = _value || {};
+    this.parentId = _value.parentId;
+    PicturePathRequest.refineValues(this);
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PicturePathRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PicturePathRequest.AsObject {
+    return {
+      parentId: this.parentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PicturePathRequest.AsProtobufJSON {
+    return {
+      parentId: this.parentId
+    };
+  }
+}
+export module PicturePathRequest {
+  /**
+   * Standard JavaScript object representation for PicturePathRequest
+   */
+  export interface AsObject {
+    parentId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PicturePathRequest
+   */
+  export interface AsProtobufJSON {
+    parentId: string;
   }
 }
 
@@ -30815,6 +31503,7 @@ export class Picture implements GrpcMessage {
     _instance.moderVoteVote = _instance.moderVoteVote || 0;
     _instance.moderVoteCount = _instance.moderVoteCount || 0;
     _instance.thumb = _instance.thumb || undefined;
+    _instance.path = _instance.path || [];
   }
 
   /**
@@ -30916,6 +31605,14 @@ export class Picture implements GrpcMessage {
             APIImage.deserializeBinaryFromReader
           );
           break;
+        case 23:
+          const messageInitializer23 = new PathTreePictureItem();
+          _reader.readMessage(
+            messageInitializer23,
+            PathTreePictureItem.deserializeBinaryFromReader
+          );
+          (_instance.path = _instance.path || []).push(messageInitializer23);
+          break;
         default:
           _reader.skipField();
       }
@@ -31016,6 +31713,13 @@ export class Picture implements GrpcMessage {
         APIImage.serializeBinaryToWriter
       );
     }
+    if (_instance.path && _instance.path.length) {
+      _writer.writeRepeatedMessage(
+        23,
+        _instance.path as any,
+        PathTreePictureItem.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -31040,6 +31744,7 @@ export class Picture implements GrpcMessage {
   private _moderVoteVote: number;
   private _moderVoteCount: number;
   private _thumb?: APIImage;
+  private _path?: PathTreePictureItem[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -31075,6 +31780,7 @@ export class Picture implements GrpcMessage {
     this.moderVoteVote = _value.moderVoteVote;
     this.moderVoteCount = _value.moderVoteCount;
     this.thumb = _value.thumb ? new APIImage(_value.thumb) : undefined;
+    this.path = (_value.path || []).map(m => new PathTreePictureItem(m));
     Picture.refineValues(this);
   }
   get id(): string {
@@ -31209,6 +31915,12 @@ export class Picture implements GrpcMessage {
   set thumb(value: APIImage | undefined) {
     this._thumb = value;
   }
+  get path(): PathTreePictureItem[] | undefined {
+    return this._path;
+  }
+  set path(value: PathTreePictureItem[] | undefined) {
+    this._path = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -31246,7 +31958,8 @@ export class Picture implements GrpcMessage {
       commentsCountNew: this.commentsCountNew,
       moderVoteVote: this.moderVoteVote,
       moderVoteCount: this.moderVoteCount,
-      thumb: this.thumb ? this.thumb.toObject() : undefined
+      thumb: this.thumb ? this.thumb.toObject() : undefined,
+      path: (this.path || []).map(m => m.toObject())
     };
   }
 
@@ -31293,7 +32006,8 @@ export class Picture implements GrpcMessage {
       commentsCountNew: this.commentsCountNew,
       moderVoteVote: this.moderVoteVote,
       moderVoteCount: this.moderVoteCount,
-      thumb: this.thumb ? this.thumb.toProtobufJSON(options) : null
+      thumb: this.thumb ? this.thumb.toProtobufJSON(options) : null,
+      path: (this.path || []).map(m => m.toProtobufJSON(options))
     };
   }
 }
@@ -31324,6 +32038,7 @@ export module Picture {
     moderVoteVote: number;
     moderVoteCount: number;
     thumb?: APIImage.AsObject;
+    path?: PathTreePictureItem.AsObject[];
   }
 
   /**
@@ -31352,6 +32067,7 @@ export module Picture {
     moderVoteVote: number;
     moderVoteCount: number;
     thumb: APIImage.AsProtobufJSON | null;
+    path: PathTreePictureItem.AsProtobufJSON[] | null;
   }
 }
 
