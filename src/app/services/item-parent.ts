@@ -4,11 +4,6 @@ import {Observable} from 'rxjs';
 import {APIPaginator, APIService} from './api.service';
 import {APIItem} from './item';
 
-export interface APIItemParentGetResponse {
-  items: APIItemParent[];
-  paginator: APIPaginator;
-}
-
 export interface APIItemParent {
   catname: string;
   expanded?: boolean;
@@ -26,13 +21,18 @@ export interface APIItemParentGetItemsOptions {
   exclude_concept?: boolean;
   fields?: string;
   is_group?: boolean;
-  item_id?: number | null;
+  item_id?: null | number;
   item_type_id?: number;
   limit: number;
   order?: string;
   page?: number;
   parent_id?: number;
-  type_id?: number | null;
+  type_id?: null | number;
+}
+
+export interface APIItemParentGetResponse {
+  items: APIItemParent[];
+  paginator: APIPaginator;
 }
 
 @Injectable({

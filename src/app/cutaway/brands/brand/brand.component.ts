@@ -70,6 +70,17 @@ export class CutawayBrandsBrandComponent implements OnInit {
     switchMap(([brand, params]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 12,
           options: new PicturesOptions({
             pictureItem: new PictureItemOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
@@ -77,19 +88,8 @@ export class CutawayBrandsBrandComponent implements OnInit {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 12,
-          page: parseInt(params.get('page') ?? '', 10),
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          page: parseInt(params.get('page') ?? '', 10),
           paginator: true,
         }),
       ),

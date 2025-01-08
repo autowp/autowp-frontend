@@ -2,7 +2,9 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, CommentsType, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY, Observable, of} from 'rxjs';
@@ -10,8 +12,6 @@ import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/opera
 
 import {CommentsComponent} from '../../../comments/comments/comments.component';
 import {TwinsItemComponent} from '../../item/item.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [TwinsItemComponent, MarkdownComponent, CommentsComponent, AsyncPipe],
@@ -39,14 +39,14 @@ export class TwinsGroupItemsComponent {
 
       return this.itemsClient.item(
         new ItemRequest({
-          id: group,
-          language: this.languageService.language,
           fields: new ItemFields({
-            nameText: true,
-            nameHtml: true,
             acceptedPicturesCount: true,
             hasChildSpecs: true,
+            nameHtml: true,
+            nameText: true,
           }),
+          id: group,
+          language: this.languageService.language,
         }),
       );
     }),
@@ -67,11 +67,11 @@ export class TwinsGroupItemsComponent {
     switchMap((groupId) =>
       groupId
         ? this.itemService.getItems$({
-            parent_id: +groupId,
             fields:
               'name_html,name_default,description,has_text,produced,design,engine_vehicles,url,can_edit_specs,' +
               'specs_route,categories.name_html,preview_pictures,total_pictures', // brands
             limit: 500,
+            parent_id: +groupId,
           })
         : EMPTY,
     ),

@@ -7,44 +7,6 @@ import {map, switchMap} from 'rxjs/operators';
 import {APIImage, APIPaginator, APIService} from './api.service';
 import {APIPicture} from './picture';
 
-export interface APIPathTreeItemParent {
-  catname: string;
-  item: APIPathTreeItem;
-}
-
-export interface APIPathTreeItem {
-  catname: string;
-  item_type_id: ItemType;
-  parents: APIPathTreeItemParent[];
-}
-
-export interface APIItemsGetResponse {
-  items: APIItem[];
-  paginator: APIPaginator;
-}
-
-export interface APIPathItem {
-  catname: string;
-  item: APIItem;
-  parent_id: number;
-}
-
-export interface APIItemsGetPathResponse {
-  path: APIPathItem[];
-}
-
-export interface APIItemChildsCounts {
-  sport: number;
-  stock: number;
-  tuning: number;
-}
-
-export interface APIItemOfDayPicture {
-  name: string;
-  route: string[];
-  thumb: APIImage;
-}
-
 export interface APIItem {
   accepted_pictures_count?: number;
   alt_names: {
@@ -145,14 +107,48 @@ export interface APIItem {
   twins_groups: APIItem[];
 }
 
-export interface ItemOfDayItem extends APIItem {
-  public_route?: string;
+export interface APIItemChildsCounts {
+  sport: number;
+  stock: number;
+  tuning: number;
+}
+
+export interface APIItemOfDayPicture {
+  name: string;
+  route: string[];
+  thumb: APIImage;
 }
 
 export interface APIItemRelatedGroupItem {
   name: string;
   route: string[];
   src: string;
+}
+
+export interface APIItemsGetPathResponse {
+  path: APIPathItem[];
+}
+
+export interface APIItemsGetResponse {
+  items: APIItem[];
+  paginator: APIPaginator;
+}
+
+export interface APIPathItem {
+  catname: string;
+  item: APIItem;
+  parent_id: number;
+}
+
+export interface APIPathTreeItem {
+  catname: string;
+  item_type_id: ItemType;
+  parents: APIPathTreeItemParent[];
+}
+
+export interface APIPathTreeItemParent {
+  catname: string;
+  item: APIPathTreeItem;
 }
 
 export interface GetItemServiceOptions {
@@ -203,6 +199,10 @@ export interface GetPathServiceOptions {
   [key: string]: string;
   catname: string;
   path: string;
+}
+
+export interface ItemOfDayItem extends APIItem {
+  public_route?: string;
 }
 
 export const allowedItemTypeCombinations: {

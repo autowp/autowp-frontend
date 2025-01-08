@@ -9,16 +9,16 @@ import {
   ItemParentType,
   PictureItemType,
 } from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {PictureItemMoveSelection} from '../move.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 interface ListItem {
-  row: ItemParent;
   expanded: boolean;
+  row: ItemParent;
 }
 
 @Component({
@@ -39,8 +39,8 @@ export class ModerPictureMoveItemComponent {
 
   @Input() set item(item: ItemParent) {
     this.item$.next({
-      row: item,
       expanded: false,
+      row: item,
     });
   }
   protected readonly item$ = new BehaviorSubject<ListItem | null>(null);
@@ -52,18 +52,18 @@ export class ModerPictureMoveItemComponent {
       item
         ? this.#itemsClient.getItemParents(
             new GetItemParentsRequest({
+              fields: new ItemParentFields({
+                item: new ItemFields({
+                  childsCount: true,
+                  nameHtml: true,
+                }),
+              }),
               language: this.#languageService.language,
+              limit: 500,
               options: new ItemParentListOptions({
                 parentId: item.row.itemId,
               }),
-              limit: 500,
               order: GetItemParentsRequest.Order.AUTO,
-              fields: new ItemParentFields({
-                item: new ItemFields({
-                  nameHtml: true,
-                  childsCount: true,
-                }),
-              }),
             }),
           )
         : EMPTY,

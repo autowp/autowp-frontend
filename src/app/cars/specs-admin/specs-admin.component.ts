@@ -118,8 +118,8 @@ export class CarsSpecsAdminComponent implements OnInit {
     this.attrsClient
       .moveUserValues(
         new MoveAttrUserValuesRequest({
-          srcItemId: itemID,
           destItemId: this.move.item_id,
+          srcItemId: itemID,
         }),
       )
       .subscribe({

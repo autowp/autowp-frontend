@@ -44,7 +44,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   @Input() set itemTypeID(value: ItemType) {
     this.itemTypeID$.next(value);
   }
-  protected readonly itemTypeID$ = new BehaviorSubject<null | ItemType>(null);
+  protected readonly itemTypeID$ = new BehaviorSubject<ItemType | null>(null);
 
   protected readonly page$ = this.route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
@@ -66,7 +66,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly catalogueBrands$: Observable<{brands: APIItem[][]; paginator?: Pages} | null> = this.brandID$.pipe(
+  protected readonly catalogueBrands$: Observable<null | {brands: APIItem[][]; paginator?: Pages}> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
@@ -111,16 +111,16 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         ? this.itemsClient.getItemParents(
             new GetItemParentsRequest({
               language: this.languageService.language,
-              options: new ItemParentListOptions({
-                parentId: brandID,
-                item: new ItemListOptions({
-                  typeId: itemTypeID ? itemTypeID : undefined,
-                  isGroup: true,
-                }),
-              }),
               limit: 100,
-              page,
+              options: new ItemParentListOptions({
+                item: new ItemListOptions({
+                  isGroup: true,
+                  typeId: itemTypeID ? itemTypeID : undefined,
+                }),
+                parentId: brandID,
+              }),
               order: GetItemParentsRequest.Order.AUTO,
+              page,
             }),
           )
         : of(null),

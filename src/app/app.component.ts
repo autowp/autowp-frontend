@@ -19,14 +19,14 @@ import {MessageService} from '@services/message';
 import {LayoutParams, PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
+import {KEYCLOAK_EVENT_SIGNAL, KeycloakEventType} from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 import {Observable} from 'rxjs';
 import {shareReplay} from 'rxjs/operators';
 
 import {MenuComponent} from './moder/menu/menu/menu.component';
 import {ContainerComponent} from './toasts/container/container.component';
 import {UsersOnlineComponent} from './users/online/online.component';
-import Keycloak from 'keycloak-js';
-import {KEYCLOAK_EVENT_SIGNAL, KeycloakEventType} from 'keycloak-angular';
 
 @Component({
   imports: [

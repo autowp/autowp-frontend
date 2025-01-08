@@ -19,20 +19,20 @@ interface Diff {
 }
 
 interface InfoText {
-  current: {
+  current: null | {
     revision: string;
     text: string;
     user$: Observable<APIUser | null>;
-  } | null;
+  };
   diff: Diff[];
-  next: {
+  next: null | {
     revision: string;
-  } | null;
-  prev: {
+  };
+  prev: null | {
     revision: string;
     text: string;
     user$: Observable<APIUser | null>;
-  } | null;
+  };
 }
 
 @Component({

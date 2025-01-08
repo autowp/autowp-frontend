@@ -20,15 +20,15 @@ import {APIPicture} from '@services/picture';
 import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
+export interface Breadcrumbs {
+  html: string;
+  routerLink: string[];
+}
+
 interface Parent {
   id: string;
   items: ItemParent[];
   path: string[];
-}
-
-export interface Breadcrumbs {
-  html: string;
-  routerLink: string[];
 }
 
 type ParentObservableFunc = () => OperatorFunction<null | Parent, null | Parent>;
@@ -64,7 +64,7 @@ export class CatalogueService {
   public resolveCatalogue$(
     route: ActivatedRoute,
     itemFields?: ItemFields,
-  ): Observable<{brand: APIItem; path: ItemParent[]; type: string} | null> {
+  ): Observable<null | {brand: APIItem; path: ItemParent[]; type: string}> {
     const pathPipeRecursive: ParentObservableFunc = () =>
       switchMap((parent: null | Parent) => {
         if (!parent?.id || parent.path.length <= 0) {
@@ -97,13 +97,13 @@ export class CatalogueService {
         return this.itemsClient
           .getItemParents(
             new GetItemParentsRequest({
+              fields: totalFields,
               language: this.languageService.language,
+              limit: 1,
               options: new ItemParentListOptions({
                 catname: parent.path[0],
                 parentId: parent.id,
               }),
-              limit: 1,
-              fields: totalFields,
             }),
           )
           .pipe(
@@ -225,8 +225,8 @@ export class CatalogueService {
               default:
                 return ['/', pictureItem.item.catname, 'other', picture.identity];
             }
-          case ItemType.ITEM_TYPE_VEHICLE:
           case ItemType.ITEM_TYPE_ENGINE:
+          case ItemType.ITEM_TYPE_VEHICLE:
             for (const parent of pictureItem.item.parents) {
               const path = this.pictureRouterLinkItem(parent);
               if (path) {
@@ -250,14 +250,14 @@ export const convertChildsCounts = (value: ChildsCount[]): APIItemChildsCounts =
   };
   value.forEach((v) => {
     switch (v.type) {
-      case ItemParentType.ITEM_TYPE_TUNING:
-        result.tuning = v.count;
+      case ItemParentType.ITEM_TYPE_DEFAULT:
+        result.stock = v.count;
         break;
       case ItemParentType.ITEM_TYPE_SPORT:
         result.sport = v.count;
         break;
-      case ItemParentType.ITEM_TYPE_DEFAULT:
-        result.stock = v.count;
+      case ItemParentType.ITEM_TYPE_TUNING:
+        result.tuning = v.count;
         break;
     }
   });

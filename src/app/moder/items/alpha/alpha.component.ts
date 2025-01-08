@@ -19,7 +19,7 @@ export interface APIItemAlphaGetResponse {
   selector: 'app-moder-items-alpha',
   templateUrl: './alpha.component.html',
 })
-export class ModerItemsAlphaComponent implements OnInit, OnDestroy {
+export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
   private readonly api = inject(APIService);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);

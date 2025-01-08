@@ -30,7 +30,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-moder-item-parent',
   templateUrl: './item-parent.component.html',
 })
-export class ModerItemParentComponent implements OnInit, OnDestroy {
+export class ModerItemParentComponent implements OnDestroy, OnInit {
   private readonly api = inject(APIService);
   private readonly ContentLanguage = inject(ContentLanguageService);
   private readonly route = inject(ActivatedRoute);
@@ -159,9 +159,9 @@ export class ModerItemParentComponent implements OnInit, OnDestroy {
     const promises: Observable<Empty | void>[] = [
       this.itemsClient.updateItemParent(
         new ItemParent({
+          catname: this.itemParent.catname,
           itemId: '' + this.itemParent.item_id,
           parentId: '' + this.itemParent.parent_id,
-          catname: this.itemParent.catname,
           type: this.itemParent.type_id,
         }),
       ),

@@ -4,17 +4,17 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
+  GetItemParentsRequest,
   APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
+  ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
   ItemRequest,
   ItemType,
   ListItemsRequest,
   Pages,
-  ItemParent,
-  GetItemParentsRequest,
-  ItemParentListOptions,
-  ItemParentFields,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -42,12 +42,12 @@ export class UploadSelectComponent implements OnInit {
   private readonly itemsClient = inject(ItemsClient);
   private readonly languageService = inject(LanguageService);
 
-  protected brand: {
+  protected brand: null | {
     concepts: ItemParent[];
     engines: ItemParent[];
     item: GRPCAPIItem;
     vehicles: ItemParent[];
-  } | null = null;
+  } = null;
   protected brands: APIItem[][] = [];
   protected paginator: Pages | undefined;
   protected search = '';
@@ -153,22 +153,22 @@ export class UploadSelectComponent implements OnInit {
       this.itemsClient
         .getItemParents(
           new GetItemParentsRequest({
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                childsCount: true,
+                nameHtml: true,
+              }),
+            }),
             language: this.languageService.language,
+            limit: 500,
             options: new ItemParentListOptions({
-              parentId: item.id,
               item: new ItemListOptions({
+                isNotConcept: true,
                 typeId: ItemType.ITEM_TYPE_VEHICLE,
-                isNotConcept: true,
               }),
+              parentId: item.id,
             }),
-            limit: 500,
             order: GetItemParentsRequest.Order.AUTO,
-            fields: new ItemParentFields({
-              item: new ItemFields({
-                nameHtml: true,
-                childsCount: true,
-              }),
-            }),
           }),
         )
         .pipe(
@@ -181,22 +181,22 @@ export class UploadSelectComponent implements OnInit {
       this.itemsClient
         .getItemParents(
           new GetItemParentsRequest({
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                childsCount: true,
+                nameHtml: true,
+              }),
+            }),
             language: this.languageService.language,
+            limit: 500,
             options: new ItemParentListOptions({
-              parentId: item.id,
               item: new ItemListOptions({
-                typeId: ItemType.ITEM_TYPE_ENGINE,
                 isNotConcept: true,
+                typeId: ItemType.ITEM_TYPE_ENGINE,
               }),
+              parentId: item.id,
             }),
-            limit: 500,
             order: GetItemParentsRequest.Order.AUTO,
-            fields: new ItemParentFields({
-              item: new ItemFields({
-                nameHtml: true,
-                childsCount: true,
-              }),
-            }),
           }),
         )
         .pipe(
@@ -209,21 +209,21 @@ export class UploadSelectComponent implements OnInit {
       this.itemsClient
         .getItemParents(
           new GetItemParentsRequest({
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                childsCount: true,
+                nameHtml: true,
+              }),
+            }),
             language: this.languageService.language,
+            limit: 500,
             options: new ItemParentListOptions({
-              parentId: item.id,
               item: new ItemListOptions({
                 isConcept: true,
               }),
+              parentId: item.id,
             }),
-            limit: 500,
             order: GetItemParentsRequest.Order.AUTO,
-            fields: new ItemParentFields({
-              item: new ItemFields({
-                nameHtml: true,
-                childsCount: true,
-              }),
-            }),
           }),
         )
         .pipe(

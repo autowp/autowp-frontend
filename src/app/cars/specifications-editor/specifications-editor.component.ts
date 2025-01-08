@@ -2,8 +2,10 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType, RefreshInheritanceRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
@@ -13,8 +15,6 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {CarsSpecificationsEditorEngineComponent} from './engine/engine.component';
 import {CarsSpecificationsEditorResultComponent} from './result/result.component';
 import {CarsSpecificationsEditorSpecComponent} from './spec/spec.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [
@@ -53,13 +53,13 @@ export class CarsSpecificationsEditorComponent {
         switchMap(() =>
           this.itemsClient.item(
             new ItemRequest({
-              language: this.languageService.language,
-              id: itemID,
               fields: new ItemFields({
+                attrZoneId: true,
                 nameHtml: true,
                 nameText: true,
-                attrZoneId: true,
               }),
+              id: itemID,
+              language: this.languageService.language,
             }),
           ),
         ),

@@ -30,14 +30,26 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} fro
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
+interface APISpecInItems extends Spec {
+  deep?: number;
+}
+
 interface APIVehicleTypeInItems {
   deep?: number;
   id: number;
   name: string;
 }
 
-interface APISpecInItems extends Spec {
-  deep?: number;
+function toPlainSpec(options: APISpecInItems[], deep: number): APISpecInItems[] {
+  const result: APISpecInItems[] = [];
+  for (const item of options) {
+    item.deep = deep;
+    result.push(item);
+    for (const subitem of toPlainSpec(item.childs ? item.childs : [], deep + 1)) {
+      result.push(subitem);
+    }
+  }
+  return result;
 }
 
 function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTypeInItems[] {
@@ -55,18 +67,6 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
   return result;
 }
 
-function toPlainSpec(options: APISpecInItems[], deep: number): APISpecInItems[] {
-  const result: APISpecInItems[] = [];
-  for (const item of options) {
-    item.deep = deep;
-    result.push(item);
-    for (const subitem of toPlainSpec(item.childs ? item.childs : [], deep + 1)) {
-      result.push(subitem);
-    }
-  }
-  return result;
-}
-
 const DEFAULT_ORDER = 'id_desc';
 
 @Component({
@@ -74,7 +74,7 @@ const DEFAULT_ORDER = 'id_desc';
   selector: 'app-items',
   templateUrl: './items.component.html',
 })
-export class ModerItemsComponent implements OnInit, OnDestroy {
+export class ModerItemsComponent implements OnDestroy, OnInit {
   private readonly vehicleTypeService = inject(VehicleTypeService);
   private readonly specService = inject(SpecService);
   private readonly itemService = inject(ItemService);

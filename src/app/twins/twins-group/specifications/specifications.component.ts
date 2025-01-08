@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, GetSpecificationsRequest, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {AttrsClient, ItemsClient} from '@grpc/spec.pbsc';
@@ -7,7 +8,6 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   imports: [AsyncPipe],

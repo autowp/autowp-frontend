@@ -2,8 +2,10 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
   CatalogueListItem,
@@ -15,8 +17,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
@@ -48,12 +48,12 @@ export class FactoryItemsComponent {
     switchMap((id) =>
       this.itemsClient.item(
         new ItemRequest({
-          language: this.languageService.language,
-          id,
           fields: new ItemFields({
-            nameText: true,
             nameHtml: true,
+            nameText: true,
           }),
+          id,
+          language: this.languageService.language,
         }),
       ),
     ),

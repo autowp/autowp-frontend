@@ -86,21 +86,21 @@ export class CarsEngineSelectComponent {
     switchMap(([brandID, page]) =>
       this.itemsClient.getItemParents(
         new GetItemParentsRequest({
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              childsCount: true,
+              nameHtml: true,
+            }),
+          }),
           language: this.languageService.language,
+          limit: 500,
           options: new ItemParentListOptions({
-            parentId: brandID,
             item: new ItemListOptions({
               typeId: ItemType.ITEM_TYPE_ENGINE,
             }),
+            parentId: brandID,
           }),
-          limit: 500,
           order: GetItemParentsRequest.Order.AUTO,
-          fields: new ItemParentFields({
-            item: new ItemFields({
-              nameHtml: true,
-              childsCount: true,
-            }),
-          }),
           page,
         }),
       ),
@@ -153,9 +153,9 @@ export class CarsEngineSelectComponent {
     this.itemsClient
       .setItemEngine(
         new SetItemEngineRequest({
-          itemId: itemID,
-          engineItemId: engineId,
           engineInherited: false,
+          engineItemId: engineId,
+          itemId: itemID,
         }),
       )
       .pipe(

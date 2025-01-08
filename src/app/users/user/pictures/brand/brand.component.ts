@@ -112,26 +112,26 @@ export class UsersUserPicturesBrandComponent {
     switchMap(([user, brand, page]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 30,
           options: new PicturesOptions({
-            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             ownerId: user.id,
             pictureItem: new PictureItemOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
             }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 30,
-          page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          page,
           paginator: true,
         }),
       ),

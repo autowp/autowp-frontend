@@ -2,8 +2,8 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
   GetPicturesRequest,
+  APIItem as GRPCAPIItem,
   ItemParent,
   ItemParentCacheListOptions,
   Pages,
@@ -13,21 +13,21 @@ import {
   PicturesOptions,
   PictureStatus,
 } from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-import {PicturesClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 import {chunkBy} from '../../../chunk';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
+import {ToastsService} from '../../../toasts/toasts.service';
 import {Breadcrumbs, CatalogueService, convertChildsCounts} from '../../catalogue-service';
 import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
-import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   imports: [
@@ -115,6 +115,17 @@ export class CatalogueVehiclesPicturesComponent {
     switchMap(([exact, item, page]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 20,
           options: new PicturesOptions({
             pictureItem: new PictureItemOptions({
               itemId: exact ? item.id : undefined,
@@ -122,19 +133,8 @@ export class CatalogueVehiclesPicturesComponent {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 20,
-          page: page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.PERSPECTIVES,
+          page: page,
           paginator: true,
         }),
       ),

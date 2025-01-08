@@ -27,6 +27,7 @@ import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {IpService} from '@services/ip';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
@@ -36,7 +37,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {MessageDialogService} from '../../message-dialog/message-dialog.service';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, NgbTooltip, UserComponent, FormsModule, AsyncPipe, DatePipe, TimeAgoPipe],
@@ -128,10 +128,10 @@ export class UsersUserComponent {
     switchMap((user) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
-          options: new PicturesOptions({ownerId: user.id}),
           fields: new PictureFields({nameHtml: true}),
-          limit: 12,
           language: this.#languageService.language,
+          limit: 12,
+          options: new PicturesOptions({ownerId: user.id}),
           order: GetPicturesRequest.Order.ADD_DATE_DESC,
           paginator: false,
         }),

@@ -12,13 +12,9 @@ import {
 import {RouterLink} from '@angular/router';
 import {NgMathPipesModule} from 'ngx-pipes';
 
-import {AreaComponent} from './area.component';
 import type {APIGalleryItem} from './definitions';
 
-interface Dimension {
-  height: number;
-  width: number;
-}
+import {AreaComponent} from './area.component';
 
 interface Bounds {
   height: number;
@@ -27,13 +23,9 @@ interface Bounds {
   width: number;
 }
 
-function boundCenter(container: Dimension, content: Dimension): Bounds {
-  return {
-    height: content.height,
-    left: (container.width - content.width) / 2,
-    top: (container.height - content.height) / 2,
-    width: content.width,
-  };
+interface Dimension {
+  height: number;
+  width: number;
 }
 
 function bound(container: Dimension, content: Dimension): Dimension {
@@ -53,6 +45,15 @@ function bound(container: Dimension, content: Dimension): Dimension {
   return {
     height,
     width,
+  };
+}
+
+function boundCenter(container: Dimension, content: Dimension): Bounds {
+  return {
+    height: content.height,
+    left: (container.width - content.width) / 2,
+    top: (container.height - content.height) / 2,
+    width: content.width,
   };
 }
 

@@ -1,7 +1,8 @@
+import type {APIPicture} from '@services/picture';
+
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import type {APIPicture} from '@services/picture';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
 // @ts-expect-error Legacy
@@ -19,7 +20,7 @@ interface JcropCrop {
   selector: 'app-upload-crop',
   templateUrl: './crop.component.html',
 })
-export class UploadCropComponent implements OnInit, OnDestroy {
+export class UploadCropComponent implements OnDestroy, OnInit {
   protected readonly activeModal = inject(NgbActiveModal);
 
   @Output() changed = new EventEmitter<void>();

@@ -92,9 +92,9 @@ export class LogComponent implements OnInit {
           this.#picturesClient
             .getPicture(
               new GetPicturesRequest({
-                options: new PicturesOptions({id: item}),
                 fields: new PictureFields({nameHtml: true}),
                 language: this.#languageService.language,
+                options: new PicturesOptions({id: item}),
               }),
             )
             .pipe(

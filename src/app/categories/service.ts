@@ -5,19 +5,19 @@ import {APIItem, APIPathItem, ItemService} from '@services/item';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
-export interface PathItem {
-  item: APIItem;
-  loaded: boolean;
-  parent_id: number;
-  routerLink: string[];
-}
-
 export interface CategoryPipeResult {
   category: APIItem | null;
   current: APIItem;
   path: APIPathItem[];
   pathCatnames: string[];
   pathItems: PathItem[];
+}
+
+export interface PathItem {
+  item: APIItem;
+  loaded: boolean;
+  parent_id: number;
+  routerLink: string[];
 }
 
 @Injectable({

@@ -9,15 +9,15 @@ export interface APIInbox {
     count: number;
     date: string;
   };
-  next: {
+  next: null | {
     count: number;
     date: string;
-  } | null;
+  };
   paginator: APIPaginator;
-  prev: {
+  prev: null | {
     count: number;
     date: string;
-  } | null;
+  };
 }
 
 @Injectable({

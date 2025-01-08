@@ -29,7 +29,7 @@ interface Crop {
   selector: 'app-moder-pictures-item-area',
   templateUrl: './area.component.html',
 })
-export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
+export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
@@ -50,7 +50,7 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
     y: 0,
   };
   private minSize = [50, 50];
-  protected picture: Picture | null = null;
+  protected picture: null | Picture = null;
   protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
 
   ngOnInit(): void {
@@ -71,8 +71,8 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
         switchMap((id) =>
           this.picturesClient.getPicture(
             new GetPicturesRequest({
-              options: new PicturesOptions({id}),
               fields: new PictureFields({image: true}),
+              options: new PicturesOptions({id}),
             }),
           ),
         ),
@@ -95,11 +95,11 @@ export class ModerPicturesItemAreaComponent implements OnInit, OnDestroy {
           this.itemID = data.params.item_id;
           this.type = data.params.type;
         }),
-        switchMap(({picture, params}) =>
+        switchMap(({params, picture}) =>
           this.picturesClient.getPictureItem(
             new GetPictureItemsRequest({
-              pictureId: picture.id,
               itemId: params.item_id,
+              pictureId: picture.id,
               type: params.type,
             }),
           ),

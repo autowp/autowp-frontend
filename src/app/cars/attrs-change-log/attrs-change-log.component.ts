@@ -41,7 +41,7 @@ interface AttrUserValueListItem {
   styleUrls: ['./attrs-change-log.component.scss'],
   templateUrl: './attrs-change-log.component.html',
 })
-export class CarsAttrsChangeLogComponent implements OnInit, OnDestroy {
+export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly acl = inject(ACLService);

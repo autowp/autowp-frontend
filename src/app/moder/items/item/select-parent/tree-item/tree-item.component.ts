@@ -8,13 +8,13 @@ import {
   ItemParentListOptions,
   ItemParentType,
 } from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
 import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [forwardRef(() => ModerItemsItemSelectParentTreeComponent), AsyncPipe],
@@ -52,10 +52,10 @@ export class ModerItemsItemSelectParentTreeItemComponent {
             new GetItemParentsRequest({
               language: this.#languageService.language,
               options: new ItemParentListOptions({
-                parentId: item.id,
                 item: new ItemListOptions({
                   isGroup: true,
                 }),
+                parentId: item.id,
               }),
               order,
             }),

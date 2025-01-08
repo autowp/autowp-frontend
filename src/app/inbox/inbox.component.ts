@@ -2,17 +2,7 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {AuthService} from '@services/auth.service';
-import {LanguageService} from '@services/language';
-import {PageEnvService} from '@services/page-env.service';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-
-import {PaginatorComponent} from '../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
-import {ToastsService} from '../toasts/toasts.service';
-import {APIInbox, InboxService} from './inbox.service';
-import Keycloak from 'keycloak-js';
+import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
   GetPicturesRequest,
   GetPicturesResponse,
@@ -22,8 +12,18 @@ import {
   PicturesOptions,
   PictureStatus,
 } from '@grpc/spec.pb';
-import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
+import {AuthService} from '@services/auth.service';
+import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import Keycloak from 'keycloak-js';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+
+import {PaginatorComponent} from '../paginator/paginator/paginator.component';
+import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
+import {ToastsService} from '../toasts/toasts.service';
+import {APIInbox, InboxService} from './inbox.service';
 
 const ALL_BRANDS = 'all';
 
@@ -39,7 +39,7 @@ const parseDate = (date: string): GrpcDate => {
   const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
   const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
 
-  return new GrpcDate({year, month, day});
+  return new GrpcDate({day, month, year});
 };
 
 @Component({
@@ -115,26 +115,26 @@ export class InboxComponent implements OnInit {
           switchMap((page) =>
             this.#picturesClient.getPictures(
               new GetPicturesRequest({
+                fields: new PictureFields({
+                  commentsCount: true,
+                  moderVote: true,
+                  nameHtml: true,
+                  nameText: true,
+                  thumbMedium: true,
+                  views: true,
+                  votes: true,
+                }),
+                language: this.#languageService.language,
+                limit: 24,
                 options: new PicturesOptions({
                   addDate: parseDate(inbox.current.date),
-                  status: PictureStatus.PICTURE_STATUS_INBOX,
                   pictureItem: new PictureItemOptions({
                     itemParentCacheAncestor: brandID
                       ? new ItemParentCacheListOptions({parentId: '' + brandID})
                       : undefined,
                   }),
+                  status: PictureStatus.PICTURE_STATUS_INBOX,
                 }),
-                fields: new PictureFields({
-                  thumbMedium: true,
-                  nameText: true,
-                  nameHtml: true,
-                  votes: true,
-                  views: true,
-                  commentsCount: true,
-                  moderVote: true,
-                }),
-                limit: 24,
-                language: this.#languageService.language,
                 order: GetPicturesRequest.Order.ADD_DATE_DESC,
                 page,
                 paginator: true,

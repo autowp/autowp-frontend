@@ -1,10 +1,11 @@
+import type {APIItem} from '@services/item';
+
 import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
-import type {APIItem} from '@services/item';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY} from 'rxjs';
@@ -25,13 +26,13 @@ export class ModerItemsItemLogoComponent {
   @Input() item?: APIItem;
 
   protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
-  protected progress: {
+  protected progress: null | {
     failed: boolean;
     filename: string;
     invalidParams: InvalidParams;
     percentage: number;
     success: boolean;
-  } | null = null;
+  } = null;
 
   protected onChange(event: Event) {
     const files = (event.target as HTMLInputElement).files;

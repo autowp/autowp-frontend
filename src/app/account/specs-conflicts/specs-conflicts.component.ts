@@ -25,17 +25,17 @@ import {APIAttrsService} from '../../api/attrs/attrs.service';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {UserComponent} from '../../user/user/user.component';
 
-interface APIAttrConflictValueInList {
-  user$: Observable<APIUser | null>;
-  value: AttrConflictValue;
-}
-
 interface APIAttrConflictInList {
   attribute$: Observable<AttrAttribute | undefined>;
   conflict: AttrConflict;
   item$: Observable<APIItem | null>;
   unitName$: Observable<null | string>;
   values: APIAttrConflictValueInList[];
+}
+
+interface APIAttrConflictValueInList {
+  user$: Observable<APIUser | null>;
+  value: AttrConflictValue;
 }
 
 function mapFilter(filter: null | string): AttrConflictsRequest.Filter {

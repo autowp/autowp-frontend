@@ -15,7 +15,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   selector: 'app-comments-form',
   templateUrl: './form.component.html',
 })
-export class CommentsFormComponent implements OnInit, OnDestroy {
+export class CommentsFormComponent implements OnDestroy, OnInit {
   private readonly comments = inject(CommentsClient);
   private readonly toastService = inject(ToastsService);
 

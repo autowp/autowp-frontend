@@ -10,22 +10,16 @@ import {APIPicture} from '@services/picture';
 import {ItemHeaderComponent} from '../item-header/item-header.component';
 import {MarkdownComponent} from '../markdown/markdown.component';
 
-export interface CatalogueListItemPicture {
-  picture: APIPicture | null;
-  routerLink?: string[];
-  thumb?: APIImage | null;
-}
-
 export interface CatalogueListItem {
   accepted_pictures_count: number | undefined;
   can_edit_specs: boolean | undefined;
   categories?: APIItem[];
   childs_counts: APIItemChildsCounts | null;
   description: null | string;
-  design: {
+  design: null | {
     name: string;
     route: string[];
-  } | null;
+  };
   details: {
     count: number;
     routerLink: string[];
@@ -50,6 +44,12 @@ export interface CatalogueListItem {
   produced_exactly: boolean | null;
   specsRouterLink: null | string[];
   twins_groups?: APIItem[];
+}
+
+export interface CatalogueListItemPicture {
+  picture: APIPicture | null;
+  routerLink?: string[];
+  thumb?: APIImage | null;
 }
 
 @Component({

@@ -8,7 +8,7 @@ const is = (interval: number, cycle: number) => (Math.abs(cycle) >= interval ? M
   pure: false,
   standalone: true,
 })
-export class TimeAgoPipe implements PipeTransform, OnDestroy {
+export class TimeAgoPipe implements OnDestroy, PipeTransform {
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly ngZone = inject(NgZone);
   private readonly languageService = inject(LanguageService);

@@ -3,15 +3,15 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
+  GetItemParentsRequest,
+  GetItemParentsResponse,
   ItemFields,
   ItemListOptions,
+  ItemParent,
+  ItemParentCacheListOptions,
+  ItemParentListOptions,
   ListItemsRequest,
   Pages,
-  ItemParent,
-  GetItemParentsRequest,
-  ItemParentListOptions,
-  GetItemParentsResponse,
-  ItemParentCacheListOptions,
 } from '@grpc/spec.pb';
 import {ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -29,7 +29,7 @@ import {DonateVodSelectItemComponent} from './item/item.component';
   selector: 'app-donate-vod-select',
   templateUrl: './select.component.html',
 })
-export class DonateVodSelectComponent implements OnInit, OnDestroy {
+export class DonateVodSelectComponent implements OnDestroy, OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
   private readonly itemsClient = inject(ItemsClient);
@@ -45,14 +45,14 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
   protected loading = 0;
   protected conceptsExpanded = false;
 
-  private readonly select$: Observable<{
-    brand: {
+  private readonly select$: Observable<null | {
+    brand: null | {
       brand: APIItem;
       concepts: GetItemParentsResponse;
       vehicles: GetItemParentsResponse;
-    } | null;
+    };
     items: APIItemList | null;
-  } | null> = this.route.queryParamMap.pipe(
+  }> = this.route.queryParamMap.pipe(
     map((params) => ({
       anonymous: !!params.get('anonymous'),
       brand_id: parseInt(params.get('brand_id') ?? '', 10),
@@ -87,10 +87,10 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                     new GetItemParentsRequest({
                       language: this.languageService.language,
                       options: new ItemParentListOptions({
-                        parentId: brand.id,
                         item: new ItemListOptions({
                           typeId: ItemType.ITEM_TYPE_VEHICLE,
                         }),
+                        parentId: brand.id,
                       }),
                       order: GetItemParentsRequest.Order.AUTO,
                     }),
@@ -99,14 +99,14 @@ export class DonateVodSelectComponent implements OnInit, OnDestroy {
                     new GetItemParentsRequest({
                       language: this.languageService.language,
                       options: new ItemParentListOptions({
-                        parentId: brand.id,
                         item: new ItemListOptions({
-                          typeId: ItemType.ITEM_TYPE_VEHICLE,
                           isConcept: true,
+                          typeId: ItemType.ITEM_TYPE_VEHICLE,
                         }),
                         itemParentCacheItemByChild: new ItemParentCacheListOptions({
                           parentId: brand.id,
                         }),
+                        parentId: brand.id,
                       }),
                       order: GetItemParentsRequest.Order.AUTO,
                     }),

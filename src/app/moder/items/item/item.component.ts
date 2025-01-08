@@ -1,6 +1,17 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {
+  GetPicturesRequest,
+  ItemParentCacheListOptions,
+  Picture,
+  PictureFields,
+  PictureItemOptions,
+  PicturesOptions,
+  SetUserItemSubscriptionRequest,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
@@ -18,27 +29,16 @@ import {ModerItemsItemNameComponent} from './name/name.component';
 import {ModerItemsItemPicturesComponent} from './pictures/pictures.component';
 import {ModerItemsItemTreeComponent} from './tree/tree.component';
 import {ModerItemsItemVehiclesComponent} from './vehicles/vehicles.component';
-import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
-import {
-  GetPicturesRequest,
-  ItemParentCacheListOptions,
-  Picture,
-  PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
-  SetUserItemSubscriptionRequest,
-} from '@grpc/spec.pb';
-import {GrpcStatusEvent} from '@ngx-grpc/common';
+
+export interface APIItemTreeGetResponse {
+  item: APIItemTreeItem;
+}
 
 export interface APIItemTreeItem {
   childs: APIItemTreeItem[];
   id: number;
   name: string;
   type: number;
-}
-
-export interface APIItemTreeGetResponse {
-  item: APIItemTreeItem;
 }
 
 interface Tab {
@@ -63,7 +63,7 @@ interface Tab {
   selector: 'app-moder-items-item',
   templateUrl: './item.component.html',
 })
-export class ModerItemsItemComponent implements OnInit, OnDestroy {
+export class ModerItemsItemComponent implements OnDestroy, OnInit {
   private readonly api = inject(APIService);
   private readonly acl = inject(ACLService);
   private readonly itemService = inject(ItemService);
@@ -83,7 +83,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
 
   protected tree?: APIItemTreeItem;
 
-  protected randomPicture: Picture | null = null;
+  protected randomPicture: null | Picture = null;
 
   protected readonly metaTab: Tab = {
     count: 0,
@@ -207,6 +207,8 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
           return this.#picturesClient
             .getPicture(
               new GetPicturesRequest({
+                fields: new PictureFields({thumbMedium: true}),
+                limit: 1,
                 options: new PicturesOptions({
                   pictureItem: new PictureItemOptions({
                     itemParentCacheAncestor: new ItemParentCacheListOptions({
@@ -214,9 +216,7 @@ export class ModerItemsItemComponent implements OnInit, OnDestroy {
                     }),
                   }),
                 }),
-                fields: new PictureFields({thumbMedium: true}),
                 order: GetPicturesRequest.Order.ADD_DATE_DESC,
-                limit: 1,
               }),
             )
             .pipe(

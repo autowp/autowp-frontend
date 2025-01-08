@@ -861,6 +861,30 @@ const catalogueSection: {
   Other: $localize`Other`,
 };
 
+export function getAttrDescriptionTranslation(id: string): string {
+  return attrDescriptions[id] ?? id;
+}
+
+export function getAttrListOptionsTranslation(id: string): string {
+  return attrListOptions[id] ?? id;
+}
+
+export function getAttrsTranslation(id: string): string {
+  return attrs[id] ?? id;
+}
+
+export function getCatalogueSectionsTranslation(id: string): string {
+  return catalogueSection[id] ?? id;
+}
+
+export function getForumsThemeDescriptionTranslation(id: string): string {
+  return themesDescription[id] ?? id;
+}
+
+export function getForumsThemeTranslation(id: string): string {
+  return themes[id] ?? id;
+}
+
 export function getItemTypeTranslation(id: number, type: string): string {
   const translation = translations[id];
   if (!translation) {
@@ -876,6 +900,22 @@ export function getItemTypeTranslation(id: number, type: string): string {
   return '-';
 }
 
+export function getMostsPeriodsTranslation(id: string): string {
+  return mostsPeriods[id] ?? id;
+}
+
+export function getMostsRatingParamsTranslation(id: string): string {
+  return mostsRatingsParam[id] ?? id;
+}
+
+export function getMostsRatingsTranslation(id: string): string {
+  return mostsRatings[id] ?? id;
+}
+
+export function getPerspectiveTranslation(id: string): string {
+  return prespectives[id] ?? id;
+}
+
 export function getUnitAbbrTranslation(id: string): string {
   return units[id]?.abbr ?? id;
 }
@@ -884,50 +924,10 @@ export function getUnitNameTranslation(id: string): string {
   return units[id]?.name ?? id;
 }
 
-export function getForumsThemeTranslation(id: string): string {
-  return themes[id] ?? id;
-}
-
-export function getForumsThemeDescriptionTranslation(id: string): string {
-  return themesDescription[id] ?? id;
-}
-
-export function getPerspectiveTranslation(id: string): string {
-  return prespectives[id] ?? id;
-}
-
-export function getVehicleTypeTranslation(id: string): string {
-  return vehicleTypes[id] ?? id;
-}
-
 export function getVehicleTypeRpTranslation(id: string): string {
   return vehicleTypesRp[id] ?? id;
 }
 
-export function getAttrsTranslation(id: string): string {
-  return attrs[id] ?? id;
-}
-
-export function getAttrListOptionsTranslation(id: string): string {
-  return attrListOptions[id] ?? id;
-}
-
-export function getAttrDescriptionTranslation(id: string): string {
-  return attrDescriptions[id] ?? id;
-}
-
-export function getMostsRatingsTranslation(id: string): string {
-  return mostsRatings[id] ?? id;
-}
-
-export function getMostsRatingParamsTranslation(id: string): string {
-  return mostsRatingsParam[id] ?? id;
-}
-
-export function getMostsPeriodsTranslation(id: string): string {
-  return mostsPeriods[id] ?? id;
-}
-
-export function getCatalogueSectionsTranslation(id: string): string {
-  return catalogueSection[id] ?? id;
+export function getVehicleTypeTranslation(id: string): string {
+  return vehicleTypes[id] ?? id;
 }

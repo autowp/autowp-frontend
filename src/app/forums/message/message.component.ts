@@ -13,7 +13,7 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   standalone: true,
   template: '<h2>Redirecting …</h2>',
 })
-export class MessageComponent implements OnInit, OnDestroy {
+export class MessageComponent implements OnDestroy, OnInit {
   private readonly router = inject(Router);
   private readonly commentsClient = inject(CommentsClient);
   private readonly route = inject(ActivatedRoute);

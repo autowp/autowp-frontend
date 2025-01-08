@@ -9,12 +9,12 @@ import {ContactsService} from '@services/contacts';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
+import Keycloak from 'keycloak-js';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
-import Keycloak from 'keycloak-js';
 
 @Component({
   imports: [RouterLink, UserComponent, NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],

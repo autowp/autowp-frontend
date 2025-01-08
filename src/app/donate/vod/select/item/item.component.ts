@@ -61,10 +61,10 @@ export class DonateVodSelectItemComponent {
             new GetItemParentsRequest({
               language: this.languageService.language,
               options: new ItemParentListOptions({
-                parentId: itemParent.itemId,
                 item: new ItemListOptions({
                   typeId: ItemType.ITEM_TYPE_VEHICLE,
                 }),
+                parentId: itemParent.itemId,
               }),
               order: GetItemParentsRequest.Order.AUTO,
             }),

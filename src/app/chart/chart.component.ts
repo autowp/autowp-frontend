@@ -7,6 +7,16 @@ import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-c
 
 import {ToastsService} from '../toasts/toasts.service';
 
+export interface APIChartData {
+  datasets: APIChartDataset[];
+  years: number[];
+}
+
+export interface APIChartDataset {
+  name: string;
+  values: number[];
+}
+
 export interface APIChartParameter {
   active: boolean;
   id: number;
@@ -15,16 +25,6 @@ export interface APIChartParameter {
 
 export interface APIChartParameters {
   parameters: APIChartParameter[];
-}
-
-export interface APIChartDataset {
-  name: string;
-  values: number[];
-}
-
-export interface APIChartData {
-  datasets: APIChartDataset[];
-  years: number[];
 }
 
 @Component({

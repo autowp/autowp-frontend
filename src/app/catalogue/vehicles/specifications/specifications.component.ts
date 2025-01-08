@@ -1,15 +1,15 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, GetSpecificationsRequest, ItemFields} from '@grpc/spec.pb';
+import {AttrsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CatalogueService} from '../../catalogue-service';
-import {AttrsClient} from '@grpc/spec.pbsc';
-import {DomSanitizer} from '@angular/platform-browser';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, AsyncPipe],
@@ -29,8 +29,8 @@ export class CatalogueVehiclesSpecificationsComponent {
     .resolveCatalogue$(
       this.route,
       new ItemFields({
-        hasSpecs: true,
         hasChildSpecs: true,
+        hasSpecs: true,
       }),
     )
     .pipe(

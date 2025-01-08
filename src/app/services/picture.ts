@@ -18,15 +18,44 @@ import {AuthService} from './auth.service';
 import {APIItem, APIPathTreeItem} from './item';
 import {APIPictureItem} from './picture-item';
 
-export interface APIPictureGetResponse {
-  paginator: APIPaginator;
-  pictures: APIPicture[];
+export interface APIGetPictureOptions {
+  fields?: string;
 }
 
-export interface APIPictureVotes {
-  negative: number;
-  positive: number;
-  value: number;
+export interface APIGetPicturesOptions {
+  added_from?: string;
+  car_type_id?: number;
+  comments?: boolean | null;
+  exact_item_id?: number;
+  exact_item_link_type?: number;
+  exclude_item_id?: number;
+  fields?: string;
+  gps?: boolean | null;
+  identity?: string;
+  item_id?: number;
+  items?: {
+    type_id?: number;
+  };
+  limit?: number;
+  lost?: boolean | null;
+  order?: number;
+  owner_id?: string;
+  page?: number;
+  paginator?: {
+    exact?: boolean;
+    exact_item_id?: number;
+    exact_item_link_type?: number;
+    item_id?: number;
+    perspective_exclude_id?: string;
+    perspective_id?: number;
+  };
+  perspective_exclude_id?: string;
+  perspective_id?: 'null' | null | number;
+  replace?: boolean | null;
+  requests?: null | number;
+  similar?: boolean;
+  special_name?: boolean | null;
+  status?: string;
 }
 
 export interface APIPathTreePictureItem {
@@ -139,6 +168,17 @@ export interface APIPicture {
   width: number;
 }
 
+export interface APIPictureGetResponse {
+  paginator: APIPaginator;
+  pictures: APIPicture[];
+}
+
+export interface APIPictureModerVote {
+  reason: string;
+  user_id: number;
+  vote: number;
+}
+
 export interface APIPicturePaginator {
   current: string;
   currentItemCount: number;
@@ -159,64 +199,10 @@ export interface APIPicturePaginator {
   totalItemCount: number;
 }
 
-export interface APIPictureModerVote {
-  reason: string;
-  user_id: number;
-  vote: number;
-}
-
-export interface APIGetPictureOptions {
-  fields?: string;
-}
-
-export interface APIGetPicturesOptions {
-  added_from?: string;
-  car_type_id?: number;
-  comments?: boolean | null;
-  exact_item_id?: number;
-  exact_item_link_type?: number;
-  exclude_item_id?: number;
-  fields?: string;
-  gps?: boolean | null;
-  identity?: string;
-  item_id?: number;
-  items?: {
-    type_id?: number;
-  };
-  limit?: number;
-  lost?: boolean | null;
-  order?: number;
-  owner_id?: string;
-  page?: number;
-  paginator?: {
-    exact?: boolean;
-    exact_item_id?: number;
-    exact_item_link_type?: number;
-    item_id?: number;
-    perspective_exclude_id?: string;
-    perspective_id?: number;
-  };
-  perspective_exclude_id?: string;
-  perspective_id?: 'null' | null | number;
-  replace?: boolean | null;
-  requests?: null | number;
-  similar?: boolean;
-  special_name?: boolean | null;
-  status?: string;
-}
-
-function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
-  const params: {[param: string]: string} = {};
-
-  if (!options) {
-    options = {};
-  }
-
-  if (options.fields) {
-    params['fields'] = options.fields;
-  }
-
-  return params;
+export interface APIPictureVotes {
+  negative: number;
+  positive: number;
+  value: number;
 }
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -337,6 +323,20 @@ function converPicturesOptions(options: APIGetPicturesOptions): {[param: string]
   return params;
 }
 
+function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
+  const params: {[param: string]: string} = {};
+
+  if (!options) {
+    options = {};
+  }
+
+  if (options.fields) {
+    params['fields'] = options.fields;
+  }
+
+  return params;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -365,11 +365,11 @@ export class PictureService {
       return this.picturesClient
         .getPictures(
           new GetPicturesRequest({
+            limit: 0,
             options: new PicturesOptions({
               status: PictureStatus.PICTURE_STATUS_INBOX,
             }),
             paginator: true,
-            limit: 0,
           }),
         )
         .pipe(map((response) => response.paginator?.totalItemCount || null));

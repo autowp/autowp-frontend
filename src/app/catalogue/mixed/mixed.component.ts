@@ -23,8 +23,8 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {chunkBy} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
-import {BrandPerspectivePageData} from '../catalogue.module';
 import {ToastsService} from '../../toasts/toasts.service';
+import {BrandPerspectivePageData} from '../catalogue.module';
 
 @Component({
   imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
@@ -102,27 +102,27 @@ export class CatalogueMixedComponent {
     switchMap(([page, brand, data]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 12,
           options: new PicturesOptions({
             pictureItem: new PictureItemOptions({
+              excludePerspectiveId: data.perspective_exclude_id ? [+data.perspective_exclude_id] : undefined,
               itemId: brand.id,
               perspectiveId: data.perspective_id,
-              excludePerspectiveId: data.perspective_exclude_id ? [+data.perspective_exclude_id] : undefined,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 12,
-          page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.RESOLUTION_DESC,
+          page,
           paginator: true,
         }),
       ),

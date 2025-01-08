@@ -1,12 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {EMPTY, Observable, of} from 'rxjs';
-import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
-
-import {TwinsSidebarComponent} from '../sidebar.component';
-import {ItemsClient} from '@grpc/spec.pbsc';
 import {
   APIItem,
   ItemFields,
@@ -16,7 +10,13 @@ import {
   ItemType,
   ListItemsRequest,
 } from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import {EMPTY, Observable, of} from 'rxjs';
+import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+
+import {TwinsSidebarComponent} from '../sidebar.component';
 
 @Component({
   imports: [RouterLink, RouterLinkActive, RouterOutlet, TwinsSidebarComponent, AsyncPipe],
@@ -37,14 +37,14 @@ export class TwinsGroupComponent {
       group
         ? this.itemsClient.item(
             new ItemRequest({
-              id: group,
-              language: this.languageService.language,
               fields: new ItemFields({
-                nameText: true,
-                nameHtml: true,
                 acceptedPicturesCount: true,
                 hasChildSpecs: true,
+                nameHtml: true,
+                nameText: true,
               }),
+              id: group,
+              language: this.languageService.language,
             }),
           )
         : EMPTY,
@@ -76,12 +76,12 @@ export class TwinsGroupComponent {
       this.itemsClient.list(
         new ListItemsRequest({
           options: new ItemListOptions({
-            typeId: ItemType.ITEM_TYPE_BRAND,
             child: new ItemParentListOptions({
               itemParentParentByChild: new ItemParentListOptions({
                 parentId: group.id,
               }),
             }),
+            typeId: ItemType.ITEM_TYPE_BRAND,
           }),
         }),
       ),

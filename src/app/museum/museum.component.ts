@@ -17,6 +17,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {icon, latLng, marker, tileLayer} from 'leaflet';
@@ -26,7 +27,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {CommentsComponent} from '../comments/comments/comments.component';
 import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../toasts/toasts.service';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, LeafletModule, MarkdownComponent, Thumbnail2Component, CommentsComponent, AsyncPipe],
@@ -64,23 +64,23 @@ export class MuseumComponent {
     switchMap((itemID) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 20,
           options: new PicturesOptions({
-            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             pictureItem: new PictureItemOptions({
               itemId: itemID,
             }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 20,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.LIKES,
           paginator: false,
         }),
@@ -96,14 +96,14 @@ export class MuseumComponent {
     switchMap((id) =>
       this.itemsClient.item(
         new ItemRequest({
-          language: this.#languageService.language,
-          id,
           fields: new ItemFields({
-            nameText: true,
-            nameHtml: true,
-            location: true,
             description: true,
+            location: true,
+            nameHtml: true,
+            nameText: true,
           }),
+          id,
+          language: this.#languageService.language,
         }),
       ),
     ),

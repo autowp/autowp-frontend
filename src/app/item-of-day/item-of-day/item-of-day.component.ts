@@ -36,10 +36,10 @@ export class ItemOfDayComponent {
   }
   @Input() public user$?: Observable<APIUser | null>;
 
-  protected itemOfDayPictures$?: Observable<{
+  protected itemOfDayPictures$?: Observable<null | {
     first: APIItemOfDayPicture[];
     others: APIItemOfDayPicture[];
-  } | null>;
+  }>;
 
   protected readonly ItemType = ItemType;
 }

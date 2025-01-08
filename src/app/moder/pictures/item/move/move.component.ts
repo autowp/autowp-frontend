@@ -36,10 +36,9 @@ export interface PictureItemMoveSelection {
   type: PictureItemType;
 }
 
-interface SrcSelection {
-  id: number;
-  srcItemID: number;
-  srcType: PictureItemType;
+interface HtmlAndSelectItemParams {
+  html: string;
+  selection: SelectItemParams;
 }
 
 interface SelectItemParams {
@@ -47,9 +46,10 @@ interface SelectItemParams {
   src: SrcSelection;
 }
 
-interface HtmlAndSelectItemParams {
-  html: string;
-  selection: SelectItemParams;
+interface SrcSelection {
+  id: number;
+  srcItemID: number;
+  srcType: PictureItemType;
 }
 
 @Component({
@@ -294,21 +294,21 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     switchMap((brandID) =>
       this.itemsClient.getItemParents(
         new GetItemParentsRequest({
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              childsCount: true,
+              nameHtml: true,
+            }),
+          }),
           language: this.languageService.language,
+          limit: 500,
           options: new ItemParentListOptions({
-            parentId: brandID ? brandID : undefined,
             item: new ItemListOptions({
               typeId: ItemType.ITEM_TYPE_VEHICLE,
             }),
+            parentId: brandID ? brandID : undefined,
           }),
-          limit: 500,
           order: GetItemParentsRequest.Order.AUTO,
-          fields: new ItemParentFields({
-            item: new ItemFields({
-              nameHtml: true,
-              childsCount: true,
-            }),
-          }),
         }),
       ),
     ),
@@ -319,21 +319,21 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     switchMap((brandID) =>
       this.itemsClient.getItemParents(
         new GetItemParentsRequest({
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              childsCount: true,
+              nameHtml: true,
+            }),
+          }),
           language: this.languageService.language,
+          limit: 500,
           options: new ItemParentListOptions({
-            parentId: brandID ? brandID : undefined,
             item: new ItemListOptions({
               typeId: ItemType.ITEM_TYPE_ENGINE,
             }),
+            parentId: brandID ? brandID : undefined,
           }),
-          limit: 500,
           order: GetItemParentsRequest.Order.AUTO,
-          fields: new ItemParentFields({
-            item: new ItemFields({
-              nameHtml: true,
-              childsCount: true,
-            }),
-          }),
         }),
       ),
     ),

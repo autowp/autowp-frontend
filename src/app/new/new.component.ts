@@ -14,12 +14,12 @@ import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {NewListItemComponent} from './list-item/list-item.component';
 
-interface APINewGroupRepacked {
-  chunks?: APIPicture[][];
-  item?: APIItem;
-  pictures?: APIPicture[];
-  total_pictures?: number;
-  type: string;
+interface APINewGetResponse {
+  current: DayCount;
+  groups: APINewGroup[];
+  next: DayCount;
+  paginator: APIPaginator;
+  prev: DayCount;
 }
 
 interface APINewGroup {
@@ -29,17 +29,17 @@ interface APINewGroup {
   type: string;
 }
 
+interface APINewGroupRepacked {
+  chunks?: APIPicture[][];
+  item?: APIItem;
+  pictures?: APIPicture[];
+  total_pictures?: number;
+  type: string;
+}
+
 interface DayCount {
   count: number;
   date: string;
-}
-
-interface APINewGetResponse {
-  current: DayCount;
-  groups: APINewGroup[];
-  next: DayCount;
-  paginator: APIPaginator;
-  prev: DayCount;
 }
 
 @Component({

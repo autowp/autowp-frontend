@@ -53,7 +53,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly twinsBrands$: Observable<{brands: APIItem[][]; paginator?: Pages} | null> = this.brandID$.pipe(
+  protected readonly twinsBrands$: Observable<null | {brands: APIItem[][]; paginator?: Pages}> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? of(null)
@@ -91,7 +91,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
     ),
   );
 
-  protected readonly twins$: Observable<{items?: APIItem[]; paginator?: Pages} | null> = this.brandID$.pipe(
+  protected readonly twins$: Observable<null | {items?: APIItem[]; paginator?: Pages}> = this.brandID$.pipe(
     switchMap((brandID) =>
       brandID
         ? this.page$.pipe(

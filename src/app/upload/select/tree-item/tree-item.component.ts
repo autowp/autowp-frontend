@@ -1,11 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
-
-import {ToastsService} from '../../../toasts/toasts.service';
-import {ItemsClient} from '@grpc/spec.pbsc';
 import {
   GetItemParentsRequest,
   ItemFields,
@@ -14,7 +9,12 @@ import {
   ItemParentListOptions,
   ItemParentType,
 } from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+
+import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
   imports: [RouterLink, AsyncPipe],
@@ -38,18 +38,18 @@ export class UploadSelectTreeItemComponent {
       item
         ? this.#itemsClient.getItemParents(
             new GetItemParentsRequest({
+              fields: new ItemParentFields({
+                item: new ItemFields({
+                  childsCount: true,
+                  nameHtml: true,
+                }),
+              }),
               language: this.#languageService.language,
+              limit: 500,
               options: new ItemParentListOptions({
                 parentId: item.itemId,
               }),
-              limit: 500,
               order: GetItemParentsRequest.Order.AUTO,
-              fields: new ItemParentFields({
-                item: new ItemFields({
-                  nameHtml: true,
-                  childsCount: true,
-                }),
-              }),
             }),
           )
         : EMPTY,

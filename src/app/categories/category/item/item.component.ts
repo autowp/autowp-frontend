@@ -2,20 +2,20 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {GetPicturesRequest, ItemType, Picture, PictureFields, PictureItemOptions, PicturesOptions} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {ToastsService} from '../../../toasts/toasts.service';
 import {CategoriesListItemComponent} from '../../list-item.component';
 import {CategoriesService} from '../../service';
-import {PicturesClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
-import {ToastsService} from '../../../toasts/toasts.service';
 
 interface PictureRoute {
   picture: Picture;
@@ -105,14 +105,14 @@ export class CategoriesCategoryItemComponent {
       return this.#picturesClient
         .getPictures(
           new GetPicturesRequest({
+            fields: new PictureFields({nameText: true, thumbMedium: true}),
+            language: this.#languageService.language,
+            limit: 4,
             options: new PicturesOptions({
               pictureItem: new PictureItemOptions({
                 itemId: '' + current.id,
               }),
             }),
-            fields: new PictureFields({thumbMedium: true, nameText: true}),
-            limit: 4,
-            language: this.#languageService.language,
           }),
         )
         .pipe(

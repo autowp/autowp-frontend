@@ -1,8 +1,9 @@
+import type {APIItem} from '@services/item';
+
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import type {APIItem} from '@services/item';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 

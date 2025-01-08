@@ -3,9 +3,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
   APIGetItemVehicleTypesRequest,
   GetItemParentsRequest,
+  APIItem as GRPCAPIItem,
   ItemFields,
   ItemParent,
   ItemParentFields,
@@ -16,6 +16,7 @@ import {
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -23,7 +24,6 @@ import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
@@ -61,17 +61,17 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
       switchMap((id) =>
         this.itemsClient.getItemParents(
           new GetItemParentsRequest({
-            language: this.languageService.language,
-            options: new ItemParentListOptions({
-              parentId: id,
-            }),
-            limit: 500,
-            order: GetItemParentsRequest.Order.AUTO,
             fields: new ItemParentFields({
               item: new ItemFields({
                 nameHtml: true,
               }),
             }),
+            language: this.languageService.language,
+            limit: 500,
+            options: new ItemParentListOptions({
+              parentId: id,
+            }),
+            order: GetItemParentsRequest.Order.AUTO,
           }),
         ),
       ),
@@ -220,9 +220,9 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
               this.itemsClient
                 .moveItemParent(
                   new MoveItemParentRequest({
+                    destParentId: '' + newItem.id,
                     itemId: '' + child,
                     parentId: '' + item.id,
-                    destParentId: '' + newItem.id,
                   }),
                 )
                 .pipe(map(() => void 0)),

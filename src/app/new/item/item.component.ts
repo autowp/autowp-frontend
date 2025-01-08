@@ -1,6 +1,7 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
   GetPicturesRequest,
   ItemFields,
@@ -20,7 +21,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../toasts/toasts.service';
-import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 
 const parseDate = (date: string): GrpcDate => {
   const parts = date.split('-');
@@ -28,7 +28,7 @@ const parseDate = (date: string): GrpcDate => {
   const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
   const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
 
-  return new GrpcDate({year, month, day});
+  return new GrpcDate({day, month, year});
 };
 
 @Component({
@@ -93,26 +93,26 @@ export class NewItemComponent {
     switchMap(([itemID, date, page]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 24,
           options: new PicturesOptions({
-            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             acceptDate: date ? parseDate(date) : undefined,
             pictureItem: new PictureItemOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: itemID}),
             }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 24,
-          page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          page,
           paginator: true,
         }),
       ),

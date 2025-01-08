@@ -9,10 +9,10 @@ import {
   ItemParentType,
   ItemType,
 } from '@grpc/spec.pb';
-
-import {ToastsService} from '../../../../../toasts/toasts.service';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
+
+import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
   selector: 'app-cars-select-engine-tree-item',
@@ -37,21 +37,21 @@ export class CarsSelectEngineTreeItemComponent {
       this.#itemsClient
         .getItemParents(
           new GetItemParentsRequest({
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                childsCount: true,
+                nameHtml: true,
+              }),
+            }),
             language: this.#languageService.language,
+            limit: 500,
             options: new ItemParentListOptions({
-              parentId: this.item.itemId,
               item: new ItemListOptions({
                 typeId: ItemType.ITEM_TYPE_ENGINE,
               }),
+              parentId: this.item.itemId,
             }),
-            limit: 500,
             order: GetItemParentsRequest.Order.AUTO,
-            fields: new ItemParentFields({
-              item: new ItemFields({
-                nameHtml: true,
-                childsCount: true,
-              }),
-            }),
           }),
         )
         .subscribe({

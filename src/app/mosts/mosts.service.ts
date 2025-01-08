@@ -6,19 +6,6 @@ import {Observable} from 'rxjs';
 
 import {APIAttrUnit} from '../api/attrs/attrs.service';
 
-export interface APIMostsItemsGetOptions {
-  brand_id?: number;
-  rating_catname: string;
-  type_catname: string;
-  years_catname: string;
-}
-
-export interface APIMostsItemPicture {
-  name: string;
-  route: string[];
-  src: string;
-}
-
 export interface APIMostsItem {
   item: APIItem;
   pictures: APIMostsItemPicture[];
@@ -27,8 +14,27 @@ export interface APIMostsItem {
   value_text: string;
 }
 
+export interface APIMostsItemPicture {
+  name: string;
+  route: string[];
+  src: string;
+}
+
+export interface APIMostsItemsGetOptions {
+  brand_id?: number;
+  rating_catname: string;
+  type_catname: string;
+  years_catname: string;
+}
+
 export interface APIMostsItemsGetResponse {
   items: APIMostsItem[];
+}
+
+export interface APIMostsMenuGetResponse {
+  ratings: APIMostsMenuRating[];
+  vehilce_types: APIVehicleType[];
+  years: APIMostsMenuYear[];
 }
 
 export interface APIMostsMenuRating {
@@ -39,12 +45,6 @@ export interface APIMostsMenuRating {
 export interface APIMostsMenuYear {
   catname: string;
   name: string;
-}
-
-export interface APIMostsMenuGetResponse {
-  ratings: APIMostsMenuRating[];
-  vehilce_types: APIVehicleType[];
-  years: APIMostsMenuYear[];
 }
 
 @Injectable({

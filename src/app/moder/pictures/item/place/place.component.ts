@@ -19,13 +19,9 @@ interface MapOptions {
   markers: Marker[];
 }
 
-function normalizeLat(lat: number) {
-  return Math.max(lat, Math.min(lat, 90), -90);
-}
-
-function normalizeLng(lng: number) {
-  lng = ((lng - 180) % 360) + 180;
-  return ((lng + 180) % 360) - 180;
+interface PointForm {
+  lat: FormControl<null | string>;
+  lng: FormControl<null | string>;
 }
 
 function createMarker(lat: number, lng: number): Marker {
@@ -39,9 +35,13 @@ function createMarker(lat: number, lng: number): Marker {
   });
 }
 
-interface PointForm {
-  lat: FormControl<null | string>;
-  lng: FormControl<null | string>;
+function normalizeLat(lat: number) {
+  return Math.max(lat, Math.min(lat, 90), -90);
+}
+
+function normalizeLng(lng: number) {
+  lng = ((lng - 180) % 360) + 180;
+  return ((lng + 180) % 360) - 180;
 }
 
 @Component({

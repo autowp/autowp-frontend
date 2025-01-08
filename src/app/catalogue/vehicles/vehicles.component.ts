@@ -2,8 +2,8 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
   GetPicturesRequest,
+  APIItem as GRPCAPIItem,
   ItemParent,
   Picture,
   PictureFields,
@@ -11,10 +11,12 @@ import {
   PicturesOptions,
   PictureStatus,
 } from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
 import {APIItem, ItemService} from '@services/item';
 import {ItemParentService} from '@services/item-parent';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {
@@ -28,11 +30,9 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueService, convertChildsCounts} from '../catalogue-service';
 import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
-import {PicturesClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
-import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
   imports: [
@@ -106,8 +106,8 @@ export class CatalogueVehiclesComponent {
 
       if (last.item?.isGroup) {
         return of({
-          alt_names: [],
           accepted_pictures_count: last.item?.acceptedPicturesCount,
+          alt_names: [],
           attr_zone_id: +last.item.attrZoneId,
           begin_model_year: 0,
           begin_model_year_fraction: '',
@@ -119,9 +119,9 @@ export class CatalogueVehiclesComponent {
           childs_count: 0,
           childs_counts: convertChildsCounts(last.item.childsCounts || []),
           comments_attentions_count: last.item.commentsAttentionsCount,
+          descendants_count: 0,
           description: last.item.description,
           design: last.item?.design,
-          descendants_count: 0,
           end_model_year: 0,
           end_model_year_fraction: '',
           end_month: 0,
@@ -131,37 +131,37 @@ export class CatalogueVehiclesComponent {
           engine_vehicles_count: 0,
           full_name: '',
           id: +last.item.id,
-          item_language_count: 0,
-          item_of_day_pictures: [],
           inbox_pictures_count: last.item?.inboxPicturesCount,
           is_concept: last.item.isConceptInherit ? 'inherited' : last.item.isConcept,
           is_group: last.item.isGroup,
+          item_language_count: 0,
+          item_of_day_pictures: [],
           item_type_id: last.item.itemTypeId,
           lat: 0,
           links_count: 0,
           lng: 0,
+          name: '',
+          name_default: last.item.nameDefault,
           name_html: last.item.nameHtml,
           name_only: last.item.nameOnly,
           name_text: last.item.nameText,
-          name: '',
-          name_default: last.item.nameDefault,
+          other_names: last.item.otherNames,
           parents_count: 0,
           pictures_count: 0,
-          other_names: last.item.otherNames,
           preview_pictures: {
             large_format: false,
             pictures: [],
           },
-          related_group_pictures: [],
           produced: last.item.produced,
           produced_exactly: last.item.producedExactly,
+          related_group_pictures: [],
+          route: [],
           spec_id: last.item.specId,
           specs_route: last.item.specsRoute,
-          text: last.item.fullText,
           subscription: false,
+          text: last.item.fullText,
           today: null,
           twins_groups: [],
-          route: [],
         } as APIItem);
       }
 
@@ -274,11 +274,11 @@ export class CatalogueVehiclesComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly otherPictures$: Observable<{
+  protected readonly otherPictures$: Observable<null | {
     count: number;
     pictures: Picture[];
     routerLink: string[];
-  } | null> = this.catalogue$.pipe(
+  }> = this.catalogue$.pipe(
     switchMap(({type}) => {
       if (CatalogueVehiclesComponent.resolveTypeId(type) !== 0) {
         return of(null);
@@ -296,18 +296,18 @@ export class CatalogueVehiclesComponent {
                 this.#picturesClient
                   .getPictures(
                     new GetPicturesRequest({
+                      fields: new PictureFields({
+                        nameText: true,
+                        thumbMedium: true,
+                      }),
+                      language: this.#languageService.language,
+                      limit: 4,
                       options: new PicturesOptions({
                         pictureItem: new PictureItemOptions({
                           itemId: '' + item.id,
                         }),
                         status: PictureStatus.PICTURE_STATUS_ACCEPTED,
                       }),
-                      fields: new PictureFields({
-                        thumbMedium: true,
-                        nameText: true,
-                      }),
-                      limit: 4,
-                      language: this.#languageService.language,
                       order: GetPicturesRequest.Order.RESOLUTION_DESC,
                       paginator: true,
                     }),

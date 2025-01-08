@@ -42,14 +42,14 @@ export interface APIAttrAttributeInSpecEditor extends AttrAttributeTreeItem {
   unitName: string;
 }
 
-interface ListOption {
-  id: null | string | boolean;
-  name: string;
-}
-
 interface AttrUserValueWithUser {
   user$: Observable<APIUser | null>;
   userValue: AttrUserValue;
+}
+
+interface ListOption {
+  id: boolean | null | string;
+  name: string;
 }
 
 const booleanOptions: ListOption[] = [
@@ -67,6 +67,12 @@ const booleanOptions: ListOption[] = [
   },
 ];
 
+type AttrFormControls =
+  | AttrFormControl<boolean | null>
+  | AttrFormControl<null | number>
+  | AttrFormControl<string>
+  | AttrFormControl<string[]>;
+
 export class AttrFormControl<TValue> extends FormControl {
   public attr: APIAttrAttributeInSpecEditor;
   constructor(attr: APIAttrAttributeInSpecEditor, value: TValue, disabled: boolean) {
@@ -75,12 +81,6 @@ export class AttrFormControl<TValue> extends FormControl {
     this.attr = attr;
   }
 }
-
-type AttrFormControls =
-  | AttrFormControl<null | boolean>
-  | AttrFormControl<null | number>
-  | AttrFormControl<string[]>
-  | AttrFormControl<string>;
 
 @Component({
   imports: [FormsModule, NgStyle, ReactiveFormsModule, UserComponent, NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],
@@ -174,7 +174,7 @@ export class CarsSpecificationsEditorSpecComponent {
 
         switch (attr.typeId) {
           case AttrAttributeType.Id.BOOLEAN:
-            return new AttrFormControl<null | boolean>(
+            return new AttrFormControl<boolean | null>(
               attr,
               valid ? (currentUserValue?.boolValue ?? null) : null,
               disabled,
@@ -273,6 +273,14 @@ export class CarsSpecificationsEditorSpecComponent {
       let floatValue = undefined;
       let intValue = undefined;
       switch (typeId) {
+        case AttrAttributeType.Id.BOOLEAN:
+          valid = control.value !== null;
+          boolValue = control.value;
+          break;
+        case AttrAttributeType.Id.FLOAT:
+          valid = control.value !== null;
+          floatValue = control.value;
+          break;
         case AttrAttributeType.Id.INTEGER:
           valid = control.value !== null;
           intValue = control.value | 0;
@@ -287,14 +295,6 @@ export class CarsSpecificationsEditorSpecComponent {
           valid = control.value !== null && control.value !== undefined && control.value.length > 0;
           stringValue = control.value;
           break;
-        case AttrAttributeType.Id.BOOLEAN:
-          valid = control.value !== null;
-          boolValue = control.value;
-          break;
-        case AttrAttributeType.Id.FLOAT:
-          valid = control.value !== null;
-          floatValue = control.value;
-          break;
         default:
           valid = control.value !== null;
           break;
@@ -303,14 +303,14 @@ export class CarsSpecificationsEditorSpecComponent {
         attributeId: control.attr.id,
         itemId: item.id,
         value: new AttrValueValue({
-          valid,
-          isEmpty: control.disabled,
-          type: typeId,
           boolValue,
           floatValue,
           intValue,
-          stringValue,
+          isEmpty: control.disabled,
           listValue,
+          stringValue,
+          type: typeId,
+          valid,
         }),
       });
     });

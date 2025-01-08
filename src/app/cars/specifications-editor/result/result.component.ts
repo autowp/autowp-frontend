@@ -1,11 +1,11 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
-import {BehaviorSubject, EMPTY} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
+import {DomSanitizer} from '@angular/platform-browser';
 import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
-import {DomSanitizer} from '@angular/platform-browser';
 import {LanguageService} from '@services/language';
+import {BehaviorSubject, EMPTY} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
   imports: [AsyncPipe],

@@ -1,28 +1,11 @@
 import {APIImage} from '@services/api.service';
 
-export interface Rectangle {
-  height: number;
-  left: number;
-  top: number;
-  width: number;
-}
-
-export interface APIGalleryResponse {
+export interface APIGallery {
   count: number;
   items: APIGalleryItem[];
   page: number;
   pages: number;
-}
-
-export interface APIGalleryItemArea {
-  area: Rectangle;
-  name: string;
-  styles?: {
-    'height.px': number;
-    'left.px': number;
-    'top.px': number;
-    'width.px': number;
-  };
+  status: string;
 }
 
 export interface APIGalleryItem {
@@ -43,10 +26,27 @@ export interface APIGalleryItem {
   sourceUrl: string;
 }
 
-export interface APIGallery {
+export interface APIGalleryItemArea {
+  area: Rectangle;
+  name: string;
+  styles?: {
+    'height.px': number;
+    'left.px': number;
+    'top.px': number;
+    'width.px': number;
+  };
+}
+
+export interface APIGalleryResponse {
   count: number;
   items: APIGalleryItem[];
   page: number;
   pages: number;
-  status: string;
+}
+
+export interface Rectangle {
+  height: number;
+  left: number;
+  top: number;
+  width: number;
 }

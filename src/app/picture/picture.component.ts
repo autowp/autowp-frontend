@@ -1,3 +1,5 @@
+import type {APIPicture} from '@services/picture';
+
 import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
@@ -17,7 +19,6 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
 import {PictureService} from '@services/picture';
-import type {APIPicture} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';

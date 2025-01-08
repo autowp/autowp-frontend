@@ -1,11 +1,13 @@
+import type {APIItem} from '@services/item';
+
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
   DeleteItemParentRequest,
   GetItemParentsRequest,
+  APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ItemParent,
@@ -15,6 +17,7 @@ import {
   ItemType,
   ListItemsRequest,
 } from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {
   NgbDropdown,
   NgbDropdownMenu,
@@ -23,11 +26,10 @@ import {
   NgbTypeaheadSelectItemEvent,
 } from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import type {APIItem} from '@services/item';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-import {ItemsClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
+
 import Order = GetItemParentsRequest.Order;
 
 @Component({
@@ -90,15 +92,15 @@ export class ModerItemsItemCatalogueComponent {
             return this.itemsClient
               .list(
                 new ListItemsRequest({
+                  fields: new ItemFields({nameHtml: true, nameText: true}),
                   language: this.languageService.language,
-                  fields: new ItemFields({nameText: true, nameHtml: true}),
-                  options: new ItemListOptions({
-                    parentTypesOf: item.item_type_id,
-                    isGroup: true,
-                    excludeSelfAndChilds: '' + item.id,
-                    autocomplete: query,
-                  }),
                   limit: 10,
+                  options: new ItemListOptions({
+                    autocomplete: query,
+                    excludeSelfAndChilds: '' + item.id,
+                    isGroup: true,
+                    parentTypesOf: item.item_type_id,
+                  }),
                 }),
               )
               .pipe(map((response) => response.items || []));
@@ -114,14 +116,14 @@ export class ModerItemsItemCatalogueComponent {
     switchMap(([item]) =>
       this.itemsClient.getItemParents(
         new GetItemParentsRequest({
-          options: new ItemParentListOptions({
-            parentId: '' + item.id,
-          }),
           fields: new ItemParentFields({
             duplicateChild: new ItemFields({nameHtml: true}),
             item: new ItemFields({nameHtml: true, publicRoutes: true}),
           }),
           limit: 10,
+          options: new ItemParentListOptions({
+            parentId: '' + item.id,
+          }),
           order: Order.AUTO,
         }),
       ),
@@ -136,14 +138,14 @@ export class ModerItemsItemCatalogueComponent {
     switchMap(([item]) =>
       this.itemsClient.getItemParents(
         new GetItemParentsRequest({
-          options: new ItemParentListOptions({
-            itemId: '' + item.id,
-          }),
           fields: new ItemParentFields({
             duplicateParent: new ItemFields({nameHtml: true}),
             parent: new ItemFields({nameHtml: true, publicRoutes: true}),
           }),
           limit: 10,
+          options: new ItemParentListOptions({
+            itemId: '' + item.id,
+          }),
           order: Order.AUTO,
         }),
       ),

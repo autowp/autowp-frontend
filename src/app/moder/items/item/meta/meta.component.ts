@@ -1,3 +1,5 @@
+import type {APIItem} from '@services/item';
+
 import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
@@ -7,7 +9,6 @@ import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
 import {ItemService} from '@services/item';
-import type {APIItem} from '@services/item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';

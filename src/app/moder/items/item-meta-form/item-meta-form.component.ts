@@ -1,3 +1,6 @@
+import type {APIItem} from '@services/item';
+import type {InvalidParams} from '@utils/invalid-params.pipe';
+
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {
@@ -10,8 +13,8 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  APIItem as GRPCAPIItem,
   GetPicturesRequest,
+  APIItem as GRPCAPIItem,
   ItemType,
   Picture,
   PictureFields,
@@ -20,13 +23,12 @@ import {
   Spec,
   VehicleType,
 } from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import type {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {InvalidParamsPipe} from '@utils/invalid-params.pipe';
-import type {InvalidParams} from '@utils/invalid-params.pipe';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
@@ -34,28 +36,6 @@ import {sprintf} from 'sprintf-js';
 
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {MapPointComponent} from './map-point/map-point.component';
-import {PicturesClient} from '@grpc/spec.pbsc';
-
-function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
-  const result: ItemMetaFormAPISpec[] = [];
-  for (const item of options) {
-    result.push({
-      deep,
-      id: item.id,
-      short_name: item.shortName,
-    });
-    for (const subitem of specsToPlain(item.childs ? item.childs : [], deep + 1)) {
-      result.push(subitem);
-    }
-  }
-  return result;
-}
-
-interface ItemMetaFormAPISpec {
-  deep?: number;
-  id: 'inherited' | number;
-  short_name: string;
-}
 
 export interface ItemMetaFormResult {
   begin: {
@@ -93,10 +73,8 @@ export interface ItemMetaFormResult {
   vehicle_type_id: string[];
 }
 
-interface PicturesListItem {
-  pictureItem: PictureItem;
-  selected: boolean;
-  picture$: Observable<Picture>;
+export interface ParentIsConcept {
+  isConcept: boolean;
 }
 
 interface Form {
@@ -123,10 +101,10 @@ interface Form {
   }>;
   name: FormControl<null | string>;
   pictures?: FormArray<FormControl<string>>;
-  point?: FormControl<{
+  point?: FormControl<null | {
     lat: number;
     lng: number;
-  } | null>;
+  }>;
   produced?: FormGroup<{
     count: FormControl<null | number>;
     exactly: FormControl<boolean | null>;
@@ -135,15 +113,38 @@ interface Form {
   vehicle_type_id?: FormControl<null | string[]>;
 }
 
-export interface ParentIsConcept {
-  isConcept: boolean;
+interface ItemMetaFormAPISpec {
+  deep?: number;
+  id: 'inherited' | number;
+  short_name: string;
 }
 
-function localizeInherited(parentIsConcept: ParentIsConcept | null) {
+interface PicturesListItem {
+  picture$: Observable<Picture>;
+  pictureItem: PictureItem;
+  selected: boolean;
+}
+
+function localizeInherited(parentIsConcept: null | ParentIsConcept) {
   if (!parentIsConcept) {
     return $localize`inherited`;
   }
   return parentIsConcept.isConcept ? $localize`inherited (yes)` : $localize`inherited (no)`;
+}
+
+function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
+  const result: ItemMetaFormAPISpec[] = [];
+  for (const item of options) {
+    result.push({
+      deep,
+      id: item.id,
+      short_name: item.shortName,
+    });
+    for (const subitem of specsToPlain(item.childs ? item.childs : [], deep + 1)) {
+      result.push(subitem);
+    }
+  }
+  return result;
 }
 
 @Component({
@@ -192,14 +193,14 @@ export class ItemMetaFormComponent {
     this.pictures$.next(
       pictures
         ? pictures.map((p) => ({
-            pictureItem: p,
             picture$: this.#picturesClient.getPicture(
               new GetPicturesRequest({
-                options: new PicturesOptions({id: p.pictureId}),
-                fields: new PictureFields({thumbMedium: true, nameText: true}),
+                fields: new PictureFields({nameText: true, thumbMedium: true}),
                 language: this.#languageService.language,
+                options: new PicturesOptions({id: p.pictureId}),
               }),
             ),
+            pictureItem: p,
             selected: false,
           }))
         : null,

@@ -22,13 +22,17 @@ import {PageEnvService} from '@services/page-env.service';
 import {APIPicture, PictureService} from '@services/picture';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
+import Keycloak from 'keycloak-js';
 import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UploadCropComponent} from '../crop/crop.component';
-import Keycloak from 'keycloak-js';
+
+interface APIPictureUpload extends APIPicture {
+  cropTitle: string;
+}
 
 interface UploadProgress {
   failed: boolean;
@@ -36,10 +40,6 @@ interface UploadProgress {
   invalidParams: InvalidParams;
   percentage: number;
   success: boolean;
-}
-
-interface APIPictureUpload extends APIPicture {
-  cropTitle: string;
 }
 
 const cropTitle = (crop: {height: null | number; left: null | number; top: null | number; width: null | number}) => {
@@ -95,15 +95,15 @@ export class UploadIndexComponent implements OnInit {
     debounceTime(10),
   );
 
-  private readonly replacePicture$: Observable<Picture | null> = this.replace$.pipe(
+  private readonly replacePicture$: Observable<null | Picture> = this.replace$.pipe(
     switchMap((replace) => {
       return replace
         ? this.#picturesClient
             .getPicture(
               new GetPicturesRequest({
-                options: new PicturesOptions({id: '' + replace}),
                 fields: new PictureFields({nameHtml: true}),
                 language: this.#languageService.language,
+                options: new PicturesOptions({id: '' + replace}),
               }),
             )
             .pipe(

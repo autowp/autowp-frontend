@@ -54,9 +54,9 @@ export class CarsSpecificationsEditorEngineComponent {
     this.itemsClient
       .setItemEngine(
         new SetItemEngineRequest({
-          itemId: '' + item.id,
-          engineItemId: value,
           engineInherited: inherited,
+          engineItemId: value,
+          itemId: '' + item.id,
         }),
       )
       .subscribe({

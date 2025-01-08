@@ -2,10 +2,10 @@ import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 export interface ItemHeader {
-  design?: {
+  design?: null | {
     name: string;
     route: string[];
-  } | null;
+  };
   nameHTML: string;
   produced?: {
     count: number;

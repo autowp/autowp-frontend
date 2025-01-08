@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {APIMeRequest, APIUser} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
+import Keycloak from 'keycloak-js';
 import {from, Observable, of, ReplaySubject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import Keycloak from 'keycloak-js';
 
 @Injectable({
   providedIn: 'root',

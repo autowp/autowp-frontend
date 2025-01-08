@@ -7,7 +7,7 @@ export type InvalidParams = {[key: string]: {[key: string]: string}};
   standalone: true,
 })
 export class InvalidParamsPipe implements PipeTransform {
-  transform(errors: {[key: string]: {[key: string]: string}} | undefined, field: string): string[] {
+  transform(errors: undefined | {[key: string]: {[key: string]: string}}, field: string): string[] {
     let errorsArr: string[] = [];
 
     if (errors?.[field]) {

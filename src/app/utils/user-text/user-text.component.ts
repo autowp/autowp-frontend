@@ -2,14 +2,14 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIUser, GetPicturesRequest, Picture, PictureFields, PicturesOptions} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
 import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import URLParse from 'url-parse';
 
 import {UserComponent} from '../../user/user/user.component';
-import {PicturesClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 interface CommentTextElement {
   picture?: Picture;
@@ -200,21 +200,21 @@ export class UserTextComponent {
     }
 
     const fields = new PictureFields({
-      thumb: true,
-      nameText: true,
-      votes: true,
-      views: true,
       commentsCount: true,
       moderVote: true,
+      nameText: true,
+      thumb: true,
+      views: true,
+      votes: true,
     });
 
     if (pictureId) {
       return this.#picturesClient
         .getPicture(
           new GetPicturesRequest({
-            options: new PicturesOptions({id: '' + pictureId}),
             fields,
             language: this.#languageService.language,
+            options: new PicturesOptions({id: '' + pictureId}),
           }),
         )
         .pipe(
@@ -234,9 +234,9 @@ export class UserTextComponent {
       return this.#picturesClient
         .getPicture(
           new GetPicturesRequest({
-            options: new PicturesOptions({identity: pictureIdentity}),
             fields,
             language: this.#languageService.language,
+            options: new PicturesOptions({identity: pictureIdentity}),
           }),
         )
         .pipe(

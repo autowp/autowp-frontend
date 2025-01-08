@@ -1,14 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PageEnvService} from '@services/page-env.service';
-import {combineLatest, EMPTY, Observable} from 'rxjs';
-import {catchError, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-
-import {chunkBy} from '../../../chunk';
-import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
-import {CategoriesService} from '../../service';
 import {
   GetPicturesRequest,
   ItemParentCacheListOptions,
@@ -21,7 +13,15 @@ import {
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
+import {PageEnvService} from '@services/page-env.service';
+import {combineLatest, EMPTY, Observable} from 'rxjs';
+import {catchError, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+
+import {chunkBy} from '../../../chunk';
+import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
+import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {CategoriesService} from '../../service';
 
 interface PictureRoute {
   picture: Picture;
@@ -58,25 +58,25 @@ export class CategoriesCategoryPicturesComponent {
       return this.#picturesClient
         .getPictures(
           new GetPicturesRequest({
+            fields: new PictureFields({
+              commentsCount: true,
+              moderVote: true,
+              nameHtml: true,
+              nameText: true,
+              thumbMedium: true,
+              views: true,
+              votes: true,
+            }),
+            language: this.#languageService.language,
+            limit: 20,
             options: new PicturesOptions({
               pictureItem: new PictureItemOptions({
                 itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: '' + current.id}),
               }),
               status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             }),
-            fields: new PictureFields({
-              thumbMedium: true,
-              nameText: true,
-              nameHtml: true,
-              votes: true,
-              views: true,
-              commentsCount: true,
-              moderVote: true,
-            }),
-            limit: 20,
-            page,
-            language: this.#languageService.language,
             order: GetPicturesRequest.Order.PERSPECTIVES,
+            page,
             paginator: true,
           }),
         )
@@ -85,7 +85,7 @@ export class CategoriesCategoryPicturesComponent {
             this.#toastService.handleError(err);
             return EMPTY;
           }),
-          map(({paginator, items}) => {
+          map(({items, paginator}) => {
             const pics: PictureRoute[] = (items || []).map((pic) => ({
               picture: pic,
               route: ['/category', category.catname, ...pathCatnames, 'pictures', pic.identity],

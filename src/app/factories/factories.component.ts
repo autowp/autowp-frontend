@@ -10,8 +10,10 @@ import {
   PicturesOptions,
   PictureStatus,
 } from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {icon, latLng, Marker, marker, tileLayer} from 'leaflet';
@@ -20,8 +22,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../toasts/toasts.service';
-import {PicturesClient} from '@grpc/spec.pbsc';
-import {LanguageService} from '@services/language';
 
 @Component({
   imports: [RouterLink, LeafletModule, MarkdownComponent, Thumbnail2Component, AsyncPipe],
@@ -79,21 +79,21 @@ export class FactoryComponent {
     switchMap((factory) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 24,
           options: new PicturesOptions({
             pictureItem: new PictureItemOptions({itemId: '' + factory.id}),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 24,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.ADD_DATE_DESC,
           paginator: false,
         }),

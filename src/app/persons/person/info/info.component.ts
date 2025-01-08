@@ -112,26 +112,26 @@ export class PersonsPersonInfoComponent {
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 12,
           options: new PicturesOptions({
-            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             pictureItem: new PictureItemOptions({
               itemId: itemID,
               typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
             }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 12,
-          page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.LIKES,
+          page,
           paginator: true,
         }),
       ),
@@ -149,26 +149,26 @@ export class PersonsPersonInfoComponent {
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 12,
           options: new PicturesOptions({
-            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             pictureItem: new PictureItemOptions({
               itemId: itemID,
               typeId: PictureItemType.PICTURE_ITEM_CONTENT,
             }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 12,
-          page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.LIKES,
+          page,
           paginator: true,
         }),
       ),

@@ -40,15 +40,15 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
+interface PerspectiveInList {
+  name: string;
+  value: 'null' | null | number;
+}
+
 interface VehicleTypeInPictures {
   deep: number;
   name: string;
   value: null | number;
-}
-
-interface PerspectiveInList {
-  name: string;
-  value: 'null' | null | number;
 }
 
 function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeInPictures[] {
@@ -81,7 +81,7 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
   selector: 'app-moder-pictures',
   templateUrl: './pictures.component.html',
 })
-export class ModerPicturesComponent implements OnInit, OnDestroy {
+export class ModerPicturesComponent implements OnDestroy, OnInit {
   private readonly perspectiveService = inject(APIPerspectiveService);
   private readonly moderVoteService = inject(PictureModerVoteService);
   private readonly vehicleTypeService = inject(VehicleTypeService);

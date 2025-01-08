@@ -84,25 +84,25 @@ export class TwinsGroupPicturesListComponent {
     switchMap(([page, groupId]) =>
       this.#picturesClient.getPictures(
         new GetPicturesRequest({
+          fields: new PictureFields({
+            commentsCount: true,
+            moderVote: true,
+            nameHtml: true,
+            nameText: true,
+            thumbMedium: true,
+            views: true,
+            votes: true,
+          }),
+          language: this.#languageService.language,
+          limit: 24,
           options: new PicturesOptions({
-            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             pictureItem: new PictureItemOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: groupId}),
             }),
+            status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          fields: new PictureFields({
-            thumbMedium: true,
-            nameText: true,
-            nameHtml: true,
-            votes: true,
-            views: true,
-            commentsCount: true,
-            moderVote: true,
-          }),
-          limit: 24,
-          page,
-          language: this.#languageService.language,
           order: GetPicturesRequest.Order.PERSPECTIVES,
+          page,
           paginator: true,
         }),
       ),

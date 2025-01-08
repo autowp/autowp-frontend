@@ -12,12 +12,14 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from '@environment/environment';
 import {GrpcDataEvent, GrpcEvent, GrpcMessage, GrpcRequest} from '@ngx-grpc/common';
 import {GrpcHandler, GrpcInterceptor} from '@ngx-grpc/core';
+import Keycloak from 'keycloak-js';
 import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
-import Keycloak from 'keycloak-js';
+
+declare type HttpObserve = 'body' | 'events' | 'response';
 
 export interface APIImage {
   height: number;
@@ -41,8 +43,6 @@ export interface APIPaginator {
   // firstItemNumber: number;
   // lastItemNumber: number;
 }
-
-declare type HttpObserve = 'body' | 'events' | 'response';
 
 export function authInterceptor$(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const keycloak = inject(Keycloak);
@@ -142,16 +142,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe?: 'body';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
@@ -174,16 +174,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe: 'events';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
@@ -205,16 +205,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe: 'events';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
@@ -236,16 +236,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe: 'events';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
@@ -267,16 +267,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe: 'response';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType: 'text';
       withCredentials?: boolean;
@@ -298,16 +298,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe: 'response';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
@@ -329,16 +329,16 @@ export class APIService {
     options: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe: 'response';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
@@ -360,16 +360,16 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe?: 'body';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
@@ -391,16 +391,16 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe?: 'body';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json';
       withCredentials?: boolean;
@@ -421,16 +421,16 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe?: HttpObserve;
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json' | 'text';
       withCredentials?: boolean;
@@ -443,16 +443,16 @@ export class APIService {
     options?: {
       body?: unknown;
       headers?:
+        | HttpHeaders
         | {
             [header: string]: string | string[];
-          }
-        | HttpHeaders;
+          };
       observe?: 'body' | 'events' | 'response';
       params?:
+        | HttpParams
         | {
             [param: string]: string | string[];
-          }
-        | HttpParams;
+          };
       reportProgress?: boolean;
       responseType?: 'json' | 'text';
       withCredentials?: boolean;

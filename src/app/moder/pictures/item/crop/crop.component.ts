@@ -22,7 +22,7 @@ interface Crop {
   selector: 'app-moder-pictures-item-crop',
   templateUrl: './crop.component.html',
 })
-export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
+export class ModerPicturesItemCropComponent implements OnDestroy, OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly pageEnv = inject(PageEnvService);
@@ -60,8 +60,8 @@ export class ModerPicturesItemCropComponent implements OnInit, OnDestroy {
         switchMap((id) =>
           this.picturesClient.getPicture(
             new GetPicturesRequest({
-              options: new PicturesOptions({id}),
               fields: new PictureFields({image: true}),
+              options: new PicturesOptions({id}),
             }),
           ),
         ),
