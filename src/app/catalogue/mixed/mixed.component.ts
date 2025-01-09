@@ -115,7 +115,7 @@ export class CatalogueMixedComponent {
           limit: 12,
           options: new PicturesOptions({
             pictureItem: new PictureItemOptions({
-              excludePerspectiveId: data.perspective_exclude_id ? [+data.perspective_exclude_id] : undefined,
+              excludePerspectiveId: data.perspective_exclude_id ? data.perspective_exclude_id : undefined,
               itemId: brand.id,
               perspectiveId: data.perspective_id,
             }),
