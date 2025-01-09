@@ -4,7 +4,7 @@
       [filter]="{
         exactItemID: brand.id,
         perspectiveID: data.perspective_id || 0,
-        perspectiveExclude: data.perspective_exclude_id || '',
+        perspectiveExclude: data.perspective_exclude_id || [],
       }"
       [current]="identity$ | async"
       [galleryPrefix]="['/', brand.catname, data.catname, 'gallery']"
