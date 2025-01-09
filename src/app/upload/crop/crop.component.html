@@ -4,8 +4,8 @@
 </div>
 <div class="modal-body">
   @if (picture$ | async; as picture) {
-    @if (picture && picture.image_gallery_full) {
-      <img alt="" [src]="picture.image_gallery_full.src" (load)="onLoad($event)" />
+    @if (picture && picture.imageGalleryFull) {
+      <img alt="" [src]="picture.imageGalleryFull.src" (load)="onLoad($event)" />
     }
   }
 </div>

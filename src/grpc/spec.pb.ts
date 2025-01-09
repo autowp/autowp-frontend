@@ -22158,7 +22158,7 @@ export class PathTreePictureItem implements GrpcMessage {
    */
   static refineValues(_instance: PathTreePictureItem) {
     _instance.item = _instance.item || undefined;
-    _instance.perspectiveId = _instance.perspectiveId || '0';
+    _instance.perspectiveId = _instance.perspectiveId || 0;
   }
 
   /**
@@ -22182,7 +22182,7 @@ export class PathTreePictureItem implements GrpcMessage {
           );
           break;
         case 2:
-          _instance.perspectiveId = _reader.readInt64String();
+          _instance.perspectiveId = _reader.readInt32();
           break;
         default:
           _reader.skipField();
@@ -22209,12 +22209,12 @@ export class PathTreePictureItem implements GrpcMessage {
       );
     }
     if (_instance.perspectiveId) {
-      _writer.writeInt64String(2, _instance.perspectiveId);
+      _writer.writeInt32(2, _instance.perspectiveId);
     }
   }
 
   private _item?: PathTreeItem;
-  private _perspectiveId: string;
+  private _perspectiveId: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -22232,10 +22232,10 @@ export class PathTreePictureItem implements GrpcMessage {
   set item(value: PathTreeItem | undefined) {
     this._item = value;
   }
-  get perspectiveId(): string {
+  get perspectiveId(): number {
     return this._perspectiveId;
   }
-  set perspectiveId(value: string) {
+  set perspectiveId(value: number) {
     this._perspectiveId = value;
   }
 
@@ -22287,7 +22287,7 @@ export module PathTreePictureItem {
    */
   export interface AsObject {
     item?: PathTreeItem.AsObject;
-    perspectiveId: string;
+    perspectiveId: number;
   }
 
   /**
@@ -22295,7 +22295,7 @@ export module PathTreePictureItem {
    */
   export interface AsProtobufJSON {
     item: PathTreeItem.AsProtobufJSON | null;
-    perspectiveId: string;
+    perspectiveId: number;
   }
 }
 
@@ -22333,6 +22333,8 @@ export class PictureFields implements GrpcMessage {
     _instance.moderVote = _instance.moderVote || false;
     _instance.thumb = _instance.thumb || false;
     _instance.path = _instance.path || undefined;
+    _instance.pictureItem = _instance.pictureItem || undefined;
+    _instance.imageGalleryFull = _instance.imageGalleryFull || false;
   }
 
   /**
@@ -22381,6 +22383,16 @@ export class PictureFields implements GrpcMessage {
             _instance.path,
             PicturePathRequest.deserializeBinaryFromReader
           );
+          break;
+        case 11:
+          _instance.pictureItem = new PictureItemsRequest();
+          _reader.readMessage(
+            _instance.pictureItem,
+            PictureItemsRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 12:
+          _instance.imageGalleryFull = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -22433,6 +22445,16 @@ export class PictureFields implements GrpcMessage {
         PicturePathRequest.serializeBinaryToWriter
       );
     }
+    if (_instance.pictureItem) {
+      _writer.writeMessage(
+        11,
+        _instance.pictureItem as any,
+        PictureItemsRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.imageGalleryFull) {
+      _writer.writeBool(12, _instance.imageGalleryFull);
+    }
   }
 
   private _nameText: boolean;
@@ -22445,6 +22467,8 @@ export class PictureFields implements GrpcMessage {
   private _moderVote: boolean;
   private _thumb: boolean;
   private _path?: PicturePathRequest;
+  private _pictureItem?: PictureItemsRequest;
+  private _imageGalleryFull: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -22462,6 +22486,10 @@ export class PictureFields implements GrpcMessage {
     this.moderVote = _value.moderVote;
     this.thumb = _value.thumb;
     this.path = _value.path ? new PicturePathRequest(_value.path) : undefined;
+    this.pictureItem = _value.pictureItem
+      ? new PictureItemsRequest(_value.pictureItem)
+      : undefined;
+    this.imageGalleryFull = _value.imageGalleryFull;
     PictureFields.refineValues(this);
   }
   get nameText(): boolean {
@@ -22524,6 +22552,18 @@ export class PictureFields implements GrpcMessage {
   set path(value: PicturePathRequest | undefined) {
     this._path = value;
   }
+  get pictureItem(): PictureItemsRequest | undefined {
+    return this._pictureItem;
+  }
+  set pictureItem(value: PictureItemsRequest | undefined) {
+    this._pictureItem = value;
+  }
+  get imageGalleryFull(): boolean {
+    return this._imageGalleryFull;
+  }
+  set imageGalleryFull(value: boolean) {
+    this._imageGalleryFull = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -22549,7 +22589,9 @@ export class PictureFields implements GrpcMessage {
       commentsCount: this.commentsCount,
       moderVote: this.moderVote,
       thumb: this.thumb,
-      path: this.path ? this.path.toObject() : undefined
+      path: this.path ? this.path.toObject() : undefined,
+      pictureItem: this.pictureItem ? this.pictureItem.toObject() : undefined,
+      imageGalleryFull: this.imageGalleryFull
     };
   }
 
@@ -22579,7 +22621,11 @@ export class PictureFields implements GrpcMessage {
       commentsCount: this.commentsCount,
       moderVote: this.moderVote,
       thumb: this.thumb,
-      path: this.path ? this.path.toProtobufJSON(options) : null
+      path: this.path ? this.path.toProtobufJSON(options) : null,
+      pictureItem: this.pictureItem
+        ? this.pictureItem.toProtobufJSON(options)
+        : null,
+      imageGalleryFull: this.imageGalleryFull
     };
   }
 }
@@ -22598,6 +22644,8 @@ export module PictureFields {
     moderVote: boolean;
     thumb: boolean;
     path?: PicturePathRequest.AsObject;
+    pictureItem?: PictureItemsRequest.AsObject;
+    imageGalleryFull: boolean;
   }
 
   /**
@@ -22614,6 +22662,8 @@ export module PictureFields {
     moderVote: boolean;
     thumb: boolean;
     path: PicturePathRequest.AsProtobufJSON | null;
+    pictureItem: PictureItemsRequest.AsProtobufJSON | null;
+    imageGalleryFull: boolean;
   }
 }
 
@@ -24092,11 +24142,13 @@ export class PictureItemOptions implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: PictureItemOptions) {
+    _instance.pictureId = _instance.pictureId || '0';
+    _instance.itemId = _instance.itemId || '0';
     _instance.typeId = _instance.typeId || 0;
     _instance.pictures = _instance.pictures || undefined;
     _instance.perspectiveId = _instance.perspectiveId || 0;
     _instance.excludePerspectiveId = _instance.excludePerspectiveId || [];
-    _instance.itemId = _instance.itemId || '0';
+    _instance.item = _instance.item || undefined;
     _instance.itemParentCacheAncestor =
       _instance.itemParentCacheAncestor || undefined;
   }
@@ -24114,6 +24166,12 @@ export class PictureItemOptions implements GrpcMessage {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
+        case 7:
+          _instance.pictureId = _reader.readInt64String();
+          break;
+        case 4:
+          _instance.itemId = _reader.readInt64String();
+          break;
         case 1:
           _instance.typeId = _reader.readEnum();
           break;
@@ -24133,8 +24191,12 @@ export class PictureItemOptions implements GrpcMessage {
             ...(_reader.readPackedInt32() || [])
           );
           break;
-        case 4:
-          _instance.itemId = _reader.readInt64String();
+        case 8:
+          _instance.item = new ItemListOptions();
+          _reader.readMessage(
+            _instance.item,
+            ItemListOptions.deserializeBinaryFromReader
+          );
           break;
         case 5:
           _instance.itemParentCacheAncestor = new ItemParentCacheListOptions();
@@ -24160,6 +24222,12 @@ export class PictureItemOptions implements GrpcMessage {
     _instance: PictureItemOptions,
     _writer: BinaryWriter
   ) {
+    if (_instance.pictureId) {
+      _writer.writeInt64String(7, _instance.pictureId);
+    }
+    if (_instance.itemId) {
+      _writer.writeInt64String(4, _instance.itemId);
+    }
     if (_instance.typeId) {
       _writer.writeEnum(1, _instance.typeId);
     }
@@ -24179,8 +24247,12 @@ export class PictureItemOptions implements GrpcMessage {
     ) {
       _writer.writePackedInt32(6, _instance.excludePerspectiveId);
     }
-    if (_instance.itemId) {
-      _writer.writeInt64String(4, _instance.itemId);
+    if (_instance.item) {
+      _writer.writeMessage(
+        8,
+        _instance.item as any,
+        ItemListOptions.serializeBinaryToWriter
+      );
     }
     if (_instance.itemParentCacheAncestor) {
       _writer.writeMessage(
@@ -24191,11 +24263,13 @@ export class PictureItemOptions implements GrpcMessage {
     }
   }
 
+  private _pictureId: string;
+  private _itemId: string;
   private _typeId: PictureItemType;
   private _pictures?: PicturesOptions;
   private _perspectiveId: number;
   private _excludePerspectiveId: number[];
-  private _itemId: string;
+  private _item?: ItemListOptions;
   private _itemParentCacheAncestor?: ItemParentCacheListOptions;
 
   /**
@@ -24204,17 +24278,31 @@ export class PictureItemOptions implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<PictureItemOptions.AsObject>) {
     _value = _value || {};
+    this.pictureId = _value.pictureId;
+    this.itemId = _value.itemId;
     this.typeId = _value.typeId;
     this.pictures = _value.pictures
       ? new PicturesOptions(_value.pictures)
       : undefined;
     this.perspectiveId = _value.perspectiveId;
     this.excludePerspectiveId = (_value.excludePerspectiveId || []).slice();
-    this.itemId = _value.itemId;
+    this.item = _value.item ? new ItemListOptions(_value.item) : undefined;
     this.itemParentCacheAncestor = _value.itemParentCacheAncestor
       ? new ItemParentCacheListOptions(_value.itemParentCacheAncestor)
       : undefined;
     PictureItemOptions.refineValues(this);
+  }
+  get pictureId(): string {
+    return this._pictureId;
+  }
+  set pictureId(value: string) {
+    this._pictureId = value;
+  }
+  get itemId(): string {
+    return this._itemId;
+  }
+  set itemId(value: string) {
+    this._itemId = value;
   }
   get typeId(): PictureItemType {
     return this._typeId;
@@ -24240,11 +24328,11 @@ export class PictureItemOptions implements GrpcMessage {
   set excludePerspectiveId(value: number[]) {
     this._excludePerspectiveId = value;
   }
-  get itemId(): string {
-    return this._itemId;
+  get item(): ItemListOptions | undefined {
+    return this._item;
   }
-  set itemId(value: string) {
-    this._itemId = value;
+  set item(value: ItemListOptions | undefined) {
+    this._item = value;
   }
   get itemParentCacheAncestor(): ItemParentCacheListOptions | undefined {
     return this._itemParentCacheAncestor;
@@ -24268,11 +24356,13 @@ export class PictureItemOptions implements GrpcMessage {
    */
   toObject(): PictureItemOptions.AsObject {
     return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
       typeId: this.typeId,
       pictures: this.pictures ? this.pictures.toObject() : undefined,
       perspectiveId: this.perspectiveId,
       excludePerspectiveId: (this.excludePerspectiveId || []).slice(),
-      itemId: this.itemId,
+      item: this.item ? this.item.toObject() : undefined,
       itemParentCacheAncestor: this.itemParentCacheAncestor
         ? this.itemParentCacheAncestor.toObject()
         : undefined
@@ -24296,6 +24386,8 @@ export class PictureItemOptions implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): PictureItemOptions.AsProtobufJSON {
     return {
+      pictureId: this.pictureId,
+      itemId: this.itemId,
       typeId:
         PictureItemType[
           this.typeId === null || this.typeId === undefined ? 0 : this.typeId
@@ -24303,7 +24395,7 @@ export class PictureItemOptions implements GrpcMessage {
       pictures: this.pictures ? this.pictures.toProtobufJSON(options) : null,
       perspectiveId: this.perspectiveId,
       excludePerspectiveId: (this.excludePerspectiveId || []).slice(),
-      itemId: this.itemId,
+      item: this.item ? this.item.toProtobufJSON(options) : null,
       itemParentCacheAncestor: this.itemParentCacheAncestor
         ? this.itemParentCacheAncestor.toProtobufJSON(options)
         : null
@@ -24315,11 +24407,13 @@ export module PictureItemOptions {
    * Standard JavaScript object representation for PictureItemOptions
    */
   export interface AsObject {
+    pictureId: string;
+    itemId: string;
     typeId: PictureItemType;
     pictures?: PicturesOptions.AsObject;
     perspectiveId: number;
     excludePerspectiveId: number[];
-    itemId: string;
+    item?: ItemListOptions.AsObject;
     itemParentCacheAncestor?: ItemParentCacheListOptions.AsObject;
   }
 
@@ -24327,11 +24421,13 @@ export module PictureItemOptions {
    * Protobuf JSON representation for PictureItemOptions
    */
   export interface AsProtobufJSON {
+    pictureId: string;
+    itemId: string;
     typeId: string;
     pictures: PicturesOptions.AsProtobufJSON | null;
     perspectiveId: number;
     excludePerspectiveId: number[];
-    itemId: string;
+    item: ItemListOptions.AsProtobufJSON | null;
     itemParentCacheAncestor: ItemParentCacheListOptions.AsProtobufJSON | null;
   }
 }
@@ -24961,6 +25057,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.autocomplete = _instance.autocomplete || '';
     _instance.suggestionsTo = _instance.suggestionsTo || '0';
     _instance.isNotConcept = _instance.isNotConcept || false;
+    _instance.typeIds = _instance.typeIds || [];
   }
 
   /**
@@ -25049,6 +25146,11 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 24:
           _instance.isNotConcept = _reader.readBool();
+          break;
+        case 25:
+          (_instance.typeIds = _instance.typeIds || []).push(
+            ...(_reader.readPackedEnum() || [])
+          );
           break;
         default:
           _reader.skipField();
@@ -25141,6 +25243,9 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.isNotConcept) {
       _writer.writeBool(24, _instance.isNotConcept);
     }
+    if (_instance.typeIds && _instance.typeIds.length) {
+      _writer.writePackedEnum(25, _instance.typeIds);
+    }
   }
 
   private _typeId: ItemType;
@@ -25161,6 +25266,7 @@ export class ItemListOptions implements GrpcMessage {
   private _autocomplete: string;
   private _suggestionsTo: string;
   private _isNotConcept: boolean;
+  private _typeIds: ItemType[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25196,6 +25302,7 @@ export class ItemListOptions implements GrpcMessage {
     this.autocomplete = _value.autocomplete;
     this.suggestionsTo = _value.suggestionsTo;
     this.isNotConcept = _value.isNotConcept;
+    this.typeIds = (_value.typeIds || []).slice();
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -25306,6 +25413,12 @@ export class ItemListOptions implements GrpcMessage {
   set isNotConcept(value: boolean) {
     this._isNotConcept = value;
   }
+  get typeIds(): ItemType[] {
+    return this._typeIds;
+  }
+  set typeIds(value: ItemType[]) {
+    this._typeIds = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25341,7 +25454,8 @@ export class ItemListOptions implements GrpcMessage {
       excludeSelfAndChilds: this.excludeSelfAndChilds,
       autocomplete: this.autocomplete,
       suggestionsTo: this.suggestionsTo,
-      isNotConcept: this.isNotConcept
+      isNotConcept: this.isNotConcept,
+      typeIds: (this.typeIds || []).slice()
     };
   }
 
@@ -25391,7 +25505,8 @@ export class ItemListOptions implements GrpcMessage {
       excludeSelfAndChilds: this.excludeSelfAndChilds,
       autocomplete: this.autocomplete,
       suggestionsTo: this.suggestionsTo,
-      isNotConcept: this.isNotConcept
+      isNotConcept: this.isNotConcept,
+      typeIds: (this.typeIds || []).map(v => ItemType[v])
     };
   }
 }
@@ -25418,6 +25533,7 @@ export module ItemListOptions {
     autocomplete: string;
     suggestionsTo: string;
     isNotConcept: boolean;
+    typeIds: ItemType[];
   }
 
   /**
@@ -25442,6 +25558,7 @@ export module ItemListOptions {
     autocomplete: string;
     suggestionsTo: string;
     isNotConcept: boolean;
+    typeIds: string[];
   }
 }
 
@@ -31504,6 +31621,8 @@ export class Picture implements GrpcMessage {
     _instance.moderVoteCount = _instance.moderVoteCount || 0;
     _instance.thumb = _instance.thumb || undefined;
     _instance.path = _instance.path || [];
+    _instance.pictureItems = _instance.pictureItems || undefined;
+    _instance.imageGalleryFull = _instance.imageGalleryFull || undefined;
   }
 
   /**
@@ -31613,6 +31732,20 @@ export class Picture implements GrpcMessage {
           );
           (_instance.path = _instance.path || []).push(messageInitializer23);
           break;
+        case 24:
+          _instance.pictureItems = new PictureItems();
+          _reader.readMessage(
+            _instance.pictureItems,
+            PictureItems.deserializeBinaryFromReader
+          );
+          break;
+        case 25:
+          _instance.imageGalleryFull = new APIImage();
+          _reader.readMessage(
+            _instance.imageGalleryFull,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -31720,6 +31853,20 @@ export class Picture implements GrpcMessage {
         PathTreePictureItem.serializeBinaryToWriter
       );
     }
+    if (_instance.pictureItems) {
+      _writer.writeMessage(
+        24,
+        _instance.pictureItems as any,
+        PictureItems.serializeBinaryToWriter
+      );
+    }
+    if (_instance.imageGalleryFull) {
+      _writer.writeMessage(
+        25,
+        _instance.imageGalleryFull as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -31745,6 +31892,8 @@ export class Picture implements GrpcMessage {
   private _moderVoteCount: number;
   private _thumb?: APIImage;
   private _path?: PathTreePictureItem[];
+  private _pictureItems?: PictureItems;
+  private _imageGalleryFull?: APIImage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -31781,6 +31930,12 @@ export class Picture implements GrpcMessage {
     this.moderVoteCount = _value.moderVoteCount;
     this.thumb = _value.thumb ? new APIImage(_value.thumb) : undefined;
     this.path = (_value.path || []).map(m => new PathTreePictureItem(m));
+    this.pictureItems = _value.pictureItems
+      ? new PictureItems(_value.pictureItems)
+      : undefined;
+    this.imageGalleryFull = _value.imageGalleryFull
+      ? new APIImage(_value.imageGalleryFull)
+      : undefined;
     Picture.refineValues(this);
   }
   get id(): string {
@@ -31921,6 +32076,18 @@ export class Picture implements GrpcMessage {
   set path(value: PathTreePictureItem[] | undefined) {
     this._path = value;
   }
+  get pictureItems(): PictureItems | undefined {
+    return this._pictureItems;
+  }
+  set pictureItems(value: PictureItems | undefined) {
+    this._pictureItems = value;
+  }
+  get imageGalleryFull(): APIImage | undefined {
+    return this._imageGalleryFull;
+  }
+  set imageGalleryFull(value: APIImage | undefined) {
+    this._imageGalleryFull = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -31959,7 +32126,13 @@ export class Picture implements GrpcMessage {
       moderVoteVote: this.moderVoteVote,
       moderVoteCount: this.moderVoteCount,
       thumb: this.thumb ? this.thumb.toObject() : undefined,
-      path: (this.path || []).map(m => m.toObject())
+      path: (this.path || []).map(m => m.toObject()),
+      pictureItems: this.pictureItems
+        ? this.pictureItems.toObject()
+        : undefined,
+      imageGalleryFull: this.imageGalleryFull
+        ? this.imageGalleryFull.toObject()
+        : undefined
     };
   }
 
@@ -32007,7 +32180,13 @@ export class Picture implements GrpcMessage {
       moderVoteVote: this.moderVoteVote,
       moderVoteCount: this.moderVoteCount,
       thumb: this.thumb ? this.thumb.toProtobufJSON(options) : null,
-      path: (this.path || []).map(m => m.toProtobufJSON(options))
+      path: (this.path || []).map(m => m.toProtobufJSON(options)),
+      pictureItems: this.pictureItems
+        ? this.pictureItems.toProtobufJSON(options)
+        : null,
+      imageGalleryFull: this.imageGalleryFull
+        ? this.imageGalleryFull.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -32039,6 +32218,8 @@ export module Picture {
     moderVoteCount: number;
     thumb?: APIImage.AsObject;
     path?: PathTreePictureItem.AsObject[];
+    pictureItems?: PictureItems.AsObject;
+    imageGalleryFull?: APIImage.AsObject;
   }
 
   /**
@@ -32068,6 +32249,8 @@ export module Picture {
     moderVoteCount: number;
     thumb: APIImage.AsProtobufJSON | null;
     path: PathTreePictureItem.AsProtobufJSON[] | null;
+    pictureItems: PictureItems.AsProtobufJSON | null;
+    imageGalleryFull: APIImage.AsProtobufJSON | null;
   }
 }
 
@@ -32247,18 +32430,18 @@ export module GetPicturesResponse {
 }
 
 /**
- * Message implementation for goautowp.GetPictureItemsRequest
+ * Message implementation for goautowp.PictureItemsRequest
  */
-export class GetPictureItemsRequest implements GrpcMessage {
-  static id = 'goautowp.GetPictureItemsRequest';
+export class PictureItemsRequest implements GrpcMessage {
+  static id = 'goautowp.PictureItemsRequest';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new GetPictureItemsRequest();
-    GetPictureItemsRequest.deserializeBinaryFromReader(
+    const instance = new PictureItemsRequest();
+    PictureItemsRequest.deserializeBinaryFromReader(
       instance,
       new BinaryReader(bytes)
     );
@@ -32269,10 +32452,8 @@ export class GetPictureItemsRequest implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: GetPictureItemsRequest) {
-    _instance.pictureId = _instance.pictureId || '0';
-    _instance.itemId = _instance.itemId || '0';
-    _instance.type = _instance.type || 0;
+  static refineValues(_instance: PictureItemsRequest) {
+    _instance.options = _instance.options || undefined;
   }
 
   /**
@@ -32281,28 +32462,26 @@ export class GetPictureItemsRequest implements GrpcMessage {
    * @param _reader binary reader instance
    */
   static deserializeBinaryFromReader(
-    _instance: GetPictureItemsRequest,
+    _instance: PictureItemsRequest,
     _reader: BinaryReader
   ) {
     while (_reader.nextField()) {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.pictureId = _reader.readInt64String();
-          break;
-        case 2:
-          _instance.itemId = _reader.readInt64String();
-          break;
-        case 3:
-          _instance.type = _reader.readEnum();
+        case 4:
+          _instance.options = new PictureItemOptions();
+          _reader.readMessage(
+            _instance.options,
+            PictureItemOptions.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
       }
     }
 
-    GetPictureItemsRequest.refineValues(_instance);
+    PictureItemsRequest.refineValues(_instance);
   }
 
   /**
@@ -32311,52 +32490,36 @@ export class GetPictureItemsRequest implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(
-    _instance: GetPictureItemsRequest,
+    _instance: PictureItemsRequest,
     _writer: BinaryWriter
   ) {
-    if (_instance.pictureId) {
-      _writer.writeInt64String(1, _instance.pictureId);
-    }
-    if (_instance.itemId) {
-      _writer.writeInt64String(2, _instance.itemId);
-    }
-    if (_instance.type) {
-      _writer.writeEnum(3, _instance.type);
+    if (_instance.options) {
+      _writer.writeMessage(
+        4,
+        _instance.options as any,
+        PictureItemOptions.serializeBinaryToWriter
+      );
     }
   }
 
-  private _pictureId: string;
-  private _itemId: string;
-  private _type: PictureItemType;
+  private _options?: PictureItemOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of GetPictureItemsRequest to deeply clone from
+   * @param _value initial values object or instance of PictureItemsRequest to deeply clone from
    */
-  constructor(_value?: RecursivePartial<GetPictureItemsRequest.AsObject>) {
+  constructor(_value?: RecursivePartial<PictureItemsRequest.AsObject>) {
     _value = _value || {};
-    this.pictureId = _value.pictureId;
-    this.itemId = _value.itemId;
-    this.type = _value.type;
-    GetPictureItemsRequest.refineValues(this);
+    this.options = _value.options
+      ? new PictureItemOptions(_value.options)
+      : undefined;
+    PictureItemsRequest.refineValues(this);
   }
-  get pictureId(): string {
-    return this._pictureId;
+  get options(): PictureItemOptions | undefined {
+    return this._options;
   }
-  set pictureId(value: string) {
-    this._pictureId = value;
-  }
-  get itemId(): string {
-    return this._itemId;
-  }
-  set itemId(value: string) {
-    this._itemId = value;
-  }
-  get type(): PictureItemType {
-    return this._type;
-  }
-  set type(value: PictureItemType) {
-    this._type = value;
+  set options(value: PictureItemOptions | undefined) {
+    this._options = value;
   }
 
   /**
@@ -32365,18 +32528,16 @@ export class GetPictureItemsRequest implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    GetPictureItemsRequest.serializeBinaryToWriter(this, writer);
+    PictureItemsRequest.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): GetPictureItemsRequest.AsObject {
+  toObject(): PictureItemsRequest.AsObject {
     return {
-      pictureId: this.pictureId,
-      itemId: this.itemId,
-      type: this.type
+      options: this.options ? this.options.toObject() : undefined
     };
   }
 
@@ -32395,34 +32556,25 @@ export class GetPictureItemsRequest implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): GetPictureItemsRequest.AsProtobufJSON {
+  ): PictureItemsRequest.AsProtobufJSON {
     return {
-      pictureId: this.pictureId,
-      itemId: this.itemId,
-      type:
-        PictureItemType[
-          this.type === null || this.type === undefined ? 0 : this.type
-        ]
+      options: this.options ? this.options.toProtobufJSON(options) : null
     };
   }
 }
-export module GetPictureItemsRequest {
+export module PictureItemsRequest {
   /**
-   * Standard JavaScript object representation for GetPictureItemsRequest
+   * Standard JavaScript object representation for PictureItemsRequest
    */
   export interface AsObject {
-    pictureId: string;
-    itemId: string;
-    type: PictureItemType;
+    options?: PictureItemOptions.AsObject;
   }
 
   /**
-   * Protobuf JSON representation for GetPictureItemsRequest
+   * Protobuf JSON representation for PictureItemsRequest
    */
   export interface AsProtobufJSON {
-    pictureId: string;
-    itemId: string;
-    type: string;
+    options: PictureItemOptions.AsProtobufJSON | null;
   }
 }
 
@@ -32599,6 +32751,7 @@ export class PictureItem implements GrpcMessage {
     _instance.cropTop = _instance.cropTop || 0;
     _instance.cropWidth = _instance.cropWidth || 0;
     _instance.cropHeight = _instance.cropHeight || 0;
+    _instance.perspectiveId = _instance.perspectiveId || 0;
   }
 
   /**
@@ -32634,6 +32787,9 @@ export class PictureItem implements GrpcMessage {
           break;
         case 7:
           _instance.cropHeight = _reader.readUint32();
+          break;
+        case 8:
+          _instance.perspectiveId = _reader.readInt32();
           break;
         default:
           _reader.skipField();
@@ -32673,6 +32829,9 @@ export class PictureItem implements GrpcMessage {
     if (_instance.cropHeight) {
       _writer.writeUint32(7, _instance.cropHeight);
     }
+    if (_instance.perspectiveId) {
+      _writer.writeInt32(8, _instance.perspectiveId);
+    }
   }
 
   private _pictureId: string;
@@ -32682,6 +32841,7 @@ export class PictureItem implements GrpcMessage {
   private _cropTop: number;
   private _cropWidth: number;
   private _cropHeight: number;
+  private _perspectiveId: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -32696,6 +32856,7 @@ export class PictureItem implements GrpcMessage {
     this.cropTop = _value.cropTop;
     this.cropWidth = _value.cropWidth;
     this.cropHeight = _value.cropHeight;
+    this.perspectiveId = _value.perspectiveId;
     PictureItem.refineValues(this);
   }
   get pictureId(): string {
@@ -32740,6 +32901,12 @@ export class PictureItem implements GrpcMessage {
   set cropHeight(value: number) {
     this._cropHeight = value;
   }
+  get perspectiveId(): number {
+    return this._perspectiveId;
+  }
+  set perspectiveId(value: number) {
+    this._perspectiveId = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -32762,7 +32929,8 @@ export class PictureItem implements GrpcMessage {
       cropLeft: this.cropLeft,
       cropTop: this.cropTop,
       cropWidth: this.cropWidth,
-      cropHeight: this.cropHeight
+      cropHeight: this.cropHeight,
+      perspectiveId: this.perspectiveId
     };
   }
 
@@ -32792,7 +32960,8 @@ export class PictureItem implements GrpcMessage {
       cropLeft: this.cropLeft,
       cropTop: this.cropTop,
       cropWidth: this.cropWidth,
-      cropHeight: this.cropHeight
+      cropHeight: this.cropHeight,
+      perspectiveId: this.perspectiveId
     };
   }
 }
@@ -32808,6 +32977,7 @@ export module PictureItem {
     cropTop: number;
     cropWidth: number;
     cropHeight: number;
+    perspectiveId: number;
   }
 
   /**
@@ -32821,6 +32991,7 @@ export module PictureItem {
     cropTop: number;
     cropWidth: number;
     cropHeight: number;
+    perspectiveId: number;
   }
 }
 

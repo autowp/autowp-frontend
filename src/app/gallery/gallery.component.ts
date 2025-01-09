@@ -12,7 +12,7 @@ export interface APIGalleryFilter {
   exactItemID?: string;
   exactItemLinkType?: number;
   itemID?: string;
-  perspectiveExclude?: string;
+  perspectiveExclude?: number[];
   perspectiveID?: number;
 }
 
@@ -46,7 +46,7 @@ class Gallery {
       params['perspective_id'] = this.filter.perspectiveID.toString();
     }
     if (this.filter.perspectiveExclude) {
-      params['perspective_exclude'] = this.filter.perspectiveExclude;
+      params['perspective_exclude'] = this.filter.perspectiveExclude.join(',');
     }
     return params;
   }

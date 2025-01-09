@@ -20,8 +20,12 @@
     <div class="row">
       @for (chunk of brands; track chunk) {
         <div class="col-md-2">
-          @for (brand of chunk; track brand.id) {
-            <a routerLink="/upload/select" [queryParams]="{brand_id: brand.id}" [textContent]="brand.nameOnly"></a>
+          @for (brandItem of chunk; track brandItem.id) {
+            <a
+              routerLink="/upload/select"
+              [queryParams]="{brand_id: brandItem.id}"
+              [textContent]="brandItem.nameOnly"
+            ></a>
             <br />
           }
         </div>
@@ -80,9 +84,11 @@
       </div>
     }
     <div class="my-1">
-      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: 22}" i18n>logotype</a>
+      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: perspectiveIDLogotype}" i18n
+        >logotype</a
+      >
       <br />
-      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: 25}" i18n
+      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: perspectiveIDMixed}" i18n
         >mixed (few vehicles on one picture)</a
       >
       <br />

@@ -2,11 +2,15 @@ import {AsyncPipe, DecimalPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {APIUser, Picture, PictureStatus} from '@grpc/spec.pb';
+import {APIUser, Picture, PictureItem, PictureStatus, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {UserService} from '@services/user';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {getPerspectiveTranslation} from '@utils/translations';
+import {APIPerspectiveService} from 'app/api/perspective/perspective.service';
+import {ToastsService} from 'app/toasts/toasts.service';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {UserComponent} from '../../user/user/user.component';
 
@@ -21,11 +25,11 @@ interface ThumbnailAPIPicture extends Picture {
   templateUrl: './thumbnail2.component.html',
 })
 export class Thumbnail2Component {
-  // private readonly perspectiveService = inject(APIPerspectiveService);
+  private readonly perspectiveService = inject(APIPerspectiveService);
   private readonly acl = inject(ACLService);
   private readonly userService = inject(UserService);
-  // private readonly picturesClient = inject(PicturesClient);
-  // private readonly toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #toastService = inject(ToastsService);
 
   @Input() set picture(picture: null | ThumbnailAPIPicture) {
     this.picture$.next(picture);
@@ -36,33 +40,38 @@ export class Thumbnail2Component {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  // protected readonly perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives$();
+  protected readonly perspectiveOptions$ = this.perspectiveService.getPerspectives$().pipe(
+    map((options) =>
+      options.map((option) => ({
+        id: option.id,
+        name: getPerspectiveTranslation(option.name),
+      })),
+    ),
+  );
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
     switchMap((picture) => this.userService.getUser$(picture?.ownerId)),
   );
 
-  /*protected savePerspective(picture: ThumbnailAPIPicture) {
-    if (picture.perspective_item) {
-      this.picturesClient
-        .setPictureItemPerspective(
-          new SetPictureItemPerspectiveRequest({
-            itemId: '' + picture.perspective_item.item_id,
-            perspectiveId: picture.perspective_item.perspective_id,
-            pictureId: '' + picture.id,
-            type: picture.perspective_item.type,
-          }),
-        )
-        .pipe(
-          catchError((error: unknown) => {
-            this.toastService.handleError(error);
-            return EMPTY;
-          }),
-        )
-        .subscribe();
-    }
-  }*/
+  protected savePerspective(pictureItem: PictureItem) {
+    this.#picturesClient
+      .setPictureItemPerspective(
+        new SetPictureItemPerspectiveRequest({
+          itemId: pictureItem.itemId,
+          perspectiveId: pictureItem.perspectiveId,
+          pictureId: pictureItem.pictureId,
+          type: pictureItem.type,
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe();
+  }
 
   protected onPictureSelect(picture: ThumbnailAPIPicture) {
     if (picture) {
@@ -71,8 +80,5 @@ export class Thumbnail2Component {
     }
   }
 
-  // protected getPerspectiveTranslation(id: string): string {
-  //   return getPerspectiveTranslation(id);
-  // }
   protected readonly PictureStatus = PictureStatus;
 }

@@ -18,6 +18,9 @@ import {AuthService} from './auth.service';
 import {APIItem} from './item';
 import {APIPictureItem} from './picture-item';
 
+export const perspectiveIDLogotype = 22,
+  perspectiveIDMixed = 25;
+
 export interface APIGetPictureOptions {
   fields?: string;
 }
@@ -369,12 +372,6 @@ export class PictureService {
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
-
-  public getPictureByLocation$(url: string, options?: APIGetPictureOptions): Observable<APIPicture> {
-    return this.api.request$<APIPicture>('GET', this.api.resolveLocation(url), {
-      params: convertPictureOptions(options ? options : {}),
-    });
-  }
 
   public getPicture$(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
     return this.api.request$<APIPicture>('GET', 'picture/' + id, {

@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {perspectiveIDLogotype, perspectiveIDMixed} from '@services/picture';
 
 import {cataloguePathMatcher} from './matcher';
 
@@ -26,7 +27,7 @@ export const routes: Routes = [
     data: {
       catname: 'mixed',
       page_id: 40,
-      perspective_id: 25,
+      perspective_id: perspectiveIDMixed,
       picture_page: {
         breadcrumbs: $localize`Miscellaneous`,
         id: 190,
@@ -54,7 +55,7 @@ export const routes: Routes = [
     data: {
       catname: 'other',
       page_id: 41,
-      perspective_exclude_id: '22,25',
+      perspective_exclude_id: [perspectiveIDLogotype, perspectiveIDMixed],
       picture_page: {
         breadcrumbs: $localize`Unsorted`,
         id: 191,
@@ -82,7 +83,7 @@ export const routes: Routes = [
     data: {
       catname: 'logotypes',
       page_id: 39,
-      perspective_id: 22,
+      perspective_id: perspectiveIDLogotype,
       picture_page: {
         breadcrumbs: $localize`Logotypes`,
         id: 192,

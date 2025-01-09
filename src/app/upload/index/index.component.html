@@ -98,15 +98,17 @@
           <div class="pictures row">
             @for (picture of pictures; track picture) {
               <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+                <app-thumbnail2
+                  [picture]="picture.picture"
+                  [route]="['/picture', picture.picture.identity]"
+                ></app-thumbnail2>
                 <p>
                   <button type="button" class="btn btn-link btn-sm" (click)="crop(picture)">
                     <i class="bi bi-crop" aria-hidden="true"></i>
-                    @if (!picture.crop) {
-                      <span i18n>crop</span>
-                    }
-                    @if (picture.crop) {
+                    @if (picture.cropTitle) {
                       <span>{{ picture.cropTitle }}</span>
+                    } @else {
+                      <span i18n>crop</span>
                     }
                   </button>
                 </p>

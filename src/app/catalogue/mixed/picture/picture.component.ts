@@ -104,10 +104,10 @@ export class CatalogueMixedPictureComponent {
             limit: 1,
             paginator: {
               exact_item_id: +brand.id,
-              perspective_exclude_id: data.perspective_exclude_id,
+              perspective_exclude_id: (data.perspective_exclude_id || []).join(','),
               perspective_id: data.perspective_id,
             },
-            perspective_exclude_id: data.perspective_exclude_id,
+            perspective_exclude_id: (data.perspective_exclude_id || []).join(','),
             perspective_id: data.perspective_id,
           }),
         ),
