@@ -1,10 +1,11 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  GetPictureItemsRequest,
   GetPicturesRequest,
   Picture,
   PictureFields,
+  PictureItemOptions,
+  PictureItemsRequest,
   PicturesOptions,
   SetPictureItemAreaRequest,
 } from '@grpc/spec.pb';
@@ -97,10 +98,12 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
         }),
         switchMap(({params, picture}) =>
           this.picturesClient.getPictureItem(
-            new GetPictureItemsRequest({
-              itemId: params.item_id,
-              pictureId: picture.id,
-              type: params.type,
+            new PictureItemsRequest({
+              options: new PictureItemOptions({
+                itemId: params.item_id,
+                pictureId: picture.id,
+                typeId: params.type,
+              }),
             }),
           ),
         ),

@@ -1,7 +1,6 @@
-import type {APIPicture} from '@services/picture';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {APIImage, Picture} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 
@@ -25,10 +24,10 @@ export class UploadCropComponent implements OnDestroy, OnInit {
 
   @Output() changed = new EventEmitter<void>();
 
-  @Input() set picture(picture: APIPicture) {
+  @Input() set picture(picture: Picture) {
     this.picture$.next(picture);
   }
-  protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
+  protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
 
   private readonly minSize = [400, 300];
 
@@ -54,12 +53,12 @@ export class UploadCropComponent implements OnDestroy, OnInit {
         }
 
         this.jcrop = null;
-        if (picture.crop) {
+        if (picture.image && picture.image.cropWidth && picture.image.cropHeight) {
           this.currentCrop = {
-            h: picture.crop.height ?? 0,
-            w: picture.crop.width ?? 0,
-            x: picture.crop.left ?? 0,
-            y: picture.crop.top ?? 0,
+            h: picture.image.cropHeight ?? 0,
+            w: picture.image.cropWidth ?? 0,
+            x: picture.image.cropLeft ?? 0,
+            y: picture.image.cropTop ?? 0,
           };
         } else {
           this.currentCrop = {
@@ -113,7 +112,7 @@ export class UploadCropComponent implements OnDestroy, OnInit {
     }
   }
 
-  protected selectAll(picture: APIPicture) {
+  protected selectAll(picture: Picture) {
     if (this.jcrop) {
       this.jcrop.setSelect([0, 0, picture.width, picture.height]);
     }
@@ -135,19 +134,14 @@ export class UploadCropComponent implements OnDestroy, OnInit {
     }
   }
 
-  protected onSave(picture: APIPicture) {
-    if (!picture.crop) {
-      picture.crop = {
-        height: 0,
-        left: 0,
-        top: 0,
-        width: 0,
-      };
+  protected onSave(picture: Picture) {
+    if (!picture.image) {
+      picture.image = new APIImage();
     }
-    picture.crop.left = this.currentCrop.x;
-    picture.crop.top = this.currentCrop.y;
-    picture.crop.width = this.currentCrop.w;
-    picture.crop.height = this.currentCrop.h;
+    picture.image.cropLeft = this.currentCrop.x;
+    picture.image.cropTop = this.currentCrop.y;
+    picture.image.cropWidth = this.currentCrop.w;
+    picture.image.cropHeight = this.currentCrop.h;
 
     this.changed.emit();
     this.activeModal.close();

@@ -4313,7 +4313,7 @@ export class PicturesClient {
      * @returns Observable<GrpcEvent<thisProto.PictureItem>>
      */
     getPictureItem: (
-      requestData: thisProto.GetPictureItemsRequest,
+      requestData: thisProto.PictureItemsRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.PictureItem>> => {
       return this.handler.handle({
@@ -4322,7 +4322,7 @@ export class PicturesClient {
         path: '/goautowp.Pictures/GetPictureItem',
         requestData,
         requestMetadata,
-        requestClass: thisProto.GetPictureItemsRequest,
+        requestClass: thisProto.PictureItemsRequest,
         responseClass: thisProto.PictureItem
       });
     },
@@ -4334,7 +4334,7 @@ export class PicturesClient {
      * @returns Observable<GrpcEvent<thisProto.PictureItems>>
      */
     getPictureItems: (
-      requestData: thisProto.GetPictureItemsRequest,
+      requestData: thisProto.PictureItemsRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.PictureItems>> => {
       return this.handler.handle({
@@ -4343,7 +4343,7 @@ export class PicturesClient {
         path: '/goautowp.Pictures/GetPictureItems',
         requestData,
         requestMetadata,
-        requestClass: thisProto.GetPictureItemsRequest,
+        requestClass: thisProto.PictureItemsRequest,
         responseClass: thisProto.PictureItems
       });
     },
@@ -4841,7 +4841,7 @@ export class PicturesClient {
    * @returns Observable<thisProto.PictureItem>
    */
   getPictureItem(
-    requestData: thisProto.GetPictureItemsRequest,
+    requestData: thisProto.PictureItemsRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.PictureItem> {
     return this.$raw
@@ -4857,7 +4857,7 @@ export class PicturesClient {
    * @returns Observable<thisProto.PictureItems>
    */
   getPictureItems(
-    requestData: thisProto.GetPictureItemsRequest,
+    requestData: thisProto.PictureItemsRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.PictureItems> {
     return this.$raw

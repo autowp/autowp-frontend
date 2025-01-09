@@ -4,10 +4,11 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
-  GetPictureItemsRequest,
   ItemParent,
   ItemType,
   PictureItem,
+  PictureItemOptions,
+  PictureItemsRequest,
   SetPictureItemItemIDRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -48,8 +49,8 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   protected readonly pictures$: Observable<PictureItem[]> = this.itemID$.pipe(
     switchMap((itemID) =>
       this.picturesClient.getPictureItems(
-        new GetPictureItemsRequest({
-          itemId: '' + itemID,
+        new PictureItemsRequest({
+          options: new PictureItemOptions({itemId: '' + itemID}),
         }),
       ),
     ),

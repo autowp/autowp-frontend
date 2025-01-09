@@ -18,6 +18,7 @@ import {
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {type APIItemChildsCounts} from '@services/item';
 import {LanguageService} from '@services/language';
+import {perspectiveIDLogotype, perspectiveIDMixed} from '@services/picture';
 import {EMPTY, Observable, of, OperatorFunction} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
@@ -217,9 +218,9 @@ export class CatalogueService {
       switch (pictureItem.item?.itemTypeId) {
         case ItemType.ITEM_TYPE_BRAND:
           switch (pictureItem.perspectiveId) {
-            case '22': // logo
+            case perspectiveIDLogotype: // logo
               return ['/', pictureItem.item.catname, 'logotypes', picture.identity];
-            case '25': // mixed
+            case perspectiveIDMixed: // mixed
               return ['/', pictureItem.item.catname, 'mixed', picture.identity];
             default:
               return ['/', pictureItem.item.catname, 'other', picture.identity];

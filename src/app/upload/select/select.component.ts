@@ -19,6 +19,7 @@ import {
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {perspectiveIDLogotype, perspectiveIDMixed} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
@@ -235,4 +236,7 @@ export class UploadSelectComponent implements OnInit {
         ),
     ]);
   }
+
+  protected readonly perspectiveIDLogotype = perspectiveIDLogotype;
+  protected readonly perspectiveIDMixed = perspectiveIDMixed;
 }

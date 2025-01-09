@@ -4,12 +4,17 @@ import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
+  APIImage,
   APIItem,
   GetPicturesRequest,
   ItemFields,
+  ItemListOptions,
   ItemRequest,
+  ItemType,
   Picture,
   PictureFields,
+  PictureItemOptions,
+  PictureItemsRequest,
   PicturesOptions,
   SetPictureCropRequest,
 } from '@grpc/spec.pb';
@@ -19,19 +24,19 @@ import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import Keycloak from 'keycloak-js';
 import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
-import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UploadCropComponent} from '../crop/crop.component';
 
-interface APIPictureUpload extends APIPicture {
+interface APIPictureUpload {
   cropTitle: string;
+  picture: Picture;
 }
 
 interface UploadProgress {
@@ -42,8 +47,11 @@ interface UploadProgress {
   success: boolean;
 }
 
-const cropTitle = (crop: {height: null | number; left: null | number; top: null | number; width: null | number}) => {
-  const cropSize = `${crop.width}×${crop.height}+${crop.left}+${crop.top}`;
+const cropTitle = (image: APIImage | undefined): string => {
+  if (!(image?.cropWidth && image?.cropHeight)) {
+    return '';
+  }
+  const cropSize = `${image.cropWidth}×${image.cropHeight}+${image.cropLeft}+${image.cropTop}`;
   return $localize`cropped to ${cropSize}`;
 };
 
@@ -53,7 +61,7 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
     FormsModule,
     RouterLink,
     NgbProgressbar,
-    ThumbnailComponent,
+    Thumbnail2Component,
     AsyncPipe,
     InvalidParamsPipe,
   ],
@@ -63,7 +71,6 @@ const cropTitle = (crop: {height: null | number; left: null | number; top: null 
 export class UploadIndexComponent implements OnInit {
   private readonly api = inject(APIService);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   protected readonly auth = inject(AuthService);
   private readonly pageEnv = inject(PageEnvService);
   private readonly modalService = inject(NgbModal);
@@ -164,7 +171,7 @@ export class UploadIndexComponent implements OnInit {
 
     this.formHidden = true;
 
-    const xhrs: Observable<APIPicture>[] = [];
+    const xhrs: Observable<Picture>[] = [];
 
     for (const file of this.files ? this.files : []) {
       xhrs.push(this.uploadFile$(file));
@@ -183,7 +190,7 @@ export class UploadIndexComponent implements OnInit {
     return false;
   }
 
-  private uploadFile$(file: File): Observable<APIPicture> {
+  private uploadFile$(file: File): Observable<Picture> {
     const progress = {
       failed: false,
       filename: file.name,
@@ -255,18 +262,38 @@ export class UploadIndexComponent implements OnInit {
           progress.success = true;
 
           const location = event.headers.get('Location') ?? '';
+          const parts = location.split('/');
+          const pictureID = parts[parts.length - 1];
 
-          return this.pictureService
-            .getPictureByLocation$(location, {
-              fields:
-                'crop,image_gallery_full,thumb_medium,votes,views,comments_count,perspective_item,name_html,name_text',
-            })
+          return this.#picturesClient
+            .getPicture(
+              new GetPicturesRequest({
+                fields: new PictureFields({
+                  commentsCount: true,
+                  image: true,
+                  imageGalleryFull: true,
+                  moderVote: true,
+                  nameHtml: true,
+                  nameText: true,
+                  pictureItem: new PictureItemsRequest({
+                    options: new PictureItemOptions({
+                      item: new ItemListOptions({typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND]}),
+                    }),
+                  }),
+                  thumbMedium: true,
+                  views: true,
+                  votes: true,
+                }),
+                language: this.#languageService.language,
+                options: new PicturesOptions({id: pictureID}),
+              }),
+            )
             .pipe(
               tap((picture) => {
                 progress.percentage = 100;
                 this.pictures.push({
-                  ...picture,
-                  cropTitle: picture.crop ? cropTitle(picture.crop) : '',
+                  cropTitle: cropTitle(picture.image),
+                  picture,
                 });
               }),
               catchError((response: unknown) => {
@@ -289,17 +316,17 @@ export class UploadIndexComponent implements OnInit {
       size: 'lg',
     });
 
-    modalRef.componentInstance.picture = picture;
+    modalRef.componentInstance.picture = picture.picture;
     modalRef.componentInstance.changed
       .pipe(
         switchMap(() =>
           this.picturesClient.setPictureCrop(
             new SetPictureCropRequest({
-              cropHeight: picture.crop.height ? Math.round(picture.crop.height) : undefined,
-              cropLeft: picture.crop.left ? Math.round(picture.crop.left) : undefined,
-              cropTop: picture.crop.top ? Math.round(picture.crop.top) : undefined,
-              cropWidth: picture.crop.width ? Math.round(picture.crop.width) : undefined,
-              pictureId: '' + picture.id,
+              cropHeight: picture.picture.image?.cropHeight ? Math.round(picture.picture.image.cropHeight) : undefined,
+              cropLeft: picture.picture.image?.cropLeft ? Math.round(picture.picture.image.cropLeft) : undefined,
+              cropTop: picture.picture.image?.cropTop ? Math.round(picture.picture.image.cropTop) : undefined,
+              cropWidth: picture.picture.image?.cropWidth ? Math.round(picture.picture.image.cropWidth) : undefined,
+              pictureId: picture.picture.id,
             }),
           ),
         ),
@@ -308,18 +335,25 @@ export class UploadIndexComponent implements OnInit {
           return EMPTY;
         }),
         switchMap(() =>
-          this.pictureService.getPicture$(picture.id, {
-            fields: 'crop,thumb_medium',
-          }),
+          this.#picturesClient.getPicture(
+            new GetPicturesRequest({
+              fields: new PictureFields({
+                image: true,
+                thumbMedium: true,
+              }),
+              language: this.#languageService.language,
+              options: new PicturesOptions({id: picture.picture.id}),
+            }),
+          ),
         ),
         catchError((response: unknown) => {
           this.#toastService.handleError(response);
           return EMPTY;
         }),
-        tap((response: APIPicture) => {
-          picture.crop = response.crop;
-          picture.cropTitle = response.crop ? cropTitle(response.crop) : '';
-          picture.thumb_medium = response.thumb_medium;
+        tap((response: Picture) => {
+          picture.picture.image = response.image;
+          picture.cropTitle = cropTitle(response.image);
+          picture.picture.thumbMedium = response.thumbMedium;
         }),
       )
       .subscribe();
