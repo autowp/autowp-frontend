@@ -3,15 +3,15 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetPicturesRequest,
   ItemFields,
   ItemListOptions,
   ListItemsRequest,
   Pages,
   Picture,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -101,7 +101,7 @@ export class CatalogueMixedComponent {
   ]).pipe(
     switchMap(([page, brand, data]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -113,15 +113,15 @@ export class CatalogueMixedComponent {
           }),
           language: this.#languageService.language,
           limit: 12,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               excludePerspectiveId: data.perspective_exclude_id ? data.perspective_exclude_id : undefined,
               itemId: brand.id,
               perspectiveId: data.perspective_id,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.RESOLUTION_DESC,
+          order: PicturesRequest.Order.RESOLUTION_DESC,
           page,
           paginator: true,
         }),

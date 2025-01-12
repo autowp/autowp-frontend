@@ -3,13 +3,13 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
-  GetPicturesRequest,
   ItemFields,
   ItemParentCacheListOptions,
   ItemRequest,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -92,7 +92,7 @@ export class NewItemComponent {
   protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
     switchMap(([itemID, date, page]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -104,14 +104,14 @@ export class NewItemComponent {
           }),
           language: this.#languageService.language,
           limit: 24,
-          options: new PicturesOptions({
+          options: new PictureListOptions({
             acceptDate: date ? parseDate(date) : undefined,
-            pictureItem: new PictureItemOptions({
+            pictureItem: new PictureItemListOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: itemID}),
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          order: PicturesRequest.Order.ADD_DATE_DESC,
           page,
           paginator: true,
         }),

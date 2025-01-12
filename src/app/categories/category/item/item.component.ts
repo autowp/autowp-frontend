@@ -1,7 +1,14 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {GetPicturesRequest, ItemType, Picture, PictureFields, PictureItemOptions, PicturesOptions} from '@grpc/spec.pb';
+import {
+  ItemType,
+  Picture,
+  PictureFields,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
+} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
@@ -104,12 +111,12 @@ export class CategoriesCategoryItemComponent {
 
       return this.#picturesClient
         .getPictures(
-          new GetPicturesRequest({
+          new PicturesRequest({
             fields: new PictureFields({nameText: true, thumbMedium: true}),
             language: this.#languageService.language,
             limit: 4,
-            options: new PicturesOptions({
-              pictureItem: new PictureItemOptions({
+            options: new PictureListOptions({
+              pictureItem: new PictureItemListOptions({
                 itemId: '' + current.id,
               }),
             }),

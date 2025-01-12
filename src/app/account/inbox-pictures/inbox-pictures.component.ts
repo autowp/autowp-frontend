@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {GetPicturesRequest, GetPicturesResponse, PictureFields, PicturesOptions, PictureStatus} from '@grpc/spec.pb';
+import {GetPicturesResponse, PictureFields, PictureListOptions, PicturesRequest, PictureStatus} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
@@ -37,7 +37,7 @@ export class AccountInboxPicturesComponent implements OnInit {
     switchMap(([page, user]) =>
       user
         ? this.#picturesClient.getPictures(
-            new GetPicturesRequest({
+            new PicturesRequest({
               fields: new PictureFields({
                 commentsCount: true,
                 moderVote: true,
@@ -49,11 +49,11 @@ export class AccountInboxPicturesComponent implements OnInit {
               }),
               language: this.#languageService.language,
               limit: 15,
-              options: new PicturesOptions({
+              options: new PictureListOptions({
                 ownerId: user.id,
                 status: PictureStatus.PICTURE_STATUS_INBOX,
               }),
-              order: GetPicturesRequest.Order.ADD_DATE_DESC,
+              order: PicturesRequest.Order.ADD_DATE_DESC,
               page: page,
               paginator: true,
             }),

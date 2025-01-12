@@ -4,12 +4,12 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
-  GetPicturesRequest,
   GetPicturesResponse,
   ItemParentCacheListOptions,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -114,7 +114,7 @@ export class InboxComponent implements OnInit {
           distinctUntilChanged(),
           switchMap((page) =>
             this.#picturesClient.getPictures(
-              new GetPicturesRequest({
+              new PicturesRequest({
                 fields: new PictureFields({
                   commentsCount: true,
                   moderVote: true,
@@ -126,16 +126,16 @@ export class InboxComponent implements OnInit {
                 }),
                 language: this.#languageService.language,
                 limit: 24,
-                options: new PicturesOptions({
+                options: new PictureListOptions({
                   addDate: parseDate(inbox.current.date),
-                  pictureItem: new PictureItemOptions({
+                  pictureItem: new PictureItemListOptions({
                     itemParentCacheAncestor: brandID
                       ? new ItemParentCacheListOptions({parentId: '' + brandID})
                       : undefined,
                   }),
                   status: PictureStatus.PICTURE_STATUS_INBOX,
                 }),
-                order: GetPicturesRequest.Order.ADD_DATE_DESC,
+                order: PicturesRequest.Order.ADD_DATE_DESC,
                 page,
                 paginator: true,
               }),

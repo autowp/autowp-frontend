@@ -2,13 +2,13 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
-  GetPicturesRequest,
   ItemParentCacheListOptions,
   Pages,
   Picture,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -57,7 +57,7 @@ export class CategoriesCategoryPicturesComponent {
 
       return this.#picturesClient
         .getPictures(
-          new GetPicturesRequest({
+          new PicturesRequest({
             fields: new PictureFields({
               commentsCount: true,
               moderVote: true,
@@ -69,13 +69,13 @@ export class CategoriesCategoryPicturesComponent {
             }),
             language: this.#languageService.language,
             limit: 20,
-            options: new PicturesOptions({
-              pictureItem: new PictureItemOptions({
+            options: new PictureListOptions({
+              pictureItem: new PictureItemListOptions({
                 itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: '' + current.id}),
               }),
               status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             }),
-            order: GetPicturesRequest.Order.PERSPECTIVES,
+            order: PicturesRequest.Order.PERSPECTIVES,
             page,
             paginator: true,
           }),

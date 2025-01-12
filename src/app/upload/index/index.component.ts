@@ -6,16 +6,16 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIImage,
   APIItem,
-  GetPicturesRequest,
   ItemFields,
   ItemListOptions,
   ItemRequest,
   ItemType,
   Picture,
   PictureFields,
-  PictureItemOptions,
+  PictureItemListOptions,
   PictureItemsRequest,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
   SetPictureCropRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -107,10 +107,10 @@ export class UploadIndexComponent implements OnInit {
       return replace
         ? this.#picturesClient
             .getPicture(
-              new GetPicturesRequest({
+              new PicturesRequest({
                 fields: new PictureFields({nameHtml: true}),
                 language: this.#languageService.language,
-                options: new PicturesOptions({id: '' + replace}),
+                options: new PictureListOptions({id: '' + replace}),
               }),
             )
             .pipe(
@@ -267,7 +267,7 @@ export class UploadIndexComponent implements OnInit {
 
           return this.#picturesClient
             .getPicture(
-              new GetPicturesRequest({
+              new PicturesRequest({
                 fields: new PictureFields({
                   commentsCount: true,
                   image: true,
@@ -276,7 +276,7 @@ export class UploadIndexComponent implements OnInit {
                   nameHtml: true,
                   nameText: true,
                   pictureItem: new PictureItemsRequest({
-                    options: new PictureItemOptions({
+                    options: new PictureItemListOptions({
                       item: new ItemListOptions({typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND]}),
                     }),
                   }),
@@ -285,7 +285,7 @@ export class UploadIndexComponent implements OnInit {
                   votes: true,
                 }),
                 language: this.#languageService.language,
-                options: new PicturesOptions({id: pictureID}),
+                options: new PictureListOptions({id: pictureID}),
               }),
             )
             .pipe(
@@ -336,13 +336,13 @@ export class UploadIndexComponent implements OnInit {
         }),
         switchMap(() =>
           this.#picturesClient.getPicture(
-            new GetPicturesRequest({
+            new PicturesRequest({
               fields: new PictureFields({
                 image: true,
                 thumbMedium: true,
               }),
               language: this.#languageService.language,
-              options: new PicturesOptions({id: picture.picture.id}),
+              options: new PictureListOptions({id: picture.picture.id}),
             }),
           ),
         ),

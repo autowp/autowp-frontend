@@ -3,11 +3,11 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {
-  GetPicturesRequest,
   ItemType,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -78,7 +78,7 @@ export class FactoryComponent {
   protected readonly pictures$ = this.item$.pipe(
     switchMap((factory) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -90,11 +90,11 @@ export class FactoryComponent {
           }),
           language: this.#languageService.language,
           limit: 24,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({itemId: '' + factory.id}),
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({itemId: '' + factory.id}),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          order: PicturesRequest.Order.ADD_DATE_DESC,
           paginator: false,
         }),
       ),

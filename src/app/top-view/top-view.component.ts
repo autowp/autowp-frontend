@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {GetPicturesRequest, PictureFields, PictureItemOptions, PicturesOptions, PictureStatus} from '@grpc/spec.pb';
+import {PictureFields, PictureItemListOptions, PictureListOptions, PicturesRequest, PictureStatus} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -30,7 +30,7 @@ export class TopViewComponent implements OnInit {
     debounceTime(10),
     switchMap((page) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -42,13 +42,13 @@ export class TopViewComponent implements OnInit {
           }),
           language: this.#languageService.language,
           limit: 18,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               perspectiveId: 18,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
           page,
           paginator: true,
         }),

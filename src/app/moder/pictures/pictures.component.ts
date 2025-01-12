@@ -2,14 +2,29 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
   APIGetUserRequest,
   APIItem,
   APIUser,
   APIUsersRequest,
+  CommentTopicListOptions,
+  DfDistanceListOptions,
+  DfDistanceRequest,
   ItemFields,
   ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemType,
+  ItemVehicleTypeListOptions,
   ListItemsRequest,
+  Pages,
+  Picture,
+  PictureFields,
+  PictureItemListOptions,
+  PictureItemsRequest,
+  PictureListOptions,
+  PictureModerVoteListOptions,
+  PicturesRequest,
   PictureStatus,
   SetPictureStatusRequest,
   VehicleType,
@@ -23,10 +38,8 @@ import {
   NgbTypeaheadSelectItemEvent,
 } from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APIPaginator} from '@services/api.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIGetPicturesOptions, APIPicture, PictureService} from '@services/picture';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {getPerspectiveTranslation, getVehicleTypeTranslation} from '@utils/translations';
@@ -37,7 +50,7 @@ import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {chunkBy} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 interface PerspectiveInList {
@@ -48,8 +61,17 @@ interface PerspectiveInList {
 interface VehicleTypeInPictures {
   deep: number;
   name: string;
-  value: null | number;
+  value: null | string;
 }
+
+const parseDate = (date: string): GrpcDate => {
+  const parts = date.split('-');
+  const year = parts.length > 0 ? parseInt(parts[0], 10) : 0;
+  const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
+  const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
+
+  return new GrpcDate({day, month, year});
+};
 
 function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeInPictures[] {
   const result: VehicleTypeInPictures[] = [];
@@ -75,7 +97,7 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
     NgbTypeahead,
     FormsModule,
     PaginatorComponent,
-    ThumbnailComponent,
+    Thumbnail2Component,
     AsyncPipe,
   ],
   selector: 'app-moder-pictures',
@@ -86,18 +108,17 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   private readonly moderVoteService = inject(PictureModerVoteService);
   private readonly vehicleTypeService = inject(VehicleTypeService);
   private readonly route = inject(ActivatedRoute);
-  private readonly pictureService = inject(PictureService);
   private readonly router = inject(Router);
   private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   private readonly moderVoteTemplateService = inject(APIPictureModerVoteTemplateService);
   private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #languageService = inject(LanguageService);
   private readonly usersClient = inject(UsersClient);
-  private readonly picturesClient = inject(PicturesClient);
+  readonly #picturesClient = inject(PicturesClient);
 
   protected hasSelectedItem = false;
-  private selected: number[] = [];
+  private selected: string[] = [];
 
   protected status: null | string = null;
   protected readonly statusOptions = [
@@ -130,7 +151,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       value: null,
     },
   ];
-  protected vehicleTypeID: null | number = null;
+  protected vehicleTypeID: null | string = null;
 
   private readonly defaultPerspectiveOptions: PerspectiveInList[] = [
     {
@@ -212,64 +233,64 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   ];
   protected requests: null | number = null;
 
-  protected readonly orderOptions = [
+  protected readonly orderOptions: {name: string; value: PicturesRequest.Order}[] = [
     {
       name: $localize`Add date (new)`,
-      value: 1,
+      value: PicturesRequest.Order.ADD_DATE_DESC,
     },
     {
       name: $localize`Add date (old)`,
-      value: 2,
+      value: PicturesRequest.Order.ADD_DATE_ASC,
     },
     {
       name: $localize`Resolution (large)`,
-      value: 3,
+      value: PicturesRequest.Order.RESOLUTION_DESC,
     },
     {
       name: $localize`Resolution (small)`,
-      value: 4,
+      value: PicturesRequest.Order.RESOLUTION_ASC,
     },
     {
       name: $localize`Filesize (large)`,
-      value: 5,
+      value: PicturesRequest.Order.FILESIZE_DESC,
     },
     {
       name: $localize`Filesize (small)`,
-      value: 6,
+      value: PicturesRequest.Order.FILESIZE_ASC,
     },
     {
       name: $localize`Commented`,
-      value: 7,
+      value: PicturesRequest.Order.COMMENTS,
     },
     {
       name: $localize`Views`,
-      value: 8,
+      value: PicturesRequest.Order.VIEWS,
     },
     {
       name: $localize`Moderator votes`,
-      value: 9,
+      value: PicturesRequest.Order.MODER_VOTES,
     },
     {
       name: $localize`Removing date`,
-      value: 11,
+      value: PicturesRequest.Order.REMOVING_DATE,
     },
     {
       name: $localize`Likes`,
-      value: 12,
+      value: PicturesRequest.Order.LIKES,
     },
     {
       name: $localize`Dislikes`,
-      value: 13,
+      value: PicturesRequest.Order.DISLIKES,
     },
   ];
-  protected order: number = 0;
+  protected order: PicturesRequest.Order = 0;
 
   protected similar = false;
-  protected gps = false;
+  protected gps: boolean | null = null;
   protected lost = false;
   protected specialName = false;
 
-  protected ownerID: number = 0;
+  protected ownerID: string = '';
   protected ownerQuery = '';
   protected readonly ownersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,
@@ -284,7 +305,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
         if (query.startsWith('#')) {
           return this.usersClient.getUser(new APIGetUserRequest({userId: query.substring(1) || ''})).pipe(
             catchError((err: unknown) => {
-              this.toastService.handleError(err);
+              this.#toastService.handleError(err);
               return EMPTY;
             }),
             map((user) => [user]),
@@ -300,7 +321,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
           )
           .pipe(
             catchError((err: unknown) => {
-              this.toastService.handleError(err);
+              this.#toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items || []),
@@ -308,7 +329,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       }),
     );
 
-  protected itemID: number = 0;
+  protected itemID: string = '';
   protected itemQuery = '';
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
@@ -325,7 +346,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
             nameHtml: true,
             nameText: true,
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 10,
         });
         const options = new ItemListOptions();
@@ -341,7 +362,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
 
         return this.itemsClient.list(params).pipe(
           catchError((err: unknown) => {
-            this.toastService.handleError(err);
+            this.#toastService.handleError(err);
             return EMPTY;
           }),
           map((response) => (response.items ? response.items : [])),
@@ -360,13 +381,13 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   private readonly addedFrom$ = new BehaviorSubject<null | string>('');
   private addedFromSub?: Subscription = undefined;
 
-  protected excludeItemID: number = 0;
+  protected excludeItemID: string = '';
   protected excludeItemQuery = '';
 
   protected readonly data$: Observable<{
-    chunks: APIPicture[][];
-    paginator: APIPaginator;
-    pictures: APIPicture[];
+    chunks: Picture[][];
+    paginator: Pages | undefined;
+    pictures: Picture[];
   }> = this.route.queryParamMap.pipe(
     distinctUntilChanged(),
     debounceTime(10),
@@ -374,14 +395,14 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
     switchMap((params) => {
       this.addedFrom = params.get('added_from') ? params.get('added_from') : null;
       this.status = params.get('status') ? params.get('status') : null;
-      this.vehicleTypeID = params.get('vehicle_type_id') ? parseInt(params.get('vehicle_type_id') ?? '', 10) : null;
+      this.vehicleTypeID = params.get('vehicle_type_id') ? (params.get('vehicle_type_id') ?? '') : null;
       const perspectiveID = params.get('perspective_id');
-      this.perspectiveID = (perspectiveID === 'null' ? 'null' : parseInt(perspectiveID ?? '', 10)) ?? null;
-      this.itemID = params.get('item_id') ? parseInt(params.get('item_id') ?? '', 10) : 0;
+      this.perspectiveID = perspectiveID === 'null' ? 'null' : parseInt(perspectiveID ?? '', 10) || null;
+      this.itemID = params.get('item_id') ? (params.get('item_id') ?? '') : '';
       if (this.itemID && !this.itemQuery) {
         this.itemQuery = '#' + this.itemID;
       }
-      this.excludeItemID = params.get('exclude_item_id') ? parseInt(params.get('exclude_item_id') ?? '', 10) : 0;
+      this.excludeItemID = params.get('exclude_item_id') ? (params.get('exclude_item_id') ?? '') : '';
       if (this.excludeItemID && !this.excludeItemQuery) {
         this.excludeItemQuery = '#' + this.excludeItemID;
       }
@@ -396,7 +417,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
           this.comments = null;
           break;
       }
-      this.ownerID = parseInt(params.get('owner_id') ?? '', 10);
+      this.ownerID = params.get('owner_id') ?? '';
       if (this.ownerID && !this.ownerQuery) {
         this.ownerQuery = '#' + this.ownerID;
       }
@@ -414,49 +435,91 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       this.requests = params.get('requests') ? parseInt(params.get('requests') ?? '', 10) : null;
       this.specialName = !!params.get('special_name');
       this.lost = !!params.get('lost');
-      this.gps = !!params.get('gps');
+      this.gps = params.get('gps') ? true : null;
       this.similar = !!params.get('similar');
       this.order = params.get('order') ? parseInt(params.get('order') ?? '', 10) : 1;
       this.addedFrom = params.get('added_from') ?? '';
 
       this.selected = [];
       this.hasSelectedItem = false;
-      const qParams: APIGetPicturesOptions = {
-        added_from: this.addedFrom ? this.addedFrom : undefined,
-        car_type_id: this.vehicleTypeID ? this.vehicleTypeID : undefined,
-        comments: this.comments,
-        exclude_item_id: this.excludeItemID,
-        fields: 'owner,thumb_medium,moder_vote,votes,similar,views,comments_count,perspective_item,name_html,name_text',
-        gps: this.gps,
-        item_id: this.itemID,
+
+      const statuses = this.convertStatuses(this.status);
+
+      const qParams = new PicturesRequest({
+        fields: new PictureFields({
+          commentsCount: true,
+          dfDistance: this.similar ? new DfDistanceRequest({limit: 1}) : undefined,
+          moderVote: true,
+          nameHtml: true,
+          nameText: true,
+          pictureItem: new PictureItemsRequest({
+            options: new PictureItemListOptions({
+              item: new ItemListOptions({typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND]}),
+            }),
+          }),
+          thumbMedium: true,
+          views: true,
+          votes: true,
+        }),
         limit: 18,
-        lost: this.lost,
-        order: this.order,
-        owner_id: this.ownerID ? this.ownerID.toString() : undefined,
+        options: new PictureListOptions({
+          addedFrom: this.addedFrom ? parseDate(this.addedFrom) : undefined,
+          commentTopic: this.comments === true ? new CommentTopicListOptions({messagesGtZero: true}) : undefined,
+          dfDistance: this.similar
+            ? new DfDistanceListOptions({
+                dstPicture: statuses ? new PictureListOptions({statuses}) : undefined,
+              })
+            : undefined,
+          hasNoComments: this.comments === false,
+          hasNoPictureItem: this.lost,
+          hasNoPictureModerVote: this.requests === 0,
+          hasNoReplacePicture: this.replace === false,
+          hasPoint: this.gps === true,
+          hasSpecialName: this.specialName,
+          ownerId: this.ownerID ? this.ownerID : undefined,
+          pictureItem:
+            this.vehicleTypeID || this.excludeItemID || this.itemID || this.perspectiveID
+              ? new PictureItemListOptions({
+                  excludeAncestorOrSelfId: this.excludeItemID,
+                  hasNoPerspectiveId: this.perspectiveID === 'null',
+                  itemParentCacheAncestor: this.itemID
+                    ? new ItemParentCacheListOptions({parentId: this.itemID})
+                    : undefined,
+                  itemVehicleType: this.vehicleTypeID
+                    ? new ItemVehicleTypeListOptions({vehicleTypeId: this.vehicleTypeID})
+                    : undefined,
+                  perspectiveId: this.perspectiveID && this.perspectiveID !== 'null' ? this.perspectiveID : undefined,
+                })
+              : undefined,
+          pictureModerVote:
+            this.requests === 1 ||
+            this.requests === 2 ||
+            this.requests === 3 ||
+            this.order === PicturesRequest.Order.MODER_VOTES
+              ? new PictureModerVoteListOptions({
+                  voteGtZero: this.requests === 1,
+                  voteLteZero: this.requests === 2,
+                })
+              : undefined,
+          replacePicture: this.replace === true ? new PictureListOptions({}) : undefined,
+          statuses: statuses,
+        }),
+        order: this.similar ? PicturesRequest.Order.DF_DISTANCE_SIMILARITY : this.order,
         page: parseInt(params.get('page') ?? '', 10),
-        perspective_id: this.perspectiveID,
-        replace: this.replace,
-        requests: this.requests,
-        similar: this.similar,
-        special_name: this.specialName,
-        status: this.status ? this.status : undefined,
-      };
+      });
 
       return this.change$.pipe(
-        switchMap(() =>
-          this.pictureService.getPictures$(qParams).pipe(
-            catchError((response: unknown) => {
-              this.toastService.handleError(response);
-              return EMPTY;
-            }),
-          ),
-        ),
+        switchMap(() => this.#picturesClient.getPictures(qParams)),
+        catchError((response: unknown) => {
+          this.#toastService.handleError(response);
+          return EMPTY;
+        }),
       );
     }),
     map((response) => ({
-      chunks: chunkBy<APIPicture>(response.pictures, 3),
+      chunks: chunkBy<Picture>(response.items || [], 3),
       paginator: response.paginator,
-      pictures: response.pictures,
+      pictures: response.items || [],
     })),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -491,7 +554,22 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
     }
   }
 
-  protected onPictureSelect(active: boolean, picture: APIPicture) {
+  private convertStatuses(status: null | string): PictureStatus[] | undefined {
+    switch (status) {
+      case 'accepted':
+        return [PictureStatus.PICTURE_STATUS_ACCEPTED];
+      case 'custom1':
+        return [PictureStatus.PICTURE_STATUS_INBOX, PictureStatus.PICTURE_STATUS_ACCEPTED];
+      case 'inbox':
+        return [PictureStatus.PICTURE_STATUS_INBOX];
+      case 'removing':
+        return [PictureStatus.PICTURE_STATUS_REMOVING];
+    }
+
+    return undefined;
+  }
+
+  protected onPictureSelect(active: boolean, picture: Picture) {
     if (active) {
       this.selected.push(picture.id);
     } else {
@@ -568,12 +646,12 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
     });
   }
 
-  protected votePictures(pictures: APIPicture[], vote: number, reason: string) {
+  protected votePictures(pictures: Picture[], vote: number, reason: string) {
     for (const id of this.selected) {
       const promises: Observable<Empty>[] = [];
       for (const picture of pictures) {
         if (picture.id === id) {
-          const q$ = this.moderVoteService.vote$('' + picture.id, vote, reason);
+          const q$ = this.moderVoteService.vote$(picture.id, vote, reason);
           promises.push(q$);
         }
       }
@@ -586,22 +664,22 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
     this.hasSelectedItem = false;
   }
 
-  protected acceptPictures(pictures: APIPicture[]) {
+  protected acceptPictures(pictures: Picture[]) {
     for (const id of this.selected) {
       const promises: Observable<void>[] = [];
       for (const picture of pictures) {
         if (picture.id === id) {
           promises.push(
-            this.picturesClient
+            this.#picturesClient
               .setPictureStatus(
-                new SetPictureStatusRequest({id: picture.id + '', status: PictureStatus.PICTURE_STATUS_ACCEPTED}),
+                new SetPictureStatusRequest({id: picture.id, status: PictureStatus.PICTURE_STATUS_ACCEPTED}),
               )
               .pipe(
                 catchError((err: unknown) => {
-                  this.toastService.handleError(err);
+                  this.#toastService.handleError(err);
                   return EMPTY;
                 }),
-                tap(() => (picture.status = 'accepted')),
+                tap(() => (picture.status = PictureStatus.PICTURE_STATUS_ACCEPTED)),
                 map(() => void 0),
               ),
           );
@@ -619,4 +697,6 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   protected onAddedFromInput() {
     this.addedFrom$.next(this.addedFrom);
   }
+
+  protected readonly PicturesRequest = PicturesRequest;
 }

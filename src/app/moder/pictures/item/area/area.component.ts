@@ -1,12 +1,12 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  GetPicturesRequest,
   Picture,
   PictureFields,
-  PictureItemOptions,
+  PictureItemListOptions,
   PictureItemsRequest,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
   SetPictureItemAreaRequest,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -71,9 +71,9 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
         debounceTime(30),
         switchMap((id) =>
           this.picturesClient.getPicture(
-            new GetPicturesRequest({
+            new PicturesRequest({
               fields: new PictureFields({image: true}),
-              options: new PicturesOptions({id}),
+              options: new PictureListOptions({id}),
             }),
           ),
         ),
@@ -99,7 +99,7 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
         switchMap(({params, picture}) =>
           this.picturesClient.getPictureItem(
             new PictureItemsRequest({
-              options: new PictureItemOptions({
+              options: new PictureItemListOptions({
                 itemId: params.item_id,
                 pictureId: picture.id,
                 typeId: params.type,

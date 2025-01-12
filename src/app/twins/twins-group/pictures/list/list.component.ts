@@ -3,14 +3,14 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
-  GetPicturesRequest,
   GetPicturesResponse,
   ItemFields,
   ItemParentCacheListOptions,
   ItemRequest,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -83,7 +83,7 @@ export class TwinsGroupPicturesListComponent {
   protected readonly data$: Observable<GetPicturesResponse | null> = combineLatest([this.page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -95,13 +95,13 @@ export class TwinsGroupPicturesListComponent {
           }),
           language: this.#languageService.language,
           limit: 24,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: groupId}),
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.PERSPECTIVES,
+          order: PicturesRequest.Order.PERSPECTIVES,
           page,
           paginator: true,
         }),

@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {GetPicturesRequest, Picture, PictureFields, PicturesOptions, PictureStatus} from '@grpc/spec.pb';
+import {Picture, PictureFields, PictureListOptions, PicturesRequest, PictureStatus} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {EMPTY, Observable} from 'rxjs';
@@ -22,7 +22,7 @@ export class IndexPicturesComponent {
 
   protected readonly items$: Observable<Picture[]> = this.#picturesClient
     .getPictures(
-      new GetPicturesRequest({
+      new PicturesRequest({
         fields: new PictureFields({
           commentsCount: true,
           moderVote: true,
@@ -34,11 +34,11 @@ export class IndexPicturesComponent {
         }),
         language: this.#languageService.language,
         limit: 4,
-        options: new PicturesOptions({
+        options: new PictureListOptions({
           acceptedInDays: 3,
           status: PictureStatus.PICTURE_STATUS_ACCEPTED,
         }),
-        order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+        order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
         paginator: false,
       }),
     )

@@ -36,7 +36,7 @@ interface APISpecInItems extends Spec {
 
 interface APIVehicleTypeInItems {
   deep?: number;
-  id: number;
+  id: string;
   name: string;
 }
 

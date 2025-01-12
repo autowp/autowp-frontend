@@ -2,13 +2,13 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  GetPicturesRequest,
   APIItem as GRPCAPIItem,
   ItemParent,
   Picture,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -295,20 +295,20 @@ export class CatalogueVehiclesComponent {
               combineLatest([
                 this.#picturesClient
                   .getPictures(
-                    new GetPicturesRequest({
+                    new PicturesRequest({
                       fields: new PictureFields({
                         nameText: true,
                         thumbMedium: true,
                       }),
                       language: this.#languageService.language,
                       limit: 4,
-                      options: new PicturesOptions({
-                        pictureItem: new PictureItemOptions({
+                      options: new PictureListOptions({
+                        pictureItem: new PictureItemListOptions({
                           itemId: '' + item.id,
                         }),
                         status: PictureStatus.PICTURE_STATUS_ACCEPTED,
                       }),
-                      order: GetPicturesRequest.Order.RESOLUTION_DESC,
+                      order: PicturesRequest.Order.RESOLUTION_DESC,
                       paginator: true,
                     }),
                   )

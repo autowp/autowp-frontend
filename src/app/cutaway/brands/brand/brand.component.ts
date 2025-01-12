@@ -3,15 +3,15 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetPicturesRequest,
   GetPicturesResponse,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
   ListItemsRequest,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -69,7 +69,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
   ]).pipe(
     switchMap(([brand, params]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -81,14 +81,14 @@ export class CutawayBrandsBrandComponent implements OnInit {
           }),
           language: this.#languageService.language,
           limit: 12,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
               perspectiveId: 9,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
           page: parseInt(params.get('page') ?? '', 10),
           paginator: true,
         }),

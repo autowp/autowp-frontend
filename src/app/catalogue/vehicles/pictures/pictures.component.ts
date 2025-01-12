@@ -2,15 +2,15 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  GetPicturesRequest,
   APIItem as GRPCAPIItem,
   ItemParent,
   ItemParentCacheListOptions,
   Pages,
   Picture,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -114,7 +114,7 @@ export class CatalogueVehiclesPicturesComponent {
   ]).pipe(
     switchMap(([exact, item, page]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -126,14 +126,14 @@ export class CatalogueVehiclesPicturesComponent {
           }),
           language: this.#languageService.language,
           limit: 20,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemId: exact ? item.id : undefined,
               itemParentCacheAncestor: exact ? undefined : new ItemParentCacheListOptions({parentId: item.id}),
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.PERSPECTIVES,
+          order: PicturesRequest.Order.PERSPECTIVES,
           page: page,
           paginator: true,
         }),

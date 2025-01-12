@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {GetPicturesRequest, Picture, PictureFields, PicturesOptions, SetPictureCropRequest} from '@grpc/spec.pb';
+import {Picture, PictureFields, PictureListOptions, PicturesRequest, SetPictureCropRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY, Subscription} from 'rxjs';
@@ -59,9 +59,9 @@ export class ModerPicturesItemCropComponent implements OnDestroy, OnInit {
         debounceTime(10),
         switchMap((id) =>
           this.picturesClient.getPicture(
-            new GetPicturesRequest({
+            new PicturesRequest({
               fields: new PictureFields({image: true}),
-              options: new PicturesOptions({id}),
+              options: new PictureListOptions({id}),
             }),
           ),
         ),

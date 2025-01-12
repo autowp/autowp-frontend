@@ -3,16 +3,16 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetPicturesRequest,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
   ListItemsRequest,
   Picture,
   PictureFields,
-  PictureItemOptions,
+  PictureItemListOptions,
+  PictureListOptions,
   PicturePathRequest,
-  PicturesOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -93,7 +93,7 @@ export class CatalogueRecentComponent {
     switchMap(([brand, page]) =>
       brand
         ? this.#picturesClient.getPictures(
-            new GetPicturesRequest({
+            new PicturesRequest({
               fields: new PictureFields({
                 commentsCount: true,
                 moderVote: true,
@@ -106,13 +106,13 @@ export class CatalogueRecentComponent {
               }),
               language: this.#languageService.language,
               limit: 12,
-              options: new PicturesOptions({
-                pictureItem: new PictureItemOptions({
+              options: new PictureListOptions({
+                pictureItem: new PictureItemListOptions({
                   itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
                 }),
                 status: PictureStatus.PICTURE_STATUS_ACCEPTED,
               }),
-              order: GetPicturesRequest.Order.ACCEPT_DATETIME_DESC,
+              order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
               page,
               paginator: true,
             }),

@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {VehicleType} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
 export interface APIVehicleType {
@@ -41,23 +41,6 @@ export class VehicleTypeService {
         const result: VehicleType[] = [];
         this.walkTypes(types, (type) => {
           result.push(type);
-        });
-        return result;
-      }),
-    );
-  }
-
-  public getTypesById$(ids: number[]): Observable<VehicleType[]> {
-    if (ids.length <= 0) {
-      return of([]);
-    }
-    return this.types$.pipe(
-      map((types) => {
-        const result: VehicleType[] = [];
-        this.walkTypes(types, (type) => {
-          if (ids.includes(type.id)) {
-            result.push(type);
-          }
         });
         return result;
       }),

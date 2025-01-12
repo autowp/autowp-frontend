@@ -30,17 +30,16 @@ export class VehicleTypesModalComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected isActive(id: number): boolean {
-    return (this.ids || []).indexOf(id.toString()) > -1;
+  protected isActive(id: string): boolean {
+    return (this.ids || []).indexOf(id) > -1;
   }
 
-  protected toggle(id: number) {
-    const idStr = id.toString();
-    const index = (this.ids || []).indexOf(idStr);
+  protected toggle(id: string) {
+    const index = (this.ids || []).indexOf(id);
     if (index > -1) {
       this.ids.splice(index, 1);
     } else {
-      this.ids.push(idStr);
+      this.ids.push(id);
     }
 
     this.changed.emit(this.ids);

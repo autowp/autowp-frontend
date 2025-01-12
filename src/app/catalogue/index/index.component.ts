@@ -6,7 +6,6 @@ import {
   APIItem,
   APIItemLink,
   GetBrandSectionsRequest,
-  GetPicturesRequest,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
@@ -14,9 +13,10 @@ import {
   ListItemsRequest,
   Picture,
   PictureFields,
-  PictureItemOptions,
+  PictureItemListOptions,
+  PictureListOptions,
   PicturePathRequest,
-  PicturesOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -135,7 +135,7 @@ export class CatalogueIndexComponent {
   protected readonly pictures$ = this.brand$.pipe(
     switchMap((brand) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -148,13 +148,13 @@ export class CatalogueIndexComponent {
           }),
           language: this.#languageService.language,
           limit: 12,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: brand.id}),
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.LIKES,
+          order: PicturesRequest.Order.LIKES,
         }),
       ),
     ),

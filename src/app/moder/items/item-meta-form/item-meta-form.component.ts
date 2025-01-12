@@ -13,13 +13,13 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  GetPicturesRequest,
   APIItem as GRPCAPIItem,
   ItemType,
   Picture,
   PictureFields,
   PictureItem,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
   Spec,
   VehicleType,
 } from '@grpc/spec.pb';
@@ -194,10 +194,10 @@ export class ItemMetaFormComponent {
       pictures
         ? pictures.map((p) => ({
             picture$: this.#picturesClient.getPicture(
-              new GetPicturesRequest({
+              new PicturesRequest({
                 fields: new PictureFields({nameText: true, thumbMedium: true}),
                 language: this.#languageService.language,
-                options: new PicturesOptions({id: p.pictureId}),
+                options: new PictureListOptions({id: p.pictureId}),
               }),
             ),
             pictureItem: p,

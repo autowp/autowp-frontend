@@ -7,7 +7,7 @@ import {
   ItemParent,
   ItemType,
   PictureItem,
-  PictureItemOptions,
+  PictureItemListOptions,
   PictureItemsRequest,
   SetPictureItemItemIDRequest,
 } from '@grpc/spec.pb';
@@ -50,7 +50,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     switchMap((itemID) =>
       this.picturesClient.getPictureItems(
         new PictureItemsRequest({
-          options: new PictureItemOptions({itemId: '' + itemID}),
+          options: new PictureItemListOptions({itemId: '' + itemID}),
         }),
       ),
     ),

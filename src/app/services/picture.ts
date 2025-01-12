@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {
-  GetPicturesRequest,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
   PicturesUserSummary,
   PicturesVoteRequest,
@@ -360,9 +360,9 @@ export class PictureService {
 
       return this.picturesClient
         .getPictures(
-          new GetPicturesRequest({
+          new PicturesRequest({
             limit: 0,
-            options: new PicturesOptions({
+            options: new PictureListOptions({
               status: PictureStatus.PICTURE_STATUS_INBOX,
             }),
             paginator: true,

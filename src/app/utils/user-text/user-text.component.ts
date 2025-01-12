@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIUser, GetPicturesRequest, Picture, PictureFields, PicturesOptions} from '@grpc/spec.pb';
+import {APIUser, Picture, PictureFields, PictureListOptions, PicturesRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
@@ -211,10 +211,10 @@ export class UserTextComponent {
     if (pictureId) {
       return this.#picturesClient
         .getPicture(
-          new GetPicturesRequest({
+          new PicturesRequest({
             fields,
             language: this.#languageService.language,
-            options: new PicturesOptions({id: '' + pictureId}),
+            options: new PictureListOptions({id: '' + pictureId}),
           }),
         )
         .pipe(
@@ -233,10 +233,10 @@ export class UserTextComponent {
     if (pictureIdentity) {
       return this.#picturesClient
         .getPicture(
-          new GetPicturesRequest({
+          new PicturesRequest({
             fields,
             language: this.#languageService.language,
-            options: new PicturesOptions({identity: pictureIdentity}),
+            options: new PictureListOptions({identity: pictureIdentity}),
           }),
         )
         .pipe(

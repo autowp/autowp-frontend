@@ -4,7 +4,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {LatLng as grpcLatLng} from '@grpc/google/type/latlng.pb';
-import {GetPicturesRequest, Picture, PicturesOptions, SetPicturePointRequest} from '@grpc/spec.pb';
+import {Picture, PictureListOptions, PicturesRequest, SetPicturePointRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {icon, LatLng, latLng, LeafletMouseEvent, Map, Marker, marker, TileLayer, tileLayer} from 'leaflet';
@@ -68,8 +68,8 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
     debounceTime(10),
     switchMap((id) =>
       this.picturesClient.getPicture(
-        new GetPicturesRequest({
-          options: new PicturesOptions({id}),
+        new PicturesRequest({
+          options: new PictureListOptions({id}),
         }),
       ),
     ),

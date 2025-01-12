@@ -4,14 +4,14 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIUser,
-  GetPicturesRequest,
   ItemFields,
   ItemRequest,
   LogEventsRequest,
   Pages,
   Picture,
   PictureFields,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, LogClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -91,10 +91,10 @@ export class LogComponent implements OnInit {
         pictures: event.pictures.map((item) =>
           this.#picturesClient
             .getPicture(
-              new GetPicturesRequest({
+              new PicturesRequest({
                 fields: new PictureFields({nameHtml: true}),
                 language: this.#languageService.language,
-                options: new PicturesOptions({id: item}),
+                options: new PictureListOptions({id: item}),
               }),
             )
             .pipe(

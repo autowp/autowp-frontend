@@ -122,14 +122,14 @@
           }
         </select>
       }
-      <!--      @if (picture.similar) {-->
-      <!--        <p class="alert alert-warning" role="alert">-->
-      <!--          <span class="bi bi-file-earmark-image me-1" aria-hidden="true"></span>-->
-      <!--          <a [routerLink]="['/moder/pictures', picture.similar.picture_id]" ngPreserveWhitespaces i18n-->
-      <!--            >Similar picture: {{ picture.similar.distance }}</a-->
-      <!--          >-->
-      <!--        </p>-->
-      <!--      }-->
+      @for (dfDistance of picture.dfDistances?.items || []; track dfDistance.dstPictureId) {
+        <p class="alert alert-warning" role="alert">
+          <span class="bi bi-file-earmark-image me-1" aria-hidden="true"></span>
+          <a [routerLink]="['/moder/pictures', dfDistance.dstPictureId]" ngPreserveWhitespaces i18n
+            >Similar picture: {{ dfDistance.distance }}</a
+          >
+        </p>
+      }
     </div>
   </div>
 }

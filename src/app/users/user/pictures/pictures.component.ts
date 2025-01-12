@@ -8,8 +8,8 @@ import {
   ItemParentCacheListOptions,
   ItemType,
   ListItemsRequest,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
@@ -92,8 +92,8 @@ export class UsersUserPicturesComponent implements OnInit {
           limit: 3000,
           options: new ItemListOptions({
             descendant: new ItemParentCacheListOptions({
-              pictureItemsByItemId: new PictureItemOptions({
-                pictures: new PicturesOptions({
+              pictureItemsByItemId: new PictureItemListOptions({
+                pictures: new PictureListOptions({
                   ownerId: '' + user.id,
                   status: PictureStatus.PICTURE_STATUS_ACCEPTED,
                 }),

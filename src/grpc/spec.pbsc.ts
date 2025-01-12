@@ -4271,7 +4271,7 @@ export class PicturesClient {
      * @returns Observable<GrpcEvent<thisProto.Picture>>
      */
     getPicture: (
-      requestData: thisProto.GetPicturesRequest,
+      requestData: thisProto.PicturesRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.Picture>> => {
       return this.handler.handle({
@@ -4280,7 +4280,7 @@ export class PicturesClient {
         path: '/goautowp.Pictures/GetPicture',
         requestData,
         requestMetadata,
-        requestClass: thisProto.GetPicturesRequest,
+        requestClass: thisProto.PicturesRequest,
         responseClass: thisProto.Picture
       });
     },
@@ -4292,7 +4292,7 @@ export class PicturesClient {
      * @returns Observable<GrpcEvent<thisProto.GetPicturesResponse>>
      */
     getPictures: (
-      requestData: thisProto.GetPicturesRequest,
+      requestData: thisProto.PicturesRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.GetPicturesResponse>> => {
       return this.handler.handle({
@@ -4301,7 +4301,7 @@ export class PicturesClient {
         path: '/goautowp.Pictures/GetPictures',
         requestData,
         requestMetadata,
-        requestClass: thisProto.GetPicturesRequest,
+        requestClass: thisProto.PicturesRequest,
         responseClass: thisProto.GetPicturesResponse
       });
     },
@@ -4809,7 +4809,7 @@ export class PicturesClient {
    * @returns Observable<thisProto.Picture>
    */
   getPicture(
-    requestData: thisProto.GetPicturesRequest,
+    requestData: thisProto.PicturesRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.Picture> {
     return this.$raw
@@ -4825,7 +4825,7 @@ export class PicturesClient {
    * @returns Observable<thisProto.GetPicturesResponse>
    */
   getPictures(
-    requestData: thisProto.GetPicturesRequest,
+    requestData: thisProto.PicturesRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.GetPicturesResponse> {
     return this.$raw

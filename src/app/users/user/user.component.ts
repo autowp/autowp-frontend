@@ -14,10 +14,10 @@ import {
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest,
   GetMessagesRequest,
-  GetPicturesRequest,
   Picture,
   PictureFields,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
   UserFields,
 } from '@grpc/spec.pb';
 import {CommentsClient, ContactsClient, PicturesClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
@@ -127,12 +127,12 @@ export class UsersUserComponent {
   protected readonly pictures$: Observable<Picture[]> = this.user$.pipe(
     switchMap((user) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({nameHtml: true}),
           language: this.#languageService.language,
           limit: 12,
-          options: new PicturesOptions({ownerId: user.id}),
-          order: GetPicturesRequest.Order.ADD_DATE_DESC,
+          options: new PictureListOptions({ownerId: user.id}),
+          order: PicturesRequest.Order.ADD_DATE_DESC,
           paginator: false,
         }),
       ),

@@ -6,13 +6,13 @@ import {
   APIGetItemLinksRequest,
   APIItem,
   CommentsType,
-  GetPicturesRequest,
   ItemFields,
   ItemRequest,
   ItemType,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -63,7 +63,7 @@ export class MuseumComponent {
   protected readonly pictures$ = this.itemID$.pipe(
     switchMap((itemID) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -75,13 +75,13 @@ export class MuseumComponent {
           }),
           language: this.#languageService.language,
           limit: 20,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemId: itemID,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.LIKES,
+          order: PicturesRequest.Order.LIKES,
           paginator: false,
         }),
       ),

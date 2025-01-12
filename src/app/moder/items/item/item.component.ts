@@ -2,12 +2,12 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  GetPicturesRequest,
   ItemParentCacheListOptions,
   Picture,
   PictureFields,
-  PictureItemOptions,
-  PicturesOptions,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
   SetUserItemSubscriptionRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -206,17 +206,17 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
           this.loading++;
           return this.#picturesClient
             .getPicture(
-              new GetPicturesRequest({
+              new PicturesRequest({
                 fields: new PictureFields({thumbMedium: true}),
                 limit: 1,
-                options: new PicturesOptions({
-                  pictureItem: new PictureItemOptions({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({
                     itemParentCacheAncestor: new ItemParentCacheListOptions({
                       parentId: '' + item.id,
                     }),
                   }),
                 }),
-                order: GetPicturesRequest.Order.ADD_DATE_DESC,
+                order: PicturesRequest.Order.ADD_DATE_DESC,
               }),
             )
             .pipe(

@@ -5,15 +5,15 @@ import {
   APIGetItemLinksRequest,
   APIItem,
   APIItemLink,
-  GetPicturesRequest,
   GetPicturesResponse,
   ItemFields,
   ItemRequest,
   ItemType,
   PictureFields,
-  PictureItemOptions,
+  PictureItemListOptions,
   PictureItemType,
-  PicturesOptions,
+  PictureListOptions,
+  PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
@@ -111,7 +111,7 @@ export class PersonsPersonInfoComponent {
   ]).pipe(
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -123,14 +123,14 @@ export class PersonsPersonInfoComponent {
           }),
           language: this.#languageService.language,
           limit: 12,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemId: itemID,
               typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.LIKES,
+          order: PicturesRequest.Order.LIKES,
           page,
           paginator: true,
         }),
@@ -148,7 +148,7 @@ export class PersonsPersonInfoComponent {
   ]).pipe(
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
-        new GetPicturesRequest({
+        new PicturesRequest({
           fields: new PictureFields({
             commentsCount: true,
             moderVote: true,
@@ -160,14 +160,14 @@ export class PersonsPersonInfoComponent {
           }),
           language: this.#languageService.language,
           limit: 12,
-          options: new PicturesOptions({
-            pictureItem: new PictureItemOptions({
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
               itemId: itemID,
               typeId: PictureItemType.PICTURE_ITEM_CONTENT,
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: GetPicturesRequest.Order.LIKES,
+          order: PicturesRequest.Order.LIKES,
           page,
           paginator: true,
         }),
