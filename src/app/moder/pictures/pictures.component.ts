@@ -506,6 +506,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
         }),
         order: this.similar ? PicturesRequest.Order.DF_DISTANCE_SIMILARITY : this.order,
         page: parseInt(params.get('page') ?? '', 10),
+        paginator: true,
       });
 
       return this.change$.pipe(
