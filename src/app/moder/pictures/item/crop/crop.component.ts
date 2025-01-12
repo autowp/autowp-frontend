@@ -77,7 +77,7 @@ export class ModerPicturesItemCropComponent implements OnDestroy, OnInit {
           }
 
           this.jcrop = null;
-          if (this.picture.image) {
+          if (this.picture.image && this.picture.image.cropHeight > 0 && this.picture.image.cropWidth > 0) {
             this.currentCrop = {
               h: this.picture.image.cropHeight,
               w: this.picture.image.cropWidth,
