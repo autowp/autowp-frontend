@@ -12,8 +12,8 @@ import {
   ItemParentFields,
   ItemParentListOptions,
   ItemRequest,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Pages,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -27,8 +27,6 @@ import {chunk} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UploadSelectTreeItemComponent} from './tree-item/tree-item.component';
-
-import Order = ListItemsRequest.Order;
 
 @Component({
   imports: [FormsModule, RouterLink, PaginatorComponent, UploadSelectTreeItemComponent],
@@ -108,7 +106,7 @@ export class UploadSelectComponent implements OnInit {
   private brandsObservable$(page: number, search: string): Observable<APIItemList> {
     return this.itemsClient
       .list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             nameOnly: true,
           }),
@@ -118,7 +116,7 @@ export class UploadSelectComponent implements OnInit {
             name: search ? '%' + search + '%' : undefined,
             typeId: ItemType.ITEM_TYPE_BRAND,
           }),
-          order: Order.NAME,
+          order: ItemsRequest.Order.NAME,
           page,
         }),
       )

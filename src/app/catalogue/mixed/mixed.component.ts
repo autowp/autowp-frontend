@@ -5,7 +5,7 @@ import {
   APIItem,
   ItemFields,
   ItemListOptions,
-  ListItemsRequest,
+  ItemsRequest,
   Pages,
   Picture,
   PictureFields,
@@ -52,7 +52,7 @@ export class CatalogueMixedComponent {
         return EMPTY;
       }
       return this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
@@ -121,7 +121,7 @@ export class CatalogueMixedComponent {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.RESOLUTION_DESC,
+          order: PicturesRequest.Order.ORDER_RESOLUTION_DESC,
           page,
           paginator: true,
         }),

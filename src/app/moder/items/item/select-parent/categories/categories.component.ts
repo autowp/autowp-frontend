@@ -1,14 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {
-  APIItemList,
-  GetItemParentsRequest,
-  ItemFields,
-  ItemListOptions,
-  ItemType,
-  ListItemsRequest,
-} from '@grpc/spec.pb';
+import {APIItemList, GetItemParentsRequest, ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
@@ -46,7 +39,7 @@ export class ModerItemsItemSelectParentCategoriesComponent {
   protected readonly categories$: Observable<APIItemList> = this.page$.pipe(
     switchMap((page) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({childsCount: true, nameHtml: true}),
           language: this.languageService.language,
           limit: 100,

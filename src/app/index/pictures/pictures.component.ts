@@ -38,7 +38,7 @@ export class IndexPicturesComponent {
           acceptedInDays: 3,
           status: PictureStatus.PICTURE_STATUS_ACCEPTED,
         }),
-        order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
+        order: PicturesRequest.Order.ORDER_ACCEPT_DATETIME_DESC,
         paginator: false,
       }),
     )

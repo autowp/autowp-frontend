@@ -48,7 +48,7 @@ export class MascotsComponent implements OnInit {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          order: PicturesRequest.Order.ORDER_ACCEPT_DATETIME_DESC,
           page,
           paginator: true,
         }),

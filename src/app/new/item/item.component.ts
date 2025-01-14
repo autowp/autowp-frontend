@@ -111,7 +111,7 @@ export class NewItemComponent {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.ADD_DATE_DESC,
+          order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
           page,
           paginator: true,
         }),

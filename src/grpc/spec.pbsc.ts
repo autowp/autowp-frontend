@@ -2303,7 +2303,7 @@ export class ItemsClient {
      * @returns Observable<GrpcEvent<thisProto.APIItemList>>
      */
     list: (
-      requestData: thisProto.ListItemsRequest,
+      requestData: thisProto.ItemsRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.APIItemList>> => {
       return this.handler.handle({
@@ -2312,7 +2312,7 @@ export class ItemsClient {
         path: '/goautowp.Items/List',
         requestData,
         requestMetadata,
-        requestClass: thisProto.ListItemsRequest,
+        requestClass: thisProto.ItemsRequest,
         responseClass: thisProto.APIItemList
       });
     },
@@ -3024,7 +3024,7 @@ export class ItemsClient {
    * @returns Observable<thisProto.APIItemList>
    */
   list(
-    requestData: thisProto.ListItemsRequest,
+    requestData: thisProto.ItemsRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.APIItemList> {
     return this.$raw

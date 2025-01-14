@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem as GRPCAPIItem, ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIPaginator} from '@services/api.service';
@@ -57,7 +57,7 @@ export class TwinsComponent implements OnInit {
 
       return this.itemsClient
         .list(
-          new ListItemsRequest({
+          new ItemsRequest({
             fields: new ItemFields({
               nameOnly: true,
             }),

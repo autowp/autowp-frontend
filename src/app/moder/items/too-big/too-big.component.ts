@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -20,11 +20,11 @@ export class ModerItemsTooBigComponent implements OnInit {
 
   protected readonly items$: Observable<APIItem[]> = this.itemsClient
     .list(
-      new ListItemsRequest({
+      new ItemsRequest({
         fields: new ItemFields({childsCount: true, nameHtml: true}),
         language: this.languageService.language,
         limit: 100,
-        order: ListItemsRequest.Order.CHILDS_COUNT,
+        order: ItemsRequest.Order.CHILDS_COUNT,
       }),
     )
     .pipe(map((response) => response.items || []));

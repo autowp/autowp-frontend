@@ -53,7 +53,7 @@ export class AccountInboxPicturesComponent implements OnInit {
                 ownerId: user.id,
                 status: PictureStatus.PICTURE_STATUS_INBOX,
               }),
-              order: PicturesRequest.Order.ADD_DATE_DESC,
+              order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
               page: page,
               paginator: true,
             }),

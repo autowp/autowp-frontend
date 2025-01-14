@@ -10,6 +10,7 @@ import {
   CommentsUnSubscribeRequest,
   PictureStatus,
   PicturesViewRequest,
+  PicturesVoteRequest,
   SetPictureItemPerspectiveRequest,
   SetPictureStatusRequest,
 } from '@grpc/spec.pb';
@@ -18,7 +19,6 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTool
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {APIItem} from '@services/item';
-import {PictureService} from '@services/picture';
 import {APIPictureItem} from '@services/picture-item';
 import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -62,7 +62,6 @@ import {PicturePaginatorComponent} from './paginator.component';
 export class PictureComponent {
   private readonly acl = inject(ACLService);
   private readonly auth = inject(AuthService);
-  private readonly pictureService = inject(PictureService);
   private readonly router = inject(Router);
   private readonly commentsGrpc = inject(CommentsClient);
   private readonly picturesClient = inject(PicturesClient);
@@ -158,9 +157,16 @@ export class PictureComponent {
   }
 
   protected vote(picture: APIPicture, value: number) {
-    this.pictureService.vote$(picture.id, value).subscribe((votes) => {
-      picture.votes = votes;
-    });
+    this.picturesClient
+      .vote(
+        new PicturesVoteRequest({
+          pictureId: picture.id.toString(),
+          value,
+        }),
+      )
+      .subscribe((votes) => {
+        picture.votes = votes;
+      });
     return false;
   }
 

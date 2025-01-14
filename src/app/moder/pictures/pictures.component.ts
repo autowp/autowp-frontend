@@ -14,9 +14,9 @@ import {
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
+  ItemsRequest,
   ItemType,
   ItemVehicleTypeListOptions,
-  ListItemsRequest,
   Pages,
   Picture,
   PictureFields,
@@ -236,51 +236,51 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   protected readonly orderOptions: {name: string; value: PicturesRequest.Order}[] = [
     {
       name: $localize`Add date (new)`,
-      value: PicturesRequest.Order.ADD_DATE_DESC,
+      value: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
     },
     {
       name: $localize`Add date (old)`,
-      value: PicturesRequest.Order.ADD_DATE_ASC,
+      value: PicturesRequest.Order.ORDER_ADD_DATE_ASC,
     },
     {
       name: $localize`Resolution (large)`,
-      value: PicturesRequest.Order.RESOLUTION_DESC,
+      value: PicturesRequest.Order.ORDER_RESOLUTION_DESC,
     },
     {
       name: $localize`Resolution (small)`,
-      value: PicturesRequest.Order.RESOLUTION_ASC,
+      value: PicturesRequest.Order.ORDER_RESOLUTION_ASC,
     },
     {
       name: $localize`Filesize (large)`,
-      value: PicturesRequest.Order.FILESIZE_DESC,
+      value: PicturesRequest.Order.ORDER_FILESIZE_DESC,
     },
     {
       name: $localize`Filesize (small)`,
-      value: PicturesRequest.Order.FILESIZE_ASC,
+      value: PicturesRequest.Order.ORDER_FILESIZE_ASC,
     },
     {
       name: $localize`Commented`,
-      value: PicturesRequest.Order.COMMENTS,
+      value: PicturesRequest.Order.ORDER_COMMENTS,
     },
     {
       name: $localize`Views`,
-      value: PicturesRequest.Order.VIEWS,
+      value: PicturesRequest.Order.ORDER_VIEWS,
     },
     {
       name: $localize`Moderator votes`,
-      value: PicturesRequest.Order.MODER_VOTES,
+      value: PicturesRequest.Order.ORDER_MODER_VOTES,
     },
     {
       name: $localize`Removing date`,
-      value: PicturesRequest.Order.REMOVING_DATE,
+      value: PicturesRequest.Order.ORDER_REMOVING_DATE,
     },
     {
       name: $localize`Likes`,
-      value: PicturesRequest.Order.LIKES,
+      value: PicturesRequest.Order.ORDER_LIKES,
     },
     {
       name: $localize`Dislikes`,
-      value: PicturesRequest.Order.DISLIKES,
+      value: PicturesRequest.Order.ORDER_DISLIKES,
     },
   ];
   protected order: PicturesRequest.Order = 0;
@@ -341,7 +341,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
           return of([]);
         }
 
-        const params = new ListItemsRequest({
+        const params = new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
@@ -495,7 +495,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
             this.requests === 1 ||
             this.requests === 2 ||
             this.requests === 3 ||
-            this.order === PicturesRequest.Order.MODER_VOTES
+            this.order === PicturesRequest.Order.ORDER_MODER_VOTES
               ? new PictureModerVoteListOptions({
                   voteGtZero: this.requests === 1,
                   voteLteZero: this.requests === 2,
@@ -504,7 +504,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
           replacePicture: this.replace === true ? new PictureListOptions({}) : undefined,
           statuses: statuses,
         }),
-        order: this.similar ? PicturesRequest.Order.DF_DISTANCE_SIMILARITY : this.order,
+        order: this.similar ? PicturesRequest.Order.ORDER_DF_DISTANCE_SIMILARITY : this.order,
         page: parseInt(params.get('page') ?? '', 10),
         paginator: true,
       });

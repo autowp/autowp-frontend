@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -49,7 +49,7 @@ export class CatalogueMixedGalleryComponent {
         return EMPTY;
       }
       return this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,

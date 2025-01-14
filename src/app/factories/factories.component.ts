@@ -94,7 +94,7 @@ export class FactoryComponent {
             pictureItem: new PictureItemListOptions({itemId: '' + factory.id}),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.ADD_DATE_DESC,
+          order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
           paginator: false,
         }),
       ),

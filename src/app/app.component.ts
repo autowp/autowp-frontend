@@ -2,7 +2,7 @@ import {AsyncPipe, NgClass} from '@angular/common';
 import {Component, effect, inject, Renderer2} from '@angular/core';
 import {NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {environment} from '@environment/environment';
-import {APIUser, ItemFields, ItemListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {APIUser, ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {
   NgbCollapse,
@@ -68,7 +68,7 @@ export class AppComponent {
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
   protected searchHostname: string;
   protected readonly categories$ = this.itemsClient.list(
-    new ListItemsRequest({
+    new ItemsRequest({
       fields: new ItemFields({
         descendantsCount: true,
         nameText: true,

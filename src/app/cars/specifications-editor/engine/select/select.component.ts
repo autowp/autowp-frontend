@@ -12,8 +12,8 @@ import {
   ItemParentFields,
   ItemParentListOptions,
   ItemRequest,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Pages,
   SetItemEngineRequest,
 } from '@grpc/spec.pb';
@@ -118,7 +118,7 @@ export class CarsEngineSelectComponent {
     debounceTime(50),
     switchMap((search) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameOnly: true}),
           language: this.languageService.language,
           limit: 500,
@@ -131,7 +131,7 @@ export class CarsEngineSelectComponent {
             name: search ? '%' + search + '%' : undefined,
             typeId: ItemType.ITEM_TYPE_BRAND,
           }),
-          order: ListItemsRequest.Order.NAME,
+          order: ItemsRequest.Order.NAME,
         }),
       ),
     ),

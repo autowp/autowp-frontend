@@ -14,8 +14,8 @@ import {
   ItemParentFields,
   ItemParentListOptions,
   ItemParentType,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {
@@ -91,7 +91,7 @@ export class ModerItemsItemCatalogueComponent {
 
             return this.itemsClient
               .list(
-                new ListItemsRequest({
+                new ItemsRequest({
                   fields: new ItemFields({nameHtml: true, nameText: true}),
                   language: this.languageService.language,
                   limit: 10,
@@ -159,7 +159,7 @@ export class ModerItemsItemCatalogueComponent {
   ]).pipe(
     switchMap(([item]) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameText: true}),
           language: this.languageService.language,
           limit: 3,

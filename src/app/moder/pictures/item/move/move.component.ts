@@ -12,8 +12,8 @@ import {
   ItemParentCacheListOptions,
   ItemParentFields,
   ItemParentListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Pages,
   PictureItemType,
   SetPictureItemItemIDRequest,
@@ -186,10 +186,10 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   );
 
   private getItems$(
-    request: ListItemsRequest,
+    request: ItemsRequest,
     selectionType: PictureItemType,
   ): Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> {
-    return combineLatest([this.src$, this.itemsClient.list(new ListItemsRequest(request))]).pipe(
+    return combineLatest([this.src$, this.itemsClient.list(new ItemsRequest(request))]).pipe(
       map(([src, {items, paginator}]) => ({
         items: (items ? items : []).map((item) => ({
           html: item.nameHtml,
@@ -210,7 +210,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly museums$ = this.page$.pipe(
     switchMap((page) =>
       this.getItems$(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 50,
@@ -227,7 +227,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly factories$ = this.page$.pipe(
     switchMap((page) =>
       this.getItems$(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 50,
@@ -251,7 +251,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     ]).pipe(
       switchMap(([page, search]) =>
         this.getItems$(
-          new ListItemsRequest({
+          new ItemsRequest({
             fields: new ItemFields({nameHtml: true}),
             language: this.languageService.language,
             limit: 50,
@@ -276,7 +276,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly copyrights$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> = this.page$.pipe(
     switchMap((page) =>
       this.getItems$(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 50,
@@ -343,7 +343,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly concepts$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> = this.brandId$.pipe(
     switchMap((brandID) =>
       this.getItems$(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
           }),
@@ -369,7 +369,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   ]).pipe(
     switchMap(([page, search]) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 200,

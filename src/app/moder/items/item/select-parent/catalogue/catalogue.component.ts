@@ -8,8 +8,8 @@ import {
   ItemListOptions,
   ItemParentCacheListOptions,
   ItemParentListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Pages,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -73,7 +73,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
             switchMap(([itemTypeID, search, page]) =>
               this.itemsClient.list(
-                new ListItemsRequest({
+                new ItemsRequest({
                   fields: new ItemFields({nameHtml: true}),
                   language: this.languageService.language,
                   limit: 500,
@@ -88,7 +88,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
                     name: search ? '%' + search + '%' : undefined,
                     typeId: ItemType.ITEM_TYPE_BRAND,
                   }),
-                  order: ListItemsRequest.Order.NAME,
+                  order: ItemsRequest.Order.NAME,
                   page,
                 }),
               ),

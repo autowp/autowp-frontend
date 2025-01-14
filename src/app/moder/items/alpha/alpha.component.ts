@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem, APIItemList, ItemFields, ItemListOptions, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {APIItem, APIItemList, ItemFields, ItemListOptions, ItemsRequest, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {LanguageService} from '@services/language';
@@ -54,7 +54,7 @@ export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
             of(groups.groups),
             query.get('char')
               ? this.itemsClient.list(
-                  new ListItemsRequest({
+                  new ItemsRequest({
                     fields: new ItemFields({nameHtml: true}),
                     language: this.languageService.language,
                     limit: 10,

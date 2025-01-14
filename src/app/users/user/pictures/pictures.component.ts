@@ -6,8 +6,8 @@ import {
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   PictureItemListOptions,
   PictureListOptions,
   PictureStatus,
@@ -83,7 +83,7 @@ export class UsersUserPicturesComponent implements OnInit {
   protected readonly brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             descendantPicturesCount: true,
             nameOnly: true,
@@ -101,7 +101,7 @@ export class UsersUserPicturesComponent implements OnInit {
             }),
             typeId: ItemType.ITEM_TYPE_BRAND,
           }),
-          order: ListItemsRequest.Order.NAME_NAT,
+          order: ItemsRequest.Order.NAME_NAT,
         }),
       ),
     ),

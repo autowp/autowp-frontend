@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ItemType, ListItemsRequest, Pages} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemsRequest, ItemType, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {combineLatest, EMPTY, Observable} from 'rxjs';
@@ -44,7 +44,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
   ]).pipe(
     switchMap(([search, page]) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 500,

@@ -7,8 +7,8 @@ import {
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   PictureFields,
   PictureItemListOptions,
   PictureListOptions,
@@ -66,7 +66,7 @@ export class UsersUserPicturesBrandComponent {
     switchMap((catname) =>
       this.itemsClient
         .list(
-          new ListItemsRequest({
+          new ItemsRequest({
             fields: new ItemFields({
               nameOnly: true,
             }),
@@ -130,7 +130,7 @@ export class UsersUserPicturesBrandComponent {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.ADD_DATE_DESC,
+          order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
           page,
           paginator: true,
         }),

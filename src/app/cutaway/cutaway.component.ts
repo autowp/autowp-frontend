@@ -43,7 +43,7 @@ export class CutawayComponent implements OnInit {
             pictureItem: new PictureItemListOptions({perspectiveId: 9}),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          order: PicturesRequest.Order.ORDER_ACCEPT_DATETIME_DESC,
           page: parseInt(params.get('page') ?? '', 10),
           paginator: true,
         }),

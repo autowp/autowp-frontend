@@ -10,8 +10,8 @@ import {
   ItemParentFields,
   ItemParentListOptions,
   ItemParentType,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   PathTreeItemParent,
   Picture,
 } from '@grpc/spec.pb';
@@ -179,7 +179,7 @@ export class CatalogueService {
         }
         return this.itemsClient
           .list(
-            new ListItemsRequest({
+            new ItemsRequest({
               fields: new ItemFields({
                 nameHtml: true,
                 nameText: true,

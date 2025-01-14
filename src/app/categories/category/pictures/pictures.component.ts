@@ -75,7 +75,7 @@ export class CategoriesCategoryPicturesComponent {
               }),
               status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             }),
-            order: PicturesRequest.Order.PERSPECTIVES,
+            order: PicturesRequest.Order.ORDER_PERSPECTIVES,
             page,
             paginator: true,
           }),

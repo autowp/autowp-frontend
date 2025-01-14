@@ -7,7 +7,7 @@ import {
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
-  ListItemsRequest,
+  ItemsRequest,
   PictureFields,
   PictureItemListOptions,
   PictureListOptions,
@@ -46,7 +46,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
         return EMPTY;
       }
       return this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
@@ -88,7 +88,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
+          order: PicturesRequest.Order.ORDER_ACCEPT_DATETIME_DESC,
           page: parseInt(params.get('page') ?? '', 10),
           paginator: true,
         }),

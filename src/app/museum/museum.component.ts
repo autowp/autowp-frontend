@@ -81,7 +81,7 @@ export class MuseumComponent {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.LIKES,
+          order: PicturesRequest.Order.ORDER_LIKES,
           paginator: false,
         }),
       ),

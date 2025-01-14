@@ -5,8 +5,8 @@ import {
   APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Spec,
   VehicleType,
 } from '@grpc/spec.pb';
@@ -129,7 +129,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
           return of([]);
         }
 
-        const params = new ListItemsRequest({
+        const params = new ItemsRequest({
           fields: new ItemFields({nameHtml: true, nameText: true}),
           language: this.languageService.language,
           limit: 10,

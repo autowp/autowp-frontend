@@ -9,8 +9,8 @@ import {
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Picture,
   PictureFields,
   PictureItemListOptions,
@@ -99,7 +99,7 @@ export class CatalogueIndexComponent {
       }
 
       return this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields,
           language: this.#languageService.language,
           limit: 1,
@@ -154,7 +154,7 @@ export class CatalogueIndexComponent {
             }),
             status: PictureStatus.PICTURE_STATUS_ACCEPTED,
           }),
-          order: PicturesRequest.Order.LIKES,
+          order: PicturesRequest.Order.ORDER_LIKES,
         }),
       ),
     ),

@@ -7,8 +7,8 @@ import {
   ItemListOptions,
   ItemParentListOptions,
   ItemRequest,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
@@ -74,7 +74,7 @@ export class TwinsGroupComponent {
   protected readonly selectedBrands$: Observable<string[]> = this.group$.pipe(
     switchMap((group) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           options: new ItemListOptions({
             child: new ItemParentListOptions({
               itemParentParentByChild: new ItemParentListOptions({

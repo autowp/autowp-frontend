@@ -15,7 +15,7 @@ export class PictureModerVoteModalComponent {
   private readonly templateService = inject(APIPictureModerVoteTemplateService);
   private readonly moderVoteService = inject(PictureModerVoteService);
 
-  @Input() pictureId?: number;
+  @Input() pictureId?: string;
   @Input() vote: number = 0;
   @Output() voted = new EventEmitter();
 
@@ -33,7 +33,7 @@ export class PictureModerVoteModalComponent {
     }
 
     if (this.pictureId && this.vote) {
-      this.moderVoteService.vote$('' + this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+      this.moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
     }
 
     this.activeModal.close();

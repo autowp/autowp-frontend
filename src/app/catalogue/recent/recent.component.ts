@@ -6,7 +6,7 @@ import {
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
-  ListItemsRequest,
+  ItemsRequest,
   Picture,
   PictureFields,
   PictureItemListOptions,
@@ -62,7 +62,7 @@ export class CatalogueRecentComponent {
       }
       return this.itemsClient
         .list(
-          new ListItemsRequest({
+          new ItemsRequest({
             fields: new ItemFields({
               nameHtml: true,
               nameOnly: true,
@@ -112,7 +112,7 @@ export class CatalogueRecentComponent {
                 }),
                 status: PictureStatus.PICTURE_STATUS_ACCEPTED,
               }),
-              order: PicturesRequest.Order.ACCEPT_DATETIME_DESC,
+              order: PicturesRequest.Order.ORDER_ACCEPT_DATETIME_DESC,
               page,
               paginator: true,
             }),

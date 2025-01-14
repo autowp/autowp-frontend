@@ -17,49 +17,54 @@
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.ADD_DATE_DESC, status: 'inbox'}"
+    [queryParams]="{order: PicturesRequest.Order.ORDER_ADD_DATE_DESC, status: 'inbox'}"
     i18n
     >Inbox</a
   >
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.ADD_DATE_DESC, status: 'accepted', perspective_id: 'null', type_id: 1}"
+    [queryParams]="{
+      order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
+      status: 'accepted',
+      perspective_id: 'null',
+      type_id: 1,
+    }"
     i18n
     >Missing perspective</a
   >
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.REMOVING_DATE, status: 'removing'}"
+    [queryParams]="{order: PicturesRequest.Order.ORDER_REMOVING_DATE, status: 'removing'}"
     i18n
     >Delete queue</a
   >
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.ADD_DATE_DESC, requests: 3, status: 'custom1'}"
+    [queryParams]="{order: PicturesRequest.Order.ORDER_ADD_DATE_DESC, requests: 3, status: 'custom1'}"
     i18n
     >Votes</a
   >
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.COMMENTS, comments: 1}"
+    [queryParams]="{order: PicturesRequest.Order.ORDER_COMMENTS, comments: 1}"
     i18n
     >Comments</a
   >
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.MODER_VOTES, requests: 3, status: 'custom1'}"
+    [queryParams]="{order: PicturesRequest.Order.ORDER_MODER_VOTES, requests: 3, status: 'custom1'}"
     i18n
     >New votes</a
   >
   <a
     class="nav-link"
     routerLink="/moder/pictures"
-    [queryParams]="{order: PicturesRequest.Order.ADD_DATE_DESC, status: 'inbox', replace: 'true'}"
+    [queryParams]="{order: PicturesRequest.Order.ORDER_ADD_DATE_DESC, status: 'inbox', replace: 'true'}"
     i18n
     >Replaces</a
   >

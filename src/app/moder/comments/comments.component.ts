@@ -13,7 +13,7 @@ import {
   GetMessagesRequest,
   ItemFields,
   ItemListOptions,
-  ListItemsRequest,
+  ItemsRequest,
   ModeratorAttention,
   Pages,
   PictureStatus,
@@ -60,7 +60,7 @@ export class ModerCommentsComponent implements OnInit {
           return of([] as APIItem[]);
         }
 
-        const params = new ListItemsRequest({
+        const params = new ItemsRequest({
           fields: new ItemFields({nameHtml: true, nameText: true}),
           language: this.languageService.language,
           limit: 10,

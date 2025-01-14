@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ListItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
@@ -41,7 +41,7 @@ export class CatalogueConceptsComponent {
         return EMPTY;
       }
       return this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameOnly: true,

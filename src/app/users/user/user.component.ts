@@ -132,7 +132,7 @@ export class UsersUserComponent {
           language: this.#languageService.language,
           limit: 12,
           options: new PictureListOptions({ownerId: user.id}),
-          order: PicturesRequest.Order.ADD_DATE_DESC,
+          order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
           paginator: false,
         }),
       ),

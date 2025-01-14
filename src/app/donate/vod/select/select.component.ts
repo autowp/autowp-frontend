@@ -10,7 +10,7 @@ import {
   ItemParent,
   ItemParentCacheListOptions,
   ItemParentListOptions,
-  ListItemsRequest,
+  ItemsRequest,
   Pages,
 } from '@grpc/spec.pb';
 import {ItemRequest, ItemType} from '@grpc/spec.pb';
@@ -69,7 +69,7 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
         brandID
           ? of(null)
           : this.itemsClient.list(
-              new ListItemsRequest({
+              new ItemsRequest({
                 fields: new ItemFields({nameOnly: true}),
                 language: this.languageService.language,
                 limit: 500,

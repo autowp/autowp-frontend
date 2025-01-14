@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Params, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {ItemFields, ItemListOptions, ItemParentListOptions, ItemType, ListItemsRequest} from '@grpc/spec.pb';
+import {ItemFields, ItemListOptions, ItemParentListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -83,7 +83,7 @@ export class CategoriesCategoryComponent {
     if (!item.loaded) {
       this.itemsClient
         .list(
-          new ListItemsRequest({
+          new ItemsRequest({
             fields: new ItemFields({
               nameHtml: true,
             }),

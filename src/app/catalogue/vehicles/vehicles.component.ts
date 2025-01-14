@@ -308,7 +308,7 @@ export class CatalogueVehiclesComponent {
                         }),
                         status: PictureStatus.PICTURE_STATUS_ACCEPTED,
                       }),
-                      order: PicturesRequest.Order.RESOLUTION_DESC,
+                      order: PicturesRequest.Order.ORDER_RESOLUTION_DESC,
                       paginator: true,
                     }),
                   )

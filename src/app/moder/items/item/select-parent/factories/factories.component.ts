@@ -6,8 +6,8 @@ import {
   GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Pages,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -47,7 +47,7 @@ export class ModerItemsItemSelectParentFactoriesComponent {
   protected readonly factories$: Observable<{items?: APIItem[]; paginator?: Pages}> = this.page$.pipe(
     switchMap((page) =>
       this.itemsClient.list(
-        new ListItemsRequest({
+        new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
           language: this.languageService.language,
           limit: 100,

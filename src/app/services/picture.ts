@@ -1,12 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {
-  PictureListOptions,
-  PicturesRequest,
-  PictureStatus,
-  PicturesUserSummary,
-  PicturesVoteRequest,
-  PicturesVoteSummary,
-} from '@grpc/spec.pb';
+import {PictureListOptions, PicturesRequest, PictureStatus, PicturesUserSummary} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable, of} from 'rxjs';
@@ -20,10 +13,6 @@ import {APIPictureItem} from './picture-item';
 
 export const perspectiveIDLogotype = 22,
   perspectiveIDMixed = 25;
-
-export interface APIGetPictureOptions {
-  fields?: string;
-}
 
 export interface APIGetPicturesOptions {
   added_from?: string;
@@ -201,20 +190,6 @@ export interface APIPictureVotes {
   value: number;
 }
 
-function convertPictureOptions(options: APIGetPictureOptions): {[param: string]: string} {
-  const params: {[param: string]: string} = {};
-
-  if (!options) {
-    options = {};
-  }
-
-  if (options.fields) {
-    params['fields'] = options.fields;
-  }
-
-  return params;
-}
-
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function convertPicturesOptions(options: APIGetPicturesOptions): {[param: string]: string} {
   const params: {[param: string]: string} = {};
@@ -373,12 +348,6 @@ export class PictureService {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  public getPicture$(id: number, options?: APIGetPictureOptions): Observable<APIPicture> {
-    return this.api.request$<APIPicture>('GET', 'picture/' + id, {
-      params: convertPictureOptions(options ? options : {}),
-    });
-  }
-
   public getCanonicalRoute$(identity: string): Observable<null | string[]> {
     return this.api.request$<null | string[]>('GET', 'picture/' + identity + '/canonical-route');
   }
@@ -387,14 +356,5 @@ export class PictureService {
     return this.api.request$<APIPictureGetResponse>('GET', 'picture', {
       params: convertPicturesOptions(options ? options : {}),
     });
-  }
-
-  public vote$(pictureID: number, value: number): Observable<PicturesVoteSummary> {
-    return this.picturesClient.vote(
-      new PicturesVoteRequest({
-        pictureId: pictureID.toString(),
-        value,
-      }),
-    );
   }
 }

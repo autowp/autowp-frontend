@@ -7,8 +7,8 @@ import {
   GetBrandVehicleTypesRequest,
   ItemFields,
   ItemListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
 } from '@grpc/spec.pb';
 import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
 import {ItemService} from '@services/item';
@@ -44,7 +44,7 @@ export class CatalogueCarsComponent {
       }
       return this.itemsClient
         .list(
-          new ListItemsRequest({
+          new ItemsRequest({
             fields: new ItemFields({
               nameHtml: true,
               nameOnly: true,

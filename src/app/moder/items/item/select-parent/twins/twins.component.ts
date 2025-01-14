@@ -8,8 +8,8 @@ import {
   ItemListOptions,
   ItemParentCacheListOptions,
   ItemParentListOptions,
+  ItemsRequest,
   ItemType,
-  ListItemsRequest,
   Pages,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -60,7 +60,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
         : this.page$.pipe(
             switchMap((page) =>
               this.itemsClient.list(
-                new ListItemsRequest({
+                new ItemsRequest({
                   fields: new ItemFields({nameHtml: true}),
                   language: this.languageService.language,
                   limit: 500,
@@ -74,7 +74,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
                     }),
                     typeId: ItemType.ITEM_TYPE_BRAND,
                   }),
-                  order: ListItemsRequest.Order.NAME,
+                  order: ItemsRequest.Order.NAME,
                   page,
                 }),
               ),
@@ -97,7 +97,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
         ? this.page$.pipe(
             switchMap((page) =>
               this.itemsClient.list(
-                new ListItemsRequest({
+                new ItemsRequest({
                   fields: new ItemFields({nameHtml: true}),
                   language: this.languageService.language,
                   limit: 100,
@@ -109,7 +109,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
                     }),
                     typeId: ItemType.ITEM_TYPE_TWINS,
                   }),
-                  order: ListItemsRequest.Order.NAME,
+                  order: ItemsRequest.Order.NAME,
                   page,
                 }),
               ),

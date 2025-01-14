@@ -216,7 +216,7 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
                     }),
                   }),
                 }),
-                order: PicturesRequest.Order.ADD_DATE_DESC,
+                order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
               }),
             )
             .pipe(
