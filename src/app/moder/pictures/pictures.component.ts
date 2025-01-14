@@ -461,6 +461,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
           views: true,
           votes: true,
         }),
+        language: this.#languageService.language,
         limit: 18,
         options: new PictureListOptions({
           addedFrom: this.addedFrom ? parseDate(this.addedFrom) : undefined,
