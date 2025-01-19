@@ -1,9 +1,24 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {ItemService} from '@services/item';
+import {
+  APIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemsRequest,
+  ItemType,
+  Picture,
+  PictureFields,
+  PictureItemListOptions,
+  PictureListOptions,
+  PicturesRequest,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {chunkBy} from '../chunk';
@@ -14,17 +29,47 @@ import {chunkBy} from '../chunk';
   templateUrl: './index.component.html',
 })
 export class CategoriesIndexComponent implements OnInit {
-  private readonly itemService = inject(ItemService);
   private readonly pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly items$ = this.itemService
-    .getItems$({
-      fields: 'name_html,front_picture.thumb_medium,descendants_count',
-      limit: 30,
-      no_parent: true,
-      type_id: ItemType.ITEM_TYPE_CATEGORY, // category
-    })
-    .pipe(map((response) => chunkBy(response.items, 4)));
+  protected readonly items$: Observable<{item: APIItem; picture$: Observable<Picture>}[][]> = this.#itemsClient
+    .list(
+      new ItemsRequest({
+        fields: new ItemFields({
+          descendantsCount: true,
+          nameHtml: true,
+        }),
+        language: this.#languageService.language,
+        limit: 30,
+        options: new ItemListOptions({
+          noParent: true,
+          typeId: ItemType.ITEM_TYPE_CATEGORY,
+        }),
+      }),
+    )
+    .pipe(
+      map((response) =>
+        (response.items || []).map((item) => ({
+          item,
+          picture$: this.#picturesClient.getPicture(
+            new PicturesRequest({
+              fields: new PictureFields({thumbMedium: true}),
+              language: this.#languageService.language,
+              options: new PictureListOptions({
+                pictureItem: new PictureItemListOptions({
+                  itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: item.id}),
+                }),
+                status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+              }),
+              order: PicturesRequest.Order.ORDER_FRONT_PERSPECTIVES,
+            }),
+          ),
+        })),
+      ),
+      map((items) => chunkBy(items, 4)),
+    );
 
   ngOnInit(): void {
     setTimeout(() => this.pageEnv.set({pageId: 22}), 0);

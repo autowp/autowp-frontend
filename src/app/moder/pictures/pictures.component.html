@@ -188,6 +188,7 @@
           (selectItem)="excludeItemOnSelect($event)"
           [resultTemplate]="itemTemplate"
           placeholder="Exclude item"
+          i18n-placeholder
           class="form-control"
           [class.border-primary]="excludeItemID"
         />
@@ -311,7 +312,7 @@
       </div>
 
       <div class="mb-3">
-        <label>Added from (date)</label>
+        <label i18n>Added from (date)</label>
         <input
           type="text"
           name="added_from"

@@ -21,7 +21,6 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -52,12 +51,11 @@ interface PictureRoute {
 })
 export class CatalogueIndexComponent {
   private readonly pageEnv = inject(PageEnvService);
-  private readonly itemService = inject(ItemService);
   private readonly route = inject(ActivatedRoute);
   private readonly acl = inject(ACLService);
   private readonly router = inject(Router);
   private readonly catalogue = inject(CatalogueService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
@@ -98,7 +96,7 @@ export class CatalogueIndexComponent {
         fields.commentsAttentionsCount = true;
       }
 
-      return this.itemsClient.list(
+      return this.#itemsClient.list(
         new ItemsRequest({
           fields,
           language: this.#languageService.language,
@@ -169,7 +167,7 @@ export class CatalogueIndexComponent {
   );
 
   protected readonly links$ = this.brand$.pipe(
-    switchMap((brand) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + brand.id}))),
+    switchMap((brand) => this.#itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + brand.id}))),
     map((response) => {
       const official: APIItemLink[] = [];
       const club: APIItemLink[] = [];
@@ -191,23 +189,53 @@ export class CatalogueIndexComponent {
     }),
   );
 
-  protected readonly factories$ = this.brand$.pipe(
+  protected readonly factories$: Observable<{item: APIItem; picture$: Observable<Picture>}[]> = this.brand$.pipe(
     switchMap((brand) =>
-      this.itemService.getItems$({
-        factories_of_brand: +brand.id,
-        fields: 'name_html,exact_picture.thumb_medium',
-        limit: 4,
-        type_id: ItemType.ITEM_TYPE_FACTORY,
-      }),
+      this.#itemsClient.list(
+        new ItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.#languageService.language,
+          limit: 4,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              itemParentCacheAncestorByItemId: new ItemParentCacheListOptions({
+                itemsByParentId: new ItemListOptions({id: brand.id}),
+              }),
+            }),
+            pictureItems: new PictureItemListOptions({
+              pictures: new PictureListOptions({
+                status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+              }),
+            }),
+            typeId: ItemType.ITEM_TYPE_FACTORY,
+          }),
+        }),
+      ),
     ),
-    map((response) => response.items),
+    map((response) =>
+      (response.items || []).map((item) => ({
+        item,
+        picture$: this.#picturesClient.getPicture(
+          new PicturesRequest({
+            fields: new PictureFields({thumbMedium: true}),
+            language: this.#languageService.language,
+            options: new PictureListOptions({
+              pictureItem: new PictureItemListOptions({itemId: item.id}),
+              status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+            }),
+            order: PicturesRequest.Order.ORDER_LIKES,
+          }),
+        ),
+      })),
+    ),
+    tap((r) => console.log('factories', r)),
   );
 
   protected readonly sections$: Observable<
     {halfChunks: APIBrandSectionGroup[][][]; name: string; routerLink: string[]}[]
   > = this.brand$.pipe(
     switchMap((brand) =>
-      this.itemsClient.getBrandSections(
+      this.#itemsClient.getBrandSections(
         new GetBrandSectionsRequest({
           itemId: brand.id,
           language: this.#languageService.language,
