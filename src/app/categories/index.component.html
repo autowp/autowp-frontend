@@ -27,12 +27,11 @@
               <h5 class="card-title">
                 <a [routerLink]="['/category', category.item.catname]" [innerHTML]="category.item.nameHtml"></a>
               </h5>
-              <p i18n="@@n-vehicles">
-                {category.item.descendantsCount, plural,
-                  one {{{category.item.descendantsCount}} vehicle}
-                  other {{{category.item.descendantsCount}} vehicles}
-                }
-              </p>
+              @if (category.item.descendantsCount; as descendantsCount) {
+                <p i18n="@@n-vehicles">
+                  {descendantsCount, plural, one {{{descendantsCount}} vehicle} other {{{descendantsCount}} vehicles}}
+                </p>
+              }
             </div>
           </div>
         </div>

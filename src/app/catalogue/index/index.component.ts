@@ -228,7 +228,6 @@ export class CatalogueIndexComponent {
         ),
       })),
     ),
-    tap((r) => console.log('factories', r)),
   );
 
   protected readonly sections$: Observable<
