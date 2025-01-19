@@ -110,17 +110,24 @@
           <i class="bi bi-gear-fill" aria-hidden="true"></i>
         </a>
       }
-      @for (pictureItem of picture.pictureItems?.items || []; track pictureItem.itemId) {
-        <select
-          class="form-select form-select-sm me-1 mb-2"
-          [(ngModel)]="pictureItem.perspectiveId"
-          (change)="savePerspective(pictureItem)"
-        >
-          <option [ngValue]="0">--</option>
-          @for (item of perspectiveOptions$ | async; track item.id) {
-            <option [ngValue]="item.id">{{ item.name }}</option>
+      @if (picture.pictureItems?.items || []; as pictureItems) {
+        <div style="clear: both">
+          @for (pictureItem of pictureItems; track pictureItem.itemId) {
+            @if (pictureItems.length > 1) {
+              <div [innerHTML]="pictureItem.item?.nameHtml"></div>
+            }
+            <select
+              class="form-select form-select-sm me-1 mb-2"
+              [(ngModel)]="pictureItem.perspectiveId"
+              (change)="savePerspective(pictureItem)"
+            >
+              <option [ngValue]="0">--</option>
+              @for (item of perspectiveOptions$ | async; track item.id) {
+                <option [ngValue]="item.id">{{ item.name }}</option>
+              }
+            </select>
           }
-        </select>
+        </div>
       }
       @for (dfDistance of picture.dfDistances?.items || []; track dfDistance.dstPictureId) {
         <p class="alert alert-warning" role="alert">

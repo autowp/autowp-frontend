@@ -20,6 +20,7 @@ import {
   Pages,
   Picture,
   PictureFields,
+  PictureItemFields,
   PictureItemListOptions,
   PictureItemsRequest,
   PictureListOptions,
@@ -453,8 +454,15 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
           nameHtml: true,
           nameText: true,
           pictureItem: new PictureItemsRequest({
+            fields: new PictureItemFields({
+              item: new ItemsRequest({
+                fields: new ItemFields({nameHtml: true}),
+              }),
+            }),
             options: new PictureItemListOptions({
-              item: new ItemListOptions({typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND]}),
+              item: new ItemListOptions({
+                typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_PERSON],
+              }),
             }),
           }),
           thumbMedium: true,
