@@ -3,21 +3,33 @@ import type {APIItem} from '@services/item';
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIPicture, PictureService} from '@services/picture';
+import {
+  DfDistanceRequest,
+  ItemListOptions,
+  ItemType,
+  Picture,
+  PictureFields,
+  PictureItemListOptions,
+  PictureItemsRequest,
+  PictureListOptions,
+  PicturesRequest,
+} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../../chunk';
-import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../../../../thumbnail/thumbnail2/thumbnail2.component';
 
 @Component({
-  imports: [RouterLink, ThumbnailComponent, AsyncPipe],
+  imports: [RouterLink, Thumbnail2Component, AsyncPipe],
   selector: 'app-moder-items-item-pictures',
   templateUrl: './pictures.component.html',
 })
 export class ModerItemsItemPicturesComponent {
-  private readonly pictureService = inject(PictureService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -30,18 +42,36 @@ export class ModerItemsItemPicturesComponent {
     ),
   );
 
-  protected readonly picturesChunks$: Observable<APIPicture[][]> = this.item$.pipe(
+  protected readonly picturesChunks$: Observable<Picture[][]> = this.item$.pipe(
     switchMap((item) =>
       item
-        ? this.pictureService.getPictures$({
-            exact_item_id: item.id,
-            fields:
-              'owner,thumb_medium,moder_vote,votes,similar,comments_count,perspective_item,name_html,name_text,views',
-            limit: 500,
-            order: 14,
-          })
+        ? this.#picturesClient.getPictures(
+            new PicturesRequest({
+              fields: new PictureFields({
+                commentsCount: true,
+                dfDistance: new DfDistanceRequest({limit: 1}),
+                moderVote: true,
+                nameHtml: true,
+                nameText: true,
+                pictureItem: new PictureItemsRequest({
+                  options: new PictureItemListOptions({
+                    item: new ItemListOptions({typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND]}),
+                  }),
+                }),
+                thumbMedium: true,
+                views: true,
+                votes: true,
+              }),
+              language: this.#languageService.language,
+              limit: 500,
+              options: new PictureListOptions({
+                pictureItem: new PictureItemListOptions({itemId: '' + item.id}),
+              }),
+              order: PicturesRequest.Order.ORDER_STATUS,
+            }),
+          )
         : EMPTY,
     ),
-    map((response) => chunkBy<APIPicture>(response.pictures, 6)),
+    map((response) => chunkBy<Picture>(response.items || [], 6)),
   );
 }
