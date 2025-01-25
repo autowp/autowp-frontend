@@ -23,6 +23,7 @@ import {
   PictureItemFields,
   PictureItemListOptions,
   PictureItemsRequest,
+  PictureItemType,
   PictureListOptions,
   PictureModerVoteListOptions,
   PicturesRequest,
@@ -463,6 +464,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
               item: new ItemListOptions({
                 typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_PERSON],
               }),
+              typeId: PictureItemType.PICTURE_ITEM_CONTENT,
             }),
           }),
           thumbMedium: true,

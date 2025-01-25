@@ -14,6 +14,7 @@ import {
   PictureFields,
   PictureItemListOptions,
   PictureItemsRequest,
+  PictureItemType,
   PictureListOptions,
   PicturesRequest,
   SetPictureCropRequest,
@@ -277,7 +278,10 @@ export class UploadIndexComponent implements OnInit {
                   nameText: true,
                   pictureItem: new PictureItemsRequest({
                     options: new PictureItemListOptions({
-                      item: new ItemListOptions({typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND]}),
+                      item: new ItemListOptions({
+                        typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_PERSON],
+                      }),
+                      typeId: PictureItemType.PICTURE_ITEM_CONTENT,
                     }),
                   }),
                   thumbMedium: true,
