@@ -74,7 +74,7 @@ export class PersonsPersonPictureComponent {
               options: new PictureListOptions({
                 pictureItem: new PictureItemListOptions({
                   itemId: itemID,
-                  typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
+                  typeId: PictureItemType.PICTURE_ITEM_CONTENT,
                 }),
               }),
               order: PicturesRequest.Order.ORDER_PERSPECTIVES,
