@@ -1,11 +1,11 @@
 @if (picture$ | async; as picture) {
   @if (groupId$ | async; as groupId) {
-    <app-picture2
+    <app-picture
       [picture]="picture"
       [prefix]="['/twins/group', groupId, 'pictures']"
       [galleryRoute]="['/twins/group', groupId, 'gallery', picture.identity]"
       (changed)="reloadPicture()"
-    ></app-picture2>
+    ></app-picture>
   }
   @if (picture) {
     <div id="comments">

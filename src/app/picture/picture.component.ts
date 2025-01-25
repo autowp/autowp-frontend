@@ -1,34 +1,46 @@
-import type {APIPicture} from '@services/picture';
-
 import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {
+  APIItem,
+  APIItemLink,
   APIUser,
   CommentsSubscribeRequest,
   CommentsType,
   CommentsUnSubscribeRequest,
+  ItemFields,
+  ItemLinkListOptions,
+  ItemLinksRequest,
+  ItemListOptions,
+  ItemParentCacheListOptions,
+  ItemsRequest,
+  ItemType,
+  Picture,
+  PictureItem,
+  PictureItemFields,
+  PictureItemListOptions,
+  PictureItemsRequest,
+  PictureItemType,
   PictureStatus,
   PicturesViewRequest,
   PicturesVoteRequest,
   SetPictureItemPerspectiveRequest,
   SetPictureStatusRequest,
 } from '@grpc/spec.pb';
-import {CommentsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {CommentsClient, ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
-import {APIItem} from '@services/item';
-import {APIPictureItem} from '@services/picture-item';
+import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {NgDatePipesModule, NgMathPipesModule} from 'ngx-pipes';
-import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {catchError, filter, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ModerPicturesPerspectivePickerComponent} from '../moder/pictures/perspective-picker/perspective-picker.component';
-import {PictureModerVoteComponent} from '../picture-moder-vote/picture-moder-vote/picture-moder-vote.component';
+import {PictureModerVote2Component} from '../picture-moder-vote/picture-moder-vote2/picture-moder-vote2.component';
 import {ShareComponent} from '../share/share.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {UserComponent} from '../user/user/user.component';
@@ -44,8 +56,6 @@ import {PicturePaginatorComponent} from './paginator.component';
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    PicturePaginatorComponent,
-    PictureModerVoteComponent,
     NgbProgressbar,
     ModerPicturesPerspectivePickerComponent,
     AsyncPipe,
@@ -54,6 +64,8 @@ import {PicturePaginatorComponent} from './paginator.component';
     NgMathPipesModule,
     NgDatePipesModule,
     TimeAgoPipe,
+    PictureModerVote2Component,
+    PicturePaginatorComponent,
   ],
   selector: 'app-picture',
   styleUrls: ['./picture.component.scss'],
@@ -64,37 +76,33 @@ export class PictureComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly commentsGrpc = inject(CommentsClient);
-  private readonly picturesClient = inject(PicturesClient);
   private readonly userService = inject(UserService);
   private readonly toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() prefix: string[] = [];
   @Input() galleryRoute: string[] = [];
   @Input() h2 = false;
   @Output() changed = new EventEmitter<boolean>();
 
-  @Input() set picture(picture: APIPicture) {
+  @Input() set picture(picture: Picture) {
     this.picture$.next(picture);
 
-    this.picturesClient
-      .view(
-        new PicturesViewRequest({
-          pictureId: '' + picture.id,
-        }),
-      )
-      .subscribe();
+    this.#picturesClient.view(new PicturesViewRequest({pictureId: picture.id})).subscribe();
   }
-  protected readonly picture$ = new BehaviorSubject<APIPicture | null>(null);
+  protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => (picture?.owner_id ? this.userService.getUser$(picture.owner_id) : of(null))),
+    switchMap((picture) => this.userService.getUser$(picture?.ownerId)),
   );
 
   protected readonly moderVotes$ = this.picture$.pipe(
     map((picture) =>
-      picture?.moder_votes.map((vote) => ({
+      (picture?.pictureModerVotes?.items || []).map((vote) => ({
         reason: vote.reason,
-        user$: this.userService.getUser$('' + vote.user_id),
+        user$: this.userService.getUser$(vote.userId),
         vote: vote.vote,
       })),
     ),
@@ -104,18 +112,17 @@ export class PictureComponent {
   protected readonly canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
   protected showShareDialog = false;
   protected location = location;
-  protected engines: APIItem[] = [];
   protected statusLoading = false;
 
   protected readonly user$ = this.auth.getUser$();
 
-  protected savePerspective(perspectiveID: null | number, item: APIPictureItem) {
-    this.picturesClient
+  protected savePerspective(perspectiveID: null | number, item: PictureItem) {
+    this.#picturesClient
       .setPictureItemPerspective(
         new SetPictureItemPerspectiveRequest({
-          itemId: '' + item.item_id,
+          itemId: item.itemId,
           perspectiveId: perspectiveID ?? undefined,
-          pictureId: '' + item.picture_id,
+          pictureId: item.pictureId,
           type: item.type,
         }),
       )
@@ -137,17 +144,17 @@ export class PictureComponent {
     return false;
   }
 
-  protected setSubscribed(picture: APIPicture, value: boolean) {
+  protected setSubscribed(picture: Picture, value: boolean) {
     (value
       ? this.commentsGrpc.subscribe(
           new CommentsSubscribeRequest({
-            itemId: '' + picture.id,
+            itemId: picture.id,
             typeId: CommentsType.PICTURES_TYPE_ID,
           }),
         )
       : this.commentsGrpc.unSubscribe(
           new CommentsUnSubscribeRequest({
-            itemId: '' + picture.id,
+            itemId: picture.id,
             typeId: CommentsType.PICTURES_TYPE_ID,
           }),
         )
@@ -156,8 +163,8 @@ export class PictureComponent {
     });
   }
 
-  protected vote(picture: APIPicture, value: number) {
-    this.picturesClient
+  protected vote(picture: Picture, value: number) {
+    this.#picturesClient
       .vote(
         new PicturesVoteRequest({
           pictureId: picture.id.toString(),
@@ -170,11 +177,13 @@ export class PictureComponent {
     return false;
   }
 
-  protected openSource(picture: APIPicture) {
-    window.open(picture.image.src);
+  protected openSource(picture: Picture) {
+    if (picture.image) {
+      window.open(picture.image.src);
+    }
   }
 
-  protected openGallery(picture: APIPicture, $event: MouseEvent) {
+  protected openGallery(picture: Picture, $event: MouseEvent) {
     if ($event.ctrlKey) {
       this.openSource(picture);
       return;
@@ -182,10 +191,10 @@ export class PictureComponent {
     this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', picture.identity]);
   }
 
-  private setPictureStatus(picture: APIPicture, status: PictureStatus) {
+  private setPictureStatus(picture: Picture, status: PictureStatus) {
     this.statusLoading = true;
-    this.picturesClient
-      .setPictureStatus(new SetPictureStatusRequest({id: picture.id + '', status}))
+    this.#picturesClient
+      .setPictureStatus(new SetPictureStatusRequest({id: picture.id, status}))
       .pipe(
         catchError((err: unknown) => {
           this.toastService.handleError(err);
@@ -202,19 +211,183 @@ export class PictureComponent {
       });
   }
 
-  protected unacceptPicture(picture: APIPicture) {
+  protected unacceptPicture(picture: Picture) {
     this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_INBOX);
   }
 
-  protected acceptPicture(picture: APIPicture) {
+  protected acceptPicture(picture: Picture) {
     this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_ACCEPTED);
   }
 
-  protected deletePicture(picture: APIPicture) {
+  protected deletePicture(picture: Picture) {
     this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_REMOVING);
   }
 
-  protected restorePicture(picture: APIPicture) {
+  protected restorePicture(picture: Picture) {
     this.setPictureStatus(picture, PictureStatus.PICTURE_STATUS_INBOX);
   }
+
+  protected readonly factories$ = this.picture$.pipe(
+    filter((picture) => !!picture),
+    switchMap((picture) =>
+      this.#itemsClient.list(
+        new ItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.#languageService.language,
+          limit: 10,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+            }),
+            typeId: ItemType.ITEM_TYPE_FACTORY,
+          }),
+        }),
+      ),
+    ),
+    map((response) => response.items || []),
+  );
+
+  protected readonly categories$ = this.picture$.pipe(
+    filter((picture) => !!picture),
+    switchMap((picture) =>
+      this.#itemsClient.list(
+        new ItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.#languageService.language,
+          limit: 10,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+            }),
+            typeId: ItemType.ITEM_TYPE_CATEGORY,
+          }),
+        }),
+      ),
+    ),
+    map((response) => response.items || []),
+  );
+
+  protected readonly twins$ = this.picture$.pipe(
+    filter((picture) => !!picture),
+    switchMap((picture) =>
+      this.#itemsClient.list(
+        new ItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.#languageService.language,
+          limit: 10,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+            }),
+            typeId: ItemType.ITEM_TYPE_TWINS,
+          }),
+        }),
+      ),
+    ),
+    map((response) => response.items || []),
+  );
+
+  protected readonly brands$: Observable<APIItem[]> = this.picture$.pipe(
+    filter((picture) => !!picture),
+    switchMap((picture) =>
+      this.#itemsClient.list(
+        new ItemsRequest({
+          fields: new ItemFields({nameHtml: true}),
+          language: this.#languageService.language,
+          limit: 10,
+          options: new ItemListOptions({
+            descendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+            }),
+            typeId: ItemType.ITEM_TYPE_BRAND,
+          }),
+        }),
+      ),
+    ),
+    map((response) => response.items || []),
+  );
+
+  protected readonly pictureItems$: Observable<PictureItem[]> = this.picture$
+    .pipe(
+      filter((picture) => !!picture),
+      switchMap((picture) =>
+        this.#picturesClient.getPictureItems(
+          new PictureItemsRequest({
+            fields: new PictureItemFields({
+              item: new ItemsRequest({
+                fields: new ItemFields({
+                  altNames: true,
+                  description: true,
+                  design: true,
+                  hasSpecs: true,
+                  hasText: true,
+                  nameHtml: true,
+                  route: true,
+                  specsRoute: true,
+                }),
+              }),
+            }),
+            language: this.#languageService.language,
+            options: new PictureItemListOptions({pictureId: picture.id}),
+          }),
+        ),
+      ),
+    )
+    .pipe(
+      map((response) => response.items || []),
+      shareReplay({bufferSize: 1, refCount: false}),
+    );
+
+  protected readonly contentItems$ = this.pictureItems$.pipe(
+    map((items) => items.filter((item) => item.type === PictureItemType.PICTURE_ITEM_CONTENT)),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
+
+  protected readonly links$: Observable<APIItemLink[]> = this.picture$.pipe(
+    filter((picture) => !!picture),
+    switchMap((picture) =>
+      this.#itemsClient.getItemLinks(
+        new ItemLinksRequest({
+          options: new ItemLinkListOptions({
+            itemParentCacheDescendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+            }),
+            type: 'official',
+          }),
+        }),
+      ),
+    ),
+    map((response) => response.items || []),
+  );
+
+  protected readonly takenDate$: Observable<null | {date: Date; format: string}> = this.picture$.pipe(
+    filter((picture) => !!picture),
+    map((picture) => {
+      const date = picture.takenDate;
+      if (!date) {
+        return null;
+      }
+
+      if (date.year) {
+        const resDate = new Date();
+        resDate.setFullYear(date.year, 1, 1);
+        let format = 'yyyy';
+        if (date.month) {
+          resDate.setFullYear(date.year, date.month, 1);
+          format = 'MM.yyyy';
+          if (date.day) {
+            resDate.setFullYear(date.year, date.month, date.day);
+            format = 'dd.MM.yyyy';
+          }
+        }
+        return {date: resDate, format};
+      }
+
+      return null;
+    }),
+  );
+
+  protected readonly PictureItemType = PictureItemType;
+  protected readonly PictureStatus = PictureStatus;
+  protected readonly ItemType = ItemType;
 }

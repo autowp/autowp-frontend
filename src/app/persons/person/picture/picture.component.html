@@ -1,12 +1,12 @@
 @if (picture$ | async; as picture) {
   @if (itemID$ | async; as itemID) {
     @if (identity$ | async; as identity) {
-      <app-picture2
+      <app-picture
         [picture]="picture"
         [prefix]="['/persons', itemID]"
         [galleryRoute]="['/persons', itemID, 'gallery', identity]"
         (changed)="reloadPicture()"
-      ></app-picture2>
+      ></app-picture>
     }
   }
   @if (picture) {

@@ -20,11 +20,11 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../../../comments/comments/comments.component';
-import {Picture2Component} from '../../../picture/picture2.component';
+import {PictureComponent} from '../../../picture/picture.component';
 import {CategoriesService} from '../../service';
 
 @Component({
-  imports: [CommentsComponent, AsyncPipe, Picture2Component],
+  imports: [CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-category-picture',
   templateUrl: './picture.component.html',
 })

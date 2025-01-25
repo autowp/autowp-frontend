@@ -20,10 +20,10 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} fro
 
 import {PathItem} from '../categories/service';
 import {CommentsComponent} from '../comments/comments/comments.component';
-import {Picture2Component} from './picture2.component';
+import {PictureComponent} from './picture.component';
 
 @Component({
-  imports: [RouterLink, CommentsComponent, AsyncPipe, Picture2Component],
+  imports: [RouterLink, CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-picture-page',
   templateUrl: './picture-page.component.html',
 })

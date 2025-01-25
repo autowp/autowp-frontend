@@ -22,11 +22,11 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../../../comments/comments/comments.component';
-import {Picture2Component} from '../../../picture/picture2.component';
+import {PictureComponent} from '../../../picture/picture.component';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
-  imports: [RouterLink, CommentsComponent, AsyncPipe, Picture2Component],
+  imports: [RouterLink, CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-catalogue-mixed-picture',
   templateUrl: './picture.component.html',
 })

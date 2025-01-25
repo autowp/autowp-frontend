@@ -2,29 +2,37 @@
   <div class="page-header">
     @if (h2) {
       <h2>
-        <span [innerHTML]="picture.name_html"></span>
-        @if (picture.items.length === 1 && picture.items[0].item.design) {
-          <sup class="design-brand">
-            <ng-container i18n>designed by</ng-container>
-            <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
-          </sup>
+        <span [innerHTML]="picture.nameHtml"></span>
+        @if (pictureItems$ | async; as items) {
+          @if (items.length === 1 && items[0].item?.design) {
+            @if (items[0].item?.design; as design) {
+              <sup class="design-brand">
+                <ng-container i18n>designed by</ng-container>
+                <a [routerLink]="design.route" [textContent]="design.name"></a>
+              </sup>
+            }
+          }
         }
       </h2>
     } @else {
       <h1>
-        <span [innerHTML]="picture.name_html"></span>
-        @if (picture.items.length === 1 && picture.items[0].item.design) {
-          <sup class="design-brand">
-            <ng-container i18n>designed by</ng-container>
-            <a [routerLink]="picture.items[0].item.design.route" [textContent]="picture.items[0].item.design.name"></a>
-          </sup>
+        <span [innerHTML]="picture.nameHtml"></span>
+        @if (pictureItems$ | async; as items) {
+          @if (items.length === 1 && items[0].item?.design) {
+            @if (items[0].item?.design; as design) {
+              <sup class="design-brand">
+                <ng-container i18n>designed by</ng-container>
+                <a [routerLink]="design.route" [textContent]="design.name"></a>
+              </sup>
+            }
+          }
         }
       </h1>
     }
   </div>
   <div class="row">
     <div class="col-md-6">
-      @if (picture.preview_large) {
+      @if (picture.previewLarge) {
         <div class="picture-preview-medium">
           <span
             class="d-block rounded mb-4"
@@ -32,77 +40,89 @@
             (click)="openGallery(picture, $event)"
             style="cursor: pointer"
           >
-            <img alt="" class="rounded border border-light w-100" [src]="picture.preview_large.src" loading="lazy" />
+            <img alt="" class="rounded border border-light w-100" [src]="picture.previewLarge.src" loading="lazy" />
           </span>
-          @if (picture.items.length === 1 && picture.items[0].item.alt_names.length > 0) {
-            <div class="languages">
-              <p i18n>In other languages</p>
-              <ul class="list-unstyled">
-                @for (altName of picture.items[0].item.alt_names; track altName) {
-                  <li>
-                    @for (code of altName.languages; track code) {
-                      <sup class="text-uppercase">{{ code }}</sup>
-                    }
-                    {{ altName.name }}
-                  </li>
+          @if (pictureItems$ | async; as pictureItems) {
+            @if (pictureItems.length === 1) {
+              @if (pictureItems[0].item; as item) {
+                @if (item.altNames && item.altNames.length > 0) {
+                  <div class="languages">
+                    <p i18n>In other languages</p>
+                    <ul class="list-unstyled">
+                      @for (altName of item.altNames; track altName.name) {
+                        <li>
+                          @for (code of altName.languages; track code) {
+                            <sup class="text-uppercase">{{ code }}</sup>
+                          }
+                          {{ altName.name }}
+                        </li>
+                      }
+                    </ul>
+                  </div>
                 }
-              </ul>
-            </div>
+              }
+            }
           }
         </div>
       }
       <div class="row">
         <div class="col-6">
-          <div class="picture-vote">
-            @if (user$ | async) {
-              <button type="button" class="btn btn-link position-relative p-0 me-2" (click)="vote(picture, 1)">
-                <i
-                  class="bi fs-1 vote-up"
-                  aria-hidden="true"
-                  [class.bi-hand-thumbs-up-fill]="picture.votes.value > 0"
-                  [class.bi-hand-thumbs-up]="picture.votes.value <= 0"
-                ></i>
-                @if (picture.votes.positive > 0) {
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">{{
-                    picture.votes.positive
-                  }}</span>
-                }
-              </button>
-            } @else {
-              <button type="button" class="btn btn-link position-relative p-0 me-2" disabled>
-                <i class="bi fs-1 bi-hand-thumbs-up" aria-hidden="true"></i>
-                @if (picture.votes.positive > 0) {
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success">{{
-                    picture.votes.positive
-                  }}</span>
-                }
-              </button>
-            }
-            @if (user$ | async) {
-              <button type="button" class="btn btn-link position-relative p-0" (click)="vote(picture, -1)">
-                <i
-                  class="bi fs-1 vote-down"
-                  aria-hidden="true"
-                  [class.bi-hand-thumbs-down-fill]="picture.votes.value < 0"
-                  [class.bi-hand-thumbs-down]="picture.votes.value >= 0"
-                ></i>
-                @if (picture.votes.negative > 0) {
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger">{{
-                    picture.votes.negative
-                  }}</span>
-                }
-              </button>
-            } @else {
-              <button type="button" class="btn btn-link position-relative p-0" disabled>
-                <i class="bi fs-1 bi-hand-thumbs-down" aria-hidden="true"></i>
-                @if (picture.votes.negative > 0) {
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger">{{
-                    picture.votes.negative
-                  }}</span>
-                }
-              </button>
-            }
-          </div>
+          @if (picture.votes; as votes) {
+            <div class="picture-vote">
+              @if (user$ | async) {
+                <button type="button" class="btn btn-link position-relative p-0 me-2" (click)="vote(picture, 1)">
+                  <i
+                    class="bi fs-1 vote-up"
+                    aria-hidden="true"
+                    [class.bi-hand-thumbs-up-fill]="votes.value > 0"
+                    [class.bi-hand-thumbs-up]="votes.value <= 0"
+                  ></i>
+                  @if (votes.positive > 0) {
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success"
+                      >{{ votes.positive }}</span
+                    >
+                  }
+                </button>
+              } @else {
+                <button type="button" class="btn btn-link position-relative p-0 me-2" disabled>
+                  <i class="bi fs-1 bi-hand-thumbs-up" aria-hidden="true"></i>
+                  @if (votes.positive > 0) {
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-success"
+                      >{{ votes.positive }}</span
+                    >
+                  }
+                </button>
+              }
+              @if (user$ | async) {
+                <button type="button" class="btn btn-link position-relative p-0" (click)="vote(picture, -1)">
+                  <i
+                    class="bi fs-1 vote-down"
+                    aria-hidden="true"
+                    [class.bi-hand-thumbs-down-fill]="votes.value < 0"
+                    [class.bi-hand-thumbs-down]="votes.value >= 0"
+                  ></i>
+                  @if (votes.negative > 0) {
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
+                      >{{ votes.negative }}</span
+                    >
+                  }
+                </button>
+              } @else {
+                <button type="button" class="btn btn-link position-relative p-0" disabled>
+                  <i class="bi fs-1 bi-hand-thumbs-down" aria-hidden="true"></i>
+                  @if (votes.negative > 0) {
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger"
+                      >{{ votes.negative }}</span
+                    >
+                  }
+                </button>
+              }
+            </div>
+          }
         </div>
         <div class="col-6 text-end">
           @if (user$ | async) {
@@ -141,11 +161,13 @@
         </div>
       </div>
       @if (showShareDialog) {
-        <app-share [url]="location.href" [text]="picture.name_text"></app-share>
+        <app-share [url]="location.href" [text]="picture.nameText"></app-share>
       }
-      @for (item of picture.items; track item) {
-        @if (item.type === 2) {
-          <p>Author: <a [routerLink]="['/persons', item.item.id]" [innerHTML]="item.item.name_html"></a></p>
+      @if (pictureItems$ | async; as items) {
+        @for (item of items; track item.itemId) {
+          @if (item.type === PictureItemType.PICTURE_ITEM_AUTHOR) {
+            <p>Author: <a [routerLink]="['/persons', item.item?.id]" [innerHTML]="item.item?.nameHtml"></a></p>
+          }
         }
       }
       @if (picture.copyrights) {
@@ -153,26 +175,32 @@
           <app-markdown [markdown]="picture.copyrights"></app-markdown>
         </div>
       }
-      @for (item of picture.items; track item) {
-        @if (item.type === 3 && item.item.description) {
-          <app-markdown [markdown]="item.item.description"></app-markdown>
+      @if (pictureItems$ | async; as pictureItems) {
+        @for (pictureItem of pictureItems; track pictureItem.itemId) {
+          @if (pictureItem.item; as item) {
+            @if (pictureItem.type === PictureItemType.PICTURE_ITEM_COPYRIGHTS && item.description) {
+              <app-markdown [markdown]="item.description"></app-markdown>
+            }
+          }
         }
       }
-      @for (item of picture.items; track item) {
-        @if (item.type === 1 && item.item.description) {
-          <app-markdown [markdown]="item.item.description" style="margin-bottom: 10px"></app-markdown>
-        }
-        @if (item.item.has_text && item.item.route) {
-          <p>
-            <i class="bi bi-text-left" aria-hidden="true"></i>
-            <a [routerLink]="item.item.route" i18n>details</a>
-          </p>
+      @for (pictureItem of contentItems$ | async; track pictureItem.itemId) {
+        @if (pictureItem.item; as item) {
+          @if (item.description) {
+            <app-markdown [markdown]="item.description" style="margin-bottom: 10px"></app-markdown>
+          }
+          @if (item.hasText && item.route) {
+            <p>
+              <i class="bi bi-text-left" aria-hidden="true"></i>
+              <a [routerLink]="item.route" i18n>details</a>
+            </p>
+          }
         }
       }
       @if (picture.replaceable) {
         <p>
           <ng-container i18n>Picture suggested to replace</ng-container>
-          <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.name_html"></a>
+          <a [routerLink]="['/picture', picture.replaceable.identity]" [innerHTML]="picture.replaceable.nameHtml"></a>
         </p>
       }
     </div>
@@ -181,28 +209,32 @@
       <ul>
         <li>
           <ng-container i18n>Resolution</ng-container>: <strong>{{ picture.width + '×' + picture.height }}</strong>
-          @if (picture.dpi_x || picture.dpi_y) {
-            &#64; <strong>{{ picture.dpi_x + '×' + picture.dpi_y }}</strong>
+          @if (picture.dpiX || picture.dpiY) {
+            &#64; <strong>{{ picture.dpiX + '×' + picture.dpiY }}</strong>
             <a href="https://en.wikipedia.org/wiki/Dots_per_inch"><abbr title="Dots Per Inch">DPI</abbr></a>
-            @if (picture.dpi_x > 0 && picture.dpi_y > 0) {
-              {{ (2.54 * picture.width) / picture.dpi_x | number: '1.2-2' }}×{{
-                (2.54 * picture.height) / picture.dpi_y | number: '1.2-2'
+            @if (picture.dpiX > 0 && picture.dpiY > 0) {
+              {{ (2.54 * picture.width) / picture.dpiX | number: '1.2-2' }}×{{
+                (2.54 * picture.height) / picture.dpiY | number: '1.2-2'
               }}cm
             }
           }
         </li>
-        <li>
-          <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.filesize | bytes: 2 }}</strong>
-        </li>
+        @if (picture.image && picture.image.filesize) {
+          <li>
+            <ng-container i18n>Filesize</ng-container>: <strong>{{ picture.image.filesize | bytes: 2 }}</strong>
+          </li>
+        }
         @if (owner$ | async; as owner) {
           <li>
             <ng-container i18n>Added by:</ng-container>
             <app-user [user]="owner"></app-user>,
-            <span [ngbTooltip]="picture.add_date | date: 'medium'">{{ picture.add_date | timeAgo }}</span>
+            @if (picture.addDate?.toDate(); as date) {
+              <span [ngbTooltip]="date | date: 'medium'">{{ date | timeAgo }}</span>
+            }
           </li>
         }
-        @if (picture.taken_date) {
-          <li><ng-container i18n>Date taken:</ng-container> {{ picture.taken_date }}</li>
+        @if (takenDate$ | async; as takenDate) {
+          <li><ng-container i18n>Date taken:</ng-container> {{ takenDate.date | date: takenDate.format }}</li>
         }
         @if (picture.point) {
           <li>
@@ -210,13 +242,13 @@
             <a
               [href]="
                 'https://www.openstreetmap.org/?mlat=' +
-                picture.point.lat +
+                picture.point.latitude +
                 '&mlon=' +
-                picture.point.lng +
+                picture.point.longitude +
                 '#map=6/' +
-                picture.point.lat +
+                picture.point.latitude +
                 '/' +
-                picture.point.lng
+                picture.point.longitude
               "
               i18n="@@picture/location"
               >Coordinates</a
@@ -225,11 +257,11 @@
         }
         <li>
           <ng-container i18n>Picture status:</ng-container>
-          @if (picture.status === 'inbox') {
+          @if (picture.status === PictureStatus.PICTURE_STATUS_INBOX) {
             <ng-container i18n>Undecided</ng-container>
-          } @else if (picture.status === 'accepted') {
+          } @else if (picture.status === PictureStatus.PICTURE_STATUS_ACCEPTED) {
             <ng-container i18n>Accepted</ng-container>
-          } @else if (picture.status === 'removing') {
+          } @else if (picture.status === PictureStatus.PICTURE_STATUS_REMOVING) {
             <span class="text-danger" i18n>Removing</span>
           }
         </li>
@@ -243,161 +275,110 @@
   Discuss anything and just talk about cars and not only can you on [the forum](/forums/)."
       ></app-markdown>
       <ul class="unstyled">
-        @for (link of picture.of_links; track link) {
+        @for (link of links$ | async; track link) {
           <li>
-            <a [href]="link.url"><i class="bi bi-globe" aria-hidden="true"></i> {{ link.name }}</a>
+            <a [href]="link.url" target="_blank"><i class="bi bi-globe" aria-hidden="true"></i> {{ link.name }}</a>
           </li>
         }
-        @for (category of picture.categories; track category) {
+        @for (category of categories$ | async; track category.id) {
           <li>
             <a [routerLink]="['/category', category.catname]">
-              <i class="bi bi-tag-fill" aria-hidden="true"></i> <span [innerHTML]="category.name_html"></span>
+              <i class="bi bi-tag-fill" aria-hidden="true"></i> <span [innerHTML]="category.nameHtml"></span>
             </a>
           </li>
         }
-        @for (group of picture.twins; track group) {
+        @for (group of twins$ | async; track group.id) {
           <li>
             <a [routerLink]="['/twins/group', group.id]">
-              <i class="bi bi-circle-half" aria-hidden="true"></i> <span [innerHTML]="group.name_html"></span>
+              <i class="bi bi-circle-half" aria-hidden="true"></i> <span [innerHTML]="group.nameHtml"></span>
             </a>
           </li>
         }
-        @for (factory of picture.factories; track factory) {
+        @for (factory of factories$ | async; track factory.id) {
           <li>
             <a [routerLink]="['/factories', factory.id]">
-              <i class="bi bi-gear-wide-connected" aria-hidden="true"></i> <span [innerHTML]="factory.name_html"></span>
+              <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+              <span [innerHTML]="factory.nameHtml"></span>
             </a>
           </li>
         }
         @if (canEditSpecs$ | async; as canEditSpecs) {
-          @for (item of picture.items; track item) {
-            @if (canEditSpecs) {
-              <li>
-                <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: item.item_id}"
-                  ><i class="bi bi-pencil-fill" aria-hidden="true"></i> <ng-container i18n>edit specs</ng-container></a
-                >
-              </li>
-            }
-            @if (item.item.has_specs && item.item.specs_route) {
-              <li>
-                <a [routerLink]="item.item.specs_route">
-                  <i class="bi bi-card-list" aria-hidden="true"></i>
-                  <span i18n>Specifications of</span>
-                  <span [innerHTML]="item.item.name_html"></span>
-                </a>
-              </li>
-            }
-            @if (item.item.design) {
-              <li>
-                <a [routerLink]="item.item.design.route">
-                  <ng-container i18n>designed by</ng-container>
-                  {{ item.item.design.name }}
-                </a>
-              </li>
+          @if (pictureItems$ | async; as pictureItems) {
+            @for (pictureItem of pictureItems; track pictureItem.itemId) {
+              @if (pictureItem.item; as item) {
+                @if (
+                  canEditSpecs &&
+                  (item.itemTypeId === ItemType.ITEM_TYPE_CATEGORY ||
+                    item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE ||
+                    item.itemTypeId === ItemType.ITEM_TYPE_ENGINE ||
+                    item.itemTypeId === ItemType.ITEM_TYPE_TWINS)
+                ) {
+                  <li>
+                    <a [routerLink]="['/cars/specifications-editor']" [queryParams]="{item_id: pictureItem.itemId}"
+                      ><i class="bi bi-pencil-fill" aria-hidden="true"></i>
+                      <ng-container i18n>edit specs</ng-container></a
+                    >
+                  </li>
+                }
+                @if (item.hasSpecs && item.specsRoute) {
+                  <li>
+                    <a [routerLink]="item.specsRoute">
+                      <i class="bi bi-card-list" aria-hidden="true"></i>
+                      <span i18n>Specifications of</span>
+                      <span [innerHTML]="item.nameHtml"></span>
+                    </a>
+                  </li>
+                }
+                @if (item.design; as design) {
+                  <li>
+                    <a [routerLink]="design.route"><ng-container i18n>designed by</ng-container> {{ design.name }}</a>
+                  </li>
+                }
+              }
             }
           }
         }
         @if (user$ | async) {
-          @if (picture.items.length > 1) {
-            <li ngbDropdown>
-              <button ngbDropdownToggle class="btn btn-link" style="padding: 0">
-                <ng-container i18n>Add picture</ng-container>
-                <span class="caret" aria-hidden="true"></span>
-              </button>
-              <div ngbDropdownMenu>
-                @for (item of picture.items; track item) {
-                  @if (item.type === 1) {
-                    <a class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+          @if (contentItems$ | async; as items) {
+            @if (items.length > 1) {
+              <li ngbDropdown>
+                <button ngbDropdownToggle class="btn btn-link" style="padding: 0">
+                  <ng-container i18n>Add picture</ng-container>
+                  <span class="caret" aria-hidden="true"></span>
+                </button>
+                <div ngbDropdownMenu>
+                  @for (item of items; track item.itemId) {
+                    <a class="dropdown-item" routerLink="/upload" [queryParams]="{item_id: item.itemId}">
                       <i class="bi bi-upload" aria-hidden="true"></i>
                       <ng-container i18n>Add picture</ng-container>
-                      <span [innerHTML]="item.item.name_html"></span>
+                      <span [innerHTML]="item.item?.nameHtml"></span>
                     </a>
                   }
-                }
-              </div>
-            </li>
-          }
-          @if (picture.items.length === 1) {
-            @for (item of picture.items; track item) {
-              <li>
-                @if (item.type === 1) {
-                  <a routerLink="/upload" [queryParams]="{item_id: item.item_id}">
+                </div>
+              </li>
+            } @else if (items.length === 1) {
+              @for (item of items; track item.itemId) {
+                <li>
+                  <a routerLink="/upload" [queryParams]="{item_id: item.itemId}">
                     <i class="bi bi-upload" aria-hidden="true"></i>
                     <ng-container i18n>Add picture</ng-container>
-                    <span [innerHTML]="item.item.name_html"></span>
+                    <span [innerHTML]="item.item?.nameHtml"></span>
                   </a>
-                }
-              </li>
+                </li>
+              }
             }
           }
         }
-        <!--<ng-container *ngFor="let engine of engines">
-                    <ng-container *ngIf="engine.vehicles.length == 1">
-                      <li *ngFor="let vehicle of engine.vehicles">
-                        {{'picture/that-engine-is-mounted-to-vehicle'|translate}}
-                        <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
-                      </li>
-                    </ng-container>
-                    <li *ngIf="engine.vehicles.length > 1">
-                      {{'picture/that-engine-is-mounted-to-vehicles:'|translate}}
-                      <ul>
-                        <li *ngFor="let vehicle of engine.vehicles">
-                          {{'picture/that-engine-is-mounted-to-vehicle'|translate}}
-                          <a [href]="vehicle.url" [innerHTML]="vehicle.name_html"></a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ng-container>-->
-        <!--<ng-container *ngFor="let engine of engines">
-                  <li *ngIf="engine.hasSpecs">
-                    <a [href]="engine.specsUrl">
-                      <i class="bi bi-card-list" aria-hidden="true"></i>
-                      sprintf(
-                      $this->escapeHtml($this->translate('catalogue/specifications-of-%1$s')),
-                      $this->escapeHtml($engine['name'])
-                      )
-                    </a>
-                  </li>
-                  <li *ngIf="engine.specsEditUrl">
-                    <a [href]="engine.specsEditUrl">
-                      <i class="bi bi-pencil-fill" aria-hidden="true"></i>
-                      <ng-container i18n>edit specs</ng-container>
-                    </a>
-                  </li>
-                </ng-container>-->
-        <!--
-                <ng-container *ngFor="let factory of factories">
-                  <li>
-                    <a [routerLink]="['/factories', factory.id]" translate>picture/factory-details</a>
-                  </li>
-                  <ng-container *ngIf="factory.items.length > 0">
-                    <li *ngIf="factory.items.length == 1">
-                      {{'picture/on-that-factory-produced-vehicle'|translate}}
-                      <a [routerLink]="['/factories', factory.id]" translate [innerHTML]="factory.items[0].name_html"></a>
-                    </li>
-                    <li *ngIf="factory.items.length > 1">
-                      {{'picture/on-that-factory-produced-vehicles:'|translate}}
-                      <ul>
-                        <li *ngFor="let item of factory.items">
-                          <a [href]="item.url" [innerHTML]="item.name_html"></a>
-                        </li>
-                        <li *ngIf="factory.itemsMore">
-                          {{'picture/on-that-factory-produced-vehicles/and'|translate}}
-                          <a [routerLink]="['/factories', factory.id, 'items']" translate>picture/on-that-factory-produced-vehicles/and-other</a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ng-container>
-                </ng-container>
-                -->
         @if (user$ | async) {
-          @if ((picture.items && picture.items.length > 0) || (engines && engines.length > 0)) {
-            <li>
-              <a routerLink="/upload" [queryParams]="{replace: picture.id}">
-                <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
-                <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
-              </a>
-            </li>
+          @if (pictureItems$ | async; as pictureItems) {
+            @if (pictureItems.length > 0) {
+              <li>
+                <a routerLink="/upload" [queryParams]="{replace: picture.id}">
+                  <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
+                  <ng-container i18n="@@picture/propose-image-replacement">Propose image replacement</ng-container>
+                </a>
+              </li>
+            }
           }
         }
       </ul>
@@ -442,7 +423,7 @@
         <div class="row">
           @if (picture.rights) {
             <div class="col-md-4">
-              @if (picture.status === 'inbox') {
+              @if (picture.status === PictureStatus.PICTURE_STATUS_INBOX) {
                 <div>
                   @if (picture.rights.accept) {
                     <button class="btn btn-success" (click)="acceptPicture(picture)" i18n>Accept</button>
@@ -451,20 +432,20 @@
                     <button class="btn btn-danger" (click)="deletePicture(picture)" i18n>Delete</button>
                   }
                 </div>
-              } @else if (picture.status === 'accepted') {
+              } @else if (picture.status === PictureStatus.PICTURE_STATUS_ACCEPTED) {
                 <div>
                   @if (picture.rights.unaccept) {
                     <button class="btn btn-warning" (click)="unacceptPicture(picture)" i18n>Unaccept</button>
                   }
                 </div>
-              } @else if (picture.status === 'removing') {
+              } @else if (picture.status === PictureStatus.PICTURE_STATUS_REMOVING) {
                 <div>
                   @if (picture.rights.restore) {
                     <button class="btn btn-warning" (click)="restorePicture(picture)" i18n>Restore</button>
                   }
                 </div>
               }
-              <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+              <app-picture-moder-vote2 [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote2>
               <ngb-progressbar
                 type="primary"
                 [striped]="true"
@@ -474,42 +455,42 @@
               ></ngb-progressbar>
             </div>
           }
-          @if (picture.items.length > 0) {
-            <div class="col-md-4">
-              <label class="d-block" i18n>Perspective</label>
-              @for (item of picture.items; track item) {
-                @if (item.type === 1) {
+          @if (contentItems$ | async; as items) {
+            @if (items.length > 0) {
+              <div class="col-md-4">
+                <label class="d-block" i18n>Perspective</label>
+                @for (item of items; track item.itemId) {
                   <div>
-                    <span [innerHTML]="item.item.name_html"></span>
+                    <span [innerHTML]="item.item?.nameHtml"></span>
                     <app-moder-pictures-perspective-picker
-                      [perspectiveID]="item.perspective_id"
+                      [perspectiveID]="item.perspectiveId"
                       (perspectiveChanged)="savePerspective($event, item)"
                     ></app-moder-pictures-perspective-picker>
                   </div>
                 }
-              }
-            </div>
+              </div>
+            }
           }
           <div class="col-md-4">
             <p>
               <i class="bi bi-gear-fill" aria-hidden="true"></i>
               <a [routerLink]="['/moder/pictures', picture.id]" i18n>Edit picture №{{ picture.id }}</a>
             </p>
-            @for (item of picture.items; track item) {
-              <p>
-                <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                <a [routerLink]="['/moder/items/item', item.item_id]"
-                  ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item.name_html"></span
-                ></a>
-              </p>
-            }
-            @for (item of picture.items; track item) {
-              @for (brand of item.item.brands; track brand) {
+            @if (pictureItems$ | async; as items) {
+              @for (item of items; track item.itemId) {
                 <p>
                   <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                  <a [routerLink]="['/moder/items/item', brand.id]"
-                    ><ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.name_html"></span
-                  ></a>
+                  <a [routerLink]="['/moder/items/item', item.itemId]">
+                    <ng-container i18n>Edit item</ng-container> <span [innerHTML]="item.item?.nameHtml"></span>
+                  </a>
+                </p>
+              }
+              @for (brand of brands$ | async; track brand.id) {
+                <p>
+                  <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                  <a [routerLink]="['/moder/items/item', brand.id]">
+                    <ng-container i18n>Edit item</ng-container> <span [innerHTML]="brand.nameHtml"></span>
+                  </a>
                 </p>
               }
             }

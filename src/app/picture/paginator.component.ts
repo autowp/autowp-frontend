@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIPicturePaginator} from '@services/picture';
+import {PicturesPages} from '@grpc/spec.pb';
 
 @Component({
   imports: [RouterLink],
@@ -8,7 +8,7 @@ import {APIPicturePaginator} from '@services/picture';
   templateUrl: './paginator.component.html',
 })
 export class PicturePaginatorComponent {
-  @Input() paginator: APIPicturePaginator | null | undefined = null;
+  @Input() paginator: null | PicturesPages | undefined = null;
   @Input() prefix: string[] = [];
 
   protected format(page: number, count: number) {

@@ -6,49 +6,13 @@ import {Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ACLService, Privilege, Resource} from './acl.service';
-import {APIImage, APIPaginator, APIService} from './api.service';
+import {APIImage, APIService} from './api.service';
 import {AuthService} from './auth.service';
 import {APIItem} from './item';
 import {APIPictureItem} from './picture-item';
 
 export const perspectiveIDLogotype = 22,
   perspectiveIDMixed = 25;
-
-export interface APIGetPicturesOptions {
-  added_from?: string;
-  car_type_id?: number;
-  comments?: boolean | null;
-  exact_item_id?: number;
-  exact_item_link_type?: number;
-  exclude_item_id?: number;
-  fields?: string;
-  gps?: boolean | null;
-  identity?: string;
-  item_id?: number;
-  items?: {
-    type_id?: number;
-  };
-  limit?: number;
-  lost?: boolean | null;
-  order?: number;
-  owner_id?: string;
-  page?: number;
-  paginator?: {
-    exact?: boolean;
-    exact_item_id?: number;
-    exact_item_link_type?: number;
-    item_id?: number;
-    perspective_exclude_id?: string;
-    perspective_id?: number;
-  };
-  perspective_exclude_id?: string;
-  perspective_id?: 'null' | null | number;
-  replace?: boolean | null;
-  requests?: null | number;
-  similar?: boolean;
-  special_name?: boolean | null;
-  status?: string;
-}
 
 export interface APIPicture {
   accepted_count: number;
@@ -153,11 +117,6 @@ export interface APIPicture {
   width: number;
 }
 
-export interface APIPictureGetResponse {
-  paginator: APIPaginator;
-  pictures: APIPicture[];
-}
-
 export interface APIPictureModerVote {
   reason: string;
   user_id: number;
@@ -188,124 +147,6 @@ export interface APIPictureVotes {
   negative: number;
   positive: number;
   value: number;
-}
-
-// eslint-disable-next-line sonarjs/cognitive-complexity
-function convertPicturesOptions(options: APIGetPicturesOptions): {[param: string]: string} {
-  const params: {[param: string]: string} = {};
-
-  if (options.identity) {
-    params['identity'] = options.identity;
-  }
-
-  if (options.fields) {
-    params['fields'] = options.fields;
-  }
-
-  if (options.status) {
-    params['status'] = options.status;
-  }
-
-  if (options.limit) {
-    params['limit'] = options.limit.toString();
-  }
-
-  if (options.page) {
-    params['page'] = options.page.toString();
-  }
-
-  if (options.perspective_id) {
-    params['perspective_id'] = options.perspective_id.toString();
-  }
-
-  if (options.perspective_exclude_id) {
-    params['perspective_exclude_id'] = options.perspective_exclude_id.toString();
-  }
-
-  if (options.order) {
-    params['order'] = options.order.toString();
-  }
-
-  if (options.exact_item_id) {
-    params['exact_item_id'] = options.exact_item_id.toString();
-  }
-
-  if (options.item_id) {
-    params['item_id'] = options.item_id.toString();
-  }
-
-  if (options.exclude_item_id) {
-    params['exclude_item_id'] = options.exclude_item_id.toString();
-  }
-
-  if (options.car_type_id) {
-    params['car_type_id'] = options.car_type_id.toString();
-  }
-
-  if (options.comments !== null && options.comments !== undefined) {
-    params['comments'] = options.comments ? '1' : '0';
-  }
-
-  if (options.replace !== null && options.replace !== undefined) {
-    params['replace'] = options.replace ? '1' : '0';
-  }
-
-  if (options.owner_id) {
-    params['owner_id'] = options.owner_id;
-  }
-
-  if (options.requests !== null && options.requests !== undefined) {
-    params['requests'] = options.requests.toString();
-  }
-
-  if (options.special_name !== null && options.special_name !== undefined) {
-    params['special_name'] = options.special_name ? '1' : '0';
-  }
-
-  if (options.lost !== null && options.lost !== undefined) {
-    params['lost'] = options.lost ? '1' : '0';
-  }
-
-  if (options.gps !== null && options.gps !== undefined) {
-    params['gps'] = options.gps ? '1' : '0';
-  }
-
-  if (options.similar) {
-    params['similar'] = '1';
-  }
-
-  if (options.exact_item_link_type) {
-    params['exact_item_link_type'] = options.exact_item_link_type.toString();
-  }
-
-  if (options.added_from) {
-    params['added_from'] = options.added_from;
-  }
-
-  if (options.items?.type_id) {
-    params['items[type_id]'] = options.items.type_id.toString();
-  }
-
-  if (options.paginator) {
-    if (options.paginator.item_id) {
-      params['paginator[item_id]'] = options.paginator.item_id.toString();
-    }
-    if (options.paginator.exact_item_id) {
-      params['paginator[exact_item_id]'] = options.paginator.exact_item_id.toString();
-    }
-    if (options.paginator.exact_item_link_type) {
-      params['paginator[exact_item_link_type]'] = options.paginator.exact_item_link_type.toString();
-    }
-    if (options.paginator.perspective_id) {
-      params['paginator[perspective_id]'] = options.paginator.perspective_id.toString();
-    }
-
-    if (options.paginator.perspective_exclude_id) {
-      params['paginator[perspective_exclude_id]'] = options.paginator.perspective_exclude_id;
-    }
-  }
-
-  return params;
 }
 
 @Injectable({
@@ -350,11 +191,5 @@ export class PictureService {
 
   public getCanonicalRoute$(identity: string): Observable<null | string[]> {
     return this.api.request$<null | string[]>('GET', 'picture/' + identity + '/canonical-route');
-  }
-
-  public getPictures$(options?: APIGetPicturesOptions): Observable<APIPictureGetResponse> {
-    return this.api.request$<APIPictureGetResponse>('GET', 'picture', {
-      params: convertPicturesOptions(options ? options : {}),
-    });
   }
 }

@@ -1,9 +1,21 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem, CommentsType} from '@grpc/spec.pb';
+import {
+  APIItem,
+  CommentsType,
+  ItemParentCacheListOptions,
+  Picture,
+  PictureFields,
+  PictureItemListOptions,
+  PictureItemType,
+  PictureListOptions,
+  PictureModerVoteRequest,
+  PicturesRequest,
+} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture, PictureService} from '@services/picture';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
@@ -12,26 +24,27 @@ import {PictureComponent} from '../../../../picture/picture.component';
 import {CatalogueService} from '../../../catalogue-service';
 
 @Component({
-  imports: [RouterLink, PictureComponent, CommentsComponent, AsyncPipe],
+  imports: [RouterLink, CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-catalogue-vehicles-pictures-picture',
   templateUrl: './picture.component.html',
 })
 export class CatalogueVehiclesPicturesPictureComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly catalogueService = inject(CatalogueService);
-  private readonly pictureService = inject(PictureService);
-  private readonly router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #catalogueService = inject(CatalogueService);
+  readonly #router = inject(Router);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
-  private readonly changed$ = new BehaviorSubject<void>(void 0);
+  readonly #changed$ = new BehaviorSubject<void>(void 0);
 
-  private readonly identity$ = this.route.paramMap.pipe(
+  readonly #identity$ = this.#route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((identity) => {
       if (!identity) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -40,17 +53,17 @@ export class CatalogueVehiclesPicturesPictureComponent {
     }),
   );
 
-  private readonly exact$ = this.route.data.pipe(
+  readonly #exact$ = this.#route.data.pipe(
     map((params) => !!params['exact']),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly catalogue$ = this.catalogueService.resolveCatalogue$(this.route).pipe(
+  readonly #catalogue$ = this.#catalogueService.resolveCatalogue$(this.#route).pipe(
     switchMap((data) => {
       if (!data?.brand || !data.path || data.path.length <= 0) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -60,7 +73,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly routerLink$ = combineLatest([this.catalogue$, this.exact$]).pipe(
+  readonly #routerLink$ = combineLatest([this.#catalogue$, this.#exact$]).pipe(
     map(([{brand, path}, exact]) => [
       '/',
       brand.catname,
@@ -71,49 +84,70 @@ export class CatalogueVehiclesPicturesPictureComponent {
 
   protected readonly CommentsType = CommentsType;
 
-  protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<APIItem> = this.#catalogue$.pipe(map(({brand}) => brand));
 
-  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+  protected readonly breadcrumbs$ = this.#catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
-  protected readonly picturesRouterLink$ = this.routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
+  protected readonly picturesRouterLink$ = this.#routerLink$.pipe(map((routerLink) => [...routerLink, 'pictures']));
 
-  protected readonly galleryPictureRouterLink$ = combineLatest([this.identity$, this.routerLink$]).pipe(
+  protected readonly galleryPictureRouterLink$ = combineLatest([this.#identity$, this.#routerLink$]).pipe(
     map(([identity, routerLink]) => [...routerLink, 'gallery', identity]),
   );
 
-  protected readonly picture$: Observable<APIPicture> = combineLatest([this.catalogue$, this.identity$]).pipe(
+  protected readonly picture$: Observable<Picture> = combineLatest([
+    this.#catalogue$,
+    this.#identity$,
+    this.#changed$,
+  ]).pipe(
     switchMap(([{path}, identity]) => {
       const itemID = path[path.length - 1].itemId;
 
-      const fields =
-        'owner,name_html,name_text,image,preview_large,paginator,subscribed,taken_date,rights,' +
-        'items.item.design,items.item.description,items.item.specs_route,items.item.has_specs,items.item.alt_names,' +
-        'items.item.name_html,categories.name_html,copyrights,items.item.has_text,items.item.route,' +
-        'twins.name_html,factories.name_html,moder_votes,moder_voted,votes,of_links,replaceable.name_html';
-
-      return this.changed$.pipe(
-        switchMap(() =>
-          this.pictureService.getPictures$({
-            fields,
-            identity,
-            item_id: +itemID,
-            items: {
-              type_id: 1,
-            },
-            limit: 1,
-            paginator: {
-              item_id: +itemID,
-            },
+      return this.#picturesClient.getPicture(
+        new PicturesRequest({
+          fields: new PictureFields({
+            copyrights: true,
+            image: true,
+            moderVoted: true,
+            nameHtml: true,
+            nameText: true,
+            paginator: new PicturesRequest({
+              options: new PictureListOptions({
+                pictureItem: new PictureItemListOptions({
+                  itemParentCacheAncestor: new ItemParentCacheListOptions({
+                    parentId: itemID,
+                  }),
+                  typeId: PictureItemType.PICTURE_ITEM_CONTENT,
+                }),
+              }),
+              order: PicturesRequest.Order.ORDER_PERSPECTIVES,
+            }),
+            pictureModerVotes: new PictureModerVoteRequest(),
+            previewLarge: true,
+            replaceable: new PicturesRequest({
+              fields: new PictureFields({nameHtml: true}),
+            }),
+            rights: true,
+            subscribed: true,
+            votes: true,
           }),
-        ),
-        map((response) => (response.pictures.length ? response.pictures[0] : null)),
+          language: this.#languageService.language,
+          options: new PictureListOptions({
+            identity,
+            pictureItem: new PictureItemListOptions({
+              itemParentCacheAncestor: new ItemParentCacheListOptions({
+                parentId: itemID,
+              }),
+              typeId: PictureItemType.PICTURE_ITEM_CONTENT,
+            }),
+          }),
+        }),
       );
     }),
     switchMap((picture) => {
       if (!picture) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -121,14 +155,14 @@ export class CatalogueVehiclesPicturesPictureComponent {
       return of(picture);
     }),
     tap((picture) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 34,
-        title: picture.name_text,
+        title: picture.nameText,
       });
     }),
   );
 
   protected reloadPicture() {
-    this.changed$.next();
+    this.#changed$.next();
   }
 }

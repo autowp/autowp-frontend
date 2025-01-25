@@ -18,10 +18,10 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../../../../comments/comments/comments.component';
-import {Picture2Component} from '../../../../picture/picture2.component';
+import {PictureComponent} from '../../../../picture/picture.component';
 
 @Component({
-  imports: [Picture2Component, CommentsComponent, AsyncPipe],
+  imports: [CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-persons-person-author-picture',
   templateUrl: './picture.component.html',
 })
