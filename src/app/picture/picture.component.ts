@@ -376,13 +376,13 @@ export class PictureComponent {
 
       if (date.year) {
         const resDate = new Date();
-        resDate.setFullYear(date.year, 1, 1);
+        resDate.setFullYear(date.year, 0, 1);
         let format = 'yyyy';
         if (date.month) {
-          resDate.setFullYear(date.year, date.month, 1);
+          resDate.setFullYear(date.year, date.month - 1, 1);
           format = 'MM.yyyy';
           if (date.day) {
-            resDate.setFullYear(date.year, date.month, date.day);
+            resDate.setFullYear(date.year, date.month - 1, date.day);
             format = 'dd.MM.yyyy';
           }
         }
