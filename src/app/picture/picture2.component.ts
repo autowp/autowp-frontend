@@ -13,7 +13,6 @@ import {
   ItemLinksRequest,
   ItemListOptions,
   ItemParentCacheListOptions,
-  ItemParentListOptions,
   ItemsRequest,
   ItemType,
   Picture,
@@ -257,10 +256,8 @@ export class Picture2Component {
           language: this.#languageService.language,
           limit: 10,
           options: new ItemListOptions({
-            child: new ItemParentListOptions({
-              itemParentCacheItemByChild: new ItemParentCacheListOptions({
-                pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
-              }),
+            descendant: new ItemParentCacheListOptions({
+              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
             }),
             typeId: ItemType.ITEM_TYPE_CATEGORY,
           }),
