@@ -1,6 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PictureItemType} from '@grpc/spec.pb';
 import {APIPaginator} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, of} from 'rxjs';
@@ -38,7 +39,7 @@ export class PersonsPersonAuthorGalleryComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly itemID$ = this.route.parent!.paramMap.pipe(
+  protected readonly itemID$ = this.route.parent!.parent!.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
   );
@@ -54,4 +55,6 @@ export class PersonsPersonAuthorGalleryComponent {
       }, 0);
     }
   }
+
+  protected readonly PictureItemType = PictureItemType;
 }

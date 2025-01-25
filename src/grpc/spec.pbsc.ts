@@ -2366,7 +2366,7 @@ export class ItemsClient {
      * @returns Observable<GrpcEvent<thisProto.APIItemLink>>
      */
     getItemLink: (
-      requestData: thisProto.APIItemLinkRequest,
+      requestData: thisProto.ItemLinksRequest,
       requestMetadata = new GrpcMetadata()
     ): Observable<GrpcEvent<thisProto.APIItemLink>> => {
       return this.handler.handle({
@@ -2375,7 +2375,7 @@ export class ItemsClient {
         path: '/goautowp.Items/GetItemLink',
         requestData,
         requestMetadata,
-        requestClass: thisProto.APIItemLinkRequest,
+        requestClass: thisProto.ItemLinksRequest,
         responseClass: thisProto.APIItemLink
       });
     },
@@ -2384,20 +2384,20 @@ export class ItemsClient {
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.APIItemLinksResponse>>
+     * @returns Observable<GrpcEvent<thisProto.ItemLinks>>
      */
     getItemLinks: (
-      requestData: thisProto.APIGetItemLinksRequest,
+      requestData: thisProto.ItemLinksRequest,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.APIItemLinksResponse>> => {
+    ): Observable<GrpcEvent<thisProto.ItemLinks>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
         path: '/goautowp.Items/GetItemLinks',
         requestData,
         requestMetadata,
-        requestClass: thisProto.APIGetItemLinksRequest,
-        responseClass: thisProto.APIItemLinksResponse
+        requestClass: thisProto.ItemLinksRequest,
+        responseClass: thisProto.ItemLinks
       });
     },
     /**
@@ -3072,7 +3072,7 @@ export class ItemsClient {
    * @returns Observable<thisProto.APIItemLink>
    */
   getItemLink(
-    requestData: thisProto.APIItemLinkRequest,
+    requestData: thisProto.ItemLinksRequest,
     requestMetadata = new GrpcMetadata()
   ): Observable<thisProto.APIItemLink> {
     return this.$raw
@@ -3085,12 +3085,12 @@ export class ItemsClient {
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.APIItemLinksResponse>
+   * @returns Observable<thisProto.ItemLinks>
    */
   getItemLinks(
-    requestData: thisProto.APIGetItemLinksRequest,
+    requestData: thisProto.ItemLinksRequest,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.APIItemLinksResponse> {
+  ): Observable<thisProto.ItemLinks> {
     return this.$raw
       .getItemLinks(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());

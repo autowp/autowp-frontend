@@ -2,11 +2,12 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  APIGetItemLinksRequest,
   APIItem,
   APIItemLink,
   GetBrandSectionsRequest,
   ItemFields,
+  ItemLinkListOptions,
+  ItemLinksRequest,
   ItemListOptions,
   ItemParentCacheListOptions,
   ItemsRequest,
@@ -167,7 +168,9 @@ export class CatalogueIndexComponent {
   );
 
   protected readonly links$ = this.brand$.pipe(
-    switchMap((brand) => this.#itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + brand.id}))),
+    switchMap((brand) =>
+      this.#itemsClient.getItemLinks(new ItemLinksRequest({options: new ItemLinkListOptions({itemId: brand.id})})),
+    ),
     map((response) => {
       const official: APIItemLink[] = [];
       const club: APIItemLink[] = [];

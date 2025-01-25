@@ -3,7 +3,7 @@ import type {APIItem} from '@services/item';
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {APIGetItemLinksRequest, APIItemLink, APIItemLinkRequest} from '@grpc/spec.pb';
+import {APIItemLink, APIItemLinkRequest, ItemLinkListOptions, ItemLinksRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
@@ -40,7 +40,11 @@ export class ModerItemsItemLinksComponent {
   protected readonly links$: Observable<APIItemLink[]> = this.reload$.pipe(
     switchMap(() => this.item$),
     switchMap((item) =>
-      item ? this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + item.id})) : EMPTY,
+      item
+        ? this.itemsClient.getItemLinks(
+            new ItemLinksRequest({options: new ItemLinkListOptions({itemId: '' + item.id})}),
+          )
+        : EMPTY,
     ),
     map((response) => (response.items ? response.items : [])),
   );

@@ -3,10 +3,11 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {
-  APIGetItemLinksRequest,
   APIItem,
   CommentsType,
   ItemFields,
+  ItemLinkListOptions,
+  ItemLinksRequest,
   ItemRequest,
   ItemType,
   PictureFields,
@@ -53,7 +54,13 @@ export class MuseumComponent {
   );
 
   protected readonly links$ = this.itemID$.pipe(
-    switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: itemID}))),
+    switchMap((itemID) =>
+      this.itemsClient.getItemLinks(
+        new ItemLinksRequest({
+          options: new ItemLinkListOptions({itemId: itemID}),
+        }),
+      ),
+    ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return of(null);

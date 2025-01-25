@@ -2,11 +2,12 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  APIGetItemLinksRequest,
   APIItem,
   APIItemLink,
   GetPicturesResponse,
   ItemFields,
+  ItemLinkListOptions,
+  ItemLinksRequest,
   ItemRequest,
   ItemType,
   PictureFields,
@@ -97,7 +98,13 @@ export class PersonsPersonInfoComponent {
   );
 
   protected readonly links$: Observable<APIItemLink[]> = this.itemID$.pipe(
-    switchMap((itemID) => this.itemsClient.getItemLinks(new APIGetItemLinksRequest({itemId: '' + itemID}))),
+    switchMap((itemID) =>
+      this.itemsClient.getItemLinks(
+        new ItemLinksRequest({
+          options: new ItemLinkListOptions({itemId: itemID}),
+        }),
+      ),
+    ),
     catchError((err: unknown) => {
       this.toastService.handleError(err);
       return of({items: []});
