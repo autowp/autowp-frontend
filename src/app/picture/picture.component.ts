@@ -13,6 +13,7 @@ import {
   ItemLinksRequest,
   ItemListOptions,
   ItemParentCacheListOptions,
+  ItemParentListOptions,
   ItemsRequest,
   ItemType,
   Picture,
@@ -256,8 +257,13 @@ export class PictureComponent {
           language: this.#languageService.language,
           limit: 10,
           options: new ItemListOptions({
-            descendant: new ItemParentCacheListOptions({
-              pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+            child: new ItemParentListOptions({
+              item: new ItemListOptions({
+                typeIds: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
+              }),
+              itemParentCacheItemByChild: new ItemParentCacheListOptions({
+                pictureItemsByItemId: new PictureItemListOptions({pictureId: picture.id}),
+              }),
             }),
             typeId: ItemType.ITEM_TYPE_CATEGORY,
           }),
