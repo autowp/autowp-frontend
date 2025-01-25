@@ -81,7 +81,7 @@ export class PersonsPersonAuthorPictureComponent {
                   typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
                 }),
               }),
-              order: PicturesRequest.Order.ORDER_PERSPECTIVES,
+              order: PicturesRequest.Order.ORDER_LIKES,
             }),
             pictureModerVotes: new PictureModerVoteRequest(),
             previewLarge: true,

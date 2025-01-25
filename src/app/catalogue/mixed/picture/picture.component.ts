@@ -121,7 +121,7 @@ export class CatalogueMixedPictureComponent {
                     typeId: PictureItemType.PICTURE_ITEM_CONTENT,
                   }),
                 }),
-                order: PicturesRequest.Order.ORDER_PERSPECTIVES,
+                order: PicturesRequest.Order.ORDER_RESOLUTION_DESC,
               }),
               pictureModerVotes: new PictureModerVoteRequest(),
               previewLarge: true,
