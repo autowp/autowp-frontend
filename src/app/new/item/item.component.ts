@@ -1,7 +1,6 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
   ItemFields,
   ItemParentCacheListOptions,
@@ -15,21 +14,13 @@ import {
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {parseStringToGrpcDate} from '@services/utils';
 import {combineLatest, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../../toasts/toasts.service';
-
-const parseDate = (date: string): GrpcDate => {
-  const parts = date.split('-');
-  const year = parts.length > 0 ? parseInt(parts[0], 10) : 0;
-  const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
-  const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
-
-  return new GrpcDate({day, month, year});
-};
 
 @Component({
   imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe, DatePipe],
@@ -105,7 +96,7 @@ export class NewItemComponent {
           language: this.#languageService.language,
           limit: 24,
           options: new PictureListOptions({
-            acceptDate: date ? parseDate(date) : undefined,
+            acceptDate: date ? parseStringToGrpcDate(date) : undefined,
             pictureItem: new PictureItemListOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: itemID}),
             }),

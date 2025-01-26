@@ -25066,6 +25066,9 @@ export class ItemFields implements GrpcMessage {
     _instance.altNames = _instance.altNames || false;
     _instance.route = _instance.route || false;
     _instance.links = _instance.links || undefined;
+    _instance.categories = _instance.categories || undefined;
+    _instance.twins = _instance.twins || undefined;
+    _instance.canEditSpecs = _instance.canEditSpecs || false;
   }
 
   /**
@@ -25195,6 +25198,23 @@ export class ItemFields implements GrpcMessage {
             ItemLinksRequest.deserializeBinaryFromReader
           );
           break;
+        case 35:
+          _instance.categories = new ItemsRequest();
+          _reader.readMessage(
+            _instance.categories,
+            ItemsRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 36:
+          _instance.twins = new ItemsRequest();
+          _reader.readMessage(
+            _instance.twins,
+            ItemsRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 37:
+          _instance.canEditSpecs = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -25323,6 +25343,23 @@ export class ItemFields implements GrpcMessage {
         ItemLinksRequest.serializeBinaryToWriter
       );
     }
+    if (_instance.categories) {
+      _writer.writeMessage(
+        35,
+        _instance.categories as any,
+        ItemsRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.twins) {
+      _writer.writeMessage(
+        36,
+        _instance.twins as any,
+        ItemsRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.canEditSpecs) {
+      _writer.writeBool(37, _instance.canEditSpecs);
+    }
   }
 
   private _nameOnly: boolean;
@@ -25359,6 +25396,9 @@ export class ItemFields implements GrpcMessage {
   private _altNames: boolean;
   private _route: boolean;
   private _links?: ItemLinksRequest;
+  private _categories?: ItemsRequest;
+  private _twins?: ItemsRequest;
+  private _canEditSpecs: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25404,6 +25444,11 @@ export class ItemFields implements GrpcMessage {
     this.altNames = _value.altNames;
     this.route = _value.route;
     this.links = _value.links ? new ItemLinksRequest(_value.links) : undefined;
+    this.categories = _value.categories
+      ? new ItemsRequest(_value.categories)
+      : undefined;
+    this.twins = _value.twins ? new ItemsRequest(_value.twins) : undefined;
+    this.canEditSpecs = _value.canEditSpecs;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -25610,6 +25655,24 @@ export class ItemFields implements GrpcMessage {
   set links(value: ItemLinksRequest | undefined) {
     this._links = value;
   }
+  get categories(): ItemsRequest | undefined {
+    return this._categories;
+  }
+  set categories(value: ItemsRequest | undefined) {
+    this._categories = value;
+  }
+  get twins(): ItemsRequest | undefined {
+    return this._twins;
+  }
+  set twins(value: ItemsRequest | undefined) {
+    this._twins = value;
+  }
+  get canEditSpecs(): boolean {
+    return this._canEditSpecs;
+  }
+  set canEditSpecs(value: boolean) {
+    this._canEditSpecs = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25663,7 +25726,10 @@ export class ItemFields implements GrpcMessage {
         : undefined,
       altNames: this.altNames,
       route: this.route,
-      links: this.links ? this.links.toObject() : undefined
+      links: this.links ? this.links.toObject() : undefined,
+      categories: this.categories ? this.categories.toObject() : undefined,
+      twins: this.twins ? this.twins.toObject() : undefined,
+      canEditSpecs: this.canEditSpecs
     };
   }
 
@@ -25721,7 +25787,12 @@ export class ItemFields implements GrpcMessage {
         : null,
       altNames: this.altNames,
       route: this.route,
-      links: this.links ? this.links.toProtobufJSON(options) : null
+      links: this.links ? this.links.toProtobufJSON(options) : null,
+      categories: this.categories
+        ? this.categories.toProtobufJSON(options)
+        : null,
+      twins: this.twins ? this.twins.toProtobufJSON(options) : null,
+      canEditSpecs: this.canEditSpecs
     };
   }
 }
@@ -25764,6 +25835,9 @@ export module ItemFields {
     altNames: boolean;
     route: boolean;
     links?: ItemLinksRequest.AsObject;
+    categories?: ItemsRequest.AsObject;
+    twins?: ItemsRequest.AsObject;
+    canEditSpecs: boolean;
   }
 
   /**
@@ -25804,6 +25878,9 @@ export module ItemFields {
     altNames: boolean;
     route: boolean;
     links: ItemLinksRequest.AsProtobufJSON | null;
+    categories: ItemsRequest.AsProtobufJSON | null;
+    twins: ItemsRequest.AsProtobufJSON | null;
+    canEditSpecs: boolean;
   }
 }
 
@@ -29403,6 +29480,9 @@ export class APIItem implements GrpcMessage {
     _instance.route = _instance.route || [];
     _instance.links = _instance.links || undefined;
     _instance.hasText = _instance.hasText || false;
+    _instance.categories = _instance.categories || [];
+    _instance.twins = _instance.twins || [];
+    _instance.canEditSpecs = _instance.canEditSpecs || false;
   }
 
   /**
@@ -29596,6 +29676,27 @@ export class APIItem implements GrpcMessage {
         case 43:
           _instance.hasText = _reader.readBool();
           break;
+        case 44:
+          const messageInitializer44 = new APIItem();
+          _reader.readMessage(
+            messageInitializer44,
+            APIItem.deserializeBinaryFromReader
+          );
+          (_instance.categories = _instance.categories || []).push(
+            messageInitializer44
+          );
+          break;
+        case 45:
+          const messageInitializer45 = new APIItem();
+          _reader.readMessage(
+            messageInitializer45,
+            APIItem.deserializeBinaryFromReader
+          );
+          (_instance.twins = _instance.twins || []).push(messageInitializer45);
+          break;
+        case 46:
+          _instance.canEditSpecs = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -29775,6 +29876,23 @@ export class APIItem implements GrpcMessage {
     if (_instance.hasText) {
       _writer.writeBool(43, _instance.hasText);
     }
+    if (_instance.categories && _instance.categories.length) {
+      _writer.writeRepeatedMessage(
+        44,
+        _instance.categories as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.twins && _instance.twins.length) {
+      _writer.writeRepeatedMessage(
+        45,
+        _instance.twins as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.canEditSpecs) {
+      _writer.writeBool(46, _instance.canEditSpecs);
+    }
   }
 
   private _id: string;
@@ -29820,6 +29938,9 @@ export class APIItem implements GrpcMessage {
   private _route: string[];
   private _links?: ItemLinks;
   private _hasText: boolean;
+  private _categories?: APIItem[];
+  private _twins?: APIItem[];
+  private _canEditSpecs: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -29880,6 +30001,9 @@ export class APIItem implements GrpcMessage {
     this.route = (_value.route || []).slice();
     this.links = _value.links ? new ItemLinks(_value.links) : undefined;
     this.hasText = _value.hasText;
+    this.categories = (_value.categories || []).map(m => new APIItem(m));
+    this.twins = (_value.twins || []).map(m => new APIItem(m));
+    this.canEditSpecs = _value.canEditSpecs;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -30140,6 +30264,24 @@ export class APIItem implements GrpcMessage {
   set hasText(value: boolean) {
     this._hasText = value;
   }
+  get categories(): APIItem[] | undefined {
+    return this._categories;
+  }
+  set categories(value: APIItem[] | undefined) {
+    this._categories = value;
+  }
+  get twins(): APIItem[] | undefined {
+    return this._twins;
+  }
+  set twins(value: APIItem[] | undefined) {
+    this._twins = value;
+  }
+  get canEditSpecs(): boolean {
+    return this._canEditSpecs;
+  }
+  set canEditSpecs(value: boolean) {
+    this._canEditSpecs = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -30200,7 +30342,10 @@ export class APIItem implements GrpcMessage {
       altNames: (this.altNames || []).map(m => m.toObject()),
       route: (this.route || []).slice(),
       links: this.links ? this.links.toObject() : undefined,
-      hasText: this.hasText
+      hasText: this.hasText,
+      categories: (this.categories || []).map(m => m.toObject()),
+      twins: (this.twins || []).map(m => m.toObject()),
+      canEditSpecs: this.canEditSpecs
     };
   }
 
@@ -30274,7 +30419,10 @@ export class APIItem implements GrpcMessage {
       altNames: (this.altNames || []).map(m => m.toProtobufJSON(options)),
       route: (this.route || []).slice(),
       links: this.links ? this.links.toProtobufJSON(options) : null,
-      hasText: this.hasText
+      hasText: this.hasText,
+      categories: (this.categories || []).map(m => m.toProtobufJSON(options)),
+      twins: (this.twins || []).map(m => m.toProtobufJSON(options)),
+      canEditSpecs: this.canEditSpecs
     };
   }
 }
@@ -30326,6 +30474,9 @@ export module APIItem {
     route: string[];
     links?: ItemLinks.AsObject;
     hasText: boolean;
+    categories?: APIItem.AsObject[];
+    twins?: APIItem.AsObject[];
+    canEditSpecs: boolean;
   }
 
   /**
@@ -30375,6 +30526,9 @@ export module APIItem {
     route: string[];
     links: ItemLinks.AsProtobufJSON | null;
     hasText: boolean;
+    categories: APIItem.AsProtobufJSON[] | null;
+    twins: APIItem.AsProtobufJSON[] | null;
+    canEditSpecs: boolean;
   }
 }
 
@@ -40397,6 +40551,1334 @@ export module SetPictureStatusRequest {
   export interface AsProtobufJSON {
     id: string;
     status: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.NewboxRequest
+ */
+export class NewboxRequest implements GrpcMessage {
+  static id = 'goautowp.NewboxRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new NewboxRequest();
+    NewboxRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: NewboxRequest) {
+    _instance.date = _instance.date || undefined;
+    _instance.language = _instance.language || '';
+    _instance.page = _instance.page || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: NewboxRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.date = new googleType004.Date();
+          _reader.readMessage(
+            _instance.date,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.language = _reader.readString();
+          break;
+        case 3:
+          _instance.page = _reader.readUint32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    NewboxRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: NewboxRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.date) {
+      _writer.writeMessage(
+        1,
+        _instance.date as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.language) {
+      _writer.writeString(2, _instance.language);
+    }
+    if (_instance.page) {
+      _writer.writeUint32(3, _instance.page);
+    }
+  }
+
+  private _date?: googleType004.Date;
+  private _language: string;
+  private _page: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of NewboxRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<NewboxRequest.AsObject>) {
+    _value = _value || {};
+    this.date = _value.date ? new googleType004.Date(_value.date) : undefined;
+    this.language = _value.language;
+    this.page = _value.page;
+    NewboxRequest.refineValues(this);
+  }
+  get date(): googleType004.Date | undefined {
+    return this._date;
+  }
+  set date(value: googleType004.Date | undefined) {
+    this._date = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    NewboxRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): NewboxRequest.AsObject {
+    return {
+      date: this.date ? this.date.toObject() : undefined,
+      language: this.language,
+      page: this.page
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): NewboxRequest.AsProtobufJSON {
+    return {
+      date: this.date ? this.date.toProtobufJSON(options) : null,
+      language: this.language,
+      page: this.page
+    };
+  }
+}
+export module NewboxRequest {
+  /**
+   * Standard JavaScript object representation for NewboxRequest
+   */
+  export interface AsObject {
+    date?: googleType004.Date.AsObject;
+    language: string;
+    page: number;
+  }
+
+  /**
+   * Protobuf JSON representation for NewboxRequest
+   */
+  export interface AsProtobufJSON {
+    date: googleType004.Date.AsProtobufJSON | null;
+    language: string;
+    page: number;
+  }
+}
+
+/**
+ * Message implementation for goautowp.NewboxGroup
+ */
+export class NewboxGroup implements GrpcMessage {
+  static id = 'goautowp.NewboxGroup';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new NewboxGroup();
+    NewboxGroup.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: NewboxGroup) {
+    _instance.item = _instance.item || undefined;
+    _instance.pictures = _instance.pictures || [];
+    _instance.totalPictures = _instance.totalPictures || 0;
+    _instance.type = _instance.type || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: NewboxGroup,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.item = new APIItem();
+          _reader.readMessage(
+            _instance.item,
+            APIItem.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          const messageInitializer2 = new Picture();
+          _reader.readMessage(
+            messageInitializer2,
+            Picture.deserializeBinaryFromReader
+          );
+          (_instance.pictures = _instance.pictures || []).push(
+            messageInitializer2
+          );
+          break;
+        case 3:
+          _instance.totalPictures = _reader.readInt32();
+          break;
+        case 4:
+          _instance.type = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    NewboxGroup.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: NewboxGroup,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.item) {
+      _writer.writeMessage(
+        1,
+        _instance.item as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.pictures && _instance.pictures.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.pictures as any,
+        Picture.serializeBinaryToWriter
+      );
+    }
+    if (_instance.totalPictures) {
+      _writer.writeInt32(3, _instance.totalPictures);
+    }
+    if (_instance.type) {
+      _writer.writeString(4, _instance.type);
+    }
+  }
+
+  private _item?: APIItem;
+  private _pictures?: Picture[];
+  private _totalPictures: number;
+  private _type: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of NewboxGroup to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<NewboxGroup.AsObject>) {
+    _value = _value || {};
+    this.item = _value.item ? new APIItem(_value.item) : undefined;
+    this.pictures = (_value.pictures || []).map(m => new Picture(m));
+    this.totalPictures = _value.totalPictures;
+    this.type = _value.type;
+    NewboxGroup.refineValues(this);
+  }
+  get item(): APIItem | undefined {
+    return this._item;
+  }
+  set item(value: APIItem | undefined) {
+    this._item = value;
+  }
+  get pictures(): Picture[] | undefined {
+    return this._pictures;
+  }
+  set pictures(value: Picture[] | undefined) {
+    this._pictures = value;
+  }
+  get totalPictures(): number {
+    return this._totalPictures;
+  }
+  set totalPictures(value: number) {
+    this._totalPictures = value;
+  }
+  get type(): string {
+    return this._type;
+  }
+  set type(value: string) {
+    this._type = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    NewboxGroup.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): NewboxGroup.AsObject {
+    return {
+      item: this.item ? this.item.toObject() : undefined,
+      pictures: (this.pictures || []).map(m => m.toObject()),
+      totalPictures: this.totalPictures,
+      type: this.type
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): NewboxGroup.AsProtobufJSON {
+    return {
+      item: this.item ? this.item.toProtobufJSON(options) : null,
+      pictures: (this.pictures || []).map(m => m.toProtobufJSON(options)),
+      totalPictures: this.totalPictures,
+      type: this.type
+    };
+  }
+}
+export module NewboxGroup {
+  /**
+   * Standard JavaScript object representation for NewboxGroup
+   */
+  export interface AsObject {
+    item?: APIItem.AsObject;
+    pictures?: Picture.AsObject[];
+    totalPictures: number;
+    type: string;
+  }
+
+  /**
+   * Protobuf JSON representation for NewboxGroup
+   */
+  export interface AsProtobufJSON {
+    item: APIItem.AsProtobufJSON | null;
+    pictures: Picture.AsProtobufJSON[] | null;
+    totalPictures: number;
+    type: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Newbox
+ */
+export class Newbox implements GrpcMessage {
+  static id = 'goautowp.Newbox';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Newbox();
+    Newbox.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Newbox) {
+    _instance.groups = _instance.groups || [];
+    _instance.prevDate = _instance.prevDate || undefined;
+    _instance.prevCount = _instance.prevCount || 0;
+    _instance.currentDate = _instance.currentDate || undefined;
+    _instance.currentCount = _instance.currentCount || 0;
+    _instance.nextDate = _instance.nextDate || undefined;
+    _instance.nextCount = _instance.nextCount || 0;
+    _instance.paginator = _instance.paginator || undefined;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: Newbox, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new NewboxGroup();
+          _reader.readMessage(
+            messageInitializer1,
+            NewboxGroup.deserializeBinaryFromReader
+          );
+          (_instance.groups = _instance.groups || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.prevDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.prevDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.prevCount = _reader.readInt32();
+          break;
+        case 4:
+          _instance.currentDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.currentDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 5:
+          _instance.currentCount = _reader.readInt32();
+          break;
+        case 6:
+          _instance.nextDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.nextDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.nextCount = _reader.readInt32();
+          break;
+        case 8:
+          _instance.paginator = new Pages();
+          _reader.readMessage(
+            _instance.paginator,
+            Pages.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Newbox.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Newbox, _writer: BinaryWriter) {
+    if (_instance.groups && _instance.groups.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.groups as any,
+        NewboxGroup.serializeBinaryToWriter
+      );
+    }
+    if (_instance.prevDate) {
+      _writer.writeMessage(
+        2,
+        _instance.prevDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.prevCount) {
+      _writer.writeInt32(3, _instance.prevCount);
+    }
+    if (_instance.currentDate) {
+      _writer.writeMessage(
+        4,
+        _instance.currentDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.currentCount) {
+      _writer.writeInt32(5, _instance.currentCount);
+    }
+    if (_instance.nextDate) {
+      _writer.writeMessage(
+        6,
+        _instance.nextDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.nextCount) {
+      _writer.writeInt32(7, _instance.nextCount);
+    }
+    if (_instance.paginator) {
+      _writer.writeMessage(
+        8,
+        _instance.paginator as any,
+        Pages.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _groups?: NewboxGroup[];
+  private _prevDate?: googleType004.Date;
+  private _prevCount: number;
+  private _currentDate?: googleType004.Date;
+  private _currentCount: number;
+  private _nextDate?: googleType004.Date;
+  private _nextCount: number;
+  private _paginator?: Pages;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Newbox to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Newbox.AsObject>) {
+    _value = _value || {};
+    this.groups = (_value.groups || []).map(m => new NewboxGroup(m));
+    this.prevDate = _value.prevDate
+      ? new googleType004.Date(_value.prevDate)
+      : undefined;
+    this.prevCount = _value.prevCount;
+    this.currentDate = _value.currentDate
+      ? new googleType004.Date(_value.currentDate)
+      : undefined;
+    this.currentCount = _value.currentCount;
+    this.nextDate = _value.nextDate
+      ? new googleType004.Date(_value.nextDate)
+      : undefined;
+    this.nextCount = _value.nextCount;
+    this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
+    Newbox.refineValues(this);
+  }
+  get groups(): NewboxGroup[] | undefined {
+    return this._groups;
+  }
+  set groups(value: NewboxGroup[] | undefined) {
+    this._groups = value;
+  }
+  get prevDate(): googleType004.Date | undefined {
+    return this._prevDate;
+  }
+  set prevDate(value: googleType004.Date | undefined) {
+    this._prevDate = value;
+  }
+  get prevCount(): number {
+    return this._prevCount;
+  }
+  set prevCount(value: number) {
+    this._prevCount = value;
+  }
+  get currentDate(): googleType004.Date | undefined {
+    return this._currentDate;
+  }
+  set currentDate(value: googleType004.Date | undefined) {
+    this._currentDate = value;
+  }
+  get currentCount(): number {
+    return this._currentCount;
+  }
+  set currentCount(value: number) {
+    this._currentCount = value;
+  }
+  get nextDate(): googleType004.Date | undefined {
+    return this._nextDate;
+  }
+  set nextDate(value: googleType004.Date | undefined) {
+    this._nextDate = value;
+  }
+  get nextCount(): number {
+    return this._nextCount;
+  }
+  set nextCount(value: number) {
+    this._nextCount = value;
+  }
+  get paginator(): Pages | undefined {
+    return this._paginator;
+  }
+  set paginator(value: Pages | undefined) {
+    this._paginator = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Newbox.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Newbox.AsObject {
+    return {
+      groups: (this.groups || []).map(m => m.toObject()),
+      prevDate: this.prevDate ? this.prevDate.toObject() : undefined,
+      prevCount: this.prevCount,
+      currentDate: this.currentDate ? this.currentDate.toObject() : undefined,
+      currentCount: this.currentCount,
+      nextDate: this.nextDate ? this.nextDate.toObject() : undefined,
+      nextCount: this.nextCount,
+      paginator: this.paginator ? this.paginator.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Newbox.AsProtobufJSON {
+    return {
+      groups: (this.groups || []).map(m => m.toProtobufJSON(options)),
+      prevDate: this.prevDate ? this.prevDate.toProtobufJSON(options) : null,
+      prevCount: this.prevCount,
+      currentDate: this.currentDate
+        ? this.currentDate.toProtobufJSON(options)
+        : null,
+      currentCount: this.currentCount,
+      nextDate: this.nextDate ? this.nextDate.toProtobufJSON(options) : null,
+      nextCount: this.nextCount,
+      paginator: this.paginator ? this.paginator.toProtobufJSON(options) : null
+    };
+  }
+}
+export module Newbox {
+  /**
+   * Standard JavaScript object representation for Newbox
+   */
+  export interface AsObject {
+    groups?: NewboxGroup.AsObject[];
+    prevDate?: googleType004.Date.AsObject;
+    prevCount: number;
+    currentDate?: googleType004.Date.AsObject;
+    currentCount: number;
+    nextDate?: googleType004.Date.AsObject;
+    nextCount: number;
+    paginator?: Pages.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for Newbox
+   */
+  export interface AsProtobufJSON {
+    groups: NewboxGroup.AsProtobufJSON[] | null;
+    prevDate: googleType004.Date.AsProtobufJSON | null;
+    prevCount: number;
+    currentDate: googleType004.Date.AsProtobufJSON | null;
+    currentCount: number;
+    nextDate: googleType004.Date.AsProtobufJSON | null;
+    nextCount: number;
+    paginator: Pages.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.InboxRequest
+ */
+export class InboxRequest implements GrpcMessage {
+  static id = 'goautowp.InboxRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new InboxRequest();
+    InboxRequest.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: InboxRequest) {
+    _instance.brandId = _instance.brandId || '0';
+    _instance.date = _instance.date || undefined;
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: InboxRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.brandId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.date = new googleType004.Date();
+          _reader.readMessage(
+            _instance.date,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    InboxRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: InboxRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.brandId) {
+      _writer.writeInt64String(1, _instance.brandId);
+    }
+    if (_instance.date) {
+      _writer.writeMessage(
+        2,
+        _instance.date as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.language) {
+      _writer.writeString(3, _instance.language);
+    }
+  }
+
+  private _brandId: string;
+  private _date?: googleType004.Date;
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of InboxRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<InboxRequest.AsObject>) {
+    _value = _value || {};
+    this.brandId = _value.brandId;
+    this.date = _value.date ? new googleType004.Date(_value.date) : undefined;
+    this.language = _value.language;
+    InboxRequest.refineValues(this);
+  }
+  get brandId(): string {
+    return this._brandId;
+  }
+  set brandId(value: string) {
+    this._brandId = value;
+  }
+  get date(): googleType004.Date | undefined {
+    return this._date;
+  }
+  set date(value: googleType004.Date | undefined) {
+    this._date = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    InboxRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): InboxRequest.AsObject {
+    return {
+      brandId: this.brandId,
+      date: this.date ? this.date.toObject() : undefined,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): InboxRequest.AsProtobufJSON {
+    return {
+      brandId: this.brandId,
+      date: this.date ? this.date.toProtobufJSON(options) : null,
+      language: this.language
+    };
+  }
+}
+export module InboxRequest {
+  /**
+   * Standard JavaScript object representation for InboxRequest
+   */
+  export interface AsObject {
+    brandId: string;
+    date?: googleType004.Date.AsObject;
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for InboxRequest
+   */
+  export interface AsProtobufJSON {
+    brandId: string;
+    date: googleType004.Date.AsProtobufJSON | null;
+    language: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.InboxBrand
+ */
+export class InboxBrand implements GrpcMessage {
+  static id = 'goautowp.InboxBrand';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new InboxBrand();
+    InboxBrand.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: InboxBrand) {
+    _instance.id = _instance.id || '0';
+    _instance.name = _instance.name || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: InboxBrand,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.name = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    InboxBrand.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: InboxBrand, _writer: BinaryWriter) {
+    if (_instance.id) {
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.name) {
+      _writer.writeString(2, _instance.name);
+    }
+  }
+
+  private _id: string;
+  private _name: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of InboxBrand to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<InboxBrand.AsObject>) {
+    _value = _value || {};
+    this.id = _value.id;
+    this.name = _value.name;
+    InboxBrand.refineValues(this);
+  }
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    this._id = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    InboxBrand.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): InboxBrand.AsObject {
+    return {
+      id: this.id,
+      name: this.name
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): InboxBrand.AsProtobufJSON {
+    return {
+      id: this.id,
+      name: this.name
+    };
+  }
+}
+export module InboxBrand {
+  /**
+   * Standard JavaScript object representation for InboxBrand
+   */
+  export interface AsObject {
+    id: string;
+    name: string;
+  }
+
+  /**
+   * Protobuf JSON representation for InboxBrand
+   */
+  export interface AsProtobufJSON {
+    id: string;
+    name: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Inbox
+ */
+export class Inbox implements GrpcMessage {
+  static id = 'goautowp.Inbox';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Inbox();
+    Inbox.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Inbox) {
+    _instance.brands = _instance.brands || [];
+    _instance.prevDate = _instance.prevDate || undefined;
+    _instance.prevCount = _instance.prevCount || 0;
+    _instance.currentDate = _instance.currentDate || undefined;
+    _instance.currentCount = _instance.currentCount || 0;
+    _instance.nextDate = _instance.nextDate || undefined;
+    _instance.nextCount = _instance.nextCount || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(_instance: Inbox, _reader: BinaryReader) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new InboxBrand();
+          _reader.readMessage(
+            messageInitializer1,
+            InboxBrand.deserializeBinaryFromReader
+          );
+          (_instance.brands = _instance.brands || []).push(messageInitializer1);
+          break;
+        case 2:
+          _instance.prevDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.prevDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.prevCount = _reader.readInt32();
+          break;
+        case 4:
+          _instance.currentDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.currentDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 5:
+          _instance.currentCount = _reader.readInt32();
+          break;
+        case 6:
+          _instance.nextDate = new googleType004.Date();
+          _reader.readMessage(
+            _instance.nextDate,
+            googleType004.Date.deserializeBinaryFromReader
+          );
+          break;
+        case 7:
+          _instance.nextCount = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Inbox.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Inbox, _writer: BinaryWriter) {
+    if (_instance.brands && _instance.brands.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.brands as any,
+        InboxBrand.serializeBinaryToWriter
+      );
+    }
+    if (_instance.prevDate) {
+      _writer.writeMessage(
+        2,
+        _instance.prevDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.prevCount) {
+      _writer.writeInt32(3, _instance.prevCount);
+    }
+    if (_instance.currentDate) {
+      _writer.writeMessage(
+        4,
+        _instance.currentDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.currentCount) {
+      _writer.writeInt32(5, _instance.currentCount);
+    }
+    if (_instance.nextDate) {
+      _writer.writeMessage(
+        6,
+        _instance.nextDate as any,
+        googleType004.Date.serializeBinaryToWriter
+      );
+    }
+    if (_instance.nextCount) {
+      _writer.writeInt32(7, _instance.nextCount);
+    }
+  }
+
+  private _brands?: InboxBrand[];
+  private _prevDate?: googleType004.Date;
+  private _prevCount: number;
+  private _currentDate?: googleType004.Date;
+  private _currentCount: number;
+  private _nextDate?: googleType004.Date;
+  private _nextCount: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Inbox to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Inbox.AsObject>) {
+    _value = _value || {};
+    this.brands = (_value.brands || []).map(m => new InboxBrand(m));
+    this.prevDate = _value.prevDate
+      ? new googleType004.Date(_value.prevDate)
+      : undefined;
+    this.prevCount = _value.prevCount;
+    this.currentDate = _value.currentDate
+      ? new googleType004.Date(_value.currentDate)
+      : undefined;
+    this.currentCount = _value.currentCount;
+    this.nextDate = _value.nextDate
+      ? new googleType004.Date(_value.nextDate)
+      : undefined;
+    this.nextCount = _value.nextCount;
+    Inbox.refineValues(this);
+  }
+  get brands(): InboxBrand[] | undefined {
+    return this._brands;
+  }
+  set brands(value: InboxBrand[] | undefined) {
+    this._brands = value;
+  }
+  get prevDate(): googleType004.Date | undefined {
+    return this._prevDate;
+  }
+  set prevDate(value: googleType004.Date | undefined) {
+    this._prevDate = value;
+  }
+  get prevCount(): number {
+    return this._prevCount;
+  }
+  set prevCount(value: number) {
+    this._prevCount = value;
+  }
+  get currentDate(): googleType004.Date | undefined {
+    return this._currentDate;
+  }
+  set currentDate(value: googleType004.Date | undefined) {
+    this._currentDate = value;
+  }
+  get currentCount(): number {
+    return this._currentCount;
+  }
+  set currentCount(value: number) {
+    this._currentCount = value;
+  }
+  get nextDate(): googleType004.Date | undefined {
+    return this._nextDate;
+  }
+  set nextDate(value: googleType004.Date | undefined) {
+    this._nextDate = value;
+  }
+  get nextCount(): number {
+    return this._nextCount;
+  }
+  set nextCount(value: number) {
+    this._nextCount = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Inbox.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Inbox.AsObject {
+    return {
+      brands: (this.brands || []).map(m => m.toObject()),
+      prevDate: this.prevDate ? this.prevDate.toObject() : undefined,
+      prevCount: this.prevCount,
+      currentDate: this.currentDate ? this.currentDate.toObject() : undefined,
+      currentCount: this.currentCount,
+      nextDate: this.nextDate ? this.nextDate.toObject() : undefined,
+      nextCount: this.nextCount
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Inbox.AsProtobufJSON {
+    return {
+      brands: (this.brands || []).map(m => m.toProtobufJSON(options)),
+      prevDate: this.prevDate ? this.prevDate.toProtobufJSON(options) : null,
+      prevCount: this.prevCount,
+      currentDate: this.currentDate
+        ? this.currentDate.toProtobufJSON(options)
+        : null,
+      currentCount: this.currentCount,
+      nextDate: this.nextDate ? this.nextDate.toProtobufJSON(options) : null,
+      nextCount: this.nextCount
+    };
+  }
+}
+export module Inbox {
+  /**
+   * Standard JavaScript object representation for Inbox
+   */
+  export interface AsObject {
+    brands?: InboxBrand.AsObject[];
+    prevDate?: googleType004.Date.AsObject;
+    prevCount: number;
+    currentDate?: googleType004.Date.AsObject;
+    currentCount: number;
+    nextDate?: googleType004.Date.AsObject;
+    nextCount: number;
+  }
+
+  /**
+   * Protobuf JSON representation for Inbox
+   */
+  export interface AsProtobufJSON {
+    brands: InboxBrand.AsProtobufJSON[] | null;
+    prevDate: googleType004.Date.AsProtobufJSON | null;
+    prevCount: number;
+    currentDate: googleType004.Date.AsProtobufJSON | null;
+    currentCount: number;
+    nextDate: googleType004.Date.AsProtobufJSON | null;
+    nextCount: number;
   }
 }
 

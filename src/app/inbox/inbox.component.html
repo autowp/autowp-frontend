@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4 mb-4">
       <select name="brand_id" [(ngModel)]="brandID" class="form-select" (change)="changeBrand()">
-        <option [ngValue]="0" i18n>All brands</option>
+        <option [ngValue]="''" i18n>All brands</option>
         @for (brand of data.inbox.brands; track brand.id) {
           <option [textContent]="brand.name" [ngValue]="brand.id"></option>
         }
@@ -23,18 +23,18 @@
   </div>
   <div class="row mb-4">
     <div class="col-lg-4 col-md-4">
-      @if (data.inbox.prev && data.inbox.prev.date) {
+      @if (data.inbox.prevDate) {
         <h3 class="text-start">
           &#x2190;
           <a
-            [routerLink]="['/inbox', data.brandCatname, data.inbox.prev.date]"
-            [textContent]="data.inbox.prev.date | date: 'mediumDate'"
+            [routerLink]="['/inbox', data.brandCatname, formatGrpcDate(data.inbox.prevDate)]"
+            [textContent]="parseGrpcDate(data.inbox.prevDate) | date: 'mediumDate'"
           ></a>
           <br />
           <small
-            >(<span i18n="@@n-pictures">{data.inbox.prev.count, plural,
-              one {{{data.inbox.prev.count}} picture}
-              other {{{data.inbox.prev.count}} pictures}
+            >(<span i18n="@@n-pictures">{data.inbox.prevCount, plural,
+              one {{{data.inbox.prevCount}} picture}
+              other {{{data.inbox.prevCount}} pictures}
             }</span
             >)</small
           >
@@ -42,14 +42,14 @@
       }
     </div>
     <div class="col-lg-4 col-md-4">
-      @if (data.inbox.current) {
+      @if (data.inbox.currentDate) {
         <h3 class="text-center">
-          <span [textContent]="data.inbox.current.date | date: 'mediumDate'"></span>
+          <span [textContent]="parseGrpcDate(data.inbox.currentDate) | date: 'mediumDate'"></span>
           <br />
           <small
-            >(<span i18n="@@n-pictures">{data.inbox.current.count, plural,
-              one {{{data.inbox.current.count}} picture}
-              other {{{data.inbox.current.count}} pictures}
+            >(<span i18n="@@n-pictures">{data.inbox.currentCount, plural,
+              one {{{data.inbox.currentCount}} picture}
+              other {{{data.inbox.currentCount}} pictures}
             }</span
             >)</small
           >
@@ -57,17 +57,17 @@
       }
     </div>
     <div class="col-lg-4 col-md-4">
-      @if (data.inbox.next && data.inbox.next.date) {
+      @if (data.inbox.nextDate) {
         <h3 class="text-end">
           <a
-            [routerLink]="['/inbox', data.brandCatname, data.inbox.next.date]"
-            [textContent]="data.inbox.next.date | date: 'mediumDate'"
+            [routerLink]="['/inbox', data.brandCatname, formatGrpcDate(data.inbox.nextDate)]"
+            [textContent]="parseGrpcDate(data.inbox.nextDate) | date: 'mediumDate'"
           ></a>
           <br />
           <small
-            >(<span i18n="@@n-pictures">{data.inbox.next.count, plural,
-              one {{{data.inbox.next.count}} picture}
-              other {{{data.inbox.next.count}} pictures}
+            >(<span i18n="@@n-pictures">{data.inbox.nextCount, plural,
+              one {{{data.inbox.nextCount}} picture}
+              other {{{data.inbox.nextCount}} pictures}
             }</span
             >)</small
           >

@@ -4598,6 +4598,48 @@ export class PicturesClient {
         requestClass: thisProto.SetPictureStatusRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/GetInbox
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Inbox>>
+     */
+    getInbox: (
+      requestData: thisProto.InboxRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Inbox>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetInbox',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.InboxRequest,
+        responseClass: thisProto.Inbox
+      });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/GetNewbox
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Newbox>>
+     */
+    getNewbox: (
+      requestData: thisProto.NewboxRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Newbox>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetNewbox',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.NewboxRequest,
+        responseClass: thisProto.Newbox
+      });
     }
   };
 
@@ -5054,6 +5096,38 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .setPictureStatus(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetInbox
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Inbox>
+   */
+  getInbox(
+    requestData: thisProto.InboxRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Inbox> {
+    return this.$raw
+      .getInbox(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetNewbox
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Newbox>
+   */
+  getNewbox(
+    requestData: thisProto.NewboxRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Newbox> {
+    return this.$raw
+      .getNewbox(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

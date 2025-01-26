@@ -2,7 +2,6 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
   APIGetUserRequest,
   APIItem,
@@ -43,6 +42,7 @@ import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
+import {parseStringToGrpcDate} from '@services/utils';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {getPerspectiveTranslation, getVehicleTypeTranslation} from '@utils/translations';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of, Subscription} from 'rxjs';
@@ -65,15 +65,6 @@ interface VehicleTypeInPictures {
   name: string;
   value: null | string;
 }
-
-const parseDate = (date: string): GrpcDate => {
-  const parts = date.split('-');
-  const year = parts.length > 0 ? parseInt(parts[0], 10) : 0;
-  const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
-  const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
-
-  return new GrpcDate({day, month, year});
-};
 
 function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeInPictures[] {
   const result: VehicleTypeInPictures[] = [];
@@ -474,7 +465,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
         language: this.#languageService.language,
         limit: 18,
         options: new PictureListOptions({
-          addedFrom: this.addedFrom ? parseDate(this.addedFrom) : undefined,
+          addedFrom: this.addedFrom ? parseStringToGrpcDate(this.addedFrom) : undefined,
           commentTopic: this.comments === true ? new CommentTopicListOptions({messagesGtZero: true}) : undefined,
           dfDistance: this.similar
             ? new DfDistanceListOptions({

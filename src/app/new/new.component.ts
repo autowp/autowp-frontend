@@ -1,121 +1,99 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIPaginator, APIService} from '@services/api.service';
-import {APIItem} from '@services/item';
+import {APIItem, NewboxRequest, Pages, Picture} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {APIPicture} from '@services/picture';
+import {formatDate, formatGrpcDate, parseGrpcDate, parseStringToGrpcDate} from '@services/utils';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../chunk';
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
-import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
+import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {NewListItemComponent} from './list-item/list-item.component';
 
-interface APINewGetResponse {
-  current: DayCount;
-  groups: APINewGroup[];
-  next: DayCount;
-  paginator: APIPaginator;
-  prev: DayCount;
-}
-
-interface APINewGroup {
-  item: APIItem;
-  pictures: APIPicture[];
-  total_pictures: number;
-  type: string;
-}
-
 interface APINewGroupRepacked {
-  chunks?: APIPicture[][];
+  chunks?: Picture[][];
   item?: APIItem;
-  pictures?: APIPicture[];
-  total_pictures?: number;
+  pictures?: Picture[];
+  totalPictures?: number;
   type: string;
+}
+
+interface Data {
+  current: DayCount;
+  groups: (APINewGroupRepacked | null)[];
+  next: DayCount;
+  paginator: Pages | undefined;
+  prev: DayCount;
 }
 
 interface DayCount {
   count: number;
-  date: string;
+  date: Date | null;
 }
 
 @Component({
-  imports: [RouterLink, NewListItemComponent, ThumbnailComponent, PaginatorComponent, AsyncPipe, DatePipe],
+  imports: [RouterLink, NewListItemComponent, PaginatorComponent, AsyncPipe, DatePipe, Thumbnail2Component],
   selector: 'app-new',
   templateUrl: './new.component.html',
 })
 export class NewComponent implements OnInit {
-  private readonly api = inject(APIService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$: Observable<number> = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly date$ = this.route.paramMap.pipe(
-    map((params) => params.get('date')),
+  protected readonly date$: Observable<string> = this.#route.paramMap.pipe(
+    map((params) => params.get('date') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly data$: Observable<{
-    current: DayCount;
-    groups: (APINewGroupRepacked | null)[];
-    next: DayCount;
-    paginator: APIPaginator;
-    prev: DayCount;
-  }> = combineLatest([this.page$, this.date$]).pipe(
-    switchMap(([page, date]) => {
-      const q: {
-        date?: string;
-        fields: string;
-        page?: string;
-      } = {
-        fields:
-          'pictures.thumb_medium,pictures.votes,pictures.views,' +
-          'pictures.comments_count,pictures.name_html,pictures.name_text,' +
-          'item_pictures.thumb_medium,item_pictures.name_html,item_pictures.name_text,' +
-          'item.name_html,item.name_default,item.description,item.produced,' +
-          'item.design,item.can_edit_specs,item.specs_route,' +
-          'item.categories.name_html,item.twins_groups',
-      };
-      if (date) {
-        q.date = date;
-      }
-      if (page) {
-        q.page = page.toString();
-      }
-      return this.api
-        .request$<APINewGetResponse>('GET', 'new', {
-          params: q,
-        })
+  protected readonly data$: Observable<Data> = combineLatest([this.#page$, this.date$]).pipe(
+    switchMap(([page, date]) =>
+      this.#picturesClient
+        .getNewbox(
+          new NewboxRequest({
+            date: parseStringToGrpcDate(date),
+            language: this.#languageService.language,
+            page,
+          }),
+        )
         .pipe(
           catchError((response: unknown) => {
-            this.toastService.handleError(response);
+            this.#toastService.handleError(response);
             return EMPTY;
           }),
-          map((response) => ({date, response})),
-        );
-    }),
-    switchMap(({date, response}) => {
-      if (date !== response.current.date) {
-        this.router.navigate(['/new', response.current.date]);
-        return EMPTY;
-      }
-      return of(response);
-    }),
+          switchMap((response) => {
+            const currentDateStr = response.currentDate ? formatGrpcDate(response.currentDate) : '';
+            console.log('date !== currentDateStr', date, currentDateStr, date !== currentDateStr);
+            if (date !== currentDateStr) {
+              this.#router.navigate(['/new', currentDateStr]);
+              return EMPTY;
+            }
+            return of(response);
+          }),
+        ),
+    ),
     map((response) => ({
-      current: response.current,
-      groups: response.groups
+      current: {
+        count: response.currentCount,
+        date: response.currentDate ? parseGrpcDate(response.currentDate) : null,
+      },
+      groups: (response.groups || [])
         .filter((group) => group.type === 'item' || group.type === 'pictures')
         .map((group) => {
           let repackedGroup: APINewGroupRepacked | null = null;
@@ -126,7 +104,7 @@ export class NewComponent implements OnInit {
               break;
             case 'pictures':
               repackedGroup = {
-                chunks: chunkBy(group.pictures, 6),
+                chunks: chunkBy(group.pictures || [], 6),
                 type: group.type,
               };
               break;
@@ -134,13 +112,21 @@ export class NewComponent implements OnInit {
 
           return repackedGroup;
         }),
-      next: response.next,
+      next: {
+        count: response.nextCount,
+        date: response.nextDate ? parseGrpcDate(response.nextDate) : null,
+      },
       paginator: response.paginator,
-      prev: response.prev,
+      prev: {
+        count: response.prevCount,
+        date: response.prevDate ? parseGrpcDate(response.prevDate) : null,
+      },
     })),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 51}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 51}), 0);
   }
+
+  protected readonly formatDate = formatDate;
 }

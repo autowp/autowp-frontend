@@ -16,7 +16,10 @@
       @if (data.prev && data.prev.date) {
         <h3 class="text-start">
           &#x2190;
-          <a [routerLink]="['/new', data.prev.date]" [textContent]="data.prev.date | date: 'mediumDate'"></a>
+          <a
+            [routerLink]="['/new', formatDate(data.prev.date)]"
+            [textContent]="data.prev.date | date: 'mediumDate'"
+          ></a>
           <br />
           <small
             >(<span i18n="@@n-pictures">{data.prev.count, plural,
@@ -46,7 +49,10 @@
     <div class="col-lg-4 col-md-4">
       @if (data.next && data.next.date) {
         <h3 class="text-end">
-          <a [routerLink]="['/new', data.next.date]" [textContent]="data.next.date | date: 'mediumDate'"></a>
+          <a
+            [routerLink]="['/new', formatDate(data.next.date)]"
+            [textContent]="data.next.date | date: 'mediumDate'"
+          ></a>
           <br />
           <small
             >(<span i18n="@@n-pictures">{data.next.count, plural,
@@ -67,7 +73,7 @@
           <app-new-list-item
             [item]="group.item"
             [pictures]="group.pictures"
-            [totalPictures]="group.total_pictures || 0"
+            [totalPictures]="group.totalPictures || 0"
             [date]="(date$ | async) || ''"
           ></app-new-list-item>
         } @else {
@@ -75,7 +81,7 @@
             <div class="row">
               @for (picture of chunk; track picture) {
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                  <app-thumbnail [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail>
+                  <app-thumbnail2 [picture]="picture" [route]="['/picture', picture.identity]"></app-thumbnail2>
                 </div>
               }
             </div>

@@ -2,9 +2,10 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {Date as GrpcDate} from '@grpc/google/type/date.pb';
 import {
   GetPicturesResponse,
+  Inbox,
+  InboxRequest,
   ItemParentCacheListOptions,
   PictureFields,
   PictureItemListOptions,
@@ -16,6 +17,7 @@ import {PicturesClient} from '@grpc/spec.pbsc';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {formatGrpcDate, parseGrpcDate, parseStringToGrpcDate} from '@services/utils';
 import Keycloak from 'keycloak-js';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -23,24 +25,14 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rx
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
 import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
 import {ToastsService} from '../toasts/toasts.service';
-import {APIInbox, InboxService} from './inbox.service';
 
 const ALL_BRANDS = 'all';
 
-interface Inbox {
+interface InboxData {
   brandCatname: string;
-  inbox: APIInbox;
+  inbox: Inbox;
   pictures$: Observable<GetPicturesResponse>;
 }
-
-const parseDate = (date: string): GrpcDate => {
-  const parts = date.split('-');
-  const year = parts.length > 0 ? parseInt(parts[0], 10) : 0;
-  const month = parts.length > 1 ? parseInt(parts[1], 10) : 0;
-  const day = parts.length > 2 ? parseInt(parts[2], 10) : 0;
-
-  return new GrpcDate({day, month, year});
-};
 
 @Component({
   imports: [RouterLink, FormsModule, Thumbnail2Component, PaginatorComponent, AsyncPipe, DatePipe],
@@ -48,27 +40,26 @@ const parseDate = (date: string): GrpcDate => {
   templateUrl: './inbox.component.html',
 })
 export class InboxComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly auth = inject(AuthService);
-  private readonly route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #auth = inject(AuthService);
+  readonly #route = inject(ActivatedRoute);
   readonly #languageService = inject(LanguageService);
-  private readonly keycloak = inject(Keycloak);
-  private readonly inboxService = inject(InboxService);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #keycloak = inject(Keycloak);
+  readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
 
-  protected readonly inbox$: Observable<Inbox> = this.auth.getUser$().pipe(
+  protected readonly inbox$: Observable<InboxData> = this.#auth.getUser$().pipe(
     switchMap((user) => {
       if (!user) {
-        this.keycloak.login({
+        this.#keycloak.login({
           locale: this.#languageService.language,
           redirectUri: window.location.href,
         });
         return EMPTY;
       }
 
-      return this.route.paramMap;
+      return this.#route.paramMap;
     }),
     map((params) => ({
       brand: params.get('brand'),
@@ -78,38 +69,52 @@ export class InboxComponent implements OnInit {
     debounceTime(30),
     switchMap((params) => {
       if (!params.brand) {
-        this.router.navigate(['/inbox', ALL_BRANDS]);
+        this.#router.navigate(['/inbox', ALL_BRANDS]);
         return EMPTY;
       }
 
-      let brandID = 0;
+      let brandID = '';
       if (params.brand !== ALL_BRANDS) {
-        brandID = params.brand ? parseInt(params.brand, 10) : 0;
+        brandID = params.brand ? params.brand : '';
       }
 
       this.brandID = brandID;
 
       return combineLatest([
         of(params.date),
-        this.inboxService.get$(brandID, params.date).pipe(
-          catchError((err: unknown) => {
-            this.#toastService.handleError(err);
-            return EMPTY;
-          }),
-        ),
+        this.#picturesClient
+          .getInbox(
+            new InboxRequest({
+              brandId: brandID,
+              date: parseStringToGrpcDate(params.date),
+              language: this.#languageService.language,
+            }),
+          )
+          .pipe(
+            catchError((err: unknown) => {
+              this.#toastService.handleError(err);
+              return EMPTY;
+            }),
+          ),
         of(brandID),
       ]);
     }),
     switchMap(([date, inbox, brandID]) => {
-      if (date !== inbox.current.date) {
-        this.router.navigate(['/inbox', brandID ? brandID : 'all', inbox.current.date]);
+      const currentDate = inbox.currentDate;
+      if (!currentDate) {
+        return EMPTY;
+      }
+
+      const currentDateStr = formatGrpcDate(currentDate);
+      if (date !== currentDateStr) {
+        this.#router.navigate(['/inbox', brandID ? brandID : 'all', currentDateStr]);
         return EMPTY;
       }
 
       return of({
         brandCatname: brandID ? brandID.toString() : 'all',
         inbox: inbox,
-        pictures$: this.route.queryParamMap.pipe(
+        pictures$: this.#route.queryParamMap.pipe(
           map((params) => parseInt(params.get('page') ?? '', 10)),
           distinctUntilChanged(),
           switchMap((page) =>
@@ -127,7 +132,7 @@ export class InboxComponent implements OnInit {
                 language: this.#languageService.language,
                 limit: 24,
                 options: new PictureListOptions({
-                  addDate: parseDate(inbox.current.date),
+                  addDate: currentDate,
                   pictureItem: new PictureItemListOptions({
                     itemParentCacheAncestor: brandID
                       ? new ItemParentCacheListOptions({parentId: '' + brandID})
@@ -150,13 +155,16 @@ export class InboxComponent implements OnInit {
     }),
   );
 
-  protected brandID = 0;
+  protected brandID = '';
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 76}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 76}), 0);
   }
 
   protected changeBrand() {
-    this.router.navigate(['/inbox', this.brandID ? this.brandID : 'all']);
+    this.#router.navigate(['/inbox', this.brandID ? this.brandID : 'all']);
   }
+
+  protected readonly formatGrpcDate = formatGrpcDate;
+  protected readonly parseGrpcDate = parseGrpcDate;
 }
