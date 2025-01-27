@@ -3,11 +3,11 @@ import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemsRequest,
   ItemType,
   Pages,
@@ -109,7 +109,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     switchMap(([itemTypeID, brandID, page]) =>
       brandID
         ? this.itemsClient.getItemParents(
-            new GetItemParentsRequest({
+            new ItemParentsRequest({
               language: this.languageService.language,
               limit: 100,
               options: new ItemParentListOptions({
@@ -119,7 +119,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
                 }),
                 parentId: brandID,
               }),
-              order: GetItemParentsRequest.Order.AUTO,
+              order: ItemParentsRequest.Order.AUTO,
               page,
             }),
           )
@@ -139,5 +139,5 @@ export class ModerItemsItemSelectParentCatalogueComponent {
     return false;
   }
 
-  protected readonly GetItemParentsRequest = GetItemParentsRequest;
+  protected readonly ItemParentsRequest = ItemParentsRequest;
 }

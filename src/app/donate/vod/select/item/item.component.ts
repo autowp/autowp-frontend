@@ -3,11 +3,11 @@ import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
   ItemRequest,
   ItemType,
@@ -58,7 +58,7 @@ export class DonateVodSelectItemComponent {
     switchMap((itemParent) =>
       itemParent
         ? this.itemsClient.getItemParents(
-            new GetItemParentsRequest({
+            new ItemParentsRequest({
               language: this.languageService.language,
               options: new ItemParentListOptions({
                 item: new ItemListOptions({
@@ -66,7 +66,7 @@ export class DonateVodSelectItemComponent {
                 }),
                 parentId: itemParent.itemId,
               }),
-              order: GetItemParentsRequest.Order.AUTO,
+              order: ItemParentsRequest.Order.AUTO,
             }),
           )
         : EMPTY,

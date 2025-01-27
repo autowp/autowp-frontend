@@ -4,13 +4,13 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
-  GetItemParentsRequest,
   APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemRequest,
   ItemsRequest,
   ItemType,
@@ -151,7 +151,7 @@ export class UploadSelectComponent implements OnInit {
       of(item),
       this.itemsClient
         .getItemParents(
-          new GetItemParentsRequest({
+          new ItemParentsRequest({
             fields: new ItemParentFields({
               item: new ItemFields({
                 childsCount: true,
@@ -167,7 +167,7 @@ export class UploadSelectComponent implements OnInit {
               }),
               parentId: item.id,
             }),
-            order: GetItemParentsRequest.Order.AUTO,
+            order: ItemParentsRequest.Order.AUTO,
           }),
         )
         .pipe(
@@ -179,7 +179,7 @@ export class UploadSelectComponent implements OnInit {
         ),
       this.itemsClient
         .getItemParents(
-          new GetItemParentsRequest({
+          new ItemParentsRequest({
             fields: new ItemParentFields({
               item: new ItemFields({
                 childsCount: true,
@@ -195,7 +195,7 @@ export class UploadSelectComponent implements OnInit {
               }),
               parentId: item.id,
             }),
-            order: GetItemParentsRequest.Order.AUTO,
+            order: ItemParentsRequest.Order.AUTO,
           }),
         )
         .pipe(
@@ -207,7 +207,7 @@ export class UploadSelectComponent implements OnInit {
         ),
       this.itemsClient
         .getItemParents(
-          new GetItemParentsRequest({
+          new ItemParentsRequest({
             fields: new ItemParentFields({
               item: new ItemFields({
                 childsCount: true,
@@ -222,7 +222,7 @@ export class UploadSelectComponent implements OnInit {
               }),
               parentId: item.id,
             }),
-            order: GetItemParentsRequest.Order.AUTO,
+            order: ItemParentsRequest.Order.AUTO,
           }),
         )
         .pipe(

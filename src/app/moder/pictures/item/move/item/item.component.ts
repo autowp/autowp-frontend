@@ -1,11 +1,11 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {
-  GetItemParentsRequest,
   ItemFields,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
   PictureItemType,
 } from '@grpc/spec.pb';
@@ -51,7 +51,7 @@ export class ModerPictureMoveItemComponent {
     switchMap((item) =>
       item
         ? this.#itemsClient.getItemParents(
-            new GetItemParentsRequest({
+            new ItemParentsRequest({
               fields: new ItemParentFields({
                 item: new ItemFields({
                   childsCount: true,
@@ -63,7 +63,7 @@ export class ModerPictureMoveItemComponent {
               options: new ItemParentListOptions({
                 parentId: item.row.itemId,
               }),
-              order: GetItemParentsRequest.Order.AUTO,
+              order: ItemParentsRequest.Order.AUTO,
             }),
           )
         : EMPTY,

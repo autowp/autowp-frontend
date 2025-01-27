@@ -3,13 +3,13 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
-  GetItemParentsRequest,
-  GetItemParentsResponse,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentCacheListOptions,
   ItemParentListOptions,
+  ItemParents,
+  ItemParentsRequest,
   ItemsRequest,
   Pages,
 } from '@grpc/spec.pb';
@@ -48,8 +48,8 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
   private readonly select$: Observable<null | {
     brand: null | {
       brand: APIItem;
-      concepts: GetItemParentsResponse;
-      vehicles: GetItemParentsResponse;
+      concepts: ItemParents;
+      vehicles: ItemParents;
     };
     items: APIItemList | null;
   }> = this.route.queryParamMap.pipe(
@@ -84,7 +84,7 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
               switchMap((brand) =>
                 combineLatest([
                   this.itemsClient.getItemParents(
-                    new GetItemParentsRequest({
+                    new ItemParentsRequest({
                       language: this.languageService.language,
                       options: new ItemParentListOptions({
                         item: new ItemListOptions({
@@ -92,11 +92,11 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
                         }),
                         parentId: brand.id,
                       }),
-                      order: GetItemParentsRequest.Order.AUTO,
+                      order: ItemParentsRequest.Order.AUTO,
                     }),
                   ),
                   this.itemsClient.getItemParents(
-                    new GetItemParentsRequest({
+                    new ItemParentsRequest({
                       language: this.languageService.language,
                       options: new ItemParentListOptions({
                         item: new ItemListOptions({
@@ -108,7 +108,7 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
                         }),
                         parentId: brand.id,
                       }),
-                      order: GetItemParentsRequest.Order.AUTO,
+                      order: ItemParentsRequest.Order.AUTO,
                     }),
                   ),
                 ]).pipe(map(([vehicles, concepts]) => ({brand, concepts, vehicles}))),

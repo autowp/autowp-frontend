@@ -2699,20 +2699,20 @@ export class ItemsClient {
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.GetItemParentsResponse>>
+     * @returns Observable<GrpcEvent<thisProto.ItemParents>>
      */
     getItemParents: (
-      requestData: thisProto.GetItemParentsRequest,
+      requestData: thisProto.ItemParentsRequest,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.GetItemParentsResponse>> => {
+    ): Observable<GrpcEvent<thisProto.ItemParents>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
         path: '/goautowp.Items/GetItemParents',
         requestData,
         requestMetadata,
-        requestClass: thisProto.GetItemParentsRequest,
-        responseClass: thisProto.GetItemParentsResponse
+        requestClass: thisProto.ItemParentsRequest,
+        responseClass: thisProto.ItemParents
       });
     },
     /**
@@ -3325,12 +3325,12 @@ export class ItemsClient {
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.GetItemParentsResponse>
+   * @returns Observable<thisProto.ItemParents>
    */
   getItemParents(
-    requestData: thisProto.GetItemParentsRequest,
+    requestData: thisProto.ItemParentsRequest,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.GetItemParentsResponse> {
+  ): Observable<thisProto.ItemParents> {
     return this.$raw
       .getItemParents(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
@@ -4289,12 +4289,12 @@ export class PicturesClient {
      *
      * @param requestMessage Request message
      * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.GetPicturesResponse>>
+     * @returns Observable<GrpcEvent<thisProto.PicturesList>>
      */
     getPictures: (
       requestData: thisProto.PicturesRequest,
       requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.GetPicturesResponse>> => {
+    ): Observable<GrpcEvent<thisProto.PicturesList>> => {
       return this.handler.handle({
         type: GrpcCallType.unary,
         client: this.client,
@@ -4302,7 +4302,7 @@ export class PicturesClient {
         requestData,
         requestMetadata,
         requestClass: thisProto.PicturesRequest,
-        responseClass: thisProto.GetPicturesResponse
+        responseClass: thisProto.PicturesList
       });
     },
     /**
@@ -4864,12 +4864,12 @@ export class PicturesClient {
    *
    * @param requestMessage Request message
    * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.GetPicturesResponse>
+   * @returns Observable<thisProto.PicturesList>
    */
   getPictures(
     requestData: thisProto.PicturesRequest,
     requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.GetPicturesResponse> {
+  ): Observable<thisProto.PicturesList> {
     return this.$raw
       .getPictures(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());

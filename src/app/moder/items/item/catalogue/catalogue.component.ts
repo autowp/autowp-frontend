@@ -6,13 +6,13 @@ import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {
   DeleteItemParentRequest,
-  GetItemParentsRequest,
   APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
   ItemsRequest,
   ItemType,
@@ -29,8 +29,6 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
-
-import Order = GetItemParentsRequest.Order;
 
 @Component({
   imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
@@ -115,7 +113,7 @@ export class ModerItemsItemCatalogueComponent {
   ]).pipe(
     switchMap(([item]) =>
       this.itemsClient.getItemParents(
-        new GetItemParentsRequest({
+        new ItemParentsRequest({
           fields: new ItemParentFields({
             duplicateChild: new ItemFields({nameHtml: true}),
             item: new ItemFields({nameHtml: true, publicRoutes: true}),
@@ -124,7 +122,7 @@ export class ModerItemsItemCatalogueComponent {
           options: new ItemParentListOptions({
             parentId: '' + item.id,
           }),
-          order: Order.AUTO,
+          order: ItemParentsRequest.Order.AUTO,
         }),
       ),
     ),
@@ -137,7 +135,7 @@ export class ModerItemsItemCatalogueComponent {
   ]).pipe(
     switchMap(([item]) =>
       this.itemsClient.getItemParents(
-        new GetItemParentsRequest({
+        new ItemParentsRequest({
           fields: new ItemParentFields({
             duplicateParent: new ItemFields({nameHtml: true}),
             parent: new ItemFields({nameHtml: true, publicRoutes: true}),
@@ -146,7 +144,7 @@ export class ModerItemsItemCatalogueComponent {
           options: new ItemParentListOptions({
             itemId: '' + item.id,
           }),
-          order: Order.AUTO,
+          order: ItemParentsRequest.Order.AUTO,
         }),
       ),
     ),

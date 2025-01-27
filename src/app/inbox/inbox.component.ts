@@ -3,13 +3,13 @@ import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  GetPicturesResponse,
   Inbox,
   InboxRequest,
   ItemParentCacheListOptions,
   PictureFields,
   PictureItemListOptions,
   PictureListOptions,
+  PicturesList,
   PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
@@ -31,7 +31,7 @@ const ALL_BRANDS = 'all';
 interface InboxData {
   brandCatname: string;
   inbox: Inbox;
-  pictures$: Observable<GetPicturesResponse>;
+  pictures$: Observable<PicturesList>;
 }
 
 @Component({

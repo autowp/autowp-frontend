@@ -3,13 +3,13 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
-  GetPicturesResponse,
   ItemFields,
   ItemParentCacheListOptions,
   ItemRequest,
   PictureFields,
   PictureItemListOptions,
   PictureListOptions,
+  PicturesList,
   PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
@@ -80,7 +80,7 @@ export class TwinsGroupPicturesListComponent {
     distinctUntilChanged(),
   );
 
-  protected readonly data$: Observable<GetPicturesResponse | null> = combineLatest([this.page$, this.id$]).pipe(
+  protected readonly data$: Observable<null | PicturesList> = combineLatest([this.page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({

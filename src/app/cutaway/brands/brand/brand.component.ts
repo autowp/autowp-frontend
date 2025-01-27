@@ -3,7 +3,6 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetPicturesResponse,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
@@ -11,6 +10,7 @@ import {
   PictureFields,
   PictureItemListOptions,
   PictureListOptions,
+  PicturesList,
   PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
@@ -63,10 +63,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly query$: Observable<GetPicturesResponse> = combineLatest([
-    this.brand$,
-    this.route.queryParamMap,
-  ]).pipe(
+  protected readonly query$: Observable<PicturesList> = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
     switchMap(([brand, params]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({

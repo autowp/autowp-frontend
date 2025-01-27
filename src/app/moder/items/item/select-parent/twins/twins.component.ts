@@ -3,11 +3,11 @@ import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemsRequest,
   ItemType,
   Pages,
@@ -128,5 +128,5 @@ export class ModerItemsItemSelectParentTwinsComponent {
     return false;
   }
 
-  protected readonly GetItemParentsRequest = GetItemParentsRequest;
+  protected readonly ItemParentsRequest = ItemParentsRequest;
 }

@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {GetPicturesResponse, PictureFields, PictureListOptions, PicturesRequest, PictureStatus} from '@grpc/spec.pb';
+import {PictureFields, PictureListOptions, PicturesList, PicturesRequest, PictureStatus} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
@@ -26,7 +26,7 @@ export class AccountInboxPicturesComponent implements OnInit {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly data$: Observable<GetPicturesResponse> = combineLatest([
+  protected readonly data$: Observable<PicturesList> = combineLatest([
     this.route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),

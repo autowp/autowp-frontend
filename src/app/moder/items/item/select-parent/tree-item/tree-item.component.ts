@@ -2,10 +2,10 @@ import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, forwardRef, inject, Input, Output} from '@angular/core';
 import {
   APIItem,
-  GetItemParentsRequest,
   ItemListOptions,
   ItemParent,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -31,10 +31,10 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   }
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
-  @Input() set order(value: GetItemParentsRequest.Order) {
+  @Input() set order(value: ItemParentsRequest.Order) {
     this.order$.next(value);
   }
-  protected readonly order$ = new BehaviorSubject<GetItemParentsRequest.Order>(GetItemParentsRequest.Order.AUTO);
+  protected readonly order$ = new BehaviorSubject<ItemParentsRequest.Order>(ItemParentsRequest.Order.AUTO);
 
   @Input() disableItemID: string = '';
   @Input() typeID: ItemParentType = ItemParentType.ITEM_TYPE_DEFAULT;
@@ -49,7 +49,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
     switchMap(([item, order]) =>
       item
         ? this.#itemsClient.getItemParents(
-            new GetItemParentsRequest({
+            new ItemParentsRequest({
               language: this.#languageService.language,
               options: new ItemParentListOptions({
                 item: new ItemListOptions({
@@ -84,5 +84,5 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   }
 
   protected readonly ItemParentType = ItemParentType;
-  protected readonly GetItemParentsRequest = GetItemParentsRequest;
+  protected readonly ItemParentsRequest = ItemParentsRequest;
 }

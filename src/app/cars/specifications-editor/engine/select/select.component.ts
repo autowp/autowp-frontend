@@ -4,13 +4,13 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentCacheListOptions,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemRequest,
   ItemsRequest,
   ItemType,
@@ -85,7 +85,7 @@ export class CarsEngineSelectComponent {
   protected readonly items$: Observable<ItemParent[]> = combineLatest([this.brandID$, this.page$]).pipe(
     switchMap(([brandID, page]) =>
       this.itemsClient.getItemParents(
-        new GetItemParentsRequest({
+        new ItemParentsRequest({
           fields: new ItemParentFields({
             item: new ItemFields({
               childsCount: true,
@@ -100,7 +100,7 @@ export class CarsEngineSelectComponent {
             }),
             parentId: brandID,
           }),
-          order: GetItemParentsRequest.Order.AUTO,
+          order: ItemParentsRequest.Order.AUTO,
           page,
         }),
       ),

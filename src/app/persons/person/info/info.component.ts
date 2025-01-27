@@ -4,7 +4,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
   APIItemLink,
-  GetPicturesResponse,
   ItemFields,
   ItemLinkListOptions,
   ItemLinksRequest,
@@ -14,6 +13,7 @@ import {
   PictureItemListOptions,
   PictureItemType,
   PictureListOptions,
+  PicturesList,
   PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
@@ -112,10 +112,7 @@ export class PersonsPersonInfoComponent {
     map((response) => (response.items ? response.items : [])),
   );
 
-  protected readonly authorPictures$: Observable<GetPicturesResponse | null> = combineLatest([
-    this.itemID$,
-    this.page$,
-  ]).pipe(
+  protected readonly authorPictures$: Observable<null | PicturesList> = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -149,10 +146,7 @@ export class PersonsPersonInfoComponent {
     }),
   );
 
-  protected readonly contentPictures$: Observable<GetPicturesResponse | null> = combineLatest([
-    this.itemID$,
-    this.page$,
-  ]).pipe(
+  protected readonly contentPictures$: Observable<null | PicturesList> = combineLatest([this.itemID$, this.page$]).pipe(
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({

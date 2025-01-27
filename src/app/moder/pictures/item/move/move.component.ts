@@ -5,13 +5,13 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   CreatePictureItemRequest,
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentCacheListOptions,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemsRequest,
   ItemType,
   Pages,
@@ -293,7 +293,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly vehicles$: Observable<ItemParent[]> = this.brandId$.pipe(
     switchMap((brandID) =>
       this.itemsClient.getItemParents(
-        new GetItemParentsRequest({
+        new ItemParentsRequest({
           fields: new ItemParentFields({
             item: new ItemFields({
               childsCount: true,
@@ -308,7 +308,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
             }),
             parentId: brandID ? brandID : undefined,
           }),
-          order: GetItemParentsRequest.Order.AUTO,
+          order: ItemParentsRequest.Order.AUTO,
         }),
       ),
     ),
@@ -318,7 +318,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly engines$: Observable<ItemParent[]> = this.brandId$.pipe(
     switchMap((brandID) =>
       this.itemsClient.getItemParents(
-        new GetItemParentsRequest({
+        new ItemParentsRequest({
           fields: new ItemParentFields({
             item: new ItemFields({
               childsCount: true,
@@ -333,7 +333,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
             }),
             parentId: brandID ? brandID : undefined,
           }),
-          order: GetItemParentsRequest.Order.AUTO,
+          order: ItemParentsRequest.Order.AUTO,
         }),
       ),
     ),

@@ -2,11 +2,11 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {
-  GetItemParentsRequest,
   ItemFields,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -37,7 +37,7 @@ export class UploadSelectTreeItemComponent {
     switchMap((item) =>
       item
         ? this.#itemsClient.getItemParents(
-            new GetItemParentsRequest({
+            new ItemParentsRequest({
               fields: new ItemParentFields({
                 item: new ItemFields({
                   childsCount: true,
@@ -49,7 +49,7 @@ export class UploadSelectTreeItemComponent {
               options: new ItemParentListOptions({
                 parentId: item.itemId,
               }),
-              order: GetItemParentsRequest.Order.AUTO,
+              order: ItemParentsRequest.Order.AUTO,
             }),
           )
         : EMPTY,

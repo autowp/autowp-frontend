@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {GetItemParentsRequest, ItemFields, ItemParent, ItemRequest} from '@grpc/spec.pb';
+import {ItemFields, ItemParent, ItemParentsRequest, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, EMPTY} from 'rxjs';
@@ -22,7 +22,7 @@ export class ModerItemsItemSelectParentTreeComponent {
   }
   protected readonly itemParent$ = new BehaviorSubject<ItemParent | null>(null);
 
-  @Input() order?: GetItemParentsRequest.Order;
+  @Input() order?: ItemParentsRequest.Order;
   @Input() disableItemID?: string;
   @Output() selected = new EventEmitter<string>();
 
@@ -45,5 +45,5 @@ export class ModerItemsItemSelectParentTreeComponent {
     return false;
   }
 
-  protected readonly GetItemParentsRequest = GetItemParentsRequest;
+  protected readonly ItemParentsRequest = ItemParentsRequest;
 }

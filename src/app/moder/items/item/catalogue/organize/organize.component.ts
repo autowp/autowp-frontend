@@ -4,12 +4,12 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
-  GetItemParentsRequest,
   APIItem as GRPCAPIItem,
   ItemFields,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemType,
   MoveItemParentRequest,
 } from '@grpc/spec.pb';
@@ -60,7 +60,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     this.itemID$.pipe(
       switchMap((id) =>
         this.itemsClient.getItemParents(
-          new GetItemParentsRequest({
+          new ItemParentsRequest({
             fields: new ItemParentFields({
               item: new ItemFields({
                 nameHtml: true,
@@ -71,7 +71,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
             options: new ItemParentListOptions({
               parentId: id,
             }),
-            order: GetItemParentsRequest.Order.AUTO,
+            order: ItemParentsRequest.Order.AUTO,
           }),
         ),
       ),

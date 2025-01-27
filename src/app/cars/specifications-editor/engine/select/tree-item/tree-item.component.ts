@@ -1,11 +1,11 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
   ItemType,
 } from '@grpc/spec.pb';
@@ -36,7 +36,7 @@ export class CarsSelectEngineTreeItemComponent {
     if (this.item) {
       this.#itemsClient
         .getItemParents(
-          new GetItemParentsRequest({
+          new ItemParentsRequest({
             fields: new ItemParentFields({
               item: new ItemFields({
                 childsCount: true,
@@ -51,7 +51,7 @@ export class CarsSelectEngineTreeItemComponent {
               }),
               parentId: this.item.itemId,
             }),
-            order: GetItemParentsRequest.Order.AUTO,
+            order: ItemParentsRequest.Order.AUTO,
           }),
         )
         .subscribe({

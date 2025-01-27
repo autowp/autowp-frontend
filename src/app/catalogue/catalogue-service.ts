@@ -3,12 +3,12 @@ import {ActivatedRoute} from '@angular/router';
 import {
   APIItem,
   ChildsCount,
-  GetItemParentsRequest,
   ItemFields,
   ItemListOptions,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
+  ItemParentsRequest,
   ItemParentType,
   ItemsRequest,
   ItemType,
@@ -98,7 +98,7 @@ export class CatalogueService {
 
         return this.itemsClient
           .getItemParents(
-            new GetItemParentsRequest({
+            new ItemParentsRequest({
               fields: totalFields,
               language: this.languageService.language,
               limit: 1,
