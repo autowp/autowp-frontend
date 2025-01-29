@@ -16,10 +16,11 @@ import {
   PicturesRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../../../comments/comments/comments.component';
 import {PictureComponent} from '../../../picture/picture.component';
@@ -145,6 +146,14 @@ export class CatalogueMixedPictureComponent {
           }),
         )
         .pipe(
+          catchError((error: unknown) => {
+            if (error instanceof GrpcStatusEvent && error.statusCode == 5) {
+              // NOT_FOUND
+              return of(null);
+            }
+            console.error(error);
+            return throwError(() => error);
+          }),
           switchMap((picture) => {
             if (!picture) {
               this.#router.navigate(['/error-404'], {
