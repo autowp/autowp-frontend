@@ -1,20 +1,19 @@
+import type {APIItemChildsCounts} from '@services/item';
+
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {APIImage, APIItem, ItemType, Picture} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIImage} from '@services/api.service';
-import {APIItem, APIItemChildsCounts} from '@services/item';
-import {APIPicture} from '@services/picture';
 
 import {ItemHeaderComponent} from '../item-header/item-header.component';
 import {MarkdownComponent} from '../markdown/markdown.component';
 
-export interface CatalogueListItem {
-  accepted_pictures_count: number | undefined;
-  can_edit_specs: boolean | undefined;
+export interface CatalogueListItem2 {
+  acceptedPicturesCount: number | undefined;
+  canEditSpecs: boolean | undefined;
   categories?: APIItem[];
-  childs_counts: APIItemChildsCounts | null;
+  childsCounts: APIItemChildsCounts | null;
   description: null | string;
   design: null | {
     name: string;
@@ -24,49 +23,49 @@ export interface CatalogueListItem {
     count: number;
     routerLink: string[];
   };
-  engine_vehicles?: [
+  engineVehicles?: [
     {
       name_html: string;
       route: string[];
     },
   ];
-  has_text: boolean;
-  id: number;
-  item_type_id: number;
-  name_default: string;
-  name_html: string;
+  hasText: boolean;
+  id: string;
+  itemTypeId: number;
+  nameDefault: string;
+  nameHtml: string;
   picturesRouterLink: null | string[];
-  preview_pictures: {
-    large_format: boolean;
-    pictures: CatalogueListItemPicture[];
+  previewPictures: {
+    largeFormat: boolean;
+    pictures: CatalogueListItemPicture2[];
   };
   produced: null | number;
-  produced_exactly: boolean | null;
+  producedExactly: boolean | null;
   specsRouterLink: null | string[];
-  twins_groups?: APIItem[];
+  twinsGroups?: APIItem[];
 }
 
-export interface CatalogueListItemPicture {
-  picture: APIPicture | null;
+export interface CatalogueListItemPicture2 {
+  picture: null | Picture;
   routerLink?: string[];
   thumb?: APIImage | null;
 }
 
 @Component({
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe],
-  selector: 'app-catalogue-list-item',
-  templateUrl: './list-item.component.html',
+  selector: 'app-catalogue-list-item2',
+  templateUrl: './list-item2.component.html',
 })
-export class CatalogueListItemComponent {
+export class CatalogueListItem2Component {
   private readonly acl = inject(ACLService);
 
-  @Input() item: CatalogueListItem | null = null;
+  @Input() item: CatalogueListItem2 | null = null;
 
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  protected havePhoto(item: CatalogueListItem) {
-    if (item.preview_pictures) {
-      for (const picture of item.preview_pictures.pictures) {
+  protected havePhoto(item: CatalogueListItem2) {
+    if (item.previewPictures) {
+      for (const picture of item.previewPictures.pictures) {
         if (picture?.picture) {
           return true;
         }
@@ -75,7 +74,7 @@ export class CatalogueListItemComponent {
     return false;
   }
 
-  protected canHavePhoto(item: CatalogueListItem) {
+  protected canHavePhoto(item: CatalogueListItem2) {
     return (
       [
         ItemType.ITEM_TYPE_VEHICLE,
@@ -83,12 +82,12 @@ export class CatalogueListItemComponent {
         ItemType.ITEM_TYPE_BRAND,
         ItemType.ITEM_TYPE_FACTORY,
         ItemType.ITEM_TYPE_MUSEUM,
-      ].indexOf(item.item_type_id) !== -1
+      ].indexOf(item.itemTypeId) !== -1
     );
   }
 
   protected thumbnailColClass() {
-    if (this.item && this.item.preview_pictures.pictures.length === 3) {
+    if (this.item && this.item.previewPictures.pictures.length === 3) {
       return 'col-sm-4';
     }
 

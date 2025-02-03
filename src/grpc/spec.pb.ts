@@ -22949,6 +22949,7 @@ export class PictureFields implements GrpcMessage {
     _instance.nameHtml = _instance.nameHtml || false;
     _instance.image = _instance.image || false;
     _instance.thumbMedium = _instance.thumbMedium || false;
+    _instance.thumbLarge = _instance.thumbLarge || false;
     _instance.views = _instance.views || false;
     _instance.votes = _instance.votes || false;
     _instance.commentsCount = _instance.commentsCount || false;
@@ -22998,6 +22999,9 @@ export class PictureFields implements GrpcMessage {
           break;
         case 3:
           _instance.thumbMedium = _reader.readBool();
+          break;
+        case 28:
+          _instance.thumbLarge = _reader.readBool();
           break;
         case 5:
           _instance.views = _reader.readBool();
@@ -23125,6 +23129,9 @@ export class PictureFields implements GrpcMessage {
     if (_instance.thumbMedium) {
       _writer.writeBool(3, _instance.thumbMedium);
     }
+    if (_instance.thumbLarge) {
+      _writer.writeBool(28, _instance.thumbLarge);
+    }
     if (_instance.views) {
       _writer.writeBool(5, _instance.views);
     }
@@ -23228,6 +23235,7 @@ export class PictureFields implements GrpcMessage {
   private _nameHtml: boolean;
   private _image: boolean;
   private _thumbMedium: boolean;
+  private _thumbLarge: boolean;
   private _views: boolean;
   private _votes: boolean;
   private _commentsCount: boolean;
@@ -23262,6 +23270,7 @@ export class PictureFields implements GrpcMessage {
     this.nameHtml = _value.nameHtml;
     this.image = _value.image;
     this.thumbMedium = _value.thumbMedium;
+    this.thumbLarge = _value.thumbLarge;
     this.views = _value.views;
     this.votes = _value.votes;
     this.commentsCount = _value.commentsCount;
@@ -23322,6 +23331,12 @@ export class PictureFields implements GrpcMessage {
   }
   set thumbMedium(value: boolean) {
     this._thumbMedium = value;
+  }
+  get thumbLarge(): boolean {
+    return this._thumbLarge;
+  }
+  set thumbLarge(value: boolean) {
+    this._thumbLarge = value;
   }
   get views(): boolean {
     return this._views;
@@ -23481,6 +23496,7 @@ export class PictureFields implements GrpcMessage {
       nameHtml: this.nameHtml,
       image: this.image,
       thumbMedium: this.thumbMedium,
+      thumbLarge: this.thumbLarge,
       views: this.views,
       votes: this.votes,
       commentsCount: this.commentsCount,
@@ -23530,6 +23546,7 @@ export class PictureFields implements GrpcMessage {
       nameHtml: this.nameHtml,
       image: this.image,
       thumbMedium: this.thumbMedium,
+      thumbLarge: this.thumbLarge,
       views: this.views,
       votes: this.votes,
       commentsCount: this.commentsCount,
@@ -23573,6 +23590,7 @@ export module PictureFields {
     nameHtml: boolean;
     image: boolean;
     thumbMedium: boolean;
+    thumbLarge: boolean;
     views: boolean;
     votes: boolean;
     commentsCount: boolean;
@@ -23606,6 +23624,7 @@ export module PictureFields {
     nameHtml: boolean;
     image: boolean;
     thumbMedium: boolean;
+    thumbLarge: boolean;
     views: boolean;
     votes: boolean;
     commentsCount: boolean;
@@ -24841,18 +24860,18 @@ export module PicturePathRequest {
 }
 
 /**
- * Message implementation for goautowp.PreviewPicturesFields
+ * Message implementation for goautowp.PreviewPicturesRequest
  */
-export class PreviewPicturesFields implements GrpcMessage {
-  static id = 'goautowp.PreviewPicturesFields';
+export class PreviewPicturesRequest implements GrpcMessage {
+  static id = 'goautowp.PreviewPicturesRequest';
 
   /**
    * Deserialize binary data to message
    * @param instance message instance
    */
   static deserializeBinary(bytes: ByteSource) {
-    const instance = new PreviewPicturesFields();
-    PreviewPicturesFields.deserializeBinaryFromReader(
+    const instance = new PreviewPicturesRequest();
+    PreviewPicturesRequest.deserializeBinaryFromReader(
       instance,
       new BinaryReader(bytes)
     );
@@ -24863,9 +24882,12 @@ export class PreviewPicturesFields implements GrpcMessage {
    * Check all the properties and set default protobuf values if necessary
    * @param _instance message instance
    */
-  static refineValues(_instance: PreviewPicturesFields) {
-    _instance.route = _instance.route || false;
+  static refineValues(_instance: PreviewPicturesRequest) {
     _instance.picture = _instance.picture || undefined;
+    _instance.typeId = _instance.typeId || 0;
+    _instance.perspectivePageId = _instance.perspectivePageId || 0;
+    _instance.perspectiveId = _instance.perspectiveId || 0;
+    _instance.containsPerspectiveId = _instance.containsPerspectiveId || 0;
   }
 
   /**
@@ -24874,16 +24896,13 @@ export class PreviewPicturesFields implements GrpcMessage {
    * @param _reader binary reader instance
    */
   static deserializeBinaryFromReader(
-    _instance: PreviewPicturesFields,
+    _instance: PreviewPicturesRequest,
     _reader: BinaryReader
   ) {
     while (_reader.nextField()) {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.route = _reader.readBool();
-          break;
         case 2:
           _instance.picture = new PictureFields();
           _reader.readMessage(
@@ -24891,12 +24910,24 @@ export class PreviewPicturesFields implements GrpcMessage {
             PictureFields.deserializeBinaryFromReader
           );
           break;
+        case 3:
+          _instance.typeId = _reader.readEnum();
+          break;
+        case 4:
+          _instance.perspectivePageId = _reader.readInt32();
+          break;
+        case 5:
+          _instance.perspectiveId = _reader.readInt32();
+          break;
+        case 6:
+          _instance.containsPerspectiveId = _reader.readInt32();
+          break;
         default:
           _reader.skipField();
       }
     }
 
-    PreviewPicturesFields.refineValues(_instance);
+    PreviewPicturesRequest.refineValues(_instance);
   }
 
   /**
@@ -24905,12 +24936,9 @@ export class PreviewPicturesFields implements GrpcMessage {
    * @param _writer binary writer instance
    */
   static serializeBinaryToWriter(
-    _instance: PreviewPicturesFields,
+    _instance: PreviewPicturesRequest,
     _writer: BinaryWriter
   ) {
-    if (_instance.route) {
-      _writer.writeBool(1, _instance.route);
-    }
     if (_instance.picture) {
       _writer.writeMessage(
         2,
@@ -24918,34 +24946,70 @@ export class PreviewPicturesFields implements GrpcMessage {
         PictureFields.serializeBinaryToWriter
       );
     }
+    if (_instance.typeId) {
+      _writer.writeEnum(3, _instance.typeId);
+    }
+    if (_instance.perspectivePageId) {
+      _writer.writeInt32(4, _instance.perspectivePageId);
+    }
+    if (_instance.perspectiveId) {
+      _writer.writeInt32(5, _instance.perspectiveId);
+    }
+    if (_instance.containsPerspectiveId) {
+      _writer.writeInt32(6, _instance.containsPerspectiveId);
+    }
   }
 
-  private _route: boolean;
   private _picture?: PictureFields;
+  private _typeId: PictureItemType;
+  private _perspectivePageId: number;
+  private _perspectiveId: number;
+  private _containsPerspectiveId: number;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of PreviewPicturesFields to deeply clone from
+   * @param _value initial values object or instance of PreviewPicturesRequest to deeply clone from
    */
-  constructor(_value?: RecursivePartial<PreviewPicturesFields.AsObject>) {
+  constructor(_value?: RecursivePartial<PreviewPicturesRequest.AsObject>) {
     _value = _value || {};
-    this.route = _value.route;
     this.picture = _value.picture
       ? new PictureFields(_value.picture)
       : undefined;
-    PreviewPicturesFields.refineValues(this);
-  }
-  get route(): boolean {
-    return this._route;
-  }
-  set route(value: boolean) {
-    this._route = value;
+    this.typeId = _value.typeId;
+    this.perspectivePageId = _value.perspectivePageId;
+    this.perspectiveId = _value.perspectiveId;
+    this.containsPerspectiveId = _value.containsPerspectiveId;
+    PreviewPicturesRequest.refineValues(this);
   }
   get picture(): PictureFields | undefined {
     return this._picture;
   }
   set picture(value: PictureFields | undefined) {
     this._picture = value;
+  }
+  get typeId(): PictureItemType {
+    return this._typeId;
+  }
+  set typeId(value: PictureItemType) {
+    this._typeId = value;
+  }
+  get perspectivePageId(): number {
+    return this._perspectivePageId;
+  }
+  set perspectivePageId(value: number) {
+    this._perspectivePageId = value;
+  }
+  get perspectiveId(): number {
+    return this._perspectiveId;
+  }
+  set perspectiveId(value: number) {
+    this._perspectiveId = value;
+  }
+  get containsPerspectiveId(): number {
+    return this._containsPerspectiveId;
+  }
+  set containsPerspectiveId(value: number) {
+    this._containsPerspectiveId = value;
   }
 
   /**
@@ -24954,17 +25018,20 @@ export class PreviewPicturesFields implements GrpcMessage {
    */
   serializeBinary() {
     const writer = new BinaryWriter();
-    PreviewPicturesFields.serializeBinaryToWriter(this, writer);
+    PreviewPicturesRequest.serializeBinaryToWriter(this, writer);
     return writer.getResultBuffer();
   }
 
   /**
    * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
    */
-  toObject(): PreviewPicturesFields.AsObject {
+  toObject(): PreviewPicturesRequest.AsObject {
     return {
-      route: this.route,
-      picture: this.picture ? this.picture.toObject() : undefined
+      picture: this.picture ? this.picture.toObject() : undefined,
+      typeId: this.typeId,
+      perspectivePageId: this.perspectivePageId,
+      perspectiveId: this.perspectiveId,
+      containsPerspectiveId: this.containsPerspectiveId
     };
   }
 
@@ -24983,28 +25050,40 @@ export class PreviewPicturesFields implements GrpcMessage {
   toProtobufJSON(
     // @ts-ignore
     options?: ToProtobufJSONOptions
-  ): PreviewPicturesFields.AsProtobufJSON {
+  ): PreviewPicturesRequest.AsProtobufJSON {
     return {
-      route: this.route,
-      picture: this.picture ? this.picture.toProtobufJSON(options) : null
+      picture: this.picture ? this.picture.toProtobufJSON(options) : null,
+      typeId:
+        PictureItemType[
+          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
+        ],
+      perspectivePageId: this.perspectivePageId,
+      perspectiveId: this.perspectiveId,
+      containsPerspectiveId: this.containsPerspectiveId
     };
   }
 }
-export module PreviewPicturesFields {
+export module PreviewPicturesRequest {
   /**
-   * Standard JavaScript object representation for PreviewPicturesFields
+   * Standard JavaScript object representation for PreviewPicturesRequest
    */
   export interface AsObject {
-    route: boolean;
     picture?: PictureFields.AsObject;
+    typeId: PictureItemType;
+    perspectivePageId: number;
+    perspectiveId: number;
+    containsPerspectiveId: number;
   }
 
   /**
-   * Protobuf JSON representation for PreviewPicturesFields
+   * Protobuf JSON representation for PreviewPicturesRequest
    */
   export interface AsProtobufJSON {
-    route: boolean;
     picture: PictureFields.AsProtobufJSON | null;
+    typeId: string;
+    perspectivePageId: number;
+    perspectiveId: number;
+    containsPerspectiveId: number;
   }
 }
 
@@ -25036,7 +25115,6 @@ export class ItemFields implements GrpcMessage {
     _instance.description = _instance.description || false;
     _instance.hasText = _instance.hasText || false;
     _instance.previewPictures = _instance.previewPictures || undefined;
-    _instance.totalPictures = _instance.totalPictures || false;
     _instance.descendantsCount = _instance.descendantsCount || false;
     _instance.descendantPicturesCount =
       _instance.descendantPicturesCount || false;
@@ -25105,14 +25183,11 @@ export class ItemFields implements GrpcMessage {
           _instance.hasText = _reader.readBool();
           break;
         case 7:
-          _instance.previewPictures = new PreviewPicturesFields();
+          _instance.previewPictures = new PreviewPicturesRequest();
           _reader.readMessage(
             _instance.previewPictures,
-            PreviewPicturesFields.deserializeBinaryFromReader
+            PreviewPicturesRequest.deserializeBinaryFromReader
           );
-          break;
-        case 8:
-          _instance.totalPictures = _reader.readBool();
           break;
         case 9:
           _instance.descendantsCount = _reader.readBool();
@@ -25263,11 +25338,8 @@ export class ItemFields implements GrpcMessage {
       _writer.writeMessage(
         7,
         _instance.previewPictures as any,
-        PreviewPicturesFields.serializeBinaryToWriter
+        PreviewPicturesRequest.serializeBinaryToWriter
       );
-    }
-    if (_instance.totalPictures) {
-      _writer.writeBool(8, _instance.totalPictures);
     }
     if (_instance.descendantsCount) {
       _writer.writeBool(9, _instance.descendantsCount);
@@ -25390,8 +25462,7 @@ export class ItemFields implements GrpcMessage {
   private _nameText: boolean;
   private _description: boolean;
   private _hasText: boolean;
-  private _previewPictures?: PreviewPicturesFields;
-  private _totalPictures: boolean;
+  private _previewPictures?: PreviewPicturesRequest;
   private _descendantsCount: boolean;
   private _descendantPicturesCount: boolean;
   private _childsCount: boolean;
@@ -25437,9 +25508,8 @@ export class ItemFields implements GrpcMessage {
     this.description = _value.description;
     this.hasText = _value.hasText;
     this.previewPictures = _value.previewPictures
-      ? new PreviewPicturesFields(_value.previewPictures)
+      ? new PreviewPicturesRequest(_value.previewPictures)
       : undefined;
-    this.totalPictures = _value.totalPictures;
     this.descendantsCount = _value.descendantsCount;
     this.descendantPicturesCount = _value.descendantPicturesCount;
     this.childsCount = _value.childsCount;
@@ -25515,17 +25585,11 @@ export class ItemFields implements GrpcMessage {
   set hasText(value: boolean) {
     this._hasText = value;
   }
-  get previewPictures(): PreviewPicturesFields | undefined {
+  get previewPictures(): PreviewPicturesRequest | undefined {
     return this._previewPictures;
   }
-  set previewPictures(value: PreviewPicturesFields | undefined) {
+  set previewPictures(value: PreviewPicturesRequest | undefined) {
     this._previewPictures = value;
-  }
-  get totalPictures(): boolean {
-    return this._totalPictures;
-  }
-  set totalPictures(value: boolean) {
-    this._totalPictures = value;
   }
   get descendantsCount(): boolean {
     return this._descendantsCount;
@@ -25738,7 +25802,6 @@ export class ItemFields implements GrpcMessage {
       previewPictures: this.previewPictures
         ? this.previewPictures.toObject()
         : undefined,
-      totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
       descendantPicturesCount: this.descendantPicturesCount,
       childsCount: this.childsCount,
@@ -25803,7 +25866,6 @@ export class ItemFields implements GrpcMessage {
       previewPictures: this.previewPictures
         ? this.previewPictures.toProtobufJSON(options)
         : null,
-      totalPictures: this.totalPictures,
       descendantsCount: this.descendantsCount,
       descendantPicturesCount: this.descendantPicturesCount,
       childsCount: this.childsCount,
@@ -25855,8 +25917,7 @@ export module ItemFields {
     nameText: boolean;
     description: boolean;
     hasText: boolean;
-    previewPictures?: PreviewPicturesFields.AsObject;
-    totalPictures: boolean;
+    previewPictures?: PreviewPicturesRequest.AsObject;
     descendantsCount: boolean;
     descendantPicturesCount: boolean;
     childsCount: boolean;
@@ -25900,8 +25961,7 @@ export module ItemFields {
     nameText: boolean;
     description: boolean;
     hasText: boolean;
-    previewPictures: PreviewPicturesFields.AsProtobufJSON | null;
-    totalPictures: boolean;
+    previewPictures: PreviewPicturesRequest.AsProtobufJSON | null;
     descendantsCount: boolean;
     descendantPicturesCount: boolean;
     childsCount: boolean;
@@ -29537,6 +29597,7 @@ export class APIItem implements GrpcMessage {
     _instance.canEditSpecs = _instance.canEditSpecs || false;
     _instance.itemParentChilds = _instance.itemParentChilds || undefined;
     _instance.commentsCount = _instance.commentsCount || 0;
+    _instance.previewPictures = _instance.previewPictures || undefined;
   }
 
   /**
@@ -29761,6 +29822,13 @@ export class APIItem implements GrpcMessage {
         case 48:
           _instance.commentsCount = _reader.readInt32();
           break;
+        case 49:
+          _instance.previewPictures = new PreviewPictures();
+          _reader.readMessage(
+            _instance.previewPictures,
+            PreviewPictures.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -29967,6 +30035,13 @@ export class APIItem implements GrpcMessage {
     if (_instance.commentsCount) {
       _writer.writeInt32(48, _instance.commentsCount);
     }
+    if (_instance.previewPictures) {
+      _writer.writeMessage(
+        49,
+        _instance.previewPictures as any,
+        PreviewPictures.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -30017,6 +30092,7 @@ export class APIItem implements GrpcMessage {
   private _canEditSpecs: boolean;
   private _itemParentChilds?: ItemParents;
   private _commentsCount: number;
+  private _previewPictures?: PreviewPictures;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30084,6 +30160,9 @@ export class APIItem implements GrpcMessage {
       ? new ItemParents(_value.itemParentChilds)
       : undefined;
     this.commentsCount = _value.commentsCount;
+    this.previewPictures = _value.previewPictures
+      ? new PreviewPictures(_value.previewPictures)
+      : undefined;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -30374,6 +30453,12 @@ export class APIItem implements GrpcMessage {
   set commentsCount(value: number) {
     this._commentsCount = value;
   }
+  get previewPictures(): PreviewPictures | undefined {
+    return this._previewPictures;
+  }
+  set previewPictures(value: PreviewPictures | undefined) {
+    this._previewPictures = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -30441,7 +30526,10 @@ export class APIItem implements GrpcMessage {
       itemParentChilds: this.itemParentChilds
         ? this.itemParentChilds.toObject()
         : undefined,
-      commentsCount: this.commentsCount
+      commentsCount: this.commentsCount,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toObject()
+        : undefined
     };
   }
 
@@ -30522,7 +30610,10 @@ export class APIItem implements GrpcMessage {
       itemParentChilds: this.itemParentChilds
         ? this.itemParentChilds.toProtobufJSON(options)
         : null,
-      commentsCount: this.commentsCount
+      commentsCount: this.commentsCount,
+      previewPictures: this.previewPictures
+        ? this.previewPictures.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -30579,6 +30670,7 @@ export module APIItem {
     canEditSpecs: boolean;
     itemParentChilds?: ItemParents.AsObject;
     commentsCount: number;
+    previewPictures?: PreviewPictures.AsObject;
   }
 
   /**
@@ -30633,6 +30725,195 @@ export module APIItem {
     canEditSpecs: boolean;
     itemParentChilds: ItemParents.AsProtobufJSON | null;
     commentsCount: number;
+    previewPictures: PreviewPictures.AsProtobufJSON | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PreviewPictures
+ */
+export class PreviewPictures implements GrpcMessage {
+  static id = 'goautowp.PreviewPictures';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PreviewPictures();
+    PreviewPictures.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PreviewPictures) {
+    _instance.largeFormat = _instance.largeFormat || false;
+    _instance.pictures = _instance.pictures || [];
+    _instance.totalPictures = _instance.totalPictures || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PreviewPictures,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.largeFormat = _reader.readBool();
+          break;
+        case 2:
+          const messageInitializer2 = new Picture();
+          _reader.readMessage(
+            messageInitializer2,
+            Picture.deserializeBinaryFromReader
+          );
+          (_instance.pictures = _instance.pictures || []).push(
+            messageInitializer2
+          );
+          break;
+        case 3:
+          _instance.totalPictures = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PreviewPictures.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PreviewPictures,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.largeFormat) {
+      _writer.writeBool(1, _instance.largeFormat);
+    }
+    if (_instance.pictures && _instance.pictures.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.pictures as any,
+        Picture.serializeBinaryToWriter
+      );
+    }
+    if (_instance.totalPictures) {
+      _writer.writeInt32(3, _instance.totalPictures);
+    }
+  }
+
+  private _largeFormat: boolean;
+  private _pictures?: Picture[];
+  private _totalPictures: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PreviewPictures to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PreviewPictures.AsObject>) {
+    _value = _value || {};
+    this.largeFormat = _value.largeFormat;
+    this.pictures = (_value.pictures || []).map(m => new Picture(m));
+    this.totalPictures = _value.totalPictures;
+    PreviewPictures.refineValues(this);
+  }
+  get largeFormat(): boolean {
+    return this._largeFormat;
+  }
+  set largeFormat(value: boolean) {
+    this._largeFormat = value;
+  }
+  get pictures(): Picture[] | undefined {
+    return this._pictures;
+  }
+  set pictures(value: Picture[] | undefined) {
+    this._pictures = value;
+  }
+  get totalPictures(): number {
+    return this._totalPictures;
+  }
+  set totalPictures(value: number) {
+    this._totalPictures = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PreviewPictures.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PreviewPictures.AsObject {
+    return {
+      largeFormat: this.largeFormat,
+      pictures: (this.pictures || []).map(m => m.toObject()),
+      totalPictures: this.totalPictures
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PreviewPictures.AsProtobufJSON {
+    return {
+      largeFormat: this.largeFormat,
+      pictures: (this.pictures || []).map(m => m.toProtobufJSON(options)),
+      totalPictures: this.totalPictures
+    };
+  }
+}
+export module PreviewPictures {
+  /**
+   * Standard JavaScript object representation for PreviewPictures
+   */
+  export interface AsObject {
+    largeFormat: boolean;
+    pictures?: Picture.AsObject[];
+    totalPictures: number;
+  }
+
+  /**
+   * Protobuf JSON representation for PreviewPictures
+   */
+  export interface AsProtobufJSON {
+    largeFormat: boolean;
+    pictures: Picture.AsProtobufJSON[] | null;
+    totalPictures: number;
   }
 }
 
@@ -35436,6 +35717,7 @@ export class Picture implements GrpcMessage {
     _instance.point = _instance.point || undefined;
     _instance.copyrightsTextId = _instance.copyrightsTextId || 0;
     _instance.thumbMedium = _instance.thumbMedium || undefined;
+    _instance.thumbLarge = _instance.thumbLarge || undefined;
     _instance.nameText = _instance.nameText || '';
     _instance.nameHtml = _instance.nameHtml || '';
     _instance.ownerId = _instance.ownerId || '0';
@@ -35521,6 +35803,13 @@ export class Picture implements GrpcMessage {
           _instance.thumbMedium = new APIImage();
           _reader.readMessage(
             _instance.thumbMedium,
+            APIImage.deserializeBinaryFromReader
+          );
+          break;
+        case 46:
+          _instance.thumbLarge = new APIImage();
+          _reader.readMessage(
+            _instance.thumbLarge,
             APIImage.deserializeBinaryFromReader
           );
           break;
@@ -35742,6 +36031,13 @@ export class Picture implements GrpcMessage {
         APIImage.serializeBinaryToWriter
       );
     }
+    if (_instance.thumbLarge) {
+      _writer.writeMessage(
+        46,
+        _instance.thumbLarge as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
     if (_instance.nameText) {
       _writer.writeString(9, _instance.nameText);
     }
@@ -35919,6 +36215,7 @@ export class Picture implements GrpcMessage {
   private _point?: googleType003.LatLng;
   private _copyrightsTextId: number;
   private _thumbMedium?: APIImage;
+  private _thumbLarge?: APIImage;
   private _nameText: string;
   private _nameHtml: string;
   private _ownerId: string;
@@ -35974,6 +36271,9 @@ export class Picture implements GrpcMessage {
     this.copyrightsTextId = _value.copyrightsTextId;
     this.thumbMedium = _value.thumbMedium
       ? new APIImage(_value.thumbMedium)
+      : undefined;
+    this.thumbLarge = _value.thumbLarge
+      ? new APIImage(_value.thumbLarge)
       : undefined;
     this.nameText = _value.nameText;
     this.nameHtml = _value.nameHtml;
@@ -36083,6 +36383,12 @@ export class Picture implements GrpcMessage {
   }
   set thumbMedium(value: APIImage | undefined) {
     this._thumbMedium = value;
+  }
+  get thumbLarge(): APIImage | undefined {
+    return this._thumbLarge;
+  }
+  set thumbLarge(value: APIImage | undefined) {
+    this._thumbLarge = value;
   }
   get nameText(): string {
     return this._nameText;
@@ -36330,6 +36636,7 @@ export class Picture implements GrpcMessage {
       point: this.point ? this.point.toObject() : undefined,
       copyrightsTextId: this.copyrightsTextId,
       thumbMedium: this.thumbMedium ? this.thumbMedium.toObject() : undefined,
+      thumbLarge: this.thumbLarge ? this.thumbLarge.toObject() : undefined,
       nameText: this.nameText,
       nameHtml: this.nameHtml,
       ownerId: this.ownerId,
@@ -36405,6 +36712,9 @@ export class Picture implements GrpcMessage {
       thumbMedium: this.thumbMedium
         ? this.thumbMedium.toProtobufJSON(options)
         : null,
+      thumbLarge: this.thumbLarge
+        ? this.thumbLarge.toProtobufJSON(options)
+        : null,
       nameText: this.nameText,
       nameHtml: this.nameHtml,
       ownerId: this.ownerId,
@@ -36473,6 +36783,7 @@ export module Picture {
     point?: googleType003.LatLng.AsObject;
     copyrightsTextId: number;
     thumbMedium?: APIImage.AsObject;
+    thumbLarge?: APIImage.AsObject;
     nameText: string;
     nameHtml: string;
     ownerId: string;
@@ -36524,6 +36835,7 @@ export module Picture {
     point: googleType003.LatLng.AsProtobufJSON | null;
     copyrightsTextId: number;
     thumbMedium: APIImage.AsProtobufJSON | null;
+    thumbLarge: APIImage.AsProtobufJSON | null;
     nameText: string;
     nameHtml: string;
     ownerId: string;
