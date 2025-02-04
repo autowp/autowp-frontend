@@ -5,13 +5,13 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {PictureService} from '@services/picture';
-import {combineLatest, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {APICommentsService} from '../../../api/comments/comments.service';
 
 interface MenuItem {
-  count?: null | number;
+  count$?: Observable<null | number>;
   icon: string;
   label: string;
   queryParams?: {[key: string]: string | undefined};
@@ -30,42 +30,40 @@ export class MenuComponent {
   private readonly pictureService = inject(PictureService);
   private readonly commentService = inject(APICommentsService);
 
-  protected readonly items$: Observable<MenuItem[] | null> = combineLatest([
-    this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE),
-    this.pictureService.inboxSize$,
-    this.commentService.attentionCommentsCount$,
-  ]).pipe(
-    map(([isModer, inboxCount, attentionItemCount]) => {
-      if (!isModer) {
-        return null;
-      }
+  protected readonly items$: Observable<MenuItem[] | null> = this.acl
+    .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
+    .pipe(
+      map((isModer) => {
+        if (!isModer) {
+          return null;
+        }
 
-      return [
-        {
-          count: inboxCount,
-          icon: 'bi bi-grid-3x2-gap-fill',
-          label: $localize`Inbox`,
-          queryParams: {
-            order: '1',
-            status: 'inbox',
+        return [
+          {
+            count$: this.pictureService.inboxSize$,
+            icon: 'bi bi-grid-3x2-gap-fill',
+            label: $localize`Inbox`,
+            queryParams: {
+              order: '1',
+              status: 'inbox',
+            },
+            routerLink: ['/moder/pictures'],
           },
-          routerLink: ['/moder/pictures'],
-        },
-        {
-          count: attentionItemCount,
-          icon: 'bi bi-chat-fill',
-          label: $localize`Comments`,
-          queryParams: {
-            moderator_attention: '1',
+          {
+            count$: this.commentService.attentionCommentsCount$,
+            icon: 'bi bi-chat-fill',
+            label: $localize`Comments`,
+            queryParams: {
+              moderator_attention: '1',
+            },
+            routerLink: ['/moder/comments'],
           },
-          routerLink: ['/moder/comments'],
-        },
-        {
-          icon: 'bi bi-car-front',
-          label: $localize`Items`,
-          routerLink: ['/moder/items'],
-        },
-      ];
-    }),
-  );
+          {
+            icon: 'bi bi-car-front',
+            label: $localize`Items`,
+            routerLink: ['/moder/items'],
+          },
+        ];
+      }),
+    );
 }

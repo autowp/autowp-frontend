@@ -12,8 +12,8 @@
               <i aria-hidden="true" [ngClass]="item.icon"></i>
             }
             {{ item.label }}
-            @if (item.count) {
-              <span class="badge rounded-pill text-bg-secondary" [textContent]="item.count"></span>
+            @if (item.count$ | async; as count) {
+              <span class="badge rounded-pill text-bg-secondary" [textContent]="count"></span>
             }
           </a>
         }
