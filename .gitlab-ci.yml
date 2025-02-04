@@ -17,6 +17,7 @@ build:
     paths:
       - node_modules/
   script:
+    - hadolint Dockerfile
     - npm ci || npm cache clear --force && npm ci
     - npx ng lint
     - npx stylelint "src/**/*.scss"
