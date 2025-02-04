@@ -175,7 +175,7 @@ export class PictureService {
       }
 
       return this.picturesClient
-        .getPictures(
+        .getPicturesPaginator(
           new PicturesRequest({
             limit: 0,
             options: new PictureListOptions({
@@ -184,7 +184,7 @@ export class PictureService {
             paginator: true,
           }),
         )
-        .pipe(map((response) => response.paginator?.totalItemCount || null));
+        .pipe(map((paginator) => paginator.totalItemCount || null));
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );

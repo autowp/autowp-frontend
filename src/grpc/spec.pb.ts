@@ -26586,7 +26586,8 @@ export module ItemsRequest {
     DEFAULT = 0,
     NAME_NAT = 1,
     NAME = 2,
-    CHILDS_COUNT = 3
+    CHILDS_COUNT = 3,
+    AGE = 4
   }
 }
 
@@ -28513,6 +28514,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.isNotConcept = _instance.isNotConcept || false;
     _instance.typeIds = _instance.typeIds || [];
     _instance.pictureItems = _instance.pictureItems || undefined;
+    _instance.dateless = _instance.dateless || false;
   }
 
   /**
@@ -28613,6 +28615,9 @@ export class ItemListOptions implements GrpcMessage {
             _instance.pictureItems,
             PictureItemListOptions.deserializeBinaryFromReader
           );
+          break;
+        case 27:
+          _instance.dateless = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -28715,6 +28720,9 @@ export class ItemListOptions implements GrpcMessage {
         PictureItemListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.dateless) {
+      _writer.writeBool(27, _instance.dateless);
+    }
   }
 
   private _typeId: ItemType;
@@ -28737,6 +28745,7 @@ export class ItemListOptions implements GrpcMessage {
   private _isNotConcept: boolean;
   private _typeIds: ItemType[];
   private _pictureItems?: PictureItemListOptions;
+  private _dateless: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -28776,6 +28785,7 @@ export class ItemListOptions implements GrpcMessage {
     this.pictureItems = _value.pictureItems
       ? new PictureItemListOptions(_value.pictureItems)
       : undefined;
+    this.dateless = _value.dateless;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -28898,6 +28908,12 @@ export class ItemListOptions implements GrpcMessage {
   set pictureItems(value: PictureItemListOptions | undefined) {
     this._pictureItems = value;
   }
+  get dateless(): boolean {
+    return this._dateless;
+  }
+  set dateless(value: boolean) {
+    this._dateless = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -28935,7 +28951,10 @@ export class ItemListOptions implements GrpcMessage {
       suggestionsTo: this.suggestionsTo,
       isNotConcept: this.isNotConcept,
       typeIds: (this.typeIds || []).slice(),
-      pictureItems: this.pictureItems ? this.pictureItems.toObject() : undefined
+      pictureItems: this.pictureItems
+        ? this.pictureItems.toObject()
+        : undefined,
+      dateless: this.dateless
     };
   }
 
@@ -28989,7 +29008,8 @@ export class ItemListOptions implements GrpcMessage {
       typeIds: (this.typeIds || []).map(v => ItemType[v]),
       pictureItems: this.pictureItems
         ? this.pictureItems.toProtobufJSON(options)
-        : null
+        : null,
+      dateless: this.dateless
     };
   }
 }
@@ -29018,6 +29038,7 @@ export module ItemListOptions {
     isNotConcept: boolean;
     typeIds: ItemType[];
     pictureItems?: PictureItemListOptions.AsObject;
+    dateless: boolean;
   }
 
   /**
@@ -29044,6 +29065,7 @@ export module ItemListOptions {
     isNotConcept: boolean;
     typeIds: string[];
     pictureItems: PictureItemListOptions.AsProtobufJSON | null;
+    dateless: boolean;
   }
 }
 

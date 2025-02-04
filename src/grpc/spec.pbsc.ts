@@ -4306,6 +4306,27 @@ export class PicturesClient {
       });
     },
     /**
+     * Unary call: /goautowp.Pictures/GetPicturesPaginator
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Pages>>
+     */
+    getPicturesPaginator: (
+      requestData: thisProto.PicturesRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Pages>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetPicturesPaginator',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PicturesRequest,
+        responseClass: thisProto.Pages
+      });
+    },
+    /**
      * Unary call: /goautowp.Pictures/GetPictureItem
      *
      * @param requestMessage Request message
@@ -4872,6 +4893,22 @@ export class PicturesClient {
   ): Observable<thisProto.PicturesList> {
     return this.$raw
       .getPictures(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetPicturesPaginator
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Pages>
+   */
+  getPicturesPaginator(
+    requestData: thisProto.PicturesRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Pages> {
+    return this.$raw
+      .getPicturesPaginator(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
