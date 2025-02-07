@@ -3,35 +3,33 @@
     <h3>
       <app-item-header
         [item]="{
-          nameHTML: item.name_html,
+          nameHTML: item.nameHtml,
           design: item.design || null,
-          produced: {count: item.produced || 0, exactly: item.produced_exactly},
+          produced: {count: item.produced || 0, exactly: item.producedExactly},
         }"
       ></app-item-header>
     </h3>
-    @if (item.name_default) {
-      <h4 [textContent]="item.name_default"></h4>
+    @if (item.nameDefault) {
+      <h4 [textContent]="item.nameDefault"></h4>
     }
     @if (havePhoto(item)) {
       <div class="row">
-        @for (picture of item.preview_pictures.pictures; track picture) {
+        @for (picture of item.previewPictures?.pictures || []; track picture) {
           <div class="col-6 col-lg-3">
-            @if (picture && picture.picture && picture.thumb) {
-              <a
-                [routerLink]="['/twins/group', groupId, 'pictures', picture.picture.identity]"
-                class="d-block rounded mb-4"
-              >
-                <img
-                  [src]="picture.thumb.src"
-                  [alt]="picture.picture.name_text"
-                  [title]="picture.picture.name_text"
-                  class="rounded w-100 border border-light"
-                  loading="lazy"
-                />
-              </a>
-            }
             @if (!picture) {
               <span>&#xa0;</span>
+            } @else {
+              @if (picture.thumbMedium) {
+                <a [routerLink]="['/twins/group', groupId, 'pictures', picture.identity]" class="d-block rounded mb-4">
+                  <img
+                    [src]="picture.thumbMedium.src"
+                    [alt]="picture.nameText"
+                    [title]="picture.nameText"
+                    class="rounded w-100 border border-light"
+                    loading="lazy"
+                  />
+                </a>
+              }
             }
           </div>
         }
@@ -57,13 +55,13 @@
     @if (item.description && item.description.length) {
       <app-markdown class="text" [markdown]="item.description"></app-markdown>
     }
-    @if (item.engine_vehicles && item.engine_vehicles.length) {
+    @if ((item.engineVehicles || []).length) {
       <div>
         <p i18n>Mounted on:</p>
         <ul>
-          @for (vehicle of item.engine_vehicles; track vehicle) {
+          @for (vehicle of item.engineVehicles; track vehicle.id) {
             <li>
-              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
+              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.nameHtml"></a>
             </li>
           }
         </ul>
@@ -73,7 +71,7 @@
       @for (category of item.categories; track category.id) {
         <li class="list-inline-item">
           <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
-          <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+          <a [routerLink]="['/category', category.catname]" [innerHTML]="category.nameHtml"></a>
         </li>
       }
       @if (isModer$ | async; as isModer) {
@@ -84,7 +82,7 @@
           </li>
         }
       }
-      @if (item.can_edit_specs) {
+      @if (item.canEditSpecs) {
         <li class="list-inline-item">
           <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
           <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>

@@ -1,9 +1,18 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {APIItem, CommentsType, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {
+  APIItem,
+  CommentsType,
+  ItemFields,
+  ItemListOptions,
+  ItemParentListOptions,
+  ItemRequest,
+  ItemsRequest,
+  PictureFields,
+  PreviewPicturesRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -19,13 +28,12 @@ import {TwinsItemComponent} from '../../item/item.component';
   templateUrl: './items.component.html',
 })
 export class TwinsGroupItemsComponent {
-  private readonly itemService = inject(ItemService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
 
-  protected readonly groupId$: Observable<string> = this.route.parent!.paramMap.pipe(
+  protected readonly groupId$: Observable<string> = this.#route.parent!.paramMap.pipe(
     map((params) => params.get('group') ?? ''),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -37,7 +45,7 @@ export class TwinsGroupItemsComponent {
         return of(null);
       }
 
-      return this.itemsClient.item(
+      return this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             acceptedPicturesCount: true,
@@ -46,14 +54,14 @@ export class TwinsGroupItemsComponent {
             nameText: true,
           }),
           id: group,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       );
     }),
     tap((group) => {
       setTimeout(
         () =>
-          this.pageEnv.set({
+          this.#pageEnv.set({
             pageId: 25,
             title: group ? group.nameText : '',
           }),
@@ -66,13 +74,39 @@ export class TwinsGroupItemsComponent {
   protected readonly childs$ = this.groupId$.pipe(
     switchMap((groupId) =>
       groupId
-        ? this.itemService.getItems$({
-            fields:
-              'name_html,name_default,description,has_text,produced,design,engine_vehicles,url,can_edit_specs,' +
-              'specs_route,categories.name_html,preview_pictures,total_pictures', // brands
-            limit: 500,
-            parent_id: +groupId,
-          })
+        ? this.#itemsClient.list(
+            new ItemsRequest({
+              fields: new ItemFields({
+                acceptedPicturesCount: true,
+                canEditSpecs: true,
+                categories: new ItemsRequest({
+                  fields: new ItemFields({nameHtml: true}),
+                }),
+                childsCount: true,
+                description: true,
+                design: true,
+                engineVehicles: new ItemsRequest({
+                  fields: new ItemFields({nameHtml: true, route: true}),
+                }),
+                hasText: true,
+                nameDefault: true,
+                nameHtml: true,
+                previewPictures: new PreviewPicturesRequest({
+                  perspectivePageId: 3,
+                  picture: new PictureFields({nameText: true}),
+                }),
+                specsRoute: true,
+              }),
+              language: this.#languageService.language,
+              limit: 500,
+              options: new ItemListOptions({
+                parent: new ItemParentListOptions({
+                  parentId: groupId,
+                }),
+              }),
+              order: ItemsRequest.Order.AGE,
+            }),
+          )
         : EMPTY,
     ),
   );
