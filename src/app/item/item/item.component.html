@@ -20,10 +20,10 @@
           <div class="col-12 col-lg-6">
             @if (!picture) {
               <span>&#xa0;</span>
-            } @else if (picture.thumb) {
+            } @else if (picture.thumbLarge) {
               <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
                 <img
-                  [src]="picture.thumb.src"
+                  [src]="picture.thumbLarge.src"
                   [alt]="picture.nameText"
                   [title]="picture.nameText"
                   class="rounded w-100 border border-light"
@@ -39,10 +39,10 @@
               <div class="col-6">
                 @if (!picture) {
                   <span>&#xa0;</span>
-                } @else if (picture.thumb) {
+                } @else if (picture.thumbMedium) {
                   <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
                     <img
-                      [src]="picture.thumb.src"
+                      [src]="picture.thumbMedium.src"
                       [alt]="picture.nameText"
                       [title]="picture.nameText"
                       class="rounded w-100 border border-light"
@@ -62,10 +62,10 @@
           <div [class]="thumbnailColClass()">
             @if (!picture) {
               <span>&#xa0;</span>
-            } @else if (picture && picture.thumb) {
+            } @else if (picture.thumbMedium) {
               <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
                 <img
-                  [src]="picture.thumb.src"
+                  [src]="picture.thumbMedium.src"
                   [alt]="picture.nameText"
                   [title]="picture.nameText"
                   class="rounded w-100 border border-light"
@@ -110,7 +110,7 @@
       </div>
     }
     <ul class="list-inline" ngPreserveWhitespaces>
-      @if ((item.hasText || item.childsCount) && item.route) {
+      @if ((item.hasText || item.childsCount) && item.route.length) {
         <li class="list-inline-item">
           <i class="bi bi-text-left me-1" aria-hidden="true"></i>
           <a [routerLink]="item.route"
@@ -125,23 +125,6 @@
         <li class="list-inline-item">
           <i class="bi bi-text-left me-1" aria-hidden="true"></i>
           <a [routerLink]="['/persons', item.id]" i18n>details</a>
-        </li>
-      }
-      <!--<li *ngIf="item.more_pictures_url" class="list-inline-item">
-      <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-      <a [href]="item.more_pictures_url"><ng-container i18n>all pictures</ng-container> ({{item.total_pictures}})</a>
-    </li>-->
-      <!--
-    <li *ngIf="item.specsLinks.length > 1" class="list-inline-item">
-      <i class="bi bi-card-list me-1" aria-hidden="true"></i>
-      <ng-container i18n>specifications</ng-container>
-      <a [href]="specLink.url" [textContent]="specLink.name" *ngFor="let specLink of item.specsLinks"></a>
-    </li>
-    -->
-      @if (item.specsRoute) {
-        <li class="list-inline-item">
-          <i class="bi bi-card-list me-1" aria-hidden="true"></i>
-          <a [routerLink]="item.specsRoute" i18n>specifications</a>
         </li>
       }
       @for (twinsGroup of item.twins; track twinsGroup.id) {

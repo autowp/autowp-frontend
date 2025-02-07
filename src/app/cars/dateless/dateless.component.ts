@@ -39,7 +39,7 @@ export class CarsDatelessComponent implements OnInit {
             description: true,
             design: true,
             engineVehicles: new ItemsRequest({
-              fields: new ItemFields({nameHtml: true}),
+              fields: new ItemFields({nameHtml: true, route: true}),
             }),
             hasText: true,
             nameDefault: true,
@@ -47,7 +47,6 @@ export class CarsDatelessComponent implements OnInit {
             previewPictures: new PreviewPicturesRequest({
               picture: new PictureFields({nameText: true}),
             }),
-            specsRoute: true,
             twins: new ItemsRequest(),
           }),
           language: this.#languageService.language,
