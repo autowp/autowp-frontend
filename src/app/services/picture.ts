@@ -57,7 +57,6 @@ export interface APIPicture {
   };
   moder_voted: boolean;
   moder_votes: APIPictureModerVote[];
-  name: string;
   name_html: string;
   name_text: string;
   of_links?: {

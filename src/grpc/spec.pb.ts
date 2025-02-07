@@ -25149,6 +25149,7 @@ export class ItemFields implements GrpcMessage {
     _instance.canEditSpecs = _instance.canEditSpecs || false;
     _instance.itemParentChilds = _instance.itemParentChilds || undefined;
     _instance.commentsCount = _instance.commentsCount || false;
+    _instance.engineVehicles = _instance.engineVehicles || undefined;
   }
 
   /**
@@ -25302,6 +25303,13 @@ export class ItemFields implements GrpcMessage {
         case 39:
           _instance.commentsCount = _reader.readBool();
           break;
+        case 40:
+          _instance.engineVehicles = new ItemsRequest();
+          _reader.readMessage(
+            _instance.engineVehicles,
+            ItemsRequest.deserializeBinaryFromReader
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -25454,6 +25462,13 @@ export class ItemFields implements GrpcMessage {
     if (_instance.commentsCount) {
       _writer.writeBool(39, _instance.commentsCount);
     }
+    if (_instance.engineVehicles) {
+      _writer.writeMessage(
+        40,
+        _instance.engineVehicles as any,
+        ItemsRequest.serializeBinaryToWriter
+      );
+    }
   }
 
   private _nameOnly: boolean;
@@ -25494,6 +25509,7 @@ export class ItemFields implements GrpcMessage {
   private _canEditSpecs: boolean;
   private _itemParentChilds?: ItemParentsRequest;
   private _commentsCount: boolean;
+  private _engineVehicles?: ItemsRequest;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25547,6 +25563,9 @@ export class ItemFields implements GrpcMessage {
       ? new ItemParentsRequest(_value.itemParentChilds)
       : undefined;
     this.commentsCount = _value.commentsCount;
+    this.engineVehicles = _value.engineVehicles
+      ? new ItemsRequest(_value.engineVehicles)
+      : undefined;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -25777,6 +25796,12 @@ export class ItemFields implements GrpcMessage {
   set commentsCount(value: boolean) {
     this._commentsCount = value;
   }
+  get engineVehicles(): ItemsRequest | undefined {
+    return this._engineVehicles;
+  }
+  set engineVehicles(value: ItemsRequest | undefined) {
+    this._engineVehicles = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25836,7 +25861,10 @@ export class ItemFields implements GrpcMessage {
       itemParentChilds: this.itemParentChilds
         ? this.itemParentChilds.toObject()
         : undefined,
-      commentsCount: this.commentsCount
+      commentsCount: this.commentsCount,
+      engineVehicles: this.engineVehicles
+        ? this.engineVehicles.toObject()
+        : undefined
     };
   }
 
@@ -25902,7 +25930,10 @@ export class ItemFields implements GrpcMessage {
       itemParentChilds: this.itemParentChilds
         ? this.itemParentChilds.toProtobufJSON(options)
         : null,
-      commentsCount: this.commentsCount
+      commentsCount: this.commentsCount,
+      engineVehicles: this.engineVehicles
+        ? this.engineVehicles.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -25949,6 +25980,7 @@ export module ItemFields {
     canEditSpecs: boolean;
     itemParentChilds?: ItemParentsRequest.AsObject;
     commentsCount: boolean;
+    engineVehicles?: ItemsRequest.AsObject;
   }
 
   /**
@@ -25993,6 +26025,7 @@ export module ItemFields {
     canEditSpecs: boolean;
     itemParentChilds: ItemParentsRequest.AsProtobufJSON | null;
     commentsCount: boolean;
+    engineVehicles: ItemsRequest.AsProtobufJSON | null;
   }
 }
 
@@ -29620,6 +29653,7 @@ export class APIItem implements GrpcMessage {
     _instance.itemParentChilds = _instance.itemParentChilds || undefined;
     _instance.commentsCount = _instance.commentsCount || 0;
     _instance.previewPictures = _instance.previewPictures || undefined;
+    _instance.engineVehicles = _instance.engineVehicles || [];
   }
 
   /**
@@ -29851,6 +29885,16 @@ export class APIItem implements GrpcMessage {
             PreviewPictures.deserializeBinaryFromReader
           );
           break;
+        case 50:
+          const messageInitializer50 = new APIItem();
+          _reader.readMessage(
+            messageInitializer50,
+            APIItem.deserializeBinaryFromReader
+          );
+          (_instance.engineVehicles = _instance.engineVehicles || []).push(
+            messageInitializer50
+          );
+          break;
         default:
           _reader.skipField();
       }
@@ -30064,6 +30108,13 @@ export class APIItem implements GrpcMessage {
         PreviewPictures.serializeBinaryToWriter
       );
     }
+    if (_instance.engineVehicles && _instance.engineVehicles.length) {
+      _writer.writeRepeatedMessage(
+        50,
+        _instance.engineVehicles as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -30115,6 +30166,7 @@ export class APIItem implements GrpcMessage {
   private _itemParentChilds?: ItemParents;
   private _commentsCount: number;
   private _previewPictures?: PreviewPictures;
+  private _engineVehicles?: APIItem[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30185,6 +30237,9 @@ export class APIItem implements GrpcMessage {
     this.previewPictures = _value.previewPictures
       ? new PreviewPictures(_value.previewPictures)
       : undefined;
+    this.engineVehicles = (_value.engineVehicles || []).map(
+      m => new APIItem(m)
+    );
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -30481,6 +30536,12 @@ export class APIItem implements GrpcMessage {
   set previewPictures(value: PreviewPictures | undefined) {
     this._previewPictures = value;
   }
+  get engineVehicles(): APIItem[] | undefined {
+    return this._engineVehicles;
+  }
+  set engineVehicles(value: APIItem[] | undefined) {
+    this._engineVehicles = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -30551,7 +30612,8 @@ export class APIItem implements GrpcMessage {
       commentsCount: this.commentsCount,
       previewPictures: this.previewPictures
         ? this.previewPictures.toObject()
-        : undefined
+        : undefined,
+      engineVehicles: (this.engineVehicles || []).map(m => m.toObject())
     };
   }
 
@@ -30635,7 +30697,10 @@ export class APIItem implements GrpcMessage {
       commentsCount: this.commentsCount,
       previewPictures: this.previewPictures
         ? this.previewPictures.toProtobufJSON(options)
-        : null
+        : null,
+      engineVehicles: (this.engineVehicles || []).map(m =>
+        m.toProtobufJSON(options)
+      )
     };
   }
 }
@@ -30693,6 +30758,7 @@ export module APIItem {
     itemParentChilds?: ItemParents.AsObject;
     commentsCount: number;
     previewPictures?: PreviewPictures.AsObject;
+    engineVehicles?: APIItem.AsObject[];
   }
 
   /**
@@ -30748,6 +30814,7 @@ export module APIItem {
     itemParentChilds: ItemParents.AsProtobufJSON | null;
     commentsCount: number;
     previewPictures: PreviewPictures.AsProtobufJSON | null;
+    engineVehicles: APIItem.AsProtobufJSON[] | null;
   }
 }
 

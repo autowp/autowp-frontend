@@ -4,28 +4,28 @@
       <h3>
         <app-item-header
           [item]="{
-            nameHTML: item.name_html,
+            nameHTML: item.nameHtml,
             design: item.design || null,
-            produced: {count: item.produced || 0, exactly: item.produced_exactly},
+            produced: {count: item.produced || 0, exactly: item.producedExactly},
           }"
         ></app-item-header>
       </h3>
     }
-    @if (item.name_default) {
-      <h4 [textContent]="item.name_default"></h4>
+    @if (item.nameDefault) {
+      <h4 [textContent]="item.nameDefault"></h4>
     }
-    @if (havePhoto(item) && item.preview_pictures.pictures.length > 4) {
+    @if (havePhoto(item) && (item.previewPictures?.pictures || []).length > 4) {
       <div class="row">
-        @for (picture of item.preview_pictures.pictures.slice(0, 1); track picture) {
+        @for (picture of (item.previewPictures?.pictures || []).slice(0, 1); track picture) {
           <div class="col-12 col-lg-6">
             @if (!picture) {
               <span>&#xa0;</span>
             } @else if (picture.thumb) {
-              <a [routerLink]="picture.route" class="d-block rounded mb-4">
+              <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
                 <img
                   [src]="picture.thumb.src"
-                  [alt]="picture.picture?.name"
-                  [title]="picture.picture?.name"
+                  [alt]="picture.nameText"
+                  [title]="picture.nameText"
                   class="rounded w-100 border border-light"
                   loading="lazy"
                 />
@@ -35,16 +35,16 @@
         }
         <div class="col-12 col-lg-6">
           <div class="row">
-            @for (picture of item.preview_pictures.pictures.slice(1); track picture) {
+            @for (picture of (item.previewPictures?.pictures || []).slice(1); track picture) {
               <div class="col-6">
                 @if (!picture) {
                   <span>&#xa0;</span>
                 } @else if (picture.thumb) {
-                  <a [routerLink]="picture.route" class="d-block rounded mb-4">
+                  <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
                     <img
                       [src]="picture.thumb.src"
-                      [alt]="picture.picture?.name"
-                      [title]="picture.picture?.name"
+                      [alt]="picture.nameText"
+                      [title]="picture.nameText"
                       class="rounded w-100 border border-light"
                       loading="lazy"
                     />
@@ -56,18 +56,18 @@
         </div>
       </div>
     }
-    @if (havePhoto(item) && item.preview_pictures.pictures.length <= 4) {
+    @if (havePhoto(item) && (item.previewPictures?.pictures || []).length <= 4) {
       <div class="row">
-        @for (picture of item.preview_pictures.pictures; track picture) {
+        @for (picture of item.previewPictures?.pictures || []; track picture) {
           <div [class]="thumbnailColClass()">
             @if (!picture) {
               <span>&#xa0;</span>
-            } @else if (picture.picture && picture.thumb) {
-              <a [routerLink]="picture.route" class="d-block rounded mb-4">
+            } @else if (picture && picture.thumb) {
+              <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
                 <img
                   [src]="picture.thumb.src"
-                  [alt]="picture.picture.name"
-                  [title]="picture.picture.name"
+                  [alt]="picture.nameText"
+                  [title]="picture.nameText"
                   class="rounded w-100 border border-light"
                   loading="lazy"
                 />
@@ -97,31 +97,31 @@
     @if (item.description && item.description.length) {
       <app-markdown class="text" [markdown]="item.description"></app-markdown>
     }
-    @if (item.engine_vehicles && item.engine_vehicles.length) {
+    @if ((item.engineVehicles || []).length > 0) {
       <div>
         <p i18n>Mounted on:</p>
         <ul>
-          @for (vehicle of item.engine_vehicles; track vehicle) {
+          @for (vehicle of item.engineVehicles; track vehicle.id) {
             <li>
-              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
+              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.nameHtml"></a>
             </li>
           }
         </ul>
       </div>
     }
     <ul class="list-inline" ngPreserveWhitespaces>
-      @if ((item.has_text || item.childs_count) && item.route) {
+      @if ((item.hasText || item.childsCount) && item.route) {
         <li class="list-inline-item">
           <i class="bi bi-text-left me-1" aria-hidden="true"></i>
           <a [routerLink]="item.route"
             ><ng-container i18n>details</ng-container>
-            @if (item.childs_count > 1) {
-              <span> ({{ item.childs_count }})</span>
+            @if (item.childsCount > 1) {
+              <span> ({{ item.childsCount }})</span>
             }
           </a>
         </li>
       }
-      @if (item.item_type_id === 8) {
+      @if (item.itemTypeId === ItemType.ITEM_TYPE_PERSON) {
         <li class="list-inline-item">
           <i class="bi bi-text-left me-1" aria-hidden="true"></i>
           <a [routerLink]="['/persons', item.id]" i18n>details</a>
@@ -138,13 +138,13 @@
       <a [href]="specLink.url" [textContent]="specLink.name" *ngFor="let specLink of item.specsLinks"></a>
     </li>
     -->
-      @if (item.specs_route) {
+      @if (item.specsRoute) {
         <li class="list-inline-item">
           <i class="bi bi-card-list me-1" aria-hidden="true"></i>
-          <a [routerLink]="item.specs_route" i18n>specifications</a>
+          <a [routerLink]="item.specsRoute" i18n>specifications</a>
         </li>
       }
-      @for (twinsGroup of item.twins_groups; track twinsGroup.id) {
+      @for (twinsGroup of item.twins; track twinsGroup.id) {
         <li class="list-inline-item">
           <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
           <a [routerLink]="['/twins/group', twinsGroup.id]" i18n>twins</a>
@@ -153,7 +153,7 @@
       @for (category of item.categories; track category.id) {
         <li class="list-inline-item">
           <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
-          <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+          <a [routerLink]="['/category', category.catname]" [innerHTML]="category.nameHtml"></a>
         </li>
       }
       @if (isModer$ | async) {
@@ -162,7 +162,7 @@
           <a [routerLink]="['/moder/items/item', item.id]" i18n>edit</a>
         </li>
       }
-      @if (item.can_edit_specs) {
+      @if (item.canEditSpecs) {
         <li class="list-inline-item">
           <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
           <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>

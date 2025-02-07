@@ -1,8 +1,7 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {APIItem, ItemType} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -24,9 +23,9 @@ export class ItemComponent {
   protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected havePhoto(item: APIItem) {
-    if (item.preview_pictures) {
-      for (const picture of item.preview_pictures.pictures) {
-        if (picture?.picture) {
+    if (item.previewPictures) {
+      for (const picture of item.previewPictures.pictures || []) {
+        if (picture) {
           return true;
         }
       }
@@ -35,14 +34,24 @@ export class ItemComponent {
   }
 
   protected canHavePhoto(item: APIItem) {
-    return [1, 2, 5, 6, 7].indexOf(item.item_type_id) !== -1;
+    return (
+      [
+        ItemType.ITEM_TYPE_VEHICLE,
+        ItemType.ITEM_TYPE_ENGINE,
+        ItemType.ITEM_TYPE_BRAND,
+        ItemType.ITEM_TYPE_FACTORY,
+        ItemType.ITEM_TYPE_MUSEUM,
+      ].indexOf(item.itemTypeId) !== -1
+    );
   }
 
   protected thumbnailColClass() {
-    if (this.item && this.item.preview_pictures.pictures.length === 3) {
+    if (this.item && (this.item.previewPictures?.pictures || []).length === 3) {
       return 'col-sm-4';
     }
 
     return 'col-6 col-lg-3';
   }
+
+  protected readonly ItemType = ItemType;
 }
