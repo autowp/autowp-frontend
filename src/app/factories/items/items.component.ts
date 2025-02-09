@@ -119,6 +119,7 @@ export class FactoryItemsComponent {
                 }),
               }),
             }),
+            route: true,
             specsRoute: true,
             twins: new ItemsRequest(),
           }),
