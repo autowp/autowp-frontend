@@ -2,17 +2,26 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
+  ItemFields,
+  ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemParentsRequest,
+  ItemsRequest,
   ItemType,
+  Pages,
   Picture,
   PictureFields,
   PictureItemListOptions,
+  PictureItemType,
   PictureListOptions,
   PicturesRequest,
+  PictureStatus,
+  PreviewPicturesRequest,
 } from '@grpc/spec.pb';
-import {PicturesClient} from '@grpc/spec.pbsc';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIItem, ItemService} from '@services/item';
-import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -21,6 +30,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../toasts/toasts.service';
+import {CategoriesListItem2Component} from '../../list-item2.component';
 import {CategoriesListItemComponent} from '../../list-item.component';
 import {CategoriesService} from '../../service';
 
@@ -30,26 +40,33 @@ interface PictureRoute {
 }
 
 @Component({
-  imports: [MarkdownComponent, CategoriesListItemComponent, RouterLink, PaginatorComponent, AsyncPipe],
+  imports: [
+    MarkdownComponent,
+    CategoriesListItemComponent,
+    RouterLink,
+    PaginatorComponent,
+    AsyncPipe,
+    CategoriesListItem2Component,
+  ],
   selector: 'app-categories-category-item',
   templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {
-  private readonly itemService = inject(ItemService);
-  private readonly itemParentService = inject(ItemParentService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly acl = inject(ACLService);
-  private readonly categoriesService = inject(CategoriesService);
+  readonly #itemService = inject(ItemService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #acl = inject(ACLService);
+  readonly #categoriesService = inject(CategoriesService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route.parent!).pipe(
+  readonly #categoryData$ = this.#categoriesService.categoryPipe$(this.#route.parent!).pipe(
     tap(({current}) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 22,
         title: current.name_text,
       });
@@ -57,35 +74,61 @@ export class CategoriesCategoryItemComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly itemParents$ = combineLatest([this.categoryData$, this.page$]).pipe(
+  protected readonly itemParents$: Observable<{
+    items: {item: ItemParent; parentRouterLink: string[]}[];
+    paginator: Pages | undefined;
+  }> = combineLatest([this.#categoryData$, this.#page$]).pipe(
     switchMap(([{category, current, pathCatnames}, page]) =>
-      this.itemParentService
-        .getItems$({
-          fields: [
-            'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
-            'item.design,item.engine_vehicles',
-            'item.can_edit_specs,item.specs_route',
-            'item.twins_groups',
-            'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
-          ].join(','),
-          limit: 10,
-          order: 'categories_first',
-          page,
-          parent_id: current.id,
-        })
+      this.#itemsClient
+        .getItemParents(
+          new ItemParentsRequest({
+            fields: new ItemParentFields({
+              item: new ItemFields({
+                acceptedPicturesCount: true,
+                canEditSpecs: true,
+                childsCount: true,
+                description: true,
+                design: true,
+                engineVehicles: new ItemsRequest({
+                  fields: new ItemFields({nameHtml: true, route: true}),
+                }),
+                hasText: true,
+                nameDefault: true,
+                nameHtml: true,
+                previewPictures: new PreviewPicturesRequest({
+                  pictures: new PicturesRequest({
+                    options: new PictureListOptions({
+                      pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                      status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                    }),
+                  }),
+                }),
+                specsRoute: true,
+                twins: new ItemsRequest(),
+              }),
+            }),
+            language: this.#languageService.language,
+            limit: 10,
+            options: new ItemParentListOptions({
+              parentId: '' + current.id,
+            }),
+            order: ItemParentsRequest.Order.CATEGORIES_FIRST,
+            page,
+          }),
+        )
         .pipe(
           map((response) => ({
-            items: response.items.map((itemParent) => ({
+            items: (response.items || []).map((itemParent) => ({
               item: itemParent,
               parentRouterLink: [
                 '/category',
-                ...(itemParent.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY
+                ...(itemParent.item?.itemTypeId === ItemType.ITEM_TYPE_CATEGORY
                   ? [itemParent.item.catname]
                   : // eslint-disable-next-line sonarjs/no-nested-conditional
                     category
@@ -101,7 +144,7 @@ export class CategoriesCategoryItemComponent {
   );
 
   protected readonly pictures$: Observable<PictureRoute[]> = combineLatest([
-    this.categoryData$,
+    this.#categoryData$,
     this.itemParents$,
   ]).pipe(
     switchMap(([{category, current, pathCatnames}, itemParents]) => {
@@ -143,7 +186,7 @@ export class CategoriesCategoryItemComponent {
     }),
   );
 
-  protected readonly currentRouterLinkPrefix$ = this.categoryData$.pipe(
+  protected readonly currentRouterLinkPrefix$ = this.#categoryData$.pipe(
     map(({category, current, pathCatnames}) => {
       if (!category) {
         return null;
@@ -157,13 +200,13 @@ export class CategoriesCategoryItemComponent {
     }),
   );
 
-  protected readonly item$: Observable<APIItem | null> = combineLatest([this.categoryData$, this.itemParents$]).pipe(
+  protected readonly item$: Observable<APIItem | null> = combineLatest([this.#categoryData$, this.itemParents$]).pipe(
     switchMap(([{current}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length > 0) {
         return of(null);
       }
 
-      return this.itemService.getItem$(current.id, {
+      return this.#itemService.getItem$(current.id, {
         fields: [
           'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
           'design,engine_vehicles',
@@ -175,7 +218,7 @@ export class CategoriesCategoryItemComponent {
     }),
   );
 
-  protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
+  protected readonly current$: Observable<APIItem> = this.#categoryData$.pipe(
     map(({current}) => current),
     shareReplay({bufferSize: 1, refCount: false}),
   );

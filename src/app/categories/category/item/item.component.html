@@ -8,10 +8,12 @@
 
 @if (itemParents$ | async; as itemParents) {
   @for (itemParent of itemParents.items; track itemParent) {
-    <app-categories-list-item
-      [item]="itemParent.item.item"
-      [parentRouterLink]="itemParent.parentRouterLink"
-    ></app-categories-list-item>
+    @if (itemParent.item.item) {
+      <app-categories-list-item2
+        [item]="itemParent.item.item"
+        [parentRouterLink]="itemParent.parentRouterLink"
+      ></app-categories-list-item2>
+    }
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
