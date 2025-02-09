@@ -28583,6 +28583,8 @@ export class ItemListOptions implements GrpcMessage {
     _instance.name = _instance.name || '';
     _instance.id = _instance.id || '0';
     _instance.isConcept = _instance.isConcept || false;
+    _instance.isNotConcept = _instance.isNotConcept || false;
+    _instance.isNotConceptInherited = _instance.isNotConceptInherited || false;
     _instance.descendant = _instance.descendant || undefined;
     _instance.ancestor = _instance.ancestor || undefined;
     _instance.parent = _instance.parent || undefined;
@@ -28593,7 +28595,6 @@ export class ItemListOptions implements GrpcMessage {
     _instance.excludeSelfAndChilds = _instance.excludeSelfAndChilds || '0';
     _instance.autocomplete = _instance.autocomplete || '';
     _instance.suggestionsTo = _instance.suggestionsTo || '0';
-    _instance.isNotConcept = _instance.isNotConcept || false;
     _instance.typeIds = _instance.typeIds || [];
     _instance.pictureItems = _instance.pictureItems || undefined;
     _instance.dateless = _instance.dateless || false;
@@ -28646,6 +28647,12 @@ export class ItemListOptions implements GrpcMessage {
         case 14:
           _instance.isConcept = _reader.readBool();
           break;
+        case 24:
+          _instance.isNotConcept = _reader.readBool();
+          break;
+        case 37:
+          _instance.isNotConceptInherited = _reader.readBool();
+          break;
         case 15:
           _instance.descendant = new ItemParentCacheListOptions();
           _reader.readMessage(
@@ -28691,9 +28698,6 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 23:
           _instance.suggestionsTo = _reader.readInt64String();
-          break;
-        case 24:
-          _instance.isNotConcept = _reader.readBool();
           break;
         case 25:
           (_instance.typeIds = _instance.typeIds || []).push(
@@ -28783,6 +28787,12 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.isConcept) {
       _writer.writeBool(14, _instance.isConcept);
     }
+    if (_instance.isNotConcept) {
+      _writer.writeBool(24, _instance.isNotConcept);
+    }
+    if (_instance.isNotConceptInherited) {
+      _writer.writeBool(37, _instance.isNotConceptInherited);
+    }
     if (_instance.descendant) {
       _writer.writeMessage(
         15,
@@ -28828,9 +28838,6 @@ export class ItemListOptions implements GrpcMessage {
     }
     if (_instance.suggestionsTo) {
       _writer.writeInt64String(23, _instance.suggestionsTo);
-    }
-    if (_instance.isNotConcept) {
-      _writer.writeBool(24, _instance.isNotConcept);
     }
     if (_instance.typeIds && _instance.typeIds.length) {
       _writer.writePackedEnum(25, _instance.typeIds);
@@ -28885,6 +28892,8 @@ export class ItemListOptions implements GrpcMessage {
   private _name: string;
   private _id: string;
   private _isConcept: boolean;
+  private _isNotConcept: boolean;
+  private _isNotConceptInherited: boolean;
   private _descendant?: ItemParentCacheListOptions;
   private _ancestor?: ItemParentCacheListOptions;
   private _parent?: ItemParentListOptions;
@@ -28895,7 +28904,6 @@ export class ItemListOptions implements GrpcMessage {
   private _excludeSelfAndChilds: string;
   private _autocomplete: string;
   private _suggestionsTo: string;
-  private _isNotConcept: boolean;
   private _typeIds: ItemType[];
   private _pictureItems?: PictureItemListOptions;
   private _dateless: boolean;
@@ -28924,6 +28932,8 @@ export class ItemListOptions implements GrpcMessage {
     this.name = _value.name;
     this.id = _value.id;
     this.isConcept = _value.isConcept;
+    this.isNotConcept = _value.isNotConcept;
+    this.isNotConceptInherited = _value.isNotConceptInherited;
     this.descendant = _value.descendant
       ? new ItemParentCacheListOptions(_value.descendant)
       : undefined;
@@ -28942,7 +28952,6 @@ export class ItemListOptions implements GrpcMessage {
     this.excludeSelfAndChilds = _value.excludeSelfAndChilds;
     this.autocomplete = _value.autocomplete;
     this.suggestionsTo = _value.suggestionsTo;
-    this.isNotConcept = _value.isNotConcept;
     this.typeIds = (_value.typeIds || []).slice();
     this.pictureItems = _value.pictureItems
       ? new PictureItemListOptions(_value.pictureItems)
@@ -29003,6 +29012,18 @@ export class ItemListOptions implements GrpcMessage {
   set isConcept(value: boolean) {
     this._isConcept = value;
   }
+  get isNotConcept(): boolean {
+    return this._isNotConcept;
+  }
+  set isNotConcept(value: boolean) {
+    this._isNotConcept = value;
+  }
+  get isNotConceptInherited(): boolean {
+    return this._isNotConceptInherited;
+  }
+  set isNotConceptInherited(value: boolean) {
+    this._isNotConceptInherited = value;
+  }
   get descendant(): ItemParentCacheListOptions | undefined {
     return this._descendant;
   }
@@ -29062,12 +29083,6 @@ export class ItemListOptions implements GrpcMessage {
   }
   set suggestionsTo(value: string) {
     this._suggestionsTo = value;
-  }
-  get isNotConcept(): boolean {
-    return this._isNotConcept;
-  }
-  set isNotConcept(value: boolean) {
-    this._isNotConcept = value;
   }
   get typeIds(): ItemType[] {
     return this._typeIds;
@@ -29166,6 +29181,8 @@ export class ItemListOptions implements GrpcMessage {
       name: this.name,
       id: this.id,
       isConcept: this.isConcept,
+      isNotConcept: this.isNotConcept,
+      isNotConceptInherited: this.isNotConceptInherited,
       descendant: this.descendant ? this.descendant.toObject() : undefined,
       ancestor: this.ancestor ? this.ancestor.toObject() : undefined,
       parent: this.parent ? this.parent.toObject() : undefined,
@@ -29176,7 +29193,6 @@ export class ItemListOptions implements GrpcMessage {
       excludeSelfAndChilds: this.excludeSelfAndChilds,
       autocomplete: this.autocomplete,
       suggestionsTo: this.suggestionsTo,
-      isNotConcept: this.isNotConcept,
       typeIds: (this.typeIds || []).slice(),
       pictureItems: this.pictureItems
         ? this.pictureItems.toObject()
@@ -29225,6 +29241,8 @@ export class ItemListOptions implements GrpcMessage {
       name: this.name,
       id: this.id,
       isConcept: this.isConcept,
+      isNotConcept: this.isNotConcept,
+      isNotConceptInherited: this.isNotConceptInherited,
       descendant: this.descendant
         ? this.descendant.toProtobufJSON(options)
         : null,
@@ -29242,7 +29260,6 @@ export class ItemListOptions implements GrpcMessage {
       excludeSelfAndChilds: this.excludeSelfAndChilds,
       autocomplete: this.autocomplete,
       suggestionsTo: this.suggestionsTo,
-      isNotConcept: this.isNotConcept,
       typeIds: (this.typeIds || []).map(v => ItemType[v]),
       pictureItems: this.pictureItems
         ? this.pictureItems.toProtobufJSON(options)
@@ -29274,6 +29291,8 @@ export module ItemListOptions {
     name: string;
     id: string;
     isConcept: boolean;
+    isNotConcept: boolean;
+    isNotConceptInherited: boolean;
     descendant?: ItemParentCacheListOptions.AsObject;
     ancestor?: ItemParentCacheListOptions.AsObject;
     parent?: ItemParentListOptions.AsObject;
@@ -29284,7 +29303,6 @@ export module ItemListOptions {
     excludeSelfAndChilds: string;
     autocomplete: string;
     suggestionsTo: string;
-    isNotConcept: boolean;
     typeIds: ItemType[];
     pictureItems?: PictureItemListOptions.AsObject;
     dateless: boolean;
@@ -29310,6 +29328,8 @@ export module ItemListOptions {
     name: string;
     id: string;
     isConcept: boolean;
+    isNotConcept: boolean;
+    isNotConceptInherited: boolean;
     descendant: ItemParentCacheListOptions.AsProtobufJSON | null;
     ancestor: ItemParentCacheListOptions.AsProtobufJSON | null;
     parent: ItemParentListOptions.AsProtobufJSON | null;
@@ -29320,7 +29340,6 @@ export module ItemListOptions {
     excludeSelfAndChilds: string;
     autocomplete: string;
     suggestionsTo: string;
-    isNotConcept: boolean;
     typeIds: string[];
     pictureItems: PictureItemListOptions.AsProtobufJSON | null;
     dateless: boolean;

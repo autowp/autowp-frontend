@@ -11,6 +11,7 @@ import {
   ItemsRequest,
   ItemType,
   ItemVehicleTypeListOptions,
+  Pages,
   PictureItemListOptions,
   PictureItemType,
   PictureListOptions,
@@ -142,7 +143,7 @@ export class CatalogueCarsComponent {
     ),
   );
 
-  protected readonly result$ = combineLatest([
+  protected readonly result$: Observable<{items: CatalogueListItem2[]; paginator: Pages | undefined}> = combineLatest([
     this.brand$,
     this.currentVehicleType$,
     this.#route.queryParamMap.pipe(
@@ -161,13 +162,11 @@ export class CatalogueCarsComponent {
               categories: new ItemsRequest({
                 fields: new ItemFields({nameHtml: true}),
               }),
-              //   childsCount: true,
               description: true,
               design: true,
               engineVehicles: new ItemsRequest({
                 fields: new ItemFields({nameHtml: true, route: true}),
               }),
-              //   hasChildSpecs: true,
               hasText: true,
               nameDefault: true,
               nameHtml: true,
@@ -180,9 +179,9 @@ export class CatalogueCarsComponent {
                 }),
               }),
               route: true,
+              routeBrandId: brand.id,
               specsRoute: true,
               twins: new ItemsRequest(),
-              routeBrandId: brand.id,
             }),
             language: this.#languageService.language,
             limit: 7,
@@ -198,12 +197,6 @@ export class CatalogueCarsComponent {
             page,
           }),
         )
-        // this.#itemService
-        //   .getItems$({
-        //     fields: [
-        //       'childs_count,total_pictures',
-        //     ].join(','),
-        //   })
         .pipe(
           map((response) => {
             const items: CatalogueListItem2[] = (response.items || []).map((item) => {
