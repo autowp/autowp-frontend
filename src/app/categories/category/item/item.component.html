@@ -9,10 +9,10 @@
 @if (itemParents$ | async; as itemParents) {
   @for (itemParent of itemParents.items; track itemParent) {
     @if (itemParent.item.item) {
-      <app-categories-list-item2
+      <app-categories-list-item
         [item]="itemParent.item.item"
         [parentRouterLink]="itemParent.parentRouterLink"
-      ></app-categories-list-item2>
+      ></app-categories-list-item>
     }
   }
 } @else {

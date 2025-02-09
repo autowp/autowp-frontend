@@ -1,21 +1,18 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemType, Picture} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage} from '@services/api.service';
-import {APIPicture} from '@services/picture';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 interface PictureThumbRoute {
-  picture: APIPicture | null;
+  picture: null | Picture;
   route: null | string[];
-  thumb: APIImage | null;
+  thumb: APIImage | undefined;
 }
 
 @Component({
@@ -47,7 +44,7 @@ export class CategoriesListItemComponent {
             ItemType.ITEM_TYPE_BRAND,
             ItemType.ITEM_TYPE_FACTORY,
             ItemType.ITEM_TYPE_MUSEUM,
-          ].indexOf(item.item_type_id) !== -1
+          ].indexOf(item.itemTypeId) !== -1
         : false,
     ),
   );
@@ -56,18 +53,28 @@ export class CategoriesListItemComponent {
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.parentRouterLink$,
   ]).pipe(
-    map(([item, parentRouterLink]) =>
-      item.preview_pictures.pictures.map((pic) => ({
-        picture: pic?.picture ? pic.picture : null,
-        route: pic?.picture && parentRouterLink ? parentRouterLink.concat(['pictures', pic.picture.identity]) : null,
-        thumb: pic?.thumb ? pic.thumb : null,
-      })),
-    ),
+    map(([item, parentRouterLink]) => {
+      const largeFormat = !!item.previewPictures?.largeFormat;
+      return (item.previewPictures?.pictures || []).map((picture, idx) => {
+        let thumb = undefined;
+        if (picture) {
+          thumb = largeFormat && idx == 0 ? picture.picture?.thumbLarge : picture.picture?.thumbMedium;
+        }
+        return {
+          picture: picture?.picture ? picture.picture : null,
+          route:
+            picture?.picture && parentRouterLink
+              ? parentRouterLink.concat(['pictures', picture.picture.identity])
+              : null,
+          thumb,
+        };
+      });
+    }),
   );
 
   protected isHavePhoto(item: APIItem) {
-    if (item.preview_pictures) {
-      for (const picture of item.preview_pictures.pictures) {
+    if (item.previewPictures) {
+      for (const picture of item.previewPictures?.pictures || []) {
         if (picture?.picture) {
           return true;
         }

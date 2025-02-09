@@ -2,11 +2,13 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
+  APIItem as GRPCAPIItem,
   ItemFields,
   ItemParent,
   ItemParentFields,
   ItemParentListOptions,
   ItemParentsRequest,
+  ItemRequest,
   ItemsRequest,
   ItemType,
   Pages,
@@ -21,7 +23,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
+import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -30,7 +32,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../../toasts/toasts.service';
-import {CategoriesListItem2Component} from '../../list-item2.component';
 import {CategoriesListItemComponent} from '../../list-item.component';
 import {CategoriesService} from '../../service';
 
@@ -40,19 +41,11 @@ interface PictureRoute {
 }
 
 @Component({
-  imports: [
-    MarkdownComponent,
-    CategoriesListItemComponent,
-    RouterLink,
-    PaginatorComponent,
-    AsyncPipe,
-    CategoriesListItem2Component,
-  ],
+  imports: [MarkdownComponent, CategoriesListItemComponent, RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-categories-category-item',
   templateUrl: './item.component.html',
 })
 export class CategoriesCategoryItemComponent {
-  readonly #itemService = inject(ItemService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #route = inject(ActivatedRoute);
   readonly #acl = inject(ACLService);
@@ -200,21 +193,44 @@ export class CategoriesCategoryItemComponent {
     }),
   );
 
-  protected readonly item$: Observable<APIItem | null> = combineLatest([this.#categoryData$, this.itemParents$]).pipe(
+  protected readonly item$: Observable<GRPCAPIItem | null> = combineLatest([
+    this.#categoryData$,
+    this.itemParents$,
+  ]).pipe(
     switchMap(([{current}, itemParents]) => {
       if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length > 0) {
         return of(null);
       }
 
-      return this.#itemService.getItem$(current.id, {
-        fields: [
-          'catname,name_html,name_default,description,has_text,produced,accepted_pictures_count',
-          'design,engine_vehicles',
-          'can_edit_specs,specs_route',
-          'twins_groups',
-          'childs_count,total_pictures,preview_pictures.picture.name_text',
-        ].join(','),
-      });
+      return this.#itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            acceptedPicturesCount: true,
+            canEditSpecs: true,
+            childsCount: true,
+            description: true,
+            design: true,
+            engineVehicles: new ItemsRequest({
+              fields: new ItemFields({nameHtml: true, route: true}),
+            }),
+            hasText: true,
+            nameDefault: true,
+            nameHtml: true,
+            previewPictures: new PreviewPicturesRequest({
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                }),
+              }),
+            }),
+            specsRoute: true,
+            twins: new ItemsRequest(),
+          }),
+          id: '' + current.id,
+          language: this.#languageService.language,
+        }),
+      );
     }),
   );
 
