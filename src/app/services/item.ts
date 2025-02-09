@@ -26,13 +26,6 @@ export interface APIItem {
   childs?: APIItem[];
   childs_count: number;
   childs_counts?: APIItemChildsCounts;
-  comments_attentions_count?: number;
-  comments_topic_stat?: {
-    messages: number;
-  };
-  current_pictures_count?: number;
-  descendant_twins_groups_count?: number;
-  descendants_count: number;
   description: string;
   design?: {
     name: string;
@@ -95,7 +88,6 @@ export interface APIItem {
 
   produced_exactly: boolean;
 
-  related_group_pictures: APIItemRelatedGroupItem[];
   route: string[];
   spec_id: null | number | string;
   specifications_count?: number;

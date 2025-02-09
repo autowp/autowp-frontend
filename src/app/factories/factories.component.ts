@@ -3,6 +3,9 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {
+  APIItem,
+  ItemFields,
+  ItemRequest,
   ItemType,
   PictureFields,
   PictureItemListOptions,
@@ -10,9 +13,8 @@ import {
   PicturesRequest,
   PictureStatus,
 } from '@grpc/spec.pb';
-import {PicturesClient} from '@grpc/spec.pbsc';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem, ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -29,36 +31,47 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './factories.component.html',
 })
 export class FactoryComponent {
-  private readonly itemService = inject(ItemService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly acl = inject(ACLService);
-  private readonly toastService = inject(ToastsService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #acl = inject(ACLService);
+  readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  protected readonly item$: Observable<APIItem> = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') ?? '', 10)),
+  protected readonly item$: Observable<APIItem> = this.#route.paramMap.pipe(
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: ['name_text', 'name_html', 'lat', 'lng', 'description', 'text', 'related_group_pictures'].join(','),
-      }),
+      this.#itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            description: true,
+            fullText: true,
+            location: true,
+            nameHtml: true,
+            nameText: true,
+            relatedGroupPictures: true,
+          }),
+          id,
+          language: this.#languageService.language,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
+      this.#toastService.handleError(err);
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     switchMap((factory) => {
-      if (!factory || factory.item_type_id !== ItemType.ITEM_TYPE_FACTORY) {
-        this.router.navigate(['/error-404'], {
+      if (!factory || factory.itemTypeId !== ItemType.ITEM_TYPE_FACTORY) {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -67,9 +80,9 @@ export class FactoryComponent {
       return of(factory);
     }),
     tap((factory) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 181,
-        title: factory.name_text,
+        title: factory.nameText,
       });
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -100,18 +113,18 @@ export class FactoryComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
   );
 
   protected readonly map$ = this.item$.pipe(
     map((factory) => {
-      if (!factory.lat || !factory.lng) {
+      if (!factory.location?.longitude || !factory.location.latitude) {
         return null;
       }
 
-      const center = latLng([factory.lat, factory.lng]);
+      const center = latLng([factory.location.latitude, factory.location.longitude]);
       const markers: Marker[] = [
         marker(center, {
           icon: icon({

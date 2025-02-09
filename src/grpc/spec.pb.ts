@@ -25111,6 +25111,7 @@ export class ItemFields implements GrpcMessage {
     _instance.commentsCount = _instance.commentsCount || false;
     _instance.engineVehicles = _instance.engineVehicles || undefined;
     _instance.routeBrandId = _instance.routeBrandId || '0';
+    _instance.relatedGroupPictures = _instance.relatedGroupPictures || false;
   }
 
   /**
@@ -25274,6 +25275,9 @@ export class ItemFields implements GrpcMessage {
         case 41:
           _instance.routeBrandId = _reader.readInt64String();
           break;
+        case 42:
+          _instance.relatedGroupPictures = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -25436,6 +25440,9 @@ export class ItemFields implements GrpcMessage {
     if (_instance.routeBrandId) {
       _writer.writeInt64String(41, _instance.routeBrandId);
     }
+    if (_instance.relatedGroupPictures) {
+      _writer.writeBool(42, _instance.relatedGroupPictures);
+    }
   }
 
   private _nameOnly: boolean;
@@ -25478,6 +25485,7 @@ export class ItemFields implements GrpcMessage {
   private _commentsCount: boolean;
   private _engineVehicles?: ItemsRequest;
   private _routeBrandId: string;
+  private _relatedGroupPictures: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25535,6 +25543,7 @@ export class ItemFields implements GrpcMessage {
       ? new ItemsRequest(_value.engineVehicles)
       : undefined;
     this.routeBrandId = _value.routeBrandId;
+    this.relatedGroupPictures = _value.relatedGroupPictures;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -25777,6 +25786,12 @@ export class ItemFields implements GrpcMessage {
   set routeBrandId(value: string) {
     this._routeBrandId = value;
   }
+  get relatedGroupPictures(): boolean {
+    return this._relatedGroupPictures;
+  }
+  set relatedGroupPictures(value: boolean) {
+    this._relatedGroupPictures = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25840,7 +25855,8 @@ export class ItemFields implements GrpcMessage {
       engineVehicles: this.engineVehicles
         ? this.engineVehicles.toObject()
         : undefined,
-      routeBrandId: this.routeBrandId
+      routeBrandId: this.routeBrandId,
+      relatedGroupPictures: this.relatedGroupPictures
     };
   }
 
@@ -25910,7 +25926,8 @@ export class ItemFields implements GrpcMessage {
       engineVehicles: this.engineVehicles
         ? this.engineVehicles.toProtobufJSON(options)
         : null,
-      routeBrandId: this.routeBrandId
+      routeBrandId: this.routeBrandId,
+      relatedGroupPictures: this.relatedGroupPictures
     };
   }
 }
@@ -25959,6 +25976,7 @@ export module ItemFields {
     commentsCount: boolean;
     engineVehicles?: ItemsRequest.AsObject;
     routeBrandId: string;
+    relatedGroupPictures: boolean;
   }
 
   /**
@@ -26005,6 +26023,7 @@ export module ItemFields {
     commentsCount: boolean;
     engineVehicles: ItemsRequest.AsProtobufJSON | null;
     routeBrandId: string;
+    relatedGroupPictures: boolean;
   }
 }
 
@@ -29907,6 +29926,7 @@ export class APIItem implements GrpcMessage {
     _instance.commentsCount = _instance.commentsCount || 0;
     _instance.previewPictures = _instance.previewPictures || undefined;
     _instance.engineVehicles = _instance.engineVehicles || [];
+    _instance.relatedGroupPictures = _instance.relatedGroupPictures || [];
   }
 
   /**
@@ -30148,6 +30168,15 @@ export class APIItem implements GrpcMessage {
             messageInitializer50
           );
           break;
+        case 51:
+          const messageInitializer51 = new RelatedGroupPicture();
+          _reader.readMessage(
+            messageInitializer51,
+            RelatedGroupPicture.deserializeBinaryFromReader
+          );
+          (_instance.relatedGroupPictures =
+            _instance.relatedGroupPictures || []).push(messageInitializer51);
+          break;
         default:
           _reader.skipField();
       }
@@ -30368,6 +30397,16 @@ export class APIItem implements GrpcMessage {
         APIItem.serializeBinaryToWriter
       );
     }
+    if (
+      _instance.relatedGroupPictures &&
+      _instance.relatedGroupPictures.length
+    ) {
+      _writer.writeRepeatedMessage(
+        51,
+        _instance.relatedGroupPictures as any,
+        RelatedGroupPicture.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -30420,6 +30459,7 @@ export class APIItem implements GrpcMessage {
   private _commentsCount: number;
   private _previewPictures?: PreviewPictures;
   private _engineVehicles?: APIItem[];
+  private _relatedGroupPictures?: RelatedGroupPicture[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30492,6 +30532,9 @@ export class APIItem implements GrpcMessage {
       : undefined;
     this.engineVehicles = (_value.engineVehicles || []).map(
       m => new APIItem(m)
+    );
+    this.relatedGroupPictures = (_value.relatedGroupPictures || []).map(
+      m => new RelatedGroupPicture(m)
     );
     APIItem.refineValues(this);
   }
@@ -30795,6 +30838,12 @@ export class APIItem implements GrpcMessage {
   set engineVehicles(value: APIItem[] | undefined) {
     this._engineVehicles = value;
   }
+  get relatedGroupPictures(): RelatedGroupPicture[] | undefined {
+    return this._relatedGroupPictures;
+  }
+  set relatedGroupPictures(value: RelatedGroupPicture[] | undefined) {
+    this._relatedGroupPictures = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -30866,7 +30915,10 @@ export class APIItem implements GrpcMessage {
       previewPictures: this.previewPictures
         ? this.previewPictures.toObject()
         : undefined,
-      engineVehicles: (this.engineVehicles || []).map(m => m.toObject())
+      engineVehicles: (this.engineVehicles || []).map(m => m.toObject()),
+      relatedGroupPictures: (this.relatedGroupPictures || []).map(m =>
+        m.toObject()
+      )
     };
   }
 
@@ -30953,6 +31005,9 @@ export class APIItem implements GrpcMessage {
         : null,
       engineVehicles: (this.engineVehicles || []).map(m =>
         m.toProtobufJSON(options)
+      ),
+      relatedGroupPictures: (this.relatedGroupPictures || []).map(m =>
+        m.toProtobufJSON(options)
       )
     };
   }
@@ -31012,6 +31067,7 @@ export module APIItem {
     commentsCount: number;
     previewPictures?: PreviewPictures.AsObject;
     engineVehicles?: APIItem.AsObject[];
+    relatedGroupPictures?: RelatedGroupPicture.AsObject[];
   }
 
   /**
@@ -31068,6 +31124,184 @@ export module APIItem {
     commentsCount: number;
     previewPictures: PreviewPictures.AsProtobufJSON | null;
     engineVehicles: APIItem.AsProtobufJSON[] | null;
+    relatedGroupPictures: RelatedGroupPicture.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.RelatedGroupPicture
+ */
+export class RelatedGroupPicture implements GrpcMessage {
+  static id = 'goautowp.RelatedGroupPicture';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new RelatedGroupPicture();
+    RelatedGroupPicture.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: RelatedGroupPicture) {
+    _instance.nameHtml = _instance.nameHtml || '';
+    _instance.src = _instance.src || '';
+    _instance.route = _instance.route || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: RelatedGroupPicture,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.nameHtml = _reader.readString();
+          break;
+        case 2:
+          _instance.src = _reader.readString();
+          break;
+        case 3:
+          (_instance.route = _instance.route || []).push(_reader.readString());
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    RelatedGroupPicture.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: RelatedGroupPicture,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.nameHtml) {
+      _writer.writeString(1, _instance.nameHtml);
+    }
+    if (_instance.src) {
+      _writer.writeString(2, _instance.src);
+    }
+    if (_instance.route && _instance.route.length) {
+      _writer.writeRepeatedString(3, _instance.route);
+    }
+  }
+
+  private _nameHtml: string;
+  private _src: string;
+  private _route: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of RelatedGroupPicture to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<RelatedGroupPicture.AsObject>) {
+    _value = _value || {};
+    this.nameHtml = _value.nameHtml;
+    this.src = _value.src;
+    this.route = (_value.route || []).slice();
+    RelatedGroupPicture.refineValues(this);
+  }
+  get nameHtml(): string {
+    return this._nameHtml;
+  }
+  set nameHtml(value: string) {
+    this._nameHtml = value;
+  }
+  get src(): string {
+    return this._src;
+  }
+  set src(value: string) {
+    this._src = value;
+  }
+  get route(): string[] {
+    return this._route;
+  }
+  set route(value: string[]) {
+    this._route = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    RelatedGroupPicture.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): RelatedGroupPicture.AsObject {
+    return {
+      nameHtml: this.nameHtml,
+      src: this.src,
+      route: (this.route || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): RelatedGroupPicture.AsProtobufJSON {
+    return {
+      nameHtml: this.nameHtml,
+      src: this.src,
+      route: (this.route || []).slice()
+    };
+  }
+}
+export module RelatedGroupPicture {
+  /**
+   * Standard JavaScript object representation for RelatedGroupPicture
+   */
+  export interface AsObject {
+    nameHtml: string;
+    src: string;
+    route: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for RelatedGroupPicture
+   */
+  export interface AsProtobufJSON {
+    nameHtml: string;
+    src: string;
+    route: string[];
   }
 }
 

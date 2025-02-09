@@ -11,10 +11,10 @@
 
 @if (item$ | async; as factory) {
   <div class="page-header">
-    <h1>{{ factory.name }}</h1>
+    <h1 [innerHTML]="factory.nameHtml"></h1>
   </div>
   <div class="nav nav-pills mb-3">
-    <a class="nav-link active" routerLink="." [innerHTML]="factory.name_html"></a>
+    <a class="nav-link active" routerLink="." [innerHTML]="factory.nameHtml"></a>
     <a class="nav-link" [routerLink]="['/factories', factory.id, 'items']" i18n>Products</a>
     @if (isModer$ | async) {
       <a class="nav-link" [routerLink]="['/moder/items/item', factory.id]">
@@ -34,8 +34,8 @@
     ></div>
   }
 
-  @if (factory.text) {
-    <app-markdown class="card card-body" [markdown]="factory.text"></app-markdown>
+  @if (factory.fullText) {
+    <app-markdown class="card card-body" [markdown]="factory.fullText"></app-markdown>
   } @else if (factory.description) {
     <app-markdown class="card card-body" [markdown]="factory.description"></app-markdown>
   }
@@ -57,19 +57,19 @@
 }
 
 @if (item$ | async; as factory) {
-  @if (factory.related_group_pictures && factory.related_group_pictures.length > 0) {
+  @if (factory.relatedGroupPictures && factory.relatedGroupPictures.length > 0) {
     <div>
       <h3 i18n>Products</h3>
       <div class="row">
-        @for (item of factory.related_group_pictures; track item) {
+        @for (item of factory.relatedGroupPictures || []; track item) {
           <div class="col-6 col-md-4 col-lg-3">
             <div class="card mb-4">
               <a [routerLink]="item.route">
-                <img class="card-img-top" [src]="item.src" alt="" [title]="item.name" loading="lazy" />
+                <img class="card-img-top" [src]="item.src" alt="" loading="lazy" />
               </a>
               <div class="card-body">
                 <h5 class="card-title">
-                  <a [routerLink]="item.route" [textContent]="item.name"></a>
+                  <a [routerLink]="item.route" [innerHTML]="item.nameHtml"></a>
                 </h5>
               </div>
             </div>
