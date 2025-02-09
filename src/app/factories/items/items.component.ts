@@ -92,54 +92,45 @@ export class FactoryItemsComponent {
   );
 
   protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(
-    switchMap(
-      ([page, factory]) =>
-        this.#itemsClient.list(
-          new ItemsRequest({
-            fields: new ItemFields({
-              acceptedPicturesCount: true,
-              canEditSpecs: true,
-              categories: new ItemsRequest({
-                fields: new ItemFields({nameHtml: true}),
-              }),
-              childsCount: true,
-              description: true,
-              design: true,
-              engineVehicles: new ItemsRequest({
-                fields: new ItemFields({nameHtml: true, route: true}),
-              }),
-              hasChildSpecs: true,
-              hasText: true,
-              nameDefault: true,
-              nameHtml: true,
-              previewPictures: new PreviewPicturesRequest({
-                perspectivePageId: 3,
-                pictures: new PicturesRequest({
-                  options: new PictureListOptions({
-                    pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
-                    status: PictureStatus.PICTURE_STATUS_ACCEPTED,
-                  }),
+    switchMap(([page, factory]) =>
+      this.#itemsClient.list(
+        new ItemsRequest({
+          fields: new ItemFields({
+            acceptedPicturesCount: true,
+            canEditSpecs: true,
+            categories: new ItemsRequest({
+              fields: new ItemFields({nameHtml: true}),
+            }),
+            childsCount: true,
+            description: true,
+            design: true,
+            engineVehicles: new ItemsRequest({
+              fields: new ItemFields({nameHtml: true, route: true}),
+            }),
+            hasChildSpecs: true,
+            hasText: true,
+            nameDefault: true,
+            nameHtml: true,
+            previewPictures: new PreviewPicturesRequest({
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
                 }),
               }),
-              specsRoute: true,
-              twins: new ItemsRequest(),
             }),
-            language: this.#languageService.language,
-            limit: 10,
-            options: new ItemListOptions({
-              relatedGroupsOf: factory.id,
-            }),
-            order: ItemsRequest.Order.AGE,
-            page,
+            specsRoute: true,
+            twins: new ItemsRequest(),
           }),
-        ),
-      // this.#itemService.getItems$({
-      //   fields: [
-      //     'route',
-      //     'url',
-      //     'preview_pictures.route,childs_count,accepted_pictures_count',
-      //   ].join(','),
-      // }),
+          language: this.#languageService.language,
+          limit: 10,
+          options: new ItemListOptions({
+            relatedGroupsOf: factory.id,
+          }),
+          order: ItemsRequest.Order.AGE,
+          page,
+        }),
+      ),
     ),
     catchError((err: unknown) => {
       this.#toastService.handleError(err);
@@ -154,7 +145,6 @@ export class FactoryItemsComponent {
           if (picture.picture) {
             thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
           }
-          console.log(picture);
           return {
             picture: picture.picture ? picture.picture : null,
             routerLink: item.route && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],

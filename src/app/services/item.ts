@@ -184,7 +184,6 @@ export interface GetItemsServiceOptions {
     perspective_id?: number;
     type_id?: number;
   };
-  related_groups_of?: number;
   route_brand_id?: number;
   spec?: number;
   suggestions_to?: number;
@@ -324,10 +323,6 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
 
   if (options.have_common_childs_with) {
     params['have_common_childs_with'] = options.have_common_childs_with.toString();
-  }
-
-  if (options.related_groups_of) {
-    params['related_groups_of'] = options.related_groups_of.toString();
   }
 
   if (options.factories_of_brand) {
