@@ -2696,6 +2696,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/GetItemParent
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ItemParent>>
+     */
+    getItemParent: (
+      requestData: thisProto.ItemParentsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ItemParent>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetItemParent',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ItemParentsRequest,
+        responseClass: thisProto.ItemParent
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/GetItemParents
      *
      * @param requestMessage Request message
@@ -3318,6 +3339,22 @@ export class ItemsClient {
   ): Observable<thisProto.NewItemsResponse> {
     return this.$raw
       .getNewItems(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetItemParent
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ItemParent>
+   */
+  getItemParent(
+    requestData: thisProto.ItemParentsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ItemParent> {
+    return this.$raw
+      .getItemParent(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

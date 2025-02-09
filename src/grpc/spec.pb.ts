@@ -25073,6 +25073,7 @@ export class ItemFields implements GrpcMessage {
     _instance.nameHtml = _instance.nameHtml || false;
     _instance.nameText = _instance.nameText || false;
     _instance.description = _instance.description || false;
+    _instance.fullText = _instance.fullText || false;
     _instance.hasText = _instance.hasText || false;
     _instance.previewPictures = _instance.previewPictures || undefined;
     _instance.descendantsCount = _instance.descendantsCount || false;
@@ -25094,7 +25095,6 @@ export class ItemFields implements GrpcMessage {
     _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || false;
     _instance.hasChildSpecs = _instance.hasChildSpecs || false;
     _instance.hasSpecs = _instance.hasSpecs || false;
-    _instance.fullText = _instance.fullText || false;
     _instance.otherNames = _instance.otherNames || false;
     _instance.design = _instance.design || false;
     _instance.specsRoute = _instance.specsRoute || false;
@@ -25140,6 +25140,9 @@ export class ItemFields implements GrpcMessage {
           break;
         case 5:
           _instance.description = _reader.readBool();
+          break;
+        case 25:
+          _instance.fullText = _reader.readBool();
           break;
         case 6:
           _instance.hasText = _reader.readBool();
@@ -25198,9 +25201,6 @@ export class ItemFields implements GrpcMessage {
           break;
         case 24:
           _instance.hasSpecs = _reader.readBool();
-          break;
-        case 25:
-          _instance.fullText = _reader.readBool();
           break;
         case 26:
           _instance.otherNames = _reader.readBool();
@@ -25303,6 +25303,9 @@ export class ItemFields implements GrpcMessage {
     if (_instance.description) {
       _writer.writeBool(5, _instance.description);
     }
+    if (_instance.fullText) {
+      _writer.writeBool(25, _instance.fullText);
+    }
     if (_instance.hasText) {
       _writer.writeBool(6, _instance.hasText);
     }
@@ -25360,9 +25363,6 @@ export class ItemFields implements GrpcMessage {
     }
     if (_instance.hasSpecs) {
       _writer.writeBool(24, _instance.hasSpecs);
-    }
-    if (_instance.fullText) {
-      _writer.writeBool(25, _instance.fullText);
     }
     if (_instance.otherNames) {
       _writer.writeBool(26, _instance.otherNames);
@@ -25443,6 +25443,7 @@ export class ItemFields implements GrpcMessage {
   private _nameHtml: boolean;
   private _nameText: boolean;
   private _description: boolean;
+  private _fullText: boolean;
   private _hasText: boolean;
   private _previewPictures?: PreviewPicturesRequest;
   private _descendantsCount: boolean;
@@ -25461,7 +25462,6 @@ export class ItemFields implements GrpcMessage {
   private _acceptedPicturesCount: boolean;
   private _hasChildSpecs: boolean;
   private _hasSpecs: boolean;
-  private _fullText: boolean;
   private _otherNames: boolean;
   private _design: boolean;
   private _specsRoute: boolean;
@@ -25490,6 +25490,7 @@ export class ItemFields implements GrpcMessage {
     this.nameHtml = _value.nameHtml;
     this.nameText = _value.nameText;
     this.description = _value.description;
+    this.fullText = _value.fullText;
     this.hasText = _value.hasText;
     this.previewPictures = _value.previewPictures
       ? new PreviewPicturesRequest(_value.previewPictures)
@@ -25510,7 +25511,6 @@ export class ItemFields implements GrpcMessage {
     this.acceptedPicturesCount = _value.acceptedPicturesCount;
     this.hasChildSpecs = _value.hasChildSpecs;
     this.hasSpecs = _value.hasSpecs;
-    this.fullText = _value.fullText;
     this.otherNames = _value.otherNames;
     this.design = _value.design;
     this.specsRoute = _value.specsRoute;
@@ -25566,6 +25566,12 @@ export class ItemFields implements GrpcMessage {
   }
   set description(value: boolean) {
     this._description = value;
+  }
+  get fullText(): boolean {
+    return this._fullText;
+  }
+  set fullText(value: boolean) {
+    this._fullText = value;
   }
   get hasText(): boolean {
     return this._hasText;
@@ -25674,12 +25680,6 @@ export class ItemFields implements GrpcMessage {
   }
   set hasSpecs(value: boolean) {
     this._hasSpecs = value;
-  }
-  get fullText(): boolean {
-    return this._fullText;
-  }
-  set fullText(value: boolean) {
-    this._fullText = value;
   }
   get otherNames(): boolean {
     return this._otherNames;
@@ -25798,6 +25798,7 @@ export class ItemFields implements GrpcMessage {
       nameHtml: this.nameHtml,
       nameText: this.nameText,
       description: this.description,
+      fullText: this.fullText,
       hasText: this.hasText,
       previewPictures: this.previewPictures
         ? this.previewPictures.toObject()
@@ -25818,7 +25819,6 @@ export class ItemFields implements GrpcMessage {
       acceptedPicturesCount: this.acceptedPicturesCount,
       hasChildSpecs: this.hasChildSpecs,
       hasSpecs: this.hasSpecs,
-      fullText: this.fullText,
       otherNames: this.otherNames,
       design: this.design,
       specsRoute: this.specsRoute,
@@ -25866,6 +25866,7 @@ export class ItemFields implements GrpcMessage {
       nameHtml: this.nameHtml,
       nameText: this.nameText,
       description: this.description,
+      fullText: this.fullText,
       hasText: this.hasText,
       previewPictures: this.previewPictures
         ? this.previewPictures.toProtobufJSON(options)
@@ -25886,7 +25887,6 @@ export class ItemFields implements GrpcMessage {
       acceptedPicturesCount: this.acceptedPicturesCount,
       hasChildSpecs: this.hasChildSpecs,
       hasSpecs: this.hasSpecs,
-      fullText: this.fullText,
       otherNames: this.otherNames,
       design: this.design,
       specsRoute: this.specsRoute,
@@ -25924,6 +25924,7 @@ export module ItemFields {
     nameHtml: boolean;
     nameText: boolean;
     description: boolean;
+    fullText: boolean;
     hasText: boolean;
     previewPictures?: PreviewPicturesRequest.AsObject;
     descendantsCount: boolean;
@@ -25942,7 +25943,6 @@ export module ItemFields {
     acceptedPicturesCount: boolean;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
-    fullText: boolean;
     otherNames: boolean;
     design: boolean;
     specsRoute: boolean;
@@ -25970,6 +25970,7 @@ export module ItemFields {
     nameHtml: boolean;
     nameText: boolean;
     description: boolean;
+    fullText: boolean;
     hasText: boolean;
     previewPictures: PreviewPicturesRequest.AsProtobufJSON | null;
     descendantsCount: boolean;
@@ -25988,7 +25989,6 @@ export module ItemFields {
     acceptedPicturesCount: boolean;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
-    fullText: boolean;
     otherNames: boolean;
     design: boolean;
     specsRoute: boolean;

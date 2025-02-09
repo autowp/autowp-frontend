@@ -16,7 +16,6 @@ import {ContactsService} from '@services/contacts';
 import {ContentLanguageService} from '@services/content-language';
 import {IpService} from '@services/ip';
 import {ItemService} from '@services/item';
-import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {MessageService} from '@services/message';
 import {PageService} from '@services/page';
@@ -71,7 +70,6 @@ export const appConfig: ApplicationConfig = {
     PictureService,
     ItemService,
     ReCaptchaService,
-    ItemParentService,
     MessageService,
     PageService,
     UserService,

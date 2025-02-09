@@ -3,27 +3,35 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem as GRPCAPIItem,
+  ItemFields,
+  ItemListOptions,
   ItemParent,
+  ItemParentFields,
+  ItemParentListOptions,
+  ItemParentsRequest,
+  ItemParentType,
+  ItemRequest,
+  ItemsRequest,
+  Pages,
   Picture,
   PictureFields,
   PictureItemListOptions,
+  PictureItemType,
   PictureListOptions,
   PicturesRequest,
   PictureStatus,
+  PreviewPicturesRequest,
 } from '@grpc/spec.pb';
-import {PicturesClient} from '@grpc/spec.pbsc';
+import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIPaginator} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
-import {ItemParentService} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {
-  CatalogueListItem,
-  CatalogueListItemComponent,
-  CatalogueListItemPicture,
-} from '@utils/list-item/list-item.component';
+  CatalogueListItem2,
+  CatalogueListItem2Component,
+  CatalogueListItemPicture2,
+} from '@utils/list-item/list-item2.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -40,34 +48,34 @@ import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
     ItemHeaderComponent,
     CatalogueItemMenuComponent,
     MarkdownComponent,
-    CatalogueListItemComponent,
     PaginatorComponent,
     AsyncPipe,
+    CatalogueListItem2Component,
   ],
   selector: 'app-catalogue-vehicles',
   templateUrl: './vehicles.component.html',
 })
 export class CatalogueVehiclesComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemService = inject(ItemService);
-  private readonly itemParentService = inject(ItemParentService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly acl = inject(ACLService);
-  private readonly catalogueService = inject(CatalogueService);
-  private readonly router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #acl = inject(ACLService);
+  readonly #catalogueService = inject(CatalogueService);
+  readonly #router = inject(Router);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
-  protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canAddItem$ = this.#acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly canAcceptPicture$ = this.#acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
 
-  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> =
-    this.catalogueService.resolveCatalogue$(this.route).pipe(
+  readonly #catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> = this.#catalogueService
+    .resolveCatalogue$(this.#route)
+    .pipe(
       switchMap((data) => {
         if (!data?.brand || !data.path || data.path.length <= 0) {
-          this.router.navigate(['/error-404'], {
+          this.#router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
           return EMPTY;
@@ -77,9 +85,9 @@ export class CatalogueVehiclesComponent {
       shareReplay({bufferSize: 1, refCount: false}),
     );
 
-  protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<GRPCAPIItem> = this.#catalogue$.pipe(map(({brand}) => brand));
 
-  private readonly routerLink$: Observable<string[]> = this.catalogue$.pipe(
+  readonly #routerLink$: Observable<string[]> = this.#catalogue$.pipe(
     map(({brand, path}) => {
       const routerLink = ['/', brand.catname];
 
@@ -92,90 +100,62 @@ export class CatalogueVehiclesComponent {
   );
 
   protected readonly menu$: Observable<{routerLink: string[]; type: string}> = combineLatest([
-    this.catalogue$,
-    this.routerLink$,
+    this.#catalogue$,
+    this.#routerLink$,
   ]).pipe(map(([{type}, routerLink]) => ({routerLink, type})));
 
-  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+  protected readonly breadcrumbs$ = this.#catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
-  protected readonly item$: Observable<APIItem> = this.catalogue$.pipe(
-    switchMap(({path}) => {
+  protected readonly item$: Observable<GRPCAPIItem> = combineLatest([this.#catalogue$, this.isModer$]).pipe(
+    switchMap(([{path}, isModer]) => {
       const last = path[path.length - 1];
 
       if (last.item?.isGroup) {
-        return of({
-          accepted_pictures_count: last.item?.acceptedPicturesCount,
-          alt_names: [],
-          attr_zone_id: +last.item.attrZoneId,
-          begin_model_year: 0,
-          begin_model_year_fraction: '',
-          begin_month: 0,
-          begin_year: 0,
-          body: '',
-          brands: [],
-          catname: last.item.catname,
-          childs_count: 0,
-          childs_counts: convertChildsCounts(last.item.childsCounts || []),
-          comments_attentions_count: last.item.commentsAttentionsCount,
-          descendants_count: 0,
-          description: last.item.description,
-          design: last.item?.design,
-          end_model_year: 0,
-          end_model_year_fraction: '',
-          end_month: 0,
-          end_year: 0,
-          engine_id: +last.item.engineItemId,
-          engine_inherit: last.item.engineInherit,
-          engine_vehicles_count: 0,
-          full_name: '',
-          id: +last.item.id,
-          inbox_pictures_count: last.item?.inboxPicturesCount,
-          is_concept: last.item.isConceptInherit ? 'inherited' : last.item.isConcept,
-          is_group: last.item.isGroup,
-          item_language_count: 0,
-          item_of_day_pictures: [],
-          item_type_id: last.item.itemTypeId,
-          lat: 0,
-          links_count: 0,
-          lng: 0,
-          name: '',
-          name_default: last.item.nameDefault,
-          name_html: last.item.nameHtml,
-          name_only: last.item.nameOnly,
-          name_text: last.item.nameText,
-          other_names: last.item.otherNames,
-          parents_count: 0,
-          pictures_count: 0,
-          preview_pictures: {
-            large_format: false,
-            pictures: [],
-          },
-          produced: last.item.produced,
-          produced_exactly: last.item.producedExactly,
-          related_group_pictures: [],
-          route: [],
-          spec_id: last.item.specId,
-          specs_route: last.item.specsRoute,
-          subscription: false,
-          text: last.item.fullText,
-          today: null,
-          twins_groups: [],
-        } as APIItem);
+        return of(last.item);
       }
 
-      return this.itemService.getItem$(+last.itemId, {
-        fields: [
-          'name_html,name_default,description,text,has_text,produced,accepted_pictures_count,inbox_pictures_count',
-          'engine_vehicles,can_edit_specs,specs_route,has_child_specs,has_specs,twins_groups.name_html,design',
-          'total_pictures,preview_pictures.picture.name_text,childs_counts,categories.name_html',
-        ].join(','),
-      });
+      return this.#itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            acceptedPicturesCount: true,
+            canEditSpecs: true,
+            categories: new ItemsRequest({
+              fields: new ItemFields({nameHtml: true}),
+            }),
+            childsCounts: true,
+            description: true,
+            design: true,
+            engineVehicles: new ItemsRequest({
+              fields: new ItemFields({nameHtml: true, route: true}),
+            }),
+            fullText: true,
+            hasChildSpecs: true,
+            hasSpecs: true,
+            hasText: true,
+            inboxPicturesCount: isModer,
+            nameDefault: true,
+            nameHtml: true,
+            previewPictures: new PreviewPicturesRequest({
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                }),
+              }),
+            }),
+            specsRoute: true,
+            twins: new ItemsRequest(),
+          }),
+          id: last.itemId,
+          language: this.#languageService.language,
+        }),
+      );
     }),
-    switchMap((item: APIItem | null) => {
+    switchMap((item: GRPCAPIItem | null) => {
       if (!item) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -183,89 +163,130 @@ export class CatalogueVehiclesComponent {
       return of(item);
     }),
     tap((item) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 33,
-        title: item.name_text,
+        title: item.nameText,
       });
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$: Observable<number> = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
   protected readonly items$: Observable<{
-    items: CatalogueListItem[];
-    paginator?: APIPaginator;
-  }> = combineLatest([this.item$, this.routerLink$]).pipe(
+    items: CatalogueListItem2[];
+    paginator?: Pages;
+  }> = combineLatest([this.item$, this.#routerLink$]).pipe(
     switchMap(([item, routerLink]) => {
-      if (!item.is_group) {
+      if (!item.isGroup) {
         return of({
           items: [CatalogueVehiclesComponent.convertItem(item, routerLink)],
           paginator: undefined,
         });
       }
 
-      return combineLatest([this.catalogue$, this.page$])
+      return combineLatest([this.#catalogue$, this.#page$, this.isModer$])
         .pipe(
-          switchMap(([{type}, page]) =>
-            this.itemParentService.getItems$({
-              fields: [
-                'item.name_html,item.name_default,item.description,item.has_text,item.produced,item.accepted_pictures_count',
-                'item.engine_vehicles,item.can_edit_specs,item.specs_route,item.twins_groups.name_html,item.has_specs,item.has_child_specs,item.design',
-                'item.childs_count,item.total_pictures,item.preview_pictures.picture.name_text',
-                'item.inbox_pictures_count,item.childs_counts,item.categories.name_html',
-              ].join(','),
-              limit: 7,
-              order: 'type_auto',
-              page,
-              parent_id: item.id,
-              type_id: CatalogueVehiclesComponent.resolveTypeId(type),
-            }),
+          switchMap(([{type}, page, isModer]) =>
+            this.#itemsClient.getItemParents(
+              new ItemParentsRequest({
+                fields: new ItemParentFields({
+                  item: new ItemFields({
+                    acceptedPicturesCount: true,
+                    canEditSpecs: true,
+                    categories: new ItemsRequest({
+                      fields: new ItemFields({nameHtml: true}),
+                    }),
+                    childsCount: true,
+                    childsCounts: true,
+                    description: true,
+                    design: true,
+                    engineVehicles: new ItemsRequest({
+                      fields: new ItemFields({nameHtml: true, route: true}),
+                    }),
+                    hasChildSpecs: true,
+                    hasSpecs: true,
+                    hasText: true,
+                    inboxPicturesCount: isModer,
+                    nameDefault: true,
+                    nameHtml: true,
+                    previewPictures: new PreviewPicturesRequest({
+                      pictures: new PicturesRequest({
+                        options: new PictureListOptions({
+                          pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                          status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                        }),
+                      }),
+                    }),
+                    specsRoute: true,
+                    twins: new ItemsRequest(),
+                  }),
+                }),
+                language: this.#languageService.language,
+                limit: 7,
+                options: new ItemParentListOptions({
+                  item: new ItemListOptions({}),
+                  parentId: item.id,
+                  type: CatalogueVehiclesComponent.resolveTypeId(type),
+                }),
+                order: ItemParentsRequest.Order.AUTO,
+                page,
+              }),
+            ),
           ),
         )
         .pipe(
           map((response) => ({
-            items: response.items.map((item) => {
+            items: (response.items || []).map((item) => {
               const itemRouterLink = [...routerLink, item.catname];
 
-              const pictures: CatalogueListItemPicture[] = item.item.preview_pictures.pictures.map((picture) => ({
-                picture: picture?.picture ? picture.picture : null,
-                routerLink: picture?.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : [],
-                thumb: picture ? picture.thumb : null,
-              }));
+              const pictures: CatalogueListItemPicture2[] = (item.item?.previewPictures?.pictures || []).map(
+                (picture, idx) => {
+                  const largeFormat = !!item.item?.previewPictures?.largeFormat;
+                  let thumb = null;
+                  if (picture.picture) {
+                    thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+                  }
+                  return {
+                    picture: picture?.picture ? picture.picture : null,
+                    routerLink: picture?.picture ? itemRouterLink.concat(['pictures', picture.picture.identity]) : [],
+                    thumb,
+                  };
+                },
+              );
 
               return {
-                accepted_pictures_count: item.item.accepted_pictures_count,
-                can_edit_specs: item.item.can_edit_specs,
-                categories: item.item.categories,
-                childs_counts: item.item.childs_counts,
-                description: item.item.description,
-                design: item.item.design,
+                acceptedPicturesCount: item.item?.acceptedPicturesCount,
+                canEditSpecs: item.item?.canEditSpecs,
+                categories: item.item?.categories,
+                childsCounts: item.item?.childsCounts ? convertChildsCounts(item.item.childsCounts) : null,
+                description: item.item?.description,
+                design: item.item?.design,
                 details: {
-                  count: item.item.childs_count,
+                  count: item.item?.childsCount,
                   routerLink: itemRouterLink,
                 },
-                engine_vehicles: item.item.engine_vehicles,
-                has_text: item.item.has_text,
-                id: item.item.id,
-                item_type_id: item.item.item_type_id,
-                name_default: item.item.name_default,
-                name_html: item.item.name_html,
+                engineVehicles: item.item?.engineVehicles,
+                hasText: item.item?.hasText,
+                id: item.item?.id,
+                itemTypeId: item.item?.itemTypeId,
+                nameDefault: item.item?.nameDefault,
+                nameHtml: item.item?.nameHtml,
                 picturesRouterLink: itemRouterLink.concat(['pictures']),
-                preview_pictures: {
-                  large_format: item.item.preview_pictures.large_format,
+                previewPictures: {
+                  largeFormat: !!item.item?.previewPictures?.largeFormat,
                   pictures,
                 },
-                produced: item.item.produced,
-                produced_exactly: item.item.produced_exactly,
+                produced: item.item?.produced,
+                producedExactly: item.item?.producedExactly,
                 specsRouterLink:
-                  item.item.has_specs || item.item.has_child_specs ? itemRouterLink.concat(['specifications']) : null,
-                twins_groups: item.item.twins_groups,
-              } as CatalogueListItem;
+                  item.item?.hasSpecs || item.item?.hasChildSpecs ? itemRouterLink.concat(['specifications']) : null,
+                twins_groups: item.item?.twins,
+              } as CatalogueListItem2;
             }),
             paginator: response.paginator,
           })),
@@ -278,7 +299,7 @@ export class CatalogueVehiclesComponent {
     count: number;
     pictures: Picture[];
     routerLink: string[];
-  }> = this.catalogue$.pipe(
+  }> = this.#catalogue$.pipe(
     switchMap(({type}) => {
       if (CatalogueVehiclesComponent.resolveTypeId(type) !== 0) {
         return of(null);
@@ -314,11 +335,11 @@ export class CatalogueVehiclesComponent {
                   )
                   .pipe(
                     catchError((err: unknown) => {
-                      this.toastService.handleError(err);
+                      this.#toastService.handleError(err);
                       return EMPTY;
                     }),
                   ),
-                this.routerLink$,
+                this.#routerLink$,
               ]),
             ),
             map(([response, routerLink]) => {
@@ -337,53 +358,62 @@ export class CatalogueVehiclesComponent {
     }),
   );
 
-  private static convertItem(item: APIItem, routerLink: string[]): CatalogueListItem {
-    const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-      picture: picture?.picture ? picture.picture : null,
-      routerLink: picture?.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
-      thumb: picture ? picture.thumb : null,
-    }));
+  private static convertItem(item: GRPCAPIItem, routerLink: string[]): CatalogueListItem2 {
+    const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
+      const largeFormat = !!item.previewPictures?.largeFormat;
+      let thumb = null;
+      if (picture.picture) {
+        thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+      }
+      return {
+        picture: picture?.picture ? picture.picture : null,
+        routerLink: picture?.picture ? routerLink.concat(['pictures', picture.picture.identity]) : [],
+        thumb,
+      };
+    });
 
     return {
-      accepted_pictures_count: item.accepted_pictures_count,
-      can_edit_specs: !!item.can_edit_specs,
+      acceptedPicturesCount: item.acceptedPicturesCount,
+      canEditSpecs: item.canEditSpecs,
       categories: item.categories,
-      childs_counts: item.childs_counts ? item.childs_counts : null,
+      childsCounts: item.childsCounts ? convertChildsCounts(item.childsCounts) : null,
       description: null,
       design: item.design ? item.design : null,
       details: {
-        count: item.childs_count,
+        count: item.childsCount,
         routerLink,
       },
-      engine_vehicles: item.engine_vehicles,
-      has_text: false,
+      engineVehicles: item.engineVehicles,
+      hasText: false,
       id: item.id,
-      item_type_id: item.item_type_id,
-      name_default: item.name_default,
-      name_html: item.name_html,
+      itemTypeId: item.itemTypeId,
+      nameDefault: item.nameDefault,
+      nameHtml: item.nameHtml,
       picturesRouterLink: routerLink.concat(['pictures']),
-      preview_pictures: {
-        large_format: item.preview_pictures.large_format,
+      previewPictures: {
+        largeFormat: !!item.previewPictures?.largeFormat,
         pictures,
       },
       produced: item.produced,
-      produced_exactly: item.produced_exactly,
-      specsRouterLink: item.has_specs || item.has_child_specs ? routerLink.concat(['specifications']) : null,
-      twins_groups: item.twins_groups,
+      producedExactly: item.producedExactly,
+      specsRouterLink: item.hasSpecs || item.hasChildSpecs ? routerLink.concat(['specifications']) : null,
+      twinsGroups: item.twins,
     };
   }
 
-  private static resolveTypeId(type: string) {
+  private static resolveTypeId(type: string): ItemParentType {
     switch (type) {
       case 'sport':
-        return 2;
+        return ItemParentType.ITEM_TYPE_SPORT;
       case 'tuning':
-        return 1;
+        return ItemParentType.ITEM_TYPE_TUNING;
     }
-    return 0;
+    return ItemParentType.ITEM_TYPE_DEFAULT;
   }
 
   protected getItemTypeTranslation(id: number, type: string) {
     return getItemTypeTranslation(id, type);
   }
+
+  protected readonly convertChildsCounts = convertChildsCounts;
 }

@@ -7,14 +7,15 @@ import {
   ItemFields,
   ItemParent,
   ItemParentLanguage,
+  ItemParentListOptions,
+  ItemParentsRequest,
+  ItemParentType,
   ItemRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {Empty} from '@ngx-grpc/well-known-types';
-import {APIService} from '@services/api.service';
 import {ContentLanguageService} from '@services/content-language';
-import {APIItemParent} from '@services/item-parent';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
@@ -31,44 +32,43 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './item-parent.component.html',
 })
 export class ModerItemParentComponent implements OnDestroy, OnInit {
-  private readonly api = inject(APIService);
-  private readonly ContentLanguage = inject(ContentLanguageService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
-  private readonly toastService = inject(ToastsService);
+  readonly #ContentLanguage = inject(ContentLanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
 
-  private routeSub?: Subscription;
+  #routeSub?: Subscription;
   protected item?: APIItem;
   protected parent?: APIItem;
-  protected itemParent?: APIItemParent;
+  protected itemParent?: ItemParent;
   protected languages: {
     invalidParams: InvalidParams | null;
     language: string;
     name: null | string;
   }[] = [];
-  protected readonly typeOptions = [
+  protected readonly typeOptions: {name: string; value: ItemParentType}[] = [
     {
       name: $localize`Stock model`,
-      value: 0,
+      value: ItemParentType.ITEM_TYPE_DEFAULT,
     },
     {
       name: $localize`Related`,
-      value: 1,
+      value: ItemParentType.ITEM_TYPE_TUNING,
     },
     {
       name: $localize`Sport`,
-      value: 2,
+      value: ItemParentType.ITEM_TYPE_SPORT,
     },
     {
       name: $localize`Design`,
-      value: 3,
+      value: ItemParentType.ITEM_TYPE_DESIGN,
     },
   ];
 
   ngOnInit(): void {
-    this.routeSub = this.route.paramMap
+    this.#routeSub = this.#route.paramMap
       .pipe(
         map((params) => ({
           item_id: parseInt(params.get('item_id') ?? '', 10),
@@ -78,29 +78,36 @@ export class ModerItemParentComponent implements OnDestroy, OnInit {
         debounceTime(30),
         switchMap((params) => {
           return combineLatest([
-            this.api.request$<APIItemParent>('GET', 'item-parent/' + params.item_id + '/' + params.parent_id),
-            this.itemsClient.item(
+            this.#itemsClient.getItemParent(
+              new ItemParentsRequest({
+                options: new ItemParentListOptions({
+                  itemId: '' + params.item_id,
+                  parentId: '' + params.parent_id,
+                }),
+              }),
+            ),
+            this.#itemsClient.item(
               new ItemRequest({
                 fields: new ItemFields({
                   nameHtml: true,
                   nameText: true,
                 }),
                 id: '' + params.item_id,
-                language: this.languageService.language,
+                language: this.#languageService.language,
               }),
             ),
-            this.itemsClient.item(
+            this.#itemsClient.item(
               new ItemRequest({
                 fields: new ItemFields({
                   nameHtml: true,
                   nameText: true,
                 }),
                 id: '' + params.parent_id,
-                language: this.languageService.language,
+                language: this.#languageService.language,
               }),
             ),
-            this.ContentLanguage.languages$,
-            this.itemsClient.getItemParentLanguages(
+            this.#ContentLanguage.languages$,
+            this.#itemsClient.getItemParentLanguages(
               new APIGetItemParentLanguagesRequest({
                 itemId: '' + params.item_id,
                 parentId: '' + params.parent_id,
@@ -128,7 +135,7 @@ export class ModerItemParentComponent implements OnDestroy, OnInit {
           }
         }
 
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 78,
           title: getItemTypeTranslation(this.item.itemTypeId, 'name') + ': ' + this.item.nameText,
@@ -137,15 +144,22 @@ export class ModerItemParentComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
+    if (this.#routeSub) {
+      this.#routeSub.unsubscribe();
     }
   }
 
   protected reloadItemParent() {
     if (this.itemParent) {
-      this.api
-        .request$<APIItemParent>('GET', 'item-parent/' + this.itemParent.item_id + '/' + this.itemParent.parent_id)
+      this.#itemsClient
+        .getItemParent(
+          new ItemParentsRequest({
+            options: new ItemParentListOptions({
+              itemId: this.itemParent.itemId,
+              parentId: this.itemParent.parentId,
+            }),
+          }),
+        )
         .subscribe((response) => {
           this.itemParent = response;
         });
@@ -157,12 +171,12 @@ export class ModerItemParentComponent implements OnDestroy, OnInit {
       return;
     }
     const promises: Observable<Empty | void>[] = [
-      this.itemsClient.updateItemParent(
+      this.#itemsClient.updateItemParent(
         new ItemParent({
           catname: this.itemParent.catname,
-          itemId: '' + this.itemParent.item_id,
-          parentId: '' + this.itemParent.parent_id,
-          type: this.itemParent.type_id,
+          itemId: this.itemParent.itemId,
+          parentId: this.itemParent.parentId,
+          type: this.itemParent.type,
         }),
       ),
     ];
@@ -170,13 +184,13 @@ export class ModerItemParentComponent implements OnDestroy, OnInit {
     for (const language of this.languages) {
       language.invalidParams = null;
       promises.push(
-        this.itemsClient
+        this.#itemsClient
           .setItemParentLanguage(
             new ItemParentLanguage({
-              itemId: '' + this.itemParent.item_id,
+              itemId: this.itemParent.itemId,
               language: language.language,
               name: language.name ?? undefined,
-              parentId: '' + this.itemParent.parent_id,
+              parentId: this.itemParent.parentId,
             }),
           )
           .pipe(
@@ -185,7 +199,7 @@ export class ModerItemParentComponent implements OnDestroy, OnInit {
                 const fieldViolations = extractFieldViolations(response);
                 language.invalidParams = fieldViolations2InvalidParams(fieldViolations);
               } else {
-                this.toastService.handleError(response);
+                this.#toastService.handleError(response);
               }
               return EMPTY;
             }),
