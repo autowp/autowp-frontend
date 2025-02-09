@@ -8,10 +8,10 @@ import {
   ItemParentCacheListOptions,
   ItemsRequest,
   ItemType,
-  PictureFields,
   PictureItemListOptions,
   PictureItemType,
   PictureListOptions,
+  PicturesRequest,
   PictureStatus,
   PreviewPicturesRequest,
 } from '@grpc/spec.pb';
@@ -68,8 +68,12 @@ export class PersonsComponent implements OnInit {
             nameDefault: true,
             nameHtml: true,
             previewPictures: new PreviewPicturesRequest({
-              picture: new PictureFields({nameText: true}),
-              typeId,
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({typeId}),
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                }),
+              }),
             }),
           }),
           language: this.#languageService.language,
@@ -112,11 +116,11 @@ export class PersonsComponent implements OnInit {
       const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => {
         let thumb = null;
         let routerLink: string[] = [];
-        if (picture) {
-          thumb = largeFormat ? picture.thumbLarge : picture.thumbMedium;
-          routerLink = itemRouterLink.concat([picture.identity]);
+        if (picture.picture) {
+          thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+          routerLink = itemRouterLink.concat([picture.picture.identity]);
         }
-        return {picture, routerLink, thumb};
+        return {picture: picture.picture || null, routerLink, thumb};
       });
 
       return {

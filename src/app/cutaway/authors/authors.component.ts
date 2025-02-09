@@ -2,16 +2,16 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
+  APIImage,
   APIItem,
   ItemFields,
   ItemListOptions,
-  ItemParentCacheListOptions,
   ItemsRequest,
   ItemType,
-  PictureFields,
   PictureItemListOptions,
   PictureItemType,
   PictureListOptions,
+  PicturesRequest,
   PictureStatus,
   PreviewPicturesRequest,
 } from '@grpc/spec.pb';
@@ -54,22 +54,27 @@ export class CutawayAuthorsComponent implements OnInit {
             nameDefault: true,
             nameHtml: true,
             previewPictures: new PreviewPicturesRequest({
-              containsPerspectiveId: 9,
-              picture: new PictureFields({nameText: true}),
-              typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
+              onlyExactlyPictures: true,
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({
+                    pictureItemByPictureId: new PictureItemListOptions({perspectiveId: 9}),
+                    typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
+                  }),
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                }),
+              }),
             }),
           }),
           language: this.#languageService.language,
           limit: 12,
           options: new ItemListOptions({
-            descendant: new ItemParentCacheListOptions({
-              pictureItemsByItemId: new PictureItemListOptions({
-                pictures: new PictureListOptions({
-                  pictureItem: new PictureItemListOptions({perspectiveId: 9}),
-                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
-                }),
-                typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
+            pictureItems: new PictureItemListOptions({
+              pictures: new PictureListOptions({
+                pictureItem: new PictureItemListOptions({perspectiveId: 9}),
+                status: PictureStatus.PICTURE_STATUS_ACCEPTED,
               }),
+              typeId: PictureItemType.PICTURE_ITEM_AUTHOR,
             }),
             typeId: ItemType.ITEM_TYPE_PERSON,
           }),
@@ -97,11 +102,19 @@ export class CutawayAuthorsComponent implements OnInit {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id);
 
-      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => ({
-        picture: picture ? picture : null,
-        routerLink: picture ? itemRouterLink.concat([picture.identity]) : [],
-        thumb: picture ? picture.thumbMedium : null,
-      }));
+      const largeFormat = !!item.previewPictures?.largeFormat;
+
+      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => {
+        let thumb: APIImage | undefined = undefined;
+        if (picture.picture) {
+          thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+        }
+        return {
+          picture: picture.picture ? picture.picture : null,
+          routerLink: picture.picture ? itemRouterLink.concat([picture.picture.identity]) : [],
+          thumb: thumb,
+        };
+      });
 
       return {
         acceptedPicturesCount: undefined,

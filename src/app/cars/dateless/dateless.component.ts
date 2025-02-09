@@ -1,7 +1,16 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {ItemFields, ItemListOptions, ItemsRequest, PictureFields, PreviewPicturesRequest} from '@grpc/spec.pb';
+import {
+  ItemFields,
+  ItemListOptions,
+  ItemsRequest,
+  PictureItemListOptions,
+  PictureItemType,
+  PictureListOptions,
+  PicturesRequest,
+  PreviewPicturesRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -45,7 +54,11 @@ export class CarsDatelessComponent implements OnInit {
             nameDefault: true,
             nameHtml: true,
             previewPictures: new PreviewPicturesRequest({
-              picture: new PictureFields({nameText: true}),
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                }),
+              }),
             }),
             twins: new ItemsRequest(),
           }),

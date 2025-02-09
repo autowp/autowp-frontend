@@ -13,9 +13,10 @@ import { BinaryReader, BinaryWriter, ByteSource } from 'google-protobuf';
 import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
-import * as googleType003 from './google/type/latlng.pb';
-import * as googleType004 from './google/type/date.pb';
-import * as googleRpc005 from './google/rpc/error-details.pb';
+import * as googleProtobuf003 from '@ngx-grpc/well-known-types';
+import * as googleType004 from './google/type/latlng.pb';
+import * as googleType005 from './google/type/date.pb';
+import * as googleRpc006 from './google/rpc/error-details.pb';
 export enum PictureItemType {
   PICTURE_ITEM_UNKNOWN = 0,
   PICTURE_ITEM_CONTENT = 1,
@@ -105,59 +106,59 @@ export class ErrorDetails implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.retryInfo = new googleRpc005.RetryInfo();
+          _instance.retryInfo = new googleRpc006.RetryInfo();
           _reader.readMessage(
             _instance.retryInfo,
-            googleRpc005.RetryInfo.deserializeBinaryFromReader
+            googleRpc006.RetryInfo.deserializeBinaryFromReader
           );
           break;
         case 2:
-          _instance.debugInfo = new googleRpc005.DebugInfo();
+          _instance.debugInfo = new googleRpc006.DebugInfo();
           _reader.readMessage(
             _instance.debugInfo,
-            googleRpc005.DebugInfo.deserializeBinaryFromReader
+            googleRpc006.DebugInfo.deserializeBinaryFromReader
           );
           break;
         case 3:
-          _instance.quotaFailure = new googleRpc005.QuotaFailure();
+          _instance.quotaFailure = new googleRpc006.QuotaFailure();
           _reader.readMessage(
             _instance.quotaFailure,
-            googleRpc005.QuotaFailure.deserializeBinaryFromReader
+            googleRpc006.QuotaFailure.deserializeBinaryFromReader
           );
           break;
         case 4:
-          _instance.preconditionFailure = new googleRpc005.PreconditionFailure();
+          _instance.preconditionFailure = new googleRpc006.PreconditionFailure();
           _reader.readMessage(
             _instance.preconditionFailure,
-            googleRpc005.PreconditionFailure.deserializeBinaryFromReader
+            googleRpc006.PreconditionFailure.deserializeBinaryFromReader
           );
           break;
         case 5:
-          _instance.badRequest = new googleRpc005.BadRequest();
+          _instance.badRequest = new googleRpc006.BadRequest();
           _reader.readMessage(
             _instance.badRequest,
-            googleRpc005.BadRequest.deserializeBinaryFromReader
+            googleRpc006.BadRequest.deserializeBinaryFromReader
           );
           break;
         case 6:
-          _instance.requestInfo = new googleRpc005.RequestInfo();
+          _instance.requestInfo = new googleRpc006.RequestInfo();
           _reader.readMessage(
             _instance.requestInfo,
-            googleRpc005.RequestInfo.deserializeBinaryFromReader
+            googleRpc006.RequestInfo.deserializeBinaryFromReader
           );
           break;
         case 7:
-          _instance.help = new googleRpc005.Help();
+          _instance.help = new googleRpc006.Help();
           _reader.readMessage(
             _instance.help,
-            googleRpc005.Help.deserializeBinaryFromReader
+            googleRpc006.Help.deserializeBinaryFromReader
           );
           break;
         case 8:
-          _instance.localizedMessage = new googleRpc005.LocalizedMessage();
+          _instance.localizedMessage = new googleRpc006.LocalizedMessage();
           _reader.readMessage(
             _instance.localizedMessage,
-            googleRpc005.LocalizedMessage.deserializeBinaryFromReader
+            googleRpc006.LocalizedMessage.deserializeBinaryFromReader
           );
           break;
         default:
@@ -181,68 +182,68 @@ export class ErrorDetails implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.retryInfo as any,
-        googleRpc005.RetryInfo.serializeBinaryToWriter
+        googleRpc006.RetryInfo.serializeBinaryToWriter
       );
     }
     if (_instance.debugInfo) {
       _writer.writeMessage(
         2,
         _instance.debugInfo as any,
-        googleRpc005.DebugInfo.serializeBinaryToWriter
+        googleRpc006.DebugInfo.serializeBinaryToWriter
       );
     }
     if (_instance.quotaFailure) {
       _writer.writeMessage(
         3,
         _instance.quotaFailure as any,
-        googleRpc005.QuotaFailure.serializeBinaryToWriter
+        googleRpc006.QuotaFailure.serializeBinaryToWriter
       );
     }
     if (_instance.preconditionFailure) {
       _writer.writeMessage(
         4,
         _instance.preconditionFailure as any,
-        googleRpc005.PreconditionFailure.serializeBinaryToWriter
+        googleRpc006.PreconditionFailure.serializeBinaryToWriter
       );
     }
     if (_instance.badRequest) {
       _writer.writeMessage(
         5,
         _instance.badRequest as any,
-        googleRpc005.BadRequest.serializeBinaryToWriter
+        googleRpc006.BadRequest.serializeBinaryToWriter
       );
     }
     if (_instance.requestInfo) {
       _writer.writeMessage(
         6,
         _instance.requestInfo as any,
-        googleRpc005.RequestInfo.serializeBinaryToWriter
+        googleRpc006.RequestInfo.serializeBinaryToWriter
       );
     }
     if (_instance.help) {
       _writer.writeMessage(
         7,
         _instance.help as any,
-        googleRpc005.Help.serializeBinaryToWriter
+        googleRpc006.Help.serializeBinaryToWriter
       );
     }
     if (_instance.localizedMessage) {
       _writer.writeMessage(
         8,
         _instance.localizedMessage as any,
-        googleRpc005.LocalizedMessage.serializeBinaryToWriter
+        googleRpc006.LocalizedMessage.serializeBinaryToWriter
       );
     }
   }
 
-  private _retryInfo?: googleRpc005.RetryInfo;
-  private _debugInfo?: googleRpc005.DebugInfo;
-  private _quotaFailure?: googleRpc005.QuotaFailure;
-  private _preconditionFailure?: googleRpc005.PreconditionFailure;
-  private _badRequest?: googleRpc005.BadRequest;
-  private _requestInfo?: googleRpc005.RequestInfo;
-  private _help?: googleRpc005.Help;
-  private _localizedMessage?: googleRpc005.LocalizedMessage;
+  private _retryInfo?: googleRpc006.RetryInfo;
+  private _debugInfo?: googleRpc006.DebugInfo;
+  private _quotaFailure?: googleRpc006.QuotaFailure;
+  private _preconditionFailure?: googleRpc006.PreconditionFailure;
+  private _badRequest?: googleRpc006.BadRequest;
+  private _requestInfo?: googleRpc006.RequestInfo;
+  private _help?: googleRpc006.Help;
+  private _localizedMessage?: googleRpc006.LocalizedMessage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -251,75 +252,75 @@ export class ErrorDetails implements GrpcMessage {
   constructor(_value?: RecursivePartial<ErrorDetails.AsObject>) {
     _value = _value || {};
     this.retryInfo = _value.retryInfo
-      ? new googleRpc005.RetryInfo(_value.retryInfo)
+      ? new googleRpc006.RetryInfo(_value.retryInfo)
       : undefined;
     this.debugInfo = _value.debugInfo
-      ? new googleRpc005.DebugInfo(_value.debugInfo)
+      ? new googleRpc006.DebugInfo(_value.debugInfo)
       : undefined;
     this.quotaFailure = _value.quotaFailure
-      ? new googleRpc005.QuotaFailure(_value.quotaFailure)
+      ? new googleRpc006.QuotaFailure(_value.quotaFailure)
       : undefined;
     this.preconditionFailure = _value.preconditionFailure
-      ? new googleRpc005.PreconditionFailure(_value.preconditionFailure)
+      ? new googleRpc006.PreconditionFailure(_value.preconditionFailure)
       : undefined;
     this.badRequest = _value.badRequest
-      ? new googleRpc005.BadRequest(_value.badRequest)
+      ? new googleRpc006.BadRequest(_value.badRequest)
       : undefined;
     this.requestInfo = _value.requestInfo
-      ? new googleRpc005.RequestInfo(_value.requestInfo)
+      ? new googleRpc006.RequestInfo(_value.requestInfo)
       : undefined;
-    this.help = _value.help ? new googleRpc005.Help(_value.help) : undefined;
+    this.help = _value.help ? new googleRpc006.Help(_value.help) : undefined;
     this.localizedMessage = _value.localizedMessage
-      ? new googleRpc005.LocalizedMessage(_value.localizedMessage)
+      ? new googleRpc006.LocalizedMessage(_value.localizedMessage)
       : undefined;
     ErrorDetails.refineValues(this);
   }
-  get retryInfo(): googleRpc005.RetryInfo | undefined {
+  get retryInfo(): googleRpc006.RetryInfo | undefined {
     return this._retryInfo;
   }
-  set retryInfo(value: googleRpc005.RetryInfo | undefined) {
+  set retryInfo(value: googleRpc006.RetryInfo | undefined) {
     this._retryInfo = value;
   }
-  get debugInfo(): googleRpc005.DebugInfo | undefined {
+  get debugInfo(): googleRpc006.DebugInfo | undefined {
     return this._debugInfo;
   }
-  set debugInfo(value: googleRpc005.DebugInfo | undefined) {
+  set debugInfo(value: googleRpc006.DebugInfo | undefined) {
     this._debugInfo = value;
   }
-  get quotaFailure(): googleRpc005.QuotaFailure | undefined {
+  get quotaFailure(): googleRpc006.QuotaFailure | undefined {
     return this._quotaFailure;
   }
-  set quotaFailure(value: googleRpc005.QuotaFailure | undefined) {
+  set quotaFailure(value: googleRpc006.QuotaFailure | undefined) {
     this._quotaFailure = value;
   }
-  get preconditionFailure(): googleRpc005.PreconditionFailure | undefined {
+  get preconditionFailure(): googleRpc006.PreconditionFailure | undefined {
     return this._preconditionFailure;
   }
-  set preconditionFailure(value: googleRpc005.PreconditionFailure | undefined) {
+  set preconditionFailure(value: googleRpc006.PreconditionFailure | undefined) {
     this._preconditionFailure = value;
   }
-  get badRequest(): googleRpc005.BadRequest | undefined {
+  get badRequest(): googleRpc006.BadRequest | undefined {
     return this._badRequest;
   }
-  set badRequest(value: googleRpc005.BadRequest | undefined) {
+  set badRequest(value: googleRpc006.BadRequest | undefined) {
     this._badRequest = value;
   }
-  get requestInfo(): googleRpc005.RequestInfo | undefined {
+  get requestInfo(): googleRpc006.RequestInfo | undefined {
     return this._requestInfo;
   }
-  set requestInfo(value: googleRpc005.RequestInfo | undefined) {
+  set requestInfo(value: googleRpc006.RequestInfo | undefined) {
     this._requestInfo = value;
   }
-  get help(): googleRpc005.Help | undefined {
+  get help(): googleRpc006.Help | undefined {
     return this._help;
   }
-  set help(value: googleRpc005.Help | undefined) {
+  set help(value: googleRpc006.Help | undefined) {
     this._help = value;
   }
-  get localizedMessage(): googleRpc005.LocalizedMessage | undefined {
+  get localizedMessage(): googleRpc006.LocalizedMessage | undefined {
     return this._localizedMessage;
   }
-  set localizedMessage(value: googleRpc005.LocalizedMessage | undefined) {
+  set localizedMessage(value: googleRpc006.LocalizedMessage | undefined) {
     this._localizedMessage = value;
   }
 
@@ -398,28 +399,28 @@ export module ErrorDetails {
    * Standard JavaScript object representation for ErrorDetails
    */
   export interface AsObject {
-    retryInfo?: googleRpc005.RetryInfo.AsObject;
-    debugInfo?: googleRpc005.DebugInfo.AsObject;
-    quotaFailure?: googleRpc005.QuotaFailure.AsObject;
-    preconditionFailure?: googleRpc005.PreconditionFailure.AsObject;
-    badRequest?: googleRpc005.BadRequest.AsObject;
-    requestInfo?: googleRpc005.RequestInfo.AsObject;
-    help?: googleRpc005.Help.AsObject;
-    localizedMessage?: googleRpc005.LocalizedMessage.AsObject;
+    retryInfo?: googleRpc006.RetryInfo.AsObject;
+    debugInfo?: googleRpc006.DebugInfo.AsObject;
+    quotaFailure?: googleRpc006.QuotaFailure.AsObject;
+    preconditionFailure?: googleRpc006.PreconditionFailure.AsObject;
+    badRequest?: googleRpc006.BadRequest.AsObject;
+    requestInfo?: googleRpc006.RequestInfo.AsObject;
+    help?: googleRpc006.Help.AsObject;
+    localizedMessage?: googleRpc006.LocalizedMessage.AsObject;
   }
 
   /**
    * Protobuf JSON representation for ErrorDetails
    */
   export interface AsProtobufJSON {
-    retryInfo: googleRpc005.RetryInfo.AsProtobufJSON | null;
-    debugInfo: googleRpc005.DebugInfo.AsProtobufJSON | null;
-    quotaFailure: googleRpc005.QuotaFailure.AsProtobufJSON | null;
-    preconditionFailure: googleRpc005.PreconditionFailure.AsProtobufJSON | null;
-    badRequest: googleRpc005.BadRequest.AsProtobufJSON | null;
-    requestInfo: googleRpc005.RequestInfo.AsProtobufJSON | null;
-    help: googleRpc005.Help.AsProtobufJSON | null;
-    localizedMessage: googleRpc005.LocalizedMessage.AsProtobufJSON | null;
+    retryInfo: googleRpc006.RetryInfo.AsProtobufJSON | null;
+    debugInfo: googleRpc006.DebugInfo.AsProtobufJSON | null;
+    quotaFailure: googleRpc006.QuotaFailure.AsProtobufJSON | null;
+    preconditionFailure: googleRpc006.PreconditionFailure.AsProtobufJSON | null;
+    badRequest: googleRpc006.BadRequest.AsProtobufJSON | null;
+    requestInfo: googleRpc006.RequestInfo.AsProtobufJSON | null;
+    help: googleRpc006.Help.AsProtobufJSON | null;
+    localizedMessage: googleRpc006.LocalizedMessage.AsProtobufJSON | null;
   }
 }
 
@@ -21556,24 +21557,24 @@ export class PictureListOptions implements GrpcMessage {
           _instance.acceptedInDays = _reader.readInt32();
           break;
         case 6:
-          _instance.addDate = new googleType004.Date();
+          _instance.addDate = new googleType005.Date();
           _reader.readMessage(
             _instance.addDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 7:
-          _instance.acceptDate = new googleType004.Date();
+          _instance.acceptDate = new googleType005.Date();
           _reader.readMessage(
             _instance.acceptDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 10:
-          _instance.addedFrom = new googleType004.Date();
+          _instance.addedFrom = new googleType005.Date();
           _reader.readMessage(
             _instance.addedFrom,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 11:
@@ -21671,21 +21672,21 @@ export class PictureListOptions implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.addDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.acceptDate) {
       _writer.writeMessage(
         7,
         _instance.acceptDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.addedFrom) {
       _writer.writeMessage(
         10,
         _instance.addedFrom as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.commentTopic) {
@@ -21746,9 +21747,9 @@ export class PictureListOptions implements GrpcMessage {
   private _pictureItem?: PictureItemListOptions;
   private _ownerId: string;
   private _acceptedInDays: number;
-  private _addDate?: googleType004.Date;
-  private _acceptDate?: googleType004.Date;
-  private _addedFrom?: googleType004.Date;
+  private _addDate?: googleType005.Date;
+  private _acceptDate?: googleType005.Date;
+  private _addedFrom?: googleType005.Date;
   private _commentTopic?: CommentTopicListOptions;
   private _hasNoComments: boolean;
   private _hasPoint: boolean;
@@ -21777,13 +21778,13 @@ export class PictureListOptions implements GrpcMessage {
     this.ownerId = _value.ownerId;
     this.acceptedInDays = _value.acceptedInDays;
     this.addDate = _value.addDate
-      ? new googleType004.Date(_value.addDate)
+      ? new googleType005.Date(_value.addDate)
       : undefined;
     this.acceptDate = _value.acceptDate
-      ? new googleType004.Date(_value.acceptDate)
+      ? new googleType005.Date(_value.acceptDate)
       : undefined;
     this.addedFrom = _value.addedFrom
-      ? new googleType004.Date(_value.addedFrom)
+      ? new googleType005.Date(_value.addedFrom)
       : undefined;
     this.commentTopic = _value.commentTopic
       ? new CommentTopicListOptions(_value.commentTopic)
@@ -21848,22 +21849,22 @@ export class PictureListOptions implements GrpcMessage {
   set acceptedInDays(value: number) {
     this._acceptedInDays = value;
   }
-  get addDate(): googleType004.Date | undefined {
+  get addDate(): googleType005.Date | undefined {
     return this._addDate;
   }
-  set addDate(value: googleType004.Date | undefined) {
+  set addDate(value: googleType005.Date | undefined) {
     this._addDate = value;
   }
-  get acceptDate(): googleType004.Date | undefined {
+  get acceptDate(): googleType005.Date | undefined {
     return this._acceptDate;
   }
-  set acceptDate(value: googleType004.Date | undefined) {
+  set acceptDate(value: googleType005.Date | undefined) {
     this._acceptDate = value;
   }
-  get addedFrom(): googleType004.Date | undefined {
+  get addedFrom(): googleType005.Date | undefined {
     return this._addedFrom;
   }
-  set addedFrom(value: googleType004.Date | undefined) {
+  set addedFrom(value: googleType005.Date | undefined) {
     this._addedFrom = value;
   }
   get commentTopic(): CommentTopicListOptions | undefined {
@@ -22046,9 +22047,9 @@ export module PictureListOptions {
     pictureItem?: PictureItemListOptions.AsObject;
     ownerId: string;
     acceptedInDays: number;
-    addDate?: googleType004.Date.AsObject;
-    acceptDate?: googleType004.Date.AsObject;
-    addedFrom?: googleType004.Date.AsObject;
+    addDate?: googleType005.Date.AsObject;
+    acceptDate?: googleType005.Date.AsObject;
+    addedFrom?: googleType005.Date.AsObject;
     commentTopic?: CommentTopicListOptions.AsObject;
     hasNoComments: boolean;
     hasPoint: boolean;
@@ -22073,9 +22074,9 @@ export module PictureListOptions {
     pictureItem: PictureItemListOptions.AsProtobufJSON | null;
     ownerId: string;
     acceptedInDays: number;
-    addDate: googleType004.Date.AsProtobufJSON | null;
-    acceptDate: googleType004.Date.AsProtobufJSON | null;
-    addedFrom: googleType004.Date.AsProtobufJSON | null;
+    addDate: googleType005.Date.AsProtobufJSON | null;
+    acceptDate: googleType005.Date.AsProtobufJSON | null;
+    addedFrom: googleType005.Date.AsProtobufJSON | null;
     commentTopic: CommentTopicListOptions.AsProtobufJSON | null;
     hasNoComments: boolean;
     hasPoint: boolean;
@@ -24883,11 +24884,9 @@ export class PreviewPicturesRequest implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: PreviewPicturesRequest) {
-    _instance.picture = _instance.picture || undefined;
-    _instance.typeId = _instance.typeId || 0;
     _instance.perspectivePageId = _instance.perspectivePageId || 0;
-    _instance.perspectiveId = _instance.perspectiveId || 0;
-    _instance.containsPerspectiveId = _instance.containsPerspectiveId || 0;
+    _instance.pictures = _instance.pictures || undefined;
+    _instance.onlyExactlyPictures = _instance.onlyExactlyPictures || false;
   }
 
   /**
@@ -24903,24 +24902,18 @@ export class PreviewPicturesRequest implements GrpcMessage {
       if (_reader.isEndGroup()) break;
 
       switch (_reader.getFieldNumber()) {
-        case 2:
-          _instance.picture = new PictureFields();
-          _reader.readMessage(
-            _instance.picture,
-            PictureFields.deserializeBinaryFromReader
-          );
-          break;
-        case 3:
-          _instance.typeId = _reader.readEnum();
-          break;
         case 4:
           _instance.perspectivePageId = _reader.readInt32();
           break;
-        case 5:
-          _instance.perspectiveId = _reader.readInt32();
+        case 7:
+          _instance.pictures = new PicturesRequest();
+          _reader.readMessage(
+            _instance.pictures,
+            PicturesRequest.deserializeBinaryFromReader
+          );
           break;
-        case 6:
-          _instance.containsPerspectiveId = _reader.readInt32();
+        case 8:
+          _instance.onlyExactlyPictures = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -24939,32 +24932,24 @@ export class PreviewPicturesRequest implements GrpcMessage {
     _instance: PreviewPicturesRequest,
     _writer: BinaryWriter
   ) {
-    if (_instance.picture) {
-      _writer.writeMessage(
-        2,
-        _instance.picture as any,
-        PictureFields.serializeBinaryToWriter
-      );
-    }
-    if (_instance.typeId) {
-      _writer.writeEnum(3, _instance.typeId);
-    }
     if (_instance.perspectivePageId) {
       _writer.writeInt32(4, _instance.perspectivePageId);
     }
-    if (_instance.perspectiveId) {
-      _writer.writeInt32(5, _instance.perspectiveId);
+    if (_instance.pictures) {
+      _writer.writeMessage(
+        7,
+        _instance.pictures as any,
+        PicturesRequest.serializeBinaryToWriter
+      );
     }
-    if (_instance.containsPerspectiveId) {
-      _writer.writeInt32(6, _instance.containsPerspectiveId);
+    if (_instance.onlyExactlyPictures) {
+      _writer.writeBool(8, _instance.onlyExactlyPictures);
     }
   }
 
-  private _picture?: PictureFields;
-  private _typeId: PictureItemType;
   private _perspectivePageId: number;
-  private _perspectiveId: number;
-  private _containsPerspectiveId: number;
+  private _pictures?: PicturesRequest;
+  private _onlyExactlyPictures: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -24972,26 +24957,12 @@ export class PreviewPicturesRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<PreviewPicturesRequest.AsObject>) {
     _value = _value || {};
-    this.picture = _value.picture
-      ? new PictureFields(_value.picture)
-      : undefined;
-    this.typeId = _value.typeId;
     this.perspectivePageId = _value.perspectivePageId;
-    this.perspectiveId = _value.perspectiveId;
-    this.containsPerspectiveId = _value.containsPerspectiveId;
+    this.pictures = _value.pictures
+      ? new PicturesRequest(_value.pictures)
+      : undefined;
+    this.onlyExactlyPictures = _value.onlyExactlyPictures;
     PreviewPicturesRequest.refineValues(this);
-  }
-  get picture(): PictureFields | undefined {
-    return this._picture;
-  }
-  set picture(value: PictureFields | undefined) {
-    this._picture = value;
-  }
-  get typeId(): PictureItemType {
-    return this._typeId;
-  }
-  set typeId(value: PictureItemType) {
-    this._typeId = value;
   }
   get perspectivePageId(): number {
     return this._perspectivePageId;
@@ -24999,17 +24970,17 @@ export class PreviewPicturesRequest implements GrpcMessage {
   set perspectivePageId(value: number) {
     this._perspectivePageId = value;
   }
-  get perspectiveId(): number {
-    return this._perspectiveId;
+  get pictures(): PicturesRequest | undefined {
+    return this._pictures;
   }
-  set perspectiveId(value: number) {
-    this._perspectiveId = value;
+  set pictures(value: PicturesRequest | undefined) {
+    this._pictures = value;
   }
-  get containsPerspectiveId(): number {
-    return this._containsPerspectiveId;
+  get onlyExactlyPictures(): boolean {
+    return this._onlyExactlyPictures;
   }
-  set containsPerspectiveId(value: number) {
-    this._containsPerspectiveId = value;
+  set onlyExactlyPictures(value: boolean) {
+    this._onlyExactlyPictures = value;
   }
 
   /**
@@ -25027,11 +24998,9 @@ export class PreviewPicturesRequest implements GrpcMessage {
    */
   toObject(): PreviewPicturesRequest.AsObject {
     return {
-      picture: this.picture ? this.picture.toObject() : undefined,
-      typeId: this.typeId,
       perspectivePageId: this.perspectivePageId,
-      perspectiveId: this.perspectiveId,
-      containsPerspectiveId: this.containsPerspectiveId
+      pictures: this.pictures ? this.pictures.toObject() : undefined,
+      onlyExactlyPictures: this.onlyExactlyPictures
     };
   }
 
@@ -25052,14 +25021,9 @@ export class PreviewPicturesRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): PreviewPicturesRequest.AsProtobufJSON {
     return {
-      picture: this.picture ? this.picture.toProtobufJSON(options) : null,
-      typeId:
-        PictureItemType[
-          this.typeId === null || this.typeId === undefined ? 0 : this.typeId
-        ],
       perspectivePageId: this.perspectivePageId,
-      perspectiveId: this.perspectiveId,
-      containsPerspectiveId: this.containsPerspectiveId
+      pictures: this.pictures ? this.pictures.toProtobufJSON(options) : null,
+      onlyExactlyPictures: this.onlyExactlyPictures
     };
   }
 }
@@ -25068,22 +25032,18 @@ export module PreviewPicturesRequest {
    * Standard JavaScript object representation for PreviewPicturesRequest
    */
   export interface AsObject {
-    picture?: PictureFields.AsObject;
-    typeId: PictureItemType;
     perspectivePageId: number;
-    perspectiveId: number;
-    containsPerspectiveId: number;
+    pictures?: PicturesRequest.AsObject;
+    onlyExactlyPictures: boolean;
   }
 
   /**
    * Protobuf JSON representation for PreviewPicturesRequest
    */
   export interface AsProtobufJSON {
-    picture: PictureFields.AsProtobufJSON | null;
-    typeId: string;
     perspectivePageId: number;
-    perspectiveId: number;
-    containsPerspectiveId: number;
+    pictures: PicturesRequest.AsProtobufJSON | null;
+    onlyExactlyPictures: boolean;
   }
 }
 
@@ -26661,6 +26621,8 @@ export class PictureItemListOptions implements GrpcMessage {
       _instance.itemParentCacheAncestor || undefined;
     _instance.itemVehicleType = _instance.itemVehicleType || undefined;
     _instance.hasNoPerspectiveId = _instance.hasNoPerspectiveId || false;
+    _instance.pictureItemByPictureId =
+      _instance.pictureItemByPictureId || undefined;
   }
 
   /**
@@ -26727,6 +26689,13 @@ export class PictureItemListOptions implements GrpcMessage {
           break;
         case 11:
           _instance.hasNoPerspectiveId = _reader.readBool();
+          break;
+        case 12:
+          _instance.pictureItemByPictureId = new PictureItemListOptions();
+          _reader.readMessage(
+            _instance.pictureItemByPictureId,
+            PictureItemListOptions.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -26797,6 +26766,13 @@ export class PictureItemListOptions implements GrpcMessage {
     if (_instance.hasNoPerspectiveId) {
       _writer.writeBool(11, _instance.hasNoPerspectiveId);
     }
+    if (_instance.pictureItemByPictureId) {
+      _writer.writeMessage(
+        12,
+        _instance.pictureItemByPictureId as any,
+        PictureItemListOptions.serializeBinaryToWriter
+      );
+    }
   }
 
   private _pictureId: string;
@@ -26810,6 +26786,7 @@ export class PictureItemListOptions implements GrpcMessage {
   private _itemParentCacheAncestor?: ItemParentCacheListOptions;
   private _itemVehicleType?: ItemVehicleTypeListOptions;
   private _hasNoPerspectiveId: boolean;
+  private _pictureItemByPictureId?: PictureItemListOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -26834,6 +26811,9 @@ export class PictureItemListOptions implements GrpcMessage {
       ? new ItemVehicleTypeListOptions(_value.itemVehicleType)
       : undefined;
     this.hasNoPerspectiveId = _value.hasNoPerspectiveId;
+    this.pictureItemByPictureId = _value.pictureItemByPictureId
+      ? new PictureItemListOptions(_value.pictureItemByPictureId)
+      : undefined;
     PictureItemListOptions.refineValues(this);
   }
   get pictureId(): string {
@@ -26902,6 +26882,12 @@ export class PictureItemListOptions implements GrpcMessage {
   set hasNoPerspectiveId(value: boolean) {
     this._hasNoPerspectiveId = value;
   }
+  get pictureItemByPictureId(): PictureItemListOptions | undefined {
+    return this._pictureItemByPictureId;
+  }
+  set pictureItemByPictureId(value: PictureItemListOptions | undefined) {
+    this._pictureItemByPictureId = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -26932,7 +26918,10 @@ export class PictureItemListOptions implements GrpcMessage {
       itemVehicleType: this.itemVehicleType
         ? this.itemVehicleType.toObject()
         : undefined,
-      hasNoPerspectiveId: this.hasNoPerspectiveId
+      hasNoPerspectiveId: this.hasNoPerspectiveId,
+      pictureItemByPictureId: this.pictureItemByPictureId
+        ? this.pictureItemByPictureId.toObject()
+        : undefined
     };
   }
 
@@ -26970,7 +26959,10 @@ export class PictureItemListOptions implements GrpcMessage {
       itemVehicleType: this.itemVehicleType
         ? this.itemVehicleType.toProtobufJSON(options)
         : null,
-      hasNoPerspectiveId: this.hasNoPerspectiveId
+      hasNoPerspectiveId: this.hasNoPerspectiveId,
+      pictureItemByPictureId: this.pictureItemByPictureId
+        ? this.pictureItemByPictureId.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -26990,6 +26982,7 @@ export module PictureItemListOptions {
     itemParentCacheAncestor?: ItemParentCacheListOptions.AsObject;
     itemVehicleType?: ItemVehicleTypeListOptions.AsObject;
     hasNoPerspectiveId: boolean;
+    pictureItemByPictureId?: PictureItemListOptions.AsObject;
   }
 
   /**
@@ -27007,6 +27000,7 @@ export module PictureItemListOptions {
     itemParentCacheAncestor: ItemParentCacheListOptions.AsProtobufJSON | null;
     itemVehicleType: ItemVehicleTypeListOptions.AsProtobufJSON | null;
     hasNoPerspectiveId: boolean;
+    pictureItemByPictureId: PictureItemListOptions.AsProtobufJSON | null;
   }
 }
 
@@ -28548,6 +28542,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.typeIds = _instance.typeIds || [];
     _instance.pictureItems = _instance.pictureItems || undefined;
     _instance.dateless = _instance.dateless || false;
+    _instance.relatedGroupsOf = _instance.relatedGroupsOf || '0';
   }
 
   /**
@@ -28651,6 +28646,9 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 27:
           _instance.dateless = _reader.readBool();
+          break;
+        case 28:
+          _instance.relatedGroupsOf = _reader.readInt64String();
           break;
         default:
           _reader.skipField();
@@ -28756,6 +28754,9 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.dateless) {
       _writer.writeBool(27, _instance.dateless);
     }
+    if (_instance.relatedGroupsOf) {
+      _writer.writeInt64String(28, _instance.relatedGroupsOf);
+    }
   }
 
   private _typeId: ItemType;
@@ -28779,6 +28780,7 @@ export class ItemListOptions implements GrpcMessage {
   private _typeIds: ItemType[];
   private _pictureItems?: PictureItemListOptions;
   private _dateless: boolean;
+  private _relatedGroupsOf: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -28819,6 +28821,7 @@ export class ItemListOptions implements GrpcMessage {
       ? new PictureItemListOptions(_value.pictureItems)
       : undefined;
     this.dateless = _value.dateless;
+    this.relatedGroupsOf = _value.relatedGroupsOf;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -28947,6 +28950,12 @@ export class ItemListOptions implements GrpcMessage {
   set dateless(value: boolean) {
     this._dateless = value;
   }
+  get relatedGroupsOf(): string {
+    return this._relatedGroupsOf;
+  }
+  set relatedGroupsOf(value: string) {
+    this._relatedGroupsOf = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -28987,7 +28996,8 @@ export class ItemListOptions implements GrpcMessage {
       pictureItems: this.pictureItems
         ? this.pictureItems.toObject()
         : undefined,
-      dateless: this.dateless
+      dateless: this.dateless,
+      relatedGroupsOf: this.relatedGroupsOf
     };
   }
 
@@ -29042,7 +29052,8 @@ export class ItemListOptions implements GrpcMessage {
       pictureItems: this.pictureItems
         ? this.pictureItems.toProtobufJSON(options)
         : null,
-      dateless: this.dateless
+      dateless: this.dateless,
+      relatedGroupsOf: this.relatedGroupsOf
     };
   }
 }
@@ -29072,6 +29083,7 @@ export module ItemListOptions {
     typeIds: ItemType[];
     pictureItems?: PictureItemListOptions.AsObject;
     dateless: boolean;
+    relatedGroupsOf: string;
   }
 
   /**
@@ -29099,6 +29111,7 @@ export module ItemListOptions {
     typeIds: string[];
     pictureItems: PictureItemListOptions.AsProtobufJSON | null;
     dateless: boolean;
+    relatedGroupsOf: string;
   }
 }
 
@@ -29756,10 +29769,10 @@ export class APIItem implements GrpcMessage {
           _instance.engineInherit = _reader.readBool();
           break;
         case 26:
-          _instance.location = new googleType003.LatLng();
+          _instance.location = new googleType004.LatLng();
           _reader.readMessage(
             _instance.location,
-            googleType003.LatLng.deserializeBinaryFromReader
+            googleType004.LatLng.deserializeBinaryFromReader
           );
           break;
         case 27:
@@ -29999,7 +30012,7 @@ export class APIItem implements GrpcMessage {
       _writer.writeMessage(
         26,
         _instance.location as any,
-        googleType003.LatLng.serializeBinaryToWriter
+        googleType004.LatLng.serializeBinaryToWriter
       );
     }
     if (_instance.acceptedPicturesCount) {
@@ -30143,7 +30156,7 @@ export class APIItem implements GrpcMessage {
   private _brandicon?: APIImage;
   private _attrZoneId: string;
   private _engineInherit: boolean;
-  private _location?: googleType003.LatLng;
+  private _location?: googleType004.LatLng;
   private _acceptedPicturesCount: number;
   private _hasChildSpecs: boolean;
   private _hasSpecs: boolean;
@@ -30203,7 +30216,7 @@ export class APIItem implements GrpcMessage {
     this.attrZoneId = _value.attrZoneId;
     this.engineInherit = _value.engineInherit;
     this.location = _value.location
-      ? new googleType003.LatLng(_value.location)
+      ? new googleType004.LatLng(_value.location)
       : undefined;
     this.acceptedPicturesCount = _value.acceptedPicturesCount;
     this.hasChildSpecs = _value.hasChildSpecs;
@@ -30398,10 +30411,10 @@ export class APIItem implements GrpcMessage {
   set engineInherit(value: boolean) {
     this._engineInherit = value;
   }
-  get location(): googleType003.LatLng | undefined {
+  get location(): googleType004.LatLng | undefined {
     return this._location;
   }
-  set location(value: googleType003.LatLng | undefined) {
+  set location(value: googleType004.LatLng | undefined) {
     this._location = value;
   }
   get acceptedPicturesCount(): number {
@@ -30735,7 +30748,7 @@ export module APIItem {
     brandicon?: APIImage.AsObject;
     attrZoneId: string;
     engineInherit: boolean;
-    location?: googleType003.LatLng.AsObject;
+    location?: googleType004.LatLng.AsObject;
     acceptedPicturesCount: number;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
@@ -30791,7 +30804,7 @@ export module APIItem {
     brandicon: APIImage.AsProtobufJSON | null;
     attrZoneId: string;
     engineInherit: boolean;
-    location: googleType003.LatLng.AsProtobufJSON | null;
+    location: googleType004.LatLng.AsProtobufJSON | null;
     acceptedPicturesCount: number;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
@@ -30815,6 +30828,189 @@ export module APIItem {
     commentsCount: number;
     previewPictures: PreviewPictures.AsProtobufJSON | null;
     engineVehicles: APIItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.NullPicture
+ */
+export class NullPicture implements GrpcMessage {
+  static id = 'goautowp.NullPicture';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new NullPicture();
+    NullPicture.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: NullPicture) {}
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: NullPicture,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.null = _reader.readEnum();
+          break;
+        case 2:
+          _instance.picture = new Picture();
+          _reader.readMessage(
+            _instance.picture,
+            Picture.deserializeBinaryFromReader
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    NullPicture.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: NullPicture,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.null || _instance.null === 0) {
+      _writer.writeEnum(1, _instance.null);
+    }
+    if (_instance.picture) {
+      _writer.writeMessage(
+        2,
+        _instance.picture as any,
+        Picture.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _null: googleProtobuf003.NullValue;
+  private _picture?: Picture;
+
+  private _kind: NullPicture.KindCase = NullPicture.KindCase.none;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of NullPicture to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<NullPicture.AsObject>) {
+    _value = _value || {};
+    this.null = _value.null;
+    this.picture = _value.picture ? new Picture(_value.picture) : undefined;
+    NullPicture.refineValues(this);
+  }
+  get null(): googleProtobuf003.NullValue {
+    return this._null;
+  }
+  set null(value: googleProtobuf003.NullValue) {
+    if (value !== undefined && value !== null) {
+      this._picture = undefined;
+      this._kind = NullPicture.KindCase.null;
+    }
+    this._null = value;
+  }
+  get picture(): Picture | undefined {
+    return this._picture;
+  }
+  set picture(value: Picture | undefined) {
+    if (value !== undefined && value !== null) {
+      this._null = undefined;
+      this._kind = NullPicture.KindCase.picture;
+    }
+    this._picture = value;
+  }
+  get kind() {
+    return this._kind;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    NullPicture.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): NullPicture.AsObject {
+    return {
+      null: this.null,
+      picture: this.picture ? this.picture.toObject() : undefined
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): NullPicture.AsProtobufJSON {
+    return {
+      null:
+        this.null === undefined
+          ? null
+          : googleProtobuf003.NullValue[
+              this.null === null || this.null === undefined ? 0 : this.null
+            ],
+      picture: this.picture ? this.picture.toProtobufJSON(options) : null
+    };
+  }
+}
+export module NullPicture {
+  /**
+   * Standard JavaScript object representation for NullPicture
+   */
+  export interface AsObject {
+    null: googleProtobuf003.NullValue;
+    picture?: Picture.AsObject;
+  }
+
+  /**
+   * Protobuf JSON representation for NullPicture
+   */
+  export interface AsProtobufJSON {
+    null: string | null;
+    picture: Picture.AsProtobufJSON | null;
+  }
+  export enum KindCase {
+    none = 0,
+    null = 1,
+    picture = 2
   }
 }
 
@@ -30864,10 +31060,10 @@ export class PreviewPictures implements GrpcMessage {
           _instance.largeFormat = _reader.readBool();
           break;
         case 2:
-          const messageInitializer2 = new Picture();
+          const messageInitializer2 = new NullPicture();
           _reader.readMessage(
             messageInitializer2,
-            Picture.deserializeBinaryFromReader
+            NullPicture.deserializeBinaryFromReader
           );
           (_instance.pictures = _instance.pictures || []).push(
             messageInitializer2
@@ -30900,7 +31096,7 @@ export class PreviewPictures implements GrpcMessage {
       _writer.writeRepeatedMessage(
         2,
         _instance.pictures as any,
-        Picture.serializeBinaryToWriter
+        NullPicture.serializeBinaryToWriter
       );
     }
     if (_instance.totalPictures) {
@@ -30909,7 +31105,7 @@ export class PreviewPictures implements GrpcMessage {
   }
 
   private _largeFormat: boolean;
-  private _pictures?: Picture[];
+  private _pictures?: NullPicture[];
   private _totalPictures: number;
 
   /**
@@ -30919,7 +31115,7 @@ export class PreviewPictures implements GrpcMessage {
   constructor(_value?: RecursivePartial<PreviewPictures.AsObject>) {
     _value = _value || {};
     this.largeFormat = _value.largeFormat;
-    this.pictures = (_value.pictures || []).map(m => new Picture(m));
+    this.pictures = (_value.pictures || []).map(m => new NullPicture(m));
     this.totalPictures = _value.totalPictures;
     PreviewPictures.refineValues(this);
   }
@@ -30929,10 +31125,10 @@ export class PreviewPictures implements GrpcMessage {
   set largeFormat(value: boolean) {
     this._largeFormat = value;
   }
-  get pictures(): Picture[] | undefined {
+  get pictures(): NullPicture[] | undefined {
     return this._pictures;
   }
-  set pictures(value: Picture[] | undefined) {
+  set pictures(value: NullPicture[] | undefined) {
     this._pictures = value;
   }
   get totalPictures(): number {
@@ -30992,7 +31188,7 @@ export module PreviewPictures {
    */
   export interface AsObject {
     largeFormat: boolean;
-    pictures?: Picture.AsObject[];
+    pictures?: NullPicture.AsObject[];
     totalPictures: number;
   }
 
@@ -31001,7 +31197,7 @@ export module PreviewPictures {
    */
   export interface AsProtobufJSON {
     largeFormat: boolean;
-    pictures: Picture.AsProtobufJSON[] | null;
+    pictures: NullPicture.AsProtobufJSON[] | null;
     totalPictures: number;
   }
 }
@@ -33846,10 +34042,10 @@ export class MapPoint implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.location = new googleType003.LatLng();
+          _instance.location = new googleType004.LatLng();
           _reader.readMessage(
             _instance.location,
-            googleType003.LatLng.deserializeBinaryFromReader
+            googleType004.LatLng.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -33886,7 +34082,7 @@ export class MapPoint implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.location as any,
-        googleType003.LatLng.serializeBinaryToWriter
+        googleType004.LatLng.serializeBinaryToWriter
       );
     }
     if (_instance.id) {
@@ -33907,7 +34103,7 @@ export class MapPoint implements GrpcMessage {
     }
   }
 
-  private _location?: googleType003.LatLng;
+  private _location?: googleType004.LatLng;
   private _id: string;
   private _name: string;
   private _url: string[];
@@ -33920,7 +34116,7 @@ export class MapPoint implements GrpcMessage {
   constructor(_value?: RecursivePartial<MapPoint.AsObject>) {
     _value = _value || {};
     this.location = _value.location
-      ? new googleType003.LatLng(_value.location)
+      ? new googleType004.LatLng(_value.location)
       : undefined;
     this.id = _value.id;
     this.name = _value.name;
@@ -33928,10 +34124,10 @@ export class MapPoint implements GrpcMessage {
     this.image = _value.image ? new APIImage(_value.image) : undefined;
     MapPoint.refineValues(this);
   }
-  get location(): googleType003.LatLng | undefined {
+  get location(): googleType004.LatLng | undefined {
     return this._location;
   }
-  set location(value: googleType003.LatLng | undefined) {
+  set location(value: googleType004.LatLng | undefined) {
     this._location = value;
   }
   get id(): string {
@@ -34012,7 +34208,7 @@ export module MapPoint {
    * Standard JavaScript object representation for MapPoint
    */
   export interface AsObject {
-    location?: googleType003.LatLng.AsObject;
+    location?: googleType004.LatLng.AsObject;
     id: string;
     name: string;
     url: string[];
@@ -34023,7 +34219,7 @@ export module MapPoint {
    * Protobuf JSON representation for MapPoint
    */
   export interface AsProtobufJSON {
-    location: googleType003.LatLng.AsProtobufJSON | null;
+    location: googleType004.LatLng.AsProtobufJSON | null;
     id: string;
     name: string;
     url: string[];
@@ -35879,10 +36075,10 @@ export class Picture implements GrpcMessage {
           );
           break;
         case 5:
-          _instance.point = new googleType003.LatLng();
+          _instance.point = new googleType004.LatLng();
           _reader.readMessage(
             _instance.point,
-            googleType003.LatLng.deserializeBinaryFromReader
+            googleType004.LatLng.deserializeBinaryFromReader
           );
           break;
         case 6:
@@ -36035,10 +36231,10 @@ export class Picture implements GrpcMessage {
           _instance.specialName = _reader.readString();
           break;
         case 38:
-          _instance.takenDate = new googleType004.Date();
+          _instance.takenDate = new googleType005.Date();
           _reader.readMessage(
             _instance.takenDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 39:
@@ -36107,7 +36303,7 @@ export class Picture implements GrpcMessage {
       _writer.writeMessage(
         5,
         _instance.point as any,
-        googleType003.LatLng.serializeBinaryToWriter
+        googleType004.LatLng.serializeBinaryToWriter
       );
     }
     if (_instance.copyrightsTextId) {
@@ -36262,7 +36458,7 @@ export class Picture implements GrpcMessage {
       _writer.writeMessage(
         38,
         _instance.takenDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.changeStatusUserId) {
@@ -36301,7 +36497,7 @@ export class Picture implements GrpcMessage {
   private _width: number;
   private _height: number;
   private _image?: APIImage;
-  private _point?: googleType003.LatLng;
+  private _point?: googleType004.LatLng;
   private _copyrightsTextId: number;
   private _thumbMedium?: APIImage;
   private _thumbLarge?: APIImage;
@@ -36334,7 +36530,7 @@ export class Picture implements GrpcMessage {
   private _rights?: PictureRights;
   private _siblings?: PictureSiblings;
   private _specialName: string;
-  private _takenDate?: googleType004.Date;
+  private _takenDate?: googleType005.Date;
   private _changeStatusUserId: string;
   private _ip: string;
   private _dpiX: number;
@@ -36355,7 +36551,7 @@ export class Picture implements GrpcMessage {
     this.height = _value.height;
     this.image = _value.image ? new APIImage(_value.image) : undefined;
     this.point = _value.point
-      ? new googleType003.LatLng(_value.point)
+      ? new googleType004.LatLng(_value.point)
       : undefined;
     this.copyrightsTextId = _value.copyrightsTextId;
     this.thumbMedium = _value.thumbMedium
@@ -36410,7 +36606,7 @@ export class Picture implements GrpcMessage {
       : undefined;
     this.specialName = _value.specialName;
     this.takenDate = _value.takenDate
-      ? new googleType004.Date(_value.takenDate)
+      ? new googleType005.Date(_value.takenDate)
       : undefined;
     this.changeStatusUserId = _value.changeStatusUserId;
     this.ip = _value.ip;
@@ -36455,10 +36651,10 @@ export class Picture implements GrpcMessage {
   set image(value: APIImage | undefined) {
     this._image = value;
   }
-  get point(): googleType003.LatLng | undefined {
+  get point(): googleType004.LatLng | undefined {
     return this._point;
   }
-  set point(value: googleType003.LatLng | undefined) {
+  set point(value: googleType004.LatLng | undefined) {
     this._point = value;
   }
   get copyrightsTextId(): number {
@@ -36653,10 +36849,10 @@ export class Picture implements GrpcMessage {
   set specialName(value: string) {
     this._specialName = value;
   }
-  get takenDate(): googleType004.Date | undefined {
+  get takenDate(): googleType005.Date | undefined {
     return this._takenDate;
   }
-  set takenDate(value: googleType004.Date | undefined) {
+  set takenDate(value: googleType005.Date | undefined) {
     this._takenDate = value;
   }
   get changeStatusUserId(): string {
@@ -36869,7 +37065,7 @@ export module Picture {
     width: number;
     height: number;
     image?: APIImage.AsObject;
-    point?: googleType003.LatLng.AsObject;
+    point?: googleType004.LatLng.AsObject;
     copyrightsTextId: number;
     thumbMedium?: APIImage.AsObject;
     thumbLarge?: APIImage.AsObject;
@@ -36902,7 +37098,7 @@ export module Picture {
     rights?: PictureRights.AsObject;
     siblings?: PictureSiblings.AsObject;
     specialName: string;
-    takenDate?: googleType004.Date.AsObject;
+    takenDate?: googleType005.Date.AsObject;
     changeStatusUserId: string;
     ip: string;
     dpiX: number;
@@ -36921,7 +37117,7 @@ export module Picture {
     width: number;
     height: number;
     image: APIImage.AsProtobufJSON | null;
-    point: googleType003.LatLng.AsProtobufJSON | null;
+    point: googleType004.LatLng.AsProtobufJSON | null;
     copyrightsTextId: number;
     thumbMedium: APIImage.AsProtobufJSON | null;
     thumbLarge: APIImage.AsProtobufJSON | null;
@@ -36954,7 +37150,7 @@ export module Picture {
     rights: PictureRights.AsProtobufJSON | null;
     siblings: PictureSiblings.AsProtobufJSON | null;
     specialName: string;
-    takenDate: googleType004.Date.AsProtobufJSON | null;
+    takenDate: googleType005.Date.AsProtobufJSON | null;
     changeStatusUserId: string;
     ip: string;
     dpiX: number;
@@ -40453,10 +40649,10 @@ export class SetPicturePointRequest implements GrpcMessage {
           _instance.pictureId = _reader.readInt64String();
           break;
         case 2:
-          _instance.point = new googleType003.LatLng();
+          _instance.point = new googleType004.LatLng();
           _reader.readMessage(
             _instance.point,
-            googleType003.LatLng.deserializeBinaryFromReader
+            googleType004.LatLng.deserializeBinaryFromReader
           );
           break;
         default:
@@ -40483,13 +40679,13 @@ export class SetPicturePointRequest implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.point as any,
-        googleType003.LatLng.serializeBinaryToWriter
+        googleType004.LatLng.serializeBinaryToWriter
       );
     }
   }
 
   private _pictureId: string;
-  private _point?: googleType003.LatLng;
+  private _point?: googleType004.LatLng;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -40499,7 +40695,7 @@ export class SetPicturePointRequest implements GrpcMessage {
     _value = _value || {};
     this.pictureId = _value.pictureId;
     this.point = _value.point
-      ? new googleType003.LatLng(_value.point)
+      ? new googleType004.LatLng(_value.point)
       : undefined;
     SetPicturePointRequest.refineValues(this);
   }
@@ -40509,10 +40705,10 @@ export class SetPicturePointRequest implements GrpcMessage {
   set pictureId(value: string) {
     this._pictureId = value;
   }
-  get point(): googleType003.LatLng | undefined {
+  get point(): googleType004.LatLng | undefined {
     return this._point;
   }
-  set point(value: googleType003.LatLng | undefined) {
+  set point(value: googleType004.LatLng | undefined) {
     this._point = value;
   }
 
@@ -40564,7 +40760,7 @@ export module SetPicturePointRequest {
    */
   export interface AsObject {
     pictureId: string;
-    point?: googleType003.LatLng.AsObject;
+    point?: googleType004.LatLng.AsObject;
   }
 
   /**
@@ -40572,7 +40768,7 @@ export module SetPicturePointRequest {
    */
   export interface AsProtobufJSON {
     pictureId: string;
-    point: googleType003.LatLng.AsProtobufJSON | null;
+    point: googleType004.LatLng.AsProtobufJSON | null;
   }
 }
 
@@ -40622,10 +40818,10 @@ export class UpdatePictureRequest implements GrpcMessage {
           _instance.id = _reader.readInt64String();
           break;
         case 2:
-          _instance.takenDate = new googleType004.Date();
+          _instance.takenDate = new googleType005.Date();
           _reader.readMessage(
             _instance.takenDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
@@ -40655,7 +40851,7 @@ export class UpdatePictureRequest implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.takenDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.name) {
@@ -40664,7 +40860,7 @@ export class UpdatePictureRequest implements GrpcMessage {
   }
 
   private _id: string;
-  private _takenDate?: googleType004.Date;
+  private _takenDate?: googleType005.Date;
   private _name: string;
 
   /**
@@ -40675,7 +40871,7 @@ export class UpdatePictureRequest implements GrpcMessage {
     _value = _value || {};
     this.id = _value.id;
     this.takenDate = _value.takenDate
-      ? new googleType004.Date(_value.takenDate)
+      ? new googleType005.Date(_value.takenDate)
       : undefined;
     this.name = _value.name;
     UpdatePictureRequest.refineValues(this);
@@ -40686,10 +40882,10 @@ export class UpdatePictureRequest implements GrpcMessage {
   set id(value: string) {
     this._id = value;
   }
-  get takenDate(): googleType004.Date | undefined {
+  get takenDate(): googleType005.Date | undefined {
     return this._takenDate;
   }
-  set takenDate(value: googleType004.Date | undefined) {
+  set takenDate(value: googleType005.Date | undefined) {
     this._takenDate = value;
   }
   get name(): string {
@@ -40749,7 +40945,7 @@ export module UpdatePictureRequest {
    */
   export interface AsObject {
     id: string;
-    takenDate?: googleType004.Date.AsObject;
+    takenDate?: googleType005.Date.AsObject;
     name: string;
   }
 
@@ -40758,7 +40954,7 @@ export module UpdatePictureRequest {
    */
   export interface AsProtobufJSON {
     id: string;
-    takenDate: googleType004.Date.AsProtobufJSON | null;
+    takenDate: googleType005.Date.AsProtobufJSON | null;
     name: string;
   }
 }
@@ -41125,10 +41321,10 @@ export class NewboxRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.date = new googleType004.Date();
+          _instance.date = new googleType005.Date();
           _reader.readMessage(
             _instance.date,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -41158,7 +41354,7 @@ export class NewboxRequest implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.date as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.language) {
@@ -41169,7 +41365,7 @@ export class NewboxRequest implements GrpcMessage {
     }
   }
 
-  private _date?: googleType004.Date;
+  private _date?: googleType005.Date;
   private _language: string;
   private _page: number;
 
@@ -41179,15 +41375,15 @@ export class NewboxRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<NewboxRequest.AsObject>) {
     _value = _value || {};
-    this.date = _value.date ? new googleType004.Date(_value.date) : undefined;
+    this.date = _value.date ? new googleType005.Date(_value.date) : undefined;
     this.language = _value.language;
     this.page = _value.page;
     NewboxRequest.refineValues(this);
   }
-  get date(): googleType004.Date | undefined {
+  get date(): googleType005.Date | undefined {
     return this._date;
   }
-  set date(value: googleType004.Date | undefined) {
+  set date(value: googleType005.Date | undefined) {
     this._date = value;
   }
   get language(): string {
@@ -41252,7 +41448,7 @@ export module NewboxRequest {
    * Standard JavaScript object representation for NewboxRequest
    */
   export interface AsObject {
-    date?: googleType004.Date.AsObject;
+    date?: googleType005.Date.AsObject;
     language: string;
     page: number;
   }
@@ -41261,7 +41457,7 @@ export module NewboxRequest {
    * Protobuf JSON representation for NewboxRequest
    */
   export interface AsProtobufJSON {
-    date: googleType004.Date.AsProtobufJSON | null;
+    date: googleType005.Date.AsProtobufJSON | null;
     language: string;
     page: number;
   }
@@ -41529,30 +41725,30 @@ export class Newbox implements GrpcMessage {
           (_instance.groups = _instance.groups || []).push(messageInitializer1);
           break;
         case 2:
-          _instance.prevDate = new googleType004.Date();
+          _instance.prevDate = new googleType005.Date();
           _reader.readMessage(
             _instance.prevDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
           _instance.prevCount = _reader.readInt32();
           break;
         case 4:
-          _instance.currentDate = new googleType004.Date();
+          _instance.currentDate = new googleType005.Date();
           _reader.readMessage(
             _instance.currentDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 5:
           _instance.currentCount = _reader.readInt32();
           break;
         case 6:
-          _instance.nextDate = new googleType004.Date();
+          _instance.nextDate = new googleType005.Date();
           _reader.readMessage(
             _instance.nextDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 7:
@@ -41590,7 +41786,7 @@ export class Newbox implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.prevDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.prevCount) {
@@ -41600,7 +41796,7 @@ export class Newbox implements GrpcMessage {
       _writer.writeMessage(
         4,
         _instance.currentDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.currentCount) {
@@ -41610,7 +41806,7 @@ export class Newbox implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.nextDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.nextCount) {
@@ -41626,11 +41822,11 @@ export class Newbox implements GrpcMessage {
   }
 
   private _groups?: NewboxGroup[];
-  private _prevDate?: googleType004.Date;
+  private _prevDate?: googleType005.Date;
   private _prevCount: number;
-  private _currentDate?: googleType004.Date;
+  private _currentDate?: googleType005.Date;
   private _currentCount: number;
-  private _nextDate?: googleType004.Date;
+  private _nextDate?: googleType005.Date;
   private _nextCount: number;
   private _paginator?: Pages;
 
@@ -41642,15 +41838,15 @@ export class Newbox implements GrpcMessage {
     _value = _value || {};
     this.groups = (_value.groups || []).map(m => new NewboxGroup(m));
     this.prevDate = _value.prevDate
-      ? new googleType004.Date(_value.prevDate)
+      ? new googleType005.Date(_value.prevDate)
       : undefined;
     this.prevCount = _value.prevCount;
     this.currentDate = _value.currentDate
-      ? new googleType004.Date(_value.currentDate)
+      ? new googleType005.Date(_value.currentDate)
       : undefined;
     this.currentCount = _value.currentCount;
     this.nextDate = _value.nextDate
-      ? new googleType004.Date(_value.nextDate)
+      ? new googleType005.Date(_value.nextDate)
       : undefined;
     this.nextCount = _value.nextCount;
     this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
@@ -41662,10 +41858,10 @@ export class Newbox implements GrpcMessage {
   set groups(value: NewboxGroup[] | undefined) {
     this._groups = value;
   }
-  get prevDate(): googleType004.Date | undefined {
+  get prevDate(): googleType005.Date | undefined {
     return this._prevDate;
   }
-  set prevDate(value: googleType004.Date | undefined) {
+  set prevDate(value: googleType005.Date | undefined) {
     this._prevDate = value;
   }
   get prevCount(): number {
@@ -41674,10 +41870,10 @@ export class Newbox implements GrpcMessage {
   set prevCount(value: number) {
     this._prevCount = value;
   }
-  get currentDate(): googleType004.Date | undefined {
+  get currentDate(): googleType005.Date | undefined {
     return this._currentDate;
   }
-  set currentDate(value: googleType004.Date | undefined) {
+  set currentDate(value: googleType005.Date | undefined) {
     this._currentDate = value;
   }
   get currentCount(): number {
@@ -41686,10 +41882,10 @@ export class Newbox implements GrpcMessage {
   set currentCount(value: number) {
     this._currentCount = value;
   }
-  get nextDate(): googleType004.Date | undefined {
+  get nextDate(): googleType005.Date | undefined {
     return this._nextDate;
   }
-  set nextDate(value: googleType004.Date | undefined) {
+  set nextDate(value: googleType005.Date | undefined) {
     this._nextDate = value;
   }
   get nextCount(): number {
@@ -41767,11 +41963,11 @@ export module Newbox {
    */
   export interface AsObject {
     groups?: NewboxGroup.AsObject[];
-    prevDate?: googleType004.Date.AsObject;
+    prevDate?: googleType005.Date.AsObject;
     prevCount: number;
-    currentDate?: googleType004.Date.AsObject;
+    currentDate?: googleType005.Date.AsObject;
     currentCount: number;
-    nextDate?: googleType004.Date.AsObject;
+    nextDate?: googleType005.Date.AsObject;
     nextCount: number;
     paginator?: Pages.AsObject;
   }
@@ -41781,11 +41977,11 @@ export module Newbox {
    */
   export interface AsProtobufJSON {
     groups: NewboxGroup.AsProtobufJSON[] | null;
-    prevDate: googleType004.Date.AsProtobufJSON | null;
+    prevDate: googleType005.Date.AsProtobufJSON | null;
     prevCount: number;
-    currentDate: googleType004.Date.AsProtobufJSON | null;
+    currentDate: googleType005.Date.AsProtobufJSON | null;
     currentCount: number;
-    nextDate: googleType004.Date.AsProtobufJSON | null;
+    nextDate: googleType005.Date.AsProtobufJSON | null;
     nextCount: number;
     paginator: Pages.AsProtobufJSON | null;
   }
@@ -41834,10 +42030,10 @@ export class InboxRequest implements GrpcMessage {
           _instance.brandId = _reader.readInt64String();
           break;
         case 2:
-          _instance.date = new googleType004.Date();
+          _instance.date = new googleType005.Date();
           _reader.readMessage(
             _instance.date,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
@@ -41867,7 +42063,7 @@ export class InboxRequest implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.date as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.language) {
@@ -41876,7 +42072,7 @@ export class InboxRequest implements GrpcMessage {
   }
 
   private _brandId: string;
-  private _date?: googleType004.Date;
+  private _date?: googleType005.Date;
   private _language: string;
 
   /**
@@ -41886,7 +42082,7 @@ export class InboxRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<InboxRequest.AsObject>) {
     _value = _value || {};
     this.brandId = _value.brandId;
-    this.date = _value.date ? new googleType004.Date(_value.date) : undefined;
+    this.date = _value.date ? new googleType005.Date(_value.date) : undefined;
     this.language = _value.language;
     InboxRequest.refineValues(this);
   }
@@ -41896,10 +42092,10 @@ export class InboxRequest implements GrpcMessage {
   set brandId(value: string) {
     this._brandId = value;
   }
-  get date(): googleType004.Date | undefined {
+  get date(): googleType005.Date | undefined {
     return this._date;
   }
-  set date(value: googleType004.Date | undefined) {
+  set date(value: googleType005.Date | undefined) {
     this._date = value;
   }
   get language(): string {
@@ -41959,7 +42155,7 @@ export module InboxRequest {
    */
   export interface AsObject {
     brandId: string;
-    date?: googleType004.Date.AsObject;
+    date?: googleType005.Date.AsObject;
     language: string;
   }
 
@@ -41968,7 +42164,7 @@ export module InboxRequest {
    */
   export interface AsProtobufJSON {
     brandId: string;
-    date: googleType004.Date.AsProtobufJSON | null;
+    date: googleType005.Date.AsProtobufJSON | null;
     language: string;
   }
 }
@@ -42174,30 +42370,30 @@ export class Inbox implements GrpcMessage {
           (_instance.brands = _instance.brands || []).push(messageInitializer1);
           break;
         case 2:
-          _instance.prevDate = new googleType004.Date();
+          _instance.prevDate = new googleType005.Date();
           _reader.readMessage(
             _instance.prevDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
           _instance.prevCount = _reader.readInt32();
           break;
         case 4:
-          _instance.currentDate = new googleType004.Date();
+          _instance.currentDate = new googleType005.Date();
           _reader.readMessage(
             _instance.currentDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 5:
           _instance.currentCount = _reader.readInt32();
           break;
         case 6:
-          _instance.nextDate = new googleType004.Date();
+          _instance.nextDate = new googleType005.Date();
           _reader.readMessage(
             _instance.nextDate,
-            googleType004.Date.deserializeBinaryFromReader
+            googleType005.Date.deserializeBinaryFromReader
           );
           break;
         case 7:
@@ -42228,7 +42424,7 @@ export class Inbox implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.prevDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.prevCount) {
@@ -42238,7 +42434,7 @@ export class Inbox implements GrpcMessage {
       _writer.writeMessage(
         4,
         _instance.currentDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.currentCount) {
@@ -42248,7 +42444,7 @@ export class Inbox implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.nextDate as any,
-        googleType004.Date.serializeBinaryToWriter
+        googleType005.Date.serializeBinaryToWriter
       );
     }
     if (_instance.nextCount) {
@@ -42257,11 +42453,11 @@ export class Inbox implements GrpcMessage {
   }
 
   private _brands?: InboxBrand[];
-  private _prevDate?: googleType004.Date;
+  private _prevDate?: googleType005.Date;
   private _prevCount: number;
-  private _currentDate?: googleType004.Date;
+  private _currentDate?: googleType005.Date;
   private _currentCount: number;
-  private _nextDate?: googleType004.Date;
+  private _nextDate?: googleType005.Date;
   private _nextCount: number;
 
   /**
@@ -42272,15 +42468,15 @@ export class Inbox implements GrpcMessage {
     _value = _value || {};
     this.brands = (_value.brands || []).map(m => new InboxBrand(m));
     this.prevDate = _value.prevDate
-      ? new googleType004.Date(_value.prevDate)
+      ? new googleType005.Date(_value.prevDate)
       : undefined;
     this.prevCount = _value.prevCount;
     this.currentDate = _value.currentDate
-      ? new googleType004.Date(_value.currentDate)
+      ? new googleType005.Date(_value.currentDate)
       : undefined;
     this.currentCount = _value.currentCount;
     this.nextDate = _value.nextDate
-      ? new googleType004.Date(_value.nextDate)
+      ? new googleType005.Date(_value.nextDate)
       : undefined;
     this.nextCount = _value.nextCount;
     Inbox.refineValues(this);
@@ -42291,10 +42487,10 @@ export class Inbox implements GrpcMessage {
   set brands(value: InboxBrand[] | undefined) {
     this._brands = value;
   }
-  get prevDate(): googleType004.Date | undefined {
+  get prevDate(): googleType005.Date | undefined {
     return this._prevDate;
   }
-  set prevDate(value: googleType004.Date | undefined) {
+  set prevDate(value: googleType005.Date | undefined) {
     this._prevDate = value;
   }
   get prevCount(): number {
@@ -42303,10 +42499,10 @@ export class Inbox implements GrpcMessage {
   set prevCount(value: number) {
     this._prevCount = value;
   }
-  get currentDate(): googleType004.Date | undefined {
+  get currentDate(): googleType005.Date | undefined {
     return this._currentDate;
   }
-  set currentDate(value: googleType004.Date | undefined) {
+  set currentDate(value: googleType005.Date | undefined) {
     this._currentDate = value;
   }
   get currentCount(): number {
@@ -42315,10 +42511,10 @@ export class Inbox implements GrpcMessage {
   set currentCount(value: number) {
     this._currentCount = value;
   }
-  get nextDate(): googleType004.Date | undefined {
+  get nextDate(): googleType005.Date | undefined {
     return this._nextDate;
   }
-  set nextDate(value: googleType004.Date | undefined) {
+  set nextDate(value: googleType005.Date | undefined) {
     this._nextDate = value;
   }
   get nextCount(): number {
@@ -42388,11 +42584,11 @@ export module Inbox {
    */
   export interface AsObject {
     brands?: InboxBrand.AsObject[];
-    prevDate?: googleType004.Date.AsObject;
+    prevDate?: googleType005.Date.AsObject;
     prevCount: number;
-    currentDate?: googleType004.Date.AsObject;
+    currentDate?: googleType005.Date.AsObject;
     currentCount: number;
-    nextDate?: googleType004.Date.AsObject;
+    nextDate?: googleType005.Date.AsObject;
     nextCount: number;
   }
 
@@ -42401,11 +42597,11 @@ export module Inbox {
    */
   export interface AsProtobufJSON {
     brands: InboxBrand.AsProtobufJSON[] | null;
-    prevDate: googleType004.Date.AsProtobufJSON | null;
+    prevDate: googleType005.Date.AsProtobufJSON | null;
     prevCount: number;
-    currentDate: googleType004.Date.AsProtobufJSON | null;
+    currentDate: googleType005.Date.AsProtobufJSON | null;
     currentCount: number;
-    nextDate: googleType004.Date.AsProtobufJSON | null;
+    nextDate: googleType005.Date.AsProtobufJSON | null;
     nextCount: number;
   }
 }

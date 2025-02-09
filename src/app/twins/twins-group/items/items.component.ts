@@ -9,7 +9,11 @@ import {
   ItemParentListOptions,
   ItemRequest,
   ItemsRequest,
-  PictureFields,
+  PictureItemListOptions,
+  PictureItemType,
+  PictureListOptions,
+  PicturesRequest,
+  PictureStatus,
   PreviewPicturesRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -93,7 +97,12 @@ export class TwinsGroupItemsComponent {
                 nameHtml: true,
                 previewPictures: new PreviewPicturesRequest({
                   perspectivePageId: 3,
-                  picture: new PictureFields({nameText: true}),
+                  pictures: new PicturesRequest({
+                    options: new PictureListOptions({
+                      pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                      status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                    }),
+                  }),
                 }),
                 specsRoute: true,
               }),

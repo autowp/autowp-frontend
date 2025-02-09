@@ -18,14 +18,14 @@
       <div class="row">
         @for (picture of (item.previewPictures?.pictures || []).slice(0, 1); track picture) {
           <div class="col-12 col-lg-6">
-            @if (!picture) {
+            @if (!picture.picture) {
               <span>&#xa0;</span>
-            } @else if (picture.thumbLarge) {
-              <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
+            } @else if (picture.picture.thumbLarge) {
+              <a [routerLink]="['/picture', picture.picture.identity]" class="d-block rounded mb-4">
                 <img
-                  [src]="picture.thumbLarge.src"
-                  [alt]="picture.nameText"
-                  [title]="picture.nameText"
+                  [src]="picture.picture.thumbLarge.src"
+                  [alt]="picture.picture.nameText"
+                  [title]="picture.picture.nameText"
                   class="rounded w-100 border border-light"
                   loading="lazy"
                 />
@@ -37,14 +37,14 @@
           <div class="row">
             @for (picture of (item.previewPictures?.pictures || []).slice(1); track picture) {
               <div class="col-6">
-                @if (!picture) {
+                @if (!picture.picture) {
                   <span>&#xa0;</span>
-                } @else if (picture.thumbMedium) {
-                  <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
+                } @else if (picture.picture.thumbMedium) {
+                  <a [routerLink]="['/picture', picture.picture.identity]" class="d-block rounded mb-4">
                     <img
-                      [src]="picture.thumbMedium.src"
-                      [alt]="picture.nameText"
-                      [title]="picture.nameText"
+                      [src]="picture.picture.thumbMedium.src"
+                      [alt]="picture.picture.nameText"
+                      [title]="picture.picture.nameText"
                       class="rounded w-100 border border-light"
                       loading="lazy"
                     />
@@ -60,14 +60,14 @@
       <div class="row">
         @for (picture of item.previewPictures?.pictures || []; track picture) {
           <div [class]="thumbnailColClass()">
-            @if (!picture) {
+            @if (!picture.picture) {
               <span>&#xa0;</span>
-            } @else if (picture.thumbMedium) {
-              <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
+            } @else if (picture.picture.thumbMedium) {
+              <a [routerLink]="['/picture', picture.picture.identity]" class="d-block rounded mb-4">
                 <img
-                  [src]="picture.thumbMedium.src"
-                  [alt]="picture.nameText"
-                  [title]="picture.nameText"
+                  [src]="picture.picture.thumbMedium.src"
+                  [alt]="picture.picture.nameText"
+                  [title]="picture.picture.nameText"
                   class="rounded w-100 border border-light"
                   loading="lazy"
                 />

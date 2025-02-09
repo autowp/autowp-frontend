@@ -2,16 +2,17 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
+  APIImage,
   APIItem,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
   ItemsRequest,
   ItemType,
-  PictureFields,
   PictureItemListOptions,
   PictureItemType,
   PictureListOptions,
+  PicturesRequest,
   PictureStatus,
   PreviewPicturesRequest,
 } from '@grpc/spec.pb';
@@ -55,9 +56,15 @@ export class CutawayBrandsComponent implements OnInit {
             nameDefault: true,
             nameHtml: true,
             previewPictures: new PreviewPicturesRequest({
-              perspectiveId: 9,
-              picture: new PictureFields({nameText: true}),
-              typeId: PictureItemType.PICTURE_ITEM_CONTENT,
+              pictures: new PicturesRequest({
+                options: new PictureListOptions({
+                  pictureItem: new PictureItemListOptions({
+                    perspectiveId: 9,
+                    typeId: PictureItemType.PICTURE_ITEM_CONTENT,
+                  }),
+                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                }),
+              }),
             }),
           }),
           language: this.#languageService.language,
@@ -96,12 +103,19 @@ export class CutawayBrandsComponent implements OnInit {
   private prepareItems(items: APIItem[]): CatalogueListItem2[] {
     return items.map((item) => {
       const itemRouterLink = ['/cutaway/brands', item.catname];
+      const largeFormat = !!item.previewPictures?.largeFormat;
 
-      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => ({
-        picture: picture ? picture : null,
-        routerLink: picture ? ['/picture', picture.identity] : undefined,
-        thumb: picture ? picture.thumbMedium : null,
-      }));
+      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => {
+        let thumb: APIImage | undefined = undefined;
+        if (picture.picture) {
+          thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+        }
+        return {
+          picture: picture.picture ? picture.picture : null,
+          routerLink: picture.picture ? ['/picture', picture.picture.identity] : undefined,
+          thumb: thumb,
+        };
+      });
 
       return {
         acceptedPicturesCount: undefined,

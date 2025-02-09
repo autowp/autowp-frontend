@@ -1,17 +1,30 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
+import {
+  APIImage,
+  APIItem,
+  ItemFields,
+  ItemListOptions,
+  ItemRequest,
+  ItemsRequest,
+  ItemType,
+  PictureItemListOptions,
+  PictureItemType,
+  PictureListOptions,
+  PicturesRequest,
+  PictureStatus,
+  PreviewPicturesRequest,
+} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
-  CatalogueListItem,
-  CatalogueListItemComponent,
-  CatalogueListItemPicture,
-} from '@utils/list-item/list-item.component';
+  CatalogueListItem2,
+  CatalogueListItem2Component,
+  CatalogueListItemPicture2,
+} from '@utils/list-item/list-item2.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -19,60 +32,59 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
   selector: 'app-factory-items',
   templateUrl: './items.component.html',
 })
 export class FactoryItemsComponent {
-  private readonly itemService = inject(ItemService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly acl = inject(ACLService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #acl = inject(ACLService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  private readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly factory$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly factory$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
           }),
           id,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
+      this.#toastService.handleError(err);
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     switchMap((factory) => {
       if (!factory || factory.itemTypeId !== ItemType.ITEM_TYPE_FACTORY) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
       }
 
-      this.pageEnv.set({pageId: 182});
+      this.#pageEnv.set({pageId: 182});
 
       return of(factory);
     }),
@@ -80,58 +92,104 @@ export class FactoryItemsComponent {
   );
 
   protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(
-    switchMap(([page, factory]) =>
-      this.itemService.getItems$({
-        fields: [
-          'name_html,name_default,description,has_text,produced',
-          'design,engine_vehicles,route',
-          'url,can_edit_specs,specs_route',
-          'categories.name_html,twins_groups',
-          'preview_pictures.picture.name_text,preview_pictures.route,childs_count,accepted_pictures_count',
-        ].join(','),
-        limit: 10,
-        page,
-        related_groups_of: +factory.id,
-      }),
+    switchMap(
+      ([page, factory]) =>
+        this.#itemsClient.list(
+          new ItemsRequest({
+            fields: new ItemFields({
+              acceptedPicturesCount: true,
+              canEditSpecs: true,
+              categories: new ItemsRequest({
+                fields: new ItemFields({nameHtml: true}),
+              }),
+              childsCount: true,
+              description: true,
+              design: true,
+              engineVehicles: new ItemsRequest({
+                fields: new ItemFields({nameHtml: true, route: true}),
+              }),
+              hasChildSpecs: true,
+              hasText: true,
+              nameDefault: true,
+              nameHtml: true,
+              previewPictures: new PreviewPicturesRequest({
+                perspectivePageId: 3,
+                pictures: new PicturesRequest({
+                  options: new PictureListOptions({
+                    pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                    status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                  }),
+                }),
+              }),
+              specsRoute: true,
+              twins: new ItemsRequest(),
+            }),
+            language: this.#languageService.language,
+            limit: 10,
+            options: new ItemListOptions({
+              relatedGroupsOf: factory.id,
+            }),
+            order: ItemsRequest.Order.AGE,
+            page,
+          }),
+        ),
+      // this.#itemService.getItems$({
+      //   fields: [
+      //     'route',
+      //     'url',
+      //     'preview_pictures.route,childs_count,accepted_pictures_count',
+      //   ].join(','),
+      // }),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
     map((data) => ({
-      items: data.items.map((item) => {
-        const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-          picture: picture?.picture ? picture.picture : null,
-          routerLink: item.route && picture?.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
-          thumb: picture ? picture.thumb : null,
-        }));
+      items: (data.items || []).map((item) => {
+        const largeFormat = !!item.previewPictures?.largeFormat;
+
+        const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => {
+          let thumb: APIImage | undefined = undefined;
+          if (picture.picture) {
+            thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+          }
+          console.log(picture);
+          return {
+            picture: picture.picture ? picture.picture : null,
+            routerLink: item.route && picture.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
+            thumb: thumb,
+          };
+        });
+
+        console.log(item.hasSpecs, item.hasChildSpecs, item.route);
 
         return {
-          accepted_pictures_count: item.accepted_pictures_count,
-          can_edit_specs: item.can_edit_specs,
-          childs_counts: null,
+          acceptedPicturesCount: item.acceptedPicturesCount,
+          canEditSpecs: item.canEditSpecs,
+          childsCounts: null,
           description: item.description,
           design: item.design,
           details: {
-            count: item.childs_count,
+            count: item.childsCount,
             routerLink: item.route,
           },
-          engine_vehicles: item.engine_vehicles,
-          has_text: item.has_text,
+          engineVehicles: item.engineVehicles,
+          hasText: item.hasText,
           id: item.id,
-          item_type_id: item.item_type_id,
-          name_default: item.name_default,
-          name_html: item.name_html,
-          picturesRouterLink: ['/factories', '' + item.id, 'pictures'],
-          preview_pictures: {
-            large_format: item.preview_pictures.large_format,
+          itemTypeId: item.itemTypeId,
+          nameDefault: item.nameDefault,
+          nameHtml: item.nameHtml,
+          picturesRouterLink: ['/factories', item.id, 'pictures'],
+          previewPictures: {
+            largeFormat: !!item.previewPictures?.largeFormat,
             pictures,
           },
           produced: item.produced,
-          produced_exactly: item.produced_exactly,
+          producedExactly: item.producedExactly,
           specsRouterLink:
-            item.has_specs || (item.has_child_specs && item.route) ? item.route.concat(['specifications']) : null,
-        } as CatalogueListItem;
+            (item.hasSpecs || item.hasChildSpecs) && item.route.length ? item.route.concat(['specifications']) : null,
+        } as CatalogueListItem2;
       }),
       paginator: data.paginator,
     })),
