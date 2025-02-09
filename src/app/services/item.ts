@@ -4,7 +4,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
-import {APIImage, APIPaginator, APIService} from './api.service';
+import {APIImage, APIService} from './api.service';
 import {APIPicture} from './picture';
 
 export interface APIItem {
@@ -129,11 +129,6 @@ export interface APIItemsGetPathResponse {
   path: APIPathItem[];
 }
 
-export interface APIItemsGetResponse {
-  items: APIItem[];
-  paginator: APIPaginator;
-}
-
 export interface APIPathItem {
   catname: string;
   item: APIItem;
@@ -153,44 +148,6 @@ export interface APIPathTreeItemParent {
 
 export interface GetItemServiceOptions {
   fields?: string;
-}
-
-export interface GetItemsServiceOptions {
-  ancestor_id?: number;
-  concept?: boolean | null;
-  concept_inherit?: boolean | null;
-  dateful?: boolean;
-  dateless?: boolean;
-  descendant_pictures?: {
-    contains_perspective_id?: number;
-    owner_id?: number;
-    perspective_id?: number;
-    status?: string;
-    type_id?: number;
-  };
-  factories_of_brand?: number;
-  fields: string;
-  from_year?: number;
-  have_common_childs_with?: null | number;
-  limit: number;
-  name?: null | string;
-  name_exclude?: null | string;
-  no_parent?: boolean;
-  order?: string;
-  page?: number;
-  parent_id?: number;
-  preview_pictures?: {
-    contains_perspective_id?: number;
-    perspective_id?: number;
-    type_id?: number;
-  };
-  route_brand_id?: number;
-  spec?: number;
-  suggestions_to?: number;
-  text?: string;
-  to_year?: number;
-  type_id?: ItemType;
-  vehicle_type_id?: number | string;
 }
 
 export interface GetPathServiceOptions {
@@ -232,151 +189,15 @@ function convertItemOptions(options: GetItemServiceOptions): {[param: string]: s
   return params;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
-function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]: string} {
-  const params: {[param: string]: string} = {};
-
-  if (options.fields) {
-    params['fields'] = options.fields;
-  }
-
-  if (options.type_id) {
-    params['type_id'] = options.type_id.toString();
-  }
-
-  if (options.parent_id) {
-    params['parent_id'] = options.parent_id.toString();
-  }
-
-  if (options.order) {
-    params['order'] = options.order;
-  }
-
-  if (options.limit) {
-    params['limit'] = options.limit.toString();
-  }
-
-  if (options.name) {
-    params['name'] = options.name;
-  }
-
-  if (options.name_exclude) {
-    params['name_exclude'] = options.name_exclude;
-  }
-
-  if (options.concept !== undefined && options.concept !== null) {
-    params['concept'] = options.concept ? '1' : '0';
-  }
-
-  if (options.concept_inherit !== undefined && options.concept_inherit !== null) {
-    params['concept_inherit'] = options.concept_inherit ? '1' : '0';
-  }
-
-  if (options.dateless) {
-    params['dateless'] = '1';
-  }
-
-  if (options.dateful) {
-    params['dateful'] = '1';
-  }
-
-  if (options.page) {
-    params['page'] = options.page.toString();
-  }
-
-  if (options.vehicle_type_id) {
-    params['vehicle_type_id'] = options.vehicle_type_id.toString();
-  }
-
-  if (options.spec) {
-    params['spec'] = options.spec.toString();
-  }
-
-  if (options.no_parent) {
-    params['no_parent'] = '1';
-  }
-
-  if (options.text) {
-    params['text'] = options.text;
-  }
-
-  if (options.from_year) {
-    params['from_year'] = options.from_year.toString();
-  }
-
-  if (options.to_year) {
-    params['to_year'] = options.to_year.toString();
-  }
-
-  if (options.ancestor_id) {
-    params['ancestor_id'] = options.ancestor_id.toString();
-  }
-
-  if (options.suggestions_to) {
-    params['suggestions_to'] = options.suggestions_to.toString();
-  }
-
-  if (options.have_common_childs_with) {
-    params['have_common_childs_with'] = options.have_common_childs_with.toString();
-  }
-
-  if (options.factories_of_brand) {
-    params['factories_of_brand'] = options.factories_of_brand.toString();
-  }
-
-  if (options.descendant_pictures) {
-    if (options.descendant_pictures.status) {
-      params['descendant_pictures[status]'] = options.descendant_pictures.status;
-    }
-
-    if (options.descendant_pictures.type_id) {
-      params['descendant_pictures[type_id]'] = options.descendant_pictures.type_id.toString();
-    }
-
-    if (options.descendant_pictures.owner_id) {
-      params['descendant_pictures[owner_id]'] = options.descendant_pictures.owner_id.toString();
-    }
-
-    if (options.descendant_pictures.perspective_id) {
-      params['descendant_pictures[perspective_id]'] = options.descendant_pictures.perspective_id.toString();
-    }
-
-    if (options.descendant_pictures.contains_perspective_id) {
-      params['descendant_pictures[contains_perspective_id]'] =
-        options.descendant_pictures.contains_perspective_id.toString();
-    }
-  }
-
-  if (options.preview_pictures) {
-    if (options.preview_pictures.type_id) {
-      params['preview_pictures[type_id]'] = options.preview_pictures.type_id.toString();
-    }
-
-    if (options.preview_pictures.perspective_id) {
-      params['preview_pictures[perspective_id]'] = options.preview_pictures.perspective_id.toString();
-    }
-
-    if (options.preview_pictures.contains_perspective_id) {
-      params['preview_pictures[contains_perspective_id]'] = options.preview_pictures.contains_perspective_id.toString();
-    }
-  }
-
-  if (options.route_brand_id) {
-    params['route_brand_id'] = options.route_brand_id.toString();
-  }
-
-  return params;
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
-  private readonly api = inject(APIService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #api = inject(APIService);
+  readonly #itemsClient = inject(ItemsClient);
 
   public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void> {
-    return this.itemsClient
+    return this.#itemsClient
       .getItemVehicleTypes(
         new APIGetItemVehicleTypesRequest({
           itemId: itemId.toString(),
@@ -391,7 +212,7 @@ export class ItemService {
             currentIds.push(itemVehicleType.vehicleTypeId);
             if (ids.indexOf(itemVehicleType.vehicleTypeId) === -1) {
               promises.push(
-                this.itemsClient
+                this.#itemsClient
                   .deleteItemVehicleType(
                     new APIItemVehicleTypeRequest({
                       itemId: itemId.toString(),
@@ -406,7 +227,7 @@ export class ItemService {
           for (const vehicleTypeId of ids) {
             if (currentIds.indexOf(vehicleTypeId) === -1) {
               promises.push(
-                this.itemsClient
+                this.#itemsClient
                   .createItemVehicleType(
                     new APIItemVehicleType({
                       itemId: itemId.toString(),
@@ -428,7 +249,7 @@ export class ItemService {
   }
 
   public getItemByLocation$(url: string, options: GetItemServiceOptions): Observable<APIItem> {
-    return this.api.request$<APIItem>('GET', this.api.resolveLocation(url), {
+    return this.#api.request$<APIItem>('GET', this.#api.resolveLocation(url), {
       params: convertItemOptions(options),
     });
   }
@@ -437,19 +258,13 @@ export class ItemService {
     if (!id) {
       return of(null);
     }
-    return this.api.request$<APIItem>('GET', 'item/' + id, {
+    return this.#api.request$<APIItem>('GET', 'item/' + id, {
       params: convertItemOptions(options ? options : {}),
     });
   }
 
-  public getItems$(options?: GetItemsServiceOptions): Observable<APIItemsGetResponse> {
-    return this.api.request$<APIItemsGetResponse>('GET', 'item', {
-      params: convertItemsOptions(options ? options : ({} as GetItemsServiceOptions)),
-    });
-  }
-
   public getPath$(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {
-    return this.api.request$<APIItemsGetPathResponse>('GET', 'item/path', {
+    return this.#api.request$<APIItemsGetPathResponse>('GET', 'item/path', {
       params: options,
     });
   }
