@@ -229,8 +229,9 @@ export class CatalogueVehiclesComponent {
                 language: this.#languageService.language,
                 limit: 7,
                 options: new ItemParentListOptions({
-                  item: new ItemListOptions({}),
+                  item: new ItemListOptions(),
                   parentId: item.id,
+                  strictType: true,
                   type: CatalogueVehiclesComponent.resolveTypeId(type),
                 }),
                 order: ItemParentsRequest.Order.AUTO,
@@ -301,7 +302,7 @@ export class CatalogueVehiclesComponent {
     routerLink: string[];
   }> = this.#catalogue$.pipe(
     switchMap(({type}) => {
-      if (CatalogueVehiclesComponent.resolveTypeId(type) !== 0) {
+      if (CatalogueVehiclesComponent.resolveTypeId(type) !== ItemParentType.ITEM_TYPE_DEFAULT) {
         return of(null);
       }
 
