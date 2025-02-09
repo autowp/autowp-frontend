@@ -141,10 +141,10 @@ export class FactoryItemsComponent {
       items: (data.items || []).map((item) => {
         const largeFormat = !!item.previewPictures?.largeFormat;
 
-        const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => {
+        const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
           let thumb: APIImage | undefined = undefined;
           if (picture.picture) {
-            thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+            thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
           }
           return {
             picture: picture.picture ? picture.picture : null,
@@ -152,8 +152,6 @@ export class FactoryItemsComponent {
             thumb: thumb,
           };
         });
-
-        console.log(item.hasSpecs, item.hasChildSpecs, item.route);
 
         return {
           acceptedPicturesCount: item.acceptedPicturesCount,
@@ -171,7 +169,7 @@ export class FactoryItemsComponent {
           itemTypeId: item.itemTypeId,
           nameDefault: item.nameDefault,
           nameHtml: item.nameHtml,
-          picturesRouterLink: ['/factories', item.id, 'pictures'],
+          picturesRouterLink: item.route.length ? item.route.concat(['pictures']) : undefined,
           previewPictures: {
             largeFormat: !!item.previewPictures?.largeFormat,
             pictures,

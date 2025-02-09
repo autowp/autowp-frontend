@@ -113,11 +113,11 @@ export class PersonsComponent implements OnInit {
 
       const largeFormat = !!item.previewPictures?.largeFormat;
 
-      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture) => {
+      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
         let thumb = null;
         let routerLink: string[] = [];
         if (picture.picture) {
-          thumb = largeFormat ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+          thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
           routerLink = itemRouterLink.concat([picture.picture.identity]);
         }
         return {picture: picture.picture || null, routerLink, thumb};
