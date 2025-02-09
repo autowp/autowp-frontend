@@ -190,7 +190,6 @@ export interface GetItemsServiceOptions {
   text?: string;
   to_year?: number;
   type_id?: ItemType;
-  vehicle_childs_type_id?: number;
   vehicle_type_id?: number | string;
 }
 
@@ -287,10 +286,6 @@ function convertItemsOptions(options: GetItemsServiceOptions): {[param: string]:
 
   if (options.vehicle_type_id) {
     params['vehicle_type_id'] = options.vehicle_type_id.toString();
-  }
-
-  if (options.vehicle_childs_type_id) {
-    params['vehicle_childs_type_id'] = options.vehicle_childs_type_id.toString();
   }
 
   if (options.spec) {

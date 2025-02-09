@@ -14,10 +14,10 @@
 </div>
 
 <div class="nav nav-pills mb-4">
-  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 19}"
+  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 19}" i18n
     >Buses without type</a
   >
-  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 17}"
+  <a class="nav-link" routerLink="." [queryParams]="{vehicle_type_id: 'empty', vehicle_childs_type_id: 17}" i18n
     >Truck without type</a
   >
 </div>
@@ -40,6 +40,7 @@
         <label i18n>Name (exclude)</label>
         <input
           placeholder="_ - any single character"
+          i18n-placeholder
           type="text"
           name="name_exclude"
           class="form-control"
@@ -72,7 +73,7 @@
         >
           <option [ngValue]="null">Any</option>
           <option [ngValue]="'empty'" i18n>Empty</option>
-          @for (item of vehicleTypeOptions; track item.id) {
+          @for (item of vehicleTypeOptions$ | async; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep || 0) }}{{ item.name }}</option>
           }
         </select>
@@ -86,7 +87,7 @@
           (change)="onVehicleChildsTypeChanged()"
         >
           <option [ngValue]="null" i18n>Any</option>
-          @for (item of vehicleTypeOptions; track item.id) {
+          @for (item of vehicleTypeOptions$ | async; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep || 0) }}{{ item.name }}</option>
           }
         </select>
@@ -95,7 +96,7 @@
         <label i18n>Spec</label>
         <select name="spec" class="form-select" [(ngModel)]="specID" (change)="onSpecChanged()">
           <option [ngValue]="null" i18n>Any</option>
-          @for (item of specOptions; track item.id) {
+          @for (item of specOptions$ | async; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep || 0) }}{{ item.shortName }}</option>
           }
         </select>
@@ -156,63 +157,65 @@
       <div class="mb-3">
         <label i18n>Order</label>
         <select name="order" class="form-select" [(ngModel)]="order" (change)="onOrderChanged()">
-          <option ngValue="id_desc" i18n>id desc</option>
-          <option ngValue="id_asc" i18n>id asc</option>
-          <option ngValue="childs_count" i18n>childs count</option>
-          <option ngValue="name" i18n>name</option>
+          <option [value]="ItemsRequest.Order.ID_DESC" i18n>id desc</option>
+          <option [value]="ItemsRequest.Order.ID_ASC" i18n>id asc</option>
+          <option [value]="ItemsRequest.Order.CHILDS_COUNT" i18n>childs count</option>
+          <option [value]="ItemsRequest.Order.NAME" i18n>name</option>
         </select>
       </div>
     </form>
   </div>
   <div class="col-lg-8 col-md-8">
-    <div class="btn-group float-end">
-      <a
-        routerLink="."
-        [queryParams]="{list: null}"
-        queryParamsHandling="merge"
-        class="btn btn-outline-secondary"
-        [class.active]="!listMode"
-      >
-        <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
-      </a>
-      <a
-        routerLink="."
-        [queryParams]="{list: '1', order: 'name'}"
-        queryParamsHandling="merge"
-        class="btn btn-outline-secondary"
-        [class.active]="listMode"
-      >
-        <i class="bi bi-list" aria-hidden="true"></i>
-      </a>
-    </div>
+    @if (data$ | async; as data) {
+      <div class="btn-group float-end">
+        <a
+          routerLink="."
+          [queryParams]="{list: null}"
+          queryParamsHandling="merge"
+          class="btn btn-outline-secondary"
+          [class.active]="!data.listMode"
+        >
+          <i class="bi bi-grid-3x2-gap-fill" aria-hidden="true"></i>
+        </a>
+        <a
+          routerLink="."
+          [queryParams]="{list: '1', order: 'name'}"
+          queryParamsHandling="merge"
+          class="btn btn-outline-secondary"
+          [class.active]="data.listMode"
+        >
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </a>
+      </div>
 
-    <h2>
-      <ng-container i18n>Items</ng-container>
-      <span [hidden]="loading <= 0">
-        <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-      </span>
-      @if (paginator && paginator.totalItemCount) {
-        <small i18n="@@n-items">{paginator.totalItemCount, plural,
-          one {{{paginator.totalItemCount}} item}
-          other {{{paginator.totalItemCount}} items}
-        }</small>
-      }
-    </h2>
-
-    <div>
-      @for (item of items; track item.id) {
-        @if (listMode) {
-          <div>
-            <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
-          </div>
-        } @else {
-          <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+      <h2>
+        <ng-container i18n>Items</ng-container>
+        @if (data.loading) {
+          <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
         }
-      }
-    </div>
+        @if (data.paginator; as paginator) {
+          <small i18n="@@n-items">{paginator.totalItemCount, plural,
+            one {{{paginator.totalItemCount}} item}
+            other {{{paginator.totalItemCount}} items}
+          }</small>
+        }
+      </h2>
 
-    @if (paginator) {
-      <app-paginator [data]="paginator"></app-paginator>
+      <div>
+        @for (item of data.items; track item.id) {
+          @if (data.listMode) {
+            <div>
+              <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
+            </div>
+          } @else {
+            <app-catalogue-list-item2 [item]="item"></app-catalogue-list-item2>
+          }
+        }
+      </div>
+
+      @if (data.paginator) {
+        <app-paginator [data]="data.paginator"></app-paginator>
+      }
     }
   </div>
 </div>

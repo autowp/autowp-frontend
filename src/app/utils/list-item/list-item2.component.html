@@ -142,7 +142,7 @@
           </li>
         }
       }
-      @if (item.acceptedPicturesCount && item.acceptedPicturesCount > 4) {
+      @if (item.acceptedPicturesCount && item.acceptedPicturesCount > 4 && item.picturesRouterLink) {
         <li class="list-inline-item">
           <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
           <a [routerLink]="item.picturesRouterLink"

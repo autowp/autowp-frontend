@@ -1,31 +1,47 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
+  ItemParentCacheListOptions,
   ItemsRequest,
   ItemType,
+  ItemVehicleTypeListOptions,
+  Pages,
+  PictureItemListOptions,
+  PictureItemType,
+  PictureListOptions,
+  PicturesRequest,
+  PreviewPicturesRequest,
   Spec,
   VehicleType,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {APIPaginator} from '@services/api.service';
-import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {
-  CatalogueListItem,
-  CatalogueListItemComponent,
-  CatalogueListItemPicture,
-} from '@utils/list-item/list-item.component';
+  CatalogueListItem2,
+  CatalogueListItem2Component,
+  CatalogueListItemPicture2,
+} from '@utils/list-item/list-item2.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {EMPTY, Observable, of, Subscription} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {EMPTY, Observable, of} from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
@@ -67,33 +83,22 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
   return result;
 }
 
-const DEFAULT_ORDER = 'id_desc';
+const defaultOrder = ItemsRequest.Order.ID_DESC;
 
 @Component({
-  imports: [RouterLink, FormsModule, NgbTypeahead, CatalogueListItemComponent, PaginatorComponent],
+  imports: [RouterLink, FormsModule, NgbTypeahead, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
   selector: 'app-items',
   templateUrl: './items.component.html',
 })
-export class ModerItemsComponent implements OnDestroy, OnInit {
-  private readonly vehicleTypeService = inject(VehicleTypeService);
-  private readonly specService = inject(SpecService);
-  private readonly itemService = inject(ItemService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
-
-  private querySub?: Subscription;
-
-  protected loading = 0;
-  protected items: CatalogueListItem[] = [];
-  protected paginator?: APIPaginator;
-  protected vehicleTypeOptions: APIVehicleTypeInItems[] = [];
-  protected specOptions: APISpecInItems[] = [];
-  private vehicleTypeSub?: Subscription;
-  private specsSub?: Subscription;
+export class ModerItemsComponent implements OnInit {
+  readonly #vehicleTypeService = inject(VehicleTypeService);
+  readonly #specService = inject(SpecService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   protected name = '';
 
@@ -115,7 +120,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
 
   protected toYear: null | number = null;
 
-  protected order: string = DEFAULT_ORDER;
+  protected order: ItemsRequest.Order = defaultOrder;
 
   protected ancestorID: null | number = null;
   protected ancestorQuery = '';
@@ -131,7 +136,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
 
         const params = new ItemsRequest({
           fields: new ItemFields({nameHtml: true, nameText: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 10,
         });
         const options = new ItemListOptions();
@@ -142,9 +147,9 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
         }
         params.options = options;
 
-        return this.itemsClient.list(params).pipe(
+        return this.#itemsClient.list(params).pipe(
           catchError((err: unknown) => {
-            this.toastService.handleError(err);
+            this.#toastService.handleError(err);
             return EMPTY;
           }),
           map((response) => (response.items ? response.items : [])),
@@ -152,152 +157,192 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
       }),
     );
 
-  protected listMode: boolean = false;
+  protected readonly vehicleTypeOptions$: Observable<APIVehicleTypeInItems[]> = this.#vehicleTypeService
+    .getTypes$()
+    .pipe(
+      map((types) => toPlainVehicleType(types, 0)),
+      shareReplay({bufferSize: 1, refCount: false}),
+    );
+
+  protected readonly specOptions$ = this.#specService.getSpecs$().pipe(map((types) => toPlainSpec(types, 0)));
+
+  protected readonly data$: Observable<{
+    items: CatalogueListItem2[];
+    listMode: boolean;
+    loading: boolean;
+    paginator: Pages | undefined;
+  }> = this.#route.queryParamMap.pipe(
+    map((params) => ({
+      ancestorID: parseInt(params.get('ancestor_id') ?? '', 10) || null,
+      fromYear: parseInt(params.get('from_year') ?? '', 10) || null,
+      itemTypeID: parseInt(params.get('item_type_id') ?? '', 10) as ItemType,
+      listMode: !!params.get('list'),
+      name: params.get('name') ?? '',
+      nameExclude: params.get('name_exclude') ?? '',
+      noParent: !!params.get('no_parent'),
+      order: (params.get('order') ?? defaultOrder) as ItemsRequest.Order,
+      page: parseInt(params.get('page') ?? '', 10) || 1,
+      specID: parseInt(params.get('spec_id') ?? '', 10) || null,
+      text: params.get('text') ?? '',
+      toYear: parseInt(params.get('to_year') ?? '', 10) || null,
+      vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id') ?? '', 10) || null,
+      vehicleTypeID:
+        params.get('vehicle_type_id') === 'empty' ? 'empty' : parseInt(params.get('vehicle_type_id') ?? '', 10) || null,
+    })),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    debounceTime(30),
+    tap((params) => {
+      this.name = params.name;
+      this.nameExclude = params.nameExclude;
+      this.itemTypeID = params.itemTypeID;
+      this.vehicleTypeID = params.vehicleTypeID;
+      this.vehicleChildsTypeID = params.vehicleChildsTypeID;
+      this.specID = params.specID;
+      this.noParent = params.noParent;
+      this.text = params.text;
+      this.fromYear = params.fromYear;
+      this.toYear = params.toYear;
+      this.order = params.order;
+      this.ancestorID = params.ancestorID;
+    }),
+    switchMap((params) => {
+      let fields = new ItemFields({
+        nameHtml: true,
+      });
+      let limit = 500;
+      if (!params.listMode) {
+        fields = new ItemFields({
+          acceptedPicturesCount: true,
+          canEditSpecs: true,
+          categories: new ItemsRequest({
+            fields: new ItemFields({nameHtml: true}),
+          }),
+          childsCount: true,
+          childsCounts: true,
+          description: true,
+          design: true,
+          engineVehicles: new ItemsRequest({
+            fields: new ItemFields({nameHtml: true, route: true}),
+          }),
+          hasText: true,
+          nameDefault: true,
+          nameHtml: true,
+          previewPictures: new PreviewPicturesRequest({
+            pictures: new PicturesRequest({
+              options: new PictureListOptions({
+                pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+              }),
+            }),
+          }),
+          route: true,
+          specsRoute: true,
+          twins: new ItemsRequest(),
+        });
+        limit = 10;
+      }
+
+      return this.#itemsClient
+        .list(
+          new ItemsRequest({
+            fields,
+            language: this.#languageService.language,
+            limit,
+            options: new ItemListOptions({
+              beginYear: params.fromYear ? params.fromYear : undefined,
+              descendant:
+                params.ancestorID || params.vehicleChildsTypeID
+                  ? new ItemParentCacheListOptions({
+                      itemVehicleTypeByItemId: params.vehicleChildsTypeID
+                        ? new ItemVehicleTypeListOptions({vehicleTypeId: '' + params.vehicleChildsTypeID})
+                        : undefined,
+                      parentId: params.ancestorID ? '' + params.ancestorID : undefined,
+                    })
+                  : undefined,
+              endYear: params.toYear ? params.toYear : undefined,
+              itemVehicleType: params.vehicleTypeID
+                ? new ItemVehicleTypeListOptions({vehicleTypeId: '' + params.vehicleTypeID})
+                : undefined,
+              name: params.name ? params.name + '%' : undefined,
+              nameExclude: params.nameExclude ? params.nameExclude + '%' : undefined,
+              noParent: params.noParent,
+              noVehicleType: params.vehicleTypeID === 'empty',
+              specId: params.specID ? '' + params.specID : undefined,
+              text: params.text ? params.text : undefined,
+              typeId: params.itemTypeID ? params.itemTypeID : undefined,
+            }),
+            order: params.order,
+            page: params.page,
+          }),
+        )
+        .pipe(
+          map((response) => {
+            const items = (response.items || []).map((item) => {
+              const largeFormat = !!item.previewPictures?.largeFormat;
+
+              const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map(
+                (picture, idx) => {
+                  let thumb = null;
+                  if (picture.picture) {
+                    thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+                  }
+                  return {
+                    picture: picture.picture ? picture.picture : null,
+                    routerLink: picture.picture ? ['/picture', picture.picture.identity] : undefined,
+                    thumb,
+                  };
+                },
+              );
+
+              return {
+                acceptedPicturesCount: item.acceptedPicturesCount,
+                canEditSpecs: item.canEditSpecs,
+                categories: item.categories,
+                childsCounts: item.childsCounts ? item.childsCounts : null,
+                description: item.description,
+                design: item.design ? item.design : null,
+                details: {
+                  count: item.childsCount,
+                  routerLink: item.route,
+                },
+                engineVehicles: item.engineVehicles,
+                hasText: item.hasText,
+                id: item.id,
+                itemTypeId: item.itemTypeId,
+                nameDefault: item.nameDefault,
+                nameHtml: item.nameHtml,
+                picturesRouterLink: item.route.length ? item.route.concat(['pictures']) : null,
+                previewPictures: {
+                  largeFormat: !!item.previewPictures?.largeFormat,
+                  pictures,
+                },
+                produced: item.produced,
+                producedExactly: item.producedExactly,
+                specsRouterLink: item.hasSpecs || item.hasChildSpecs ? item.specsRoute || null : null,
+                twinsGroups: item.twins,
+              } as CatalogueListItem2;
+            });
+
+            return {
+              items,
+              listMode: params.listMode,
+              loading: false,
+              paginator: response.paginator,
+            };
+          }),
+          startWith({items: [], listMode: params.listMode, loading: true, paginator: undefined}),
+        );
+    }),
+  );
 
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 131,
         }),
       0,
     );
-
-    this.vehicleTypeSub = this.vehicleTypeService.getTypes$().subscribe((types) => {
-      this.vehicleTypeOptions = toPlainVehicleType(types, 0);
-    });
-
-    this.specsSub = this.specService.getSpecs$().subscribe((types) => {
-      this.specOptions = toPlainSpec(types, 0);
-    });
-
-    this.querySub = this.route.queryParamMap
-      .pipe(
-        map((params) => ({
-          ancestorID: parseInt(params.get('ancestor_id') ?? '', 10) || null,
-          fromYear: parseInt(params.get('from_year') ?? '', 10) || null,
-          itemTypeID: parseInt(params.get('item_type_id') ?? '', 10) as ItemType,
-          listMode: !!params.get('list_mode'),
-          name: params.get('name') ?? '',
-          nameExclude: params.get('name_exclude') ?? '',
-          noParent: !!params.get('no_parent'),
-          order: params.get('order') ?? DEFAULT_ORDER,
-          page: parseInt(params.get('page') ?? '', 10) || 1,
-          specID: parseInt(params.get('spec_id') ?? '', 10) || null,
-          text: params.get('text') ?? '',
-          toYear: parseInt(params.get('to_year') ?? '', 10) || null,
-          vehicleChildsTypeID: parseInt(params.get('vehicle_childs_type_id') ?? '', 10) || null,
-          vehicleTypeID:
-            params.get('vehicle_type_id') === 'empty'
-              ? 'empty'
-              : parseInt(params.get('vehicle_type_id') ?? '', 10) || null,
-        })),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        debounceTime(30),
-        tap((params) => {
-          this.name = params.name;
-          this.nameExclude = params.nameExclude;
-          this.itemTypeID = params.itemTypeID;
-          this.vehicleTypeID = params.vehicleTypeID;
-          this.vehicleChildsTypeID = params.vehicleChildsTypeID;
-          this.specID = params.specID;
-          this.noParent = params.noParent;
-          this.text = params.text;
-          this.fromYear = params.fromYear;
-          this.toYear = params.toYear;
-          this.order = params.order;
-          this.ancestorID = params.ancestorID;
-          this.listMode = params.listMode;
-        }),
-        switchMap((params) => {
-          this.loading = 1;
-          this.items = [];
-
-          let fields = 'name_html';
-          let limit = 500;
-          if (!params.listMode) {
-            fields = [
-              'name_html,name_default,description,has_text,produced,route',
-              'design,engine_vehicles',
-              'url,can_edit_specs,specs_route',
-              'categories.name_html,twins_groups',
-              'childs_count,total_pictures,preview_pictures.picture.name_text',
-            ].join(',');
-            limit = 10;
-          }
-
-          return this.itemService.getItems$({
-            ancestor_id: params.ancestorID ? params.ancestorID : undefined,
-            fields,
-            from_year: params.fromYear ? params.fromYear : undefined,
-            limit,
-            name: params.name ? params.name + '%' : null,
-            name_exclude: params.nameExclude ? params.nameExclude + '%' : null,
-            no_parent: params.noParent ? true : undefined,
-            order: params.order,
-            page: params.page,
-            spec: params.specID ? params.specID : undefined,
-            text: params.text ? params.text : undefined,
-            to_year: params.toYear ? params.toYear : undefined,
-            type_id: params.itemTypeID ? params.itemTypeID : undefined,
-            vehicle_childs_type_id: params.vehicleChildsTypeID ? params.vehicleChildsTypeID : undefined,
-            vehicle_type_id: params.vehicleTypeID ? params.vehicleTypeID : undefined,
-          });
-        }),
-        tap(() => (this.loading = 0)),
-      )
-      .subscribe((response) => {
-        this.items = response.items.map((item) => {
-          const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-            picture: picture?.picture ? picture.picture : null,
-            routerLink: picture?.picture ? ['/picture', picture.picture.identity] : undefined,
-            thumb: picture ? picture.thumb : undefined,
-          }));
-
-          return {
-            accepted_pictures_count: item.accepted_pictures_count,
-            can_edit_specs: !!item.can_edit_specs,
-            categories: item.categories,
-            childs_counts: item.childs_counts ? item.childs_counts : null,
-            description: item.description,
-            design: item.design ? item.design : null,
-            details: {
-              count: item.childs_count,
-              routerLink: item.route,
-            },
-            engine_vehicles: item.engine_vehicles,
-            has_text: !!item.has_text,
-            id: item.id,
-            item_type_id: item.item_type_id,
-            name_default: item.name_default,
-            name_html: item.name_html,
-            picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
-            preview_pictures: {
-              large_format: item.preview_pictures.large_format,
-              pictures,
-            },
-            produced: item.produced,
-            produced_exactly: item.produced_exactly,
-            specsRouterLink: item.has_specs || item.has_child_specs ? item.specs_route || null : null,
-            twins_groups: item.twins_groups,
-          };
-        });
-
-        this.paginator = response.paginator;
-      });
-  }
-
-  ngOnDestroy(): void {
-    if (this.querySub) {
-      this.querySub.unsubscribe();
-    }
-    if (this.vehicleTypeSub) {
-      this.vehicleTypeSub.unsubscribe();
-    }
-    if (this.specsSub) {
-      this.specsSub.unsubscribe();
-    }
   }
 
   protected ancestorFormatter(x: GRPCAPIItem) {
@@ -305,7 +350,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected ancestorOnSelect(e: NgbTypeaheadSelectItemEvent): void {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         ancestor_id: e.item.id,
       },
@@ -315,7 +360,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
 
   protected clearAncestor(): void {
     this.ancestorQuery = '';
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         ancestor_id: null,
       },
@@ -324,7 +369,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onNameChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         name: this.name.length ? this.name : null,
         page: null,
@@ -334,7 +379,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onNameExcludeChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         name_exclude: this.nameExclude.length ? this.nameExclude : null,
         page: null,
@@ -344,7 +389,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onItemTypeChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         item_type_id: this.itemTypeID ? this.itemTypeID : null,
         page: null,
@@ -354,7 +399,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onVehicleTypeChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         page: null,
         vehicle_type_id: this.vehicleTypeID ? this.vehicleTypeID : null,
@@ -364,7 +409,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onVehicleChildsTypeChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         page: null,
         vehicle_childs_type_id: this.vehicleChildsTypeID ? this.vehicleChildsTypeID : null,
@@ -374,7 +419,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onSpecChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         page: null,
         spec_id: this.specID ? this.specID : null,
@@ -384,7 +429,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onNoParentChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         no_parent: this.noParent ? '1' : null,
         page: null,
@@ -394,7 +439,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onTextChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         page: null,
         text: this.text ? this.text : null,
@@ -404,7 +449,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onFromYearChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         from_year: this.fromYear ? this.fromYear : null,
         page: null,
@@ -414,7 +459,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onToYearChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         page: null,
         to_year: this.toYear ? this.toYear : null,
@@ -424,7 +469,7 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected onOrderChanged() {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         order: this.order ? this.order : null,
         page: null,
@@ -434,4 +479,5 @@ export class ModerItemsComponent implements OnDestroy, OnInit {
   }
 
   protected readonly ItemType = ItemType;
+  protected readonly ItemsRequest = ItemsRequest;
 }

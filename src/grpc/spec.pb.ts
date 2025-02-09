@@ -26580,7 +26580,9 @@ export module ItemsRequest {
     NAME_NAT = 1,
     NAME = 2,
     CHILDS_COUNT = 3,
-    AGE = 4
+    AGE = 4,
+    ID_DESC = 5,
+    ID_ASC = 6
   }
 }
 
@@ -27503,6 +27505,8 @@ export class ItemParentCacheListOptions implements GrpcMessage {
     _instance.itemParentByItemId = _instance.itemParentByItemId || undefined;
     _instance.itemParentCacheAncestorByItemId =
       _instance.itemParentCacheAncestorByItemId || undefined;
+    _instance.itemVehicleTypeByItemId =
+      _instance.itemVehicleTypeByItemId || undefined;
   }
 
   /**
@@ -27564,6 +27568,13 @@ export class ItemParentCacheListOptions implements GrpcMessage {
           _reader.readMessage(
             _instance.itemParentCacheAncestorByItemId,
             ItemParentCacheListOptions.deserializeBinaryFromReader
+          );
+          break;
+        case 9:
+          _instance.itemVehicleTypeByItemId = new ItemVehicleTypeListOptions();
+          _reader.readMessage(
+            _instance.itemVehicleTypeByItemId,
+            ItemVehicleTypeListOptions.deserializeBinaryFromReader
           );
           break;
         default:
@@ -27631,6 +27642,13 @@ export class ItemParentCacheListOptions implements GrpcMessage {
         ItemParentCacheListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.itemVehicleTypeByItemId) {
+      _writer.writeMessage(
+        9,
+        _instance.itemVehicleTypeByItemId as any,
+        ItemVehicleTypeListOptions.serializeBinaryToWriter
+      );
+    }
   }
 
   private _itemId: string;
@@ -27641,6 +27659,7 @@ export class ItemParentCacheListOptions implements GrpcMessage {
   private _pictureItemsByParentId?: PictureItemListOptions;
   private _itemParentByItemId?: ItemParentListOptions;
   private _itemParentCacheAncestorByItemId?: ItemParentCacheListOptions;
+  private _itemVehicleTypeByItemId?: ItemVehicleTypeListOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -27667,6 +27686,9 @@ export class ItemParentCacheListOptions implements GrpcMessage {
       : undefined;
     this.itemParentCacheAncestorByItemId = _value.itemParentCacheAncestorByItemId
       ? new ItemParentCacheListOptions(_value.itemParentCacheAncestorByItemId)
+      : undefined;
+    this.itemVehicleTypeByItemId = _value.itemVehicleTypeByItemId
+      ? new ItemVehicleTypeListOptions(_value.itemVehicleTypeByItemId)
       : undefined;
     ItemParentCacheListOptions.refineValues(this);
   }
@@ -27722,6 +27744,12 @@ export class ItemParentCacheListOptions implements GrpcMessage {
   ) {
     this._itemParentCacheAncestorByItemId = value;
   }
+  get itemVehicleTypeByItemId(): ItemVehicleTypeListOptions | undefined {
+    return this._itemVehicleTypeByItemId;
+  }
+  set itemVehicleTypeByItemId(value: ItemVehicleTypeListOptions | undefined) {
+    this._itemVehicleTypeByItemId = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -27757,6 +27785,9 @@ export class ItemParentCacheListOptions implements GrpcMessage {
         : undefined,
       itemParentCacheAncestorByItemId: this.itemParentCacheAncestorByItemId
         ? this.itemParentCacheAncestorByItemId.toObject()
+        : undefined,
+      itemVehicleTypeByItemId: this.itemVehicleTypeByItemId
+        ? this.itemVehicleTypeByItemId.toObject()
         : undefined
     };
   }
@@ -27797,6 +27828,9 @@ export class ItemParentCacheListOptions implements GrpcMessage {
         : null,
       itemParentCacheAncestorByItemId: this.itemParentCacheAncestorByItemId
         ? this.itemParentCacheAncestorByItemId.toProtobufJSON(options)
+        : null,
+      itemVehicleTypeByItemId: this.itemVehicleTypeByItemId
+        ? this.itemVehicleTypeByItemId.toProtobufJSON(options)
         : null
     };
   }
@@ -27814,6 +27848,7 @@ export module ItemParentCacheListOptions {
     pictureItemsByParentId?: PictureItemListOptions.AsObject;
     itemParentByItemId?: ItemParentListOptions.AsObject;
     itemParentCacheAncestorByItemId?: ItemParentCacheListOptions.AsObject;
+    itemVehicleTypeByItemId?: ItemVehicleTypeListOptions.AsObject;
   }
 
   /**
@@ -27828,6 +27863,7 @@ export module ItemParentCacheListOptions {
     pictureItemsByParentId: PictureItemListOptions.AsProtobufJSON | null;
     itemParentByItemId: ItemParentListOptions.AsProtobufJSON | null;
     itemParentCacheAncestorByItemId: ItemParentCacheListOptions.AsProtobufJSON | null;
+    itemVehicleTypeByItemId: ItemVehicleTypeListOptions.AsProtobufJSON | null;
   }
 }
 
@@ -28543,6 +28579,13 @@ export class ItemListOptions implements GrpcMessage {
     _instance.pictureItems = _instance.pictureItems || undefined;
     _instance.dateless = _instance.dateless || false;
     _instance.relatedGroupsOf = _instance.relatedGroupsOf || '0';
+    _instance.nameExclude = _instance.nameExclude || '';
+    _instance.specId = _instance.specId || '0';
+    _instance.beginYear = _instance.beginYear || 0;
+    _instance.endYear = _instance.endYear || 0;
+    _instance.text = _instance.text || '';
+    _instance.noVehicleType = _instance.noVehicleType || false;
+    _instance.itemVehicleType = _instance.itemVehicleType || undefined;
   }
 
   /**
@@ -28649,6 +28692,31 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 28:
           _instance.relatedGroupsOf = _reader.readInt64String();
+          break;
+        case 29:
+          _instance.nameExclude = _reader.readString();
+          break;
+        case 30:
+          _instance.specId = _reader.readInt64String();
+          break;
+        case 31:
+          _instance.beginYear = _reader.readInt32();
+          break;
+        case 32:
+          _instance.endYear = _reader.readInt32();
+          break;
+        case 33:
+          _instance.text = _reader.readString();
+          break;
+        case 34:
+          _instance.noVehicleType = _reader.readBool();
+          break;
+        case 35:
+          _instance.itemVehicleType = new ItemVehicleTypeListOptions();
+          _reader.readMessage(
+            _instance.itemVehicleType,
+            ItemVehicleTypeListOptions.deserializeBinaryFromReader
+          );
           break;
         default:
           _reader.skipField();
@@ -28757,6 +28825,31 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.relatedGroupsOf) {
       _writer.writeInt64String(28, _instance.relatedGroupsOf);
     }
+    if (_instance.nameExclude) {
+      _writer.writeString(29, _instance.nameExclude);
+    }
+    if (_instance.specId) {
+      _writer.writeInt64String(30, _instance.specId);
+    }
+    if (_instance.beginYear) {
+      _writer.writeInt32(31, _instance.beginYear);
+    }
+    if (_instance.endYear) {
+      _writer.writeInt32(32, _instance.endYear);
+    }
+    if (_instance.text) {
+      _writer.writeString(33, _instance.text);
+    }
+    if (_instance.noVehicleType) {
+      _writer.writeBool(34, _instance.noVehicleType);
+    }
+    if (_instance.itemVehicleType) {
+      _writer.writeMessage(
+        35,
+        _instance.itemVehicleType as any,
+        ItemVehicleTypeListOptions.serializeBinaryToWriter
+      );
+    }
   }
 
   private _typeId: ItemType;
@@ -28781,6 +28874,13 @@ export class ItemListOptions implements GrpcMessage {
   private _pictureItems?: PictureItemListOptions;
   private _dateless: boolean;
   private _relatedGroupsOf: string;
+  private _nameExclude: string;
+  private _specId: string;
+  private _beginYear: number;
+  private _endYear: number;
+  private _text: string;
+  private _noVehicleType: boolean;
+  private _itemVehicleType?: ItemVehicleTypeListOptions;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -28822,6 +28922,15 @@ export class ItemListOptions implements GrpcMessage {
       : undefined;
     this.dateless = _value.dateless;
     this.relatedGroupsOf = _value.relatedGroupsOf;
+    this.nameExclude = _value.nameExclude;
+    this.specId = _value.specId;
+    this.beginYear = _value.beginYear;
+    this.endYear = _value.endYear;
+    this.text = _value.text;
+    this.noVehicleType = _value.noVehicleType;
+    this.itemVehicleType = _value.itemVehicleType
+      ? new ItemVehicleTypeListOptions(_value.itemVehicleType)
+      : undefined;
     ItemListOptions.refineValues(this);
   }
   get typeId(): ItemType {
@@ -28956,6 +29065,48 @@ export class ItemListOptions implements GrpcMessage {
   set relatedGroupsOf(value: string) {
     this._relatedGroupsOf = value;
   }
+  get nameExclude(): string {
+    return this._nameExclude;
+  }
+  set nameExclude(value: string) {
+    this._nameExclude = value;
+  }
+  get specId(): string {
+    return this._specId;
+  }
+  set specId(value: string) {
+    this._specId = value;
+  }
+  get beginYear(): number {
+    return this._beginYear;
+  }
+  set beginYear(value: number) {
+    this._beginYear = value;
+  }
+  get endYear(): number {
+    return this._endYear;
+  }
+  set endYear(value: number) {
+    this._endYear = value;
+  }
+  get text(): string {
+    return this._text;
+  }
+  set text(value: string) {
+    this._text = value;
+  }
+  get noVehicleType(): boolean {
+    return this._noVehicleType;
+  }
+  set noVehicleType(value: boolean) {
+    this._noVehicleType = value;
+  }
+  get itemVehicleType(): ItemVehicleTypeListOptions | undefined {
+    return this._itemVehicleType;
+  }
+  set itemVehicleType(value: ItemVehicleTypeListOptions | undefined) {
+    this._itemVehicleType = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -28997,7 +29148,16 @@ export class ItemListOptions implements GrpcMessage {
         ? this.pictureItems.toObject()
         : undefined,
       dateless: this.dateless,
-      relatedGroupsOf: this.relatedGroupsOf
+      relatedGroupsOf: this.relatedGroupsOf,
+      nameExclude: this.nameExclude,
+      specId: this.specId,
+      beginYear: this.beginYear,
+      endYear: this.endYear,
+      text: this.text,
+      noVehicleType: this.noVehicleType,
+      itemVehicleType: this.itemVehicleType
+        ? this.itemVehicleType.toObject()
+        : undefined
     };
   }
 
@@ -29053,7 +29213,16 @@ export class ItemListOptions implements GrpcMessage {
         ? this.pictureItems.toProtobufJSON(options)
         : null,
       dateless: this.dateless,
-      relatedGroupsOf: this.relatedGroupsOf
+      relatedGroupsOf: this.relatedGroupsOf,
+      nameExclude: this.nameExclude,
+      specId: this.specId,
+      beginYear: this.beginYear,
+      endYear: this.endYear,
+      text: this.text,
+      noVehicleType: this.noVehicleType,
+      itemVehicleType: this.itemVehicleType
+        ? this.itemVehicleType.toProtobufJSON(options)
+        : null
     };
   }
 }
@@ -29084,6 +29253,13 @@ export module ItemListOptions {
     pictureItems?: PictureItemListOptions.AsObject;
     dateless: boolean;
     relatedGroupsOf: string;
+    nameExclude: string;
+    specId: string;
+    beginYear: number;
+    endYear: number;
+    text: string;
+    noVehicleType: boolean;
+    itemVehicleType?: ItemVehicleTypeListOptions.AsObject;
   }
 
   /**
@@ -29112,6 +29288,13 @@ export module ItemListOptions {
     pictureItems: PictureItemListOptions.AsProtobufJSON | null;
     dateless: boolean;
     relatedGroupsOf: string;
+    nameExclude: string;
+    specId: string;
+    beginYear: number;
+    endYear: number;
+    text: string;
+    noVehicleType: boolean;
+    itemVehicleType: ItemVehicleTypeListOptions.AsProtobufJSON | null;
   }
 }
 
