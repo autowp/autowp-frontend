@@ -45,7 +45,7 @@
 
 @if (result$ | async; as items) {
   @for (item of items.items; track item.id) {
-    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+    <app-catalogue-list-item2 [item]="item"></app-catalogue-list-item2>
   }
 
   @if (items.paginator) {

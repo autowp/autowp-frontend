@@ -43,6 +43,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import {convertChildsCounts} from '../../catalogue/catalogue-service';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
@@ -276,7 +277,7 @@ export class ModerItemsComponent implements OnInit {
         )
         .pipe(
           map((response) => {
-            const items = (response.items || []).map((item) => {
+            const items: CatalogueListItem2[] = (response.items || []).map((item) => {
               const largeFormat = !!item.previewPictures?.largeFormat;
 
               const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map(
@@ -297,7 +298,7 @@ export class ModerItemsComponent implements OnInit {
                 acceptedPicturesCount: item.acceptedPicturesCount,
                 canEditSpecs: item.canEditSpecs,
                 categories: item.categories,
-                childsCounts: item.childsCounts ? item.childsCounts : null,
+                childsCounts: item.childsCounts ? convertChildsCounts(item.childsCounts) : null,
                 description: item.description,
                 design: item.design ? item.design : null,
                 details: {
@@ -319,7 +320,7 @@ export class ModerItemsComponent implements OnInit {
                 producedExactly: item.producedExactly,
                 specsRouterLink: item.hasSpecs || item.hasChildSpecs ? item.specsRoute || null : null,
                 twinsGroups: item.twins,
-              } as CatalogueListItem2;
+              };
             });
 
             return {

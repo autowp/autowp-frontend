@@ -7,49 +7,59 @@ import {
   GetBrandVehicleTypesRequest,
   ItemFields,
   ItemListOptions,
+  ItemParentCacheListOptions,
   ItemsRequest,
   ItemType,
+  ItemVehicleTypeListOptions,
+  PictureItemListOptions,
+  PictureItemType,
+  PictureListOptions,
+  PicturesRequest,
+  PictureStatus,
+  PreviewPicturesRequest,
 } from '@grpc/spec.pb';
 import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
-import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {CatalogueListItem, CatalogueListItemPicture} from '@utils/list-item/list-item.component';
-import {CatalogueListItemComponent} from '@utils/list-item/list-item.component';
+import {
+  CatalogueListItem2,
+  CatalogueListItem2Component,
+  CatalogueListItemPicture2,
+} from '@utils/list-item/list-item2.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
+import {convertChildsCounts} from '../catalogue-service';
 
 @Component({
-  imports: [RouterLink, CatalogueListItemComponent, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
   selector: 'app-catalogue-cars',
   templateUrl: './cars.component.html',
 })
 export class CatalogueCarsComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemService = inject(ItemService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly grpc = inject(AutowpClient);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #grpc = inject(AutowpClient);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     switchMap((catname) => {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemsClient
+      return this.#itemsClient
         .list(
           new ItemsRequest({
             fields: new ItemFields({
               nameHtml: true,
               nameOnly: true,
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 1,
             options: new ItemListOptions({
               catname,
@@ -64,7 +74,7 @@ export class CatalogueCarsComponent {
 
   protected readonly vehicleTypes$: Observable<BrandVehicleType[]> = this.brand$.pipe(
     switchMap((brand) =>
-      this.grpc.getBrandVehicleTypes(
+      this.#grpc.getBrandVehicleTypes(
         new GetBrandVehicleTypesRequest({
           brandId: +brand.id,
         }),
@@ -74,10 +84,10 @@ export class CatalogueCarsComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly currentVehicleType$ = combineLatest([
+  protected readonly currentVehicleType$: Observable<BrandVehicleType | undefined> = combineLatest([
     this.brand$,
     this.vehicleTypes$,
-    this.route.paramMap.pipe(
+    this.#route.paramMap.pipe(
       map((params) => params.get('vehicle_type')),
       distinctUntilChanged(),
       debounceTime(10),
@@ -93,7 +103,7 @@ export class CatalogueCarsComponent {
           itemName += ' ' + getVehicleTypeTranslation(currentVehicleType.name);
           pageId = 138;
         }
-        this.pageEnv.set({
+        this.#pageEnv.set({
           pageId,
           title: $localize`${itemName} in chronological order`,
         });
@@ -135,65 +145,109 @@ export class CatalogueCarsComponent {
   protected readonly result$ = combineLatest([
     this.brand$,
     this.currentVehicleType$,
-    this.route.queryParamMap.pipe(
+    this.#route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),
   ]).pipe(
     switchMap(([brand, currentVehicleType, page]) =>
-      this.itemService
-        .getItems$({
-          ancestor_id: +brand.id,
-          dateful: true,
-          fields: [
-            'name_html,name_default,description,has_text,produced,accepted_pictures_count',
-            'design,engine_vehicles,route,categories.name_html',
-            'can_edit_specs,specs_route',
-            'twins_groups',
-            'childs_count,total_pictures,preview_pictures.picture.name_text',
-          ].join(','),
-          limit: 7,
-          order: 'age',
-          page,
-          route_brand_id: +brand.id,
-          type_id: ItemType.ITEM_TYPE_VEHICLE,
-          vehicle_type_id: currentVehicleType ? currentVehicleType.id : 0,
-        })
+      this.#itemsClient
+        .list(
+          new ItemsRequest({
+            fields: new ItemFields({
+              acceptedPicturesCount: true,
+              canEditSpecs: true,
+              categories: new ItemsRequest({
+                fields: new ItemFields({nameHtml: true}),
+              }),
+              //   childsCount: true,
+              description: true,
+              design: true,
+              engineVehicles: new ItemsRequest({
+                fields: new ItemFields({nameHtml: true, route: true}),
+              }),
+              //   hasChildSpecs: true,
+              hasText: true,
+              nameDefault: true,
+              nameHtml: true,
+              previewPictures: new PreviewPicturesRequest({
+                pictures: new PicturesRequest({
+                  options: new PictureListOptions({
+                    pictureItem: new PictureItemListOptions({typeId: PictureItemType.PICTURE_ITEM_CONTENT}),
+                    status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                  }),
+                }),
+              }),
+              route: true,
+              specsRoute: true,
+              twins: new ItemsRequest(),
+              routeBrandId: brand.id,
+            }),
+            language: this.#languageService.language,
+            limit: 7,
+            options: new ItemListOptions({
+              ancestor: new ItemParentCacheListOptions({parentId: brand.id}),
+              dateful: true,
+              itemVehicleType: currentVehicleType
+                ? new ItemVehicleTypeListOptions({vehicleTypeId: '' + currentVehicleType.id})
+                : undefined,
+              typeId: ItemType.ITEM_TYPE_VEHICLE,
+            }),
+            order: ItemsRequest.Order.AGE,
+            page,
+          }),
+        )
+        // this.#itemService
+        //   .getItems$({
+        //     fields: [
+        //       'childs_count,total_pictures',
+        //     ].join(','),
+        //   })
         .pipe(
           map((response) => {
-            const items: CatalogueListItem[] = response.items.map((item) => {
-              const pictures: CatalogueListItemPicture[] = item.preview_pictures.pictures.map((picture) => ({
-                picture: picture?.picture ? picture.picture : null,
-                routerLink:
-                  item.route && picture?.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
-                thumb: picture ? picture.thumb : null,
-              }));
+            const items: CatalogueListItem2[] = (response.items || []).map((item) => {
+              const largeFormat = !!item.previewPictures?.largeFormat;
+
+              const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map(
+                (picture, idx) => {
+                  let thumb = null;
+                  if (picture.picture) {
+                    thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
+                  }
+                  return {
+                    picture: picture?.picture ? picture.picture : null,
+                    routerLink:
+                      item.route && picture?.picture ? item.route.concat(['pictures', picture.picture.identity]) : [],
+                    thumb,
+                  };
+                },
+              );
 
               return {
-                accepted_pictures_count: item.accepted_pictures_count,
-                can_edit_specs: !!item.can_edit_specs,
+                acceptedPicturesCount: item.acceptedPicturesCount,
+                canEditSpecs: item.canEditSpecs,
                 categories: item.categories,
-                childs_counts: item.childs_counts ? item.childs_counts : null,
+                childsCounts: item.childsCounts ? convertChildsCounts(item.childsCounts) : null,
                 description: item.description,
                 design: item.design ? item.design : null,
                 details: {
-                  count: item.childs_count,
+                  count: item.childsCount,
                   routerLink: item.route,
                 },
-                engine_vehicles: item.engine_vehicles,
-                has_text: !!item.has_text,
+                engineVehicles: item.engineVehicles,
+                hasText: item.hasText,
                 id: item.id,
-                item_type_id: item.item_type_id,
-                name_default: item.name_default,
-                name_html: item.name_html,
-                picturesRouterLink: item.route ? item.route.concat(['pictures']) : null,
-                preview_pictures: {
-                  large_format: item.preview_pictures.large_format,
+                itemTypeId: item.itemTypeId,
+                nameDefault: item.nameDefault,
+                nameHtml: item.nameHtml,
+                picturesRouterLink: item.route.length ? item.route.concat(['pictures']) : null,
+                previewPictures: {
+                  largeFormat: !!item.previewPictures?.largeFormat,
                   pictures,
                 },
                 produced: item.produced,
-                produced_exactly: item.produced_exactly,
+                producedExactly: item.producedExactly,
                 specsRouterLink: null,
               };
             });

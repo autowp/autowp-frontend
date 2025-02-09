@@ -25110,6 +25110,7 @@ export class ItemFields implements GrpcMessage {
     _instance.itemParentChilds = _instance.itemParentChilds || undefined;
     _instance.commentsCount = _instance.commentsCount || false;
     _instance.engineVehicles = _instance.engineVehicles || undefined;
+    _instance.routeBrandId = _instance.routeBrandId || '0';
   }
 
   /**
@@ -25270,6 +25271,9 @@ export class ItemFields implements GrpcMessage {
             ItemsRequest.deserializeBinaryFromReader
           );
           break;
+        case 41:
+          _instance.routeBrandId = _reader.readInt64String();
+          break;
         default:
           _reader.skipField();
       }
@@ -25429,6 +25433,9 @@ export class ItemFields implements GrpcMessage {
         ItemsRequest.serializeBinaryToWriter
       );
     }
+    if (_instance.routeBrandId) {
+      _writer.writeInt64String(41, _instance.routeBrandId);
+    }
   }
 
   private _nameOnly: boolean;
@@ -25470,6 +25477,7 @@ export class ItemFields implements GrpcMessage {
   private _itemParentChilds?: ItemParentsRequest;
   private _commentsCount: boolean;
   private _engineVehicles?: ItemsRequest;
+  private _routeBrandId: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25526,6 +25534,7 @@ export class ItemFields implements GrpcMessage {
     this.engineVehicles = _value.engineVehicles
       ? new ItemsRequest(_value.engineVehicles)
       : undefined;
+    this.routeBrandId = _value.routeBrandId;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -25762,6 +25771,12 @@ export class ItemFields implements GrpcMessage {
   set engineVehicles(value: ItemsRequest | undefined) {
     this._engineVehicles = value;
   }
+  get routeBrandId(): string {
+    return this._routeBrandId;
+  }
+  set routeBrandId(value: string) {
+    this._routeBrandId = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25824,7 +25839,8 @@ export class ItemFields implements GrpcMessage {
       commentsCount: this.commentsCount,
       engineVehicles: this.engineVehicles
         ? this.engineVehicles.toObject()
-        : undefined
+        : undefined,
+      routeBrandId: this.routeBrandId
     };
   }
 
@@ -25893,7 +25909,8 @@ export class ItemFields implements GrpcMessage {
       commentsCount: this.commentsCount,
       engineVehicles: this.engineVehicles
         ? this.engineVehicles.toProtobufJSON(options)
-        : null
+        : null,
+      routeBrandId: this.routeBrandId
     };
   }
 }
@@ -25941,6 +25958,7 @@ export module ItemFields {
     itemParentChilds?: ItemParentsRequest.AsObject;
     commentsCount: boolean;
     engineVehicles?: ItemsRequest.AsObject;
+    routeBrandId: string;
   }
 
   /**
@@ -25986,6 +26004,7 @@ export module ItemFields {
     itemParentChilds: ItemParentsRequest.AsProtobufJSON | null;
     commentsCount: boolean;
     engineVehicles: ItemsRequest.AsProtobufJSON | null;
+    routeBrandId: string;
   }
 }
 
@@ -28578,6 +28597,7 @@ export class ItemListOptions implements GrpcMessage {
     _instance.typeIds = _instance.typeIds || [];
     _instance.pictureItems = _instance.pictureItems || undefined;
     _instance.dateless = _instance.dateless || false;
+    _instance.dateful = _instance.dateful || false;
     _instance.relatedGroupsOf = _instance.relatedGroupsOf || '0';
     _instance.nameExclude = _instance.nameExclude || '';
     _instance.specId = _instance.specId || '0';
@@ -28689,6 +28709,9 @@ export class ItemListOptions implements GrpcMessage {
           break;
         case 27:
           _instance.dateless = _reader.readBool();
+          break;
+        case 36:
+          _instance.dateful = _reader.readBool();
           break;
         case 28:
           _instance.relatedGroupsOf = _reader.readInt64String();
@@ -28822,6 +28845,9 @@ export class ItemListOptions implements GrpcMessage {
     if (_instance.dateless) {
       _writer.writeBool(27, _instance.dateless);
     }
+    if (_instance.dateful) {
+      _writer.writeBool(36, _instance.dateful);
+    }
     if (_instance.relatedGroupsOf) {
       _writer.writeInt64String(28, _instance.relatedGroupsOf);
     }
@@ -28873,6 +28899,7 @@ export class ItemListOptions implements GrpcMessage {
   private _typeIds: ItemType[];
   private _pictureItems?: PictureItemListOptions;
   private _dateless: boolean;
+  private _dateful: boolean;
   private _relatedGroupsOf: string;
   private _nameExclude: string;
   private _specId: string;
@@ -28921,6 +28948,7 @@ export class ItemListOptions implements GrpcMessage {
       ? new PictureItemListOptions(_value.pictureItems)
       : undefined;
     this.dateless = _value.dateless;
+    this.dateful = _value.dateful;
     this.relatedGroupsOf = _value.relatedGroupsOf;
     this.nameExclude = _value.nameExclude;
     this.specId = _value.specId;
@@ -29059,6 +29087,12 @@ export class ItemListOptions implements GrpcMessage {
   set dateless(value: boolean) {
     this._dateless = value;
   }
+  get dateful(): boolean {
+    return this._dateful;
+  }
+  set dateful(value: boolean) {
+    this._dateful = value;
+  }
   get relatedGroupsOf(): string {
     return this._relatedGroupsOf;
   }
@@ -29148,6 +29182,7 @@ export class ItemListOptions implements GrpcMessage {
         ? this.pictureItems.toObject()
         : undefined,
       dateless: this.dateless,
+      dateful: this.dateful,
       relatedGroupsOf: this.relatedGroupsOf,
       nameExclude: this.nameExclude,
       specId: this.specId,
@@ -29213,6 +29248,7 @@ export class ItemListOptions implements GrpcMessage {
         ? this.pictureItems.toProtobufJSON(options)
         : null,
       dateless: this.dateless,
+      dateful: this.dateful,
       relatedGroupsOf: this.relatedGroupsOf,
       nameExclude: this.nameExclude,
       specId: this.specId,
@@ -29252,6 +29288,7 @@ export module ItemListOptions {
     typeIds: ItemType[];
     pictureItems?: PictureItemListOptions.AsObject;
     dateless: boolean;
+    dateful: boolean;
     relatedGroupsOf: string;
     nameExclude: string;
     specId: string;
@@ -29287,6 +29324,7 @@ export module ItemListOptions {
     typeIds: string[];
     pictureItems: PictureItemListOptions.AsProtobufJSON | null;
     dateless: boolean;
+    dateful: boolean;
     relatedGroupsOf: string;
     nameExclude: string;
     specId: string;

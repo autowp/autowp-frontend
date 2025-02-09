@@ -23,12 +23,7 @@ export interface CatalogueListItem2 {
     count: number;
     routerLink: string[];
   };
-  engineVehicles?: [
-    {
-      name_html: string;
-      route: string[];
-    },
-  ];
+  engineVehicles?: APIItem[];
   hasText: boolean;
   id: string;
   itemTypeId: number;
