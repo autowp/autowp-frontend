@@ -92,7 +92,6 @@ export class ModerItemsNewComponent {
           is_concept_inherit: true,
           is_group: false,
           item_language_count: 0,
-          item_of_day_pictures: [],
           item_type_id: itemTypeID,
           lat: 0,
           links_count: 0,

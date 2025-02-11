@@ -2108,6 +2108,27 @@ export class ItemsClient {
    */
   $raw = {
     /**
+     * Unary call: /goautowp.Items/GetItemOfDay
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ItemOfDay>>
+     */
+    getItemOfDay: (
+      requestData: thisProto.ItemOfDayRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ItemOfDay>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetItemOfDay',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ItemOfDayRequest,
+        responseClass: thisProto.ItemOfDay
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/GetBrands
      *
      * @param requestMessage Request message
@@ -2892,6 +2913,22 @@ export class ItemsClient {
     private handler: GrpcHandler
   ) {
     this.client = clientFactory.createClient('goautowp.Items', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetItemOfDay
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ItemOfDay>
+   */
+  getItemOfDay(
+    requestData: thisProto.ItemOfDayRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ItemOfDay> {
+    return this.$raw
+      .getItemOfDay(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
   }
 
   /**

@@ -1,8 +1,8 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIUser, ItemType} from '@grpc/spec.pb';
-import {APIItemOfDayPicture, ItemOfDayItem} from '@services/item';
+import {APIItem, APIUser, ItemType} from '@grpc/spec.pb';
+import {APIItemOfDayPicture} from '@services/item';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -15,9 +15,9 @@ import {UserComponent} from '../../user/user/user.component';
   templateUrl: './item-of-day.component.html',
 })
 export class ItemOfDayComponent {
-  private _item$?: Observable<ItemOfDayItem>;
+  private _item$?: Observable<APIItem>;
 
-  @Input() public set item$(item$: Observable<ItemOfDayItem>) {
+  @Input() public set item$(item$: Observable<APIItem>) {
     this._item$ = item$;
     this.itemOfDayPictures$ = item$.pipe(
       map((item) => {
@@ -25,13 +25,13 @@ export class ItemOfDayComponent {
           return null;
         }
         return {
-          first: item.item_of_day_pictures.slice(0, 1),
-          others: item.item_of_day_pictures.slice(1, 5),
+          first: (item.itemOfDayPictures || []).slice(0, 1),
+          others: (item.itemOfDayPictures || []).slice(1, 5),
         };
       }),
     );
   }
-  public get item$(): Observable<ItemOfDayItem> | undefined {
+  public get item$(): Observable<APIItem> | undefined {
     return this._item$;
   }
   @Input() public user$?: Observable<APIUser | null>;

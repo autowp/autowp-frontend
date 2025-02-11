@@ -1,17 +1,17 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIGetUserRequest, APIUser, GetTopPersonsListRequest, PictureItemType} from '@grpc/spec.pb';
-import {ItemsClient, UsersClient} from '@grpc/spec.pbsc';
-import {APIService} from '@services/api.service';
-import {APIItem, ItemOfDayItem} from '@services/item';
+import {GetTopPersonsListRequest, ItemOfDay, ItemOfDayRequest, PictureItemType} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
+import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
-import {combineLatest, Observable, of} from 'rxjs';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {EMPTY, Observable, of} from 'rxjs';
+import {catchError, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ItemOfDayComponent} from '../item-of-day/item-of-day/item-of-day.component';
+import {ToastsService} from '../toasts/toasts.service';
 import {IndexBrandsComponent} from './brands/brands.component';
 import {IndexCategoriesComponent} from './categories/categories.component';
 import {IndexDonateComponent} from './donate/donate.component';
@@ -19,11 +19,6 @@ import {IndexFactoriesComponent} from './factories/factories.component';
 import {IndexPicturesComponent} from './pictures/pictures.component';
 import {IndexSpecsCarsComponent} from './specs-cars/specs-cars.component';
 import {IndexTwinsComponent} from './twins/twins.component';
-
-interface APIIndexItemOfDay {
-  item: ItemOfDayItem;
-  user_id: string;
-}
 
 @Component({
   imports: [
@@ -43,11 +38,11 @@ interface APIIndexItemOfDay {
   templateUrl: './index.component.html',
 })
 export class IndexComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly api = inject(APIService);
-  private readonly items = inject(ItemsClient);
-  protected readonly languageService = inject(LanguageService);
-  private readonly usersClient = inject(UsersClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #userService = inject(UserService);
+  readonly #toastService = inject(ToastsService);
 
   protected readonly mosts = [
     {
@@ -68,38 +63,39 @@ export class IndexComponent implements OnInit {
     },
   ];
 
-  protected readonly itemOfDay$: Observable<{item: APIItem; user: APIUser | null}> = this.api
-    .request$<APIIndexItemOfDay>('GET', 'index/item-of-day')
+  readonly #itemOfDay$: Observable<ItemOfDay> = this.#itemsClient
+    .getItemOfDay(new ItemOfDayRequest({language: this.#languageService.language}))
     .pipe(
-      switchMap((itemOfDay) =>
-        combineLatest([
-          itemOfDay.user_id ? this.usersClient.getUser(new APIGetUserRequest({userId: itemOfDay.user_id})) : of(null),
-          of(itemOfDay.item),
-        ]),
-      ),
-      map(([user, item]) => ({item, user})),
+      catchError((error: unknown) => {
+        this.#toastService.handleError(error);
+        return EMPTY;
+      }),
       shareReplay({bufferSize: 1, refCount: false}),
     );
 
-  protected readonly itemOfDayItem$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.item));
-  protected readonly itemOfDayUser$ = this.itemOfDay$.pipe(map((itemOfDay) => itemOfDay.user));
+  protected readonly itemOfDayItem$ = this.#itemOfDay$.pipe(
+    switchMap((itemOfDay) => (itemOfDay.item ? of(itemOfDay.item) : EMPTY)),
+  );
+  protected readonly itemOfDayUser$ = this.#itemOfDay$.pipe(
+    switchMap((itemOfDay) => this.#userService.getUser$(itemOfDay.userId)),
+  );
 
-  protected readonly contentPersons$ = this.items.getTopPersonsList(
+  protected readonly contentPersons$ = this.#itemsClient.getTopPersonsList(
     new GetTopPersonsListRequest({
-      language: this.languageService.language,
+      language: this.#languageService.language,
       pictureItemType: PictureItemType.PICTURE_ITEM_CONTENT,
     }),
   );
-  protected readonly authorPersons$ = this.items.getTopPersonsList(
+  protected readonly authorPersons$ = this.#itemsClient.getTopPersonsList(
     new GetTopPersonsListRequest({
-      language: this.languageService.language,
+      language: this.#languageService.language,
       pictureItemType: PictureItemType.PICTURE_ITEM_AUTHOR,
     }),
   );
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({pageId: 1});
+      this.#pageEnv.set({pageId: 1});
     }, 0);
   }
 }

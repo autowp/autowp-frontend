@@ -58,7 +58,6 @@ export interface APIItem {
   is_concept: 'inherited' | boolean | null;
   is_group: boolean;
   item_language_count: number;
-  item_of_day_pictures: APIItemOfDayPicture[];
   item_type_id: ItemType;
   lat: number;
   links_count: number;
@@ -108,7 +107,7 @@ export interface APIItemChildsCounts {
 export interface APIItemOfDayPicture {
   name: string;
   route: string[];
-  thumb: APIImage;
+  thumb: APIImage | undefined;
 }
 
 export interface APIItemRelatedGroupItem {
@@ -146,10 +145,6 @@ export interface GetPathServiceOptions {
   [key: string]: string;
   catname: string;
   path: string;
-}
-
-export interface ItemOfDayItem extends APIItem {
-  public_route?: string;
 }
 
 export const allowedItemTypeCombinations: {
