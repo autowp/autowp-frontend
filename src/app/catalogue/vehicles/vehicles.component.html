@@ -92,7 +92,7 @@
 
 @if (items$ | async; as items) {
   @for (item of items.items; track item.id) {
-    <app-catalogue-list-item2 [item]="item"></app-catalogue-list-item2>
+    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

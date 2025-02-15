@@ -23,10 +23,10 @@ import {AutowpClient, ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
@@ -35,7 +35,7 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 import {convertChildsCounts} from '../catalogue-service';
 
 @Component({
-  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-catalogue-cars',
   templateUrl: './cars.component.html',
 })
@@ -143,7 +143,7 @@ export class CatalogueCarsComponent {
     ),
   );
 
-  protected readonly result$: Observable<{items: CatalogueListItem2[]; paginator: Pages | undefined}> = combineLatest([
+  protected readonly result$: Observable<{items: CatalogueListItem[]; paginator: Pages | undefined}> = combineLatest([
     this.brand$,
     this.currentVehicleType$,
     this.#route.queryParamMap.pipe(
@@ -199,10 +199,10 @@ export class CatalogueCarsComponent {
         )
         .pipe(
           map((response) => {
-            const items: CatalogueListItem2[] = (response.items || []).map((item) => {
+            const items: CatalogueListItem[] = (response.items || []).map((item) => {
               const largeFormat = !!item.previewPictures?.largeFormat;
 
-              const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map(
+              const pictures: CatalogueListItemPicture[] = (item.previewPictures?.pictures || []).map(
                 (picture, idx) => {
                   let thumb = null;
                   if (picture.picture) {
@@ -223,7 +223,7 @@ export class CatalogueCarsComponent {
                 categories: item.categories,
                 childsCounts: item.childsCounts ? convertChildsCounts(item.childsCounts) : null,
                 description: item.description,
-                design: item.design ? item.design : null,
+                design: item.design,
                 details: {
                   count: item.childsCount,
                   routerLink: item.route,

@@ -1,11 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {Design} from '@grpc/spec.pb';
 
 export interface ItemHeader {
-  design?: null | {
-    name: string;
-    route: string[];
-  };
+  design?: Design | null;
   nameHTML: string;
   produced?: {
     count: number;

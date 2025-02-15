@@ -19,10 +19,10 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {combineLatest, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -30,7 +30,7 @@ import {PaginatorComponent} from '../paginator/paginator/paginator.component';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-persons',
   templateUrl: './persons.component.html',
 })
@@ -106,14 +106,14 @@ export class PersonsComponent implements OnInit {
     setTimeout(() => this.#pageEnv.set({pageId: 214}), 0);
   }
 
-  private prepareItems(items: APIItem[]): CatalogueListItem2[] {
-    return items.map((item) => {
+  private prepareItems(items: APIItem[]): CatalogueListItem[] {
+    return items.map((item): CatalogueListItem => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id.toString());
 
       const largeFormat = !!item.previewPictures?.largeFormat;
 
-      const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
+      const pictures: CatalogueListItemPicture[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
         let thumb = null;
         let routerLink: string[] = [];
         if (picture.picture) {
@@ -128,7 +128,7 @@ export class PersonsComponent implements OnInit {
         canEditSpecs: false,
         childsCounts: null,
         description: item.description,
-        design: null,
+        design: undefined,
         details: {
           count: item.childsCount,
           routerLink: itemRouterLink,

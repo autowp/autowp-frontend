@@ -2298,6 +2298,27 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/GetTopSpecsContributions
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.TopSpecsContributions>>
+     */
+    getTopSpecsContributions: (
+      requestData: thisProto.TopSpecsContributionsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.TopSpecsContributions>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetTopSpecsContributions',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.TopSpecsContributionsRequest,
+        responseClass: thisProto.TopSpecsContributions
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/Item
      *
      * @param requestMessage Request message
@@ -3057,6 +3078,22 @@ export class ItemsClient {
   ): Observable<thisProto.APITopTwinsBrandsList> {
     return this.$raw
       .getTopTwinsBrandsList(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetTopSpecsContributions
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.TopSpecsContributions>
+   */
+  getTopSpecsContributions(
+    requestData: thisProto.TopSpecsContributionsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.TopSpecsContributions> {
+    return this.$raw
+      .getTopSpecsContributions(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

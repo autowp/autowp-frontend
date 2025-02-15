@@ -24,7 +24,7 @@
 
 @if (query$ | async; as response) {
   @for (item of response.items; track item.id) {
-    <app-catalogue-list-item2 [item]="item"></app-catalogue-list-item2>
+    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
   }
   @if (response.paginator) {
     <app-paginator [data]="response.paginator"></app-paginator>

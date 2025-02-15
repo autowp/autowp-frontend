@@ -28,10 +28,10 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getItemTypeTranslation} from '@utils/translations';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -50,7 +50,7 @@ import {CatalogueItemMenuComponent} from '../item-menu/item-menu.component';
     MarkdownComponent,
     PaginatorComponent,
     AsyncPipe,
-    CatalogueListItem2Component,
+    CatalogueListItemComponent,
   ],
   selector: 'app-catalogue-vehicles',
   templateUrl: './vehicles.component.html',
@@ -178,7 +178,7 @@ export class CatalogueVehiclesComponent {
   );
 
   protected readonly items$: Observable<{
-    items: CatalogueListItem2[];
+    items: CatalogueListItem[];
     paginator?: Pages;
   }> = combineLatest([this.item$, this.#routerLink$]).pipe(
     switchMap(([item, routerLink]) => {
@@ -242,10 +242,10 @@ export class CatalogueVehiclesComponent {
         )
         .pipe(
           map((response) => ({
-            items: (response.items || []).map((item) => {
+            items: (response.items || []).map((item): CatalogueListItem => {
               const itemRouterLink = [...routerLink, item.catname];
 
-              const pictures: CatalogueListItemPicture2[] = (item.item?.previewPictures?.pictures || []).map(
+              const pictures: CatalogueListItemPicture[] = (item.item?.previewPictures?.pictures || []).map(
                 (picture, idx) => {
                   const largeFormat = !!item.item?.previewPictures?.largeFormat;
                   let thumb = null;
@@ -265,29 +265,29 @@ export class CatalogueVehiclesComponent {
                 canEditSpecs: item.item?.canEditSpecs,
                 categories: item.item?.categories,
                 childsCounts: item.item?.childsCounts ? convertChildsCounts(item.item.childsCounts) : null,
-                description: item.item?.description,
+                description: item.item?.description || '',
                 design: item.item?.design,
                 details: {
-                  count: item.item?.childsCount,
+                  count: item.item?.childsCount || 0,
                   routerLink: itemRouterLink,
                 },
                 engineVehicles: item.item?.engineVehicles,
-                hasText: item.item?.hasText,
-                id: item.item?.id,
-                itemTypeId: item.item?.itemTypeId,
-                nameDefault: item.item?.nameDefault,
-                nameHtml: item.item?.nameHtml,
+                hasText: item.item?.hasText || false,
+                id: item.item?.id || '',
+                itemTypeId: item.item?.itemTypeId || 0,
+                nameDefault: item.item?.nameDefault || '',
+                nameHtml: item.item?.nameHtml || '',
                 picturesRouterLink: itemRouterLink.concat(['pictures']),
                 previewPictures: {
                   largeFormat: !!item.item?.previewPictures?.largeFormat,
                   pictures,
                 },
-                produced: item.item?.produced,
-                producedExactly: item.item?.producedExactly,
+                produced: item.item?.produced || 0,
+                producedExactly: item.item?.producedExactly || false,
                 specsRouterLink:
                   item.item?.hasSpecs || item.item?.hasChildSpecs ? itemRouterLink.concat(['specifications']) : null,
-                twins_groups: item.item?.twins,
-              } as CatalogueListItem2;
+                twinsGroups: item.item?.twins,
+              };
             }),
             paginator: response.paginator,
           })),
@@ -359,8 +359,8 @@ export class CatalogueVehiclesComponent {
     }),
   );
 
-  private static convertItem(item: GRPCAPIItem, routerLink: string[]): CatalogueListItem2 {
-    const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
+  private static convertItem(item: GRPCAPIItem, routerLink: string[]): CatalogueListItem {
+    const pictures: CatalogueListItemPicture[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
       const largeFormat = !!item.previewPictures?.largeFormat;
       let thumb = null;
       if (picture.picture) {
@@ -379,7 +379,7 @@ export class CatalogueVehiclesComponent {
       categories: item.categories,
       childsCounts: item.childsCounts ? convertChildsCounts(item.childsCounts) : null,
       description: null,
-      design: item.design ? item.design : null,
+      design: item.design,
       details: {
         count: item.childsCount,
         routerLink,

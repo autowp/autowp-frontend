@@ -5,23 +5,17 @@ import {forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {APIImage, APIService} from './api.service';
-import {APIPicture} from './picture';
 
 export interface APIItem {
-  accepted_pictures_count?: number;
-  attr_zone_id: number;
   begin_model_year: number;
   begin_model_year_fraction: string;
   begin_month: number;
   begin_year: number;
   body: string;
   brands: APIItem[];
-  can_edit_specs?: boolean;
   categories?: APIItem[];
   catname: string;
   childs?: APIItem[];
-  childs_count: number;
-  childs_counts?: APIItemChildsCounts;
   description: string;
   design?: {
     name: string;
@@ -31,18 +25,7 @@ export interface APIItem {
   end_model_year_fraction: string;
   end_month: number;
   end_year: number;
-  engine_id: null | number;
-  engine_inherit: boolean | null;
-  engine_vehicles?: [
-    {
-      name_html: string;
-      route: string[];
-    },
-  ];
-
   full_name: string;
-  has_specs?: boolean;
-  has_text?: boolean;
   id: number;
 
   is_concept: 'inherited' | boolean | null;
@@ -53,20 +36,8 @@ export interface APIItem {
   logo?: APIImage;
   logo120?: APIImage;
   name: string;
-  name_default: string;
   name_html: string;
-  name_only: string;
   name_text: string;
-  pictures_count: number;
-
-  preview_pictures: {
-    large_format: boolean;
-    pictures: {
-      picture?: APIPicture;
-      route: string[];
-      thumb?: APIImage;
-    }[];
-  };
 
   produced: null | number;
 
@@ -74,11 +45,9 @@ export interface APIItem {
 
   route: string[];
   spec_id: null | number | string;
-  specs_route?: string[];
   subscription: boolean;
   text: string;
   today: boolean | null;
-  twins_groups: APIItem[];
 }
 
 export interface APIItemChildsCounts {

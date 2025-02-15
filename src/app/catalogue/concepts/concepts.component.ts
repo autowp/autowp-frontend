@@ -19,17 +19,17 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 
 @Component({
-  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-catalogue-concepts',
   templateUrl: './concepts.component.html',
 })
@@ -89,7 +89,7 @@ export class CatalogueConceptsComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly data$: Observable<{items: CatalogueListItem2[]; paginator: Pages | undefined}> = combineLatest([
+  protected readonly data$: Observable<{items: CatalogueListItem[]; paginator: Pages | undefined}> = combineLatest([
     this.brand$,
     this.#page$,
   ]).pipe(
@@ -137,10 +137,10 @@ export class CatalogueConceptsComponent {
       ),
     ),
     map((response) => {
-      const items: CatalogueListItem2[] = (response.items || []).map((item) => {
+      const items: CatalogueListItem[] = (response.items || []).map((item) => {
         const largeFormat = !!item.previewPictures?.largeFormat;
 
-        const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
+        const pictures: CatalogueListItemPicture[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
           let thumb = null;
           if (picture.picture) {
             thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
@@ -158,7 +158,7 @@ export class CatalogueConceptsComponent {
           categories: item.categories,
           childsCounts: null,
           description: item.description,
-          design: item.design ? item.design : null,
+          design: item.design,
           details: {
             count: item.childsCount,
             routerLink: item.route,

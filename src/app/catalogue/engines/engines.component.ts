@@ -15,10 +15,10 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
@@ -26,7 +26,7 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 import {convertChildsCounts} from '../catalogue-service';
 
 @Component({
-  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-catalogue-engines',
   templateUrl: './engines.component.html',
 })
@@ -86,7 +86,7 @@ export class CatalogueEnginesComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly data$: Observable<{items: CatalogueListItem2[]; paginator: Pages | undefined}> = combineLatest([
+  protected readonly data$: Observable<{items: CatalogueListItem[]; paginator: Pages | undefined}> = combineLatest([
     this.brand$,
     this.#page$,
   ]).pipe(
@@ -130,12 +130,12 @@ export class CatalogueEnginesComponent {
       ]),
     ),
     map(([response, brand]) => {
-      const items: CatalogueListItem2[] = (response.items || []).map((item) => {
+      const items: CatalogueListItem[] = (response.items || []).map((item): CatalogueListItem => {
         const largeFormat = !!item.item?.previewPictures?.largeFormat;
 
         const routerLink = ['/', brand.catname, item.catname];
 
-        const pictures: CatalogueListItemPicture2[] = (item.item?.previewPictures?.pictures || []).map(
+        const pictures: CatalogueListItemPicture[] = (item.item?.previewPictures?.pictures || []).map(
           (picture, idx) => {
             let thumb = null;
             if (picture.picture) {
@@ -155,7 +155,7 @@ export class CatalogueEnginesComponent {
           categories: item.item?.categories || undefined,
           childsCounts: item.item?.childsCounts ? convertChildsCounts(item.item.childsCounts) : null,
           description: item.item?.description || null,
-          design: null,
+          design: undefined,
           details: {
             count: item.item?.childsCount || 0,
             routerLink,

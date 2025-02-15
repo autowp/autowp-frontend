@@ -15,21 +15,16 @@ export const perspectiveIDLogotype = 22,
   perspectiveIDMixed = 25;
 
 export interface APIPicture {
-  accepted_count: number;
-  add_date: string;
   authors?: {
     id: number;
     name: string;
   }[];
   categories?: APIItem[];
-  change_status_user_id: null | string;
   comments_count: {
     new: number;
     total: number;
   };
-  copyright_blocks?: APIItem[];
   copyrights: string;
-  copyrights_text_id: number;
   crop: {
     height: null | number;
     left: null | number;
@@ -38,8 +33,6 @@ export interface APIPicture {
   };
   crop_resolution: string;
   cropped: boolean;
-  dpi_x: number;
-  dpi_y: number;
   exif: string;
   factories?: APIItem[];
   filesize: number;
@@ -47,24 +40,14 @@ export interface APIPicture {
   id: number;
   identity: string;
   image: APIImage;
-  image_gallery_full: APIImage;
   ip: string;
-  is_last: boolean;
   items: APIPictureItem[];
   moder_vote: {
     count: number;
     vote: number;
   };
-  moder_voted: boolean;
-  moder_votes: APIPictureModerVote[];
   name_html: string;
   name_text: string;
-  of_links?: {
-    id: number;
-    name: string;
-    type_id: string;
-    url: string;
-  }[];
   owner_id: null | string;
   paginator?: APIPicturePaginator;
   perspective_item: {
@@ -76,7 +59,6 @@ export interface APIPicture {
     lat: number;
     lng: number;
   };
-  preview_large: APIImage;
   replaceable: APIPicture;
   resolution: string;
   rights: {
@@ -100,13 +82,8 @@ export interface APIPicture {
     picture: APIPicture;
     picture_id: number;
   };
-  special_name: string;
   status: string;
   subscribed?: boolean;
-  taken_date?: string;
-  taken_day?: number;
-  taken_month?: number;
-  taken_year?: number;
   thumb: APIImage;
   thumb_medium: APIImage;
   twins?: APIItem[];
@@ -114,12 +91,6 @@ export interface APIPicture {
   views: number;
   votes: APIPictureVotes;
   width: number;
-}
-
-export interface APIPictureModerVote {
-  reason: string;
-  user_id: number;
-  vote: number;
 }
 
 export interface APIPicturePaginator {

@@ -21,10 +21,10 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
@@ -32,7 +32,7 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-factory-items',
   templateUrl: './items.component.html',
 })
@@ -141,7 +141,7 @@ export class FactoryItemsComponent {
       items: (data.items || []).map((item) => {
         const largeFormat = !!item.previewPictures?.largeFormat;
 
-        const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
+        const pictures: CatalogueListItemPicture[] = (item.previewPictures?.pictures || []).map((picture, idx) => {
           let thumb: APIImage | undefined = undefined;
           if (picture.picture) {
             thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
@@ -178,7 +178,7 @@ export class FactoryItemsComponent {
           producedExactly: item.producedExactly,
           specsRouterLink:
             (item.hasSpecs || item.hasChildSpecs) && item.route.length ? item.route.concat(['specifications']) : null,
-        } as CatalogueListItem2;
+        } as CatalogueListItem;
       }),
       paginator: data.paginator,
     })),

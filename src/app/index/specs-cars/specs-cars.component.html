@@ -9,20 +9,6 @@
         @for (item of chunk; track item.id) {
           <div class="col-md-6">
             <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
-            @if (item.contributors) {
-              <p>
-                @if (item.contributors.length > 1) {
-                  <ng-container i18n>contributors</ng-container>
-                } @else {
-                  <ng-container i18n>contributor</ng-container>
-                }
-                @for (contributor$ of item.contributors; track contributor$) {
-                  @if (contributor$ | async; as user) {
-                    <app-user [user]="user"></app-user>
-                  }
-                }
-              </p>
-            }
           </div>
         }
       </div>

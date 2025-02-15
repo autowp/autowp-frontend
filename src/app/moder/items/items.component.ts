@@ -26,10 +26,10 @@ import {PageEnvService} from '@services/page-env.service';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {
-  CatalogueListItem2,
-  CatalogueListItem2Component,
-  CatalogueListItemPicture2,
-} from '@utils/list-item/list-item2.component';
+  CatalogueListItem,
+  CatalogueListItemComponent,
+  CatalogueListItemPicture,
+} from '@utils/list-item/list-item.component';
 import {getVehicleTypeTranslation} from '@utils/translations';
 import {EMPTY, Observable, of} from 'rxjs';
 import {
@@ -87,7 +87,7 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
 const defaultOrder = ItemsRequest.Order.ID_DESC;
 
 @Component({
-  imports: [RouterLink, FormsModule, NgbTypeahead, PaginatorComponent, AsyncPipe, CatalogueListItem2Component],
+  imports: [RouterLink, FormsModule, NgbTypeahead, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-items',
   templateUrl: './items.component.html',
 })
@@ -168,7 +168,7 @@ export class ModerItemsComponent implements OnInit {
   protected readonly specOptions$ = this.#specService.specs$.pipe(map((types) => toPlainSpec(types, 0)));
 
   protected readonly data$: Observable<{
-    items: CatalogueListItem2[];
+    items: CatalogueListItem[];
     listMode: boolean;
     loading: boolean;
     paginator: Pages | undefined;
@@ -277,10 +277,10 @@ export class ModerItemsComponent implements OnInit {
         )
         .pipe(
           map((response) => {
-            const items: CatalogueListItem2[] = (response.items || []).map((item) => {
+            const items: CatalogueListItem[] = (response.items || []).map((item) => {
               const largeFormat = !!item.previewPictures?.largeFormat;
 
-              const pictures: CatalogueListItemPicture2[] = (item.previewPictures?.pictures || []).map(
+              const pictures: CatalogueListItemPicture[] = (item.previewPictures?.pictures || []).map(
                 (picture, idx) => {
                   let thumb = null;
                   if (picture.picture) {
@@ -300,7 +300,7 @@ export class ModerItemsComponent implements OnInit {
                 categories: item.categories,
                 childsCounts: item.childsCounts ? convertChildsCounts(item.childsCounts) : null,
                 description: item.description,
-                design: item.design ? item.design : null,
+                design: item.design,
                 details: {
                   count: item.childsCount,
                   routerLink: item.route,

@@ -19650,6 +19650,295 @@ export module GetTopTwinsBrandsListRequest {
 }
 
 /**
+ * Message implementation for goautowp.TopSpecsContributionsRequest
+ */
+export class TopSpecsContributionsRequest implements GrpcMessage {
+  static id = 'goautowp.TopSpecsContributionsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new TopSpecsContributionsRequest();
+    TopSpecsContributionsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: TopSpecsContributionsRequest) {
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: TopSpecsContributionsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    TopSpecsContributionsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: TopSpecsContributionsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.language) {
+      _writer.writeString(1, _instance.language);
+    }
+  }
+
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of TopSpecsContributionsRequest to deeply clone from
+   */
+  constructor(
+    _value?: RecursivePartial<TopSpecsContributionsRequest.AsObject>
+  ) {
+    _value = _value || {};
+    this.language = _value.language;
+    TopSpecsContributionsRequest.refineValues(this);
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    TopSpecsContributionsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): TopSpecsContributionsRequest.AsObject {
+    return {
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): TopSpecsContributionsRequest.AsProtobufJSON {
+    return {
+      language: this.language
+    };
+  }
+}
+export module TopSpecsContributionsRequest {
+  /**
+   * Standard JavaScript object representation for TopSpecsContributionsRequest
+   */
+  export interface AsObject {
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for TopSpecsContributionsRequest
+   */
+  export interface AsProtobufJSON {
+    language: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.TopSpecsContributions
+ */
+export class TopSpecsContributions implements GrpcMessage {
+  static id = 'goautowp.TopSpecsContributions';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new TopSpecsContributions();
+    TopSpecsContributions.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: TopSpecsContributions) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: TopSpecsContributions,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new APIItem();
+          _reader.readMessage(
+            messageInitializer1,
+            APIItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    TopSpecsContributions.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: TopSpecsContributions,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: APIItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of TopSpecsContributions to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<TopSpecsContributions.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new APIItem(m));
+    TopSpecsContributions.refineValues(this);
+  }
+  get items(): APIItem[] | undefined {
+    return this._items;
+  }
+  set items(value: APIItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    TopSpecsContributions.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): TopSpecsContributions.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): TopSpecsContributions.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module TopSpecsContributions {
+  /**
+   * Standard JavaScript object representation for TopSpecsContributions
+   */
+  export interface AsObject {
+    items?: APIItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for TopSpecsContributions
+   */
+  export interface AsProtobufJSON {
+    items: APIItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.GetTopCategoriesListRequest
  */
 export class GetTopCategoriesListRequest implements GrpcMessage {
@@ -25123,6 +25412,7 @@ export class ItemFields implements GrpcMessage {
     _instance.exactPicturesCount = _instance.exactPicturesCount || false;
     _instance.specificationsCount = _instance.specificationsCount || false;
     _instance.subscription = _instance.subscription || false;
+    _instance.specsContributors = _instance.specsContributors || false;
   }
 
   /**
@@ -25319,6 +25609,9 @@ export class ItemFields implements GrpcMessage {
         case 52:
           _instance.subscription = _reader.readBool();
           break;
+        case 53:
+          _instance.specsContributors = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -25514,6 +25807,9 @@ export class ItemFields implements GrpcMessage {
     if (_instance.subscription) {
       _writer.writeBool(52, _instance.subscription);
     }
+    if (_instance.specsContributors) {
+      _writer.writeBool(53, _instance.specsContributors);
+    }
   }
 
   private _nameOnly: boolean;
@@ -25567,6 +25863,7 @@ export class ItemFields implements GrpcMessage {
   private _exactPicturesCount: boolean;
   private _specificationsCount: boolean;
   private _subscription: boolean;
+  private _specsContributors: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25635,6 +25932,7 @@ export class ItemFields implements GrpcMessage {
     this.exactPicturesCount = _value.exactPicturesCount;
     this.specificationsCount = _value.specificationsCount;
     this.subscription = _value.subscription;
+    this.specsContributors = _value.specsContributors;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -25943,6 +26241,12 @@ export class ItemFields implements GrpcMessage {
   set subscription(value: boolean) {
     this._subscription = value;
   }
+  get specsContributors(): boolean {
+    return this._specsContributors;
+  }
+  set specsContributors(value: boolean) {
+    this._specsContributors = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -26017,7 +26321,8 @@ export class ItemFields implements GrpcMessage {
       parentsCount: this.parentsCount,
       exactPicturesCount: this.exactPicturesCount,
       specificationsCount: this.specificationsCount,
-      subscription: this.subscription
+      subscription: this.subscription,
+      specsContributors: this.specsContributors
     };
   }
 
@@ -26098,7 +26403,8 @@ export class ItemFields implements GrpcMessage {
       parentsCount: this.parentsCount,
       exactPicturesCount: this.exactPicturesCount,
       specificationsCount: this.specificationsCount,
-      subscription: this.subscription
+      subscription: this.subscription,
+      specsContributors: this.specsContributors
     };
   }
 }
@@ -26158,6 +26464,7 @@ export module ItemFields {
     exactPicturesCount: boolean;
     specificationsCount: boolean;
     subscription: boolean;
+    specsContributors: boolean;
   }
 
   /**
@@ -26215,6 +26522,7 @@ export module ItemFields {
     exactPicturesCount: boolean;
     specificationsCount: boolean;
     subscription: boolean;
+    specsContributors: boolean;
   }
 }
 
@@ -30158,6 +30466,7 @@ export class APIItem implements GrpcMessage {
     _instance.linksCount = _instance.linksCount || 0;
     _instance.specificationsCount = _instance.specificationsCount || 0;
     _instance.subscription = _instance.subscription || false;
+    _instance.specsContributors = _instance.specsContributors || [];
   }
 
   /**
@@ -30485,6 +30794,15 @@ export class APIItem implements GrpcMessage {
         case 71:
           _instance.subscription = _reader.readBool();
           break;
+        case 73:
+          const messageInitializer73 = new SpecsContributor();
+          _reader.readMessage(
+            messageInitializer73,
+            SpecsContributor.deserializeBinaryFromReader
+          );
+          (_instance.specsContributors =
+            _instance.specsContributors || []).push(messageInitializer73);
+          break;
         default:
           _reader.skipField();
       }
@@ -30790,6 +31108,13 @@ export class APIItem implements GrpcMessage {
     if (_instance.subscription) {
       _writer.writeBool(71, _instance.subscription);
     }
+    if (_instance.specsContributors && _instance.specsContributors.length) {
+      _writer.writeRepeatedMessage(
+        73,
+        _instance.specsContributors as any,
+        SpecsContributor.serializeBinaryToWriter
+      );
+    }
   }
 
   private _id: string;
@@ -30864,6 +31189,7 @@ export class APIItem implements GrpcMessage {
   private _linksCount: number;
   private _specificationsCount: number;
   private _subscription: boolean;
+  private _specsContributors?: SpecsContributor[];
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30965,6 +31291,9 @@ export class APIItem implements GrpcMessage {
     this.linksCount = _value.linksCount;
     this.specificationsCount = _value.specificationsCount;
     this.subscription = _value.subscription;
+    this.specsContributors = (_value.specsContributors || []).map(
+      m => new SpecsContributor(m)
+    );
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -31399,6 +31728,12 @@ export class APIItem implements GrpcMessage {
   set subscription(value: boolean) {
     this._subscription = value;
   }
+  get specsContributors(): SpecsContributor[] | undefined {
+    return this._specsContributors;
+  }
+  set specsContributors(value: SpecsContributor[] | undefined) {
+    this._specsContributors = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -31494,7 +31829,8 @@ export class APIItem implements GrpcMessage {
       itemLanguageCount: this.itemLanguageCount,
       linksCount: this.linksCount,
       specificationsCount: this.specificationsCount,
-      subscription: this.subscription
+      subscription: this.subscription,
+      specsContributors: (this.specsContributors || []).map(m => m.toObject())
     };
   }
 
@@ -31607,7 +31943,10 @@ export class APIItem implements GrpcMessage {
       itemLanguageCount: this.itemLanguageCount,
       linksCount: this.linksCount,
       specificationsCount: this.specificationsCount,
-      subscription: this.subscription
+      subscription: this.subscription,
+      specsContributors: (this.specsContributors || []).map(m =>
+        m.toProtobufJSON(options)
+      )
     };
   }
 }
@@ -31688,6 +32027,7 @@ export module APIItem {
     linksCount: number;
     specificationsCount: number;
     subscription: boolean;
+    specsContributors?: SpecsContributor.AsObject[];
   }
 
   /**
@@ -31766,6 +32106,165 @@ export module APIItem {
     linksCount: number;
     specificationsCount: number;
     subscription: boolean;
+    specsContributors: SpecsContributor.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.SpecsContributor
+ */
+export class SpecsContributor implements GrpcMessage {
+  static id = 'goautowp.SpecsContributor';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new SpecsContributor();
+    SpecsContributor.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: SpecsContributor) {
+    _instance.userId = _instance.userId || '0';
+    _instance.count = _instance.count || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: SpecsContributor,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.userId = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.count = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    SpecsContributor.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: SpecsContributor,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.userId) {
+      _writer.writeInt64String(1, _instance.userId);
+    }
+    if (_instance.count) {
+      _writer.writeInt32(2, _instance.count);
+    }
+  }
+
+  private _userId: string;
+  private _count: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of SpecsContributor to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<SpecsContributor.AsObject>) {
+    _value = _value || {};
+    this.userId = _value.userId;
+    this.count = _value.count;
+    SpecsContributor.refineValues(this);
+  }
+  get userId(): string {
+    return this._userId;
+  }
+  set userId(value: string) {
+    this._userId = value;
+  }
+  get count(): number {
+    return this._count;
+  }
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    SpecsContributor.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): SpecsContributor.AsObject {
+    return {
+      userId: this.userId,
+      count: this.count
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): SpecsContributor.AsProtobufJSON {
+    return {
+      userId: this.userId,
+      count: this.count
+    };
+  }
+}
+export module SpecsContributor {
+  /**
+   * Standard JavaScript object representation for SpecsContributor
+   */
+  export interface AsObject {
+    userId: string;
+    count: number;
+  }
+
+  /**
+   * Protobuf JSON representation for SpecsContributor
+   */
+  export interface AsProtobufJSON {
+    userId: string;
+    count: number;
   }
 }
 

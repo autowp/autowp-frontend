@@ -3,26 +3,26 @@
     <h3>
       <app-item-header
         [item]="{
-          nameHTML: item.name_html,
-          design: item.design,
-          produced: {count: item.produced || 0, exactly: !!item.produced_exactly},
+          nameHTML: item.nameHtml,
+          design: item.design || null,
+          produced: {count: item.produced || 0, exactly: !!item.producedExactly},
         }"
       ></app-item-header>
     </h3>
-    @if (item.name_default) {
-      <h4 [textContent]="item.name_default"></h4>
+    @if (item.nameDefault) {
+      <h4 [textContent]="item.nameDefault"></h4>
     }
-    @if (item.preview_pictures) {
-      @if (havePhoto(item) && item.preview_pictures.large_format) {
+    @if (item.previewPictures) {
+      @if (havePhoto(item) && item.previewPictures.largeFormat) {
         <div class="row">
-          @for (picture of item.preview_pictures.pictures.slice(0, 1); track picture) {
+          @for (picture of item.previewPictures.pictures.slice(0, 1); track picture) {
             <div class="col-12 col-lg-6">
               @if (picture && picture.thumb) {
                 <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
                   <img
                     [src]="picture.thumb.src"
-                    [alt]="picture.picture?.name_text"
-                    [title]="picture.picture?.name_text"
+                    [alt]="picture.picture?.nameText"
+                    [title]="picture.picture?.nameText"
                     class="rounded w-100 border border-light"
                     loading="lazy"
                   />
@@ -35,14 +35,14 @@
           }
           <div class="col-12 col-lg-6">
             <div class="row">
-              @for (picture of item.preview_pictures.pictures.slice(1); track picture) {
+              @for (picture of item.previewPictures.pictures.slice(1); track picture) {
                 <div class="col-6">
                   @if (picture && picture.thumb) {
                     <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
                       <img
                         [src]="picture.thumb.src"
-                        [alt]="picture.picture?.name_text"
-                        [title]="picture.picture?.name_text"
+                        [alt]="picture.picture?.nameText"
+                        [title]="picture.picture?.nameText"
                         class="rounded w-100 border border-light"
                         loading="lazy"
                       />
@@ -57,16 +57,16 @@
           </div>
         </div>
       }
-      @if (havePhoto(item) && !item.preview_pictures.large_format) {
+      @if (havePhoto(item) && !item.previewPictures.largeFormat) {
         <div class="row">
-          @for (picture of item.preview_pictures.pictures; track picture) {
+          @for (picture of item.previewPictures.pictures; track picture) {
             <div [class]="thumbnailColClass()">
               @if (picture && picture.picture && picture.thumb) {
                 <a [routerLink]="picture.routerLink" class="d-block rounded mb-4">
                   <img
                     [src]="picture.thumb.src"
-                    [alt]="picture.picture.name_text"
-                    [title]="picture.picture.name_text"
+                    [alt]="picture.picture.nameText"
+                    [title]="picture.picture.nameText"
                     class="rounded w-100 border border-light"
                     loading="lazy"
                   />
@@ -100,20 +100,20 @@
     @if (item.description && item.description.length) {
       <app-markdown class="text" [markdown]="item.description"></app-markdown>
     }
-    @if (item.engine_vehicles && item.engine_vehicles.length) {
+    @if (item.engineVehicles && item.engineVehicles.length) {
       <div>
         <p i18n>Mounted on:</p>
         <ul>
-          @for (vehicle of item.engine_vehicles; track vehicle) {
+          @for (vehicle of item.engineVehicles; track vehicle) {
             <li>
-              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.name_html"></a>
+              <a [routerLink]="vehicle.route" [innerHTML]="vehicle.nameHtml"></a>
             </li>
           }
         </ul>
       </div>
     }
     <ul class="list-inline" ngPreserveWhitespaces>
-      @if (item.has_text || item.details.count || item.item_type_id === ItemType.ITEM_TYPE_PERSON) {
+      @if (item.hasText || item.details.count || item.itemTypeId === ItemType.ITEM_TYPE_PERSON) {
         <li class="list-inline-item">
           <i class="bi bi-text-left me-1" aria-hidden="true"></i>
           <a [routerLink]="item.details.routerLink">
@@ -124,29 +124,29 @@
           </a>
         </li>
       }
-      @if (item.childs_counts) {
-        @if (item.childs_counts.tuning > 0) {
+      @if (item.childsCounts) {
+        @if (item.childsCounts.tuning > 0) {
           <li class="list-inline-item">
             <i class="bi bi-text-left" aria-hidden="true"></i>
             <a [routerLink]="item.details.routerLink.concat('tuning')"
-              ><ng-container i18n>related</ng-container> ({{ item.childs_counts.tuning }})</a
+              ><ng-container i18n>related</ng-container> ({{ item.childsCounts.tuning }})</a
             >
           </li>
         }
-        @if (item.childs_counts.sport > 0) {
+        @if (item.childsCounts.sport > 0) {
           <li class="list-inline-item">
             <i class="bi bi-text-left" aria-hidden="true"></i>
             <a [routerLink]="item.details.routerLink.concat('sport')"
-              ><ng-container i18n>sport</ng-container> ({{ item.childs_counts.sport }})</a
+              ><ng-container i18n>sport</ng-container> ({{ item.childsCounts.sport }})</a
             >
           </li>
         }
       }
-      @if (item.accepted_pictures_count && item.accepted_pictures_count > 4) {
+      @if (item.acceptedPicturesCount && item.acceptedPicturesCount > 4 && item.picturesRouterLink) {
         <li class="list-inline-item">
           <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
           <a [routerLink]="item.picturesRouterLink"
-            ><ng-container i18n>all pictures</ng-container> ({{ item.accepted_pictures_count }})</a
+            ><ng-container i18n>all pictures</ng-container> ({{ item.acceptedPicturesCount }})</a
           >
         </li>
       }
@@ -156,8 +156,8 @@
           <a [routerLink]="item.specsRouterLink" i18n>specifications</a>
         </li>
       }
-      @if (item.twins_groups) {
-        @for (twinsGroup of item.twins_groups; track twinsGroup.id) {
+      @if (item.twinsGroups) {
+        @for (twinsGroup of item.twinsGroups; track twinsGroup.id) {
           <li class="list-inline-item">
             <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
             <a [routerLink]="['/twins/group', twinsGroup.id]" i18n>twins</a>
@@ -168,11 +168,11 @@
         @for (category of item.categories; track category.id) {
           <li class="list-inline-item">
             <i class="bi bi-tag-fill me-1" aria-hidden="true"></i>
-            <a [routerLink]="['/category', category.catname]" [innerHTML]="category.name_html"></a>
+            <a [routerLink]="['/category', category.catname]" [innerHTML]="category.nameHtml"></a>
           </li>
         }
       }
-      @if (item.can_edit_specs) {
+      @if (item.canEditSpecs) {
         <li class="list-inline-item">
           <i class="bi bi-pencil-fill me-1" aria-hidden="true"></i>
           <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
@@ -187,5 +187,19 @@
         }
       }
     </ul>
+    @if (item.contributors) {
+      <p>
+        @if (item.contributors.length > 1) {
+          <ng-container i18n>contributors</ng-container>
+        } @else {
+          <ng-container i18n>contributor</ng-container>
+        }
+        @for (contributor$ of item.contributors; track contributor$) {
+          @if (contributor$ | async; as user) {
+            <app-user [user]="user"></app-user>
+          }
+        }
+      </p>
+    }
   </div>
 }
