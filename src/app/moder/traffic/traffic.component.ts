@@ -27,17 +27,17 @@ interface ListItem {
   templateUrl: './traffic.component.html',
 })
 export class ModerTrafficComponent implements OnInit {
-  private readonly trafficGrpc = inject(TrafficClient);
-  private readonly ipService = inject(IpService);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #trafficGrpc = inject(TrafficClient);
+  readonly #ipService = inject(IpService);
+  readonly #pageEnv = inject(PageEnvService);
 
-  private readonly change$ = new BehaviorSubject<void>(void 0);
+  readonly #change$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly items$: Observable<ListItem[]> = this.change$.pipe(
-    switchMap(() => this.trafficGrpc.getTop(new Empty())),
+  protected readonly items$: Observable<ListItem[]> = this.#change$.pipe(
+    switchMap(() => this.#trafficGrpc.getTop(new Empty())),
     map((response) =>
       (response.items ? response.items : []).map((item) => ({
-        hostname$: this.ipService.getHostByAddr$(item.ip),
+        hostname$: this.#ipService.getHostByAddr$(item.ip),
         item,
       })),
     ),
@@ -46,7 +46,7 @@ export class ModerTrafficComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 77,
         }),
@@ -55,11 +55,11 @@ export class ModerTrafficComponent implements OnInit {
   }
 
   protected addToWhitelist(ip: string) {
-    this.trafficGrpc.addToWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.change$.next());
+    this.#trafficGrpc.addToWhitelist(new AddToTrafficWhitelistRequest({ip})).subscribe(() => this.#change$.next());
   }
 
   protected addToBlacklist(ip: string) {
-    this.trafficGrpc
+    this.#trafficGrpc
       .addToBlacklist(
         new AddToTrafficBlacklistRequest({
           ip: ip,
@@ -67,12 +67,12 @@ export class ModerTrafficComponent implements OnInit {
           reason: '',
         }),
       )
-      .subscribe(() => this.change$.next());
+      .subscribe(() => this.#change$.next());
   }
 
   protected removeFromBlacklist(ip: string) {
-    this.trafficGrpc
+    this.#trafficGrpc
       .deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip}))
-      .subscribe(() => this.change$.next());
+      .subscribe(() => this.#change$.next());
   }
 }

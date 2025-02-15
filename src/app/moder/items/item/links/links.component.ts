@@ -1,9 +1,7 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {APIItemLink, APIItemLinkRequest, ItemLinkListOptions, ItemLinksRequest} from '@grpc/spec.pb';
+import {APIItem, APIItemLink, APIItemLinkRequest, ItemLinkListOptions, ItemLinksRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
@@ -17,19 +15,19 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './links.component.html',
 })
 export class ModerItemsItemLinksComponent {
-  private readonly acl = inject(ACLService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly toastService = inject(ToastsService);
+  readonly #acl = inject(ACLService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #toastService = inject(ToastsService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
 
   protected loadingNumber = 0;
 
-  protected readonly canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
+  protected readonly canEditMeta$ = this.#acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
 
   protected readonly newLink = {
     name: '',
@@ -37,27 +35,25 @@ export class ModerItemsItemLinksComponent {
     url: '',
   };
 
-  protected readonly links$: Observable<APIItemLink[]> = this.reload$.pipe(
+  protected readonly links$: Observable<APIItemLink[]> = this.#reload$.pipe(
     switchMap(() => this.item$),
     switchMap((item) =>
       item
-        ? this.itemsClient.getItemLinks(
-            new ItemLinksRequest({options: new ItemLinkListOptions({itemId: '' + item.id})}),
-          )
+        ? this.#itemsClient.getItemLinks(new ItemLinksRequest({options: new ItemLinkListOptions({itemId: item.id})}))
         : EMPTY,
     ),
     map((response) => (response.items ? response.items : [])),
   );
 
-  protected saveLinks(itemId: number, links: APIItemLink[]) {
+  protected saveLinks(itemId: string, links: APIItemLink[]) {
     const promises: Observable<null>[] = [];
 
     if (this.newLink.url) {
       promises.push(
-        this.itemsClient
+        this.#itemsClient
           .createItemLink(
             new APIItemLink({
-              itemId: '' + itemId,
+              itemId: itemId,
               name: this.newLink.name,
               type: this.newLink.type,
               url: this.newLink.url,
@@ -65,7 +61,7 @@ export class ModerItemsItemLinksComponent {
           )
           .pipe(
             catchError((response: unknown) => {
-              this.toastService.handleError(response);
+              this.#toastService.handleError(response);
               return of(null);
             }),
             tap((response) => {
@@ -83,11 +79,11 @@ export class ModerItemsItemLinksComponent {
     for (const link of links) {
       if (link.url) {
         promises.push(
-          this.itemsClient
+          this.#itemsClient
             .updateItemLink(
               new APIItemLink({
                 id: link.id,
-                itemId: '' + itemId,
+                itemId: itemId,
                 name: link.name,
                 type: link.type,
                 url: link.url,
@@ -95,23 +91,21 @@ export class ModerItemsItemLinksComponent {
             )
             .pipe(
               catchError((response: unknown) => {
-                this.toastService.handleError(response);
+                this.#toastService.handleError(response);
                 return of(null);
               }),
               map(() => null),
             ),
         );
       } else {
-        promises.push(
-          this.itemsClient.deleteItemLink(new APIItemLinkRequest({id: '' + link.id})).pipe(map(() => null)),
-        );
+        promises.push(this.#itemsClient.deleteItemLink(new APIItemLinkRequest({id: link.id})).pipe(map(() => null)));
       }
     }
 
     this.loadingNumber++;
     forkJoin(promises).subscribe({
       complete: () => this.loadingNumber--,
-      next: () => this.reload$.next(),
+      next: () => this.#reload$.next(),
     });
   }
 }

@@ -10,12 +10,13 @@ import {
   ItemParentFields,
   ItemParentListOptions,
   ItemParentsRequest,
+  ItemRequest,
   ItemType,
   MoveItemParentRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {allowedItemTypeCombinations, APIItem, ItemService} from '@services/item';
+import {allowedItemTypeCombinations, ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
@@ -26,30 +27,30 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
-  imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
+  imports: [RouterLink, MarkdownComponent, AsyncPipe, ItemMetaFormComponent],
   selector: 'app-moder-items-item-organize',
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemOrganizeComponent implements OnInit {
-  private readonly api = inject(APIService);
-  private readonly itemService = inject(ItemService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly languageService = inject(LanguageService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #api = inject(APIService);
+  readonly #itemService = inject(ItemService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #languageService = inject(LanguageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
 
   protected loading = 0;
   protected invalidParams?: InvalidParams;
 
-  private readonly itemTypeID$: Observable<number> = this.route.queryParamMap.pipe(
+  readonly #itemTypeID$: Observable<number> = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly itemID$ = this.route.paramMap.pipe(
+  readonly #itemID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(30),
@@ -57,16 +58,16 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   );
 
   protected readonly childs$: Observable<GRPCAPIItem[]> = combineLatest([
-    this.itemID$.pipe(
+    this.#itemID$.pipe(
       switchMap((id) =>
-        this.itemsClient.getItemParents(
+        this.#itemsClient.getItemParents(
           new ItemParentsRequest({
             fields: new ItemParentFields({
               item: new ItemFields({
                 nameHtml: true,
               }),
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 500,
             options: new ItemParentListOptions({
               parentId: id,
@@ -76,7 +77,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         ),
       ),
     ),
-    this.itemTypeID$,
+    this.#itemTypeID$,
   ]).pipe(
     map(([data, itemTypeID]) =>
       (data.items || [])
@@ -89,34 +90,27 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     ),
   );
 
-  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<GRPCAPIItem> = this.#itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem$(+id, {
-        fields: [
-          'name_text',
-          'name',
-          'is_concept',
-          'name_default',
-          'subscription',
-          'begin_year',
-          'begin_month',
-          'end_year',
-          'end_month',
-          'today',
-          'begin_model_year',
-          'end_model_year',
-          'produced',
-          'spec_id',
-          'full_name',
-          'lat',
-          'lng',
-        ].join(','),
-      }),
+      this.#itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            childsCount: true,
+            fullName: true,
+            location: true,
+            meta: true,
+            nameDefault: true,
+            nameHtml: true,
+            nameText: true,
+          }),
+          id,
+        }),
+      ),
     ),
     shareReplay({bufferSize: 1, refCount: false}),
     switchMap((item) => {
       if (!item) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -125,18 +119,18 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     }),
   );
 
-  protected readonly newItem$: Observable<APIItem> = combineLatest([this.itemTypeID$, this.item$]).pipe(
+  protected readonly newItem$: Observable<GRPCAPIItem> = combineLatest([this.#itemTypeID$, this.item$]).pipe(
     map(([itemTypeID, item]) => {
-      const newItem = {...item};
-      newItem.item_type_id = itemTypeID;
+      const newItem = {...item} as GRPCAPIItem;
+      newItem.itemTypeId = itemTypeID;
       return newItem;
     }),
   );
 
   protected readonly vehicleTypeIDs$ = this.item$.pipe(
     switchMap((item) =>
-      [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)
-        ? this.itemsClient
+      [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)
+        ? this.#itemsClient
             .getItemVehicleTypes(
               new APIGetItemVehicleTypesRequest({
                 itemId: item.id.toString(),
@@ -149,14 +143,14 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 215,
       });
     }, 0);
   }
 
-  protected submit(item: APIItem, itemTypeID: number, event: ItemMetaFormResult) {
+  protected submit(item: GRPCAPIItem, itemTypeID: number, event: ItemMetaFormResult) {
     this.loading++;
 
     const data = {
@@ -180,11 +174,11 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
       name: event.name,
       produced: event.produced?.count,
       produced_exactly: event.produced?.exactly,
-      spec_id: event.spec_id,
+      spec_id: event.spec_id ? event.spec_id : null,
       today: event.end?.today,
     };
 
-    this.api
+    this.#api
       .request$<void>('POST', 'item', {
         body: data,
         observe: 'response',
@@ -198,31 +192,37 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') ?? '', {})),
+        switchMap((response) => {
+          const location = response.headers.get('Location') ?? '';
+          const parts = location.split('/');
+          const itemId = parts[parts.length - 1];
+
+          return this.#itemsClient.item(new ItemRequest({id: itemId}));
+        }),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
-            this.itemsClient
+            this.#itemsClient
               .createItemParent(
                 new ItemParent({
                   itemId: '' + newItem.id,
-                  parentId: '' + item.id,
+                  parentId: item.id,
                 }),
               )
               .pipe(map(() => void 0)),
           ];
 
           if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(itemTypeID)) {
-            promises.push(this.itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
+            promises.push(this.#itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
           }
 
           for (const child of event.items) {
             promises.push(
-              this.itemsClient
+              this.#itemsClient
                 .moveItemParent(
                   new MoveItemParentRequest({
-                    destParentId: '' + newItem.id,
+                    destParentId: newItem.id,
                     itemId: '' + child,
-                    parentId: '' + item.id,
+                    parentId: item.id,
                   }),
                 )
                 .pipe(map(() => void 0)),
@@ -242,9 +242,9 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         next: () => {
           this.loading--;
           if (localStorage) {
-            localStorage.setItem('last_item', item.id.toString());
+            localStorage.setItem('last_item', item.id);
           }
-          this.router.navigate(['/moder/items/item', item.id], {
+          this.#router.navigate(['/moder/items/item', item.id], {
             queryParams: {
               tab: 'catalogue',
             },

@@ -14,8 +14,8 @@ import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-ite
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemSelectParentTreeComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set itemParent(value: ItemParent) {
     this.itemParent$.next(value);
@@ -29,11 +29,11 @@ export class ModerItemsItemSelectParentTreeComponent {
   protected readonly item$ = this.itemParent$.pipe(
     switchMap((item) =>
       item
-        ? this.itemsClient.item(
+        ? this.#itemsClient.item(
             new ItemRequest({
               fields: new ItemFields({childsCount: true, nameHtml: true}),
               id: item.itemId,
-              language: this.languageService.language,
+              language: this.#languageService.language,
             }),
           )
         : EMPTY,

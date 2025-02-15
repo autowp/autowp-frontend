@@ -1,9 +1,7 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
-import {APIGetItemVehicleTypesRequest, ItemType} from '@grpc/spec.pb';
+import {APIGetItemVehicleTypesRequest, APIItem, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -21,10 +19,10 @@ import {ItemMetaFormComponent, ItemMetaFormResult} from '../../item-meta-form/it
   templateUrl: './meta.component.html',
 })
 export class ModerItemsItemMetaComponent {
-  private readonly acl = inject(ACLService);
-  private readonly api = inject(APIService);
-  private readonly itemService = inject(ItemService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #acl = inject(ACLService);
+  readonly #api = inject(APIService);
+  readonly #itemService = inject(ItemService);
+  readonly #itemsClient = inject(ItemsClient);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -33,16 +31,13 @@ export class ModerItemsItemMetaComponent {
 
   protected loadingNumber = 0;
 
-  protected readonly canEditMeta$ = this.acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
+  protected readonly canEditMeta$ = this.#acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
   protected invalidParams?: InvalidParams;
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {
-      if (
-        item &&
-        (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_TWINS)
-      ) {
-        return this.itemsClient
+      if (item && (item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE || item.itemTypeId === ItemType.ITEM_TYPE_TWINS)) {
+        return this.#itemsClient
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
               itemId: item.id.toString(),
@@ -78,12 +73,12 @@ export class ModerItemsItemMetaComponent {
       name: event.name,
       produced: event.produced?.count,
       produced_exactly: event.produced?.exactly,
-      spec_id: event.spec_id,
+      spec_id: event.spec_id ? event.spec_id : null,
       today: event.end?.today,
     };
 
     const pipes: Observable<void>[] = [
-      this.api.request$<void>('PUT', 'item/' + item.id, {body: data}).pipe(
+      this.#api.request$<void>('PUT', 'item/' + item.id, {body: data}).pipe(
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse) {
             this.invalidParams = response.error.invalid_params;
@@ -93,8 +88,8 @@ export class ModerItemsItemMetaComponent {
         tap(() => (this.invalidParams = {})),
       ),
     ];
-    if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {
-      pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));
+    if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
+      pipes.push(this.#itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));
     }
 
     forkJoin(pipes).subscribe({

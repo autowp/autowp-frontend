@@ -14,7 +14,7 @@
 
 @if (item) {
   <div class="page-header">
-    <h1>{{ getItemTypeTranslation(item.item_type_id, 'name') }}: <span [innerHTML]="item.name_html"></span></h1>
+    <h1>{{ getItemTypeTranslation(item.itemTypeId, 'name') }}: <span [innerHTML]="item.nameHtml"></span></h1>
   </div>
 }
 
@@ -32,8 +32,8 @@
           @if (specsAllowed && canEditSpecifications) {
             <p ngPreserveWhitespaces>
               <a routerLink="/cars/specifications-editor" [queryParams]="{item_id: item.id}" i18n>edit specs</a>
-              @if (item.specifications_count) {
-                <span class="badge rounded-pill text-bg-secondary" [textContent]="item.specifications_count"></span>
+              @if (item.specificationsCount) {
+                <span class="badge rounded-pill text-bg-secondary" [textContent]="item.specificationsCount"></span>
               }
             </p>
           }

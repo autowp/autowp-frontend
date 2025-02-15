@@ -2,7 +2,7 @@
   <div class="card card-body">
     @if (canMove$ | async; as canMove) {
       <div class="mb-3">
-        @if (item && item.is_group && canMove && item.childs_count > 0) {
+        @if (item && item.isGroup && canMove && item.childsCount > 0) {
           <a
             [routerLink]="['/moder/items/item', item.id, 'organize']"
             [queryParams]="{item_type_id: organizeTypeId$ | async}"
@@ -131,7 +131,7 @@
             <td colspan="2" ngPreserveWhitespaces>
               &nbsp;&nbsp;&nbsp;&nbsp;
               <i class="bi bi-arrow-right" aria-hidden="true"></i>
-              <span [innerHTML]="item.name_html"></span>
+              <span [innerHTML]="item.nameHtml"></span>
             </td>
             <td class="urls">
               <!--ng-container *ngFor="let url of item.parent.publicUrls">
@@ -192,8 +192,8 @@
               }
             </tr>
           }
-          @if (item.is_group && canMove) {
-            @if (item.item_type_id === ItemType.ITEM_TYPE_BRAND) {
+          @if (item.isGroup && canMove) {
+            @if (item.itemTypeId === ItemType.ITEM_TYPE_BRAND) {
               <tr>
                 <td colspan="2">
                   <i class="bi bi-plus" aria-hidden="true"></i>
@@ -220,7 +220,7 @@
                 <td class="urls"></td>
                 <td></td>
               </tr>
-            } @else if (item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+            } @else if (item.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
               <tr>
                 <td colspan="2">
                   <i class="bi bi-plus" aria-hidden="true"></i>
@@ -262,18 +262,15 @@
               </tr>
             }
             @if (
-              item.item_type_id !== ItemType.ITEM_TYPE_TWINS &&
-              item.item_type_id !== ItemType.ITEM_TYPE_FACTORY &&
-              item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY
+              item.itemTypeId !== ItemType.ITEM_TYPE_TWINS &&
+              item.itemTypeId !== ItemType.ITEM_TYPE_FACTORY &&
+              item.itemTypeId !== ItemType.ITEM_TYPE_CATEGORY
             ) {
               <tr>
                 <td colspan="2">
                   <i class="bi bi-plus" aria-hidden="true"></i>
-                  <a
-                    routerLink="/moder/items/new"
-                    [queryParams]="{item_type_id: item.item_type_id, parent_id: item.id}"
-                  >
-                    @if (item.item_type_id === ItemType.ITEM_TYPE_ENGINE) {
+                  <a routerLink="/moder/items/new" [queryParams]="{item_type_id: item.itemTypeId, parent_id: item.id}">
+                    @if (item.itemTypeId === ItemType.ITEM_TYPE_ENGINE) {
                       <ng-container i18n>add engine</ng-container>
                     } @else {
                       <ng-container i18n>add vehicle</ng-container>

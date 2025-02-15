@@ -1,10 +1,8 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {APIGetItemLanguagesRequest, ItemLanguage} from '@grpc/spec.pb';
+import {APIGetItemLanguagesRequest, APIItem, ItemLanguage} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavLinkBase, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {ContentLanguageService} from '@services/content-language';
@@ -30,8 +28,8 @@ import {MarkdownEditComponent} from '../../../../markdown-edit/markdown-edit/mar
   templateUrl: './name.component.html',
 })
 export class ModerItemsItemNameComponent {
-  private readonly contentLanguage = inject(ContentLanguageService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #contentLanguage = inject(ContentLanguageService);
+  readonly #itemsClient = inject(ItemsClient);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -39,7 +37,7 @@ export class ModerItemsItemNameComponent {
 
   protected loadingNumber = 0;
 
-  protected readonly languages$ = this.contentLanguage.languages$.pipe(
+  protected readonly languages$ = this.#contentLanguage.languages$.pipe(
     map((contentLanguages) => {
       const languages = new Map<string, ItemLanguage>();
 
@@ -67,8 +65,8 @@ export class ModerItemsItemNameComponent {
     switchMap((item) =>
       item
         ? combineLatest([
-            of(item.id + ''),
-            this.itemsClient.getItemLanguages(new APIGetItemLanguagesRequest({itemId: '' + item.id})),
+            of(item.id),
+            this.#itemsClient.getItemLanguages(new APIGetItemLanguagesRequest({itemId: item.id})),
             this.languages$,
           ])
         : EMPTY,
@@ -89,7 +87,7 @@ export class ModerItemsItemNameComponent {
   protected saveLanguages(itemLanguages: ItemLanguage[]) {
     for (const itemLanguage of itemLanguages) {
       this.loadingNumber++;
-      this.itemsClient.updateItemLanguage(itemLanguage).subscribe({
+      this.#itemsClient.updateItemLanguage(itemLanguage).subscribe({
         error: () => {
           this.loadingNumber--;
         },

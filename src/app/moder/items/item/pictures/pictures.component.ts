@@ -1,9 +1,8 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {
+  APIItem,
   DfDistanceRequest,
   ItemListOptions,
   ItemType,
@@ -38,7 +37,7 @@ export class ModerItemsItemPicturesComponent {
 
   protected readonly canUseTurboGroupCreator$ = this.item$.pipe(
     map((item) =>
-      item ? [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].indexOf(item.item_type_id) !== -1 : false,
+      item ? [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].indexOf(item.itemTypeId) !== -1 : false,
     ),
   );
 

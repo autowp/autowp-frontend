@@ -50,31 +50,31 @@ function normalizeLng(lng: number) {
   templateUrl: './place.component.html',
 })
 export class ModerPicturesItemPlaceComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly zone = inject(NgZone);
-  private readonly picturesClient = inject(PicturesClient);
-  private readonly toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #zone = inject(NgZone);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #toastService = inject(ToastsService);
 
-  private readonly form = new FormGroup<PointForm>({
+  readonly #form = new FormGroup<PointForm>({
     lat: new FormControl<string>(''),
     lng: new FormControl<string>(''),
   });
 
-  protected readonly picture$: Observable<Picture> = this.route.paramMap.pipe(
+  protected readonly picture$: Observable<Picture> = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((id) =>
-      this.picturesClient.getPicture(
+      this.#picturesClient.getPicture(
         new PicturesRequest({
           options: new PictureListOptions({id}),
         }),
       ),
     ),
     catchError(() => {
-      this.router.navigate(['/error-404'], {
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
@@ -91,9 +91,9 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
         lng = picture.point.longitude + '';
       }
 
-      this.form.setValue({lat, lng});
+      this.#form.setValue({lat, lng});
 
-      return this.form;
+      return this.#form;
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -137,7 +137,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 72,
         }),
@@ -147,7 +147,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
 
   protected onMapReady(mapOptions: MapOptions, lmap: Map, form: FormGroup<PointForm>) {
     lmap.on('click', (event: LeafletMouseEvent) => {
-      this.zone.run(() => {
+      this.#zone.run(() => {
         const ll: LatLng = event.latlng;
         const lat = normalizeLat(ll.lat);
         const lng = normalizeLng(ll.lng);
@@ -161,7 +161,7 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
   }
 
   protected doSubmit(form: FormGroup<PointForm>, picture: Picture) {
-    this.picturesClient
+    this.#picturesClient
       .setPicturePoint(
         new SetPicturePointRequest({
           pictureId: picture.id,
@@ -173,12 +173,12 @@ export class ModerPicturesItemPlaceComponent implements OnInit {
       )
       .pipe(
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
       )
       .subscribe(() => {
-        this.router.navigate(['/moder/pictures', picture.id]);
+        this.#router.navigate(['/moder/pictures', picture.id]);
       });
   }
 }

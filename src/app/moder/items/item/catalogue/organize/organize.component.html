@@ -11,7 +11,7 @@
     </li>
     @if (item$ | async; as item) {
       <li class="breadcrumb-item">
-        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
       </li>
     }
   </ol>
@@ -35,7 +35,7 @@
       [hidden]="loading > 0"
       [disableIsGroup]="true"
       [item]="newItem"
-      (submitted)="submit(item, newItem.item_type_id, $event)"
+      (submitted)="submit(item, newItem.itemTypeId, $event)"
       [invalidParams]="invalidParams"
       [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
       [items]="(childs$ | async) || []"

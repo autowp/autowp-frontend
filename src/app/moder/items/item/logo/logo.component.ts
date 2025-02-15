@@ -1,8 +1,7 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
+import {APIItem, APIImage as GRPCAPIImage} from '@grpc/spec.pb';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIImage, APIService} from '@services/api.service';
@@ -19,13 +18,13 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {
-  private readonly acl = inject(ACLService);
-  private readonly api = inject(APIService);
-  private readonly toastService = inject(ToastsService);
+  readonly #acl = inject(ACLService);
+  readonly #api = inject(APIService);
+  readonly #toastService = inject(ToastsService);
 
   @Input() item?: APIItem;
 
-  protected readonly canLogo$ = this.acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
+  protected readonly canLogo$ = this.#acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
   protected progress: null | {
     failed: boolean;
     filename: string;
@@ -53,7 +52,7 @@ export class ModerItemsItemLogoComponent {
     formData.append('file', file);
 
     if (this.item) {
-      this.api
+      this.#api
         .request$('POST', 'item/' + this.item.id + '/logo', {
           body: formData,
           observe: 'events',
@@ -97,17 +96,21 @@ export class ModerItemsItemLogoComponent {
                 return EMPTY;
               }
 
-              return this.api.request$<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
+              return this.#api.request$<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
                 tap((subresponse) => {
                   if (this.progress) {
                     this.progress.percentage = 100;
                   }
                   if (this.item) {
-                    this.item.logo = subresponse;
+                    this.item.logo = new GRPCAPIImage({
+                      height: subresponse.height,
+                      src: subresponse.src,
+                      width: subresponse.width,
+                    });
                   }
                 }),
                 catchError((response: unknown) => {
-                  this.toastService.handleError(response);
+                  this.#toastService.handleError(response);
 
                   return EMPTY;
                 }),

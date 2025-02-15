@@ -24,9 +24,10 @@ import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf003 from '@ngx-grpc/well-known-types';
-import * as googleType004 from './google/type/latlng.pb';
-import * as googleType005 from './google/type/date.pb';
-import * as googleRpc006 from './google/rpc/error-details.pb';
+import * as googleProtobuf004 from '@ngx-grpc/well-known-types';
+import * as googleType005 from './google/type/latlng.pb';
+import * as googleType006 from './google/type/date.pb';
+import * as googleRpc007 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_FORUMS_CLIENT_SETTINGS,

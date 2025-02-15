@@ -15,22 +15,22 @@ import {APIAttrsService} from '../../../api/attrs/attrs.service';
   templateUrl: './attribute.component.html',
 })
 export class ModerAttrsAttributeComponent {
-  private readonly attrsService = inject(APIAttrsService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly router = inject(Router);
+  readonly #attrsService = inject(APIAttrsService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #router = inject(Router);
 
-  private readonly attributeID$ = this.route.paramMap.pipe(
+  readonly #attributeID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly attribute$: Observable<AttrAttribute> = this.attributeID$.pipe(
-    switchMap((id) => (id ? this.attrsService.getAttribute$(id) : of(null))),
+  protected readonly attribute$: Observable<AttrAttribute> = this.#attributeID$.pipe(
+    switchMap((id) => (id ? this.#attrsService.getAttribute$(id) : of(null))),
     switchMap((attribute) => {
       if (!attribute) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -38,7 +38,7 @@ export class ModerAttrsAttributeComponent {
       return of(attribute);
     }),
     tap((attribute) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 101,
         title: getAttrsTranslation(attribute.name),
@@ -47,20 +47,20 @@ export class ModerAttrsAttributeComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly attributes$ = this.attributeID$.pipe(
-    switchMap((attributeID) => this.attrsService.getAttributes$(null, attributeID)),
+  protected readonly attributes$ = this.#attributeID$.pipe(
+    switchMap((attributeID) => this.#attrsService.getAttributes$(null, attributeID)),
   );
 
-  protected readonly listOptions$: Observable<string[]> = this.attributeID$.pipe(
-    switchMap((attributeID) => (attributeID ? this.attrsService.getListOptions$(attributeID) : EMPTY)),
+  protected readonly listOptions$: Observable<string[]> = this.#attributeID$.pipe(
+    switchMap((attributeID) => (attributeID ? this.#attrsService.getListOptions$(attributeID) : EMPTY)),
     map((response) => (response.items ? response.items : []).map((l) => getAttrListOptionsTranslation(l.name))),
   );
 
-  protected readonly typeOption$ = combineLatest([this.attribute$, this.attrsService.attributeTypes$]).pipe(
+  protected readonly typeOption$ = combineLatest([this.attribute$, this.#attrsService.attributeTypes$]).pipe(
     map(([attribute, options]) => options.find((o) => o.id === attribute.typeId)),
   );
 
-  protected readonly typeMap$: Observable<{[id: number]: string}> = this.attrsService.attributeTypes$.pipe(
+  protected readonly typeMap$: Observable<{[id: number]: string}> = this.#attrsService.attributeTypes$.pipe(
     map((types) => {
       const typeMap: {[key: string]: string} = {};
       for (const item of types) {

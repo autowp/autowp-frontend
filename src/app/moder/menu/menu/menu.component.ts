@@ -27,8 +27,8 @@ interface MenuItem {
 export class MenuComponent {
   protected readonly auth = inject(AuthService);
   protected readonly acl = inject(ACLService);
-  private readonly pictureService = inject(PictureService);
-  private readonly commentService = inject(APICommentsService);
+  readonly #pictureService = inject(PictureService);
+  readonly #commentService = inject(APICommentsService);
 
   protected readonly items$: Observable<MenuItem[] | null> = this.acl
     .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
@@ -40,7 +40,7 @@ export class MenuComponent {
 
         return [
           {
-            count$: this.pictureService.inboxSize$,
+            count$: this.#pictureService.inboxSize$,
             icon: 'bi bi-grid-3x2-gap-fill',
             label: $localize`Inbox`,
             queryParams: {
@@ -50,7 +50,7 @@ export class MenuComponent {
             routerLink: ['/moder/pictures'],
           },
           {
-            count$: this.commentService.attentionCommentsCount$,
+            count$: this.#commentService.attentionCommentsCount$,
             icon: 'bi bi-chat-fill',
             label: $localize`Comments`,
             queryParams: {

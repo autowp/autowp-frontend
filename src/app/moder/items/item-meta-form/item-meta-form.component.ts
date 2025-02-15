@@ -1,4 +1,3 @@
-import type {APIItem} from '@services/item';
 import type {InvalidParams} from '@utils/invalid-params.pipe';
 
 import {AsyncPipe} from '@angular/common';
@@ -37,6 +36,12 @@ import {sprintf} from 'sprintf-js';
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {MapPointComponent} from './map-point/map-point.component';
 
+type isConceptValue = 'inherited' | boolean | null;
+type specValue = 'inherited' | null | number;
+
+const isConceptInherited = 'inherited',
+  specInherited = 'inherited';
+
 export interface ItemMetaFormResult {
   begin: {
     month: number;
@@ -50,7 +55,7 @@ export interface ItemMetaFormResult {
     year: number;
   };
   full_name: string;
-  is_concept: 'inherited' | boolean;
+  is_concept: isConceptValue;
   is_group: boolean;
   items: number[];
   model_years: {
@@ -69,7 +74,7 @@ export interface ItemMetaFormResult {
     count: number;
     exactly: boolean;
   };
-  spec_id: 'inherited' | number;
+  spec_id: specValue;
   vehicle_type_id: string[];
 }
 
@@ -90,7 +95,7 @@ interface Form {
     year: FormControl<null | number>;
   }>;
   full_name?: FormControl<null | string>;
-  is_concept?: FormControl<'inherited' | boolean | null>;
+  is_concept?: FormControl<isConceptValue>;
   is_group?: FormControl<boolean | null>;
   items?: FormArray<FormControl<string>>;
   model_years?: FormGroup<{
@@ -109,7 +114,7 @@ interface Form {
     count: FormControl<null | number>;
     exactly: FormControl<boolean | null>;
   }>;
-  spec_id?: FormControl<null | number | string>;
+  spec_id?: FormControl<specValue>;
   vehicle_type_id?: FormControl<null | string[]>;
 }
 
@@ -154,11 +159,11 @@ function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
   templateUrl: './item-meta-form.component.html',
 })
 export class ItemMetaFormComponent {
-  private readonly specService = inject(SpecService);
-  private readonly vehicleTypeService = inject(VehicleTypeService);
+  readonly #specService = inject(SpecService);
+  readonly #vehicleTypeService = inject(VehicleTypeService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
-  private readonly modalService = inject(NgbModal);
+  readonly #modalService = inject(NgbModal);
 
   @Input() submitNotify: () => void = () => {};
   @Input() invalidParams?: InvalidParams;
@@ -174,15 +179,15 @@ export class ItemMetaFormComponent {
   }
   protected readonly parentIsConcept$ = new BehaviorSubject<null | ParentIsConcept>(null);
 
-  @Input() set item(item: APIItem) {
+  @Input() set item(item: GRPCAPIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  protected readonly item$ = new BehaviorSubject<GRPCAPIItem | null>(null);
 
   @Input() set vehicleTypeIDs(vehicleTypeIDs: string[]) {
-    this.vehicleTypeIDs$.next(vehicleTypeIDs);
+    this.#vehicleTypeIDs$.next(vehicleTypeIDs);
   }
-  private readonly vehicleTypeIDs$ = new BehaviorSubject<null | string[]>(null);
+  readonly #vehicleTypeIDs$ = new BehaviorSubject<null | string[]>(null);
 
   @Input() set items(items: GRPCAPIItem[]) {
     this.items$.next(items);
@@ -208,7 +213,7 @@ export class ItemMetaFormComponent {
   }
   protected readonly pictures$ = new BehaviorSubject<null | PicturesListItem[]>(null);
 
-  private readonly vehicleTypes$: Observable<VehicleType[]> = this.vehicleTypeService.getTypesPlain$().pipe(
+  readonly #vehicleTypes$: Observable<VehicleType[]> = this.#vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>
       types.map((type) => {
         type.name = getVehicleTypeTranslation(type.name);
@@ -247,7 +252,7 @@ export class ItemMetaFormComponent {
   protected readonly modelYearFractionOptions = [
     {
       name: '-',
-      value: null,
+      value: '',
     },
     {
       name: '¼',
@@ -262,12 +267,11 @@ export class ItemMetaFormComponent {
       value: '¾',
     },
   ];
-
-  private readonly nameMaxlength = 100; // DbTable\Item::MAX_NAME
-  private readonly fullnameMaxlength = 255; // BrandModel::MAX_FULLNAME
-  private readonly bodyMaxlength = 20;
-  private readonly modelYearMax: number = new Date().getFullYear() + 10;
-  private readonly yearMax: number = new Date().getFullYear() + 10;
+  readonly #nameMaxlength = 100; // DbTable\Item::MAX_NAME
+  readonly #fullnameMaxlength = 255; // BrandModel::MAX_FULLNAME
+  readonly #bodyMaxlength = 20;
+  readonly #modelYearMax: number = new Date().getFullYear() + 10;
+  readonly #yearMax: number = new Date().getFullYear() + 10;
 
   protected readonly monthOptions: {
     name: string;
@@ -291,12 +295,12 @@ export class ItemMetaFormComponent {
       },
       {
         name: localizeInherited(parentIsConcept),
-        value: 'inherited',
+        value: isConceptInherited,
       },
     ]),
   );
 
-  protected readonly specs$ = this.specService.getSpecs$().pipe(
+  protected readonly specs$ = this.#specService.specs$.pipe(
     map((specs) =>
       (
         [
@@ -307,7 +311,7 @@ export class ItemMetaFormComponent {
           },
           {
             deep: 0,
-            id: 'inherited',
+            id: specInherited,
             short_name: 'inherited',
           },
         ] as ItemMetaFormAPISpec[]
@@ -317,7 +321,7 @@ export class ItemMetaFormComponent {
 
   protected readonly form$: Observable<FormGroup<Form>> = combineLatest([
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
-    this.vehicleTypeIDs$,
+    this.#vehicleTypeIDs$,
     this.disableIsGroup$,
     this.items$,
     this.pictures$,
@@ -325,62 +329,69 @@ export class ItemMetaFormComponent {
     // eslint-disable-next-line sonarjs/cognitive-complexity
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
       const elements: Form = {
-        name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.nameMaxlength)]),
+        name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.#nameMaxlength)]),
       };
-      if (item.item_type_id === ItemType.ITEM_TYPE_BRAND) {
-        elements.full_name = new FormControl(item.full_name, Validators.maxLength(this.fullnameMaxlength));
+      if (item.itemTypeId === ItemType.ITEM_TYPE_BRAND) {
+        elements.full_name = new FormControl(item.fullName, Validators.maxLength(this.#fullnameMaxlength));
       }
-      if (item.item_type_id === ItemType.ITEM_TYPE_BRAND || item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+      if (item.itemTypeId === ItemType.ITEM_TYPE_BRAND || item.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
         elements.catname = new FormControl(item.catname);
       }
-      if (item.item_type_id === ItemType.ITEM_TYPE_VEHICLE || item.item_type_id === ItemType.ITEM_TYPE_ENGINE) {
-        elements.body = new FormControl(item.body, Validators.maxLength(this.bodyMaxlength));
-        elements.spec_id = new FormControl(item.spec_id);
+      if (item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE || item.itemTypeId === ItemType.ITEM_TYPE_ENGINE) {
+        elements.body = new FormControl(item.body, Validators.maxLength(this.#bodyMaxlength));
+
+        let spec: specValue = specInherited;
+        if (!item.specInherit) {
+          spec = item.specId ? item.specId : null;
+        }
+        elements.spec_id = new FormControl<null | specValue>(spec);
         elements.model_years = new FormGroup({
-          begin_year: new FormControl(item.begin_model_year > 0 ? item.begin_model_year : null, [
+          begin_year: new FormControl(item.beginModelYear > 0 ? item.beginModelYear : null, [
             Validators.min(1700),
-            Validators.max(this.modelYearMax),
+            Validators.max(this.#modelYearMax),
           ]),
-          begin_year_fraction: new FormControl(item.begin_model_year_fraction),
-          end_year: new FormControl(item.end_model_year > 0 ? item.end_model_year : null, [
+          begin_year_fraction: new FormControl(item.beginModelYearFraction),
+          end_year: new FormControl(item.endModelYear > 0 ? item.endModelYear : null, [
             Validators.min(1700),
-            Validators.max(this.modelYearMax),
+            Validators.max(this.#modelYearMax),
           ]),
-          end_year_fraction: new FormControl(item.end_model_year_fraction),
+          end_year_fraction: new FormControl(item.endModelYearFraction),
         });
         elements.produced = new FormGroup({
-          count: new FormControl(item.produced),
-          exactly: new FormControl(item.produced_exactly),
+          count: new FormControl(item.produced ? item.produced : null),
+          exactly: new FormControl(item.producedExactly),
         });
-        elements.is_concept = new FormControl(item.is_concept);
+        elements.is_concept = new FormControl<isConceptValue>(
+          item.isConceptInherit ? isConceptInherited : item.isConcept,
+        );
         elements.is_group = new FormControl({
-          disabled: !!(item.childs_count > 0 || disableIsGroup),
-          value: item.is_group,
+          disabled: !!(item.childsCount > 0 || disableIsGroup),
+          value: item.isGroup,
         });
       }
-      if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)) {
+      if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
         elements.vehicle_type_id = new FormControl(vehicleTypeIDs);
       }
-      if (item.item_type_id !== ItemType.ITEM_TYPE_COPYRIGHT) {
+      if (item.itemTypeId !== ItemType.ITEM_TYPE_COPYRIGHT) {
         elements.begin = new FormGroup({
-          month: new FormControl(item.begin_month > 0 ? item.begin_month : null),
-          year: new FormControl(item.begin_year > 0 ? item.begin_year : null, [
+          month: new FormControl(item.beginMonth > 0 ? item.beginMonth : null),
+          year: new FormControl(item.beginYear > 0 ? item.beginYear : null, [
             Validators.min(1700),
-            Validators.max(this.yearMax),
+            Validators.max(this.#yearMax),
           ]),
         });
         elements.end = new FormGroup({
-          month: new FormControl(item.end_month > 0 ? item.end_month : null),
-          today: new FormControl(item.today),
-          year: new FormControl(item.end_year > 0 ? item.end_year : null, [
+          month: new FormControl(item.endMonth > 0 ? item.endMonth : null),
+          today: new FormControl(item.today ? item.today.value : null),
+          year: new FormControl(item.endYear > 0 ? item.endYear : null, [
             Validators.min(1700),
-            Validators.max(this.yearMax),
+            Validators.max(this.#yearMax),
           ]),
         });
       }
-      if ([ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_MUSEUM].includes(item.item_type_id)) {
-        const lat = item.lat;
-        const lng = item.lng;
+      if ([ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_MUSEUM].includes(item.itemTypeId)) {
+        const lat = item.location?.latitude || 0;
+        const lng = item.location?.longitude || 0;
         elements.point = new FormControl({disabled: false, value: {lat, lng}});
       }
       if (items) {
@@ -414,7 +425,7 @@ export class ItemMetaFormComponent {
   }
 
   protected showVehicleTypesModal(vehicleTypeIDs: AbstractControl) {
-    const modalRef = this.modalService.open(VehicleTypesModalComponent, {
+    const modalRef = this.#modalService.open(VehicleTypesModalComponent, {
       centered: true,
       size: 'lg',
     });
@@ -426,7 +437,7 @@ export class ItemMetaFormComponent {
   }
 
   protected vehicleTypeName$(typeID: string): Observable<string> {
-    return this.vehicleTypes$.pipe(
+    return this.#vehicleTypes$.pipe(
       map((types) => {
         const type = types.find((t) => t.id.toString() === typeID);
         return type ? type.name : '#' + typeID;

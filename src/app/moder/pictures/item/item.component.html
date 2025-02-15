@@ -476,7 +476,7 @@
               </p>
             </div>
           }
-          <app-picture-moder-vote2 [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote2>
+          <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
           @if (picture.isLast) {
             <p>
               <span class="badge text-bg-warning text-dark" i18n>That is single picture of that vehicle</span>

@@ -17,10 +17,10 @@ import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-ite
   templateUrl: './categories.component.html',
 })
 export class ModerItemsItemSelectParentCategoriesComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Output() selected = new EventEmitter<string>();
 
@@ -29,7 +29,7 @@ export class ModerItemsItemSelectParentCategoriesComponent {
   }
   protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
-  protected readonly page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
@@ -38,10 +38,10 @@ export class ModerItemsItemSelectParentCategoriesComponent {
 
   protected readonly categories$: Observable<APIItemList> = this.page$.pipe(
     switchMap((page) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({childsCount: true, nameHtml: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 100,
           options: new ItemListOptions({
             noParent: true,
@@ -52,7 +52,7 @@ export class ModerItemsItemSelectParentCategoriesComponent {
       ),
     ),
     catchError((error: unknown) => {
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
   );

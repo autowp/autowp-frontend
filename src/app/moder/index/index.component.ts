@@ -9,14 +9,14 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './index.component.html',
 })
 export class ModerIndexComponent implements AfterViewInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   protected readonly ItemType = ItemType;
 
   ngAfterViewInit() {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 67,
         }),

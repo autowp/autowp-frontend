@@ -28,10 +28,10 @@ import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-ite
   templateUrl: './twins.component.html',
 })
 export class ModerItemsItemSelectParentTwinsComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Output() selected = new EventEmitter<string>();
 
@@ -40,13 +40,13 @@ export class ModerItemsItemSelectParentTwinsComponent {
   }
   protected readonly itemID$ = new BehaviorSubject<null | string>(null);
 
-  protected readonly brandID$ = this.route.queryParamMap.pipe(
+  protected readonly brandID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('brand_id')),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
@@ -59,10 +59,10 @@ export class ModerItemsItemSelectParentTwinsComponent {
         ? of(null)
         : this.page$.pipe(
             switchMap((page) =>
-              this.itemsClient.list(
+              this.#itemsClient.list(
                 new ItemsRequest({
                   fields: new ItemFields({nameHtml: true}),
-                  language: this.languageService.language,
+                  language: this.#languageService.language,
                   limit: 500,
                   options: new ItemListOptions({
                     descendant: new ItemParentCacheListOptions({
@@ -80,7 +80,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
               ),
             ),
             catchError((error: unknown) => {
-              this.toastService.handleError(error);
+              this.#toastService.handleError(error);
               return EMPTY;
             }),
             map((response) => ({
@@ -96,10 +96,10 @@ export class ModerItemsItemSelectParentTwinsComponent {
       brandID
         ? this.page$.pipe(
             switchMap((page) =>
-              this.itemsClient.list(
+              this.#itemsClient.list(
                 new ItemsRequest({
                   fields: new ItemFields({nameHtml: true}),
-                  language: this.languageService.language,
+                  language: this.#languageService.language,
                   limit: 100,
                   options: new ItemListOptions({
                     descendant: new ItemParentCacheListOptions({
@@ -115,7 +115,7 @@ export class ModerItemsItemSelectParentTwinsComponent {
               ),
             ),
             catchError((error: unknown) => {
-              this.toastService.handleError(error);
+              this.#toastService.handleError(error);
               return EMPTY;
             }),
           )

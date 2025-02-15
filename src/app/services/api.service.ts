@@ -481,8 +481,4 @@ export class APIService {
       }),
     );
   }
-
-  public resolveLocation(url: string): string {
-    return url.replace(environment.apiUrl, '');
-  }
 }

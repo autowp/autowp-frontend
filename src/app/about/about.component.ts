@@ -87,16 +87,16 @@ Take part in [the translation of the site](https://github.com/autowp/autowp-fron
   templateUrl: './about.component.html',
 })
 export class AboutComponent implements OnInit {
-  private readonly userService = inject(UserService);
-  private readonly router = inject(Router);
-  private readonly decimalPipe = inject(DecimalPipe);
-  private readonly bytesPipe = inject(BytesPipe);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly statGrpc = inject(StatisticsClient);
+  readonly #userService = inject(UserService);
+  readonly #router = inject(Router);
+  readonly #decimalPipe = inject(DecimalPipe);
+  readonly #bytesPipe = inject(BytesPipe);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #statGrpc = inject(StatisticsClient);
 
   protected readonly version = versionJson;
 
-  protected readonly html$ = this.statGrpc
+  protected readonly html$ = this.#statGrpc
     .getAboutData(new Empty())
     .pipe(
       switchMap((about) => {
@@ -107,7 +107,7 @@ export class AboutComponent implements OnInit {
         ids.push(about.beTranslator);
         ids.push(about.ptBrTranslator);
 
-        return this.userService.getUserMap$(ids).pipe(
+        return this.#userService.getUserMap$(ids).pipe(
           map((users) => ({
             about,
             aboutText,
@@ -133,8 +133,8 @@ export class AboutComponent implements OnInit {
             '<a href="https://github.com/autowp/autowp">https://github.com/autowp/autowp</a>',
           '%pt-br-translator%': this.userHtml(data.users.get(data.about.ptBrTranslator)),
           '%total-comments%': data.about.totalComments.toString(),
-          '%total-pictures%': this.decimalPipe.transform(data.about.totalPictures) ?? '',
-          '%total-size%': this.bytesPipe.transform(data.about.picturesSize * 1024 * 1024, 1).toString(),
+          '%total-pictures%': this.#decimalPipe.transform(data.about.totalPictures) ?? '',
+          '%total-size%': this.#bytesPipe.transform(data.about.picturesSize * 1024 * 1024, 1).toString(),
           '%total-users%': data.about.totalUsers.toString(),
           '%total-vehicles%': data.about.totalItems.toString(),
           '%users%': contributorsHtml.join(' '),
@@ -144,7 +144,7 @@ export class AboutComponent implements OnInit {
     );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 136}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 136}), 0);
   }
 
   private userHtml(user: APIUser | null | undefined): string {
@@ -166,7 +166,7 @@ export class AboutComponent implements OnInit {
     const a = document.createElement('a');
     a.setAttribute(
       'href',
-      this.router.createUrlTree(['/users', user.identity ? user.identity : 'user' + user.id]).toString(),
+      this.#router.createUrlTree(['/users', user.identity ? user.identity : 'user' + user.id]).toString(),
     );
     a.innerText = user.name;
 

@@ -30,20 +30,20 @@ import {ModerItemsItemSelectParentTwinsComponent} from './twins/twins.component'
   templateUrl: './select-parent.component.html',
 })
 export class ModerItemsItemSelectParentComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly tab$ = this.route.queryParamMap.pipe(
+  protected readonly tab$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('tab') ?? 'catalogue'),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly itemID$: Observable<string> = this.route.paramMap.pipe(
+  protected readonly itemID$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('id')),
     map((itemID) => (itemID ? itemID : '')),
     distinctUntilChanged(),
@@ -52,25 +52,25 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
 
   protected readonly item$: Observable<GRPCAPIItem> = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
           }),
           id: '' + itemID,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),
     catchError((error: unknown) => {
       if (error instanceof HttpErrorResponse && error.status === 404) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
       }
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -93,7 +93,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 144,
       });
@@ -101,7 +101,7 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
   }
 
   protected select(itemID: string, parentID: string) {
-    this.itemsClient
+    this.#itemsClient
       .createItemParent(
         new ItemParent({
           itemId: itemID,
@@ -109,9 +109,9 @@ export class ModerItemsItemSelectParentComponent implements OnInit {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
-          this.router.navigate(['/moder/items/item', itemID], {
+          this.#router.navigate(['/moder/items/item', itemID], {
             queryParams: {
               tab: 'catalogue',
             },

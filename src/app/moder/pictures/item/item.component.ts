@@ -55,7 +55,7 @@ import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from
 import {sprintf} from 'sprintf-js';
 
 import {MarkdownEditComponent} from '../../../markdown-edit/markdown-edit/markdown-edit.component';
-import {PictureModerVote2Component} from '../../../picture-moder-vote/picture-moder-vote2/picture-moder-vote2.component';
+import {PictureModerVoteComponent} from '../../../picture-moder-vote/picture-moder-vote/picture-moder-vote.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {UserComponent} from '../../../user/user/user.component';
 import {ModerPicturesPerspectivePickerComponent} from '../perspective-picker/perspective-picker.component';
@@ -83,20 +83,20 @@ interface LastItemInfo {
     NgMathPipesModule,
     NgDatePipesModule,
     TimeAgoPipe,
-    PictureModerVote2Component,
+    PictureModerVoteComponent,
   ],
   selector: 'app-moder-pictures-item',
   templateUrl: './item.component.html',
 })
 export class ModerPicturesItemComponent {
-  private readonly api = inject(APIService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #api = inject(APIService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
   readonly #languageService = inject(LanguageService);
-  private readonly ipService = inject(IpService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly userService = inject(UserService);
+  readonly #ipService = inject(IpService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #userService = inject(UserService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
   readonly #trafficGrpc = inject(TrafficClient);
@@ -109,14 +109,14 @@ export class ModerPicturesItemComponent {
   protected copyrightsLoading = false;
   protected specialNameLoading = false;
 
-  private readonly change$ = new BehaviorSubject<void>(void 0);
+  readonly #change$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly id$ = this.route.paramMap.pipe(
+  protected readonly id$ = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     tap((id) => {
       setTimeout(() => {
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 72,
           title: $localize`Picture №${id}`,
@@ -126,7 +126,7 @@ export class ModerPicturesItemComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly picture$ = combineLatest([this.id$, this.change$]).pipe(
+  protected readonly picture$ = combineLatest([this.id$, this.#change$]).pipe(
     switchMap(([id]) =>
       this.#picturesClient.getPicture(
         new PicturesRequest({
@@ -180,7 +180,7 @@ export class ModerPicturesItemComponent {
       ),
     ),
     catchError(() => {
-      this.router.navigate(['/error-404'], {
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
@@ -189,11 +189,11 @@ export class ModerPicturesItemComponent {
   );
 
   protected readonly changeStatusUser$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => this.userService.getUser$(picture.changeStatusUserId)),
+    switchMap((picture) => this.#userService.getUser$(picture.changeStatusUserId)),
   );
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => this.userService.getUser$(picture.ownerId)),
+    switchMap((picture) => this.#userService.getUser$(picture.ownerId)),
   );
 
   protected readonly ip$: Observable<APIIP | null> = this.picture$.pipe(
@@ -201,7 +201,7 @@ export class ModerPicturesItemComponent {
       if (!picture.ip) {
         return of(null);
       }
-      return this.ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(catchError(() => of(null)));
+      return this.#ipService.getIp$(picture.ip, ['blacklist', 'rights']).pipe(catchError(() => of(null)));
     }),
   );
 
@@ -216,7 +216,7 @@ export class ModerPicturesItemComponent {
         return of({hasItem: false, item: null});
       }
 
-      return this.itemsClient
+      return this.#itemsClient
         .item(
           new ItemRequest({
             fields: new ItemFields({nameHtml: true}),
@@ -315,7 +315,7 @@ export class ModerPicturesItemComponent {
   }
 
   protected pictureVoted() {
-    this.change$.next();
+    this.#change$.next();
   }
 
   private hasItem(items: PictureItem[], itemId: string): boolean {
@@ -349,7 +349,7 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           localStorage.setItem('last_item', item.id.toString());
-          this.change$.next();
+          this.#change$.next();
           this.pictureItemLoading = false;
         },
       });
@@ -376,7 +376,7 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           localStorage.setItem('last_item', dstItemId);
-          this.change$.next();
+          this.#change$.next();
           this.pictureItemLoading = false;
         },
       });
@@ -445,7 +445,7 @@ export class ModerPicturesItemComponent {
           this.statusLoading = false;
         },
         next: () => {
-          this.change$.next();
+          this.#change$.next();
           this.statusLoading = false;
         },
       });
@@ -474,7 +474,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next();
+        this.#change$.next();
         this.repairLoading = false;
       },
     });
@@ -487,7 +487,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next();
+        this.#change$.next();
         this.repairLoading = false;
       },
     });
@@ -500,7 +500,7 @@ export class ModerPicturesItemComponent {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next();
+        this.#change$.next();
         this.repairLoading = false;
       },
     });
@@ -508,12 +508,12 @@ export class ModerPicturesItemComponent {
 
   protected correctFileNames(id: string) {
     this.repairLoading = true;
-    this.api.request$<void>('PUT', 'picture/' + id + '/correct-file-names', {}).subscribe({
+    this.#api.request$<void>('PUT', 'picture/' + id + '/correct-file-names', {}).subscribe({
       error: () => {
         this.repairLoading = false;
       },
       next: () => {
-        this.change$.next();
+        this.#change$.next();
         this.repairLoading = false;
       },
     });
@@ -528,7 +528,7 @@ export class ModerPicturesItemComponent {
           this.similarLoading = false;
         },
         next: () => {
-          this.change$.next();
+          this.#change$.next();
           this.similarLoading = false;
         },
       });
@@ -553,7 +553,7 @@ export class ModerPicturesItemComponent {
       )
       .subscribe({
         next: () => {
-          this.change$.next();
+          this.#change$.next();
           this.pictureItemLoading = false;
         },
       });
@@ -573,7 +573,7 @@ export class ModerPicturesItemComponent {
       )
       .subscribe({
         next: () => {
-          this.change$.next();
+          this.#change$.next();
           this.replaceLoading = false;
         },
       });
@@ -592,7 +592,7 @@ export class ModerPicturesItemComponent {
       )
       .subscribe({
         next: () => {
-          this.change$.next();
+          this.#change$.next();
           this.replaceLoading = false;
         },
       });
@@ -601,7 +601,7 @@ export class ModerPicturesItemComponent {
   protected removeFromBlacklist(ip: string) {
     this.#trafficGrpc
       .deleteFromBlacklist(new DeleteFromTrafficBlacklistRequest({ip}))
-      .subscribe(() => this.change$.next());
+      .subscribe(() => this.#change$.next());
   }
 
   protected addToBlacklist(ip: string) {
@@ -613,7 +613,7 @@ export class ModerPicturesItemComponent {
           reason: this.banReason || undefined,
         }),
       )
-      .subscribe(() => this.change$.next());
+      .subscribe(() => this.#change$.next());
   }
 
   protected readonly ItemType = ItemType;

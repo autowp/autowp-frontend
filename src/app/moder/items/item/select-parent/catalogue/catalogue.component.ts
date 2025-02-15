@@ -28,11 +28,11 @@ import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemSelectParentCatalogueComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly toastService = inject(ToastsService);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Output() selected = new EventEmitter<string>();
 
@@ -46,20 +46,20 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   }
   protected readonly itemTypeID$ = new BehaviorSubject<ItemType | null>(null);
 
-  protected readonly page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly search$ = this.route.queryParamMap.pipe(
+  protected readonly search$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('search')),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly brandID$ = this.route.queryParamMap.pipe(
+  protected readonly brandID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('brand_id') ?? ''),
     map((brandID) => (brandID ? brandID : null)),
     distinctUntilChanged(),
@@ -72,10 +72,10 @@ export class ModerItemsItemSelectParentCatalogueComponent {
         ? of(null)
         : combineLatest([this.itemTypeID$, this.search$, this.page$]).pipe(
             switchMap(([itemTypeID, search, page]) =>
-              this.itemsClient.list(
+              this.#itemsClient.list(
                 new ItemsRequest({
                   fields: new ItemFields({nameHtml: true}),
-                  language: this.languageService.language,
+                  language: this.#languageService.language,
                   limit: 500,
                   options: new ItemListOptions({
                     descendant: new ItemParentCacheListOptions({
@@ -94,7 +94,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
               ),
             ),
             catchError((error: unknown) => {
-              this.toastService.handleError(error);
+              this.#toastService.handleError(error);
               return EMPTY;
             }),
             map((response) => ({
@@ -108,9 +108,9 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   protected readonly catalogueItems$ = combineLatest([this.itemTypeID$, this.brandID$, this.page$]).pipe(
     switchMap(([itemTypeID, brandID, page]) =>
       brandID
-        ? this.itemsClient.getItemParents(
+        ? this.#itemsClient.getItemParents(
             new ItemParentsRequest({
-              language: this.languageService.language,
+              language: this.#languageService.language,
               limit: 100,
               options: new ItemParentListOptions({
                 item: new ItemListOptions({
@@ -128,7 +128,7 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   );
 
   protected doSearch(search: string) {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {search},
       queryParamsHandling: 'merge',
     });

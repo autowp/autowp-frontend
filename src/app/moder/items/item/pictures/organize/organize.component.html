@@ -11,7 +11,7 @@
     </li>
     @if (item$ | async; as item) {
       <li class="breadcrumb-item">
-        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.name_html"></a>
+        <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
       </li>
     }
   </ol>

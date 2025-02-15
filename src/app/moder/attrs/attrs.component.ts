@@ -15,20 +15,20 @@ import {ModerAttrsAttributeListComponent} from './attribute-list/attribute-list.
   templateUrl: './attrs.component.html',
 })
 export class ModerAttrsComponent implements OnInit {
-  private readonly attrsService = inject(APIAttrsService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #attrsService = inject(APIAttrsService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
 
-  protected readonly attributes$ = this.attrsService.getAttributes$(null, null).pipe(
+  protected readonly attributes$ = this.#attrsService.getAttributes$(null, null).pipe(
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );
 
-  protected readonly zones$ = this.attrsService.zones$.pipe(
+  protected readonly zones$ = this.#attrsService.zones$.pipe(
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );
@@ -36,7 +36,7 @@ export class ModerAttrsComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 100,
         }),

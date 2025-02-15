@@ -16,24 +16,24 @@ import {ModerAttrsZoneAttributeListComponent} from './attribute-list/attribute-l
   templateUrl: './zone.component.html',
 })
 export class ModerAttrsZoneComponent {
-  private readonly attrsService = inject(APIAttrsService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly router = inject(Router);
+  readonly #attrsService = inject(APIAttrsService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #router = inject(Router);
 
-  private readonly zoneID$ = this.route.paramMap.pipe(
+  readonly #zoneID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly zone$: Observable<AttrZone> = this.zoneID$.pipe(
-    switchMap((id) => (id ? this.attrsService.getZone$(id) : of(null))),
+  protected readonly zone$: Observable<AttrZone> = this.#zoneID$.pipe(
+    switchMap((id) => (id ? this.#attrsService.getZone$(id) : of(null))),
     switchMap((zone) => {
       if (!zone) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -41,7 +41,7 @@ export class ModerAttrsZoneComponent {
       return of(zone);
     }),
     tap((zone) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 142,
         title: zone.name,
@@ -50,11 +50,11 @@ export class ModerAttrsZoneComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly attributes$: Observable<AttrAttributeTreeItem[]> = this.attrsService.getAttributes$(null, null);
+  protected readonly attributes$: Observable<AttrAttributeTreeItem[]> = this.#attrsService.getAttributes$(null, null);
 
-  protected readonly zoneAttributes$ = this.zoneID$.pipe(
+  protected readonly zoneAttributes$ = this.#zoneID$.pipe(
     switchMap((zoneID) =>
-      zoneID ? this.attrsClient.getZoneAttributes(new AttrZoneAttributesRequest({zoneId: zoneID})) : EMPTY,
+      zoneID ? this.#attrsClient.getZoneAttributes(new AttrZoneAttributesRequest({zoneId: zoneID})) : EMPTY,
     ),
     map((zoneAttributes) => {
       const zoneAttribute: {

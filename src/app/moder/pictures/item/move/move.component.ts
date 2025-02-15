@@ -58,50 +58,50 @@ interface SrcSelection {
   templateUrl: './move.component.html',
 })
 export class ModerPicturesItemMoveComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
-  private readonly picturesClient = inject(PicturesClient);
-  private readonly toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #toastService = inject(ToastsService);
 
   protected conceptsExpanded = false;
 
-  private readonly srcItemID$ = this.route.queryParamMap.pipe(
+  readonly #srcItemID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('src_item_id') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly srcType$ = this.route.queryParamMap.pipe(
+  readonly #srcType$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('src_type') ?? '', 10) as PictureItemType),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly id$ = this.route.paramMap.pipe(
+  protected readonly id$ = this.#route.paramMap.pipe(
     map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly src$ = combineLatest([this.id$, this.srcItemID$, this.srcType$]).pipe(
+  protected readonly src$ = combineLatest([this.id$, this.#srcItemID$, this.#srcType$]).pipe(
     map(([id, srcItemID, srcType]) => ({id, srcItemID, srcType}) as SrcSelection),
   );
 
   private isSrcTypeOrEmpty$(pictureItemType: PictureItemType) {
-    return this.srcType$.pipe(
+    return this.#srcType$.pipe(
       map((srcType) => !srcType || srcType === pictureItemType),
       shareReplay({bufferSize: 1, refCount: false}),
     );
   }
 
-  private readonly isContentTypeOrEmpty$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_CONTENT);
-  protected readonly showBrands$ = this.isContentTypeOrEmpty$;
-  protected readonly showFactories$ = this.isContentTypeOrEmpty$;
-  protected readonly showMuseums$ = this.isContentTypeOrEmpty$;
-  protected readonly showPersons$ = this.isContentTypeOrEmpty$;
+  readonly #isContentTypeOrEmpty$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_CONTENT);
+  protected readonly showBrands$ = this.#isContentTypeOrEmpty$;
+  protected readonly showFactories$ = this.#isContentTypeOrEmpty$;
+  protected readonly showMuseums$ = this.#isContentTypeOrEmpty$;
+  protected readonly showPersons$ = this.#isContentTypeOrEmpty$;
   protected readonly showAuthors$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_AUTHOR);
   protected readonly showCopyrights$ = this.isSrcTypeOrEmpty$(PictureItemType.PICTURE_ITEM_COPYRIGHTS);
 
@@ -122,8 +122,8 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   private tabActive$(param: string, pictureItemType: PictureItemType) {
     return combineLatest([
       this.isSrcTypeOrEmpty$(pictureItemType),
-      this.srcItemID$,
-      this.route.queryParamMap.pipe(
+      this.#srcItemID$,
+      this.#route.queryParamMap.pipe(
         map((params) => !!params.get(param)),
         distinctUntilChanged(),
       ),
@@ -140,7 +140,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly authorsActive$ = combineLatest([
     this.showAuthors$,
     this.src$,
-    this.route.queryParamMap.pipe(
+    this.#route.queryParamMap.pipe(
       map((params) => !!params.get('show_authors')),
       distinctUntilChanged(),
     ),
@@ -173,13 +173,13 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly searchPersonControl = new FormControl('');
   protected readonly searchAuthorControl = new FormControl('');
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly brandId$ = this.route.queryParamMap.pipe(
+  protected readonly brandId$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('brand_id')),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -189,7 +189,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     request: ItemsRequest,
     selectionType: PictureItemType,
   ): Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> {
-    return combineLatest([this.src$, this.itemsClient.list(new ItemsRequest(request))]).pipe(
+    return combineLatest([this.src$, this.#itemsClient.list(new ItemsRequest(request))]).pipe(
       map(([src, {items, paginator}]) => ({
         items: (items ? items : []).map((item) => ({
           html: item.nameHtml,
@@ -207,12 +207,12 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     );
   }
 
-  protected readonly museums$ = this.page$.pipe(
+  protected readonly museums$ = this.#page$.pipe(
     switchMap((page) =>
       this.getItems$(
         new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 50,
           options: new ItemListOptions({
             typeId: ItemType.ITEM_TYPE_MUSEUM,
@@ -224,12 +224,12 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     ),
   );
 
-  protected readonly factories$ = this.page$.pipe(
+  protected readonly factories$ = this.#page$.pipe(
     switchMap((page) =>
       this.getItems$(
         new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 50,
           options: new ItemListOptions({
             typeId: ItemType.ITEM_TYPE_FACTORY,
@@ -246,14 +246,14 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     selectionType: PictureItemType,
   ): Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> {
     return combineLatest([
-      this.page$,
+      this.#page$,
       searchControl.valueChanges.pipe(startWith(''), distinctUntilChanged(), debounceTime(30)),
     ]).pipe(
       switchMap(([page, search]) =>
         this.getItems$(
           new ItemsRequest({
             fields: new ItemFields({nameHtml: true}),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 50,
             options: new ItemListOptions({
               name: search ? '%' + search + '%' : undefined,
@@ -273,12 +273,12 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   protected readonly authors$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> =
     this.authorsAndPersons$(this.searchAuthorControl, PictureItemType.PICTURE_ITEM_AUTHOR);
 
-  protected readonly copyrights$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> = this.page$.pipe(
+  protected readonly copyrights$: Observable<{items: HtmlAndSelectItemParams[]; paginator?: Pages}> = this.#page$.pipe(
     switchMap((page) =>
       this.getItems$(
         new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 50,
           options: new ItemListOptions({
             typeId: ItemType.ITEM_TYPE_COPYRIGHT,
@@ -292,7 +292,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
 
   protected readonly vehicles$: Observable<ItemParent[]> = this.brandId$.pipe(
     switchMap((brandID) =>
-      this.itemsClient.getItemParents(
+      this.#itemsClient.getItemParents(
         new ItemParentsRequest({
           fields: new ItemParentFields({
             item: new ItemFields({
@@ -300,7 +300,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
               nameHtml: true,
             }),
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemParentListOptions({
             item: new ItemListOptions({
@@ -317,7 +317,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
 
   protected readonly engines$: Observable<ItemParent[]> = this.brandId$.pipe(
     switchMap((brandID) =>
-      this.itemsClient.getItemParents(
+      this.#itemsClient.getItemParents(
         new ItemParentsRequest({
           fields: new ItemParentFields({
             item: new ItemFields({
@@ -325,7 +325,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
               nameHtml: true,
             }),
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemParentListOptions({
             item: new ItemListOptions({
@@ -347,7 +347,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           fields: new ItemFields({
             nameHtml: true,
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemListOptions({
             ancestor: new ItemParentCacheListOptions({
@@ -364,14 +364,14 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   );
 
   protected readonly brands$: Observable<{items: APIItem[][]; paginator?: Pages}> = combineLatest([
-    this.page$,
+    this.#page$,
     this.searchBrandControl.valueChanges.pipe(startWith(''), distinctUntilChanged(), debounceTime(30)),
   ]).pipe(
     switchMap(([page, search]) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 200,
           options: new ItemListOptions({
             name: search ? '%' + search + '%' : undefined,
@@ -391,7 +391,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 149,
       });
@@ -403,7 +403,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
     const dstPerspectiveID = selection.perspectiveId;
 
     if (srcItemID && srcType) {
-      this.picturesClient
+      this.#picturesClient
         .setPictureItemItemID(
           new SetPictureItemItemIDRequest({
             itemId: '' + srcItemID,
@@ -418,7 +418,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
               return of(null);
             }
 
-            return this.picturesClient.setPictureItemPerspective(
+            return this.#picturesClient.setPictureItemPerspective(
               new SetPictureItemPerspectiveRequest({
                 itemId: dstItemID,
                 perspectiveId: dstPerspectiveID || undefined,
@@ -428,7 +428,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
             );
           }),
           catchError((error: unknown) => {
-            this.toastService.handleError(error);
+            this.#toastService.handleError(error);
             return EMPTY;
           }),
         )
@@ -436,10 +436,10 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           if (localStorage) {
             localStorage.setItem('last_item', dstItemID);
           }
-          this.router.navigate(['/moder/pictures', id]);
+          this.#router.navigate(['/moder/pictures', id]);
         });
     } else {
-      this.picturesClient
+      this.#picturesClient
         .createPictureItem(
           new CreatePictureItemRequest({
             itemId: dstItemID,
@@ -450,7 +450,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
         )
         .pipe(
           catchError((error: unknown) => {
-            this.toastService.handleError(error);
+            this.#toastService.handleError(error);
             return EMPTY;
           }),
         )
@@ -458,7 +458,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
           if (localStorage) {
             localStorage.setItem('last_item', dstItemID);
           }
-          this.router.navigate(['/moder/pictures', id]);
+          this.#router.navigate(['/moder/pictures', id]);
         });
     }
 

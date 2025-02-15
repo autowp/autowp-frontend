@@ -9,10 +9,6 @@ import {APIPicture} from './picture';
 
 export interface APIItem {
   accepted_pictures_count?: number;
-  alt_names: {
-    languages: string[];
-    name: string;
-  }[];
   attr_zone_id: number;
   begin_model_year: number;
   begin_model_year_fraction: string;
@@ -44,34 +40,23 @@ export interface APIItem {
     },
   ];
 
-  engine_vehicles_count: number;
-  exact_picture?: APIPicture;
-  front_picture?: APIPicture;
   full_name: string;
-  has_child_specs?: boolean;
   has_specs?: boolean;
   has_text?: boolean;
   id: number;
 
-  inbox_pictures_count?: number;
-
   is_concept: 'inherited' | boolean | null;
   is_group: boolean;
-  item_language_count: number;
   item_type_id: ItemType;
   lat: number;
-  links_count: number;
   lng: number;
   logo?: APIImage;
   logo120?: APIImage;
-  mosts_active?: boolean;
   name: string;
   name_default: string;
   name_html: string;
   name_only: string;
   name_text: string;
-  other_names?: string[];
-  parents_count: number;
   pictures_count: number;
 
   preview_pictures: {
@@ -89,12 +74,10 @@ export interface APIItem {
 
   route: string[];
   spec_id: null | number | string;
-  specifications_count?: number;
   specs_route?: string[];
   subscription: boolean;
   text: string;
   today: boolean | null;
-  total_pictures?: number;
   twins_groups: APIItem[];
 }
 
@@ -102,18 +85,6 @@ export interface APIItemChildsCounts {
   sport: number;
   stock: number;
   tuning: number;
-}
-
-export interface APIItemOfDayPicture {
-  name: string;
-  route: string[];
-  thumb: APIImage | undefined;
-}
-
-export interface APIItemRelatedGroupItem {
-  name: string;
-  route: string[];
-  src: string;
 }
 
 export interface APIItemsGetPathResponse {
@@ -137,10 +108,6 @@ export interface APIPathTreeItemParent {
   item: APIPathTreeItem;
 }
 
-export interface GetItemServiceOptions {
-  fields?: string;
-}
-
 export interface GetPathServiceOptions {
   [key: string]: string;
   catname: string;
@@ -162,20 +129,6 @@ export const allowedItemTypeCombinations: {
   [ItemType.ITEM_TYPE_VEHICLE]: [ItemType.ITEM_TYPE_VEHICLE],
 };
 
-function convertItemOptions(options: GetItemServiceOptions): {[param: string]: string} {
-  const params: {[param: string]: string} = {};
-
-  if (!options) {
-    options = {};
-  }
-
-  if (options.fields) {
-    params['fields'] = options.fields;
-  }
-
-  return params;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -183,11 +136,11 @@ export class ItemService {
   readonly #api = inject(APIService);
   readonly #itemsClient = inject(ItemsClient);
 
-  public setItemVehicleTypes$(itemId: number, ids: string[]): Observable<void> {
+  public setItemVehicleTypes$(itemId: string, ids: string[]): Observable<void> {
     return this.#itemsClient
       .getItemVehicleTypes(
         new APIGetItemVehicleTypesRequest({
-          itemId: itemId.toString(),
+          itemId: itemId,
         }),
       )
       .pipe(
@@ -202,7 +155,7 @@ export class ItemService {
                 this.#itemsClient
                   .deleteItemVehicleType(
                     new APIItemVehicleTypeRequest({
-                      itemId: itemId.toString(),
+                      itemId: itemId,
                       vehicleTypeId: itemVehicleType.vehicleTypeId,
                     }),
                   )
@@ -217,7 +170,7 @@ export class ItemService {
                 this.#itemsClient
                   .createItemVehicleType(
                     new APIItemVehicleType({
-                      itemId: itemId.toString(),
+                      itemId: itemId,
                       vehicleTypeId,
                     }),
                   )
@@ -233,21 +186,6 @@ export class ItemService {
           return forkJoin(promises).pipe(map(() => void 0));
         }),
       );
-  }
-
-  public getItemByLocation$(url: string, options: GetItemServiceOptions): Observable<APIItem> {
-    return this.#api.request$<APIItem>('GET', this.#api.resolveLocation(url), {
-      params: convertItemOptions(options),
-    });
-  }
-
-  public getItem$(id: number, options?: GetItemServiceOptions): Observable<APIItem | null> {
-    if (!id) {
-      return of(null);
-    }
-    return this.#api.request$<APIItem>('GET', 'item/' + id, {
-      params: convertItemOptions(options ? options : {}),
-    });
   }
 
   public getPath$(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {

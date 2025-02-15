@@ -19,16 +19,16 @@ import {UserComponent} from '../../user/user/user.component';
   templateUrl: './users.component.html',
 })
 export class ModerUsersComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly toastService = inject(ToastsService);
-  private readonly usersClient = inject(UsersClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #toastService = inject(ToastsService);
+  readonly #usersClient = inject(UsersClient);
 
-  protected readonly users$: Observable<APIUsersResponse> = this.route.queryParamMap.pipe(
+  protected readonly users$: Observable<APIUsersResponse> = this.#route.queryParamMap.pipe(
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((params) =>
-      this.usersClient.getUsers(
+      this.#usersClient.getUsers(
         new APIUsersRequest({
           fields: new UserFields({
             email: true,
@@ -43,7 +43,7 @@ export class ModerUsersComponent implements OnInit {
       ),
     ),
     catchError((error: unknown) => {
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
   );
@@ -51,7 +51,7 @@ export class ModerUsersComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 203,
         }),

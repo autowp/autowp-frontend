@@ -41,7 +41,7 @@ import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {catchError, filter, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ModerPicturesPerspectivePickerComponent} from '../moder/pictures/perspective-picker/perspective-picker.component';
-import {PictureModerVote2Component} from '../picture-moder-vote/picture-moder-vote2/picture-moder-vote2.component';
+import {PictureModerVoteComponent} from '../picture-moder-vote/picture-moder-vote/picture-moder-vote.component';
 import {ShareComponent} from '../share/share.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {UserComponent} from '../user/user/user.component';
@@ -65,8 +65,8 @@ import {PicturePaginatorComponent} from './paginator.component';
     NgMathPipesModule,
     NgDatePipesModule,
     TimeAgoPipe,
-    PictureModerVote2Component,
     PicturePaginatorComponent,
+    PictureModerVoteComponent,
   ],
   selector: 'app-picture',
   styleUrls: ['./picture.component.scss'],

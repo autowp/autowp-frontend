@@ -2,7 +2,11 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
+  APIItem,
+  ItemFields,
   ItemParentCacheListOptions,
+  ItemRequest,
+  ItemType,
   Picture,
   PictureFields,
   PictureItemListOptions,
@@ -14,7 +18,6 @@ import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
 import {EMPTY, of, Subscription, throwError} from 'rxjs';
@@ -64,22 +67,21 @@ interface Tab {
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnDestroy, OnInit {
-  private readonly api = inject(APIService);
-  private readonly acl = inject(ACLService);
-  private readonly itemService = inject(ItemService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #api = inject(APIService);
+  readonly #acl = inject(ACLService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
 
-  private routeSub?: Subscription;
+  #routeSub?: Subscription;
   protected loading = 0;
 
   protected item: APIItem | null = null;
   protected specsAllowed = false;
-  protected readonly canEditSpecifications$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
+  protected readonly canEditSpecifications$ = this.#acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
 
   protected tree?: APIItemTreeItem;
 
@@ -121,58 +123,49 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   protected activeTab = 'meta';
 
   ngOnInit(): void {
-    this.routeSub = this.route.paramMap
+    this.#routeSub = this.#route.paramMap
       .pipe(
-        map((params) => parseInt(params.get('id') ?? '', 10)),
+        map((params) => params.get('id') ?? ''),
         distinctUntilChanged(),
         debounceTime(30),
         switchMap((id) => {
           this.loading++;
-          return this.itemService.getItem$(id, {
-            fields: [
-              'name_text',
-              'name_html',
-              'name',
-              'is_concept',
-              'name_default',
-              'subscription',
-              'begin_year',
-              'begin_month',
-              'end_year',
-              'end_month',
-              'today',
-              'begin_model_year',
-              'end_model_year',
-              'produced',
-              'spec_id',
-              'childs_count',
-              'full_name',
-              'catname',
-              'lat',
-              'lng',
-              'pictures_count',
-              'specifications_count',
-              'links_count',
-              'parents_count',
-              'item_language_count',
-              'engine_vehicles_count',
-              'logo',
-            ].join(','),
-          });
+          return this.#itemsClient.item(
+            new ItemRequest({
+              fields: new ItemFields({
+                childsCount: true,
+                engineVehiclesCount: true,
+                exactPicturesCount: true,
+                fullName: true,
+                itemLanguageCount: true,
+                linksCount: true,
+                location: true,
+                logo: true,
+                meta: true,
+                nameDefault: true,
+                nameHtml: true,
+                nameText: true,
+                parentsCount: true,
+                specificationsCount: true,
+                subscription: true,
+              }),
+              id,
+            }),
+          );
         }),
         finalize(() => {
           this.loading--;
         }),
         catchError((err: unknown) => {
-          this.toastService.handleError(err);
-          this.router.navigate(['/error-404'], {
+          this.#toastService.handleError(err);
+          this.#router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
           return of(null);
         }),
         switchMap((item) => {
           if (!item) {
-            this.router.navigate(['/error-404'], {
+            this.#router.navigate(['/error-404'], {
               skipLocationChange: true,
             });
             return EMPTY;
@@ -182,25 +175,35 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
         tap((item) => {
           this.item = item;
 
-          const typeID = item.item_type_id;
+          const typeID = item.itemTypeId;
 
-          this.specsAllowed = [1, 2].indexOf(typeID) !== -1;
+          this.specsAllowed = [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].indexOf(typeID) !== -1;
 
-          this.nameTab.count = item.item_language_count;
+          this.nameTab.count = item.itemLanguageCount;
           this.logoTab.count = item.logo ? 1 : 0;
-          this.catalogueTab.count = item.parents_count + item.childs_count;
-          this.vehiclesTab.count = item.engine_vehicles_count;
-          this.picturesTab.count = item.pictures_count;
-          this.linksTab.count = item.links_count;
+          this.catalogueTab.count = item.parentsCount + item.childsCount;
+          this.vehiclesTab.count = item.engineVehiclesCount;
+          this.picturesTab.count = item.exactPicturesCount;
+          this.linksTab.count = item.linksCount;
 
           this.metaTab.visible = true;
           this.nameTab.visible = true;
-          this.catalogueTab.visible = [7, 9].indexOf(typeID) === -1;
-          this.treeTab.visible = [7, 9].indexOf(typeID) === -1;
-          this.linksTab.visible = [5, 7, 8].indexOf(typeID) !== -1;
-          this.logoTab.visible = typeID === 5;
-          this.vehiclesTab.visible = typeID === 2;
-          this.picturesTab.visible = [2, 1, 5, 6, 7, 8, 9].indexOf(typeID) !== -1;
+          this.catalogueTab.visible = [ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_COPYRIGHT].indexOf(typeID) === -1;
+          this.treeTab.visible = [ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_COPYRIGHT].indexOf(typeID) === -1;
+          this.linksTab.visible =
+            [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_PERSON].indexOf(typeID) !== -1;
+          this.logoTab.visible = typeID === ItemType.ITEM_TYPE_BRAND;
+          this.vehiclesTab.visible = typeID === ItemType.ITEM_TYPE_ENGINE;
+          this.picturesTab.visible =
+            [
+              ItemType.ITEM_TYPE_ENGINE,
+              ItemType.ITEM_TYPE_VEHICLE,
+              ItemType.ITEM_TYPE_BRAND,
+              ItemType.ITEM_TYPE_FACTORY,
+              ItemType.ITEM_TYPE_MUSEUM,
+              ItemType.ITEM_TYPE_PERSON,
+              ItemType.ITEM_TYPE_COPYRIGHT,
+            ].indexOf(typeID) !== -1;
         }),
         switchMap((item) => {
           this.loading++;
@@ -212,7 +215,7 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
                 options: new PictureListOptions({
                   pictureItem: new PictureItemListOptions({
                     itemParentCacheAncestor: new ItemParentCacheListOptions({
-                      parentId: '' + item.id,
+                      parentId: item.id,
                     }),
                   }),
                 }),
@@ -238,14 +241,14 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
           this.loading--;
         }),
         tap(({item, picture}) => {
-          this.pageEnv.set({
+          this.#pageEnv.set({
             layout: {isAdminPage: true},
             pageId: 78,
             title: item.name_text,
           });
           this.randomPicture = picture;
         }),
-        switchMap(() => this.route.queryParamMap),
+        switchMap(() => this.#route.queryParamMap),
         map((params) => params.get('tab')),
         distinctUntilChanged(),
         debounceTime(30),
@@ -264,14 +267,14 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
+    if (this.#routeSub) {
+      this.#routeSub.unsubscribe();
     }
   }
 
   private initTreeTab() {
     if (this.item) {
-      this.api.request$<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
+      this.#api.request$<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
         next: (response) => {
           this.tree = response.item;
         },
@@ -282,10 +285,10 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   protected toggleSubscription() {
     if (this.item) {
       const newValue = !this.item.subscription;
-      this.itemsClient
+      this.#itemsClient
         .setUserItemSubscription(
           new SetUserItemSubscriptionRequest({
-            itemId: this.item.id + '',
+            itemId: this.item.id,
             subscribed: newValue,
           }),
         )

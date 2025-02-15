@@ -14,19 +14,19 @@ import {catchError, map} from 'rxjs/operators';
   templateUrl: './whitelist.component.html',
 })
 export class ModerTrafficWhitelistComponent implements OnInit {
-  private readonly grpc = inject(TrafficClient);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #grpc = inject(TrafficClient);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly items$: Observable<APITrafficWhitelistItem[]> = combineLatest([
-    this.grpc.getWhitelist(new Empty()),
-    this.reload$,
+    this.#grpc.getWhitelist(new Empty()),
+    this.#reload$,
   ]).pipe(
     map(([response]) => (response.items ? response.items : [])),
     catchError(() => {
-      this.router.navigate(['/error-404'], {
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
@@ -34,15 +34,15 @@ export class ModerTrafficWhitelistComponent implements OnInit {
   );
 
   protected deleteItem(item: APITrafficWhitelistItem) {
-    this.grpc.deleteFromWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
-      this.reload$.next();
+    this.#grpc.deleteFromWhitelist(new DeleteFromTrafficWhitelistRequest({ip: item.ip})).subscribe(() => {
+      this.#reload$.next();
     });
   }
 
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 77,
         }),

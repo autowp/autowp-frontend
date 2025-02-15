@@ -1,8 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, APIUser, ItemType} from '@grpc/spec.pb';
-import {APIItemOfDayPicture} from '@services/item';
+import {APIItem, APIUser, ItemOfDayPicture, ItemType} from '@grpc/spec.pb';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -37,8 +36,8 @@ export class ItemOfDayComponent {
   @Input() public user$?: Observable<APIUser | null>;
 
   protected itemOfDayPictures$?: Observable<null | {
-    first: APIItemOfDayPicture[];
-    others: APIItemOfDayPicture[];
+    first: ItemOfDayPicture[];
+    others: ItemOfDayPicture[];
   }>;
 
   protected readonly ItemType = ItemType;

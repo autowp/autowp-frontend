@@ -14,15 +14,15 @@ import {map} from 'rxjs/operators';
   templateUrl: './too-big.component.html',
 })
 export class ModerItemsTooBigComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly items$: Observable<APIItem[]> = this.itemsClient
+  protected readonly items$: Observable<APIItem[]> = this.#itemsClient
     .list(
       new ItemsRequest({
         fields: new ItemFields({childsCount: true, nameHtml: true}),
-        language: this.languageService.language,
+        language: this.#languageService.language,
         limit: 100,
         order: ItemsRequest.Order.CHILDS_COUNT,
       }),
@@ -32,7 +32,7 @@ export class ModerItemsTooBigComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 131,
         }),

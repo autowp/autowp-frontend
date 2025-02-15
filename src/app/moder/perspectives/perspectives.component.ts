@@ -17,13 +17,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './perspectives.component.html',
 })
 export class ModerPerspectivesComponent implements OnInit {
-  private readonly grpc = inject(AutowpClient);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #grpc = inject(AutowpClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
 
-  protected readonly pages$: Observable<PerspectivePage[]> = this.grpc.getPerspectivePages(new Empty()).pipe(
+  protected readonly pages$: Observable<PerspectivePage[]> = this.#grpc.getPerspectivePages(new Empty()).pipe(
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => (response.items ? response.items : [])),
@@ -32,7 +32,7 @@ export class ModerPerspectivesComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 202,
         }),

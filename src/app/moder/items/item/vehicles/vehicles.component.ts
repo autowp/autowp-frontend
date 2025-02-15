@@ -13,21 +13,21 @@ import {map, switchMap} from 'rxjs/operators';
   templateUrl: './vehicles.component.html',
 })
 export class ModerItemsItemVehiclesComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set itemId(item: string) {
-    this.itemId$.next(item);
+    this.#itemId$.next(item);
   }
-  private readonly itemId$ = new BehaviorSubject<null | string>(null);
+  readonly #itemId$ = new BehaviorSubject<null | string>(null);
 
-  protected readonly engineVehicles$: Observable<APIItem[]> = this.itemId$.pipe(
+  protected readonly engineVehicles$: Observable<APIItem[]> = this.#itemId$.pipe(
     switchMap((itemId) =>
       itemId
-        ? this.itemsClient.list(
+        ? this.#itemsClient.list(
             new ItemsRequest({
               fields: new ItemFields({nameHtml: true}),
-              language: this.languageService.language,
+              language: this.#languageService.language,
               limit: 100,
               options: new ItemListOptions({
                 engineId: itemId,

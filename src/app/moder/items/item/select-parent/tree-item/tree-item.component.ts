@@ -22,7 +22,7 @@ import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
   templateUrl: './tree-item.component.html',
 })
 export class ModerItemsItemSelectParentTreeItemComponent {
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
@@ -63,7 +63,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
         : EMPTY,
     ),
     catchError((error: unknown) => {
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
     map((response) => response.items || []),

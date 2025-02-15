@@ -11,9 +11,9 @@ import {APIPerspectiveService} from '../../../api/perspective/perspective.servic
   templateUrl: './perspective-picker.component.html',
 })
 export class ModerPicturesPerspectivePickerComponent {
-  private readonly perspectiveService = inject(APIPerspectiveService);
+  readonly #perspectiveService = inject(APIPerspectiveService);
 
-  protected readonly perspectives$ = this.perspectiveService.getPerspectives$();
+  protected readonly perspectives$ = this.#perspectiveService.getPerspectives$();
 
   @Input() perspectiveID?: number;
   @Output() perspectiveChanged = new EventEmitter<number>();

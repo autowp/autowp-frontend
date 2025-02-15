@@ -17,22 +17,22 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './brands.component.html',
 })
 export class ModerItemsItemSelectParentBrandsComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly toastService = inject(ToastsService);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Output() selected = new EventEmitter<string>();
 
-  protected readonly page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     map((page) => (page ? page : 0)),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly search$ = this.route.queryParamMap.pipe(
+  protected readonly search$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('search')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -43,10 +43,10 @@ export class ModerItemsItemSelectParentBrandsComponent {
     this.page$,
   ]).pipe(
     switchMap(([search, page]) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({nameHtml: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemListOptions({
             name: search ? '%' + search + '%' : undefined,
@@ -57,7 +57,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
       ),
     ),
     catchError((error: unknown) => {
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
     map((response) => ({
@@ -67,7 +67,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
   );
 
   protected doSearch(search: string) {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {search},
       queryParamsHandling: 'merge',
     });

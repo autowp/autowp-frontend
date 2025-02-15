@@ -20,14 +20,14 @@ export interface APIItemAlphaGetResponse {
   templateUrl: './alpha.component.html',
 })
 export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
-  private readonly api = inject(APIService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #api = inject(APIService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   protected char: null | string = null;
-  private querySub?: Subscription;
+  #querySub?: Subscription;
   protected loading = 0;
   protected paginator?: null | Pages = null;
   protected groups: string[][] = [];
@@ -36,16 +36,16 @@ export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 74,
         }),
       0,
     );
 
-    this.querySub = combineLatest([
-      this.route.queryParamMap,
-      this.api.request$<APIItemAlphaGetResponse>('GET', 'item/alpha'),
+    this.#querySub = combineLatest([
+      this.#route.queryParamMap,
+      this.#api.request$<APIItemAlphaGetResponse>('GET', 'item/alpha'),
     ])
       .pipe(
         switchMap(([query, groups]) =>
@@ -53,10 +53,10 @@ export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
             of(query.get('char')),
             of(groups.groups),
             query.get('char')
-              ? this.itemsClient.list(
+              ? this.#itemsClient.list(
                   new ItemsRequest({
                     fields: new ItemFields({nameHtml: true}),
-                    language: this.languageService.language,
+                    language: this.#languageService.language,
                     limit: 10,
                     options: new ItemListOptions({
                       name: query.get('char') + '%',
@@ -80,8 +80,8 @@ export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.querySub) {
-      this.querySub.unsubscribe();
+    if (this.#querySub) {
+      this.#querySub.unsubscribe();
     }
   }
 }

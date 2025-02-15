@@ -165,7 +165,7 @@ export class ModerItemsComponent implements OnInit {
       shareReplay({bufferSize: 1, refCount: false}),
     );
 
-  protected readonly specOptions$ = this.#specService.getSpecs$().pipe(map((types) => toPlainSpec(types, 0)));
+  protected readonly specOptions$ = this.#specService.specs$.pipe(map((types) => toPlainSpec(types, 0)));
 
   protected readonly data$: Observable<{
     items: CatalogueListItem2[];

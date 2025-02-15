@@ -13,17 +13,17 @@ import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-t
   templateUrl: './picture-vote-templates.component.html',
 })
 export class ModerPictureVoteTemplatesComponent implements OnInit {
-  private readonly voteTemplateService = inject(APIPictureModerVoteTemplateService);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #voteTemplateService = inject(APIPictureModerVoteTemplateService);
+  readonly #pageEnv = inject(PageEnvService);
 
-  protected readonly templates$ = this.voteTemplateService.getTemplates$();
+  protected readonly templates$ = this.#voteTemplateService.getTemplates$();
   protected vote = -1;
   protected name = '';
 
   ngOnInit(): void {
     setTimeout(
       () =>
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isAdminPage: true},
           pageId: 212,
         }),
@@ -32,11 +32,11 @@ export class ModerPictureVoteTemplatesComponent implements OnInit {
   }
 
   protected deleteTemplate(template: ModerVoteTemplate) {
-    this.voteTemplateService.deleteTemplate$(template.id).subscribe();
+    this.#voteTemplateService.deleteTemplate$(template.id).subscribe();
   }
 
   protected createTemplate() {
-    this.voteTemplateService
+    this.#voteTemplateService
       .createTemplate$({
         name: this.name,
         vote: this.vote,

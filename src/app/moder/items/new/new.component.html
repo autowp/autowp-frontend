@@ -28,7 +28,7 @@
 @if (formParams$ | async; as formParams) {
   <app-item-meta-form
     [item]="formParams.item"
-    (submitted)="submit(formParams.item.item_type_id, $event)"
+    (submitted)="submit(formParams.item.itemTypeId, $event)"
     [parentIsConcept]="formParams.parentIsConcept"
     [vehicleTypeIDs]="formParams.vehicleTypeIDs"
     [invalidParams]="invalidParams"

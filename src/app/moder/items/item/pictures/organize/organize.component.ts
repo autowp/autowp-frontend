@@ -4,7 +4,10 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
+  APIItem as GRPCAPIItem,
+  ItemFields,
   ItemParent,
+  ItemRequest,
   ItemType,
   PictureItem,
   PictureItemListOptions,
@@ -13,7 +16,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
+import {ItemService} from '@services/item';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -23,32 +26,32 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {ItemMetaFormComponent, ItemMetaFormResult} from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
-  imports: [RouterLink, MarkdownComponent, ItemMetaFormComponent, AsyncPipe],
+  imports: [RouterLink, MarkdownComponent, AsyncPipe, ItemMetaFormComponent],
   selector: 'app-moder-items-item-pictures-organize',
   templateUrl: './organize.component.html',
 })
 export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
-  private readonly api = inject(APIService);
-  private readonly itemService = inject(ItemService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly picturesClient = inject(PicturesClient);
+  readonly #api = inject(APIService);
+  readonly #itemService = inject(ItemService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #picturesClient = inject(PicturesClient);
 
   protected loading = 0;
   protected invalidParams?: InvalidParams;
 
-  private readonly itemID$ = this.route.paramMap.pipe(
-    map((params) => parseInt(params.get('id') ?? '', 10)),
+  readonly #itemID$ = this.#route.paramMap.pipe(
+    map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(30),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly pictures$: Observable<PictureItem[]> = this.itemID$.pipe(
+  protected readonly pictures$: Observable<PictureItem[]> = this.#itemID$.pipe(
     switchMap((itemID) =>
-      this.picturesClient.getPictureItems(
+      this.#picturesClient.getPictureItems(
         new PictureItemsRequest({
           options: new PictureItemListOptions({itemId: '' + itemID}),
         }),
@@ -58,34 +61,26 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<GRPCAPIItem> = this.#itemID$.pipe(
     switchMap((id) =>
-      this.itemService.getItem$(id, {
-        fields: [
-          'name_text',
-          'name',
-          'is_concept',
-          'name_default',
-          'subscription',
-          'begin_year',
-          'begin_month',
-          'end_year',
-          'end_month',
-          'today',
-          'begin_model_year',
-          'end_model_year',
-          'produced',
-          'spec_id',
-          'full_name',
-          'catname',
-          'lat',
-          'lng',
-        ].join(','),
-      }),
+      this.#itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            childsCount: true,
+            fullName: true,
+            location: true,
+            meta: true,
+            nameDefault: true,
+            nameHtml: true,
+            nameText: true,
+          }),
+          id,
+        }),
+      ),
     ),
     switchMap((item) => {
       if (!item) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -96,8 +91,8 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   protected readonly vehicleTypeIDs$ = this.item$.pipe(
     switchMap((item) =>
-      [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)
-        ? this.itemsClient
+      [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)
+        ? this.#itemsClient
             .getItemVehicleTypes(
               new APIGetItemVehicleTypesRequest({
                 itemId: item.id.toString(),
@@ -110,22 +105,22 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   protected readonly newItem$ = this.item$.pipe(
     map((item) => {
-      const newItem = {...item};
-      newItem.is_group = false;
+      const newItem = {...item} as GRPCAPIItem;
+      newItem.isGroup = false;
       return newItem;
     }),
   );
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 78,
       });
     }, 0);
   }
 
-  protected submit(item: APIItem, event: ItemMetaFormResult, pictures: PictureItem[]) {
+  protected submit(item: GRPCAPIItem, event: ItemMetaFormResult, pictures: PictureItem[]) {
     this.loading++;
 
     const data = {
@@ -143,22 +138,22 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
       is_concept: event.is_concept === 'inherited' ? false : event.is_concept,
       is_concept_inherit: event.is_concept === 'inherited',
       is_group: true,
-      item_type_id: item.item_type_id,
+      item_type_id: item.itemTypeId,
       lat: event.point?.lat,
       lng: event.point?.lng,
       name: event.name,
       produced: event.produced?.count,
       produced_exactly: event.produced?.exactly,
-      spec_id: event.spec_id,
+      spec_id: event.spec_id ? event.spec_id : null,
       today: event.end?.today,
     };
 
     forkJoin([
-      this.api.request$<void>('POST', 'item', {
+      this.#api.request$<void>('POST', 'item', {
         body: data,
         observe: 'response',
       }),
-      item.is_group ? of(null) : this.api.request$<void>('PUT', 'item/' + item.id, {body: {is_group: true}}),
+      item.isGroup ? of(null) : this.#api.request$<void>('PUT', 'item/' + item.id, {body: {is_group: true}}),
     ])
       .pipe(
         catchError((response: unknown) => {
@@ -168,32 +163,38 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
           this.loading--;
           return EMPTY;
         }),
-        switchMap((responses) => this.itemService.getItemByLocation$(responses[0].headers.get('Location') ?? '', {})),
+        switchMap((responses) => {
+          const location = responses[0].headers.get('Location') ?? '';
+          const parts = location.split('/');
+          const itemId = parts[parts.length - 1];
+
+          return this.#itemsClient.item(new ItemRequest({id: itemId}));
+        }),
         switchMap((newItem) => {
           const promises: Observable<void>[] = [
-            this.itemsClient
+            this.#itemsClient
               .createItemParent(
                 new ItemParent({
-                  itemId: '' + newItem.id,
-                  parentId: '' + item.id,
+                  itemId: newItem.id,
+                  parentId: item.id,
                 }),
               )
               .pipe(map(() => void 0)),
           ];
 
-          if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(newItem.item_type_id)) {
-            promises.push(this.itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
+          if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(newItem.itemTypeId)) {
+            promises.push(this.#itemService.setItemVehicleTypes$(newItem.id, event.vehicle_type_id));
           }
 
           promises.push(
             ...pictures
               .filter((p) => event.pictures.includes(p.pictureId))
               .map((picture) =>
-                this.picturesClient
+                this.#picturesClient
                   .setPictureItemItemID(
                     new SetPictureItemItemIDRequest({
                       itemId: picture.itemId,
-                      newItemId: '' + newItem.id,
+                      newItemId: newItem.id,
                       pictureId: picture.pictureId,
                       type: picture.type,
                     }),
@@ -210,7 +211,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         if (localStorage) {
           localStorage.setItem('last_item', item.id.toString());
         }
-        this.router.navigate(['/moder/items/item', item.id], {
+        this.#router.navigate(['/moder/items/item', item.id], {
           queryParams: {
             tab: 'pictures',
           },

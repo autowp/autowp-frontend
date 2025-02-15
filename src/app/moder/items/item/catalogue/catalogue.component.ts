@@ -1,10 +1,9 @@
-import type {APIItem} from '@services/item';
-
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {
+  APIItem,
   DeleteItemParentRequest,
   APIItem as GRPCAPIItem,
   ItemFields,
@@ -36,9 +35,9 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemCatalogueComponent {
-  private readonly acl = inject(ACLService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #acl = inject(ACLService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -53,23 +52,23 @@ export class ModerItemsItemCatalogueComponent {
 
   protected itemQuery = '';
 
-  protected readonly canMove$ = this.acl
+  protected readonly canMove$ = this.#acl
     .isAllowed$(Resource.CAR, Privilege.MOVE)
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly organizeTypeId$ = this.item$.pipe(
     switchMap((item) => (item ? of(item) : EMPTY)),
-    map((item) => (item.item_type_id === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.item_type_id)),
+    map((item) => (item.itemTypeId === ItemType.ITEM_TYPE_BRAND ? ItemType.ITEM_TYPE_VEHICLE : item.itemTypeId)),
   );
 
   protected readonly canHaveParentBrand$ = this.item$.pipe(
     switchMap((item) => (item ? of(item) : EMPTY)),
-    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.item_type_id)),
+    map((item) => [ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)),
   );
 
   protected readonly canHaveParents$ = this.item$.pipe(
     switchMap((item) => (item ? of(item) : EMPTY)),
-    map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.item_type_id)),
+    map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.itemTypeId)),
   );
 
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
@@ -87,17 +86,17 @@ export class ModerItemsItemCatalogueComponent {
               return of([]);
             }
 
-            return this.itemsClient
+            return this.#itemsClient
               .list(
                 new ItemsRequest({
                   fields: new ItemFields({nameHtml: true, nameText: true}),
-                  language: this.languageService.language,
+                  language: this.#languageService.language,
                   limit: 10,
                   options: new ItemListOptions({
                     autocomplete: query,
-                    excludeSelfAndChilds: '' + item.id,
+                    excludeSelfAndChilds: item.id,
                     isGroup: true,
-                    parentTypesOf: item.item_type_id,
+                    parentTypesOf: item.itemTypeId,
                   }),
                 }),
               )
@@ -112,7 +111,7 @@ export class ModerItemsItemCatalogueComponent {
     this.reloadChilds$,
   ]).pipe(
     switchMap(([item]) =>
-      this.itemsClient.getItemParents(
+      this.#itemsClient.getItemParents(
         new ItemParentsRequest({
           fields: new ItemParentFields({
             duplicateChild: new ItemFields({nameHtml: true}),
@@ -134,7 +133,7 @@ export class ModerItemsItemCatalogueComponent {
     this.reloadParents$,
   ]).pipe(
     switchMap(([item]) =>
-      this.itemsClient.getItemParents(
+      this.#itemsClient.getItemParents(
         new ItemParentsRequest({
           fields: new ItemParentFields({
             duplicateParent: new ItemFields({nameHtml: true}),
@@ -156,10 +155,10 @@ export class ModerItemsItemCatalogueComponent {
     this.reloadSuggestions$,
   ]).pipe(
     switchMap(([item]) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({nameText: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 3,
           options: new ItemListOptions({
             suggestionsTo: '' + item.id,
@@ -171,7 +170,7 @@ export class ModerItemsItemCatalogueComponent {
   );
 
   protected itemFormatter(x: APIItem) {
-    return x.name_text;
+    return x.nameText;
   }
 
   protected itemOnSelect(item: APIItem, e: NgbTypeaheadSelectItemEvent): void {
@@ -181,7 +180,7 @@ export class ModerItemsItemCatalogueComponent {
   }
 
   protected addParent(item: APIItem, parentId: string) {
-    this.itemsClient
+    this.#itemsClient
       .createItemParent(
         new ItemParent({
           itemId: '' + item.id,
@@ -197,7 +196,7 @@ export class ModerItemsItemCatalogueComponent {
   }
 
   private deleteItemParent(itemID: string, parentID: string) {
-    this.itemsClient
+    this.#itemsClient
       .deleteItemParent(
         new DeleteItemParentRequest({
           itemId: itemID,

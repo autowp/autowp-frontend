@@ -14,9 +14,10 @@ import * as googleProtobuf000 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf003 from '@ngx-grpc/well-known-types';
-import * as googleType004 from './google/type/latlng.pb';
-import * as googleType005 from './google/type/date.pb';
-import * as googleRpc006 from './google/rpc/error-details.pb';
+import * as googleProtobuf004 from '@ngx-grpc/well-known-types';
+import * as googleType005 from './google/type/latlng.pb';
+import * as googleType006 from './google/type/date.pb';
+import * as googleRpc007 from './google/rpc/error-details.pb';
 export enum PictureItemType {
   PICTURE_ITEM_UNKNOWN = 0,
   PICTURE_ITEM_CONTENT = 1,
@@ -106,59 +107,59 @@ export class ErrorDetails implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.retryInfo = new googleRpc006.RetryInfo();
+          _instance.retryInfo = new googleRpc007.RetryInfo();
           _reader.readMessage(
             _instance.retryInfo,
-            googleRpc006.RetryInfo.deserializeBinaryFromReader
+            googleRpc007.RetryInfo.deserializeBinaryFromReader
           );
           break;
         case 2:
-          _instance.debugInfo = new googleRpc006.DebugInfo();
+          _instance.debugInfo = new googleRpc007.DebugInfo();
           _reader.readMessage(
             _instance.debugInfo,
-            googleRpc006.DebugInfo.deserializeBinaryFromReader
+            googleRpc007.DebugInfo.deserializeBinaryFromReader
           );
           break;
         case 3:
-          _instance.quotaFailure = new googleRpc006.QuotaFailure();
+          _instance.quotaFailure = new googleRpc007.QuotaFailure();
           _reader.readMessage(
             _instance.quotaFailure,
-            googleRpc006.QuotaFailure.deserializeBinaryFromReader
+            googleRpc007.QuotaFailure.deserializeBinaryFromReader
           );
           break;
         case 4:
-          _instance.preconditionFailure = new googleRpc006.PreconditionFailure();
+          _instance.preconditionFailure = new googleRpc007.PreconditionFailure();
           _reader.readMessage(
             _instance.preconditionFailure,
-            googleRpc006.PreconditionFailure.deserializeBinaryFromReader
+            googleRpc007.PreconditionFailure.deserializeBinaryFromReader
           );
           break;
         case 5:
-          _instance.badRequest = new googleRpc006.BadRequest();
+          _instance.badRequest = new googleRpc007.BadRequest();
           _reader.readMessage(
             _instance.badRequest,
-            googleRpc006.BadRequest.deserializeBinaryFromReader
+            googleRpc007.BadRequest.deserializeBinaryFromReader
           );
           break;
         case 6:
-          _instance.requestInfo = new googleRpc006.RequestInfo();
+          _instance.requestInfo = new googleRpc007.RequestInfo();
           _reader.readMessage(
             _instance.requestInfo,
-            googleRpc006.RequestInfo.deserializeBinaryFromReader
+            googleRpc007.RequestInfo.deserializeBinaryFromReader
           );
           break;
         case 7:
-          _instance.help = new googleRpc006.Help();
+          _instance.help = new googleRpc007.Help();
           _reader.readMessage(
             _instance.help,
-            googleRpc006.Help.deserializeBinaryFromReader
+            googleRpc007.Help.deserializeBinaryFromReader
           );
           break;
         case 8:
-          _instance.localizedMessage = new googleRpc006.LocalizedMessage();
+          _instance.localizedMessage = new googleRpc007.LocalizedMessage();
           _reader.readMessage(
             _instance.localizedMessage,
-            googleRpc006.LocalizedMessage.deserializeBinaryFromReader
+            googleRpc007.LocalizedMessage.deserializeBinaryFromReader
           );
           break;
         default:
@@ -182,68 +183,68 @@ export class ErrorDetails implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.retryInfo as any,
-        googleRpc006.RetryInfo.serializeBinaryToWriter
+        googleRpc007.RetryInfo.serializeBinaryToWriter
       );
     }
     if (_instance.debugInfo) {
       _writer.writeMessage(
         2,
         _instance.debugInfo as any,
-        googleRpc006.DebugInfo.serializeBinaryToWriter
+        googleRpc007.DebugInfo.serializeBinaryToWriter
       );
     }
     if (_instance.quotaFailure) {
       _writer.writeMessage(
         3,
         _instance.quotaFailure as any,
-        googleRpc006.QuotaFailure.serializeBinaryToWriter
+        googleRpc007.QuotaFailure.serializeBinaryToWriter
       );
     }
     if (_instance.preconditionFailure) {
       _writer.writeMessage(
         4,
         _instance.preconditionFailure as any,
-        googleRpc006.PreconditionFailure.serializeBinaryToWriter
+        googleRpc007.PreconditionFailure.serializeBinaryToWriter
       );
     }
     if (_instance.badRequest) {
       _writer.writeMessage(
         5,
         _instance.badRequest as any,
-        googleRpc006.BadRequest.serializeBinaryToWriter
+        googleRpc007.BadRequest.serializeBinaryToWriter
       );
     }
     if (_instance.requestInfo) {
       _writer.writeMessage(
         6,
         _instance.requestInfo as any,
-        googleRpc006.RequestInfo.serializeBinaryToWriter
+        googleRpc007.RequestInfo.serializeBinaryToWriter
       );
     }
     if (_instance.help) {
       _writer.writeMessage(
         7,
         _instance.help as any,
-        googleRpc006.Help.serializeBinaryToWriter
+        googleRpc007.Help.serializeBinaryToWriter
       );
     }
     if (_instance.localizedMessage) {
       _writer.writeMessage(
         8,
         _instance.localizedMessage as any,
-        googleRpc006.LocalizedMessage.serializeBinaryToWriter
+        googleRpc007.LocalizedMessage.serializeBinaryToWriter
       );
     }
   }
 
-  private _retryInfo?: googleRpc006.RetryInfo;
-  private _debugInfo?: googleRpc006.DebugInfo;
-  private _quotaFailure?: googleRpc006.QuotaFailure;
-  private _preconditionFailure?: googleRpc006.PreconditionFailure;
-  private _badRequest?: googleRpc006.BadRequest;
-  private _requestInfo?: googleRpc006.RequestInfo;
-  private _help?: googleRpc006.Help;
-  private _localizedMessage?: googleRpc006.LocalizedMessage;
+  private _retryInfo?: googleRpc007.RetryInfo;
+  private _debugInfo?: googleRpc007.DebugInfo;
+  private _quotaFailure?: googleRpc007.QuotaFailure;
+  private _preconditionFailure?: googleRpc007.PreconditionFailure;
+  private _badRequest?: googleRpc007.BadRequest;
+  private _requestInfo?: googleRpc007.RequestInfo;
+  private _help?: googleRpc007.Help;
+  private _localizedMessage?: googleRpc007.LocalizedMessage;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -252,75 +253,75 @@ export class ErrorDetails implements GrpcMessage {
   constructor(_value?: RecursivePartial<ErrorDetails.AsObject>) {
     _value = _value || {};
     this.retryInfo = _value.retryInfo
-      ? new googleRpc006.RetryInfo(_value.retryInfo)
+      ? new googleRpc007.RetryInfo(_value.retryInfo)
       : undefined;
     this.debugInfo = _value.debugInfo
-      ? new googleRpc006.DebugInfo(_value.debugInfo)
+      ? new googleRpc007.DebugInfo(_value.debugInfo)
       : undefined;
     this.quotaFailure = _value.quotaFailure
-      ? new googleRpc006.QuotaFailure(_value.quotaFailure)
+      ? new googleRpc007.QuotaFailure(_value.quotaFailure)
       : undefined;
     this.preconditionFailure = _value.preconditionFailure
-      ? new googleRpc006.PreconditionFailure(_value.preconditionFailure)
+      ? new googleRpc007.PreconditionFailure(_value.preconditionFailure)
       : undefined;
     this.badRequest = _value.badRequest
-      ? new googleRpc006.BadRequest(_value.badRequest)
+      ? new googleRpc007.BadRequest(_value.badRequest)
       : undefined;
     this.requestInfo = _value.requestInfo
-      ? new googleRpc006.RequestInfo(_value.requestInfo)
+      ? new googleRpc007.RequestInfo(_value.requestInfo)
       : undefined;
-    this.help = _value.help ? new googleRpc006.Help(_value.help) : undefined;
+    this.help = _value.help ? new googleRpc007.Help(_value.help) : undefined;
     this.localizedMessage = _value.localizedMessage
-      ? new googleRpc006.LocalizedMessage(_value.localizedMessage)
+      ? new googleRpc007.LocalizedMessage(_value.localizedMessage)
       : undefined;
     ErrorDetails.refineValues(this);
   }
-  get retryInfo(): googleRpc006.RetryInfo | undefined {
+  get retryInfo(): googleRpc007.RetryInfo | undefined {
     return this._retryInfo;
   }
-  set retryInfo(value: googleRpc006.RetryInfo | undefined) {
+  set retryInfo(value: googleRpc007.RetryInfo | undefined) {
     this._retryInfo = value;
   }
-  get debugInfo(): googleRpc006.DebugInfo | undefined {
+  get debugInfo(): googleRpc007.DebugInfo | undefined {
     return this._debugInfo;
   }
-  set debugInfo(value: googleRpc006.DebugInfo | undefined) {
+  set debugInfo(value: googleRpc007.DebugInfo | undefined) {
     this._debugInfo = value;
   }
-  get quotaFailure(): googleRpc006.QuotaFailure | undefined {
+  get quotaFailure(): googleRpc007.QuotaFailure | undefined {
     return this._quotaFailure;
   }
-  set quotaFailure(value: googleRpc006.QuotaFailure | undefined) {
+  set quotaFailure(value: googleRpc007.QuotaFailure | undefined) {
     this._quotaFailure = value;
   }
-  get preconditionFailure(): googleRpc006.PreconditionFailure | undefined {
+  get preconditionFailure(): googleRpc007.PreconditionFailure | undefined {
     return this._preconditionFailure;
   }
-  set preconditionFailure(value: googleRpc006.PreconditionFailure | undefined) {
+  set preconditionFailure(value: googleRpc007.PreconditionFailure | undefined) {
     this._preconditionFailure = value;
   }
-  get badRequest(): googleRpc006.BadRequest | undefined {
+  get badRequest(): googleRpc007.BadRequest | undefined {
     return this._badRequest;
   }
-  set badRequest(value: googleRpc006.BadRequest | undefined) {
+  set badRequest(value: googleRpc007.BadRequest | undefined) {
     this._badRequest = value;
   }
-  get requestInfo(): googleRpc006.RequestInfo | undefined {
+  get requestInfo(): googleRpc007.RequestInfo | undefined {
     return this._requestInfo;
   }
-  set requestInfo(value: googleRpc006.RequestInfo | undefined) {
+  set requestInfo(value: googleRpc007.RequestInfo | undefined) {
     this._requestInfo = value;
   }
-  get help(): googleRpc006.Help | undefined {
+  get help(): googleRpc007.Help | undefined {
     return this._help;
   }
-  set help(value: googleRpc006.Help | undefined) {
+  set help(value: googleRpc007.Help | undefined) {
     this._help = value;
   }
-  get localizedMessage(): googleRpc006.LocalizedMessage | undefined {
+  get localizedMessage(): googleRpc007.LocalizedMessage | undefined {
     return this._localizedMessage;
   }
-  set localizedMessage(value: googleRpc006.LocalizedMessage | undefined) {
+  set localizedMessage(value: googleRpc007.LocalizedMessage | undefined) {
     this._localizedMessage = value;
   }
 
@@ -399,28 +400,28 @@ export module ErrorDetails {
    * Standard JavaScript object representation for ErrorDetails
    */
   export interface AsObject {
-    retryInfo?: googleRpc006.RetryInfo.AsObject;
-    debugInfo?: googleRpc006.DebugInfo.AsObject;
-    quotaFailure?: googleRpc006.QuotaFailure.AsObject;
-    preconditionFailure?: googleRpc006.PreconditionFailure.AsObject;
-    badRequest?: googleRpc006.BadRequest.AsObject;
-    requestInfo?: googleRpc006.RequestInfo.AsObject;
-    help?: googleRpc006.Help.AsObject;
-    localizedMessage?: googleRpc006.LocalizedMessage.AsObject;
+    retryInfo?: googleRpc007.RetryInfo.AsObject;
+    debugInfo?: googleRpc007.DebugInfo.AsObject;
+    quotaFailure?: googleRpc007.QuotaFailure.AsObject;
+    preconditionFailure?: googleRpc007.PreconditionFailure.AsObject;
+    badRequest?: googleRpc007.BadRequest.AsObject;
+    requestInfo?: googleRpc007.RequestInfo.AsObject;
+    help?: googleRpc007.Help.AsObject;
+    localizedMessage?: googleRpc007.LocalizedMessage.AsObject;
   }
 
   /**
    * Protobuf JSON representation for ErrorDetails
    */
   export interface AsProtobufJSON {
-    retryInfo: googleRpc006.RetryInfo.AsProtobufJSON | null;
-    debugInfo: googleRpc006.DebugInfo.AsProtobufJSON | null;
-    quotaFailure: googleRpc006.QuotaFailure.AsProtobufJSON | null;
-    preconditionFailure: googleRpc006.PreconditionFailure.AsProtobufJSON | null;
-    badRequest: googleRpc006.BadRequest.AsProtobufJSON | null;
-    requestInfo: googleRpc006.RequestInfo.AsProtobufJSON | null;
-    help: googleRpc006.Help.AsProtobufJSON | null;
-    localizedMessage: googleRpc006.LocalizedMessage.AsProtobufJSON | null;
+    retryInfo: googleRpc007.RetryInfo.AsProtobufJSON | null;
+    debugInfo: googleRpc007.DebugInfo.AsProtobufJSON | null;
+    quotaFailure: googleRpc007.QuotaFailure.AsProtobufJSON | null;
+    preconditionFailure: googleRpc007.PreconditionFailure.AsProtobufJSON | null;
+    badRequest: googleRpc007.BadRequest.AsProtobufJSON | null;
+    requestInfo: googleRpc007.RequestInfo.AsProtobufJSON | null;
+    help: googleRpc007.Help.AsProtobufJSON | null;
+    localizedMessage: googleRpc007.LocalizedMessage.AsProtobufJSON | null;
   }
 }
 
@@ -4959,10 +4960,10 @@ export class AttrUserValue implements GrpcMessage {
           _instance.valueText = _reader.readString();
           break;
         case 6:
-          _instance.updateDate = new googleProtobuf002.Timestamp();
+          _instance.updateDate = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.updateDate,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         default:
@@ -5005,7 +5006,7 @@ export class AttrUserValue implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.updateDate as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
   }
@@ -5015,7 +5016,7 @@ export class AttrUserValue implements GrpcMessage {
   private _userId: string;
   private _value?: AttrValueValue;
   private _valueText: string;
-  private _updateDate?: googleProtobuf002.Timestamp;
+  private _updateDate?: googleProtobuf003.Timestamp;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -5029,7 +5030,7 @@ export class AttrUserValue implements GrpcMessage {
     this.value = _value.value ? new AttrValueValue(_value.value) : undefined;
     this.valueText = _value.valueText;
     this.updateDate = _value.updateDate
-      ? new googleProtobuf002.Timestamp(_value.updateDate)
+      ? new googleProtobuf003.Timestamp(_value.updateDate)
       : undefined;
     AttrUserValue.refineValues(this);
   }
@@ -5063,10 +5064,10 @@ export class AttrUserValue implements GrpcMessage {
   set valueText(value: string) {
     this._valueText = value;
   }
-  get updateDate(): googleProtobuf002.Timestamp | undefined {
+  get updateDate(): googleProtobuf003.Timestamp | undefined {
     return this._updateDate;
   }
-  set updateDate(value: googleProtobuf002.Timestamp | undefined) {
+  set updateDate(value: googleProtobuf003.Timestamp | undefined) {
     this._updateDate = value;
   }
 
@@ -5132,7 +5133,7 @@ export module AttrUserValue {
     userId: string;
     value?: AttrValueValue.AsObject;
     valueText: string;
-    updateDate?: googleProtobuf002.Timestamp.AsObject;
+    updateDate?: googleProtobuf003.Timestamp.AsObject;
   }
 
   /**
@@ -5144,7 +5145,7 @@ export module AttrUserValue {
     userId: string;
     value: AttrValueValue.AsProtobufJSON | null;
     valueText: string;
-    updateDate: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    updateDate: googleProtobuf003.Timestamp.AsProtobufJSON | null;
   }
 }
 
@@ -10129,10 +10130,10 @@ export class APIUser implements GrpcMessage {
           _instance.gravatar = _reader.readString();
           break;
         case 10:
-          _instance.lastOnline = new googleProtobuf002.Timestamp();
+          _instance.lastOnline = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.lastOnline,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 11:
@@ -10174,10 +10175,10 @@ export class APIUser implements GrpcMessage {
           _instance.isModer = _reader.readBool();
           break;
         case 21:
-          _instance.regDate = new googleProtobuf002.Timestamp();
+          _instance.regDate = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.regDate,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 23:
@@ -10241,7 +10242,7 @@ export class APIUser implements GrpcMessage {
       _writer.writeMessage(
         10,
         _instance.lastOnline as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.specsWeight) {
@@ -10286,7 +10287,7 @@ export class APIUser implements GrpcMessage {
       _writer.writeMessage(
         21,
         _instance.regDate as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.picturesAdded) {
@@ -10312,7 +10313,7 @@ export class APIUser implements GrpcMessage {
   private _identity: string;
   private _avatar?: APIImage;
   private _gravatar: string;
-  private _lastOnline?: googleProtobuf002.Timestamp;
+  private _lastOnline?: googleProtobuf003.Timestamp;
   private _specsWeight: number;
   private _email: string;
   private _timezone: string;
@@ -10323,7 +10324,7 @@ export class APIUser implements GrpcMessage {
   private _gravatarLarge: string;
   private _photo?: APIImage;
   private _isModer: boolean;
-  private _regDate?: googleProtobuf002.Timestamp;
+  private _regDate?: googleProtobuf003.Timestamp;
   private _picturesAdded: number;
   private _picturesAcceptedCount: number;
   private _lastIp: string;
@@ -10345,7 +10346,7 @@ export class APIUser implements GrpcMessage {
     this.avatar = _value.avatar ? new APIImage(_value.avatar) : undefined;
     this.gravatar = _value.gravatar;
     this.lastOnline = _value.lastOnline
-      ? new googleProtobuf002.Timestamp(_value.lastOnline)
+      ? new googleProtobuf003.Timestamp(_value.lastOnline)
       : undefined;
     this.specsWeight = _value.specsWeight;
     this.email = _value.email;
@@ -10358,7 +10359,7 @@ export class APIUser implements GrpcMessage {
     this.photo = _value.photo ? new APIImage(_value.photo) : undefined;
     this.isModer = _value.isModer;
     this.regDate = _value.regDate
-      ? new googleProtobuf002.Timestamp(_value.regDate)
+      ? new googleProtobuf003.Timestamp(_value.regDate)
       : undefined;
     this.picturesAdded = _value.picturesAdded;
     this.picturesAcceptedCount = _value.picturesAcceptedCount;
@@ -10420,10 +10421,10 @@ export class APIUser implements GrpcMessage {
   set gravatar(value: string) {
     this._gravatar = value;
   }
-  get lastOnline(): googleProtobuf002.Timestamp | undefined {
+  get lastOnline(): googleProtobuf003.Timestamp | undefined {
     return this._lastOnline;
   }
-  set lastOnline(value: googleProtobuf002.Timestamp | undefined) {
+  set lastOnline(value: googleProtobuf003.Timestamp | undefined) {
     this._lastOnline = value;
   }
   get specsWeight(): number {
@@ -10486,10 +10487,10 @@ export class APIUser implements GrpcMessage {
   set isModer(value: boolean) {
     this._isModer = value;
   }
-  get regDate(): googleProtobuf002.Timestamp | undefined {
+  get regDate(): googleProtobuf003.Timestamp | undefined {
     return this._regDate;
   }
-  set regDate(value: googleProtobuf002.Timestamp | undefined) {
+  set regDate(value: googleProtobuf003.Timestamp | undefined) {
     this._regDate = value;
   }
   get picturesAdded(): number {
@@ -10621,7 +10622,7 @@ export module APIUser {
     identity: string;
     avatar?: APIImage.AsObject;
     gravatar: string;
-    lastOnline?: googleProtobuf002.Timestamp.AsObject;
+    lastOnline?: googleProtobuf003.Timestamp.AsObject;
     specsWeight: number;
     email: string;
     timezone: string;
@@ -10632,7 +10633,7 @@ export module APIUser {
     gravatarLarge: string;
     photo?: APIImage.AsObject;
     isModer: boolean;
-    regDate?: googleProtobuf002.Timestamp.AsObject;
+    regDate?: googleProtobuf003.Timestamp.AsObject;
     picturesAdded: number;
     picturesAcceptedCount: number;
     lastIp: string;
@@ -10652,7 +10653,7 @@ export module APIUser {
     identity: string;
     avatar: APIImage.AsProtobufJSON | null;
     gravatar: string;
-    lastOnline: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    lastOnline: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     specsWeight: number;
     email: string;
     timezone: string;
@@ -10663,7 +10664,7 @@ export module APIUser {
     gravatarLarge: string;
     photo: APIImage.AsProtobufJSON | null;
     isModer: boolean;
-    regDate: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    regDate: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     picturesAdded: number;
     picturesAcceptedCount: number;
     lastIp: string;
@@ -11449,10 +11450,10 @@ export class APIBanItem implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.until = new googleProtobuf002.Timestamp();
+          _instance.until = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.until,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -11486,7 +11487,7 @@ export class APIBanItem implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.until as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.byUserId) {
@@ -11504,7 +11505,7 @@ export class APIBanItem implements GrpcMessage {
     }
   }
 
-  private _until?: googleProtobuf002.Timestamp;
+  private _until?: googleProtobuf003.Timestamp;
   private _byUserId: string;
   private _byUser?: APIUser;
   private _reason: string;
@@ -11516,17 +11517,17 @@ export class APIBanItem implements GrpcMessage {
   constructor(_value?: RecursivePartial<APIBanItem.AsObject>) {
     _value = _value || {};
     this.until = _value.until
-      ? new googleProtobuf002.Timestamp(_value.until)
+      ? new googleProtobuf003.Timestamp(_value.until)
       : undefined;
     this.byUserId = _value.byUserId;
     this.byUser = _value.byUser ? new APIUser(_value.byUser) : undefined;
     this.reason = _value.reason;
     APIBanItem.refineValues(this);
   }
-  get until(): googleProtobuf002.Timestamp | undefined {
+  get until(): googleProtobuf003.Timestamp | undefined {
     return this._until;
   }
-  set until(value: googleProtobuf002.Timestamp | undefined) {
+  set until(value: googleProtobuf003.Timestamp | undefined) {
     this._until = value;
   }
   get byUserId(): string {
@@ -11599,7 +11600,7 @@ export module APIBanItem {
    * Standard JavaScript object representation for APIBanItem
    */
   export interface AsObject {
-    until?: googleProtobuf002.Timestamp.AsObject;
+    until?: googleProtobuf003.Timestamp.AsObject;
     byUserId: string;
     byUser?: APIUser.AsObject;
     reason: string;
@@ -11609,7 +11610,7 @@ export module APIBanItem {
    * Protobuf JSON representation for APIBanItem
    */
   export interface AsProtobufJSON {
-    until: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    until: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     byUserId: string;
     byUser: APIUser.AsProtobufJSON | null;
     reason: string;
@@ -14790,10 +14791,10 @@ export class APIForumsTopic implements GrpcMessage {
           _instance.newMessages = _reader.readInt32();
           break;
         case 6:
-          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _instance.createdAt = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.createdAt,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 7:
@@ -14841,7 +14842,7 @@ export class APIForumsTopic implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.createdAt as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.userId) {
@@ -14860,7 +14861,7 @@ export class APIForumsTopic implements GrpcMessage {
   private _status: string;
   private _oldMessages: number;
   private _newMessages: number;
-  private _createdAt?: googleProtobuf002.Timestamp;
+  private _createdAt?: googleProtobuf003.Timestamp;
   private _userId: string;
   private _themeId: string;
   private _subscription: boolean;
@@ -14877,7 +14878,7 @@ export class APIForumsTopic implements GrpcMessage {
     this.oldMessages = _value.oldMessages;
     this.newMessages = _value.newMessages;
     this.createdAt = _value.createdAt
-      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      ? new googleProtobuf003.Timestamp(_value.createdAt)
       : undefined;
     this.userId = _value.userId;
     this.themeId = _value.themeId;
@@ -14914,10 +14915,10 @@ export class APIForumsTopic implements GrpcMessage {
   set newMessages(value: number) {
     this._newMessages = value;
   }
-  get createdAt(): googleProtobuf002.Timestamp | undefined {
+  get createdAt(): googleProtobuf003.Timestamp | undefined {
     return this._createdAt;
   }
-  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+  set createdAt(value: googleProtobuf003.Timestamp | undefined) {
     this._createdAt = value;
   }
   get userId(): string {
@@ -15005,7 +15006,7 @@ export module APIForumsTopic {
     status: string;
     oldMessages: number;
     newMessages: number;
-    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    createdAt?: googleProtobuf003.Timestamp.AsObject;
     userId: string;
     themeId: string;
     subscription: boolean;
@@ -15020,7 +15021,7 @@ export module APIForumsTopic {
     status: string;
     oldMessages: number;
     newMessages: number;
-    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    createdAt: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     userId: string;
     themeId: string;
     subscription: boolean;
@@ -15248,10 +15249,10 @@ export class APICommentMessage implements GrpcMessage {
           _instance.id = _reader.readInt64String();
           break;
         case 2:
-          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _instance.createdAt = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.createdAt,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 3:
@@ -15281,7 +15282,7 @@ export class APICommentMessage implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.createdAt as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.userId) {
@@ -15290,7 +15291,7 @@ export class APICommentMessage implements GrpcMessage {
   }
 
   private _id: string;
-  private _createdAt?: googleProtobuf002.Timestamp;
+  private _createdAt?: googleProtobuf003.Timestamp;
   private _userId: string;
 
   /**
@@ -15301,7 +15302,7 @@ export class APICommentMessage implements GrpcMessage {
     _value = _value || {};
     this.id = _value.id;
     this.createdAt = _value.createdAt
-      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      ? new googleProtobuf003.Timestamp(_value.createdAt)
       : undefined;
     this.userId = _value.userId;
     APICommentMessage.refineValues(this);
@@ -15312,10 +15313,10 @@ export class APICommentMessage implements GrpcMessage {
   set id(value: string) {
     this._id = value;
   }
-  get createdAt(): googleProtobuf002.Timestamp | undefined {
+  get createdAt(): googleProtobuf003.Timestamp | undefined {
     return this._createdAt;
   }
-  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+  set createdAt(value: googleProtobuf003.Timestamp | undefined) {
     this._createdAt = value;
   }
   get userId(): string {
@@ -15375,7 +15376,7 @@ export module APICommentMessage {
    */
   export interface AsObject {
     id: string;
-    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    createdAt?: googleProtobuf003.Timestamp.AsObject;
     userId: string;
   }
 
@@ -15384,7 +15385,7 @@ export module APICommentMessage {
    */
   export interface AsProtobufJSON {
     id: string;
-    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    createdAt: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     userId: string;
   }
 }
@@ -21557,24 +21558,24 @@ export class PictureListOptions implements GrpcMessage {
           _instance.acceptedInDays = _reader.readInt32();
           break;
         case 6:
-          _instance.addDate = new googleType005.Date();
+          _instance.addDate = new googleType006.Date();
           _reader.readMessage(
             _instance.addDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 7:
-          _instance.acceptDate = new googleType005.Date();
+          _instance.acceptDate = new googleType006.Date();
           _reader.readMessage(
             _instance.acceptDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 10:
-          _instance.addedFrom = new googleType005.Date();
+          _instance.addedFrom = new googleType006.Date();
           _reader.readMessage(
             _instance.addedFrom,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 11:
@@ -21672,21 +21673,21 @@ export class PictureListOptions implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.addDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.acceptDate) {
       _writer.writeMessage(
         7,
         _instance.acceptDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.addedFrom) {
       _writer.writeMessage(
         10,
         _instance.addedFrom as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.commentTopic) {
@@ -21747,9 +21748,9 @@ export class PictureListOptions implements GrpcMessage {
   private _pictureItem?: PictureItemListOptions;
   private _ownerId: string;
   private _acceptedInDays: number;
-  private _addDate?: googleType005.Date;
-  private _acceptDate?: googleType005.Date;
-  private _addedFrom?: googleType005.Date;
+  private _addDate?: googleType006.Date;
+  private _acceptDate?: googleType006.Date;
+  private _addedFrom?: googleType006.Date;
   private _commentTopic?: CommentTopicListOptions;
   private _hasNoComments: boolean;
   private _hasPoint: boolean;
@@ -21778,13 +21779,13 @@ export class PictureListOptions implements GrpcMessage {
     this.ownerId = _value.ownerId;
     this.acceptedInDays = _value.acceptedInDays;
     this.addDate = _value.addDate
-      ? new googleType005.Date(_value.addDate)
+      ? new googleType006.Date(_value.addDate)
       : undefined;
     this.acceptDate = _value.acceptDate
-      ? new googleType005.Date(_value.acceptDate)
+      ? new googleType006.Date(_value.acceptDate)
       : undefined;
     this.addedFrom = _value.addedFrom
-      ? new googleType005.Date(_value.addedFrom)
+      ? new googleType006.Date(_value.addedFrom)
       : undefined;
     this.commentTopic = _value.commentTopic
       ? new CommentTopicListOptions(_value.commentTopic)
@@ -21849,22 +21850,22 @@ export class PictureListOptions implements GrpcMessage {
   set acceptedInDays(value: number) {
     this._acceptedInDays = value;
   }
-  get addDate(): googleType005.Date | undefined {
+  get addDate(): googleType006.Date | undefined {
     return this._addDate;
   }
-  set addDate(value: googleType005.Date | undefined) {
+  set addDate(value: googleType006.Date | undefined) {
     this._addDate = value;
   }
-  get acceptDate(): googleType005.Date | undefined {
+  get acceptDate(): googleType006.Date | undefined {
     return this._acceptDate;
   }
-  set acceptDate(value: googleType005.Date | undefined) {
+  set acceptDate(value: googleType006.Date | undefined) {
     this._acceptDate = value;
   }
-  get addedFrom(): googleType005.Date | undefined {
+  get addedFrom(): googleType006.Date | undefined {
     return this._addedFrom;
   }
-  set addedFrom(value: googleType005.Date | undefined) {
+  set addedFrom(value: googleType006.Date | undefined) {
     this._addedFrom = value;
   }
   get commentTopic(): CommentTopicListOptions | undefined {
@@ -22047,9 +22048,9 @@ export module PictureListOptions {
     pictureItem?: PictureItemListOptions.AsObject;
     ownerId: string;
     acceptedInDays: number;
-    addDate?: googleType005.Date.AsObject;
-    acceptDate?: googleType005.Date.AsObject;
-    addedFrom?: googleType005.Date.AsObject;
+    addDate?: googleType006.Date.AsObject;
+    acceptDate?: googleType006.Date.AsObject;
+    addedFrom?: googleType006.Date.AsObject;
     commentTopic?: CommentTopicListOptions.AsObject;
     hasNoComments: boolean;
     hasPoint: boolean;
@@ -22074,9 +22075,9 @@ export module PictureListOptions {
     pictureItem: PictureItemListOptions.AsProtobufJSON | null;
     ownerId: string;
     acceptedInDays: number;
-    addDate: googleType005.Date.AsProtobufJSON | null;
-    acceptDate: googleType005.Date.AsProtobufJSON | null;
-    addedFrom: googleType005.Date.AsProtobufJSON | null;
+    addDate: googleType006.Date.AsProtobufJSON | null;
+    acceptDate: googleType006.Date.AsProtobufJSON | null;
+    addedFrom: googleType006.Date.AsProtobufJSON | null;
     commentTopic: CommentTopicListOptions.AsProtobufJSON | null;
     hasNoComments: boolean;
     hasPoint: boolean;
@@ -25113,6 +25114,15 @@ export class ItemFields implements GrpcMessage {
     _instance.routeBrandId = _instance.routeBrandId || '0';
     _instance.relatedGroupPictures = _instance.relatedGroupPictures || false;
     _instance.itemOfDayPictures = _instance.itemOfDayPictures || false;
+    _instance.meta = _instance.meta || false;
+    _instance.engineVehiclesCount = _instance.engineVehiclesCount || false;
+    _instance.itemLanguageCount = _instance.itemLanguageCount || false;
+    _instance.linksCount = _instance.linksCount || false;
+    _instance.logo = _instance.logo || false;
+    _instance.parentsCount = _instance.parentsCount || false;
+    _instance.exactPicturesCount = _instance.exactPicturesCount || false;
+    _instance.specificationsCount = _instance.specificationsCount || false;
+    _instance.subscription = _instance.subscription || false;
   }
 
   /**
@@ -25282,6 +25292,33 @@ export class ItemFields implements GrpcMessage {
         case 43:
           _instance.itemOfDayPictures = _reader.readBool();
           break;
+        case 44:
+          _instance.meta = _reader.readBool();
+          break;
+        case 45:
+          _instance.engineVehiclesCount = _reader.readBool();
+          break;
+        case 46:
+          _instance.itemLanguageCount = _reader.readBool();
+          break;
+        case 47:
+          _instance.linksCount = _reader.readBool();
+          break;
+        case 48:
+          _instance.logo = _reader.readBool();
+          break;
+        case 49:
+          _instance.parentsCount = _reader.readBool();
+          break;
+        case 50:
+          _instance.exactPicturesCount = _reader.readBool();
+          break;
+        case 51:
+          _instance.specificationsCount = _reader.readBool();
+          break;
+        case 52:
+          _instance.subscription = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -25450,6 +25487,33 @@ export class ItemFields implements GrpcMessage {
     if (_instance.itemOfDayPictures) {
       _writer.writeBool(43, _instance.itemOfDayPictures);
     }
+    if (_instance.meta) {
+      _writer.writeBool(44, _instance.meta);
+    }
+    if (_instance.engineVehiclesCount) {
+      _writer.writeBool(45, _instance.engineVehiclesCount);
+    }
+    if (_instance.itemLanguageCount) {
+      _writer.writeBool(46, _instance.itemLanguageCount);
+    }
+    if (_instance.linksCount) {
+      _writer.writeBool(47, _instance.linksCount);
+    }
+    if (_instance.logo) {
+      _writer.writeBool(48, _instance.logo);
+    }
+    if (_instance.parentsCount) {
+      _writer.writeBool(49, _instance.parentsCount);
+    }
+    if (_instance.exactPicturesCount) {
+      _writer.writeBool(50, _instance.exactPicturesCount);
+    }
+    if (_instance.specificationsCount) {
+      _writer.writeBool(51, _instance.specificationsCount);
+    }
+    if (_instance.subscription) {
+      _writer.writeBool(52, _instance.subscription);
+    }
   }
 
   private _nameOnly: boolean;
@@ -25494,6 +25558,15 @@ export class ItemFields implements GrpcMessage {
   private _routeBrandId: string;
   private _relatedGroupPictures: boolean;
   private _itemOfDayPictures: boolean;
+  private _meta: boolean;
+  private _engineVehiclesCount: boolean;
+  private _itemLanguageCount: boolean;
+  private _linksCount: boolean;
+  private _logo: boolean;
+  private _parentsCount: boolean;
+  private _exactPicturesCount: boolean;
+  private _specificationsCount: boolean;
+  private _subscription: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -25553,6 +25626,15 @@ export class ItemFields implements GrpcMessage {
     this.routeBrandId = _value.routeBrandId;
     this.relatedGroupPictures = _value.relatedGroupPictures;
     this.itemOfDayPictures = _value.itemOfDayPictures;
+    this.meta = _value.meta;
+    this.engineVehiclesCount = _value.engineVehiclesCount;
+    this.itemLanguageCount = _value.itemLanguageCount;
+    this.linksCount = _value.linksCount;
+    this.logo = _value.logo;
+    this.parentsCount = _value.parentsCount;
+    this.exactPicturesCount = _value.exactPicturesCount;
+    this.specificationsCount = _value.specificationsCount;
+    this.subscription = _value.subscription;
     ItemFields.refineValues(this);
   }
   get nameOnly(): boolean {
@@ -25807,6 +25889,60 @@ export class ItemFields implements GrpcMessage {
   set itemOfDayPictures(value: boolean) {
     this._itemOfDayPictures = value;
   }
+  get meta(): boolean {
+    return this._meta;
+  }
+  set meta(value: boolean) {
+    this._meta = value;
+  }
+  get engineVehiclesCount(): boolean {
+    return this._engineVehiclesCount;
+  }
+  set engineVehiclesCount(value: boolean) {
+    this._engineVehiclesCount = value;
+  }
+  get itemLanguageCount(): boolean {
+    return this._itemLanguageCount;
+  }
+  set itemLanguageCount(value: boolean) {
+    this._itemLanguageCount = value;
+  }
+  get linksCount(): boolean {
+    return this._linksCount;
+  }
+  set linksCount(value: boolean) {
+    this._linksCount = value;
+  }
+  get logo(): boolean {
+    return this._logo;
+  }
+  set logo(value: boolean) {
+    this._logo = value;
+  }
+  get parentsCount(): boolean {
+    return this._parentsCount;
+  }
+  set parentsCount(value: boolean) {
+    this._parentsCount = value;
+  }
+  get exactPicturesCount(): boolean {
+    return this._exactPicturesCount;
+  }
+  set exactPicturesCount(value: boolean) {
+    this._exactPicturesCount = value;
+  }
+  get specificationsCount(): boolean {
+    return this._specificationsCount;
+  }
+  set specificationsCount(value: boolean) {
+    this._specificationsCount = value;
+  }
+  get subscription(): boolean {
+    return this._subscription;
+  }
+  set subscription(value: boolean) {
+    this._subscription = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -25872,7 +26008,16 @@ export class ItemFields implements GrpcMessage {
         : undefined,
       routeBrandId: this.routeBrandId,
       relatedGroupPictures: this.relatedGroupPictures,
-      itemOfDayPictures: this.itemOfDayPictures
+      itemOfDayPictures: this.itemOfDayPictures,
+      meta: this.meta,
+      engineVehiclesCount: this.engineVehiclesCount,
+      itemLanguageCount: this.itemLanguageCount,
+      linksCount: this.linksCount,
+      logo: this.logo,
+      parentsCount: this.parentsCount,
+      exactPicturesCount: this.exactPicturesCount,
+      specificationsCount: this.specificationsCount,
+      subscription: this.subscription
     };
   }
 
@@ -25944,7 +26089,16 @@ export class ItemFields implements GrpcMessage {
         : null,
       routeBrandId: this.routeBrandId,
       relatedGroupPictures: this.relatedGroupPictures,
-      itemOfDayPictures: this.itemOfDayPictures
+      itemOfDayPictures: this.itemOfDayPictures,
+      meta: this.meta,
+      engineVehiclesCount: this.engineVehiclesCount,
+      itemLanguageCount: this.itemLanguageCount,
+      linksCount: this.linksCount,
+      logo: this.logo,
+      parentsCount: this.parentsCount,
+      exactPicturesCount: this.exactPicturesCount,
+      specificationsCount: this.specificationsCount,
+      subscription: this.subscription
     };
   }
 }
@@ -25995,6 +26149,15 @@ export module ItemFields {
     routeBrandId: string;
     relatedGroupPictures: boolean;
     itemOfDayPictures: boolean;
+    meta: boolean;
+    engineVehiclesCount: boolean;
+    itemLanguageCount: boolean;
+    linksCount: boolean;
+    logo: boolean;
+    parentsCount: boolean;
+    exactPicturesCount: boolean;
+    specificationsCount: boolean;
+    subscription: boolean;
   }
 
   /**
@@ -26043,6 +26206,15 @@ export module ItemFields {
     routeBrandId: string;
     relatedGroupPictures: boolean;
     itemOfDayPictures: boolean;
+    meta: boolean;
+    engineVehiclesCount: boolean;
+    itemLanguageCount: boolean;
+    linksCount: boolean;
+    logo: boolean;
+    parentsCount: boolean;
+    exactPicturesCount: boolean;
+    specificationsCount: boolean;
+    subscription: boolean;
   }
 }
 
@@ -29925,14 +30097,19 @@ export class APIItem implements GrpcMessage {
     _instance.description = _instance.description || '';
     _instance.isConcept = _instance.isConcept || false;
     _instance.isConceptInherit = _instance.isConceptInherit || false;
-    _instance.specId = _instance.specId || '0';
+    _instance.specId = _instance.specId || 0;
+    _instance.specInherit = _instance.specInherit || false;
     _instance.fullText = _instance.fullText || '';
     _instance.descendantPicturesCount = _instance.descendantPicturesCount || 0;
+    _instance.inboxPicturesCount = _instance.inboxPicturesCount || 0;
+    _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || 0;
+    _instance.exactPicturesCount = _instance.exactPicturesCount || 0;
     _instance.childsCount = _instance.childsCount || 0;
+    _instance.parentsCount = _instance.parentsCount || 0;
     _instance.descendantTwinsGroupsCount =
       _instance.descendantTwinsGroupsCount || 0;
-    _instance.inboxPicturesCount = _instance.inboxPicturesCount || 0;
     _instance.fullName = _instance.fullName || '';
+    _instance.logo = _instance.logo || undefined;
     _instance.logo120 = _instance.logo120 || undefined;
     _instance.mostsActive = _instance.mostsActive || false;
     _instance.commentsAttentionsCount = _instance.commentsAttentionsCount || 0;
@@ -29941,7 +30118,6 @@ export class APIItem implements GrpcMessage {
     _instance.attrZoneId = _instance.attrZoneId || '0';
     _instance.engineInherit = _instance.engineInherit || false;
     _instance.location = _instance.location || undefined;
-    _instance.acceptedPicturesCount = _instance.acceptedPicturesCount || 0;
     _instance.hasChildSpecs = _instance.hasChildSpecs || false;
     _instance.hasSpecs = _instance.hasSpecs || false;
     _instance.produced = _instance.produced || 0;
@@ -29966,6 +30142,22 @@ export class APIItem implements GrpcMessage {
     _instance.engineVehicles = _instance.engineVehicles || [];
     _instance.relatedGroupPictures = _instance.relatedGroupPictures || [];
     _instance.itemOfDayPictures = _instance.itemOfDayPictures || [];
+    _instance.beginYear = _instance.beginYear || 0;
+    _instance.endYear = _instance.endYear || 0;
+    _instance.beginMonth = _instance.beginMonth || 0;
+    _instance.endMonth = _instance.endMonth || 0;
+    _instance.beginModelYear = _instance.beginModelYear || 0;
+    _instance.endModelYear = _instance.endModelYear || 0;
+    _instance.beginModelYearFraction = _instance.beginModelYearFraction || '';
+    _instance.endModelYearFraction = _instance.endModelYearFraction || '';
+    _instance.body = _instance.body || '';
+    _instance.name = _instance.name || '';
+    _instance.today = _instance.today || undefined;
+    _instance.engineVehiclesCount = _instance.engineVehiclesCount || 0;
+    _instance.itemLanguageCount = _instance.itemLanguageCount || 0;
+    _instance.linksCount = _instance.linksCount || 0;
+    _instance.specificationsCount = _instance.specificationsCount || 0;
+    _instance.subscription = _instance.subscription || false;
   }
 
   /**
@@ -30018,7 +30210,10 @@ export class APIItem implements GrpcMessage {
           _instance.isConceptInherit = _reader.readBool();
           break;
         case 12:
-          _instance.specId = _reader.readInt64String();
+          _instance.specId = _reader.readInt32();
+          break;
+        case 72:
+          _instance.specInherit = _reader.readBool();
           break;
         case 13:
           _instance.fullText = _reader.readString();
@@ -30026,17 +30221,33 @@ export class APIItem implements GrpcMessage {
         case 14:
           _instance.descendantPicturesCount = _reader.readInt32();
           break;
+        case 17:
+          _instance.inboxPicturesCount = _reader.readInt32();
+          break;
+        case 27:
+          _instance.acceptedPicturesCount = _reader.readInt32();
+          break;
+        case 69:
+          _instance.exactPicturesCount = _reader.readInt32();
+          break;
         case 15:
           _instance.childsCount = _reader.readInt32();
+          break;
+        case 68:
+          _instance.parentsCount = _reader.readInt32();
           break;
         case 16:
           _instance.descendantTwinsGroupsCount = _reader.readInt32();
           break;
-        case 17:
-          _instance.inboxPicturesCount = _reader.readInt32();
-          break;
         case 18:
           _instance.fullName = _reader.readString();
+          break;
+        case 67:
+          _instance.logo = new APIImage();
+          _reader.readMessage(
+            _instance.logo,
+            APIImage.deserializeBinaryFromReader
+          );
           break;
         case 19:
           _instance.logo120 = new APIImage();
@@ -30068,14 +30279,11 @@ export class APIItem implements GrpcMessage {
           _instance.engineInherit = _reader.readBool();
           break;
         case 26:
-          _instance.location = new googleType004.LatLng();
+          _instance.location = new googleType005.LatLng();
           _reader.readMessage(
             _instance.location,
-            googleType004.LatLng.deserializeBinaryFromReader
+            googleType005.LatLng.deserializeBinaryFromReader
           );
-          break;
-        case 27:
-          _instance.acceptedPicturesCount = _reader.readInt32();
           break;
         case 28:
           _instance.hasChildSpecs = _reader.readBool();
@@ -30225,6 +30433,58 @@ export class APIItem implements GrpcMessage {
           (_instance.itemOfDayPictures =
             _instance.itemOfDayPictures || []).push(messageInitializer52);
           break;
+        case 53:
+          _instance.beginYear = _reader.readInt32();
+          break;
+        case 54:
+          _instance.endYear = _reader.readInt32();
+          break;
+        case 55:
+          _instance.beginMonth = _reader.readInt32();
+          break;
+        case 56:
+          _instance.endMonth = _reader.readInt32();
+          break;
+        case 57:
+          _instance.beginModelYear = _reader.readInt32();
+          break;
+        case 58:
+          _instance.endModelYear = _reader.readInt32();
+          break;
+        case 59:
+          _instance.beginModelYearFraction = _reader.readString();
+          break;
+        case 60:
+          _instance.endModelYearFraction = _reader.readString();
+          break;
+        case 61:
+          _instance.body = _reader.readString();
+          break;
+        case 62:
+          _instance.name = _reader.readString();
+          break;
+        case 63:
+          _instance.today = new googleProtobuf002.BoolValue();
+          _reader.readMessage(
+            _instance.today,
+            googleProtobuf002.BoolValue.deserializeBinaryFromReader
+          );
+          break;
+        case 64:
+          _instance.engineVehiclesCount = _reader.readInt32();
+          break;
+        case 65:
+          _instance.itemLanguageCount = _reader.readInt32();
+          break;
+        case 66:
+          _instance.linksCount = _reader.readInt32();
+          break;
+        case 70:
+          _instance.specificationsCount = _reader.readInt32();
+          break;
+        case 71:
+          _instance.subscription = _reader.readBool();
+          break;
         default:
           _reader.skipField();
       }
@@ -30276,7 +30536,10 @@ export class APIItem implements GrpcMessage {
       _writer.writeBool(11, _instance.isConceptInherit);
     }
     if (_instance.specId) {
-      _writer.writeInt64String(12, _instance.specId);
+      _writer.writeInt32(12, _instance.specId);
+    }
+    if (_instance.specInherit) {
+      _writer.writeBool(72, _instance.specInherit);
     }
     if (_instance.fullText) {
       _writer.writeString(13, _instance.fullText);
@@ -30284,17 +30547,33 @@ export class APIItem implements GrpcMessage {
     if (_instance.descendantPicturesCount) {
       _writer.writeInt32(14, _instance.descendantPicturesCount);
     }
+    if (_instance.inboxPicturesCount) {
+      _writer.writeInt32(17, _instance.inboxPicturesCount);
+    }
+    if (_instance.acceptedPicturesCount) {
+      _writer.writeInt32(27, _instance.acceptedPicturesCount);
+    }
+    if (_instance.exactPicturesCount) {
+      _writer.writeInt32(69, _instance.exactPicturesCount);
+    }
     if (_instance.childsCount) {
       _writer.writeInt32(15, _instance.childsCount);
+    }
+    if (_instance.parentsCount) {
+      _writer.writeInt32(68, _instance.parentsCount);
     }
     if (_instance.descendantTwinsGroupsCount) {
       _writer.writeInt32(16, _instance.descendantTwinsGroupsCount);
     }
-    if (_instance.inboxPicturesCount) {
-      _writer.writeInt32(17, _instance.inboxPicturesCount);
-    }
     if (_instance.fullName) {
       _writer.writeString(18, _instance.fullName);
+    }
+    if (_instance.logo) {
+      _writer.writeMessage(
+        67,
+        _instance.logo as any,
+        APIImage.serializeBinaryToWriter
+      );
     }
     if (_instance.logo120) {
       _writer.writeMessage(
@@ -30329,11 +30608,8 @@ export class APIItem implements GrpcMessage {
       _writer.writeMessage(
         26,
         _instance.location as any,
-        googleType004.LatLng.serializeBinaryToWriter
+        googleType005.LatLng.serializeBinaryToWriter
       );
-    }
-    if (_instance.acceptedPicturesCount) {
-      _writer.writeInt32(27, _instance.acceptedPicturesCount);
     }
     if (_instance.hasChildSpecs) {
       _writer.writeBool(28, _instance.hasChildSpecs);
@@ -30462,6 +30738,58 @@ export class APIItem implements GrpcMessage {
         ItemOfDayPicture.serializeBinaryToWriter
       );
     }
+    if (_instance.beginYear) {
+      _writer.writeInt32(53, _instance.beginYear);
+    }
+    if (_instance.endYear) {
+      _writer.writeInt32(54, _instance.endYear);
+    }
+    if (_instance.beginMonth) {
+      _writer.writeInt32(55, _instance.beginMonth);
+    }
+    if (_instance.endMonth) {
+      _writer.writeInt32(56, _instance.endMonth);
+    }
+    if (_instance.beginModelYear) {
+      _writer.writeInt32(57, _instance.beginModelYear);
+    }
+    if (_instance.endModelYear) {
+      _writer.writeInt32(58, _instance.endModelYear);
+    }
+    if (_instance.beginModelYearFraction) {
+      _writer.writeString(59, _instance.beginModelYearFraction);
+    }
+    if (_instance.endModelYearFraction) {
+      _writer.writeString(60, _instance.endModelYearFraction);
+    }
+    if (_instance.body) {
+      _writer.writeString(61, _instance.body);
+    }
+    if (_instance.name) {
+      _writer.writeString(62, _instance.name);
+    }
+    if (_instance.today) {
+      _writer.writeMessage(
+        63,
+        _instance.today as any,
+        googleProtobuf002.BoolValue.serializeBinaryToWriter
+      );
+    }
+    if (_instance.engineVehiclesCount) {
+      _writer.writeInt32(64, _instance.engineVehiclesCount);
+    }
+    if (_instance.itemLanguageCount) {
+      _writer.writeInt32(65, _instance.itemLanguageCount);
+    }
+    if (_instance.linksCount) {
+      _writer.writeInt32(66, _instance.linksCount);
+    }
+    if (_instance.specificationsCount) {
+      _writer.writeInt32(70, _instance.specificationsCount);
+    }
+    if (_instance.subscription) {
+      _writer.writeBool(71, _instance.subscription);
+    }
   }
 
   private _id: string;
@@ -30476,13 +30804,18 @@ export class APIItem implements GrpcMessage {
   private _description: string;
   private _isConcept: boolean;
   private _isConceptInherit: boolean;
-  private _specId: string;
+  private _specId: number;
+  private _specInherit: boolean;
   private _fullText: string;
   private _descendantPicturesCount: number;
-  private _childsCount: number;
-  private _descendantTwinsGroupsCount: number;
   private _inboxPicturesCount: number;
+  private _acceptedPicturesCount: number;
+  private _exactPicturesCount: number;
+  private _childsCount: number;
+  private _parentsCount: number;
+  private _descendantTwinsGroupsCount: number;
   private _fullName: string;
+  private _logo?: APIImage;
   private _logo120?: APIImage;
   private _mostsActive: boolean;
   private _commentsAttentionsCount: number;
@@ -30490,8 +30823,7 @@ export class APIItem implements GrpcMessage {
   private _brandicon?: APIImage;
   private _attrZoneId: string;
   private _engineInherit: boolean;
-  private _location?: googleType004.LatLng;
-  private _acceptedPicturesCount: number;
+  private _location?: googleType005.LatLng;
   private _hasChildSpecs: boolean;
   private _hasSpecs: boolean;
   private _produced: number;
@@ -30516,6 +30848,22 @@ export class APIItem implements GrpcMessage {
   private _engineVehicles?: APIItem[];
   private _relatedGroupPictures?: RelatedGroupPicture[];
   private _itemOfDayPictures?: ItemOfDayPicture[];
+  private _beginYear: number;
+  private _endYear: number;
+  private _beginMonth: number;
+  private _endMonth: number;
+  private _beginModelYear: number;
+  private _endModelYear: number;
+  private _beginModelYearFraction: string;
+  private _endModelYearFraction: string;
+  private _body: string;
+  private _name: string;
+  private _today?: googleProtobuf002.BoolValue;
+  private _engineVehiclesCount: number;
+  private _itemLanguageCount: number;
+  private _linksCount: number;
+  private _specificationsCount: number;
+  private _subscription: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30536,12 +30884,17 @@ export class APIItem implements GrpcMessage {
     this.isConcept = _value.isConcept;
     this.isConceptInherit = _value.isConceptInherit;
     this.specId = _value.specId;
+    this.specInherit = _value.specInherit;
     this.fullText = _value.fullText;
     this.descendantPicturesCount = _value.descendantPicturesCount;
-    this.childsCount = _value.childsCount;
-    this.descendantTwinsGroupsCount = _value.descendantTwinsGroupsCount;
     this.inboxPicturesCount = _value.inboxPicturesCount;
+    this.acceptedPicturesCount = _value.acceptedPicturesCount;
+    this.exactPicturesCount = _value.exactPicturesCount;
+    this.childsCount = _value.childsCount;
+    this.parentsCount = _value.parentsCount;
+    this.descendantTwinsGroupsCount = _value.descendantTwinsGroupsCount;
     this.fullName = _value.fullName;
+    this.logo = _value.logo ? new APIImage(_value.logo) : undefined;
     this.logo120 = _value.logo120 ? new APIImage(_value.logo120) : undefined;
     this.mostsActive = _value.mostsActive;
     this.commentsAttentionsCount = _value.commentsAttentionsCount;
@@ -30552,9 +30905,8 @@ export class APIItem implements GrpcMessage {
     this.attrZoneId = _value.attrZoneId;
     this.engineInherit = _value.engineInherit;
     this.location = _value.location
-      ? new googleType004.LatLng(_value.location)
+      ? new googleType005.LatLng(_value.location)
       : undefined;
-    this.acceptedPicturesCount = _value.acceptedPicturesCount;
     this.hasChildSpecs = _value.hasChildSpecs;
     this.hasSpecs = _value.hasSpecs;
     this.produced = _value.produced;
@@ -30595,6 +30947,24 @@ export class APIItem implements GrpcMessage {
     this.itemOfDayPictures = (_value.itemOfDayPictures || []).map(
       m => new ItemOfDayPicture(m)
     );
+    this.beginYear = _value.beginYear;
+    this.endYear = _value.endYear;
+    this.beginMonth = _value.beginMonth;
+    this.endMonth = _value.endMonth;
+    this.beginModelYear = _value.beginModelYear;
+    this.endModelYear = _value.endModelYear;
+    this.beginModelYearFraction = _value.beginModelYearFraction;
+    this.endModelYearFraction = _value.endModelYearFraction;
+    this.body = _value.body;
+    this.name = _value.name;
+    this.today = _value.today
+      ? new googleProtobuf002.BoolValue(_value.today)
+      : undefined;
+    this.engineVehiclesCount = _value.engineVehiclesCount;
+    this.itemLanguageCount = _value.itemLanguageCount;
+    this.linksCount = _value.linksCount;
+    this.specificationsCount = _value.specificationsCount;
+    this.subscription = _value.subscription;
     APIItem.refineValues(this);
   }
   get id(): string {
@@ -30669,11 +31039,17 @@ export class APIItem implements GrpcMessage {
   set isConceptInherit(value: boolean) {
     this._isConceptInherit = value;
   }
-  get specId(): string {
+  get specId(): number {
     return this._specId;
   }
-  set specId(value: string) {
+  set specId(value: number) {
     this._specId = value;
+  }
+  get specInherit(): boolean {
+    return this._specInherit;
+  }
+  set specInherit(value: boolean) {
+    this._specInherit = value;
   }
   get fullText(): string {
     return this._fullText;
@@ -30687,11 +31063,35 @@ export class APIItem implements GrpcMessage {
   set descendantPicturesCount(value: number) {
     this._descendantPicturesCount = value;
   }
+  get inboxPicturesCount(): number {
+    return this._inboxPicturesCount;
+  }
+  set inboxPicturesCount(value: number) {
+    this._inboxPicturesCount = value;
+  }
+  get acceptedPicturesCount(): number {
+    return this._acceptedPicturesCount;
+  }
+  set acceptedPicturesCount(value: number) {
+    this._acceptedPicturesCount = value;
+  }
+  get exactPicturesCount(): number {
+    return this._exactPicturesCount;
+  }
+  set exactPicturesCount(value: number) {
+    this._exactPicturesCount = value;
+  }
   get childsCount(): number {
     return this._childsCount;
   }
   set childsCount(value: number) {
     this._childsCount = value;
+  }
+  get parentsCount(): number {
+    return this._parentsCount;
+  }
+  set parentsCount(value: number) {
+    this._parentsCount = value;
   }
   get descendantTwinsGroupsCount(): number {
     return this._descendantTwinsGroupsCount;
@@ -30699,17 +31099,17 @@ export class APIItem implements GrpcMessage {
   set descendantTwinsGroupsCount(value: number) {
     this._descendantTwinsGroupsCount = value;
   }
-  get inboxPicturesCount(): number {
-    return this._inboxPicturesCount;
-  }
-  set inboxPicturesCount(value: number) {
-    this._inboxPicturesCount = value;
-  }
   get fullName(): string {
     return this._fullName;
   }
   set fullName(value: string) {
     this._fullName = value;
+  }
+  get logo(): APIImage | undefined {
+    return this._logo;
+  }
+  set logo(value: APIImage | undefined) {
+    this._logo = value;
   }
   get logo120(): APIImage | undefined {
     return this._logo120;
@@ -30753,17 +31153,11 @@ export class APIItem implements GrpcMessage {
   set engineInherit(value: boolean) {
     this._engineInherit = value;
   }
-  get location(): googleType004.LatLng | undefined {
+  get location(): googleType005.LatLng | undefined {
     return this._location;
   }
-  set location(value: googleType004.LatLng | undefined) {
+  set location(value: googleType005.LatLng | undefined) {
     this._location = value;
-  }
-  get acceptedPicturesCount(): number {
-    return this._acceptedPicturesCount;
-  }
-  set acceptedPicturesCount(value: number) {
-    this._acceptedPicturesCount = value;
   }
   get hasChildSpecs(): boolean {
     return this._hasChildSpecs;
@@ -30909,6 +31303,102 @@ export class APIItem implements GrpcMessage {
   set itemOfDayPictures(value: ItemOfDayPicture[] | undefined) {
     this._itemOfDayPictures = value;
   }
+  get beginYear(): number {
+    return this._beginYear;
+  }
+  set beginYear(value: number) {
+    this._beginYear = value;
+  }
+  get endYear(): number {
+    return this._endYear;
+  }
+  set endYear(value: number) {
+    this._endYear = value;
+  }
+  get beginMonth(): number {
+    return this._beginMonth;
+  }
+  set beginMonth(value: number) {
+    this._beginMonth = value;
+  }
+  get endMonth(): number {
+    return this._endMonth;
+  }
+  set endMonth(value: number) {
+    this._endMonth = value;
+  }
+  get beginModelYear(): number {
+    return this._beginModelYear;
+  }
+  set beginModelYear(value: number) {
+    this._beginModelYear = value;
+  }
+  get endModelYear(): number {
+    return this._endModelYear;
+  }
+  set endModelYear(value: number) {
+    this._endModelYear = value;
+  }
+  get beginModelYearFraction(): string {
+    return this._beginModelYearFraction;
+  }
+  set beginModelYearFraction(value: string) {
+    this._beginModelYearFraction = value;
+  }
+  get endModelYearFraction(): string {
+    return this._endModelYearFraction;
+  }
+  set endModelYearFraction(value: string) {
+    this._endModelYearFraction = value;
+  }
+  get body(): string {
+    return this._body;
+  }
+  set body(value: string) {
+    this._body = value;
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get today(): googleProtobuf002.BoolValue | undefined {
+    return this._today;
+  }
+  set today(value: googleProtobuf002.BoolValue | undefined) {
+    this._today = value;
+  }
+  get engineVehiclesCount(): number {
+    return this._engineVehiclesCount;
+  }
+  set engineVehiclesCount(value: number) {
+    this._engineVehiclesCount = value;
+  }
+  get itemLanguageCount(): number {
+    return this._itemLanguageCount;
+  }
+  set itemLanguageCount(value: number) {
+    this._itemLanguageCount = value;
+  }
+  get linksCount(): number {
+    return this._linksCount;
+  }
+  set linksCount(value: number) {
+    this._linksCount = value;
+  }
+  get specificationsCount(): number {
+    return this._specificationsCount;
+  }
+  set specificationsCount(value: number) {
+    this._specificationsCount = value;
+  }
+  get subscription(): boolean {
+    return this._subscription;
+  }
+  set subscription(value: boolean) {
+    this._subscription = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -30938,12 +31428,17 @@ export class APIItem implements GrpcMessage {
       isConcept: this.isConcept,
       isConceptInherit: this.isConceptInherit,
       specId: this.specId,
+      specInherit: this.specInherit,
       fullText: this.fullText,
       descendantPicturesCount: this.descendantPicturesCount,
-      childsCount: this.childsCount,
-      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       inboxPicturesCount: this.inboxPicturesCount,
+      acceptedPicturesCount: this.acceptedPicturesCount,
+      exactPicturesCount: this.exactPicturesCount,
+      childsCount: this.childsCount,
+      parentsCount: this.parentsCount,
+      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       fullName: this.fullName,
+      logo: this.logo ? this.logo.toObject() : undefined,
       logo120: this.logo120 ? this.logo120.toObject() : undefined,
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
@@ -30952,7 +31447,6 @@ export class APIItem implements GrpcMessage {
       attrZoneId: this.attrZoneId,
       engineInherit: this.engineInherit,
       location: this.location ? this.location.toObject() : undefined,
-      acceptedPicturesCount: this.acceptedPicturesCount,
       hasChildSpecs: this.hasChildSpecs,
       hasSpecs: this.hasSpecs,
       produced: this.produced,
@@ -30984,7 +31478,23 @@ export class APIItem implements GrpcMessage {
       relatedGroupPictures: (this.relatedGroupPictures || []).map(m =>
         m.toObject()
       ),
-      itemOfDayPictures: (this.itemOfDayPictures || []).map(m => m.toObject())
+      itemOfDayPictures: (this.itemOfDayPictures || []).map(m => m.toObject()),
+      beginYear: this.beginYear,
+      endYear: this.endYear,
+      beginMonth: this.beginMonth,
+      endMonth: this.endMonth,
+      beginModelYear: this.beginModelYear,
+      endModelYear: this.endModelYear,
+      beginModelYearFraction: this.beginModelYearFraction,
+      endModelYearFraction: this.endModelYearFraction,
+      body: this.body,
+      name: this.name,
+      today: this.today ? this.today.toObject() : undefined,
+      engineVehiclesCount: this.engineVehiclesCount,
+      itemLanguageCount: this.itemLanguageCount,
+      linksCount: this.linksCount,
+      specificationsCount: this.specificationsCount,
+      subscription: this.subscription
     };
   }
 
@@ -31023,12 +31533,17 @@ export class APIItem implements GrpcMessage {
       isConcept: this.isConcept,
       isConceptInherit: this.isConceptInherit,
       specId: this.specId,
+      specInherit: this.specInherit,
       fullText: this.fullText,
       descendantPicturesCount: this.descendantPicturesCount,
-      childsCount: this.childsCount,
-      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       inboxPicturesCount: this.inboxPicturesCount,
+      acceptedPicturesCount: this.acceptedPicturesCount,
+      exactPicturesCount: this.exactPicturesCount,
+      childsCount: this.childsCount,
+      parentsCount: this.parentsCount,
+      descendantTwinsGroupsCount: this.descendantTwinsGroupsCount,
       fullName: this.fullName,
+      logo: this.logo ? this.logo.toProtobufJSON(options) : null,
       logo120: this.logo120 ? this.logo120.toProtobufJSON(options) : null,
       mostsActive: this.mostsActive,
       commentsAttentionsCount: this.commentsAttentionsCount,
@@ -31037,7 +31552,6 @@ export class APIItem implements GrpcMessage {
       attrZoneId: this.attrZoneId,
       engineInherit: this.engineInherit,
       location: this.location ? this.location.toProtobufJSON(options) : null,
-      acceptedPicturesCount: this.acceptedPicturesCount,
       hasChildSpecs: this.hasChildSpecs,
       hasSpecs: this.hasSpecs,
       produced: this.produced,
@@ -31077,7 +31591,23 @@ export class APIItem implements GrpcMessage {
       ),
       itemOfDayPictures: (this.itemOfDayPictures || []).map(m =>
         m.toProtobufJSON(options)
-      )
+      ),
+      beginYear: this.beginYear,
+      endYear: this.endYear,
+      beginMonth: this.beginMonth,
+      endMonth: this.endMonth,
+      beginModelYear: this.beginModelYear,
+      endModelYear: this.endModelYear,
+      beginModelYearFraction: this.beginModelYearFraction,
+      endModelYearFraction: this.endModelYearFraction,
+      body: this.body,
+      name: this.name,
+      today: this.today ? this.today.toProtobufJSON(options) : null,
+      engineVehiclesCount: this.engineVehiclesCount,
+      itemLanguageCount: this.itemLanguageCount,
+      linksCount: this.linksCount,
+      specificationsCount: this.specificationsCount,
+      subscription: this.subscription
     };
   }
 }
@@ -31098,13 +31628,18 @@ export module APIItem {
     description: string;
     isConcept: boolean;
     isConceptInherit: boolean;
-    specId: string;
+    specId: number;
+    specInherit: boolean;
     fullText: string;
     descendantPicturesCount: number;
-    childsCount: number;
-    descendantTwinsGroupsCount: number;
     inboxPicturesCount: number;
+    acceptedPicturesCount: number;
+    exactPicturesCount: number;
+    childsCount: number;
+    parentsCount: number;
+    descendantTwinsGroupsCount: number;
     fullName: string;
+    logo?: APIImage.AsObject;
     logo120?: APIImage.AsObject;
     mostsActive: boolean;
     commentsAttentionsCount: number;
@@ -31112,8 +31647,7 @@ export module APIItem {
     brandicon?: APIImage.AsObject;
     attrZoneId: string;
     engineInherit: boolean;
-    location?: googleType004.LatLng.AsObject;
-    acceptedPicturesCount: number;
+    location?: googleType005.LatLng.AsObject;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
     produced: number;
@@ -31138,6 +31672,22 @@ export module APIItem {
     engineVehicles?: APIItem.AsObject[];
     relatedGroupPictures?: RelatedGroupPicture.AsObject[];
     itemOfDayPictures?: ItemOfDayPicture.AsObject[];
+    beginYear: number;
+    endYear: number;
+    beginMonth: number;
+    endMonth: number;
+    beginModelYear: number;
+    endModelYear: number;
+    beginModelYearFraction: string;
+    endModelYearFraction: string;
+    body: string;
+    name: string;
+    today?: googleProtobuf002.BoolValue.AsObject;
+    engineVehiclesCount: number;
+    itemLanguageCount: number;
+    linksCount: number;
+    specificationsCount: number;
+    subscription: boolean;
   }
 
   /**
@@ -31156,13 +31706,18 @@ export module APIItem {
     description: string;
     isConcept: boolean;
     isConceptInherit: boolean;
-    specId: string;
+    specId: number;
+    specInherit: boolean;
     fullText: string;
     descendantPicturesCount: number;
-    childsCount: number;
-    descendantTwinsGroupsCount: number;
     inboxPicturesCount: number;
+    acceptedPicturesCount: number;
+    exactPicturesCount: number;
+    childsCount: number;
+    parentsCount: number;
+    descendantTwinsGroupsCount: number;
     fullName: string;
+    logo: APIImage.AsProtobufJSON | null;
     logo120: APIImage.AsProtobufJSON | null;
     mostsActive: boolean;
     commentsAttentionsCount: number;
@@ -31170,8 +31725,7 @@ export module APIItem {
     brandicon: APIImage.AsProtobufJSON | null;
     attrZoneId: string;
     engineInherit: boolean;
-    location: googleType004.LatLng.AsProtobufJSON | null;
-    acceptedPicturesCount: number;
+    location: googleType005.LatLng.AsProtobufJSON | null;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
     produced: number;
@@ -31196,6 +31750,22 @@ export module APIItem {
     engineVehicles: APIItem.AsProtobufJSON[] | null;
     relatedGroupPictures: RelatedGroupPicture.AsProtobufJSON[] | null;
     itemOfDayPictures: ItemOfDayPicture.AsProtobufJSON[] | null;
+    beginYear: number;
+    endYear: number;
+    beginMonth: number;
+    endMonth: number;
+    beginModelYear: number;
+    endModelYear: number;
+    beginModelYearFraction: string;
+    endModelYearFraction: string;
+    body: string;
+    name: string;
+    today: googleProtobuf002.BoolValue.AsProtobufJSON | null;
+    engineVehiclesCount: number;
+    itemLanguageCount: number;
+    linksCount: number;
+    specificationsCount: number;
+    subscription: boolean;
   }
 }
 
@@ -31934,7 +32504,7 @@ export class NullPicture implements GrpcMessage {
     }
   }
 
-  private _null: googleProtobuf003.NullValue;
+  private _null: googleProtobuf004.NullValue;
   private _picture?: Picture;
 
   private _kind: NullPicture.KindCase = NullPicture.KindCase.none;
@@ -31949,10 +32519,10 @@ export class NullPicture implements GrpcMessage {
     this.picture = _value.picture ? new Picture(_value.picture) : undefined;
     NullPicture.refineValues(this);
   }
-  get null(): googleProtobuf003.NullValue {
+  get null(): googleProtobuf004.NullValue {
     return this._null;
   }
-  set null(value: googleProtobuf003.NullValue) {
+  set null(value: googleProtobuf004.NullValue) {
     if (value !== undefined && value !== null) {
       this._picture = undefined;
       this._kind = NullPicture.KindCase.null;
@@ -32013,7 +32583,7 @@ export class NullPicture implements GrpcMessage {
       null:
         this.null === undefined
           ? null
-          : googleProtobuf003.NullValue[
+          : googleProtobuf004.NullValue[
               this.null === null || this.null === undefined ? 0 : this.null
             ],
       picture: this.picture ? this.picture.toProtobufJSON(options) : null
@@ -32025,7 +32595,7 @@ export module NullPicture {
    * Standard JavaScript object representation for NullPicture
    */
   export interface AsObject {
-    null: googleProtobuf003.NullValue;
+    null: googleProtobuf004.NullValue;
     picture?: Picture.AsObject;
   }
 
@@ -34529,10 +35099,10 @@ export class LogEvent implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _instance.createdAt = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.createdAt,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -34569,7 +35139,7 @@ export class LogEvent implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.createdAt as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.description) {
@@ -34586,7 +35156,7 @@ export class LogEvent implements GrpcMessage {
     }
   }
 
-  private _createdAt?: googleProtobuf002.Timestamp;
+  private _createdAt?: googleProtobuf003.Timestamp;
   private _description: string;
   private _userId: string;
   private _pictures: string[];
@@ -34599,7 +35169,7 @@ export class LogEvent implements GrpcMessage {
   constructor(_value?: RecursivePartial<LogEvent.AsObject>) {
     _value = _value || {};
     this.createdAt = _value.createdAt
-      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      ? new googleProtobuf003.Timestamp(_value.createdAt)
       : undefined;
     this.description = _value.description;
     this.userId = _value.userId;
@@ -34607,10 +35177,10 @@ export class LogEvent implements GrpcMessage {
     this.items = (_value.items || []).slice();
     LogEvent.refineValues(this);
   }
-  get createdAt(): googleProtobuf002.Timestamp | undefined {
+  get createdAt(): googleProtobuf003.Timestamp | undefined {
     return this._createdAt;
   }
-  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+  set createdAt(value: googleProtobuf003.Timestamp | undefined) {
     this._createdAt = value;
   }
   get description(): string {
@@ -34691,7 +35261,7 @@ export module LogEvent {
    * Standard JavaScript object representation for LogEvent
    */
   export interface AsObject {
-    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    createdAt?: googleProtobuf003.Timestamp.AsObject;
     description: string;
     userId: string;
     pictures: string[];
@@ -34702,7 +35272,7 @@ export module LogEvent {
    * Protobuf JSON representation for LogEvent
    */
   export interface AsProtobufJSON {
-    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    createdAt: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     description: string;
     userId: string;
     pictures: string[];
@@ -35071,10 +35641,10 @@ export class MapPoint implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.location = new googleType004.LatLng();
+          _instance.location = new googleType005.LatLng();
           _reader.readMessage(
             _instance.location,
-            googleType004.LatLng.deserializeBinaryFromReader
+            googleType005.LatLng.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -35111,7 +35681,7 @@ export class MapPoint implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.location as any,
-        googleType004.LatLng.serializeBinaryToWriter
+        googleType005.LatLng.serializeBinaryToWriter
       );
     }
     if (_instance.id) {
@@ -35132,7 +35702,7 @@ export class MapPoint implements GrpcMessage {
     }
   }
 
-  private _location?: googleType004.LatLng;
+  private _location?: googleType005.LatLng;
   private _id: string;
   private _name: string;
   private _url: string[];
@@ -35145,7 +35715,7 @@ export class MapPoint implements GrpcMessage {
   constructor(_value?: RecursivePartial<MapPoint.AsObject>) {
     _value = _value || {};
     this.location = _value.location
-      ? new googleType004.LatLng(_value.location)
+      ? new googleType005.LatLng(_value.location)
       : undefined;
     this.id = _value.id;
     this.name = _value.name;
@@ -35153,10 +35723,10 @@ export class MapPoint implements GrpcMessage {
     this.image = _value.image ? new APIImage(_value.image) : undefined;
     MapPoint.refineValues(this);
   }
-  get location(): googleType004.LatLng | undefined {
+  get location(): googleType005.LatLng | undefined {
     return this._location;
   }
-  set location(value: googleType004.LatLng | undefined) {
+  set location(value: googleType005.LatLng | undefined) {
     this._location = value;
   }
   get id(): string {
@@ -35237,7 +35807,7 @@ export module MapPoint {
    * Standard JavaScript object representation for MapPoint
    */
   export interface AsObject {
-    location?: googleType004.LatLng.AsObject;
+    location?: googleType005.LatLng.AsObject;
     id: string;
     name: string;
     url: string[];
@@ -35248,7 +35818,7 @@ export module MapPoint {
    * Protobuf JSON representation for MapPoint
    */
   export interface AsProtobufJSON {
-    location: googleType004.LatLng.AsProtobufJSON | null;
+    location: googleType005.LatLng.AsProtobufJSON | null;
     id: string;
     name: string;
     url: string[];
@@ -37104,10 +37674,10 @@ export class Picture implements GrpcMessage {
           );
           break;
         case 5:
-          _instance.point = new googleType004.LatLng();
+          _instance.point = new googleType005.LatLng();
           _reader.readMessage(
             _instance.point,
-            googleType004.LatLng.deserializeBinaryFromReader
+            googleType005.LatLng.deserializeBinaryFromReader
           );
           break;
         case 6:
@@ -37210,10 +37780,10 @@ export class Picture implements GrpcMessage {
           _instance.acceptedCount = _reader.readInt32();
           break;
         case 28:
-          _instance.addDate = new googleProtobuf002.Timestamp();
+          _instance.addDate = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.addDate,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 29:
@@ -37260,10 +37830,10 @@ export class Picture implements GrpcMessage {
           _instance.specialName = _reader.readString();
           break;
         case 38:
-          _instance.takenDate = new googleType005.Date();
+          _instance.takenDate = new googleType006.Date();
           _reader.readMessage(
             _instance.takenDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 39:
@@ -37332,7 +37902,7 @@ export class Picture implements GrpcMessage {
       _writer.writeMessage(
         5,
         _instance.point as any,
-        googleType004.LatLng.serializeBinaryToWriter
+        googleType005.LatLng.serializeBinaryToWriter
       );
     }
     if (_instance.copyrightsTextId) {
@@ -37437,7 +38007,7 @@ export class Picture implements GrpcMessage {
       _writer.writeMessage(
         28,
         _instance.addDate as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.copyrights) {
@@ -37487,7 +38057,7 @@ export class Picture implements GrpcMessage {
       _writer.writeMessage(
         38,
         _instance.takenDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.changeStatusUserId) {
@@ -37526,7 +38096,7 @@ export class Picture implements GrpcMessage {
   private _width: number;
   private _height: number;
   private _image?: APIImage;
-  private _point?: googleType004.LatLng;
+  private _point?: googleType005.LatLng;
   private _copyrightsTextId: number;
   private _thumbMedium?: APIImage;
   private _thumbLarge?: APIImage;
@@ -37549,7 +38119,7 @@ export class Picture implements GrpcMessage {
   private _imageGalleryFull?: APIImage;
   private _dfDistances?: DfDistances;
   private _acceptedCount: number;
-  private _addDate?: googleProtobuf002.Timestamp;
+  private _addDate?: googleProtobuf003.Timestamp;
   private _copyrights: string;
   private _exif: string;
   private _isLast: boolean;
@@ -37559,7 +38129,7 @@ export class Picture implements GrpcMessage {
   private _rights?: PictureRights;
   private _siblings?: PictureSiblings;
   private _specialName: string;
-  private _takenDate?: googleType005.Date;
+  private _takenDate?: googleType006.Date;
   private _changeStatusUserId: string;
   private _ip: string;
   private _dpiX: number;
@@ -37580,7 +38150,7 @@ export class Picture implements GrpcMessage {
     this.height = _value.height;
     this.image = _value.image ? new APIImage(_value.image) : undefined;
     this.point = _value.point
-      ? new googleType004.LatLng(_value.point)
+      ? new googleType005.LatLng(_value.point)
       : undefined;
     this.copyrightsTextId = _value.copyrightsTextId;
     this.thumbMedium = _value.thumbMedium
@@ -37617,7 +38187,7 @@ export class Picture implements GrpcMessage {
       : undefined;
     this.acceptedCount = _value.acceptedCount;
     this.addDate = _value.addDate
-      ? new googleProtobuf002.Timestamp(_value.addDate)
+      ? new googleProtobuf003.Timestamp(_value.addDate)
       : undefined;
     this.copyrights = _value.copyrights;
     this.exif = _value.exif;
@@ -37635,7 +38205,7 @@ export class Picture implements GrpcMessage {
       : undefined;
     this.specialName = _value.specialName;
     this.takenDate = _value.takenDate
-      ? new googleType005.Date(_value.takenDate)
+      ? new googleType006.Date(_value.takenDate)
       : undefined;
     this.changeStatusUserId = _value.changeStatusUserId;
     this.ip = _value.ip;
@@ -37680,10 +38250,10 @@ export class Picture implements GrpcMessage {
   set image(value: APIImage | undefined) {
     this._image = value;
   }
-  get point(): googleType004.LatLng | undefined {
+  get point(): googleType005.LatLng | undefined {
     return this._point;
   }
-  set point(value: googleType004.LatLng | undefined) {
+  set point(value: googleType005.LatLng | undefined) {
     this._point = value;
   }
   get copyrightsTextId(): number {
@@ -37818,10 +38388,10 @@ export class Picture implements GrpcMessage {
   set acceptedCount(value: number) {
     this._acceptedCount = value;
   }
-  get addDate(): googleProtobuf002.Timestamp | undefined {
+  get addDate(): googleProtobuf003.Timestamp | undefined {
     return this._addDate;
   }
-  set addDate(value: googleProtobuf002.Timestamp | undefined) {
+  set addDate(value: googleProtobuf003.Timestamp | undefined) {
     this._addDate = value;
   }
   get copyrights(): string {
@@ -37878,10 +38448,10 @@ export class Picture implements GrpcMessage {
   set specialName(value: string) {
     this._specialName = value;
   }
-  get takenDate(): googleType005.Date | undefined {
+  get takenDate(): googleType006.Date | undefined {
     return this._takenDate;
   }
-  set takenDate(value: googleType005.Date | undefined) {
+  set takenDate(value: googleType006.Date | undefined) {
     this._takenDate = value;
   }
   get changeStatusUserId(): string {
@@ -38094,7 +38664,7 @@ export module Picture {
     width: number;
     height: number;
     image?: APIImage.AsObject;
-    point?: googleType004.LatLng.AsObject;
+    point?: googleType005.LatLng.AsObject;
     copyrightsTextId: number;
     thumbMedium?: APIImage.AsObject;
     thumbLarge?: APIImage.AsObject;
@@ -38117,7 +38687,7 @@ export module Picture {
     imageGalleryFull?: APIImage.AsObject;
     dfDistances?: DfDistances.AsObject;
     acceptedCount: number;
-    addDate?: googleProtobuf002.Timestamp.AsObject;
+    addDate?: googleProtobuf003.Timestamp.AsObject;
     copyrights: string;
     exif: string;
     isLast: boolean;
@@ -38127,7 +38697,7 @@ export module Picture {
     rights?: PictureRights.AsObject;
     siblings?: PictureSiblings.AsObject;
     specialName: string;
-    takenDate?: googleType005.Date.AsObject;
+    takenDate?: googleType006.Date.AsObject;
     changeStatusUserId: string;
     ip: string;
     dpiX: number;
@@ -38146,7 +38716,7 @@ export module Picture {
     width: number;
     height: number;
     image: APIImage.AsProtobufJSON | null;
-    point: googleType004.LatLng.AsProtobufJSON | null;
+    point: googleType005.LatLng.AsProtobufJSON | null;
     copyrightsTextId: number;
     thumbMedium: APIImage.AsProtobufJSON | null;
     thumbLarge: APIImage.AsProtobufJSON | null;
@@ -38169,7 +38739,7 @@ export module Picture {
     imageGalleryFull: APIImage.AsProtobufJSON | null;
     dfDistances: DfDistances.AsProtobufJSON | null;
     acceptedCount: number;
-    addDate: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    addDate: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     copyrights: string;
     exif: string;
     isLast: boolean;
@@ -38179,7 +38749,7 @@ export module Picture {
     rights: PictureRights.AsProtobufJSON | null;
     siblings: PictureSiblings.AsProtobufJSON | null;
     specialName: string;
-    takenDate: googleType005.Date.AsProtobufJSON | null;
+    takenDate: googleType006.Date.AsProtobufJSON | null;
     changeStatusUserId: string;
     ip: string;
     dpiX: number;
@@ -41678,10 +42248,10 @@ export class SetPicturePointRequest implements GrpcMessage {
           _instance.pictureId = _reader.readInt64String();
           break;
         case 2:
-          _instance.point = new googleType004.LatLng();
+          _instance.point = new googleType005.LatLng();
           _reader.readMessage(
             _instance.point,
-            googleType004.LatLng.deserializeBinaryFromReader
+            googleType005.LatLng.deserializeBinaryFromReader
           );
           break;
         default:
@@ -41708,13 +42278,13 @@ export class SetPicturePointRequest implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.point as any,
-        googleType004.LatLng.serializeBinaryToWriter
+        googleType005.LatLng.serializeBinaryToWriter
       );
     }
   }
 
   private _pictureId: string;
-  private _point?: googleType004.LatLng;
+  private _point?: googleType005.LatLng;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -41724,7 +42294,7 @@ export class SetPicturePointRequest implements GrpcMessage {
     _value = _value || {};
     this.pictureId = _value.pictureId;
     this.point = _value.point
-      ? new googleType004.LatLng(_value.point)
+      ? new googleType005.LatLng(_value.point)
       : undefined;
     SetPicturePointRequest.refineValues(this);
   }
@@ -41734,10 +42304,10 @@ export class SetPicturePointRequest implements GrpcMessage {
   set pictureId(value: string) {
     this._pictureId = value;
   }
-  get point(): googleType004.LatLng | undefined {
+  get point(): googleType005.LatLng | undefined {
     return this._point;
   }
-  set point(value: googleType004.LatLng | undefined) {
+  set point(value: googleType005.LatLng | undefined) {
     this._point = value;
   }
 
@@ -41789,7 +42359,7 @@ export module SetPicturePointRequest {
    */
   export interface AsObject {
     pictureId: string;
-    point?: googleType004.LatLng.AsObject;
+    point?: googleType005.LatLng.AsObject;
   }
 
   /**
@@ -41797,7 +42367,7 @@ export module SetPicturePointRequest {
    */
   export interface AsProtobufJSON {
     pictureId: string;
-    point: googleType004.LatLng.AsProtobufJSON | null;
+    point: googleType005.LatLng.AsProtobufJSON | null;
   }
 }
 
@@ -41847,10 +42417,10 @@ export class UpdatePictureRequest implements GrpcMessage {
           _instance.id = _reader.readInt64String();
           break;
         case 2:
-          _instance.takenDate = new googleType005.Date();
+          _instance.takenDate = new googleType006.Date();
           _reader.readMessage(
             _instance.takenDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
@@ -41880,7 +42450,7 @@ export class UpdatePictureRequest implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.takenDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.name) {
@@ -41889,7 +42459,7 @@ export class UpdatePictureRequest implements GrpcMessage {
   }
 
   private _id: string;
-  private _takenDate?: googleType005.Date;
+  private _takenDate?: googleType006.Date;
   private _name: string;
 
   /**
@@ -41900,7 +42470,7 @@ export class UpdatePictureRequest implements GrpcMessage {
     _value = _value || {};
     this.id = _value.id;
     this.takenDate = _value.takenDate
-      ? new googleType005.Date(_value.takenDate)
+      ? new googleType006.Date(_value.takenDate)
       : undefined;
     this.name = _value.name;
     UpdatePictureRequest.refineValues(this);
@@ -41911,10 +42481,10 @@ export class UpdatePictureRequest implements GrpcMessage {
   set id(value: string) {
     this._id = value;
   }
-  get takenDate(): googleType005.Date | undefined {
+  get takenDate(): googleType006.Date | undefined {
     return this._takenDate;
   }
-  set takenDate(value: googleType005.Date | undefined) {
+  set takenDate(value: googleType006.Date | undefined) {
     this._takenDate = value;
   }
   get name(): string {
@@ -41974,7 +42544,7 @@ export module UpdatePictureRequest {
    */
   export interface AsObject {
     id: string;
-    takenDate?: googleType005.Date.AsObject;
+    takenDate?: googleType006.Date.AsObject;
     name: string;
   }
 
@@ -41983,7 +42553,7 @@ export module UpdatePictureRequest {
    */
   export interface AsProtobufJSON {
     id: string;
-    takenDate: googleType005.Date.AsProtobufJSON | null;
+    takenDate: googleType006.Date.AsProtobufJSON | null;
     name: string;
   }
 }
@@ -42350,10 +42920,10 @@ export class NewboxRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.date = new googleType005.Date();
+          _instance.date = new googleType006.Date();
           _reader.readMessage(
             _instance.date,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -42383,7 +42953,7 @@ export class NewboxRequest implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.date as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.language) {
@@ -42394,7 +42964,7 @@ export class NewboxRequest implements GrpcMessage {
     }
   }
 
-  private _date?: googleType005.Date;
+  private _date?: googleType006.Date;
   private _language: string;
   private _page: number;
 
@@ -42404,15 +42974,15 @@ export class NewboxRequest implements GrpcMessage {
    */
   constructor(_value?: RecursivePartial<NewboxRequest.AsObject>) {
     _value = _value || {};
-    this.date = _value.date ? new googleType005.Date(_value.date) : undefined;
+    this.date = _value.date ? new googleType006.Date(_value.date) : undefined;
     this.language = _value.language;
     this.page = _value.page;
     NewboxRequest.refineValues(this);
   }
-  get date(): googleType005.Date | undefined {
+  get date(): googleType006.Date | undefined {
     return this._date;
   }
-  set date(value: googleType005.Date | undefined) {
+  set date(value: googleType006.Date | undefined) {
     this._date = value;
   }
   get language(): string {
@@ -42477,7 +43047,7 @@ export module NewboxRequest {
    * Standard JavaScript object representation for NewboxRequest
    */
   export interface AsObject {
-    date?: googleType005.Date.AsObject;
+    date?: googleType006.Date.AsObject;
     language: string;
     page: number;
   }
@@ -42486,7 +43056,7 @@ export module NewboxRequest {
    * Protobuf JSON representation for NewboxRequest
    */
   export interface AsProtobufJSON {
-    date: googleType005.Date.AsProtobufJSON | null;
+    date: googleType006.Date.AsProtobufJSON | null;
     language: string;
     page: number;
   }
@@ -42754,30 +43324,30 @@ export class Newbox implements GrpcMessage {
           (_instance.groups = _instance.groups || []).push(messageInitializer1);
           break;
         case 2:
-          _instance.prevDate = new googleType005.Date();
+          _instance.prevDate = new googleType006.Date();
           _reader.readMessage(
             _instance.prevDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
           _instance.prevCount = _reader.readInt32();
           break;
         case 4:
-          _instance.currentDate = new googleType005.Date();
+          _instance.currentDate = new googleType006.Date();
           _reader.readMessage(
             _instance.currentDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 5:
           _instance.currentCount = _reader.readInt32();
           break;
         case 6:
-          _instance.nextDate = new googleType005.Date();
+          _instance.nextDate = new googleType006.Date();
           _reader.readMessage(
             _instance.nextDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 7:
@@ -42815,7 +43385,7 @@ export class Newbox implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.prevDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.prevCount) {
@@ -42825,7 +43395,7 @@ export class Newbox implements GrpcMessage {
       _writer.writeMessage(
         4,
         _instance.currentDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.currentCount) {
@@ -42835,7 +43405,7 @@ export class Newbox implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.nextDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.nextCount) {
@@ -42851,11 +43421,11 @@ export class Newbox implements GrpcMessage {
   }
 
   private _groups?: NewboxGroup[];
-  private _prevDate?: googleType005.Date;
+  private _prevDate?: googleType006.Date;
   private _prevCount: number;
-  private _currentDate?: googleType005.Date;
+  private _currentDate?: googleType006.Date;
   private _currentCount: number;
-  private _nextDate?: googleType005.Date;
+  private _nextDate?: googleType006.Date;
   private _nextCount: number;
   private _paginator?: Pages;
 
@@ -42867,15 +43437,15 @@ export class Newbox implements GrpcMessage {
     _value = _value || {};
     this.groups = (_value.groups || []).map(m => new NewboxGroup(m));
     this.prevDate = _value.prevDate
-      ? new googleType005.Date(_value.prevDate)
+      ? new googleType006.Date(_value.prevDate)
       : undefined;
     this.prevCount = _value.prevCount;
     this.currentDate = _value.currentDate
-      ? new googleType005.Date(_value.currentDate)
+      ? new googleType006.Date(_value.currentDate)
       : undefined;
     this.currentCount = _value.currentCount;
     this.nextDate = _value.nextDate
-      ? new googleType005.Date(_value.nextDate)
+      ? new googleType006.Date(_value.nextDate)
       : undefined;
     this.nextCount = _value.nextCount;
     this.paginator = _value.paginator ? new Pages(_value.paginator) : undefined;
@@ -42887,10 +43457,10 @@ export class Newbox implements GrpcMessage {
   set groups(value: NewboxGroup[] | undefined) {
     this._groups = value;
   }
-  get prevDate(): googleType005.Date | undefined {
+  get prevDate(): googleType006.Date | undefined {
     return this._prevDate;
   }
-  set prevDate(value: googleType005.Date | undefined) {
+  set prevDate(value: googleType006.Date | undefined) {
     this._prevDate = value;
   }
   get prevCount(): number {
@@ -42899,10 +43469,10 @@ export class Newbox implements GrpcMessage {
   set prevCount(value: number) {
     this._prevCount = value;
   }
-  get currentDate(): googleType005.Date | undefined {
+  get currentDate(): googleType006.Date | undefined {
     return this._currentDate;
   }
-  set currentDate(value: googleType005.Date | undefined) {
+  set currentDate(value: googleType006.Date | undefined) {
     this._currentDate = value;
   }
   get currentCount(): number {
@@ -42911,10 +43481,10 @@ export class Newbox implements GrpcMessage {
   set currentCount(value: number) {
     this._currentCount = value;
   }
-  get nextDate(): googleType005.Date | undefined {
+  get nextDate(): googleType006.Date | undefined {
     return this._nextDate;
   }
-  set nextDate(value: googleType005.Date | undefined) {
+  set nextDate(value: googleType006.Date | undefined) {
     this._nextDate = value;
   }
   get nextCount(): number {
@@ -42992,11 +43562,11 @@ export module Newbox {
    */
   export interface AsObject {
     groups?: NewboxGroup.AsObject[];
-    prevDate?: googleType005.Date.AsObject;
+    prevDate?: googleType006.Date.AsObject;
     prevCount: number;
-    currentDate?: googleType005.Date.AsObject;
+    currentDate?: googleType006.Date.AsObject;
     currentCount: number;
-    nextDate?: googleType005.Date.AsObject;
+    nextDate?: googleType006.Date.AsObject;
     nextCount: number;
     paginator?: Pages.AsObject;
   }
@@ -43006,11 +43576,11 @@ export module Newbox {
    */
   export interface AsProtobufJSON {
     groups: NewboxGroup.AsProtobufJSON[] | null;
-    prevDate: googleType005.Date.AsProtobufJSON | null;
+    prevDate: googleType006.Date.AsProtobufJSON | null;
     prevCount: number;
-    currentDate: googleType005.Date.AsProtobufJSON | null;
+    currentDate: googleType006.Date.AsProtobufJSON | null;
     currentCount: number;
-    nextDate: googleType005.Date.AsProtobufJSON | null;
+    nextDate: googleType006.Date.AsProtobufJSON | null;
     nextCount: number;
     paginator: Pages.AsProtobufJSON | null;
   }
@@ -43059,10 +43629,10 @@ export class InboxRequest implements GrpcMessage {
           _instance.brandId = _reader.readInt64String();
           break;
         case 2:
-          _instance.date = new googleType005.Date();
+          _instance.date = new googleType006.Date();
           _reader.readMessage(
             _instance.date,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
@@ -43092,7 +43662,7 @@ export class InboxRequest implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.date as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.language) {
@@ -43101,7 +43671,7 @@ export class InboxRequest implements GrpcMessage {
   }
 
   private _brandId: string;
-  private _date?: googleType005.Date;
+  private _date?: googleType006.Date;
   private _language: string;
 
   /**
@@ -43111,7 +43681,7 @@ export class InboxRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<InboxRequest.AsObject>) {
     _value = _value || {};
     this.brandId = _value.brandId;
-    this.date = _value.date ? new googleType005.Date(_value.date) : undefined;
+    this.date = _value.date ? new googleType006.Date(_value.date) : undefined;
     this.language = _value.language;
     InboxRequest.refineValues(this);
   }
@@ -43121,10 +43691,10 @@ export class InboxRequest implements GrpcMessage {
   set brandId(value: string) {
     this._brandId = value;
   }
-  get date(): googleType005.Date | undefined {
+  get date(): googleType006.Date | undefined {
     return this._date;
   }
-  set date(value: googleType005.Date | undefined) {
+  set date(value: googleType006.Date | undefined) {
     this._date = value;
   }
   get language(): string {
@@ -43184,7 +43754,7 @@ export module InboxRequest {
    */
   export interface AsObject {
     brandId: string;
-    date?: googleType005.Date.AsObject;
+    date?: googleType006.Date.AsObject;
     language: string;
   }
 
@@ -43193,7 +43763,7 @@ export module InboxRequest {
    */
   export interface AsProtobufJSON {
     brandId: string;
-    date: googleType005.Date.AsProtobufJSON | null;
+    date: googleType006.Date.AsProtobufJSON | null;
     language: string;
   }
 }
@@ -43399,30 +43969,30 @@ export class Inbox implements GrpcMessage {
           (_instance.brands = _instance.brands || []).push(messageInitializer1);
           break;
         case 2:
-          _instance.prevDate = new googleType005.Date();
+          _instance.prevDate = new googleType006.Date();
           _reader.readMessage(
             _instance.prevDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 3:
           _instance.prevCount = _reader.readInt32();
           break;
         case 4:
-          _instance.currentDate = new googleType005.Date();
+          _instance.currentDate = new googleType006.Date();
           _reader.readMessage(
             _instance.currentDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 5:
           _instance.currentCount = _reader.readInt32();
           break;
         case 6:
-          _instance.nextDate = new googleType005.Date();
+          _instance.nextDate = new googleType006.Date();
           _reader.readMessage(
             _instance.nextDate,
-            googleType005.Date.deserializeBinaryFromReader
+            googleType006.Date.deserializeBinaryFromReader
           );
           break;
         case 7:
@@ -43453,7 +44023,7 @@ export class Inbox implements GrpcMessage {
       _writer.writeMessage(
         2,
         _instance.prevDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.prevCount) {
@@ -43463,7 +44033,7 @@ export class Inbox implements GrpcMessage {
       _writer.writeMessage(
         4,
         _instance.currentDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.currentCount) {
@@ -43473,7 +44043,7 @@ export class Inbox implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.nextDate as any,
-        googleType005.Date.serializeBinaryToWriter
+        googleType006.Date.serializeBinaryToWriter
       );
     }
     if (_instance.nextCount) {
@@ -43482,11 +44052,11 @@ export class Inbox implements GrpcMessage {
   }
 
   private _brands?: InboxBrand[];
-  private _prevDate?: googleType005.Date;
+  private _prevDate?: googleType006.Date;
   private _prevCount: number;
-  private _currentDate?: googleType005.Date;
+  private _currentDate?: googleType006.Date;
   private _currentCount: number;
-  private _nextDate?: googleType005.Date;
+  private _nextDate?: googleType006.Date;
   private _nextCount: number;
 
   /**
@@ -43497,15 +44067,15 @@ export class Inbox implements GrpcMessage {
     _value = _value || {};
     this.brands = (_value.brands || []).map(m => new InboxBrand(m));
     this.prevDate = _value.prevDate
-      ? new googleType005.Date(_value.prevDate)
+      ? new googleType006.Date(_value.prevDate)
       : undefined;
     this.prevCount = _value.prevCount;
     this.currentDate = _value.currentDate
-      ? new googleType005.Date(_value.currentDate)
+      ? new googleType006.Date(_value.currentDate)
       : undefined;
     this.currentCount = _value.currentCount;
     this.nextDate = _value.nextDate
-      ? new googleType005.Date(_value.nextDate)
+      ? new googleType006.Date(_value.nextDate)
       : undefined;
     this.nextCount = _value.nextCount;
     Inbox.refineValues(this);
@@ -43516,10 +44086,10 @@ export class Inbox implements GrpcMessage {
   set brands(value: InboxBrand[] | undefined) {
     this._brands = value;
   }
-  get prevDate(): googleType005.Date | undefined {
+  get prevDate(): googleType006.Date | undefined {
     return this._prevDate;
   }
-  set prevDate(value: googleType005.Date | undefined) {
+  set prevDate(value: googleType006.Date | undefined) {
     this._prevDate = value;
   }
   get prevCount(): number {
@@ -43528,10 +44098,10 @@ export class Inbox implements GrpcMessage {
   set prevCount(value: number) {
     this._prevCount = value;
   }
-  get currentDate(): googleType005.Date | undefined {
+  get currentDate(): googleType006.Date | undefined {
     return this._currentDate;
   }
-  set currentDate(value: googleType005.Date | undefined) {
+  set currentDate(value: googleType006.Date | undefined) {
     this._currentDate = value;
   }
   get currentCount(): number {
@@ -43540,10 +44110,10 @@ export class Inbox implements GrpcMessage {
   set currentCount(value: number) {
     this._currentCount = value;
   }
-  get nextDate(): googleType005.Date | undefined {
+  get nextDate(): googleType006.Date | undefined {
     return this._nextDate;
   }
-  set nextDate(value: googleType005.Date | undefined) {
+  set nextDate(value: googleType006.Date | undefined) {
     this._nextDate = value;
   }
   get nextCount(): number {
@@ -43613,11 +44183,11 @@ export module Inbox {
    */
   export interface AsObject {
     brands?: InboxBrand.AsObject[];
-    prevDate?: googleType005.Date.AsObject;
+    prevDate?: googleType006.Date.AsObject;
     prevCount: number;
-    currentDate?: googleType005.Date.AsObject;
+    currentDate?: googleType006.Date.AsObject;
     currentCount: number;
-    nextDate?: googleType005.Date.AsObject;
+    nextDate?: googleType006.Date.AsObject;
     nextCount: number;
   }
 
@@ -43626,11 +44196,11 @@ export module Inbox {
    */
   export interface AsProtobufJSON {
     brands: InboxBrand.AsProtobufJSON[] | null;
-    prevDate: googleType005.Date.AsProtobufJSON | null;
+    prevDate: googleType006.Date.AsProtobufJSON | null;
     prevCount: number;
-    currentDate: googleType005.Date.AsProtobufJSON | null;
+    currentDate: googleType006.Date.AsProtobufJSON | null;
     currentCount: number;
-    nextDate: googleType005.Date.AsProtobufJSON | null;
+    nextDate: googleType006.Date.AsProtobufJSON | null;
     nextCount: number;
   }
 }
@@ -44431,10 +45001,10 @@ export class APIMessage implements GrpcMessage {
           _instance.canReply = _reader.readBool();
           break;
         case 6:
-          _instance.date = new googleProtobuf002.Timestamp();
+          _instance.date = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.date,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 7:
@@ -44485,7 +45055,7 @@ export class APIMessage implements GrpcMessage {
       _writer.writeMessage(
         6,
         _instance.date as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.allMessagesLink) {
@@ -44510,7 +45080,7 @@ export class APIMessage implements GrpcMessage {
   private _isNew: boolean;
   private _canDelete: boolean;
   private _canReply: boolean;
-  private _date?: googleProtobuf002.Timestamp;
+  private _date?: googleProtobuf003.Timestamp;
   private _allMessagesLink: boolean;
   private _dialogCount: number;
   private _authorId: string;
@@ -44529,7 +45099,7 @@ export class APIMessage implements GrpcMessage {
     this.canDelete = _value.canDelete;
     this.canReply = _value.canReply;
     this.date = _value.date
-      ? new googleProtobuf002.Timestamp(_value.date)
+      ? new googleProtobuf003.Timestamp(_value.date)
       : undefined;
     this.allMessagesLink = _value.allMessagesLink;
     this.dialogCount = _value.dialogCount;
@@ -44568,10 +45138,10 @@ export class APIMessage implements GrpcMessage {
   set canReply(value: boolean) {
     this._canReply = value;
   }
-  get date(): googleProtobuf002.Timestamp | undefined {
+  get date(): googleProtobuf003.Timestamp | undefined {
     return this._date;
   }
-  set date(value: googleProtobuf002.Timestamp | undefined) {
+  set date(value: googleProtobuf003.Timestamp | undefined) {
     this._date = value;
   }
   get allMessagesLink(): boolean {
@@ -44675,7 +45245,7 @@ export module APIMessage {
     isNew: boolean;
     canDelete: boolean;
     canReply: boolean;
-    date?: googleProtobuf002.Timestamp.AsObject;
+    date?: googleProtobuf003.Timestamp.AsObject;
     allMessagesLink: boolean;
     dialogCount: number;
     authorId: string;
@@ -44692,7 +45262,7 @@ export module APIMessage {
     isNew: boolean;
     canDelete: boolean;
     canReply: boolean;
-    date: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    date: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     allMessagesLink: boolean;
     dialogCount: number;
     authorId: string;
@@ -45410,10 +45980,10 @@ export class DonationsTransaction implements GrpcMessage {
           _instance.currency = _reader.readString();
           break;
         case 3:
-          _instance.date = new googleProtobuf002.Timestamp();
+          _instance.date = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.date,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 4:
@@ -45452,7 +46022,7 @@ export class DonationsTransaction implements GrpcMessage {
       _writer.writeMessage(
         3,
         _instance.date as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.contributor) {
@@ -45468,7 +46038,7 @@ export class DonationsTransaction implements GrpcMessage {
 
   private _sum: number;
   private _currency: string;
-  private _date?: googleProtobuf002.Timestamp;
+  private _date?: googleProtobuf003.Timestamp;
   private _contributor: string;
   private _purpose: string;
   private _userId: string;
@@ -45482,7 +46052,7 @@ export class DonationsTransaction implements GrpcMessage {
     this.sum = _value.sum;
     this.currency = _value.currency;
     this.date = _value.date
-      ? new googleProtobuf002.Timestamp(_value.date)
+      ? new googleProtobuf003.Timestamp(_value.date)
       : undefined;
     this.contributor = _value.contributor;
     this.purpose = _value.purpose;
@@ -45501,10 +46071,10 @@ export class DonationsTransaction implements GrpcMessage {
   set currency(value: string) {
     this._currency = value;
   }
-  get date(): googleProtobuf002.Timestamp | undefined {
+  get date(): googleProtobuf003.Timestamp | undefined {
     return this._date;
   }
-  set date(value: googleProtobuf002.Timestamp | undefined) {
+  set date(value: googleProtobuf003.Timestamp | undefined) {
     this._date = value;
   }
   get contributor(): string {
@@ -45583,7 +46153,7 @@ export module DonationsTransaction {
   export interface AsObject {
     sum: number;
     currency: string;
-    date?: googleProtobuf002.Timestamp.AsObject;
+    date?: googleProtobuf003.Timestamp.AsObject;
     contributor: string;
     purpose: string;
     userId: string;
@@ -45595,7 +46165,7 @@ export module DonationsTransaction {
   export interface AsProtobufJSON {
     sum: number;
     currency: string;
-    date: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    date: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     contributor: string;
     purpose: string;
     userId: string;
@@ -45958,10 +46528,10 @@ export class VODDataDate implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.date = new googleProtobuf002.Timestamp();
+          _instance.date = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.date,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 2:
@@ -45988,7 +46558,7 @@ export class VODDataDate implements GrpcMessage {
       _writer.writeMessage(
         1,
         _instance.date as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.free) {
@@ -45996,7 +46566,7 @@ export class VODDataDate implements GrpcMessage {
     }
   }
 
-  private _date?: googleProtobuf002.Timestamp;
+  private _date?: googleProtobuf003.Timestamp;
   private _free: boolean;
 
   /**
@@ -46006,15 +46576,15 @@ export class VODDataDate implements GrpcMessage {
   constructor(_value?: RecursivePartial<VODDataDate.AsObject>) {
     _value = _value || {};
     this.date = _value.date
-      ? new googleProtobuf002.Timestamp(_value.date)
+      ? new googleProtobuf003.Timestamp(_value.date)
       : undefined;
     this.free = _value.free;
     VODDataDate.refineValues(this);
   }
-  get date(): googleProtobuf002.Timestamp | undefined {
+  get date(): googleProtobuf003.Timestamp | undefined {
     return this._date;
   }
-  set date(value: googleProtobuf002.Timestamp | undefined) {
+  set date(value: googleProtobuf003.Timestamp | undefined) {
     this._date = value;
   }
   get free(): boolean {
@@ -46071,7 +46641,7 @@ export module VODDataDate {
    * Standard JavaScript object representation for VODDataDate
    */
   export interface AsObject {
-    date?: googleProtobuf002.Timestamp.AsObject;
+    date?: googleProtobuf003.Timestamp.AsObject;
     free: boolean;
   }
 
@@ -46079,7 +46649,7 @@ export module VODDataDate {
    * Protobuf JSON representation for VODDataDate
    */
   export interface AsProtobufJSON {
-    date: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    date: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     free: boolean;
   }
 }
@@ -49121,10 +49691,10 @@ export class Article implements GrpcMessage {
           _instance.catname = _reader.readString();
           break;
         case 5:
-          _instance.date = new googleProtobuf002.Timestamp();
+          _instance.date = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.date,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 6:
@@ -49166,7 +49736,7 @@ export class Article implements GrpcMessage {
       _writer.writeMessage(
         5,
         _instance.date as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.html) {
@@ -49184,7 +49754,7 @@ export class Article implements GrpcMessage {
   private _name: string;
   private _authorId: string;
   private _catname: string;
-  private _date?: googleProtobuf002.Timestamp;
+  private _date?: googleProtobuf003.Timestamp;
   private _html: string;
   private _previewUrl: string;
   private _description: string;
@@ -49200,7 +49770,7 @@ export class Article implements GrpcMessage {
     this.authorId = _value.authorId;
     this.catname = _value.catname;
     this.date = _value.date
-      ? new googleProtobuf002.Timestamp(_value.date)
+      ? new googleProtobuf003.Timestamp(_value.date)
       : undefined;
     this.html = _value.html;
     this.previewUrl = _value.previewUrl;
@@ -49231,10 +49801,10 @@ export class Article implements GrpcMessage {
   set catname(value: string) {
     this._catname = value;
   }
-  get date(): googleProtobuf002.Timestamp | undefined {
+  get date(): googleProtobuf003.Timestamp | undefined {
     return this._date;
   }
-  set date(value: googleProtobuf002.Timestamp | undefined) {
+  set date(value: googleProtobuf003.Timestamp | undefined) {
     this._date = value;
   }
   get html(): string {
@@ -49319,7 +49889,7 @@ export module Article {
     name: string;
     authorId: string;
     catname: string;
-    date?: googleProtobuf002.Timestamp.AsObject;
+    date?: googleProtobuf003.Timestamp.AsObject;
     html: string;
     previewUrl: string;
     description: string;
@@ -49333,7 +49903,7 @@ export module Article {
     name: string;
     authorId: string;
     catname: string;
-    date: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    date: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     html: string;
     previewUrl: string;
     description: string;
@@ -56433,10 +57003,10 @@ export class APICommentsMessage implements GrpcMessage {
           _instance.parentId = _reader.readInt64String();
           break;
         case 5:
-          _instance.createdAt = new googleProtobuf002.Timestamp();
+          _instance.createdAt = new googleProtobuf003.Timestamp();
           _reader.readMessage(
             _instance.createdAt,
-            googleProtobuf002.Timestamp.deserializeBinaryFromReader
+            googleProtobuf003.Timestamp.deserializeBinaryFromReader
           );
           break;
         case 6:
@@ -56515,7 +57085,7 @@ export class APICommentsMessage implements GrpcMessage {
       _writer.writeMessage(
         5,
         _instance.createdAt as any,
-        googleProtobuf002.Timestamp.serializeBinaryToWriter
+        googleProtobuf003.Timestamp.serializeBinaryToWriter
       );
     }
     if (_instance.deleted) {
@@ -56564,7 +57134,7 @@ export class APICommentsMessage implements GrpcMessage {
   private _typeId: CommentsType;
   private _itemId: string;
   private _parentId: string;
-  private _createdAt?: googleProtobuf002.Timestamp;
+  private _createdAt?: googleProtobuf003.Timestamp;
   private _deleted: boolean;
   private _moderatorAttention: ModeratorAttention;
   private _isNew: boolean;
@@ -56589,7 +57159,7 @@ export class APICommentsMessage implements GrpcMessage {
     this.itemId = _value.itemId;
     this.parentId = _value.parentId;
     this.createdAt = _value.createdAt
-      ? new googleProtobuf002.Timestamp(_value.createdAt)
+      ? new googleProtobuf003.Timestamp(_value.createdAt)
       : undefined;
     this.deleted = _value.deleted;
     this.moderatorAttention = _value.moderatorAttention;
@@ -56629,10 +57199,10 @@ export class APICommentsMessage implements GrpcMessage {
   set parentId(value: string) {
     this._parentId = value;
   }
-  get createdAt(): googleProtobuf002.Timestamp | undefined {
+  get createdAt(): googleProtobuf003.Timestamp | undefined {
     return this._createdAt;
   }
-  set createdAt(value: googleProtobuf002.Timestamp | undefined) {
+  set createdAt(value: googleProtobuf003.Timestamp | undefined) {
     this._createdAt = value;
   }
   get deleted(): boolean {
@@ -56803,7 +57373,7 @@ export module APICommentsMessage {
     typeId: CommentsType;
     itemId: string;
     parentId: string;
-    createdAt?: googleProtobuf002.Timestamp.AsObject;
+    createdAt?: googleProtobuf003.Timestamp.AsObject;
     deleted: boolean;
     moderatorAttention: ModeratorAttention;
     isNew: boolean;
@@ -56826,7 +57396,7 @@ export module APICommentsMessage {
     typeId: string;
     itemId: string;
     parentId: string;
-    createdAt: googleProtobuf002.Timestamp.AsProtobufJSON | null;
+    createdAt: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     deleted: boolean;
     moderatorAttention: string;
     isNew: boolean;

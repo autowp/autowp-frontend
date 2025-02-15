@@ -49,7 +49,7 @@ const center = (lat: null | number | string, lng: null | number | string): LatLn
   templateUrl: 'map-point.component.html',
 })
 export class MapPointComponent implements ControlValueAccessor {
-  private readonly zone = inject(NgZone);
+  readonly #zone = inject(NgZone);
 
   /*protected readonly center$ = this.point$.pipe(
     map(point => point ? point : latLng(54.5260, 15.2551))
@@ -126,7 +126,7 @@ export class MapPointComponent implements ControlValueAccessor {
 
   protected onMapReady(lmap: Map) {
     lmap.on('click', (event: LeafletMouseEvent) => {
-      this.zone.run(() => {
+      this.#zone.run(() => {
         this.center = event.latlng;
         this.mapOptions.center = event.latlng;
         this.setMarker(event.latlng);

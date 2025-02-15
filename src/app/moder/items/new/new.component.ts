@@ -12,7 +12,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
-import {APIItem, ItemService} from '@services/item';
+import {ItemService} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams} from '@utils/invalid-params.pipe';
@@ -23,34 +23,30 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 import {ToastsService} from '../../../toasts/toasts.service';
 import {ItemMetaFormComponent, ItemMetaFormResult, ParentIsConcept} from '../item-meta-form/item-meta-form.component';
 
-interface NewAPIItem extends APIItem {
-  is_concept_inherit: boolean;
-}
-
 @Component({
-  imports: [RouterLink, ItemMetaFormComponent, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, ItemMetaFormComponent],
   selector: 'app-moder-items-new',
   templateUrl: './new.component.html',
 })
 export class ModerItemsNewComponent {
-  private readonly api = inject(APIService);
-  private readonly itemService = inject(ItemService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #api = inject(APIService);
+  readonly #itemService = inject(ItemService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   protected invalidParams: InvalidParams | undefined = undefined;
 
-  private readonly itemTypeID$ = this.route.queryParamMap.pipe(
+  readonly #itemTypeID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
     tap((itemTypeID) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isAdminPage: true},
         pageId: 163,
         title: getItemTypeTranslation(itemTypeID, 'new-item'),
@@ -58,95 +54,47 @@ export class ModerItemsNewComponent {
     }),
   );
 
-  protected readonly itemType$ = this.itemTypeID$.pipe(
+  protected readonly itemType$ = this.#itemTypeID$.pipe(
     map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item')),
   );
 
-  protected readonly item$: Observable<NewAPIItem> = this.itemTypeID$.pipe(
+  protected readonly item$: Observable<GRPCAPIItem> = this.#itemTypeID$.pipe(
     map(
       (itemTypeID) =>
-        ({
-          alt_names: [],
-          attr_zone_id: 0,
-          begin_model_year: 0,
-          begin_model_year_fraction: '',
-          begin_month: 0,
-          begin_year: 0,
-          body: '',
-          brands: [],
-          catname: '',
-          childs_count: 0,
-          childs_counts: undefined,
-          description: '',
-          design: undefined,
-          end_model_year: 0,
-          end_model_year_fraction: '',
-          end_month: 0,
-          end_year: 0,
-          engine_id: null,
-          engine_inherit: null,
-          engine_vehicles_count: 0,
-          full_name: '',
-          id: 0,
-          is_concept: 'inherited',
-          is_concept_inherit: true,
-          is_group: false,
-          item_language_count: 0,
-          item_type_id: itemTypeID,
-          lat: 0,
-          links_count: 0,
-          lng: 0,
-          logo: undefined,
-          name: '',
-          name_default: '',
-          name_html: '',
-          name_only: '',
-          name_text: '',
-          parents_count: 0,
-          pictures_count: 0,
-          preview_pictures: {
-            large_format: false,
-            pictures: [],
-          },
-          produced: null,
-          produced_exactly: false,
-          route: [],
-          spec_id: 'inherited',
-          subscription: false,
-          text: '',
-          today: null,
-          twins_groups: [],
-        }) as NewAPIItem,
+        new GRPCAPIItem({
+          isConceptInherit: true,
+          itemTypeId: itemTypeID,
+        }),
     ),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly parentID$: Observable<string> = this.route.queryParamMap.pipe(
+  readonly #parentID$: Observable<string> = this.#route.queryParamMap.pipe(
     map((params) => params.get('parent_id') ?? ''),
     distinctUntilChanged(),
   );
 
-  protected readonly parent$: Observable<GRPCAPIItem | null> = this.parentID$.pipe(
+  protected readonly parent$: Observable<GRPCAPIItem | null> = this.#parentID$.pipe(
     switchMap((parentID) => {
       if (!parentID) {
         return of(null);
       }
 
-      return this.itemsClient.item(
+      return this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameHtml: true}),
           id: parentID,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       );
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly vehicleTypeIDs$: Observable<string[]> = this.parent$.pipe(
+  readonly #vehicleTypeIDs$: Observable<string[]> = this.parent$.pipe(
     switchMap((item) => {
       if (item && [ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
-        return this.itemsClient
+        return this.#itemsClient
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
               itemId: item.id.toString(),
@@ -180,11 +128,11 @@ export class ModerItemsNewComponent {
       name: event.name,
       produced: event.produced?.count,
       produced_exactly: event.produced?.exactly,
-      spec_id: event.spec_id,
+      spec_id: event.spec_id ? event.spec_id : null,
       today: event.end?.today,
     };
 
-    this.api
+    this.#api
       .request$<void>('POST', 'item', {
         body: data,
         observe: 'response',
@@ -194,18 +142,24 @@ export class ModerItemsNewComponent {
           if (response instanceof HttpErrorResponse && response.status === 400) {
             this.invalidParams = response.error.invalid_params;
           } else {
-            this.toastService.handleError(response);
+            this.#toastService.handleError(response);
           }
           return EMPTY;
         }),
-        switchMap((response) => this.itemService.getItemByLocation$(response.headers.get('Location') ?? '', {})),
+        switchMap((response) => {
+          const location = response.headers.get('Location') ?? '';
+          const parts = location.split('/');
+          const itemId = parts[parts.length - 1];
+
+          return this.#itemsClient.item(new ItemRequest({id: itemId}));
+        }),
         switchMap((item) => {
           const pipes: Observable<null>[] = [
             this.parent$.pipe(
               take(1),
               switchMap((parent) =>
                 parent
-                  ? this.itemsClient
+                  ? this.#itemsClient
                       .createItemParent(
                         new ItemParent({
                           itemId: '' + item.id,
@@ -218,7 +172,9 @@ export class ModerItemsNewComponent {
             ),
           ];
           if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(itemTypeID)) {
-            pipes.push(this.itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id).pipe(map(() => null)));
+            pipes.push(
+              this.#itemService.setItemVehicleTypes$(item.id + '', event.vehicle_type_id).pipe(map(() => null)),
+            );
           }
 
           return forkJoin(pipes).pipe(
@@ -226,7 +182,7 @@ export class ModerItemsNewComponent {
               if (localStorage) {
                 localStorage.setItem('last_item', item.id.toString());
               }
-              this.router.navigate(['/moder/items/item', item.id]);
+              this.#router.navigate(['/moder/items/item', item.id]);
             }),
           );
         }),
@@ -235,10 +191,10 @@ export class ModerItemsNewComponent {
   }
 
   protected readonly formParams$: Observable<{
-    item: NewAPIItem;
+    item: GRPCAPIItem;
     parentIsConcept: ParentIsConcept;
     vehicleTypeIDs: string[];
-  }> = combineLatest([this.item$, this.parent$, this.vehicleTypeIDs$]).pipe(
+  }> = combineLatest([this.item$, this.parent$, this.#vehicleTypeIDs$]).pipe(
     map(([item, parent, vehicleTypeIDs]) => ({
       item,
       parentIsConcept: {isConcept: parent ? parent.isConcept : false},
