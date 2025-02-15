@@ -138,18 +138,6 @@ export class MapPointComponent implements ControlValueAccessor {
         if (this.onChange) {
           this.onChange({lat: event.latlng.lat, lng: event.latlng.lng});
         }
-
-        /*form.patchValue({
-          point: {
-            lat: event.latlng.lat,
-            lng: event.latlng.lng,
-          }
-        }, {
-          onlySelf: true,
-          emitEvent: true
-        });
-        form.updateValueAndValidity();
-        // this.markerInput$.next(event.latlng);*/
       });
     });
   }
@@ -173,12 +161,6 @@ export class MapPointComponent implements ControlValueAccessor {
         this.onChange({lat, lng});
       }
     }
-
-    /*const lat = parseFloat(point.get('lat').value);
-    const lng = parseFloat(point.get('lng').value);
-    this.markerInput$.next(
-      (isNaN(lat) || isNaN(lng)) ? null : latLng([lat, lng])
-    );*/
   }
 
   markAsTouched() {

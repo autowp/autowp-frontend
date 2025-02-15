@@ -20,22 +20,6 @@ export class DonateComponent implements OnInit {
   protected readonly language: string = this.languageService.language;
 
   constructor() {
-    /*const map = {
-      account: '41001161017513',
-      quickpay: 'donate',
-      'payment-type-choice': 'on',
-      'mobile-payment-type-choice': 'on',
-      'default-sum': '100',
-      targets: translations[0],
-      'target-visibility': 'on',
-      'project-name': translations[1],
-      'project-site': 'https://' + window.location.host + '/',
-      'button-text': '01',
-      comment: 'on',
-      hint: translations[2],
-      successURL: 'https://' + window.location.host + '/donate/success'
-    };*/
-
     const map: {
       [key: string]: string;
     } = {

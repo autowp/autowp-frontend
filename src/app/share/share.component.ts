@@ -21,8 +21,6 @@ export class ShareComponent {
   }
 
   protected share(href: string) {
-    // ga('send', 'event', 'share', $this.attr('title'));
-
     window.open(
       href,
       undefined,

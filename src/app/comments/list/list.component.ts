@@ -110,7 +110,6 @@ export class CommentsListComponent {
         switchMap(() => {
           message.userVote = value;
 
-          // ga('send', 'event', 'comment-vote', value > 0 ? 'like' : 'dislike');
           return this.commentsGrpc.getMessage(
             new GetMessageRequest({fields: new CommentMessageFields({vote: true}), id: message.id}),
           );

@@ -34,10 +34,10 @@ interface ListItem extends CatalogueListItem {
   templateUrl: './specs-cars.component.html',
 })
 export class IndexSpecsCarsComponent {
-  private readonly api = inject(APIService);
-  private readonly userService = inject(UserService);
+  readonly #api = inject(APIService);
+  readonly #userService = inject(UserService);
 
-  protected readonly items$ = this.api.request$<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
+  protected readonly items$ = this.#api.request$<APIIndexSpecItemsResponse>('GET', 'index/spec-items').pipe(
     map((response) => {
       return chunkBy(
         response.items.map((item) => {
@@ -52,7 +52,7 @@ export class IndexSpecsCarsComponent {
             can_edit_specs: item.can_edit_specs,
             categories: item.categories,
             childs_counts: item.childs_counts,
-            contributors: item.contributors.map((contributor) => this.userService.getUser$('' + contributor)),
+            contributors: item.contributors.map((contributor) => this.#userService.getUser$('' + contributor)),
             description: item.description,
             design: item.design,
             details: {

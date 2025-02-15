@@ -38,10 +38,6 @@ export interface APIPaginator {
   pagesInRange: {[key: number]: number};
   previous: number;
   totalItemCount: number;
-  // itemCountPerPage: number;
-  // currentItemCount: number;
-  // firstItemNumber: number;
-  // lastItemNumber: number;
 }
 
 export function authInterceptor$(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
