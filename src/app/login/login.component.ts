@@ -9,12 +9,12 @@ import Keycloak from 'keycloak-js';
   template: 'Redirecting …',
 })
 export class LoginComponent implements OnInit {
-  private readonly languageService = inject(LanguageService);
-  private readonly keycloak = inject(Keycloak);
+  readonly #languageService = inject(LanguageService);
+  readonly #keycloak = inject(Keycloak);
 
   ngOnInit(): void {
-    this.keycloak.login({
-      locale: this.languageService.language,
+    this.#keycloak.login({
+      locale: this.#languageService.language,
       redirectUri: window.location.href,
     });
   }

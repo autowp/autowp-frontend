@@ -42,25 +42,26 @@ import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
   templateUrl: './pictures.component.html',
 })
 export class CatalogueVehiclesPicturesComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly catalogueService = inject(CatalogueService);
-  private readonly acl = inject(ACLService);
-  private readonly router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #catalogueService = inject(CatalogueService);
+  readonly #acl = inject(ACLService);
+  readonly #router = inject(Router);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
 
-  protected readonly canAcceptPicture$ = this.acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
-  protected readonly canAddItem$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly canAcceptPicture$ = this.#acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
+  protected readonly canAddItem$ = this.#acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> =
-    this.catalogueService.resolveCatalogue$(this.route).pipe(
+  readonly #catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> = this.#catalogueService
+    .resolveCatalogue$(this.#route)
+    .pipe(
       switchMap((data) => {
         if (!data?.brand || !data.path || data.path.length <= 0) {
-          this.router.navigate(['/error-404'], {
+          this.#router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
           return EMPTY;
@@ -70,37 +71,37 @@ export class CatalogueVehiclesPicturesComponent {
       shareReplay({bufferSize: 1, refCount: false}),
     );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly exact$ = this.route.data.pipe(
+  readonly #exact$ = this.#route.data.pipe(
     map((params) => !!params['exact']),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly brand$: Observable<GRPCAPIItem> = this.catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<GRPCAPIItem> = this.#catalogue$.pipe(map(({brand}) => brand));
 
-  protected readonly breadcrumbs$: Observable<Breadcrumbs[]> = this.catalogue$.pipe(
+  protected readonly breadcrumbs$: Observable<Breadcrumbs[]> = this.#catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
-  protected readonly routerLink$: Observable<string[]> = this.catalogue$.pipe(
+  protected readonly routerLink$: Observable<string[]> = this.#catalogue$.pipe(
     map(({brand, path}) => ['/', brand.catname, ...path.map((node) => node.catname)]),
   );
 
-  protected readonly picturesRouterLink$: Observable<string[]> = combineLatest([this.routerLink$, this.exact$]).pipe(
+  protected readonly picturesRouterLink$: Observable<string[]> = combineLatest([this.routerLink$, this.#exact$]).pipe(
     map(([routerLink, exact]) => [...routerLink, ...(exact ? ['exact'] : []), 'pictures']),
   );
 
-  protected readonly item$: Observable<GRPCAPIItem> = this.catalogue$.pipe(
+  protected readonly item$: Observable<GRPCAPIItem> = this.#catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
     filter((item) => !!item),
     tap((item: GRPCAPIItem) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 34,
         title: $localize`All pictures of ${item.nameText}`,
       });
@@ -108,9 +109,9 @@ export class CatalogueVehiclesPicturesComponent {
   );
 
   protected readonly pictures$: Observable<{paginator: Pages | undefined; pictures: Picture[][]}> = combineLatest([
-    this.exact$,
+    this.#exact$,
     this.item$,
-    this.page$,
+    this.#page$,
   ]).pipe(
     switchMap(([exact, item, page]) =>
       this.#picturesClient.getPictures(
@@ -140,7 +141,7 @@ export class CatalogueVehiclesPicturesComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
     map((response) => ({

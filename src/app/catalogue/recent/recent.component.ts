@@ -38,21 +38,21 @@ interface PictureRoute {
   templateUrl: './recent.component.html',
 })
 export class CatalogueRecentComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly catalogue = inject(CatalogueService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #catalogue = inject(CatalogueService);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly brand$: Observable<APIItem | null> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem | null> = this.#route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -60,7 +60,7 @@ export class CatalogueRecentComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemsClient
+      return this.#itemsClient
         .list(
           new ItemsRequest({
             fields: new ItemFields({
@@ -78,7 +78,7 @@ export class CatalogueRecentComponent {
           map((response) => (response.items?.length ? response.items[0] : null)),
           tap((brand) => {
             if (brand) {
-              this.pageEnv.set({
+              this.#pageEnv.set({
                 pageId: 15,
                 title: $localize`Last pictures of ${brand.nameText}`,
               });
@@ -89,7 +89,7 @@ export class CatalogueRecentComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly data$ = combineLatest([this.brand$, this.page$]).pipe(
+  protected readonly data$ = combineLatest([this.brand$, this.#page$]).pipe(
     switchMap(([brand, page]) =>
       brand
         ? this.#picturesClient.getPictures(
@@ -126,7 +126,7 @@ export class CatalogueRecentComponent {
     map((response) => {
       const pictures: PictureRoute[] = (response.items || []).map((picture) => ({
         picture,
-        route: this.catalogue.picturePathToRoute(picture),
+        route: this.#catalogue.picturePathToRoute(picture),
       }));
       return {
         paginator: response.paginator,

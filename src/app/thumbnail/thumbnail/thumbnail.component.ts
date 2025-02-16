@@ -26,11 +26,11 @@ interface ThumbnailAPIPicture extends APIPicture {
   templateUrl: './thumbnail.component.html',
 })
 export class ThumbnailComponent {
-  private readonly perspectiveService = inject(APIPerspectiveService);
-  private readonly acl = inject(ACLService);
-  private readonly userService = inject(UserService);
-  private readonly picturesClient = inject(PicturesClient);
-  private readonly toastService = inject(ToastsService);
+  readonly #perspectiveService = inject(APIPerspectiveService);
+  readonly #acl = inject(ACLService);
+  readonly #userService = inject(UserService);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #toastService = inject(ToastsService);
 
   @Input() set picture(picture: null | ThumbnailAPIPicture) {
     this.picture$.next(picture);
@@ -41,16 +41,16 @@ export class ThumbnailComponent {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  protected readonly perspectiveOptions$: Observable<Perspective[]> = this.perspectiveService.getPerspectives$();
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly perspectiveOptions$: Observable<Perspective[]> = this.#perspectiveService.getPerspectives$();
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => (picture?.owner_id ? this.userService.getUser$(picture.owner_id) : of(null))),
+    switchMap((picture) => (picture?.owner_id ? this.#userService.getUser$(picture.owner_id) : of(null))),
   );
 
   protected savePerspective(picture: ThumbnailAPIPicture) {
     if (picture.perspective_item) {
-      this.picturesClient
+      this.#picturesClient
         .setPictureItemPerspective(
           new SetPictureItemPerspectiveRequest({
             itemId: '' + picture.perspective_item.item_id,
@@ -61,7 +61,7 @@ export class ThumbnailComponent {
         )
         .pipe(
           catchError((error: unknown) => {
-            this.toastService.handleError(error);
+            this.#toastService.handleError(error);
             return EMPTY;
           }),
         )

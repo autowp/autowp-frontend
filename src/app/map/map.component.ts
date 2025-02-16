@@ -29,16 +29,16 @@ function createMarker(lat: number, lng: number): Marker {
   templateUrl: './map.component.html',
 })
 export class MapComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly zone = inject(NgZone);
-  private readonly viewContainerRef = inject(ViewContainerRef);
-  private readonly toastService = inject(ToastsService);
-  private readonly mapClient = inject(MapClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #zone = inject(NgZone);
+  readonly #viewContainerRef = inject(ViewContainerRef);
+  readonly #toastService = inject(ToastsService);
+  readonly #mapClient = inject(MapClient);
 
-  private compRef?: ComponentRef<MapPopupComponent>;
+  #compRef?: ComponentRef<MapPopupComponent>;
   protected markers: Marker[] = [];
 
-  private readonly bounds$ = new BehaviorSubject<LatLngBounds | null>(null);
+  readonly #bounds$ = new BehaviorSubject<LatLngBounds | null>(null);
 
   public readonly options: MapOptions = {
     center: latLng(50, 20),
@@ -55,9 +55,9 @@ export class MapComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 117}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 117}), 0);
 
-    this.bounds$
+    this.#bounds$
       .pipe(
         distinctUntilChanged(),
         debounceTime(100),
@@ -66,7 +66,7 @@ export class MapComponent implements OnInit {
             return EMPTY;
           }
 
-          return this.mapClient.getPoints(
+          return this.#mapClient.getPoints(
             new MapGetPointsRequest({
               bounds: bounds.toBBoxString(),
               pointsOnly: false,
@@ -76,7 +76,7 @@ export class MapComponent implements OnInit {
         map((response) => (response.points ? response.points : [])),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: (response) => {
           this.renderData(response);
         },
@@ -85,13 +85,13 @@ export class MapComponent implements OnInit {
 
   protected onMapReady(lmap: Map) {
     lmap.on('moveend', () => {
-      this.zone.run(() => {
-        this.bounds$.next(lmap.getBounds());
+      this.#zone.run(() => {
+        this.#bounds$.next(lmap.getBounds());
       });
     });
 
-    this.zone.run(() => {
-      this.bounds$.next(lmap.getBounds());
+    this.#zone.run(() => {
+      this.#bounds$.next(lmap.getBounds());
     });
   }
 
@@ -107,16 +107,16 @@ export class MapComponent implements OnInit {
 
         const popup = new Popup();
         m.on('click', () => {
-          this.zone.run(() => {
-            if (this.compRef) {
-              this.compRef.destroy();
+          this.#zone.run(() => {
+            if (this.#compRef) {
+              this.#compRef.destroy();
             }
 
-            this.compRef = this.viewContainerRef.createComponent(MapPopupComponent);
-            this.compRef.instance.item = item;
+            this.#compRef = this.#viewContainerRef.createComponent(MapPopupComponent);
+            this.#compRef.instance.item = item;
 
             const div = document.createElement('div');
-            div.appendChild(this.compRef.location.nativeElement);
+            div.appendChild(this.#compRef.location.nativeElement);
 
             popup.setContent(div);
           });

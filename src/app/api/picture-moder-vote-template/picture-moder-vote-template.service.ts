@@ -15,33 +15,33 @@ export interface APIPictureModerVoteTemplatePostData {
   providedIn: 'root',
 })
 export class APIPictureModerVoteTemplateService {
-  private readonly auth = inject(AuthService);
-  private readonly pictures = inject(PicturesClient);
+  readonly #auth = inject(AuthService);
+  readonly #pictures = inject(PicturesClient);
 
-  private readonly change$ = new BehaviorSubject<void>(void 0);
+  readonly #change$ = new BehaviorSubject<void>(void 0);
 
   public getTemplates$(): Observable<ModerVoteTemplate[]> {
-    return combineLatest([this.change$, this.auth.getUser$()]).pipe(
-      switchMap(() => this.pictures.getModerVoteTemplates(new Empty({}))),
+    return combineLatest([this.#change$, this.#auth.getUser$()]).pipe(
+      switchMap(() => this.#pictures.getModerVoteTemplates(new Empty({}))),
       map((response) => (response.items ? response.items : [])),
       shareReplay({bufferSize: 1, refCount: false}),
     );
   }
 
   public deleteTemplate$(id: string): Observable<Empty | void> {
-    return this.pictures
+    return this.#pictures
       .deleteModerVoteTemplate(new DeleteModerVoteTemplateRequest({id}))
-      .pipe(tap(() => this.change$.next()));
+      .pipe(tap(() => this.#change$.next()));
   }
 
   public createTemplate$(template: APIPictureModerVoteTemplatePostData): Observable<ModerVoteTemplate> {
-    return this.pictures
+    return this.#pictures
       .createModerVoteTemplate(
         new ModerVoteTemplate({
           message: template.name,
           vote: template.vote,
         }),
       )
-      .pipe(tap(() => this.change$.next()));
+      .pipe(tap(() => this.#change$.next()));
   }
 }

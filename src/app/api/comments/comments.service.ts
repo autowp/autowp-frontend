@@ -9,10 +9,10 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class APICommentsService {
-  private readonly acl = inject(ACLService);
-  private readonly commentsClient = inject(CommentsClient);
+  readonly #acl = inject(ACLService);
+  readonly #commentsClient = inject(CommentsClient);
 
-  public readonly attentionCommentsCount$: Observable<null | number> = this.acl
+  public readonly attentionCommentsCount$: Observable<null | number> = this.#acl
     .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
     .pipe(
       switchMap((isModer) => {
@@ -20,7 +20,7 @@ export class APICommentsService {
           return of(null);
         }
 
-        return this.commentsClient
+        return this.#commentsClient
           .getMessages(
             new GetMessagesRequest({
               limit: 0,

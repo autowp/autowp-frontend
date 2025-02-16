@@ -15,8 +15,8 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './category.component.html',
 })
 export class IndexCategoriesCategoryComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set category(category: APITopCategoriesListItem) {
     this.category$.next(category);
@@ -26,10 +26,10 @@ export class IndexCategoriesCategoryComponent {
   protected readonly response$ = this.category$.pipe(
     switchMap((category) =>
       category
-        ? this.itemsClient.getNewItems(
+        ? this.#itemsClient.getNewItems(
             new NewItemsRequest({
-              itemId: '' + category.id,
-              language: this.languageService.language,
+              itemId: category.id,
+              language: this.#languageService.language,
             }),
           )
         : EMPTY,

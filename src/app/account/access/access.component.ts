@@ -9,12 +9,12 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './access.component.html',
 })
 export class AccountAccessComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   protected readonly changePasswordUrl =
     environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/security/device-activity';
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 133}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 133}), 0);
   }
 }

@@ -22,23 +22,23 @@ import {UserComponent} from '../../user/user/user.component';
   templateUrl: './messages.component.html',
 })
 export class AccountMessagesComponent {
-  private readonly messageService = inject(MessageService);
-  private readonly messageDialogService = inject(MessageDialogService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly messagingClient = inject(MessagingClient);
-  private readonly userService = inject(UserService);
+  readonly #messageService = inject(MessageService);
+  readonly #messageDialogService = inject(MessageDialogService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #messagingClient = inject(MessagingClient);
+  readonly #userService = inject(UserService);
 
   protected folder: string = '';
-  private readonly change$ = new BehaviorSubject<void>(void 0);
+  readonly #change$ = new BehaviorSubject<void>(void 0);
 
   protected pageName = '';
 
   protected readonly messages$: Observable<{
     items: {author$: Observable<APIUser | null>; message: APIMessage}[];
     paginator: Pages | undefined;
-  }> = this.route.queryParamMap.pipe(
+  }> = this.#route.queryParamMap.pipe(
     map((params) => ({
       folder: params.get('folder'),
       page: parseInt(params.get('page') ?? '', 10),
@@ -71,14 +71,14 @@ export class AccountMessagesComponent {
           break;
       }
 
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId,
         title: this.pageName,
       });
 
-      return this.change$.pipe(
+      return this.#change$.pipe(
         switchMap(() =>
-          this.messagingClient
+          this.#messagingClient
             .getMessages(
               new MessagingGetMessagesRequest({
                 folder: this.folder,
@@ -88,7 +88,7 @@ export class AccountMessagesComponent {
             )
             .pipe(
               catchError((err: unknown) => {
-                this.toastService.handleError(err);
+                this.#toastService.handleError(err);
                 return EMPTY;
               }),
             ),
@@ -97,13 +97,13 @@ export class AccountMessagesComponent {
     }),
     tap((response) => {
       if (response.items) {
-        this.messageService.seen(response.items);
+        this.#messageService.seen(response.items);
       }
     }),
     map((response) => {
       return {
         items: (response.items || []).map((msg) => ({
-          author$: msg.authorId !== '0' ? this.userService.getUser$(msg.authorId) : of(null),
+          author$: msg.authorId !== '0' ? this.#userService.getUser$(msg.authorId) : of(null),
           message: msg,
         })),
         paginator: response.paginator,
@@ -112,10 +112,10 @@ export class AccountMessagesComponent {
   );
 
   protected deleteMessage(id: string) {
-    this.messageService.deleteMessage$(id).subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+    this.#messageService.deleteMessage$(id).subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
-        this.change$.next();
+        this.#change$.next();
       },
     });
 
@@ -123,20 +123,20 @@ export class AccountMessagesComponent {
   }
 
   protected clearFolder(folder: string) {
-    this.messageService.clearFolder$(folder).subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+    this.#messageService.clearFolder$(folder).subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
-        this.change$.next();
+        this.#change$.next();
       },
     });
   }
 
   protected openMessageForm(userId: string) {
-    this.messageDialogService.showDialog(userId, () => {
+    this.#messageDialogService.showDialog(userId, () => {
       switch (this.folder) {
         case 'dialog':
         case 'sent':
-          this.change$.next();
+          this.#change$.next();
           break;
       }
     });

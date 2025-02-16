@@ -15,15 +15,15 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './email.component.html',
 })
 export class AccountEmailComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly usersClient = inject(UsersClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #usersClient = inject(UsersClient);
 
-  protected readonly email$: Observable<null | string> = this.usersClient
+  protected readonly email$: Observable<null | string> = this.#usersClient
     .me(new APIMeRequest({fields: new UserFields({email: true})}))
     .pipe(
       catchError((error: unknown) => {
-        this.toastService.handleError(error);
+        this.#toastService.handleError(error);
         return EMPTY;
       }),
       map((response) => response.email),
@@ -33,6 +33,6 @@ export class AccountEmailComponent implements OnInit {
     environment.keycloak.url + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 55}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 55}), 0);
   }
 }

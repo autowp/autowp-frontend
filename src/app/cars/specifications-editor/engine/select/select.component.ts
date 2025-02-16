@@ -34,30 +34,30 @@ import {CarsSelectEngineTreeItemComponent} from './tree-item/tree-item.component
   templateUrl: './select.component.html',
 })
 export class CarsEngineSelectComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #languageService = inject(LanguageService);
 
   protected search: string = '';
-  private readonly search$ = new BehaviorSubject<string>('');
+  readonly #search$ = new BehaviorSubject<string>('');
 
-  protected readonly itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly brandID$ = this.route.queryParamMap.pipe(
+  protected readonly brandID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('brand_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -65,16 +65,16 @@ export class CarsEngineSelectComponent {
 
   protected readonly item$ = this.itemID$.pipe(
     switchMap((itemID) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameText: true}),
           id: itemID,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),
     tap((item) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 102,
         title: $localize`Specs editor of ${item.nameText}`,
       });
@@ -82,9 +82,9 @@ export class CarsEngineSelectComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly items$: Observable<ItemParent[]> = combineLatest([this.brandID$, this.page$]).pipe(
+  protected readonly items$: Observable<ItemParent[]> = combineLatest([this.brandID$, this.#page$]).pipe(
     switchMap(([brandID, page]) =>
-      this.itemsClient.getItemParents(
+      this.#itemsClient.getItemParents(
         new ItemParentsRequest({
           fields: new ItemParentFields({
             item: new ItemFields({
@@ -92,7 +92,7 @@ export class CarsEngineSelectComponent {
               nameHtml: true,
             }),
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemParentListOptions({
             item: new ItemListOptions({
@@ -106,21 +106,21 @@ export class CarsEngineSelectComponent {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => response.items || []),
   );
 
-  protected readonly brands$: Observable<{items: APIItem[][]; paginator?: Pages}> = this.search$.pipe(
+  protected readonly brands$: Observable<{items: APIItem[][]; paginator?: Pages}> = this.#search$.pipe(
     map((str) => str.trim()),
     distinctUntilChanged(),
     debounceTime(50),
     switchMap((search) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({nameOnly: true}),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemListOptions({
             descendant: new ItemParentCacheListOptions({
@@ -136,7 +136,7 @@ export class CarsEngineSelectComponent {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
@@ -146,11 +146,11 @@ export class CarsEngineSelectComponent {
   );
 
   protected onInput() {
-    this.search$.next(this.search);
+    this.#search$.next(this.search);
   }
 
   protected selectEngine(itemID: string, engineId: string) {
-    this.itemsClient
+    this.#itemsClient
       .setItemEngine(
         new SetItemEngineRequest({
           engineInherited: false,
@@ -160,12 +160,12 @@ export class CarsEngineSelectComponent {
       )
       .pipe(
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
       )
       .subscribe(() => {
-        this.router.navigate(['/cars/specifications-editor'], {
+        this.#router.navigate(['/cars/specifications-editor'], {
           queryParams: {
             item_id: itemID,
             tab: 'engine',

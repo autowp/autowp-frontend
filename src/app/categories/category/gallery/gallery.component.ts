@@ -1,8 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIItem} from '@services/item';
+import {APIItem, ItemType} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -17,17 +16,17 @@ import {CategoriesService, CategoryPipeResult} from '../../service';
   templateUrl: './gallery.component.html',
 })
 export class CategoryGalleryComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly router = inject(Router);
-  private readonly categoriesService = inject(CategoriesService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #router = inject(Router);
+  readonly #categoriesService = inject(CategoriesService);
 
-  protected readonly identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.#route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
       if (!identity) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -36,12 +35,12 @@ export class CategoryGalleryComponent implements OnInit {
     }),
   );
 
-  protected readonly data$: Observable<CategoryPipeResult> = this.categoriesService
-    .categoryPipe$(this.route.parent!)
+  protected readonly data$: Observable<CategoryPipeResult> = this.#categoriesService
+    .categoryPipe$(this.#route.parent!)
     .pipe(
       switchMap((data) => {
         if (!data.current) {
-          this.router.navigate(['/error-404'], {
+          this.#router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
           return EMPTY;
@@ -52,7 +51,7 @@ export class CategoryGalleryComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         layout: {isGalleryPage: true},
         pageId: 187,
         title: '', // data.picture.name_text,
@@ -69,7 +68,7 @@ export class CategoryGalleryComponent implements OnInit {
       return null;
     }
 
-    if (currentItem.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+    if (currentItem.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
       return ['/category', currentItem.catname];
     }
 
@@ -79,7 +78,7 @@ export class CategoryGalleryComponent implements OnInit {
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {
       setTimeout(() => {
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: 187,
           title: item.name,

@@ -32,26 +32,26 @@ function addCSS(url: string) {
   templateUrl: './brands.component.html',
 })
 export class BrandsComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly grpc = inject(AutowpClient);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #grpc = inject(AutowpClient);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly items$ = this.itemsClient
+  protected readonly items$ = this.#itemsClient
     .getBrands(
       new GetBrandsRequest({
-        language: this.languageService.language,
+        language: this.#languageService.language,
       }),
     )
     .pipe(
       catchError((response: unknown) => {
-        this.toastService.handleError(response);
+        this.#toastService.handleError(response);
         return EMPTY;
       }),
     );
 
-  protected readonly icons$: Observable<BrandIcons> = this.grpc.getBrandIcons(new Empty()).pipe(
+  protected readonly icons$: Observable<BrandIcons> = this.#grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
       addCSS(icons.css);
     }),
@@ -59,7 +59,7 @@ export class BrandsComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 61}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 61}), 0);
   }
 
   protected scrollTo(info: APIBrandsListCharacter) {

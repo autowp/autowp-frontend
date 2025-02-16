@@ -16,17 +16,17 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './accounts.component.html',
 })
 export class AccountAccountsComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly usersClient = inject(UsersClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #usersClient = inject(UsersClient);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
   protected readonly accounts$: Observable<APIAccountsAccount[]> = combineLatest([
-    this.usersClient.getAccounts(new Empty()),
-    this.reload$,
+    this.#usersClient.getAccounts(new Empty()),
+    this.#reload$,
   ]).pipe(
     catchError((error: unknown) => {
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
     map(([response]) => response.items || []),
@@ -35,19 +35,19 @@ export class AccountAccountsComponent implements OnInit {
   protected disconnectFailed = false;
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 123}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 123}), 0);
   }
 
   protected remove(account: APIAccountsAccount) {
-    this.usersClient.deleteUserAccount(new DeleteUserAccountRequest({id: account.id})).subscribe({
+    this.#usersClient.deleteUserAccount(new DeleteUserAccountRequest({id: account.id})).subscribe({
       error: (response: unknown) => {
         this.disconnectFailed = true;
-        this.toastService.handleError(response);
+        this.#toastService.handleError(response);
       },
       next: () => {
-        this.toastService.success($localize`Account removed`);
+        this.#toastService.success($localize`Account removed`);
 
-        this.reload$.next();
+        this.#reload$.next();
       },
     });
   }

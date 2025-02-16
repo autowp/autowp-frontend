@@ -18,13 +18,13 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './top-view.component.html',
 })
 export class TopViewComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
+  readonly #route = inject(ActivatedRoute);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
 
-  protected readonly data$ = this.route.queryParamMap.pipe(
+  protected readonly data$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -55,12 +55,12 @@ export class TopViewComponent implements OnInit {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 201}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 201}), 0);
   }
 }

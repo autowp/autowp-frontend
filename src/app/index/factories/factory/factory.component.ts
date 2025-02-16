@@ -15,8 +15,8 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './factory.component.html',
 })
 export class IndexFactoriesFactoryComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set factory(factory: APITopFactoriesListItem) {
     this.factory$.next(factory);
@@ -26,10 +26,10 @@ export class IndexFactoriesFactoryComponent {
   protected readonly response$ = this.factory$.pipe(
     switchMap((factory) =>
       factory
-        ? this.itemsClient.getNewItems(
+        ? this.#itemsClient.getNewItems(
             new NewItemsRequest({
               itemId: '' + factory.id,
-              language: this.languageService.language,
+              language: this.#languageService.language,
             }),
           )
         : EMPTY,

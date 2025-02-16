@@ -29,15 +29,15 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './list.component.html',
 })
 export class TwinsGroupPicturesListComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly id$: Observable<string> = this.route.parent!.parent!.paramMap.pipe(
+  protected readonly id$: Observable<string> = this.#route.parent!.parent!.paramMap.pipe(
     map((params) => params.get('group') ?? ''),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -46,12 +46,12 @@ export class TwinsGroupPicturesListComponent {
   protected readonly group$: Observable<APIItem> = this.id$.pipe(
     switchMap((group) => {
       if (!group) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
       }
-      return this.itemsClient.item(
+      return this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             nameHtml: true,
@@ -65,7 +65,7 @@ export class TwinsGroupPicturesListComponent {
     tap((group) => {
       setTimeout(
         () =>
-          this.pageEnv.set({
+          this.#pageEnv.set({
             pageId: 28,
             title: $localize`All pictures of ${group.nameText}`,
           }),
@@ -75,12 +75,12 @@ export class TwinsGroupPicturesListComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
 
-  protected readonly data$: Observable<null | PicturesList> = combineLatest([this.page$, this.id$]).pipe(
+  protected readonly data$: Observable<null | PicturesList> = combineLatest([this.#page$, this.id$]).pipe(
     switchMap(([page, groupId]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -108,7 +108,7 @@ export class TwinsGroupPicturesListComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return of(null);
     }),
   );

@@ -28,35 +28,35 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './item.component.html',
 })
 export class NewItemComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  private readonly itemID$ = this.route.paramMap.pipe(
+  readonly #itemID$ = this.#route.paramMap.pipe(
     map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly date$ = this.route.paramMap.pipe(
+  protected readonly date$ = this.#route.paramMap.pipe(
     map((params) => params.get('date')),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(30),
   );
 
-  protected readonly item$ = this.itemID$.pipe(
+  protected readonly item$ = this.#itemID$.pipe(
     switchMap((itemID) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             nameHtml: true,
@@ -68,11 +68,11 @@ export class NewItemComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
     tap((item) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 210,
         title: item.nameText,
       });
@@ -80,7 +80,7 @@ export class NewItemComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly pictures$ = combineLatest([this.itemID$, this.date$, this.page$]).pipe(
+  protected readonly pictures$ = combineLatest([this.#itemID$, this.date$, this.#page$]).pipe(
     switchMap(([itemID, date, page]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -109,7 +109,7 @@ export class NewItemComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
   );

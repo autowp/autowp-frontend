@@ -15,16 +15,16 @@ import {IndexBrandsBrandComponent} from './brand/brand.component';
   templateUrl: './brands.component.html',
 })
 export class IndexBrandsComponent {
-  private readonly items = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #items = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   // eslint-disable-next-line sonarjs/pseudo-random
   protected readonly placeholderItems = Array.from({length: 60}, () => Math.round(3 + Math.random() * 5)).map(
     (item) => ({width: item}),
   );
 
-  protected readonly result$ = this.items
-    .getTopBrandsList(new GetTopBrandsListRequest({language: this.languageService.language}))
+  protected readonly result$ = this.#items
+    .getTopBrandsList(new GetTopBrandsListRequest({language: this.#languageService.language}))
     .pipe(
       map((response) => ({
         brands: response.brands,

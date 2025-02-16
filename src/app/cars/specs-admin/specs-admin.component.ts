@@ -37,15 +37,15 @@ interface AttrUserValueListItem {
   templateUrl: './specs-admin.component.html',
 })
 export class CarsSpecsAdminComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly userService = inject(UserService);
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly languageService = inject(LanguageService);
-  private readonly attrsService = inject(APIAttrsService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #userService = inject(UserService);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #attrsService = inject(APIAttrsService);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly move: {
     item_id: string;
@@ -53,7 +53,7 @@ export class CarsSpecsAdminComponent implements OnInit {
     item_id: '',
   };
 
-  protected readonly itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
@@ -62,27 +62,27 @@ export class CarsSpecsAdminComponent implements OnInit {
 
   protected readonly data$: Observable<{
     items: AttrUserValueListItem[];
-  }> = combineLatest([this.itemID$, this.reload$]).pipe(
+  }> = combineLatest([this.itemID$, this.#reload$]).pipe(
     switchMap(([itemID]) =>
-      this.attrsClient.getUserValues(
+      this.#attrsClient.getUserValues(
         new AttrUserValuesRequest({
           fields: new AttrUserValuesFields({valueText: true}),
           itemId: itemID,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
     map((response) => ({
       items: (response.items || []).map((userValue) => {
-        const attr$ = this.attrsService.getAttribute$(userValue.attributeId);
+        const attr$ = this.#attrsService.getAttribute$(userValue.attributeId);
         return {
-          path$: this.attrsService.getPath$(userValue.attributeId),
+          path$: this.#attrsService.getPath$(userValue.attributeId),
           unitAbbr$: attr$.pipe(map((attr) => (attr?.unitId ? getUnitAbbrTranslation(attr.unitId) : null))),
-          user$: this.userService.getUser$(userValue.userId),
+          user$: this.#userService.getUser$(userValue.userId),
           userValue,
         };
       }),
@@ -90,11 +90,11 @@ export class CarsSpecsAdminComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 103}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 103}), 0);
   }
 
   protected deleteValue(value: AttrUserValueListItem) {
-    this.attrsClient
+    this.#attrsClient
       .deleteUserValues(
         new DeleteAttrUserValuesRequest({
           attributeId: value.userValue.attributeId,
@@ -103,9 +103,9 @@ export class CarsSpecsAdminComponent implements OnInit {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
-          this.reload$.next();
+          this.#reload$.next();
         },
       });
   }
@@ -115,7 +115,7 @@ export class CarsSpecsAdminComponent implements OnInit {
       return;
     }
 
-    this.attrsClient
+    this.#attrsClient
       .moveUserValues(
         new MoveAttrUserValuesRequest({
           destItemId: this.move.item_id,
@@ -123,9 +123,9 @@ export class CarsSpecsAdminComponent implements OnInit {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
-          this.reload$.next();
+          this.#reload$.next();
         },
       });
   }

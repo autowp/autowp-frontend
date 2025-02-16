@@ -42,32 +42,31 @@ interface AttrUserValueListItem {
   templateUrl: './attrs-change-log.component.html',
 })
 export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly acl = inject(ACLService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly usersClient = inject(UsersClient);
-  private readonly userService = inject(UserService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #acl = inject(ACLService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #usersClient = inject(UsersClient);
+  readonly #userService = inject(UserService);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #attrsService = inject(APIAttrsService);
 
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly languageService = inject(LanguageService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly attrsService = inject(APIAttrsService);
+  readonly #itemsCache = new Map<string, Observable<APIItem>>();
 
-  private readonly itemsCache = new Map<string, Observable<APIItem>>();
+  #querySub?: Subscription;
 
-  private querySub?: Subscription;
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-
-  protected readonly userID$: Observable<string> = this.route.queryParamMap.pipe(
+  protected readonly userID$: Observable<string> = this.#route.queryParamMap.pipe(
     map((params) => params.get('user_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly itemID$ = this.route.queryParamMap.pipe(
+  protected readonly itemID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
@@ -77,23 +76,23 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
     items: AttrUserValueListItem[];
   }> = combineLatest([this.userID$, this.itemID$]).pipe(
     switchMap(([userID, itemID]) =>
-      this.attrsClient.getUserValues(
+      this.#attrsClient.getUserValues(
         new AttrUserValuesRequest({
           fields: new AttrUserValuesFields({valueText: true}),
           itemId: itemID,
-          language: this.languageService.language,
+          language: this.#languageService.language,
           userId: userID ? userID : undefined,
         }),
       ),
     ),
     map((response) => ({
       items: (response.items || []).map((userValue) => {
-        const attr$ = this.attrsService.getAttribute$(userValue.attributeId);
+        const attr$ = this.#attrsService.getAttribute$(userValue.attributeId);
         return {
           item$: this.getItem$(userValue.itemId),
-          path$: this.attrsService.getPath$(userValue.attributeId),
+          path$: this.#attrsService.getPath$(userValue.attributeId),
           unitAbbr$: attr$.pipe(map((attr) => (attr?.unitId ? getUnitAbbrTranslation(attr.unitId) : null))),
-          user$: this.userService.getUser$(userValue.userId),
+          user$: this.#userService.getUser$(userValue.userId),
           userValue,
         };
       }),
@@ -113,16 +112,16 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
         }
 
         if (query.startsWith('#')) {
-          return this.userService.getUser$(query.substring(1) || '').pipe(
+          return this.#userService.getUser$(query.substring(1) || '').pipe(
             catchError((err: unknown) => {
-              this.toastService.handleError(err);
+              this.#toastService.handleError(err);
               return EMPTY;
             }),
             map((user) => [user]),
           );
         }
 
-        return this.usersClient
+        return this.#usersClient
           .getUsers(
             new APIUsersRequest({
               limit: '10',
@@ -131,7 +130,7 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
           )
           .pipe(
             catchError((err: unknown) => {
-              this.toastService.handleError(err);
+              this.#toastService.handleError(err);
               return EMPTY;
             }),
             map((response) => response.items || []),
@@ -140,22 +139,22 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
     );
 
   private getItem$(id: string): Observable<APIItem | null> {
-    let o$ = this.itemsCache.get(id);
+    let o$ = this.#itemsCache.get(id);
     if (!o$) {
-      o$ = this.itemsClient
+      o$ = this.#itemsClient
         .item(
-          new ItemRequest({fields: new ItemFields({nameHtml: true}), id: id, language: this.languageService.language}),
+          new ItemRequest({fields: new ItemFields({nameHtml: true}), id: id, language: this.#languageService.language}),
         )
         .pipe(shareReplay({bufferSize: 1, refCount: false}));
-      this.itemsCache.set(id, o$);
+      this.#itemsCache.set(id, o$);
     }
     return o$;
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 103}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 103}), 0);
 
-    this.querySub = this.userID$.subscribe((userID) => {
+    this.#querySub = this.userID$.subscribe((userID) => {
       if (userID && !this.userQuery) {
         this.userQuery = '#' + userID;
       }
@@ -167,7 +166,7 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
   }
 
   protected userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         user_id: e.item.id,
       },
@@ -177,7 +176,7 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
 
   protected clearUser(): void {
     this.userQuery = '';
-    this.router.navigate([], {
+    this.#router.navigate([], {
       queryParams: {
         user_id: null,
       },
@@ -186,8 +185,8 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.querySub) {
-      this.querySub.unsubscribe();
+    if (this.#querySub) {
+      this.#querySub.unsubscribe();
     }
   }
 }

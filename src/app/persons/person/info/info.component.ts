@@ -35,32 +35,32 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './info.component.html',
 })
 export class PersonsPersonInfoComponent {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly acl = inject(ACLService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #acl = inject(ACLService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly itemID$: Observable<string> = this.route.parent!.paramMap.pipe(
+  readonly #itemID$: Observable<string> = this.#route.parent!.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#itemID$.pipe(
     switchMap((id) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             description: true,
@@ -72,15 +72,15 @@ export class PersonsPersonInfoComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
+      this.#toastService.handleError(err);
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     switchMap((item) => {
       if (item.itemTypeId !== ItemType.ITEM_TYPE_PERSON) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -89,7 +89,7 @@ export class PersonsPersonInfoComponent {
       return of(item);
     }),
     tap((item) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 213,
         title: item.nameText,
       });
@@ -97,22 +97,25 @@ export class PersonsPersonInfoComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly links$: Observable<APIItemLink[]> = this.itemID$.pipe(
+  protected readonly links$: Observable<APIItemLink[]> = this.#itemID$.pipe(
     switchMap((itemID) =>
-      this.itemsClient.getItemLinks(
+      this.#itemsClient.getItemLinks(
         new ItemLinksRequest({
           options: new ItemLinkListOptions({itemId: itemID}),
         }),
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return of({items: []});
     }),
     map((response) => (response.items ? response.items : [])),
   );
 
-  protected readonly authorPictures$: Observable<null | PicturesList> = combineLatest([this.itemID$, this.page$]).pipe(
+  protected readonly authorPictures$: Observable<null | PicturesList> = combineLatest([
+    this.#itemID$,
+    this.#page$,
+  ]).pipe(
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -141,12 +144,15 @@ export class PersonsPersonInfoComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return of(null);
     }),
   );
 
-  protected readonly contentPictures$: Observable<null | PicturesList> = combineLatest([this.itemID$, this.page$]).pipe(
+  protected readonly contentPictures$: Observable<null | PicturesList> = combineLatest([
+    this.#itemID$,
+    this.#page$,
+  ]).pipe(
     switchMap(([itemID, page]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -175,7 +181,7 @@ export class PersonsPersonInfoComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return of(null);
     }),
   );

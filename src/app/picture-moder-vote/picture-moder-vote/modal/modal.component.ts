@@ -12,8 +12,8 @@ import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vot
 })
 export class PictureModerVoteModalComponent {
   protected readonly activeModal = inject(NgbActiveModal);
-  private readonly templateService = inject(APIPictureModerVoteTemplateService);
-  private readonly moderVoteService = inject(PictureModerVoteService);
+  readonly #templateService = inject(APIPictureModerVoteTemplateService);
+  readonly #moderVoteService = inject(PictureModerVoteService);
 
   @Input() pictureId?: string;
   @Input() vote: number = 0;
@@ -24,7 +24,7 @@ export class PictureModerVoteModalComponent {
 
   protected ok() {
     if (this.save && this.vote) {
-      this.templateService
+      this.#templateService
         .createTemplate$({
           name: this.reason,
           vote: this.vote,
@@ -33,7 +33,7 @@ export class PictureModerVoteModalComponent {
     }
 
     if (this.pictureId && this.vote) {
-      this.moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+      this.#moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
     }
 
     this.activeModal.close();

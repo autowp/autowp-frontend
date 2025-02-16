@@ -29,16 +29,16 @@ interface CommentTextLine {
   templateUrl: './user-text.component.html',
 })
 export class UserTextComponent {
-  private readonly userService = inject(UserService);
+  readonly #userService = inject(UserService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
   @Input() set text(text: string) {
-    this.text$.next(text);
+    this.#text$.next(text);
   }
-  private readonly text$ = new BehaviorSubject<null | string>(null);
+  readonly #text$ = new BehaviorSubject<null | string>(null);
 
-  private readonly parseUrlHosts = [
+  readonly #parseUrlHosts = [
     'www.autowp.ru',
     'en.autowp.ru',
     'ru.autowp.ru',
@@ -53,7 +53,7 @@ export class UserTextComponent {
     'wheelsage.org',
   ];
 
-  protected readonly textPrepared$ = this.text$.pipe(
+  protected readonly textPrepared$ = this.#text$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((text) => this.prepareText$(text ? text : '')),
@@ -127,7 +127,7 @@ export class UserTextComponent {
   private processHref$(url: string): Observable<CommentTextElement> {
     const uri = URLParse(url);
 
-    const hostAllowed = this.parseUrlHosts.indexOf(uri.host.toLowerCase()) >= 0;
+    const hostAllowed = this.#parseUrlHosts.indexOf(uri.host.toLowerCase()) >= 0;
 
     if (hostAllowed) {
       return this.tryUserLink$(uri).pipe(
@@ -165,7 +165,7 @@ export class UserTextComponent {
     const userIdentity: null | string = matches[1];
 
     if (userIdentity) {
-      return this.userService.getByIdentity$(userIdentity, undefined).pipe(
+      return this.#userService.getByIdentity$(userIdentity, undefined).pipe(
         catchError(() => of(null)),
         map((user) =>
           user

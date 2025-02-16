@@ -1,5 +1,5 @@
 @if (data$ | async; as data) {
-  @if (data.current) {
+  @if (data.current && data.category) {
     <app-gallery
       [filter]="{itemID: '' + data.current.id}"
       [current]="(identity$ | async) || null"

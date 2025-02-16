@@ -9,14 +9,14 @@ import {map, shareReplay} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class APIPerspectiveService {
-  private readonly grpc = inject(AutowpClient);
+  readonly #grpc = inject(AutowpClient);
 
-  private readonly perspectives$: Observable<Perspective[]> = this.grpc.getPerspectives(new Empty()).pipe(
+  readonly #perspectives$: Observable<Perspective[]> = this.#grpc.getPerspectives(new Empty()).pipe(
     map((response) => (response.items ? response.items : [])),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public getPerspectives$(): Observable<Perspective[]> {
-    return this.perspectives$;
+    return this.#perspectives$;
   }
 }

@@ -89,12 +89,12 @@ export class AttrFormControl<TValue> extends FormControl {
   templateUrl: './spec.component.html',
 })
 export class CarsSpecificationsEditorSpecComponent {
-  private readonly attrsService = inject(APIAttrsService);
-  private readonly auth = inject(AuthService);
-  private readonly toastService = inject(ToastsService);
-  private readonly userService = inject(UserService);
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #attrsService = inject(APIAttrsService);
+  readonly #auth = inject(AuthService);
+  readonly #toastService = inject(ToastsService);
+  readonly #userService = inject(UserService);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -102,20 +102,20 @@ export class CarsSpecificationsEditorSpecComponent {
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected loading = 0;
-  private readonly change$ = new BehaviorSubject<void>(void 0);
+  readonly #change$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly user$ = this.#auth.getUser$();
 
   // fields: 'options,childs.options',
   protected readonly attributes$: Observable<APIAttrAttributeInSpecEditor[]> = this.item$.pipe(
     distinctUntilChanged(),
     switchMap((item) =>
       item?.attrZoneId
-        ? this.attrsService.getAttributes$(item.attrZoneId, null)
+        ? this.#attrsService.getAttributes$(item.attrZoneId, null)
         : throwError(() => new Error('Failed to detect attr_zone_id')),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((attributes) => this.toPlain(attributes, 0)),
@@ -128,15 +128,15 @@ export class CarsSpecificationsEditorSpecComponent {
     this.item$,
     this.user$,
     this.attributes$,
-    this.change$,
+    this.#change$,
   ]).pipe(
     switchMap(([item, user, attributes]) =>
       item && user
-        ? this.attrsClient
+        ? this.#attrsClient
             .getUserValues(
               new AttrUserValuesRequest({
                 itemId: item.id,
-                language: this.languageService.language,
+                language: this.#languageService.language,
                 userId: user.id,
                 zoneId: item.attrZoneId,
               }),
@@ -206,7 +206,7 @@ export class CarsSpecificationsEditorSpecComponent {
 
   private applyUserValues(userValues: Map<string, AttrUserValueWithUser[]>, items: AttrUserValue[]) {
     for (const userValue of items) {
-      const v: AttrUserValueWithUser = {user$: this.userService.getUser$(userValue.userId), userValue};
+      const v: AttrUserValueWithUser = {user$: this.#userService.getUser$(userValue.userId), userValue};
       const values = userValues.get(userValue.attributeId);
       if (values === undefined) {
         userValues.set(userValue.attributeId, [v]);
@@ -217,13 +217,13 @@ export class CarsSpecificationsEditorSpecComponent {
     }
   }
 
-  protected readonly values$ = combineLatest([this.item$, this.change$]).pipe(
+  protected readonly values$ = combineLatest([this.item$, this.#change$]).pipe(
     switchMap(([item]) =>
       item
-        ? this.attrsClient.getValues(
+        ? this.#attrsClient.getValues(
             new AttrValuesRequest({
               itemId: item.id,
-              language: this.languageService.language,
+              language: this.#languageService.language,
               zoneId: item.attrZoneId,
             }),
           )
@@ -241,15 +241,15 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly userValues$: Observable<Map<string, AttrUserValueWithUser[]>> = combineLatest([
     this.item$,
-    this.change$,
+    this.#change$,
   ]).pipe(
     switchMap(([item]) =>
       item
-        ? this.attrsClient.getUserValues(
+        ? this.#attrsClient.getUserValues(
             new AttrUserValuesRequest({
               fields: new AttrUserValuesFields({valueText: true}),
               itemId: item.id,
-              language: this.languageService.language,
+              language: this.#languageService.language,
               zoneId: item.attrZoneId,
             }),
           )
@@ -317,20 +317,21 @@ export class CarsSpecificationsEditorSpecComponent {
 
     this.loading++;
 
-    this.attrsClient.setUserValues(new AttrSetUserValuesRequest({items})).subscribe({
+    this.#attrsClient.setUserValues(new AttrSetUserValuesRequest({items})).subscribe({
       error: (response: unknown) => {
-        this.toastService.handleError(response);
+        this.#toastService.handleError(response);
         this.loading--;
       },
       next: () => {
-        this.change$.next();
+        this.#change$.next();
         this.loading--;
       },
     });
   }
 
-  private listOptions$: Observable<{attributeId: string; id: string; name: string; parentId: string}[]> =
-    this.attrsService.getListOptions$(undefined).pipe(
+  #listOptions$: Observable<{attributeId: string; id: string; name: string; parentId: string}[]> = this.#attrsService
+    .getListOptions$(undefined)
+    .pipe(
       map((response) =>
         (response.items ? response.items : []).map((i) => ({
           ...i.toObject(),
@@ -363,7 +364,7 @@ export class CarsSpecificationsEditorSpecComponent {
       let options$: Observable<ListOption[]> = of([]);
 
       if (item.typeId === AttrAttributeType.Id.LIST || item.typeId === AttrAttributeType.Id.TREE) {
-        options$ = this.listOptions$.pipe(
+        options$ = this.#listOptions$.pipe(
           map((response) => {
             const opts: ListOption[] = this.listOptionsTree(
               response.filter((o) => o.attributeId === item.id),

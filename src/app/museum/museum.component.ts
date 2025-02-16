@@ -35,39 +35,39 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './museum.component.html',
 })
 export class MuseumComponent {
-  private readonly acl = inject(ACLService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #acl = inject(ACLService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly museumModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly museumModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly itemID$ = this.route.paramMap.pipe(
+  readonly #itemID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly links$ = this.itemID$.pipe(
+  protected readonly links$ = this.#itemID$.pipe(
     switchMap((itemID) =>
-      this.itemsClient.getItemLinks(
+      this.#itemsClient.getItemLinks(
         new ItemLinksRequest({
           options: new ItemLinkListOptions({itemId: itemID}),
         }),
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return of(null);
     }),
   );
 
-  protected readonly pictures$ = this.itemID$.pipe(
+  protected readonly pictures$ = this.#itemID$.pipe(
     switchMap((itemID) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -94,14 +94,14 @@ export class MuseumComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
   );
 
-  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#itemID$.pipe(
     switchMap((id) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             description: true,
@@ -115,15 +115,15 @@ export class MuseumComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
+      this.#toastService.handleError(err);
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     switchMap((item) => {
       if (!item || item.itemTypeId !== ItemType.ITEM_TYPE_MUSEUM) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -131,7 +131,7 @@ export class MuseumComponent {
       return of(item);
     }),
     tap((item) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 159,
         title: item.nameText,
       });

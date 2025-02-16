@@ -29,7 +29,7 @@ import {chunkBy} from '../chunk';
   templateUrl: './index.component.html',
 })
 export class CategoriesIndexComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
@@ -72,6 +72,6 @@ export class CategoriesIndexComponent implements OnInit {
     );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 22}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 22}), 0);
   }
 }

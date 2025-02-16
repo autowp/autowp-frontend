@@ -19,20 +19,20 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './inbox-pictures.component.html',
 })
 export class AccountInboxPicturesComponent implements OnInit {
-  private readonly auth = inject(AuthService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #auth = inject(AuthService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
   protected readonly data$: Observable<PicturesList> = combineLatest([
-    this.route.queryParamMap.pipe(
+    this.#route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
     ),
-    this.auth.getUser$(),
+    this.#auth.getUser$(),
   ]).pipe(
     switchMap(([page, user]) =>
       user
@@ -67,6 +67,6 @@ export class AccountInboxPicturesComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 94}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 94}), 0);
   }
 }

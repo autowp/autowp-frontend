@@ -23,12 +23,12 @@ const rates: {[key: string]: number} = {
 })
 export class IndexDonateComponent {
   protected readonly languageService = inject(LanguageService);
-  private readonly donations = inject(DonationsClient);
+  readonly #donations = inject(DonationsClient);
 
   protected readonly goal = 2500;
-  private readonly monthlyCharge = 161.88;
+  readonly #monthlyCharge = 161.88;
 
-  protected readonly state$ = this.donations.getTransactions(new Empty()).pipe(
+  protected readonly state$ = this.#donations.getTransactions(new Empty()).pipe(
     map((res) => {
       const operations = res.items || [];
       const donations = operations
@@ -45,7 +45,7 @@ export class IndexDonateComponent {
       const totalChargesSum = charges.reduce((sum, d) => sum + (d.sum * rates[d.currency]) / 100, 0);
       const totalDonationsSum = donations.reduce((sum, d) => sum + d.sum * rates[d.currency], 0);
 
-      const total = Math.max(-totalChargesSum + this.monthlyCharge, totalDonationsSum);
+      const total = Math.max(-totalChargesSum + this.#monthlyCharge, totalDonationsSum);
 
       return {
         charges: charges.map((o) => ({
@@ -62,8 +62,8 @@ export class IndexDonateComponent {
           percent: (100 * o.sum * rates[o.currency]) / total,
           sum: o.sum,
         })),
-        monthlyCharge: this.monthlyCharge,
-        monthlyChargePercent: (100 * this.monthlyCharge) / total,
+        monthlyCharge: this.#monthlyCharge,
+        monthlyChargePercent: (100 * this.#monthlyCharge) / total,
       };
     }),
   );

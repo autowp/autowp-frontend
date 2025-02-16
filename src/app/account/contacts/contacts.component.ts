@@ -22,45 +22,45 @@ import {UserComponent} from '../../user/user/user.component';
   templateUrl: './contacts.component.html',
 })
 export class AccountContactsComponent implements OnInit {
-  private readonly contactsService = inject(ContactsService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly auth = inject(AuthService);
-  private readonly contacts = inject(ContactsClient);
-  private readonly languageService = inject(LanguageService);
-  private readonly keycloak = inject(Keycloak);
+  readonly #contactsService = inject(ContactsService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #auth = inject(AuthService);
+  readonly #contacts = inject(ContactsClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #keycloak = inject(Keycloak);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly items$: Observable<Contact[]> = this.auth.getUser$().pipe(
+  protected readonly items$: Observable<Contact[]> = this.#auth.getUser$().pipe(
     map((user) => {
       if (!user) {
-        this.keycloak.login({
-          locale: this.languageService.language,
+        this.#keycloak.login({
+          locale: this.#languageService.language,
           redirectUri: window.location.href,
         });
         return EMPTY;
       }
       return user;
     }),
-    switchMap(() => this.reload$),
-    switchMap(() => this.contactsService.getContacts$()),
+    switchMap(() => this.#reload$),
+    switchMap(() => this.#contactsService.getContacts$()),
     catchError((error: unknown) => {
-      this.toastService.handleError(error);
+      this.#toastService.handleError(error);
       return EMPTY;
     }),
     map((response) => response.items || []),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 198}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 198}), 0);
   }
 
   protected deleteContact(id: string) {
-    this.contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+    this.#contacts.deleteContact(new DeleteContactRequest({userId: id})).subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
-        this.reload$.next(void 0);
+        this.#reload$.next(void 0);
       },
     });
     return false;

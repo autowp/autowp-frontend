@@ -20,11 +20,11 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './delete.component.html',
 })
 export class AccountDeleteComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly auth = inject(AuthService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly usersGrpc = inject(UsersClient);
+  readonly #router = inject(Router);
+  readonly #auth = inject(AuthService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #usersGrpc = inject(UsersClient);
 
   protected readonly form = {
     password_old: '',
@@ -32,16 +32,16 @@ export class AccountDeleteComponent implements OnInit {
   protected invalidParams?: InvalidParams;
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 137}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 137}), 0);
   }
 
   protected submit() {
-    this.auth
+    this.#auth
       .getUser$()
       .pipe(
         switchMap((user) =>
           user
-            ? this.usersGrpc.deleteUser(
+            ? this.#usersGrpc.deleteUser(
                 new APIDeleteUserRequest({
                   password: this.form.password_old,
                   userId: user.id,
@@ -52,15 +52,15 @@ export class AccountDeleteComponent implements OnInit {
       )
       .subscribe({
         error: (response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           if (response instanceof GrpcStatusEvent && response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
             this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           }
         },
         next: () => {
-          this.auth.signOut$();
-          this.router.navigate(['/account/delete/deleted']);
+          this.#auth.signOut$();
+          this.#router.navigate(['/account/delete/deleted']);
         },
       });
   }

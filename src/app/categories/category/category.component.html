@@ -10,11 +10,11 @@
       @for (item of path$ | async; track item; let last = $last) {
         @if (!last) {
           <li class="breadcrumb-item">
-            @if (item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
-              <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
+            @if (item.item.itemTypeId !== ItemType.ITEM_TYPE_CATEGORY) {
+              <a [routerLink]="item.routerLink" [innerHtml]="item.item.nameHtml"></a>
             } @else {
               <div ngbDropdown class="d-inline-block" placement="bottom-right" (openChange)="dropdownOpenChange(item)">
-                <a [routerLink]="item.routerLink" [innerHtml]="item.item.name_html"></a>
+                <a [routerLink]="item.routerLink" [innerHtml]="item.item.nameHtml"></a>
                 <a ngbDropdownToggle style="cursor: pointer"></a>
                 <div ngbDropdownMenu>
                   @if (!item.loaded) {
@@ -43,7 +43,7 @@
 @if (!(layoutParams$ | async)?.isGalleryPage) {
   @if (current$ | async; as current) {
     <div class="page-header">
-      <h1 [innerHtml]="current.name_html"></h1>
+      <h1 [innerHtml]="current.nameHtml"></h1>
     </div>
   }
 }

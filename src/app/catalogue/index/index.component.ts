@@ -51,11 +51,11 @@ interface PictureRoute {
   templateUrl: './index.component.html',
 })
 export class CatalogueIndexComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly acl = inject(ACLService);
-  private readonly router = inject(Router);
-  private readonly catalogue = inject(CatalogueService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #acl = inject(ACLService);
+  readonly #router = inject(Router);
+  readonly #catalogue = inject(CatalogueService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
@@ -63,13 +63,13 @@ export class CatalogueIndexComponent {
 
   protected readonly ItemType = ItemType;
 
-  protected readonly isModer$ = this.acl
+  protected readonly isModer$ = this.#acl
     .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly brand$: Observable<APIItem> = combineLatest([
     this.isModer$,
-    this.route.paramMap.pipe(
+    this.#route.paramMap.pipe(
       map((params) => params.get('brand')),
       distinctUntilChanged(),
       debounceTime(10),
@@ -77,7 +77,7 @@ export class CatalogueIndexComponent {
   ]).pipe(
     switchMap(([isModer, catname]) => {
       if (!catname) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -114,7 +114,7 @@ export class CatalogueIndexComponent {
     }),
     switchMap((response) => {
       if (!response.items || response.items.length <= 0) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -123,7 +123,7 @@ export class CatalogueIndexComponent {
       return of(response.items[0]);
     }),
     tap((brand) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 10,
         title: brand.nameText,
       });
@@ -160,7 +160,7 @@ export class CatalogueIndexComponent {
     map((response) => {
       const pictures: PictureRoute[] = (response.items || []).map((pic) => ({
         picture: pic,
-        route: this.catalogue.picturePathToRoute(pic),
+        route: this.#catalogue.picturePathToRoute(pic),
       }));
 
       return chunkBy(pictures, 4);

@@ -16,28 +16,28 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './article.component.html',
 })
 export class ArticlesArticleComponent {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly articlesClient = inject(ArticlesClient);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #articlesClient = inject(ArticlesClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
 
-  protected readonly article$ = this.route.paramMap.pipe(
+  protected readonly article$ = this.#route.paramMap.pipe(
     map((params) => params.get('catname')),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((catname) => {
       if (!catname) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
       }
       return of(catname);
     }),
-    switchMap((catname) => this.articlesClient.getItemByCatname(new ArticleByCatnameRequest({catname}))),
+    switchMap((catname) => this.#articlesClient.getItemByCatname(new ArticleByCatnameRequest({catname}))),
     map((article) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 32,
         title: article.name,
       });
@@ -46,11 +46,11 @@ export class ArticlesArticleComponent {
     }),
     catchError((response: unknown) => {
       if (response instanceof GrpcStatusEvent && response.statusCode === 5) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
       } else {
-        this.toastService.handleError(response);
+        this.#toastService.handleError(response);
       }
       return EMPTY;
     }),

@@ -24,14 +24,14 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnDestroy, OnInit {
-  private readonly api = inject(APIService);
-  private readonly languageService = inject(LanguageService);
-  private readonly keycloak = inject(Keycloak);
-  private readonly auth = inject(AuthService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly timezone = inject(TimezoneService);
-  private readonly toastService = inject(ToastsService);
-  private readonly usersClient = inject(UsersClient);
+  readonly #api = inject(APIService);
+  readonly #languageService = inject(LanguageService);
+  readonly #keycloak = inject(Keycloak);
+  readonly #auth = inject(AuthService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #timezone = inject(TimezoneService);
+  readonly #toastService = inject(ToastsService);
+  readonly #usersClient = inject(UsersClient);
 
   protected user?: APIUser;
 
@@ -44,14 +44,14 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   protected votesPerDay: number = 0;
   protected votesLeft: number = 0;
   protected photo: APIImage | undefined = undefined;
-  private sub?: Subscription;
+  #sub?: Subscription;
 
   @ViewChild('input') input?: ElementRef;
 
   protected readonly changeProfileUrl =
     environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
-  protected readonly timezones$ = this.timezone.getTimezones$();
+  protected readonly timezones$ = this.#timezone.getTimezones$();
 
   protected readonly languages: {name: string; value: string}[] = environment.languages.map((language) => ({
     name: language.name,
@@ -59,15 +59,15 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   }));
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 129}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 129}), 0);
 
-    this.sub = this.auth
+    this.#sub = this.#auth
       .getUser$()
       .pipe(
         switchMap((user) => {
           if (!user) {
-            this.keycloak.login({
-              locale: this.languageService.language,
+            this.#keycloak.login({
+              locale: this.#languageService.language,
               redirectUri: window.location.href,
             });
             return EMPTY;
@@ -78,7 +78,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
           return of(user);
         }),
         switchMap(() =>
-          this.usersClient.me(
+          this.#usersClient.me(
             new APIMeRequest({
               fields: new UserFields({
                 img: true,
@@ -91,7 +91,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
           ),
         ),
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
       )
@@ -104,24 +104,24 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
       });
   }
   ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
+    if (this.#sub) {
+      this.#sub.unsubscribe();
     }
   }
 
   private showSavedMessage() {
-    this.toastService.success($localize`Data saved`);
+    this.#toastService.success($localize`Data saved`);
   }
 
   protected sendSettings() {
     this.settingsInvalidParams = {};
 
-    this.api.request$<void>('PUT', 'user/me', {body: this.settings}).subscribe({
+    this.#api.request$<void>('PUT', 'user/me', {body: this.settings}).subscribe({
       error: (response: unknown) => {
         if (response instanceof HttpErrorResponse && response.status === 400) {
           this.settingsInvalidParams = response.error.invalid_params;
         } else {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
         }
       },
       next: () => {
@@ -136,8 +136,8 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   }*/
 
   protected resetPhoto() {
-    this.api.request$('DELETE', 'user/me/photo').subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+    this.#api.request$('DELETE', 'user/me/photo').subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
         if (this.user) {
           this.user.avatar = undefined;
@@ -158,7 +158,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    return this.api
+    return this.#api
       .request$('POST', 'user/me/photo', {body: formData})
       .pipe(
         catchError((response: unknown) => {
@@ -170,7 +170,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
             return EMPTY;
           }
 
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
         tap(() => {
@@ -178,9 +178,9 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
             this.input.nativeElement.value = '';
           }
         }),
-        switchMap(() => this.usersClient.me(new APIMeRequest({fields: new UserFields({img: true})}))),
+        switchMap(() => this.#usersClient.me(new APIMeRequest({fields: new UserFields({img: true})}))),
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
         tap((response) => {

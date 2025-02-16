@@ -15,8 +15,8 @@ import {switchMap} from 'rxjs/operators';
   templateUrl: './brand.component.html',
 })
 export class IndexBrandsBrandComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set brand(item: APITopBrandsListItem) {
     this.brand$.next(item);
@@ -27,10 +27,10 @@ export class IndexBrandsBrandComponent {
   protected readonly response$ = this.brand$.pipe(
     switchMap((brand) =>
       brand
-        ? this.itemsClient.getBrandNewItems(
+        ? this.#itemsClient.getBrandNewItems(
             new NewItemsRequest({
               itemId: '' + brand.id,
-              language: this.languageService.language,
+              language: this.#languageService.language,
             }),
           )
         : EMPTY,

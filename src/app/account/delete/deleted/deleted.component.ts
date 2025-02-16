@@ -8,9 +8,9 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './deleted.component.html',
 })
 export class AccountDeletedComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 93}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 93}), 0);
   }
 }

@@ -1,22 +1,23 @@
 import {inject, Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ItemType} from '@grpc/spec.pb';
-import {APIItem, APIPathItem, ItemService} from '@services/item';
+import {APIItem, ItemType, PathItem, PathRequest} from '@grpc/spec.pb';
+import {ItemsClient} from '@grpc/spec.pbsc';
+import {LanguageService} from '@services/language';
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 export interface CategoryPipeResult {
-  category: APIItem | null;
-  current: APIItem;
-  path: APIPathItem[];
+  category: APIItem | undefined;
+  current: APIItem | undefined;
+  path: PathItem[];
   pathCatnames: string[];
-  pathItems: PathItem[];
+  pathItems: SvcPathItem[];
 }
 
-export interface PathItem {
+interface SvcPathItem {
   item: APIItem;
   loaded: boolean;
-  parent_id: number;
+  parent_id: string;
   routerLink: string[];
 }
 
@@ -24,7 +25,8 @@ export interface PathItem {
   providedIn: 'root',
 })
 export class CategoriesService {
-  private readonly itemService = inject(ItemService);
+  readonly #languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
 
   public categoryPipe$(route: ActivatedRoute): Observable<CategoryPipeResult> {
     const categoryPipe$ = route.paramMap.pipe(
@@ -47,15 +49,19 @@ export class CategoriesService {
         ),
       ),
       switchMap((params) =>
-        this.itemService.getPath$({
-          catname: params.category,
-          path: params.path,
-        }),
+        this.#itemsClient.getPath(
+          new PathRequest({
+            catname: params.category,
+            language: this.#languageService.language,
+            path: params.path,
+          }),
+        ),
       ),
       map((response) => {
-        let category: APIItem | null = null;
-        for (const item of response.path) {
-          if (item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
+        let category: APIItem | undefined = undefined;
+        const path = response.path || [];
+        for (const item of path) {
+          if (item.item?.itemTypeId !== ItemType.ITEM_TYPE_CATEGORY) {
             break;
           }
           category = item.item;
@@ -63,26 +69,26 @@ export class CategoriesService {
 
         let catname = '';
         const pathCatnames: string[] = [];
-        const pathItems: PathItem[] = [];
-        for (const item of response.path) {
-          if (item.item.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+        const pathItems: SvcPathItem[] = [];
+        for (const item of path) {
+          if (item.item?.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
             catname = item.item.catname;
           }
-          if (item.item.item_type_id !== ItemType.ITEM_TYPE_CATEGORY) {
+          if (item.item?.itemTypeId !== ItemType.ITEM_TYPE_CATEGORY) {
             pathCatnames.push(item.catname);
           }
           pathItems.push({
-            item: item.item,
+            item: item.item!,
             loaded: false,
-            parent_id: item.parent_id,
+            parent_id: item.parentId,
             routerLink: ['/category', catname].concat(pathCatnames),
           });
         }
 
         return {
           category,
-          current: response.path[response.path.length - 1].item,
-          path: response.path,
+          current: path[path.length - 1].item,
+          path: path,
           pathCatnames,
           pathItems,
         };

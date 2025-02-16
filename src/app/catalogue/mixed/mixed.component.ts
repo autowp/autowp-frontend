@@ -32,26 +32,26 @@ import {BrandPerspectivePageData} from '../catalogue.module';
   templateUrl: './mixed.component.html',
 })
 export class CatalogueMixedComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
 
-  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((catname) => {
       if (!catname) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
       }
-      return this.itemsClient.list(
+      return this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
@@ -68,7 +68,7 @@ export class CatalogueMixedComponent {
     map((response) => (response.items?.length ? response.items[0] : null)),
     switchMap((brand) => {
       if (!brand) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -78,15 +78,15 @@ export class CatalogueMixedComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((queryParams) => parseInt(queryParams.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly data$ = (this.route.data as Observable<BrandPerspectivePageData>).pipe(
+  protected readonly data$ = (this.#route.data as Observable<BrandPerspectivePageData>).pipe(
     tap((data) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: data.page_id,
         title: data.title,
       });
@@ -95,7 +95,7 @@ export class CatalogueMixedComponent {
   );
 
   protected readonly pictures$: Observable<{paginator: Pages | undefined; pictures: Picture[][]}> = combineLatest([
-    this.page$,
+    this.#page$,
     this.brand$,
     this.data$,
   ]).pipe(
@@ -128,7 +128,7 @@ export class CatalogueMixedComponent {
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
+      this.#toastService.handleError(err);
       return EMPTY;
     }),
     map((response) => ({

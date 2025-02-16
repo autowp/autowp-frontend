@@ -20,7 +20,7 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class CarsSelectEngineTreeItemComponent {
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
@@ -56,7 +56,7 @@ export class CarsSelectEngineTreeItemComponent {
         )
         .subscribe({
           error: (response: unknown) => {
-            this.toastService.handleError(response);
+            this.#toastService.handleError(response);
             this.loading = false;
           },
           next: (response) => {

@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
+  APIItem,
   ItemFields,
   ItemParent,
   ItemParentFields,
@@ -23,7 +23,6 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -61,7 +60,7 @@ export class CategoriesCategoryItemComponent {
     tap(({current}) => {
       this.#pageEnv.set({
         pageId: 22,
-        title: current.name_text,
+        title: current?.nameText || '',
       });
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -77,8 +76,12 @@ export class CategoriesCategoryItemComponent {
     items: {item: ItemParent; parentRouterLink: string[]}[];
     paginator: Pages | undefined;
   }> = combineLatest([this.#categoryData$, this.#page$]).pipe(
-    switchMap(([{category, current, pathCatnames}, page]) =>
-      this.#itemsClient
+    switchMap(([{category, current, pathCatnames}, page]) => {
+      if (!current) {
+        return EMPTY;
+      }
+
+      return this.#itemsClient
         .getItemParents(
           new ItemParentsRequest({
             fields: new ItemParentFields({
@@ -109,7 +112,7 @@ export class CategoriesCategoryItemComponent {
             language: this.#languageService.language,
             limit: 10,
             options: new ItemParentListOptions({
-              parentId: '' + current.id,
+              parentId: current.id,
             }),
             order: ItemParentsRequest.Order.CATEGORIES_FIRST,
             page,
@@ -131,8 +134,8 @@ export class CategoriesCategoryItemComponent {
             })),
             paginator: response.paginator,
           })),
-        ),
-    ),
+        );
+    }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
@@ -141,7 +144,11 @@ export class CategoriesCategoryItemComponent {
     this.itemParents$,
   ]).pipe(
     switchMap(([{category, current, pathCatnames}, itemParents]) => {
-      if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length <= 0) {
+      if (!current) {
+        return EMPTY;
+      }
+
+      if (current.itemTypeId === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length <= 0) {
         return of([]);
       }
 
@@ -153,7 +160,7 @@ export class CategoriesCategoryItemComponent {
             limit: 4,
             options: new PictureListOptions({
               pictureItem: new PictureItemListOptions({
-                itemId: '' + current.id,
+                itemId: current.id,
               }),
             }),
           }),
@@ -169,7 +176,7 @@ export class CategoriesCategoryItemComponent {
               route: [
                 '/category',
                 category ? category.catname : '',
-                ...(current.item_type_id === ItemType.ITEM_TYPE_CATEGORY ? [] : pathCatnames),
+                ...(current.itemTypeId === ItemType.ITEM_TYPE_CATEGORY ? [] : pathCatnames),
                 'pictures',
                 picture.identity,
               ],
@@ -181,11 +188,11 @@ export class CategoriesCategoryItemComponent {
 
   protected readonly currentRouterLinkPrefix$ = this.#categoryData$.pipe(
     map(({category, current, pathCatnames}) => {
-      if (!category) {
+      if (!category || !current) {
         return null;
       }
 
-      if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+      if (current.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
         return ['/category', current.catname];
       }
 
@@ -193,12 +200,13 @@ export class CategoriesCategoryItemComponent {
     }),
   );
 
-  protected readonly item$: Observable<GRPCAPIItem | null> = combineLatest([
-    this.#categoryData$,
-    this.itemParents$,
-  ]).pipe(
+  protected readonly item$: Observable<APIItem | null> = combineLatest([this.#categoryData$, this.itemParents$]).pipe(
     switchMap(([{current}, itemParents]) => {
-      if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length > 0) {
+      if (!current) {
+        return EMPTY;
+      }
+
+      if (current.itemTypeId === ItemType.ITEM_TYPE_CATEGORY || itemParents.items.length > 0) {
         return of(null);
       }
 
@@ -227,14 +235,14 @@ export class CategoriesCategoryItemComponent {
             specsRoute: true,
             twins: new ItemsRequest(),
           }),
-          id: '' + current.id,
+          id: current.id,
           language: this.#languageService.language,
         }),
       );
     }),
   );
 
-  protected readonly current$: Observable<APIItem> = this.#categoryData$.pipe(
+  protected readonly current$: Observable<APIItem | undefined> = this.#categoryData$.pipe(
     map(({current}) => current),
     shareReplay({bufferSize: 1, refCount: false}),
   );

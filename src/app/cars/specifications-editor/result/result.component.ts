@@ -13,24 +13,24 @@ import {map, switchMap} from 'rxjs/operators';
   templateUrl: './result.component.html',
 })
 export class CarsSpecificationsEditorResultComponent {
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly sanitizer = inject(DomSanitizer);
-  private readonly languageService = inject(LanguageService);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #sanitizer = inject(DomSanitizer);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
-    this.item$.next(item);
+    this.#item$.next(item);
   }
-  private readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly #item$ = new BehaviorSubject<APIItem | null>(null);
 
-  protected readonly html$ = this.item$.pipe(
+  protected readonly html$ = this.#item$.pipe(
     switchMap((item) =>
       item
-        ? this.attrsClient.getSpecifications(
-            new GetSpecificationsRequest({itemId: item.id, language: this.languageService.language}),
+        ? this.#attrsClient.getSpecifications(
+            new GetSpecificationsRequest({itemId: item.id, language: this.#languageService.language}),
           )
         : EMPTY,
     ),
     // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
-    map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),
+    map((response) => this.#sanitizer.bypassSecurityTrustHtml(response.html)),
   );
 }

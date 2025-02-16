@@ -96,13 +96,13 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
   providedIn: 'root',
 })
 export class GrpcAuthInterceptor implements GrpcInterceptor {
-  private readonly keycloak = inject(Keycloak);
+  readonly #keycloak = inject(Keycloak);
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
     next: GrpcHandler,
   ): Observable<GrpcEvent<S>> {
-    const token = this.keycloak.token;
+    const token = this.#keycloak.token;
 
     if (!token) {
       return next.handle(request);
@@ -118,9 +118,9 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   providedIn: 'root',
 })
 export class APIService {
-  private readonly http = inject(HttpClient);
-  private readonly toasts = inject(ToastsService);
-  private readonly language = inject(LanguageService);
+  readonly #http = inject(HttpClient);
+  readonly #toasts = inject(ToastsService);
+  readonly #language = inject(LanguageService);
 
   /**
    * Constructs a request that interprets the body as a text string and
@@ -463,15 +463,15 @@ export class APIService {
     }
 
     if (options.headers instanceof HttpHeaders) {
-      options.headers.append('Accept-Language', this.language.language);
+      options.headers.append('Accept-Language', this.#language.language);
     } else {
-      options.headers['Accept-Language'] = this.language.language;
+      options.headers['Accept-Language'] = this.#language.language;
     }
 
-    return this.http.request(method, environment.apiUrl + url, options).pipe(
+    return this.#http.request(method, environment.apiUrl + url, options).pipe(
       catchError((response: unknown) => {
         if (response instanceof HttpErrorResponse && response.status === 429) {
-          this.toasts.handleError(response);
+          this.#toasts.handleError(response);
         }
         return throwError(() => response);
       }),

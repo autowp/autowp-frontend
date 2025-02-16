@@ -4,7 +4,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
-import {APIImage, APIService} from './api.service';
+import {APIImage} from './api.service';
 
 export interface APIItem {
   begin_model_year: number;
@@ -56,16 +56,6 @@ export interface APIItemChildsCounts {
   tuning: number;
 }
 
-export interface APIItemsGetPathResponse {
-  path: APIPathItem[];
-}
-
-export interface APIPathItem {
-  catname: string;
-  item: APIItem;
-  parent_id: number;
-}
-
 export interface APIPathTreeItem {
   catname: string;
   item_type_id: ItemType;
@@ -75,12 +65,6 @@ export interface APIPathTreeItem {
 export interface APIPathTreeItemParent {
   catname: string;
   item: APIPathTreeItem;
-}
-
-export interface GetPathServiceOptions {
-  [key: string]: string;
-  catname: string;
-  path: string;
 }
 
 export const allowedItemTypeCombinations: {
@@ -102,7 +86,6 @@ export const allowedItemTypeCombinations: {
   providedIn: 'root',
 })
 export class ItemService {
-  readonly #api = inject(APIService);
   readonly #itemsClient = inject(ItemsClient);
 
   public setItemVehicleTypes$(itemId: string, ids: string[]): Observable<void> {
@@ -155,11 +138,5 @@ export class ItemService {
           return forkJoin(promises).pipe(map(() => void 0));
         }),
       );
-  }
-
-  public getPath$(options?: GetPathServiceOptions): Observable<APIItemsGetPathResponse> {
-    return this.#api.request$<APIItemsGetPathResponse>('GET', 'item/path', {
-      params: options,
-    });
   }
 }

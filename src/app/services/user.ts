@@ -8,22 +8,22 @@ import {map, shareReplay, tap} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserService {
-  private readonly usersClient = inject(UsersClient);
+  readonly #usersClient = inject(UsersClient);
 
-  private cache: Map<string, APIUser> = new Map<string, APIUser>();
-  private promises = new Map<string, Observable<null>>();
+  #cache: Map<string, APIUser> = new Map<string, APIUser>();
+  #promises = new Map<string, Observable<null>>();
 
-  private cache2 = new Map<string, Observable<APIUser | null>>();
+  #cache2 = new Map<string, Observable<APIUser | null>>();
 
   private queryUsers$(ids: string[]): Observable<null> {
     const toRequest: string[] = [];
     const waitFor: Observable<null>[] = [];
     for (const id of ids) {
-      const oldUser = this.cache.get(id);
+      const oldUser = this.#cache.get(id);
       if (oldUser !== undefined) {
         continue;
       }
-      const oldPromise$ = this.promises.get(id);
+      const oldPromise$ = this.#promises.get(id);
       if (oldPromise$ !== undefined) {
         waitFor.push(oldPromise$);
         continue;
@@ -32,7 +32,7 @@ export class UserService {
     }
 
     if (toRequest.length > 0) {
-      const promise$: Observable<null> = this.usersClient
+      const promise$: Observable<null> = this.#usersClient
         .getUsers(
           new APIUsersRequest({
             id: toRequest,
@@ -42,7 +42,7 @@ export class UserService {
         .pipe(
           tap((response) => {
             for (const item of response.items || []) {
-              this.cache.set(item.id, item);
+              this.#cache.set(item.id, item);
             }
           }),
           map(() => null),
@@ -51,7 +51,7 @@ export class UserService {
       waitFor.push(promise$);
 
       for (const id of toRequest) {
-        this.promises.set(id, promise$);
+        this.#promises.set(id, promise$);
       }
     }
 
@@ -67,7 +67,7 @@ export class UserService {
       map(() => {
         const result = new Map<string, APIUser>();
         for (const id of ids) {
-          const user = this.cache.get(id);
+          const user = this.#cache.get(id);
           if (user === undefined) {
             throw new Error('Failed to query user ' + id);
           }
@@ -83,16 +83,16 @@ export class UserService {
       return of(null);
     }
 
-    const cached$ = this.cache2.get(id);
+    const cached$ = this.#cache2.get(id);
     if (cached$) {
       return cached$;
     }
 
-    const o$ = this.usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(
+    const o$ = this.#usersClient.getUser(new APIGetUserRequest({userId: id})).pipe(
       map((user) => (user ? user : null)),
       shareReplay({bufferSize: 1, refCount: false}),
     );
-    this.cache2.set(id, o$);
+    this.#cache2.set(id, o$);
 
     return o$;
   }
@@ -101,9 +101,9 @@ export class UserService {
     const result = RegExp(/^user(\d+)$/).exec(identity);
 
     if (result) {
-      return this.usersClient.getUser(new APIGetUserRequest({fields, userId: result[1]}));
+      return this.#usersClient.getUser(new APIGetUserRequest({fields, userId: result[1]}));
     }
 
-    return this.usersClient.getUser(new APIGetUserRequest({fields, identity}));
+    return this.#usersClient.getUser(new APIGetUserRequest({fields, identity}));
   }
 }

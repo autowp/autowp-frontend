@@ -13,9 +13,9 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './list-item.component.html',
 })
 export class NewListItemComponent {
-  private readonly acl = inject(ACLService);
+  readonly #acl = inject(ACLService);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   @Input() item: APIItem | null = null;
   @Input() pictures: Picture[] = [];
   @Input() totalPictures: number = 0;

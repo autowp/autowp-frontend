@@ -25,9 +25,9 @@ interface ThumbnailAPIPicture extends Picture {
   templateUrl: './thumbnail2.component.html',
 })
 export class Thumbnail2Component {
-  private readonly perspectiveService = inject(APIPerspectiveService);
-  private readonly acl = inject(ACLService);
-  private readonly userService = inject(UserService);
+  readonly #perspectiveService = inject(APIPerspectiveService);
+  readonly #acl = inject(ACLService);
+  readonly #userService = inject(UserService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
 
@@ -40,7 +40,7 @@ export class Thumbnail2Component {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  protected readonly perspectiveOptions$ = this.perspectiveService.getPerspectives$().pipe(
+  protected readonly perspectiveOptions$ = this.#perspectiveService.getPerspectives$().pipe(
     map((options) =>
       options.map((option) => ({
         id: option.id,
@@ -48,10 +48,10 @@ export class Thumbnail2Component {
       })),
     ),
   );
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => this.userService.getUser$(picture?.ownerId)),
+    switchMap((picture) => this.#userService.getUser$(picture?.ownerId)),
   );
 
   protected savePerspective(pictureItem: PictureItem) {

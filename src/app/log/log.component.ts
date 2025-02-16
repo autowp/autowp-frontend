@@ -32,12 +32,12 @@ import {UserComponent} from '../user/user/user.component';
   templateUrl: './log.component.html',
 })
 export class LogComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
-  private readonly logClient = inject(LogClient);
-  private readonly userService = inject(UserService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #logClient = inject(LogClient);
+  readonly #userService = inject(UserService);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
@@ -50,7 +50,7 @@ export class LogComponent implements OnInit {
       user$: Observable<APIUser | null>;
     }[];
     paginator: Pages | undefined;
-  }> = this.route.queryParamMap.pipe(
+  }> = this.#route.queryParamMap.pipe(
     map((params) => ({
       article_id: params.get('article_id'),
       item_id: params.get('item_id'),
@@ -61,7 +61,7 @@ export class LogComponent implements OnInit {
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
     switchMap((params) =>
-      this.logClient.getEvents(
+      this.#logClient.getEvents(
         new LogEventsRequest({
           articleId: params.article_id ?? undefined,
           itemId: params.item_id ?? undefined,
@@ -80,7 +80,7 @@ export class LogComponent implements OnInit {
         createdAt: event.createdAt?.toDate(),
         description: event.description,
         items: event.items.map((item) =>
-          this.itemsClient.item(
+          this.#itemsClient.item(
             new ItemRequest({
               fields: new ItemFields({nameHtml: true}),
               id: item,
@@ -104,13 +104,13 @@ export class LogComponent implements OnInit {
               }),
             ),
         ),
-        user$: this.userService.getUser$(event.userId),
+        user$: this.#userService.getUser$(event.userId),
       })),
       paginator: response.paginator,
     })),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 75}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 75}), 0);
   }
 }

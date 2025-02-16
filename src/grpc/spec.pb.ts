@@ -55867,6 +55867,504 @@ export module SetItemEngineRequest {
 }
 
 /**
+ * Message implementation for goautowp.PathRequest
+ */
+export class PathRequest implements GrpcMessage {
+  static id = 'goautowp.PathRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PathRequest();
+    PathRequest.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PathRequest) {
+    _instance.catname = _instance.catname || '';
+    _instance.path = _instance.path || '';
+    _instance.language = _instance.language || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PathRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.catname = _reader.readString();
+          break;
+        case 2:
+          _instance.path = _reader.readString();
+          break;
+        case 3:
+          _instance.language = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PathRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PathRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.catname) {
+      _writer.writeString(1, _instance.catname);
+    }
+    if (_instance.path) {
+      _writer.writeString(2, _instance.path);
+    }
+    if (_instance.language) {
+      _writer.writeString(3, _instance.language);
+    }
+  }
+
+  private _catname: string;
+  private _path: string;
+  private _language: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PathRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PathRequest.AsObject>) {
+    _value = _value || {};
+    this.catname = _value.catname;
+    this.path = _value.path;
+    this.language = _value.language;
+    PathRequest.refineValues(this);
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get path(): string {
+    return this._path;
+  }
+  set path(value: string) {
+    this._path = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PathRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PathRequest.AsObject {
+    return {
+      catname: this.catname,
+      path: this.path,
+      language: this.language
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PathRequest.AsProtobufJSON {
+    return {
+      catname: this.catname,
+      path: this.path,
+      language: this.language
+    };
+  }
+}
+export module PathRequest {
+  /**
+   * Standard JavaScript object representation for PathRequest
+   */
+  export interface AsObject {
+    catname: string;
+    path: string;
+    language: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PathRequest
+   */
+  export interface AsProtobufJSON {
+    catname: string;
+    path: string;
+    language: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PathResponse
+ */
+export class PathResponse implements GrpcMessage {
+  static id = 'goautowp.PathResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PathResponse();
+    PathResponse.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PathResponse) {
+    _instance.path = _instance.path || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PathResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new PathItem();
+          _reader.readMessage(
+            messageInitializer1,
+            PathItem.deserializeBinaryFromReader
+          );
+          (_instance.path = _instance.path || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PathResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: PathResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.path && _instance.path.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.path as any,
+        PathItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _path?: PathItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PathResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PathResponse.AsObject>) {
+    _value = _value || {};
+    this.path = (_value.path || []).map(m => new PathItem(m));
+    PathResponse.refineValues(this);
+  }
+  get path(): PathItem[] | undefined {
+    return this._path;
+  }
+  set path(value: PathItem[] | undefined) {
+    this._path = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PathResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PathResponse.AsObject {
+    return {
+      path: (this.path || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PathResponse.AsProtobufJSON {
+    return {
+      path: (this.path || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module PathResponse {
+  /**
+   * Standard JavaScript object representation for PathResponse
+   */
+  export interface AsObject {
+    path?: PathItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for PathResponse
+   */
+  export interface AsProtobufJSON {
+    path: PathItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.PathItem
+ */
+export class PathItem implements GrpcMessage {
+  static id = 'goautowp.PathItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new PathItem();
+    PathItem.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: PathItem) {
+    _instance.catname = _instance.catname || '';
+    _instance.item = _instance.item || undefined;
+    _instance.parentId = _instance.parentId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: PathItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.catname = _reader.readString();
+          break;
+        case 2:
+          _instance.item = new APIItem();
+          _reader.readMessage(
+            _instance.item,
+            APIItem.deserializeBinaryFromReader
+          );
+          break;
+        case 3:
+          _instance.parentId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    PathItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: PathItem, _writer: BinaryWriter) {
+    if (_instance.catname) {
+      _writer.writeString(1, _instance.catname);
+    }
+    if (_instance.item) {
+      _writer.writeMessage(
+        2,
+        _instance.item as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.parentId) {
+      _writer.writeInt64String(3, _instance.parentId);
+    }
+  }
+
+  private _catname: string;
+  private _item?: APIItem;
+  private _parentId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of PathItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<PathItem.AsObject>) {
+    _value = _value || {};
+    this.catname = _value.catname;
+    this.item = _value.item ? new APIItem(_value.item) : undefined;
+    this.parentId = _value.parentId;
+    PathItem.refineValues(this);
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get item(): APIItem | undefined {
+    return this._item;
+  }
+  set item(value: APIItem | undefined) {
+    this._item = value;
+  }
+  get parentId(): string {
+    return this._parentId;
+  }
+  set parentId(value: string) {
+    this._parentId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    PathItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): PathItem.AsObject {
+    return {
+      catname: this.catname,
+      item: this.item ? this.item.toObject() : undefined,
+      parentId: this.parentId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): PathItem.AsProtobufJSON {
+    return {
+      catname: this.catname,
+      item: this.item ? this.item.toProtobufJSON(options) : null,
+      parentId: this.parentId
+    };
+  }
+}
+export module PathItem {
+  /**
+   * Standard JavaScript object representation for PathItem
+   */
+  export interface AsObject {
+    catname: string;
+    item?: APIItem.AsObject;
+    parentId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for PathItem
+   */
+  export interface AsProtobufJSON {
+    catname: string;
+    item: APIItem.AsProtobufJSON | null;
+    parentId: string;
+  }
+}
+
+/**
  * Message implementation for goautowp.AddCommentRequest
  */
 export class AddCommentRequest implements GrpcMessage {

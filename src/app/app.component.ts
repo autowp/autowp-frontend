@@ -52,28 +52,28 @@ export class AppComponent {
   protected readonly auth = inject(AuthService);
   protected readonly acl = inject(ACLService);
   protected readonly router = inject(Router);
-  private readonly messageService = inject(MessageService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly languageService = inject(LanguageService);
-  private readonly modalService = inject(NgbModal);
-  private readonly renderer = inject(Renderer2);
-  private readonly keycloak = inject(Keycloak);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #messageService = inject(MessageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #languageService = inject(LanguageService);
+  readonly #modalService = inject(NgbModal);
+  readonly #renderer = inject(Renderer2);
+  readonly #keycloak = inject(Keycloak);
+  readonly #itemsClient = inject(ItemsClient);
 
   protected languages: Language[] = environment.languages;
-  protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$: Observable<LayoutParams> = this.#pageEnv.layoutParams$.asObservable();
   protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
-  protected readonly newPersonalMessages$ = this.messageService
+  protected readonly newPersonalMessages$ = this.#messageService
     .getNew$()
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
   protected searchHostname: string;
-  protected readonly categories$ = this.itemsClient.list(
+  protected readonly categories$ = this.#itemsClient.list(
     new ItemsRequest({
       fields: new ItemFields({
         descendantsCount: true,
         nameText: true,
       }),
-      language: this.languageService.language,
+      language: this.#languageService.language,
       limit: 20,
       options: new ItemListOptions({
         noParent: true,
@@ -81,20 +81,20 @@ export class AppComponent {
       }),
     }),
   );
-  protected language: string = this.languageService.language;
+  protected language: string = this.#languageService.language;
   protected urlPath = '/';
   protected isNavbarCollapsed = true;
 
-  private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
+  readonly #keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
 
   constructor() {
     const angulartics2GoogleAnalytics = inject(Angulartics2GoogleAnalytics);
 
     this.layoutParams$.subscribe((params) => {
       if (params.isGalleryPage) {
-        this.renderer.addClass(document.body, 'gallery');
+        this.#renderer.addClass(document.body, 'gallery');
       } else {
-        this.renderer.removeClass(document.body, 'gallery');
+        this.#renderer.removeClass(document.body, 'gallery');
       }
     });
 
@@ -118,10 +118,10 @@ export class AppComponent {
     }
 
     effect(() => {
-      const keycloakEvent = this.keycloakSignal();
+      const keycloakEvent = this.#keycloakSignal();
 
       if (keycloakEvent.type === KeycloakEventType.TokenExpired) {
-        this.keycloak.updateToken().catch((error) => {
+        this.#keycloak.updateToken().catch((error) => {
           console.error('Failed to refresh token', error);
         });
       }
@@ -129,8 +129,8 @@ export class AppComponent {
   }
 
   protected doLogin() {
-    this.keycloak.login({
-      locale: this.languageService.language,
+    this.#keycloak.login({
+      locale: this.#languageService.language,
       redirectUri: window.location.href,
     });
   }
@@ -146,7 +146,7 @@ export class AppComponent {
   }
 
   protected showOnlineUsers() {
-    this.modalService.open(UsersOnlineComponent, {
+    this.#modalService.open(UsersOnlineComponent, {
       centered: true,
       size: 'lg',
     });

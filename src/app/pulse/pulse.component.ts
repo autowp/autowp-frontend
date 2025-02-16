@@ -25,10 +25,10 @@ interface Period {
   templateUrl: './pulse.component.html',
 })
 export class PulseComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly grpc = inject(StatisticsClient);
-  private readonly usersService = inject(UserService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #grpc = inject(StatisticsClient);
+  readonly #usersService = inject(UserService);
 
   protected readonly periods: Period[] = [
     {
@@ -48,7 +48,7 @@ export class PulseComponent implements OnInit {
     },
   ];
 
-  private readonly period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
+  readonly #period$ = new BehaviorSubject<PulseRequest.Period>(PulseRequest.Period.DEFAULT);
 
   protected readonly chartOptions: ChartConfiguration<'bar', never, never>['options'] = {
     responsive: true,
@@ -62,12 +62,12 @@ export class PulseComponent implements OnInit {
     },
   };
 
-  protected readonly data$ = this.period$.pipe(
+  protected readonly data$ = this.#period$.pipe(
     debounceTime(10),
     distinctUntilChanged(),
-    switchMap((period) => this.grpc.getPulse(new PulseRequest({period}))),
+    switchMap((period) => this.#grpc.getPulse(new PulseRequest({period}))),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -77,7 +77,7 @@ export class PulseComponent implements OnInit {
     map((response) => {
       return (response.legend ? response.legend : []).map((item) => ({
         color: item.color,
-        user$: this.usersService.getUser$(item.userId),
+        user$: this.#usersService.getUser$(item.userId),
       }));
     }),
   );
@@ -88,7 +88,7 @@ export class PulseComponent implements OnInit {
     switchMap((response) =>
       combineLatest(
         (response.grid ? response.grid : []).map((dataset) =>
-          combineLatest([this.usersService.getUser$(dataset.userId), of(dataset)]),
+          combineLatest([this.#usersService.getUser$(dataset.userId), of(dataset)]),
         ),
       ),
     ),
@@ -101,7 +101,7 @@ export class PulseComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 161}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 161}), 0);
   }
 
   protected selectPeriod(period: Period) {
@@ -109,7 +109,7 @@ export class PulseComponent implements OnInit {
       p.active = false;
     }
     period.active = true;
-    this.period$.next(period.value);
+    this.#period$.next(period.value);
 
     return false;
   }

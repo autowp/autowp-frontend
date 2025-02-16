@@ -18,7 +18,6 @@ import {PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
-import {PathItem} from '../categories/service';
 import {CommentsComponent} from '../comments/comments/comments.component';
 import {PictureComponent} from './picture.component';
 
@@ -39,7 +38,6 @@ export class PicturePageComponent {
 
   protected category: APIItem | null = null;
   protected current: APIItem | null = null;
-  protected path: PathItem[] = [];
 
   protected readonly picture$: Observable<null | Picture> = this.#route.paramMap.pipe(
     map((route) => route.get('identity')),

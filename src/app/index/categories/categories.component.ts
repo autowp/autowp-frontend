@@ -14,12 +14,12 @@ import {IndexCategoriesCategoryComponent} from './category/category.component';
   templateUrl: './categories.component.html',
 })
 export class IndexCategoriesComponent {
-  private readonly items = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #items = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly result$ = this.items.getTopCategoriesList(
+  protected readonly result$ = this.#items.getTopCategoriesList(
     new GetTopCategoriesListRequest({
-      language: this.languageService.language,
+      language: this.#languageService.language,
     }),
   );
 }

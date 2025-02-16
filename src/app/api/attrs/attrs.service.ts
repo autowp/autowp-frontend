@@ -36,21 +36,21 @@ function toTree(items: AttrAttribute[], parentID: string): AttrAttributeTreeItem
   providedIn: 'root',
 })
 export class APIAttrsService {
-  private readonly attrsClient = inject(AttrsClient);
+  readonly #attrsClient = inject(AttrsClient);
 
-  private readonly attrs$ = this.attrsClient.getAttributes(new AttrAttributesRequest()).pipe(
+  readonly #attrs$ = this.#attrsClient.getAttributes(new AttrAttributesRequest()).pipe(
     map((response) => response.items),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  public readonly attributeTypes$: Observable<AttrAttributeType[]> = this.attrsClient
+  public readonly attributeTypes$: Observable<AttrAttributeType[]> = this.#attrsClient
     .getAttributeTypes(new Empty())
     .pipe(
       map((response) => (response.items ? response.items : [])),
       shareReplay({bufferSize: 1, refCount: false}),
     );
 
-  public readonly zones$: Observable<AttrZone[]> = this.attrsClient.getZones(new Empty()).pipe(
+  public readonly zones$: Observable<AttrZone[]> = this.#attrsClient.getZones(new Empty()).pipe(
     map((response) => (response.items ? response.items : [])),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -69,11 +69,11 @@ export class APIAttrsService {
   }
 
   public getAttribute$(id: string): Observable<AttrAttribute | undefined> {
-    return this.attrs$.pipe(map((attrs) => attrs?.find((attr) => attr.id === id)));
+    return this.#attrs$.pipe(map((attrs) => attrs?.find((attr) => attr.id === id)));
   }
 
   public getAttributes$(zoneID: null | string, parentID: null | string): Observable<AttrAttributeTreeItem[]> {
-    return this.attrsClient
+    return this.#attrsClient
       .getAttributes(
         new AttrAttributesRequest({parentId: parentID ? parentID : undefined, zoneId: zoneID ? zoneID : undefined}),
       )
@@ -81,7 +81,7 @@ export class APIAttrsService {
   }
 
   public getListOptions$(attributeID: string | undefined): Observable<AttrListOptionsResponse> {
-    return this.attrsClient.getListOptions(new AttrListOptionsRequest({attributeId: attributeID}));
+    return this.#attrsClient.getListOptions(new AttrListOptionsRequest({attributeId: attributeID}));
   }
 
   public getPath$(id: string): Observable<string[]> {

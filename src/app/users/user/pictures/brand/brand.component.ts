@@ -32,24 +32,24 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './brand.component.html',
 })
 export class UsersUserPicturesBrandComponent {
-  private readonly userService = inject(UserService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #userService = inject(UserService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly user$: Observable<APIUser> = this.route.paramMap.pipe(
+  protected readonly user$: Observable<APIUser> = this.#route.paramMap.pipe(
     map((params) => params.get('identity')),
     switchMap((identity) => (identity ? of(identity) : EMPTY)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((identity) => this.userService.getByIdentity$(identity, undefined)),
+    switchMap((identity) => this.#userService.getByIdentity$(identity, undefined)),
     switchMap((user) => {
       if (!user || user.deleted) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -59,12 +59,12 @@ export class UsersUserPicturesBrandComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  readonly #brand$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('brand') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((catname) =>
-      this.itemsClient
+      this.#itemsClient
         .list(
           new ItemsRequest({
             fields: new ItemFields({
@@ -82,13 +82,13 @@ export class UsersUserPicturesBrandComponent {
     ),
     switchMap((brand) => {
       if (!brand) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
       }
 
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 141,
         title: $localize`${brand.nameOnly} pictures`,
       });
@@ -98,12 +98,12 @@ export class UsersUserPicturesBrandComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly title$ = this.brand$.pipe(map((brand) => $localize`${brand.nameOnly} pictures`));
+  protected readonly title$ = this.#brand$.pipe(map((brand) => $localize`${brand.nameOnly} pictures`));
 
   protected readonly data$ = combineLatest([
     this.user$,
-    this.brand$,
-    this.route.queryParamMap.pipe(
+    this.#brand$,
+    this.#route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
       debounceTime(10),
@@ -137,7 +137,7 @@ export class UsersUserPicturesBrandComponent {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );

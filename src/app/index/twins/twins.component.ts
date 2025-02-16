@@ -12,10 +12,10 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './twins.component.html',
 })
 export class IndexTwinsComponent {
-  private readonly items = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #items = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly items$ = this.items.getTopTwinsBrandsList(
-    new GetTopTwinsBrandsListRequest({language: this.languageService.language}),
+  protected readonly items$ = this.#items.getTopTwinsBrandsList(
+    new GetTopTwinsBrandsListRequest({language: this.#languageService.language}),
   );
 }

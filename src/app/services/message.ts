@@ -18,19 +18,15 @@ import {AuthService} from './auth.service';
   providedIn: 'root',
 })
 export class MessageService {
-  private readonly auth = inject(AuthService);
-  private readonly toasts = inject(ToastsService);
-  private readonly messagingClient = inject(MessagingClient);
+  readonly #auth = inject(AuthService);
+  readonly #toasts = inject(ToastsService);
+  readonly #messagingClient = inject(MessagingClient);
 
-  private readonly deleted$ = new BehaviorSubject<void>(void 0);
-  private readonly sent$ = new BehaviorSubject<void>(void 0);
-  private readonly seen$ = new BehaviorSubject<void>(void 0);
+  readonly #deleted$ = new BehaviorSubject<void>(void 0);
+  readonly #sent$ = new BehaviorSubject<void>(void 0);
+  readonly #seen$ = new BehaviorSubject<void>(void 0);
 
-  private readonly new$: Observable<null | number> = combineLatest([
-    this.auth.getUser$(),
-    this.deleted$,
-    this.seen$,
-  ]).pipe(
+  readonly #new$: Observable<null | number> = combineLatest([this.#auth.getUser$(), this.#deleted$, this.#seen$]).pipe(
     map((data) => data[0]),
     debounceTime(10),
     switchMap((user) => {
@@ -38,20 +34,20 @@ export class MessageService {
         return of(null);
       }
 
-      return this.messagingClient.getMessagesNewCount(new Empty());
+      return this.#messagingClient.getMessagesNewCount(new Empty());
     }),
     catchError((response: unknown) => {
-      this.toasts.handleError(response);
+      this.#toasts.handleError(response);
       return of(null);
     }),
     map((response) => (response ? response.count : null)),
   );
 
-  private readonly summary$: Observable<APIMessageSummary | null> = combineLatest([
-    this.deleted$,
-    this.sent$,
-    this.seen$,
-    this.auth.getUser$(),
+  readonly #summary$: Observable<APIMessageSummary | null> = combineLatest([
+    this.#deleted$,
+    this.#sent$,
+    this.#seen$,
+    this.#auth.getUser$(),
   ]).pipe(
     map(([, , , user]) => user),
     debounceTime(10),
@@ -60,7 +56,7 @@ export class MessageService {
         return of(null);
       }
 
-      return this.messagingClient.getMessagesSummary(new Empty());
+      return this.#messagingClient.getMessagesSummary(new Empty());
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -74,42 +70,42 @@ export class MessageService {
     }
 
     if (newFound) {
-      this.seen$.next();
+      this.#seen$.next();
     }
   }
 
   public clearFolder$(folder: string): Observable<Empty> {
-    return this.messagingClient
+    return this.#messagingClient
       .clearFolder(new MessagingClearFolder({folder: folder}))
-      .pipe(tap(() => this.deleted$.next()));
+      .pipe(tap(() => this.#deleted$.next()));
   }
 
   public deleteMessage$(id: string): Observable<Empty> {
-    return this.messagingClient
+    return this.#messagingClient
       .deleteMessage(
         new MessagingDeleteMessage({
           messageId: id,
         }),
       )
-      .pipe(tap(() => this.deleted$.next()));
+      .pipe(tap(() => this.#deleted$.next()));
   }
 
   public getSummary$(): Observable<APIMessageSummary | null> {
-    return this.summary$;
+    return this.#summary$;
   }
 
   public getNew$(): Observable<null | number> {
-    return this.new$;
+    return this.#new$;
   }
 
   public send$(userId: string, text: string): Observable<Empty> {
-    return this.messagingClient
+    return this.#messagingClient
       .createMessage(
         new MessagingCreateMessage({
           text: text,
           userId: userId,
         }),
       )
-      .pipe(tap(() => this.sent$.next()));
+      .pipe(tap(() => this.#sent$.next()));
   }
 }

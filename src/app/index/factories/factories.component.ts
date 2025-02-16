@@ -13,12 +13,12 @@ import {IndexFactoriesFactoryComponent} from './factory/factory.component';
   templateUrl: './factories.component.html',
 })
 export class IndexFactoriesComponent {
-  private readonly items = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #items = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly factories$ = this.items.getTopFactoriesList(
+  protected readonly factories$ = this.#items.getTopFactoriesList(
     new GetTopFactoriesListRequest({
-      language: this.languageService.language,
+      language: this.#languageService.language,
     }),
   );
 }

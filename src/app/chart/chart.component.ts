@@ -34,9 +34,9 @@ export interface APIChartParameters {
   templateUrl: './chart.component.html',
 })
 export class ChartComponent implements OnInit {
-  private readonly api = inject(APIService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #api = inject(APIService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
 
   protected parameters: APIChartParameter[] = [];
   protected readonly chartOptions: ChartOptions<'line'> = {
@@ -81,10 +81,10 @@ export class ChartComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 1}), 0);
 
-    this.api.request$<APIChartParameters>('GET', 'chart/parameters').subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+    this.#api.request$<APIChartParameters>('GET', 'chart/parameters').subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: (response) => {
         this.parameters = response.parameters;
         this.selectParam(this.parameters[0]);
@@ -95,12 +95,12 @@ export class ChartComponent implements OnInit {
   private loadData(id: number) {
     this.chart.data = [];
 
-    this.api
+    this.#api
       .request$<APIChartData>('GET', 'chart/data', {
         params: {id: id.toString()},
       })
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: (response) => {
           this.chart.data = response.datasets.map((dataset) => ({
             data: dataset.values,

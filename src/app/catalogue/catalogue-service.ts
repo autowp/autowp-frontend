@@ -39,8 +39,8 @@ type ParentObservableFunc = () => OperatorFunction<null | Parent, null | Parent>
   providedIn: 'root',
 })
 export class CatalogueService {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   public static pathToBreadcrumbs(brand: APIItem, path: ItemParent[]): Breadcrumbs[] {
     const result: Breadcrumbs[] = [];
@@ -96,11 +96,11 @@ export class CatalogueService {
           item: itemFields,
         });
 
-        return this.itemsClient
+        return this.#itemsClient
           .getItemParents(
             new ItemParentsRequest({
               fields: totalFields,
-              language: this.languageService.language,
+              language: this.#languageService.language,
               limit: 1,
               options: new ItemParentListOptions({
                 catname: parent.path[0],
@@ -177,14 +177,14 @@ export class CatalogueService {
         if (!catname) {
           return EMPTY;
         }
-        return this.itemsClient
+        return this.#itemsClient
           .list(
             new ItemsRequest({
               fields: new ItemFields({
                 nameHtml: true,
                 nameText: true,
               }),
-              language: this.languageService.language,
+              language: this.#languageService.language,
               limit: 1,
               options: new ItemListOptions({
                 catname,

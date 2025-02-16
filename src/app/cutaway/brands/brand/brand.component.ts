@@ -30,14 +30,14 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './brand.component.html',
 })
 export class CutawayBrandsBrandComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => '' + params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -45,7 +45,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemsClient.list(
+      return this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({
             nameHtml: true,
@@ -63,7 +63,7 @@ export class CutawayBrandsBrandComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly query$: Observable<PicturesList> = combineLatest([this.brand$, this.route.queryParamMap]).pipe(
+  protected readonly query$: Observable<PicturesList> = combineLatest([this.brand$, this.#route.queryParamMap]).pipe(
     switchMap(([brand, params]) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -92,12 +92,12 @@ export class CutawayBrandsBrandComponent implements OnInit {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 109}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 109}), 0);
   }
 }

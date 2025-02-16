@@ -31,18 +31,18 @@ interface Article {
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly articlesClient = inject(ArticlesClient);
-  private readonly userService = inject(UserService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #articlesClient = inject(ArticlesClient);
+  readonly #userService = inject(UserService);
 
-  protected readonly articles$ = this.route.queryParamMap.pipe(
+  protected readonly articles$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10) || 1),
     distinctUntilChanged(),
     debounceTime(30),
     switchMap((page) =>
-      this.articlesClient.getList(
+      this.#articlesClient.getList(
         new ArticlesRequest({
           limit: '10',
           page: '' + page,
@@ -51,12 +51,12 @@ export class ListComponent implements OnInit {
     ),
     catchError((response: unknown) => {
       console.error(response);
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
       articles: (response.items || []).map((article) => ({
-        author$: article.authorId !== '0' ? this.userService.getUser$(article.authorId) : of(null),
+        author$: article.authorId !== '0' ? this.#userService.getUser$(article.authorId) : of(null),
         date: article.date?.toDate(),
         description: article.description,
         id: article.id,
@@ -69,6 +69,6 @@ export class ListComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 31}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 31}), 0);
   }
 }

@@ -18,13 +18,13 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './cutaway.component.html',
 })
 export class CutawayComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly query$ = this.route.queryParamMap.pipe(
+  protected readonly query$ = this.#route.queryParamMap.pipe(
     switchMap((params) =>
       this.#picturesClient.getPictures(
         new PicturesRequest({
@@ -50,12 +50,12 @@ export class CutawayComponent implements OnInit {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 109}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 109}), 0);
   }
 }

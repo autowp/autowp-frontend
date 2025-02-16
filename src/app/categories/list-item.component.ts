@@ -21,7 +21,7 @@ interface PictureThumbRoute {
   templateUrl: './list-item.component.html',
 })
 export class CategoriesListItemComponent {
-  private readonly acl = inject(ACLService);
+  readonly #acl = inject(ACLService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -33,7 +33,7 @@ export class CategoriesListItemComponent {
   }
   protected readonly parentRouterLink$ = new BehaviorSubject<null | string[]>(null);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));
   protected readonly canHavePhoto$ = this.item$.pipe(
     map((item) =>

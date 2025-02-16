@@ -59,22 +59,22 @@ function mapFilter(filter: null | string): AttrConflictsRequest.Filter {
   templateUrl: './specs-conflicts.component.html',
 })
 export class AccountSpecsConflictsComponent implements OnInit {
-  private readonly languageService = inject(LanguageService);
-  private readonly userService = inject(UserService);
+  readonly #languageService = inject(LanguageService);
+  readonly #userService = inject(UserService);
   protected readonly auth = inject(AuthService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly attrsService = inject(APIAttrsService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #attrsService = inject(APIAttrsService);
 
-  protected readonly page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly filter$: Observable<AttrConflictsRequest.Filter> = this.route.queryParamMap.pipe(
+  protected readonly filter$: Observable<AttrConflictsRequest.Filter> = this.#route.queryParamMap.pipe(
     map((params) => params.get('filter')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -83,15 +83,15 @@ export class AccountSpecsConflictsComponent implements OnInit {
 
   protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
 
-  private readonly itemsCache = new Map<string, Observable<APIItem>>();
+  readonly #itemsCache = new Map<string, Observable<APIItem>>();
 
   private getItem$(id: string): Observable<APIItem | null> {
-    let o$ = this.itemsCache.get(id);
+    let o$ = this.#itemsCache.get(id);
     if (!o$) {
-      o$ = this.itemsClient
-        .item(new ItemRequest({fields: new ItemFields({nameHtml: true}), id, language: this.languageService.language}))
+      o$ = this.#itemsClient
+        .item(new ItemRequest({fields: new ItemFields({nameHtml: true}), id, language: this.#languageService.language}))
         .pipe(shareReplay({bufferSize: 1, refCount: false}));
-      this.itemsCache.set(id, o$);
+      this.#itemsCache.set(id, o$);
     }
     return o$;
   }
@@ -100,10 +100,10 @@ export class AccountSpecsConflictsComponent implements OnInit {
     combineLatest([this.page$, this.filter$]).pipe(
       switchMap(([page, filter]) =>
         combineLatest([
-          this.attrsClient.getConflicts(
+          this.#attrsClient.getConflicts(
             new AttrConflictsRequest({
               filter,
-              language: this.languageService.language,
+              language: this.#languageService.language,
               page,
             }),
           ),
@@ -112,7 +112,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
       ),
       map(([data, user]) => ({
         conflicts: (data.items || []).map((conflict) => {
-          const attribute$ = this.attrsService.getAttribute$(conflict.attributeId);
+          const attribute$ = this.#attrsService.getAttribute$(conflict.attributeId);
           return {
             attribute$,
             conflict,
@@ -121,7 +121,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
               map((attr) => (attr?.unitId && attr.unitId !== '0' ? getUnitAbbrTranslation(attr.unitId) : null)),
             ),
             values: (conflict.values || []).map((value) => ({
-              user$: user?.id === value.userId ? of(null) : this.userService.getUser$(value.userId),
+              user$: user?.id === value.userId ? of(null) : this.#userService.getUser$(value.userId),
               value,
             })),
           };
@@ -133,6 +133,6 @@ export class AccountSpecsConflictsComponent implements OnInit {
   protected readonly AttrConflictsRequest = AttrConflictsRequest;
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 188}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 188}), 0);
   }
 }

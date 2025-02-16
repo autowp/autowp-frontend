@@ -41,27 +41,27 @@ interface InfoText {
   templateUrl: './text.component.html',
 })
 export class InfoTextComponent implements OnInit {
-  private readonly userService = inject(UserService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly textClient = inject(TextClient);
+  readonly #userService = inject(UserService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #textClient = inject(TextClient);
 
-  private readonly id$ = this.route.paramMap.pipe(
+  readonly #id$ = this.#route.paramMap.pipe(
     map((params) => params.get('id')),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly revision$ = this.route.queryParamMap.pipe(
+  readonly #revision$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('revision')),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly data$: Observable<InfoText> = combineLatest([this.id$, this.revision$]).pipe(
+  protected readonly data$: Observable<InfoText> = combineLatest([this.#id$, this.#revision$]).pipe(
     switchMap(([id, revision]) =>
-      this.textClient.getText(
+      this.#textClient.getText(
         new APIGetTextRequest({
           id: id ? id : undefined,
           revision: revision ? revision : undefined,
@@ -69,7 +69,7 @@ export class InfoTextComponent implements OnInit {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => ({
@@ -77,7 +77,7 @@ export class InfoTextComponent implements OnInit {
         ? {
             revision: response.current.revision,
             text: response.current.text,
-            user$: response.current.userId ? this.userService.getUser$(response.current.userId) : of(null),
+            user$: response.current.userId ? this.#userService.getUser$(response.current.userId) : of(null),
           }
         : null,
       diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text ?? '') as Diff[],
@@ -92,13 +92,13 @@ export class InfoTextComponent implements OnInit {
           ? {
               revision: response.prev.revision,
               text: response.prev.text,
-              user$: response.prev.userId ? this.userService.getUser$(response.prev.userId) : of(null),
+              user$: response.prev.userId ? this.#userService.getUser$(response.prev.userId) : of(null),
             }
           : null,
     })),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 197}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 197}), 0);
   }
 }

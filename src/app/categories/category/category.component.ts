@@ -1,11 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Params, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {ItemFields, ItemListOptions, ItemParentListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemParentListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
@@ -14,11 +13,11 @@ import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CategoriesService} from '../service';
 
-interface PathItem {
+interface CategoryPathItem {
   childs: {active: boolean; nameHtml: string; routerLink: string[]}[];
   item: APIItem;
   loaded: boolean;
-  parent_id: number;
+  parent_id: string;
   routerLink: string[];
 }
 
@@ -28,43 +27,43 @@ interface PathItem {
   templateUrl: './category.component.html',
 })
 export class CategoriesCategoryComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly acl = inject(ACLService);
-  private readonly categoriesService = inject(CategoriesService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #acl = inject(ACLService);
+  readonly #categoriesService = inject(CategoriesService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  protected readonly canAddCar$ = this.acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canAddCar$ = this.#acl.isAllowed$(Resource.CAR, Privilege.ADD);
 
-  private readonly categoryData$ = this.categoriesService.categoryPipe$(this.route).pipe(
+  readonly #categoryData$ = this.#categoriesService.categoryPipe$(this.#route).pipe(
     tap(({current}) => {
       setTimeout(() => {
-        this.pageEnv.set({
+        this.#pageEnv.set({
           pageId: 22,
-          title: current.name_text,
+          title: current?.nameText,
         });
       }, 0);
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly current$: Observable<APIItem> = this.categoryData$.pipe(
+  protected readonly current$: Observable<APIItem | undefined> = this.#categoryData$.pipe(
     map(({current}) => current),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly category$: Observable<{queryParams: Params; title: string}> = this.categoryData$.pipe(
+  protected readonly category$: Observable<{queryParams: Params; title: string}> = this.#categoryData$.pipe(
     switchMap(({category}) => (category ? of(category) : EMPTY)),
     map((category) => ({
-      queryParams: {item_type_id: category.item_type_id, parent_id: category.id},
-      title: getItemTypeTranslation(category.item_type_id, 'add-sub-item'),
+      queryParams: {item_type_id: category.itemTypeId, parent_id: category.id},
+      title: getItemTypeTranslation(category.itemTypeId, 'add-sub-item'),
     })),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly path$: Observable<PathItem[]> = this.categoryData$.pipe(
+  protected readonly path$: Observable<CategoryPathItem[]> = this.#categoryData$.pipe(
     map(({pathItems}) =>
       pathItems.map((pi) => ({
         childs: [],
@@ -77,17 +76,17 @@ export class CategoriesCategoryComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$ = this.#pageEnv.layoutParams$.asObservable();
 
-  protected dropdownOpenChange(item: PathItem) {
+  protected dropdownOpenChange(item: CategoryPathItem) {
     if (!item.loaded) {
-      this.itemsClient
+      this.#itemsClient
         .list(
           new ItemsRequest({
             fields: new ItemFields({
               nameHtml: true,
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 50,
             options: new ItemListOptions({
               noParent: !item.parent_id,

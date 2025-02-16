@@ -34,14 +34,14 @@ interface PictureRoute {
   templateUrl: './pictures.component.html',
 })
 export class CategoriesCategoryPicturesComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly categoriesService = inject(CategoriesService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #categoriesService = inject(CategoriesService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
@@ -49,9 +49,9 @@ export class CategoriesCategoryPicturesComponent {
   protected readonly data$: Observable<{
     paginator: Pages | undefined;
     pictures: PictureRoute[][];
-  }> = combineLatest([this.categoriesService.categoryPipe$(this.route.parent!.parent!), this.page$]).pipe(
+  }> = combineLatest([this.#categoriesService.categoryPipe$(this.#route.parent!.parent!), this.#page$]).pipe(
     switchMap(([{category, current, pathCatnames}, page]) => {
-      if (!category) {
+      if (!category || !current) {
         return EMPTY;
       }
 
@@ -71,7 +71,7 @@ export class CategoriesCategoryPicturesComponent {
             limit: 20,
             options: new PictureListOptions({
               pictureItem: new PictureItemListOptions({
-                itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: '' + current.id}),
+                itemParentCacheAncestor: new ItemParentCacheListOptions({parentId: current.id}),
               }),
               status: PictureStatus.PICTURE_STATUS_ACCEPTED,
             }),
@@ -99,7 +99,7 @@ export class CategoriesCategoryPicturesComponent {
         );
     }),
     tap(() => {
-      this.pageEnv.set({pageId: 22});
+      this.#pageEnv.set({pageId: 22});
     }),
   );
 }

@@ -71,7 +71,7 @@ export class CategoryPictureComponent {
         return null;
       }
 
-      if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+      if (current?.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
         return ['/category', current.catname, 'pictures'];
       }
 
@@ -84,8 +84,12 @@ export class CategoryPictureComponent {
     this.#identity$,
     this.#changed$,
   ]).pipe(
-    switchMap(([{current}, identity]) =>
-      this.#picturesClient.getPicture(
+    switchMap(([{current}, identity]) => {
+      if (!current) {
+        return EMPTY;
+      }
+
+      return this.#picturesClient.getPicture(
         new PicturesRequest({
           fields: new PictureFields({
             copyrights: true,
@@ -97,7 +101,7 @@ export class CategoryPictureComponent {
               options: new PictureListOptions({
                 pictureItem: new PictureItemListOptions({
                   itemParentCacheAncestor: new ItemParentCacheListOptions({
-                    parentId: '' + current.id,
+                    parentId: current.id,
                   }),
                   typeId: PictureItemType.PICTURE_ITEM_CONTENT,
                 }),
@@ -118,14 +122,14 @@ export class CategoryPictureComponent {
             identity,
             pictureItem: new PictureItemListOptions({
               itemParentCacheAncestor: new ItemParentCacheListOptions({
-                parentId: '' + current.id,
+                parentId: current.id,
               }),
               typeId: PictureItemType.PICTURE_ITEM_CONTENT,
             }),
           }),
         }),
-      ),
-    ),
+      );
+    }),
     switchMap((picture) => {
       if (!picture) {
         this.#router.navigate(['/error-404'], {
@@ -149,7 +153,7 @@ export class CategoryPictureComponent {
         return null;
       }
 
-      if (current.item_type_id === ItemType.ITEM_TYPE_CATEGORY) {
+      if (current?.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
         return ['/category', current.catname, 'gallery', identity];
       }
 

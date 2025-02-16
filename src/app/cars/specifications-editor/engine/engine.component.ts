@@ -17,10 +17,10 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './engine.component.html',
 })
 export class CarsSpecificationsEditorEngineComponent {
-  private readonly acl = inject(ACLService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly toastService = inject(ToastsService);
-  private readonly languageService = inject(LanguageService);
+  readonly #acl = inject(ACLService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #toastService = inject(ToastsService);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -28,7 +28,7 @@ export class CarsSpecificationsEditorEngineComponent {
   protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   @Output() changed = new EventEmitter<void>();
-  protected readonly isAllowedEditEngine$ = this.acl
+  protected readonly isAllowedEditEngine$ = this.#acl
     .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
@@ -38,11 +38,11 @@ export class CarsSpecificationsEditorEngineComponent {
         return of(null);
       }
 
-      return this.itemsClient.item(
+      return this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameHtml: true}),
           id: item.engineItemId,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       );
     }),
@@ -51,7 +51,7 @@ export class CarsSpecificationsEditorEngineComponent {
   protected loading = 0;
 
   private setEngineID(item: APIItem, value: string, inherited: boolean) {
-    this.itemsClient
+    this.#itemsClient
       .setItemEngine(
         new SetItemEngineRequest({
           engineInherited: inherited,
@@ -60,7 +60,7 @@ export class CarsSpecificationsEditorEngineComponent {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => this.changed.emit(),
       });
   }

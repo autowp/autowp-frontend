@@ -29,26 +29,26 @@ interface SidebarItem {
   templateUrl: './account.component.html',
 })
 export class AccountComponent {
-  private readonly messageService = inject(MessageService);
-  private readonly auth = inject(AuthService);
-  private readonly pictureService = inject(PictureService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly forumsClient = inject(ForumsClient);
+  readonly #messageService = inject(MessageService);
+  readonly #auth = inject(AuthService);
+  readonly #pictureService = inject(PictureService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #forumsClient = inject(ForumsClient);
 
   protected readonly items$: Observable<SidebarItem[]> = combineLatest([
-    this.auth.getUser$(),
-    this.auth.getUser$().pipe(
+    this.#auth.getUser$(),
+    this.#auth.getUser$().pipe(
       switchMap((user) => {
         if (!user) {
           return of(null);
         }
-        return this.forumsClient.getUserSummary(new Empty());
+        return this.#forumsClient.getUserSummary(new Empty());
       }),
       shareReplay({bufferSize: 1, refCount: false}),
     ),
-    this.messageService.getSummary$(),
-    this.pictureService.summary$,
+    this.#messageService.getSummary$(),
+    this.#pictureService.summary$,
   ]).pipe(
     map(([user, forumSummary, messageSummary, picturesSummary]) => {
       if (!user) {
@@ -147,8 +147,8 @@ export class AccountComponent {
 
       for (const item of items) {
         if (item.pageId) {
-          this.pageEnv.isActive$(item.pageId).subscribe({
-            error: (response: unknown) => this.toastService.handleError(response),
+          this.#pageEnv.isActive$(item.pageId).subscribe({
+            error: (response: unknown) => this.#toastService.handleError(response),
             next: (active) => {
               item.active = active;
             },
