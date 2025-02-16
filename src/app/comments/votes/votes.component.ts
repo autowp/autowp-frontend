@@ -16,29 +16,29 @@ import {UserComponent} from '../../user/user/user.component';
 })
 export class CommentsVotesComponent {
   protected readonly activeModal = inject(NgbActiveModal);
-  private readonly toastService = inject(ToastsService);
-  private readonly commentsGrpc = inject(CommentsClient);
+  readonly #toastService = inject(ToastsService);
+  readonly #commentsGrpc = inject(CommentsClient);
 
   @Input() set messageID(item: number) {
-    this.messageID$.next(item);
+    this.#messageID$.next(item);
   }
-  private readonly messageID$ = new BehaviorSubject<null | number>(null);
+  readonly #messageID$ = new BehaviorSubject<null | number>(null);
 
   protected readonly votes$: Observable<{
     negative: CommentVote[];
     positive: CommentVote[];
-  }> = this.messageID$.pipe(
+  }> = this.#messageID$.pipe(
     distinctUntilChanged(),
     debounceTime(1),
     switchMap((messageID) =>
-      this.commentsGrpc.getCommentVotes(
+      this.#commentsGrpc.getCommentVotes(
         new GetCommentVotesRequest({
           commentId: '' + messageID,
         }),
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((votes) => ({

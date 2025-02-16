@@ -22,7 +22,7 @@ import {ToastsService} from '../../../toasts/toasts.service';
   templateUrl: './tree-item.component.html',
 })
 export class UploadSelectTreeItemComponent {
-  private readonly toastService = inject(ToastsService);
+  readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
@@ -55,7 +55,7 @@ export class UploadSelectTreeItemComponent {
         : EMPTY,
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((response) => response.items || []),

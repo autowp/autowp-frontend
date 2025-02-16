@@ -17,33 +17,33 @@ import {GalleryComponent} from '../../../gallery/gallery.component';
   templateUrl: './twins-group-gallery.component.html',
 })
 export class TwinsGroupGalleryComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly group$: Observable<APIItem | null> = this.route.parent!.parent!.paramMap.pipe(
+  protected readonly group$: Observable<APIItem | null> = this.#route.parent!.parent!.paramMap.pipe(
     map((route) => route.get('group')),
     distinctUntilChanged(),
     switchMap((groupID) => {
       if (!groupID) {
         return of(null);
       }
-      return this.itemsClient.item(
+      return this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
           }),
           id: groupID,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       );
     }),
     switchMap((group) => {
       if (!group) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -53,7 +53,7 @@ export class TwinsGroupGalleryComponent {
     tap((group) => {
       setTimeout(
         () =>
-          this.pageEnv.set({
+          this.#pageEnv.set({
             layout: {isGalleryPage: true},
             pageId: 28,
             title: group ? group.nameText : '',
@@ -63,7 +63,7 @@ export class TwinsGroupGalleryComponent {
     }),
   );
 
-  protected readonly identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.#route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
   );
@@ -71,7 +71,7 @@ export class TwinsGroupGalleryComponent {
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {
       setTimeout(() => {
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: 28,
           title: item.name,

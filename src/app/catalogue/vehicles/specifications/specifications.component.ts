@@ -17,17 +17,17 @@ import {CatalogueService} from '../../catalogue-service';
   templateUrl: './specifications.component.html',
 })
 export class CatalogueVehiclesSpecificationsComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly catalogueService = inject(CatalogueService);
-  private readonly router = inject(Router);
-  private readonly attrsClient = inject(AttrsClient);
-  private readonly sanitizer = inject(DomSanitizer);
-  private readonly languageService = inject(LanguageService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #catalogueService = inject(CatalogueService);
+  readonly #router = inject(Router);
+  readonly #attrsClient = inject(AttrsClient);
+  readonly #sanitizer = inject(DomSanitizer);
+  readonly #languageService = inject(LanguageService);
 
-  private catalogue$ = this.catalogueService
+  readonly #catalogue$ = this.#catalogueService
     .resolveCatalogue$(
-      this.route,
+      this.#route,
       new ItemFields({
         hasChildSpecs: true,
         hasSpecs: true,
@@ -36,7 +36,7 @@ export class CatalogueVehiclesSpecificationsComponent {
     .pipe(
       switchMap((data) => {
         if (!data?.brand || !data.path || data.path.length <= 0) {
-          this.router.navigate(['/error-404'], {
+          this.#router.navigate(['/error-404'], {
             skipLocationChange: true,
           });
           return EMPTY;
@@ -46,10 +46,10 @@ export class CatalogueVehiclesSpecificationsComponent {
       shareReplay({bufferSize: 1, refCount: false}),
     );
 
-  protected readonly brand$: Observable<APIItem> = this.catalogue$.pipe(
+  protected readonly brand$: Observable<APIItem> = this.#catalogue$.pipe(
     map(({brand}) => brand),
     tap((brand) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 36,
         title: $localize`Specifications of` + ' ' + brand.nameHtml,
       });
@@ -57,11 +57,11 @@ export class CatalogueVehiclesSpecificationsComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly breadcrumbs$ = this.catalogue$.pipe(
+  protected readonly breadcrumbs$ = this.#catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
   );
 
-  protected readonly item$ = this.catalogue$.pipe(
+  protected readonly item$ = this.#catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -69,23 +69,23 @@ export class CatalogueVehiclesSpecificationsComponent {
   protected readonly html$ = this.item$.pipe(
     switchMap((item) => {
       if (item?.hasChildSpecs) {
-        return this.attrsClient.getChildSpecifications(
-          new GetSpecificationsRequest({itemId: item.id, language: this.languageService.language}),
+        return this.#attrsClient.getChildSpecifications(
+          new GetSpecificationsRequest({itemId: item.id, language: this.#languageService.language}),
         );
       }
 
       if (item?.hasSpecs) {
-        return this.attrsClient.getSpecifications(
-          new GetSpecificationsRequest({itemId: item.id, language: this.languageService.language}),
+        return this.#attrsClient.getSpecifications(
+          new GetSpecificationsRequest({itemId: item.id, language: this.#languageService.language}),
         );
       }
 
-      this.router.navigate(['/error-404'], {
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
-    map((response) => this.sanitizer.bypassSecurityTrustHtml(response.html)),
+    map((response) => this.#sanitizer.bypassSecurityTrustHtml(response.html)),
   );
 }

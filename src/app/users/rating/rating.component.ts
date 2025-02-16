@@ -26,14 +26,14 @@ enum Rating {
   templateUrl: './rating.component.html',
 })
 export class UsersRatingComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly ratingClient = inject(RatingClient);
-  private readonly userService = inject(UserService);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #ratingClient = inject(RatingClient);
+  readonly #userService = inject(UserService);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly rating$: Observable<Rating> = this.route.paramMap.pipe(
+  protected readonly rating$: Observable<Rating> = this.#route.paramMap.pipe(
     map((params) => params.get('rating')),
     debounceTime(30),
     distinctUntilChanged(),
@@ -69,20 +69,20 @@ export class UsersRatingComponent implements OnInit {
 
   private getRatingFans$(rating: Rating, userId: string) {
     if (rating == Rating.PICTURE_LIKES) {
-      return this.ratingClient.getUserPictureLikesRatingFans(new UserRatingDetailsRequest({userId})).pipe(
+      return this.#ratingClient.getUserPictureLikesRatingFans(new UserRatingDetailsRequest({userId})).pipe(
         map((response) =>
           (response.fans ? response.fans : []).map((fan) => ({
-            user$: this.userService.getUser$(fan.userId),
+            user$: this.#userService.getUser$(fan.userId),
             volume: fan.volume,
           })),
         ),
       );
     }
     if (rating == Rating.COMMENT_LIKES) {
-      return this.ratingClient.getUserCommentsRatingFans(new UserRatingDetailsRequest({userId})).pipe(
+      return this.#ratingClient.getUserCommentsRatingFans(new UserRatingDetailsRequest({userId})).pipe(
         map((response) =>
           (response.fans ? response.fans : []).map((fan) => ({
-            user$: this.userService.getUser$(fan.userId),
+            user$: this.#userService.getUser$(fan.userId),
             volume: fan.volume,
           })),
         ),
@@ -93,13 +93,13 @@ export class UsersRatingComponent implements OnInit {
 
   private getRatingBrands$(rating: Rating, userId: string) {
     if (rating == Rating.PICTURES) {
-      return this.ratingClient.getUserPicturesRatingBrands(
-        new UserRatingDetailsRequest({language: this.languageService.language, userId}),
+      return this.#ratingClient.getUserPicturesRatingBrands(
+        new UserRatingDetailsRequest({language: this.#languageService.language, userId}),
       );
     }
     if (rating == Rating.SPECS) {
-      return this.ratingClient.getUserSpecsRatingBrands(
-        new UserRatingDetailsRequest({language: this.languageService.language, userId}),
+      return this.#ratingClient.getUserSpecsRatingBrands(
+        new UserRatingDetailsRequest({language: this.#languageService.language, userId}),
       );
     }
     return null;
@@ -110,30 +110,30 @@ export class UsersRatingComponent implements OnInit {
       let o$: Observable<APIUsersRatingResponse>;
       switch (rating) {
         case Rating.COMMENT_LIKES:
-          o$ = this.ratingClient.getUserCommentsRating(new Empty());
+          o$ = this.#ratingClient.getUserCommentsRating(new Empty());
           break;
         case Rating.PICTURE_LIKES:
-          o$ = this.ratingClient.getUserPictureLikesRating(new Empty());
+          o$ = this.#ratingClient.getUserPictureLikesRating(new Empty());
           break;
         case Rating.PICTURES:
-          o$ = this.ratingClient.getUserPicturesRating(new Empty());
+          o$ = this.#ratingClient.getUserPicturesRating(new Empty());
           break;
         case Rating.SPECS:
-          o$ = this.ratingClient.getUserSpecsRating(new Empty());
+          o$ = this.#ratingClient.getUserSpecsRating(new Empty());
           break;
         default:
           return EMPTY;
       }
       return o$.pipe(
         catchError((err: unknown) => {
-          this.toastService.handleError(err);
+          this.#toastService.handleError(err);
           return EMPTY;
         }),
         map((response) =>
           (response.users ? response.users : []).map((user) => ({
             brands$: this.getRatingBrands$(rating, user.userId),
             fans$: this.getRatingFans$(rating, user.userId),
-            user$: this.userService.getUser$(user.userId),
+            user$: this.#userService.getUser$(user.userId),
             volume: user.volume,
             weight: user.weight,
           })),
@@ -145,6 +145,6 @@ export class UsersRatingComponent implements OnInit {
   protected readonly Rating = Rating;
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 173}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 173}), 0);
   }
 }

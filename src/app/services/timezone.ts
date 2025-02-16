@@ -12,14 +12,14 @@ export interface APITimezoneGetResponse {
   providedIn: 'root',
 })
 export class TimezoneService {
-  private readonly api = inject(APIService);
+  readonly #api = inject(APIService);
 
-  private readonly timezones$: Observable<string[]> = this.api.request$<APITimezoneGetResponse>('GET', 'timezone').pipe(
+  readonly #timezones$: Observable<string[]> = this.#api.request$<APITimezoneGetResponse>('GET', 'timezone').pipe(
     map((response) => response.items),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
   public getTimezones$(): Observable<string[]> {
-    return this.timezones$;
+    return this.#timezones$;
   }
 }

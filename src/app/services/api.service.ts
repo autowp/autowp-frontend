@@ -60,9 +60,9 @@ export function authInterceptor$(req: HttpRequest<unknown>, next: HttpHandlerFn)
   providedIn: 'root',
 })
 export class GrpcLogInterceptor implements GrpcInterceptor {
-  private dataStyle = 'color: #5c7ced;';
-  private errorStyle = 'color: red;';
-  private statusOkStyle = 'color: #0ffcf5;';
+  readonly #dataStyle = 'color: #5c7ced;';
+  readonly #errorStyle = 'color: red;';
+  readonly #statusOkStyle = 'color: #0ffcf5;';
 
   intercept<Q extends GrpcMessage, S extends GrpcMessage>(
     request: GrpcRequest<Q, S>,
@@ -76,9 +76,9 @@ export class GrpcLogInterceptor implements GrpcInterceptor {
 
     return next.handle(request).pipe(
       tap((event) => {
-        let style = this.dataStyle;
+        let style = this.#dataStyle;
         if (!(event instanceof GrpcDataEvent)) {
-          style = event.statusCode !== 0 ? this.errorStyle : this.statusOkStyle;
+          style = event.statusCode !== 0 ? this.#errorStyle : this.#statusOkStyle;
         }
 
         console.groupCollapsed(`%c${Date.now() - start}ms -> ${request.path}`, style);

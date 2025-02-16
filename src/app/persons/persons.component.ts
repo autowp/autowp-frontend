@@ -41,7 +41,7 @@ export class PersonsComponent implements OnInit {
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
 
-  private readonly page$ = this.#route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -54,7 +54,7 @@ export class PersonsComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly data$ = combineLatest([this.page$, this.authors$]).pipe(
+  protected readonly data$ = combineLatest([this.#page$, this.authors$]).pipe(
     switchMap(([page, authors]) => {
       let typeId = PictureItemType.PICTURE_ITEM_CONTENT;
       if (authors) {

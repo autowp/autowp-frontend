@@ -28,12 +28,12 @@ import {CommentsListComponent} from '../list/list.component';
   templateUrl: './comments.component.html',
 })
 export class CommentsComponent {
-  private readonly router = inject(Router);
+  readonly #router = inject(Router);
   protected readonly auth = inject(AuthService);
-  private readonly toastService = inject(ToastsService);
-  private readonly commentsGrpc = inject(CommentsClient);
+  readonly #toastService = inject(ToastsService);
+  readonly #commentsGrpc = inject(CommentsClient);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
 
   @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
@@ -63,14 +63,14 @@ export class CommentsComponent {
     this.typeID$.pipe(debounceTime(10), distinctUntilChanged()),
     this.limit$.pipe(debounceTime(10), distinctUntilChanged()),
     this.page$.pipe(debounceTime(10), distinctUntilChanged()),
-    this.reload$,
+    this.#reload$,
   ]).pipe(
     switchMap(([user, itemID, typeID, limit, page]) =>
       typeID && itemID
         ? this.load$(itemID, typeID, limit, page).pipe(
             tap(() => {
               if (user) {
-                this.commentsGrpc
+                this.#commentsGrpc
                   .view(
                     new CommentsViewRequest({
                       itemId: '' + itemID,
@@ -97,13 +97,13 @@ export class CommentsComponent {
         take(1),
         switchMap((limit) => {
           if (!limit) {
-            this.reload$.next();
+            this.#reload$.next();
             return EMPTY;
           }
 
-          return this.commentsGrpc.getMessagePage(new GetMessagePageRequest({messageId: id, perPage: limit})).pipe(
+          return this.#commentsGrpc.getMessagePage(new GetMessagePageRequest({messageId: id, perPage: limit})).pipe(
             catchError((error: unknown) => {
-              this.toastService.handleError(error);
+              this.#toastService.handleError(error);
               return EMPTY;
             }),
             switchMap((response) =>
@@ -111,12 +111,12 @@ export class CommentsComponent {
                 take(1),
                 tap((page) => {
                   if (page !== response.page) {
-                    this.router.navigate([], {
+                    this.#router.navigate([], {
                       queryParams: {page: response.page},
                       queryParamsHandling: 'merge',
                     });
                   } else {
-                    this.reload$.next();
+                    this.#reload$.next();
                   }
                 }),
               ),
@@ -133,7 +133,7 @@ export class CommentsComponent {
     limit: null | number | undefined,
     page: null | number | undefined,
   ): Observable<APICommentsMessages> {
-    return this.commentsGrpc.getMessages(
+    return this.#commentsGrpc.getMessages(
       new GetMessagesRequest({
         fields: new CommentMessageFields({
           replies: true,

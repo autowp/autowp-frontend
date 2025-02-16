@@ -26,28 +26,28 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   templateUrl: './topic.component.html',
 })
 export class ForumsTopicComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
   protected readonly auth = inject(AuthService);
-  private readonly toastService = inject(ToastsService);
-  private readonly comments = inject(CommentsClient);
-  private readonly grpc = inject(ForumsClient);
+  readonly #toastService = inject(ToastsService);
+  readonly #comments = inject(CommentsClient);
+  readonly #grpc = inject(ForumsClient);
 
   protected readonly limit = MESSAGES_PER_PAGE;
   protected readonly user$ = this.auth.getUser$();
-  protected readonly page$ = this.route.queryParamMap.pipe(
+  protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
 
   protected readonly CommentsType = CommentsType;
 
-  protected readonly topic$: Observable<APIForumsTopic> = this.route.paramMap.pipe(
+  protected readonly topic$: Observable<APIForumsTopic> = this.#route.paramMap.pipe(
     map((params) => params.get('topic_id') ?? undefined),
     distinctUntilChanged(),
-    switchMap((topicID) => this.grpc.getTopic(new APIGetForumsTopicRequest({id: topicID}))),
+    switchMap((topicID) => this.#grpc.getTopic(new APIGetForumsTopicRequest({id: topicID}))),
     tap((topic) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 44,
         title: topic.name,
       });
@@ -56,11 +56,11 @@ export class ForumsTopicComponent {
   );
 
   protected readonly theme$ = this.topic$.pipe(
-    switchMap((topic) => this.grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId}))),
+    switchMap((topic) => this.#grpc.getTheme(new APIGetForumsThemeRequest({id: topic.themeId}))),
   );
 
   protected subscribe(topic: APIForumsTopic) {
-    this.comments
+    this.#comments
       .subscribe(
         new CommentsSubscribeRequest({
           itemId: topic.id,
@@ -68,7 +68,7 @@ export class ForumsTopicComponent {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
           topic.subscription = true;
         },
@@ -76,7 +76,7 @@ export class ForumsTopicComponent {
   }
 
   protected unsubscribe(topic: APIForumsTopic) {
-    this.comments
+    this.#comments
       .unSubscribe(
         new CommentsUnSubscribeRequest({
           itemId: topic.id,
@@ -84,7 +84,7 @@ export class ForumsTopicComponent {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
           topic.subscription = false;
         },

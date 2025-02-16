@@ -39,8 +39,8 @@ function vehicleTypesToList(vehicleTypes: APIVehicleType[]): APIVehicleType[] {
   templateUrl: './contents.component.html',
 })
 export class MostsContentsComponent {
-  private readonly mostsService = inject(MostsService);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #mostsService = inject(MostsService);
+  readonly #pageEnv = inject(PageEnvService);
 
   @Input() prefix: string[] = ['/mosts'];
 
@@ -51,7 +51,7 @@ export class MostsContentsComponent {
 
   protected readonly ratingCatnameNormalized$ = this.ratingCatname$.pipe(
     switchMap((ratingCatname) =>
-      this.menu$.pipe(map((menu) => (ratingCatname ? ratingCatname : menu.ratings[0].catname))),
+      this.#menu$.pipe(map((menu) => (ratingCatname ? ratingCatname : menu.ratings[0].catname))),
     ),
   );
 
@@ -70,18 +70,18 @@ export class MostsContentsComponent {
   }
   protected readonly brandID$ = new BehaviorSubject<null | number>(null);
 
-  private readonly menu$ = this.brandID$.pipe(
+  readonly #menu$ = this.brandID$.pipe(
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((brandID) => this.mostsService.getMenu$(brandID ?? 0)),
+    switchMap((brandID) => this.#mostsService.getMenu$(brandID ?? 0)),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly years$ = this.menu$.pipe(map((menu) => menu.years));
+  protected readonly years$ = this.#menu$.pipe(map((menu) => menu.years));
 
-  protected readonly ratings$ = this.menu$.pipe(map((menu) => menu.ratings));
+  protected readonly ratings$ = this.#menu$.pipe(map((menu) => menu.ratings));
 
-  protected readonly vehicleTypes$ = this.menu$.pipe(
+  protected readonly vehicleTypes$ = this.#menu$.pipe(
     map((menu) => vehicleTypesToList(menu.vehilce_types)),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -99,7 +99,7 @@ export class MostsContentsComponent {
     switchMap(([ratingCatname, typeCatname, yearsCatname]) =>
       this.brandID$.pipe(
         switchMap((brandID) =>
-          this.mostsService.getItems$({
+          this.#mostsService.getItems$({
             brand_id: brandID ?? 0,
             rating_catname: ratingCatname,
             type_catname: typeCatname ?? '',
@@ -112,7 +112,7 @@ export class MostsContentsComponent {
   );
 
   private initPageEnv() {
-    this.pageEnv.set({pageId: 21});
+    this.#pageEnv.set({pageId: 21});
   }
 
   protected getUnitAbbrTranslation(id: string): string {

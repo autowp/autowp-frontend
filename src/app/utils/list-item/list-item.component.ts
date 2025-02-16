@@ -52,11 +52,11 @@ export interface CatalogueListItemPicture {
   templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {
-  private readonly acl = inject(ACLService);
+  readonly #acl = inject(ACLService);
 
   @Input() item: CatalogueListItem | null = null;
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected havePhoto(item: CatalogueListItem) {
     if (item.previewPictures) {

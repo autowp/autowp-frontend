@@ -13,14 +13,14 @@ export interface Page {
   providedIn: 'root',
 })
 export class PageService {
-  private pages = new Map<number, Page>();
-  private parents = new Map<number, null | number>();
-  private pagesJson: Page[] = [];
+  readonly #pages = new Map<number, Page>();
+  readonly #parents = new Map<number, null | number>();
+  #pagesJson: Page[] = [];
 
   private walkPages(pages: Page[], parentID: null | number) {
     for (const page of pages) {
-      this.parents.set(page.id, parentID);
-      this.pages.set(page.id, page);
+      this.#parents.set(page.id, parentID);
+      this.#pages.set(page.id, page);
       this.walkPages(page.childs, page.id);
     }
   }
@@ -28,11 +28,11 @@ export class PageService {
   private isDescendantPrivate(id: number, parentID: number): boolean {
     let pageId: null | number | undefined = id;
     while (pageId) {
-      if (this.parents.get(pageId) === parentID) {
+      if (this.#parents.get(pageId) === parentID) {
         return true;
       }
 
-      pageId = this.parents.get(pageId);
+      pageId = this.#parents.get(pageId);
     }
 
     return false;
@@ -40,8 +40,8 @@ export class PageService {
 
   private loadTree$(): Observable<boolean> {
     return new Observable<boolean>((observer: Observer<boolean>) => {
-      if (!this.pagesJson) {
-        this.pagesJson = pagesJson;
+      if (!this.#pagesJson) {
+        this.#pagesJson = pagesJson;
         this.walkPages(pagesJson, null);
       }
 

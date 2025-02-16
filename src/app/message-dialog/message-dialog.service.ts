@@ -7,10 +7,10 @@ import {ModalMessageComponent} from './modal-message/modal-message.component';
   providedIn: 'root',
 })
 export class MessageDialogService {
-  private readonly modalService = inject(NgbModal);
+  readonly #modalService = inject(NgbModal);
 
   public showDialog(userId: string, sentCallback?: () => void, cancelCallback?: () => void) {
-    const modalRef = this.modalService.open(ModalMessageComponent, {
+    const modalRef = this.#modalService.open(ModalMessageComponent, {
       centered: true,
       size: 'lg',
     });

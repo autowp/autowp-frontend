@@ -15,15 +15,15 @@ import {UserComponent} from '../../user/user/user.component';
 })
 export class UsersOnlineComponent {
   protected readonly activeModal = inject(NgbActiveModal);
-  private readonly usersClient = inject(UsersClient);
+  readonly #usersClient = inject(UsersClient);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
-  protected readonly users$: Observable<APIUser[]> = this.reload$.pipe(
-    switchMap(() => this.usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
+  protected readonly users$: Observable<APIUser[]> = this.#reload$.pipe(
+    switchMap(() => this.#usersClient.getUsers(new APIUsersRequest({isOnline: true}))),
     map((response) => (response.items ? response.items : [])),
   );
 
   protected load() {
-    this.reload$.next();
+    this.#reload$.next();
   }
 }

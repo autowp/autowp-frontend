@@ -25,19 +25,19 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   templateUrl: './move-message.component.html',
 })
 export class ForumsMoveMessageComponent implements OnInit {
-  private readonly commentsClient = inject(CommentsClient);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly grpc = inject(ForumsClient);
+  readonly #commentsClient = inject(CommentsClient);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #grpc = inject(ForumsClient);
 
-  protected readonly messageID$ = this.route.queryParamMap.pipe(
+  protected readonly messageID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('message_id') ?? '', 10)),
     distinctUntilChanged(),
   );
 
-  protected readonly themeID$ = this.route.queryParamMap.pipe(
+  protected readonly themeID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('theme_id')),
     distinctUntilChanged(),
   );
@@ -47,9 +47,9 @@ export class ForumsMoveMessageComponent implements OnInit {
       if (!themeID) {
         return of([] as APIForumsTopic[]);
       }
-      return this.grpc.getTopics(new APIGetForumsTopicsRequest({themeId: themeID})).pipe(
+      return this.#grpc.getTopics(new APIGetForumsTopicsRequest({themeId: themeID})).pipe(
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
         map((response) => (response.items ? response.items : [])),
@@ -57,22 +57,22 @@ export class ForumsMoveMessageComponent implements OnInit {
     }),
   );
 
-  protected readonly themes$: Observable<APIForumsTheme[]> = this.grpc
+  protected readonly themes$: Observable<APIForumsTheme[]> = this.#grpc
     .getThemes(new APIGetForumsThemesRequest({}))
     .pipe(
       catchError((response: unknown) => {
-        this.toastService.handleError(response);
+        this.#toastService.handleError(response);
         return EMPTY;
       }),
       map((response) => (response.items ? response.items : [])),
     );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 83}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 83}), 0);
   }
 
   protected selectTopic(messageId: string, topic: APIForumsTopic) {
-    this.commentsClient
+    this.#commentsClient
       .moveComment(
         new CommentsMoveCommentRequest({
           commentId: messageId,
@@ -82,13 +82,13 @@ export class ForumsMoveMessageComponent implements OnInit {
       )
       .pipe(
         switchMap(() =>
-          this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE})),
+          this.#commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE})),
         ),
       )
       .subscribe({
-        error: (subresponse: unknown) => this.toastService.handleError(subresponse),
+        error: (subresponse: unknown) => this.#toastService.handleError(subresponse),
         next: (params) => {
-          this.router.navigate(['/forums/topic', params.itemId], {
+          this.#router.navigate(['/forums/topic', params.itemId], {
             queryParams: {
               page: params.page,
             },

@@ -12,13 +12,13 @@ import {Observable} from 'rxjs';
   templateUrl: './sidebar.component.html',
 })
 export class TwinsSidebarComponent {
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() selected: string[] = [];
 
-  protected readonly brands$: Observable<APITwinsBrandsList> = this.itemsClient.getTwinsBrandsList(
-    new GetTwinsBrandsListRequest({language: this.languageService.language}),
+  protected readonly brands$: Observable<APITwinsBrandsList> = this.#itemsClient.getTwinsBrandsList(
+    new GetTwinsBrandsListRequest({language: this.#languageService.language}),
   );
 
   protected active(item: APITwinsBrandsListItem): boolean {

@@ -46,12 +46,12 @@ export interface APICommentInList extends APICommentsMessage {
   templateUrl: './list.component.html',
 })
 export class CommentsListComponent {
-  private readonly acl = inject(ACLService);
+  readonly #acl = inject(ACLService);
   protected readonly auth = inject(AuthService);
-  private readonly modalService = inject(NgbModal);
-  private readonly toastService = inject(ToastsService);
-  private readonly commentsGrpc = inject(CommentsClient);
-  private readonly userService = inject(UserService);
+  readonly #modalService = inject(NgbModal);
+  readonly #toastService = inject(ToastsService);
+  readonly #commentsGrpc = inject(CommentsClient);
+  readonly #userService = inject(UserService);
 
   @Input() set itemID(itemID: string) {
     this.itemID$.next(itemID);
@@ -68,7 +68,7 @@ export class CommentsListComponent {
       messages.map((message) => ({
         canVote$: this.user$.pipe(map((user) => !!(user && user.id !== message.authorId))),
         message,
-        user$: this.userService.getUser$(message.authorId),
+        user$: this.#userService.getUser$(message.authorId),
       })),
     );
   }
@@ -87,15 +87,15 @@ export class CommentsListComponent {
 
   @Output() sent = new EventEmitter<string>();
 
-  protected readonly canRemoveComments$ = this.acl.isAllowed$(Resource.COMMENT, Privilege.REMOVE);
-  protected readonly canMoveMessage$ = this.acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canRemoveComments$ = this.#acl.isAllowed$(Resource.COMMENT, Privilege.REMOVE);
+  protected readonly canMoveMessage$ = this.#acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
   protected readonly user$ = this.auth.getUser$();
 
   protected readonly ModeratorAttention = ModeratorAttention;
 
   protected vote(message: APICommentsMessage, value: number) {
-    this.commentsGrpc
+    this.#commentsGrpc
       .voteComment(
         new CommentsVoteCommentRequest({
           commentId: message.id,
@@ -104,19 +104,19 @@ export class CommentsListComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.toastService.handleError(error);
+          this.#toastService.handleError(error);
           return EMPTY;
         }),
         switchMap(() => {
           message.userVote = value;
 
-          return this.commentsGrpc.getMessage(
+          return this.#commentsGrpc.getMessage(
             new GetMessageRequest({fields: new CommentMessageFields({vote: true}), id: message.id}),
           );
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: (response) => (message.vote = response.vote),
       });
 
@@ -124,7 +124,7 @@ export class CommentsListComponent {
   }
 
   protected setIsDeleted(message: APICommentsMessage, value: boolean) {
-    this.commentsGrpc
+    this.#commentsGrpc
       .setDeleted(
         new CommentsSetDeletedRequest({
           commentId: message.id,
@@ -132,7 +132,7 @@ export class CommentsListComponent {
         }),
       )
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => (message.deleted = value),
       });
   }
@@ -143,7 +143,7 @@ export class CommentsListComponent {
   }
 
   protected showVotes(message: APICommentsMessage) {
-    const modalRef = this.modalService.open(CommentsVotesComponent, {
+    const modalRef = this.#modalService.open(CommentsVotesComponent, {
       centered: true,
       size: 'lg',
     });

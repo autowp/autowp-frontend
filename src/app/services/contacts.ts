@@ -15,11 +15,11 @@ export interface APIContactsGetOptions {
   providedIn: 'root',
 })
 export class ContactsService {
-  private readonly auth = inject(AuthService);
-  private readonly contactsClient = inject(ContactsClient);
+  readonly #auth = inject(AuthService);
+  readonly #contactsClient = inject(ContactsClient);
 
   public isInContacts$(userId: string): Observable<boolean> {
-    return this.contactsClient.getContact(new GetContactRequest({userId})).pipe(
+    return this.#contactsClient.getContact(new GetContactRequest({userId})).pipe(
       map((response) => !!response.contactUserId),
       catchError((err: unknown) => {
         if (err instanceof GrpcStatusEvent && err.statusCode === 5) {
@@ -32,6 +32,6 @@ export class ContactsService {
   }
 
   public getContacts$(): Observable<ContactItems> {
-    return this.auth.getUser$().pipe(switchMap(() => this.contactsClient.getContacts(new GetContactsRequest({}))));
+    return this.#auth.getUser$().pipe(switchMap(() => this.#contactsClient.getContacts(new GetContactsRequest({}))));
   }
 }

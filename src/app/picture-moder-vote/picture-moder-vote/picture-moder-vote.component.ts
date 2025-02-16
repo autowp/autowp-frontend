@@ -17,10 +17,10 @@ import {PictureModerVoteModalComponent} from './modal/modal.component';
   templateUrl: './picture-moder-vote.component.html',
 })
 export class PictureModerVoteComponent {
-  private readonly moderVoteService = inject(PictureModerVoteService);
-  private readonly moderVoteTemplateService = inject(APIPictureModerVoteTemplateService);
-  private readonly modalService = inject(NgbModal);
-  private readonly userService = inject(UserService);
+  readonly #moderVoteService = inject(PictureModerVoteService);
+  readonly #moderVoteTemplateService = inject(APIPictureModerVoteTemplateService);
+  readonly #modalService = inject(NgbModal);
+  readonly #userService = inject(UserService);
 
   @Input() set picture(picture: null | Picture) {
     this.picture$.next(picture);
@@ -33,13 +33,13 @@ export class PictureModerVoteComponent {
     map((picture) =>
       (picture?.pictureModerVotes?.items || []).map((vote) => ({
         reason: vote.reason,
-        user$: this.userService.getUser$(vote.userId),
+        user$: this.#userService.getUser$(vote.userId),
         vote: vote.vote,
       })),
     ),
   );
 
-  protected readonly moderVoteTemplateOptions$ = this.moderVoteTemplateService
+  protected readonly moderVoteTemplateOptions$ = this.#moderVoteTemplateService
     .getTemplates$()
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
   protected vote: null | number = null;
@@ -47,17 +47,17 @@ export class PictureModerVoteComponent {
   protected save = false;
 
   protected votePicture(picture: Picture, vote: number, reason: string): void {
-    this.moderVoteService.vote$(picture.id, vote, reason).subscribe(() => this.changed.emit());
+    this.#moderVoteService.vote$(picture.id, vote, reason).subscribe(() => this.changed.emit());
   }
 
   protected cancelVotePicture(picture: Picture): void {
-    this.moderVoteService.cancel$(picture.id).subscribe(() => this.changed.emit());
+    this.#moderVoteService.cancel$(picture.id).subscribe(() => this.changed.emit());
   }
 
   protected showCustomDialog(picture: Picture, vote: number): void {
     this.vote = vote;
 
-    const modalRef = this.modalService.open(PictureModerVoteModalComponent, {
+    const modalRef = this.#modalService.open(PictureModerVoteModalComponent, {
       centered: true,
       size: 'lg',
     });

@@ -30,12 +30,12 @@ import {DonateVodSelectItemComponent} from './item/item.component';
   templateUrl: './select.component.html',
 })
 export class DonateVodSelectComponent implements OnDestroy, OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  private querySub?: Subscription;
+  #querySub?: Subscription;
   protected page: number = 0;
   protected brands: APIItem[][] = [];
   protected paginator: null | Pages = null;
@@ -45,14 +45,14 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
   protected loading = 0;
   protected conceptsExpanded = false;
 
-  private readonly select$: Observable<null | {
+  readonly #select$: Observable<null | {
     brand: null | {
       brand: APIItem;
       concepts: ItemParents;
       vehicles: ItemParents;
     };
     items: APIItemList | null;
-  }> = this.route.queryParamMap.pipe(
+  }> = this.#route.queryParamMap.pipe(
     map((params) => ({
       anonymous: !!params.get('anonymous'),
       brand_id: parseInt(params.get('brand_id') ?? '', 10),
@@ -68,10 +68,10 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
       return combineLatest([
         brandID
           ? of(null)
-          : this.itemsClient.list(
+          : this.#itemsClient.list(
               new ItemsRequest({
                 fields: new ItemFields({nameOnly: true}),
-                language: this.languageService.language,
+                language: this.#languageService.language,
                 limit: 500,
                 options: new ItemListOptions({
                   typeId: ItemType.ITEM_TYPE_BRAND,
@@ -80,12 +80,12 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
               }),
             ),
         brandID
-          ? this.itemsClient.item(new ItemRequest({id: '' + brandID, language: this.languageService.language})).pipe(
+          ? this.#itemsClient.item(new ItemRequest({id: '' + brandID, language: this.#languageService.language})).pipe(
               switchMap((brand) =>
                 combineLatest([
-                  this.itemsClient.getItemParents(
+                  this.#itemsClient.getItemParents(
                     new ItemParentsRequest({
-                      language: this.languageService.language,
+                      language: this.#languageService.language,
                       options: new ItemParentListOptions({
                         item: new ItemListOptions({
                           typeId: ItemType.ITEM_TYPE_VEHICLE,
@@ -95,9 +95,9 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
                       order: ItemParentsRequest.Order.AUTO,
                     }),
                   ),
-                  this.itemsClient.getItemParents(
+                  this.#itemsClient.getItemParents(
                     new ItemParentsRequest({
-                      language: this.languageService.language,
+                      language: this.#languageService.language,
                       options: new ItemParentListOptions({
                         item: new ItemListOptions({
                           isConcept: true,
@@ -121,9 +121,9 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 196}), 0);
 
-    this.querySub = this.select$.subscribe((r) => {
+    this.#querySub = this.#select$.subscribe((r) => {
       const brand = r?.brand;
       const items = r?.items;
       if (brand) {
@@ -148,8 +148,8 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.querySub) {
-      this.querySub.unsubscribe();
+    if (this.#querySub) {
+      this.#querySub.unsubscribe();
     }
   }
 }

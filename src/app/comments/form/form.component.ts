@@ -16,8 +16,8 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './form.component.html',
 })
 export class CommentsFormComponent implements OnDestroy, OnInit {
-  private readonly comments = inject(CommentsClient);
-  private readonly toastService = inject(ToastsService);
+  readonly #comments = inject(CommentsClient);
+  readonly #toastService = inject(ToastsService);
 
   @Input() parentID?: string;
   @Input() itemID?: string;
@@ -26,10 +26,10 @@ export class CommentsFormComponent implements OnDestroy, OnInit {
   @Output() canceled = new EventEmitter<null | string>();
 
   @Input() set resolve(resolve: boolean) {
-    this.resolve$.next(resolve);
+    this.#resolve$.next(resolve);
   }
-  private readonly resolve$ = new BehaviorSubject<boolean | null>(null);
-  private resolveSub?: Subscription;
+  readonly #resolve$ = new BehaviorSubject<boolean | null>(null);
+  #resolveSub?: Subscription;
 
   protected invalidParams: InvalidParams = {};
   protected readonly form = {
@@ -40,13 +40,13 @@ export class CommentsFormComponent implements OnDestroy, OnInit {
   protected sendMessage() {
     this.invalidParams = {};
 
-    this.resolve$
+    this.#resolve$
       .pipe(
         take(1),
         switchMap((resolve) =>
-          this.comments.add(
+          this.#comments.add(
             new AddCommentRequest({
-              itemId: '' + this.itemID,
+              itemId: this.itemID,
               message: this.form.message,
               moderatorAttention: !!this.form.moderator_attention,
               parentId: this.parentID ? '' + this.parentID : '',
@@ -62,7 +62,7 @@ export class CommentsFormComponent implements OnDestroy, OnInit {
             const fieldViolations = extractFieldViolations(response);
             this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           } else {
-            this.toastService.handleError(response);
+            this.#toastService.handleError(response);
           }
         },
         next: (response) => {
@@ -79,7 +79,7 @@ export class CommentsFormComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.resolveSub = this.resolve$
+    this.#resolveSub = this.#resolve$
       .pipe(
         tap((resolve) => {
           if (resolve && this.form.message.length <= 0) {
@@ -91,8 +91,8 @@ export class CommentsFormComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.resolveSub) {
-      this.resolveSub.unsubscribe();
+    if (this.#resolveSub) {
+      this.#resolveSub.unsubscribe();
     }
   }
 }

@@ -17,9 +17,9 @@ export interface APIVehicleType {
   providedIn: 'root',
 })
 export class VehicleTypeService {
-  private readonly grpc = inject(AutowpClient);
+  readonly #grpc = inject(AutowpClient);
 
-  private readonly types$: Observable<VehicleType[]> = this.grpc.getVehicleTypes(new Empty()).pipe(
+  readonly #types$: Observable<VehicleType[]> = this.#grpc.getVehicleTypes(new Empty()).pipe(
     map((data) => (data.items ? data.items : [])),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -32,11 +32,11 @@ export class VehicleTypeService {
   }
 
   public getTypes$(): Observable<VehicleType[]> {
-    return this.types$;
+    return this.#types$;
   }
 
   public getTypesPlain$(): Observable<VehicleType[]> {
-    return this.types$.pipe(
+    return this.#types$.pipe(
       map((types) => {
         const result: VehicleType[] = [];
         this.walkTypes(types, (type) => {

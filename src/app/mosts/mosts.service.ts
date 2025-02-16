@@ -51,22 +51,22 @@ export interface APIMostsMenuYear {
   providedIn: 'root',
 })
 export class MostsService {
-  private readonly api = inject(APIService);
+  readonly #api = inject(APIService);
 
-  private readonly menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
+  readonly #menus$ = new Map<number, Observable<APIMostsMenuGetResponse>>();
 
   public getMenu$(brandID: number): Observable<APIMostsMenuGetResponse> {
-    const cached$ = this.menus$.get(brandID);
+    const cached$ = this.#menus$.get(brandID);
     if (cached$) {
       return cached$;
     }
 
-    const o$ = this.api.request$<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
+    const o$ = this.#api.request$<APIMostsMenuGetResponse>('GET', 'mosts/menu', {
       params: {
         brand_id: brandID.toString(),
       },
     });
-    this.menus$.set(brandID, o$);
+    this.#menus$.set(brandID, o$);
 
     return o$;
   }
@@ -90,7 +90,7 @@ export class MostsService {
       params['brand_id'] = options.brand_id.toString();
     }
 
-    return this.api.request$<APIMostsItemsGetResponse>('GET', 'mosts/items', {
+    return this.#api.request$<APIMostsItemsGetResponse>('GET', 'mosts/items', {
       params,
     });
   }

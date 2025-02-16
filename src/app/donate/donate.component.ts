@@ -12,12 +12,12 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './donate.component.html',
 })
 export class DonateComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly languageService = inject(LanguageService);
-  private readonly domSanitizer = inject(DomSanitizer);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #languageService = inject(LanguageService);
+  readonly #domSanitizer = inject(DomSanitizer);
 
   protected frameUrl: SafeResourceUrl;
-  protected readonly language: string = this.languageService.language;
+  protected readonly language: string = this.#languageService.language;
 
   constructor() {
     const map: {
@@ -46,10 +46,10 @@ export class DonateComponent implements OnInit {
     }
 
     // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
-    this.frameUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
+    this.frameUrl = this.#domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 196}), 0);
   }
 }

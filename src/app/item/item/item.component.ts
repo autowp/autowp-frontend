@@ -13,14 +13,14 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './item.component.html',
 })
 export class ItemComponent {
-  private readonly acl = inject(ACLService);
+  readonly #acl = inject(ACLService);
 
   @Input() item?: APIItem;
   @Input() disableTitle: boolean = false;
   @Input() disableDescription: boolean = false;
   @Input() disableDetailsLink: boolean = false;
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected havePhoto(item: APIItem) {
     if (item.previewPictures) {

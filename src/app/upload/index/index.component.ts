@@ -70,17 +70,16 @@ const cropTitle = (image: APIImage | undefined): string => {
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
-  private readonly api = inject(APIService);
-  private readonly route = inject(ActivatedRoute);
+  readonly #api = inject(APIService);
+  readonly #route = inject(ActivatedRoute);
   protected readonly auth = inject(AuthService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly modalService = inject(NgbModal);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #modalService = inject(NgbModal);
   readonly #toastService = inject(ToastsService);
-  private readonly keycloak = inject(Keycloak);
+  readonly #keycloak = inject(Keycloak);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly picturesClient = inject(PicturesClient);
+  readonly #itemsClient = inject(ItemsClient);
 
   protected files: File[] | undefined;
   protected note: string = '';
@@ -91,19 +90,19 @@ export class UploadIndexComponent implements OnInit {
 
   @ViewChild('input') public input: ElementRef | null = null;
 
-  protected readonly perspectiveID$ = this.route.queryParamMap.pipe(
+  protected readonly perspectiveID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('perspective_id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly replace$ = this.route.queryParamMap.pipe(
+  protected readonly replace$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('replace') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly replacePicture$: Observable<null | Picture> = this.replace$.pipe(
+  readonly #replacePicture$: Observable<null | Picture> = this.replace$.pipe(
     switchMap((replace) => {
       return replace
         ? this.#picturesClient
@@ -124,18 +123,18 @@ export class UploadIndexComponent implements OnInit {
     }),
   );
 
-  protected readonly itemID$: Observable<string> = this.route.queryParamMap.pipe(
+  protected readonly itemID$: Observable<string> = this.#route.queryParamMap.pipe(
     map((params) => params.get('item_id') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  private readonly item$: Observable<APIItem | null> = this.itemID$.pipe(
+  readonly #item$: Observable<APIItem | null> = this.itemID$.pipe(
     switchMap((id) => {
       if (!id) {
         return of(null);
       }
-      return this.itemsClient.item(
+      return this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({nameHtml: true}),
           id,
@@ -145,7 +144,7 @@ export class UploadIndexComponent implements OnInit {
     }),
   );
 
-  protected readonly selection$ = combineLatest([this.replacePicture$, this.item$]).pipe(
+  protected readonly selection$ = combineLatest([this.#replacePicture$, this.#item$]).pipe(
     map(([replace, item]) => ({
       name: replace?.nameHtml ?? item?.nameHtml ?? '',
       selected: !!(replace || item),
@@ -153,11 +152,11 @@ export class UploadIndexComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 29}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 29}), 0);
   }
 
   protected doLogin() {
-    this.keycloak.login({
+    this.#keycloak.login({
       locale: this.#languageService.language,
       redirectUri: window.location.href,
     });
@@ -227,7 +226,7 @@ export class UploadIndexComponent implements OnInit {
         return formData;
       }),
       switchMap((formData) =>
-        this.api.request$('POST', 'picture', {
+        this.#api.request$('POST', 'picture', {
           body: formData,
           observe: 'events',
           reportProgress: true,
@@ -315,7 +314,7 @@ export class UploadIndexComponent implements OnInit {
   }
 
   protected crop(picture: APIPictureUpload) {
-    const modalRef = this.modalService.open(UploadCropComponent, {
+    const modalRef = this.#modalService.open(UploadCropComponent, {
       centered: true,
       size: 'lg',
     });
@@ -324,7 +323,7 @@ export class UploadIndexComponent implements OnInit {
     modalRef.componentInstance.changed
       .pipe(
         switchMap(() =>
-          this.picturesClient.setPictureCrop(
+          this.#picturesClient.setPictureCrop(
             new SetPictureCropRequest({
               cropHeight: picture.picture.image?.cropHeight ? Math.round(picture.picture.image.cropHeight) : undefined,
               cropLeft: picture.picture.image?.cropLeft ? Math.round(picture.picture.image.cropLeft) : undefined,

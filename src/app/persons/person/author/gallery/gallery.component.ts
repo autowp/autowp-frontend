@@ -16,19 +16,19 @@ import {GalleryComponent} from '../../../../gallery/gallery.component';
   templateUrl: './gallery.component.html',
 })
 export class PersonsPersonAuthorGalleryComponent {
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
 
   protected paginator: APIPaginator | null = null;
   protected picturesRouterLink: string[] = [];
 
-  protected readonly identity$ = this.route.paramMap.pipe(
+  protected readonly identity$ = this.#route.paramMap.pipe(
     map((route) => route.get('identity')),
     distinctUntilChanged(),
     switchMap((identity) => {
       if (!identity) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -39,7 +39,7 @@ export class PersonsPersonAuthorGalleryComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly itemID$ = this.route.parent!.parent!.paramMap.pipe(
+  protected readonly itemID$ = this.#route.parent!.parent!.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
   );
@@ -47,7 +47,7 @@ export class PersonsPersonAuthorGalleryComponent {
   protected pictureSelected(item: APIGalleryItem | null) {
     if (item) {
       setTimeout(() => {
-        this.pageEnv.set({
+        this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: 34,
           title: item.name,

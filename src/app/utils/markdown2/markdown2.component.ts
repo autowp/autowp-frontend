@@ -9,11 +9,11 @@ import showdown from 'showdown';
   templateUrl: './markdown2.component.html',
 })
 export class Markdown2Component implements AfterViewInit {
-  private readonly element = inject(ElementRef);
-  private readonly platform = inject(PLATFORM_ID);
+  readonly #element = inject(ElementRef);
+  readonly #platform = inject(PLATFORM_ID);
 
   private decodeHtml(html: string): string {
-    if (isPlatformBrowser(this.platform)) {
+    if (isPlatformBrowser(this.#platform)) {
       const textarea = document.createElement('textarea');
       textarea.innerHTML = html;
       return textarea.value;
@@ -22,9 +22,9 @@ export class Markdown2Component implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const markdown = this.decodeHtml(this.element.nativeElement.innerHTML);
+    const markdown = this.decodeHtml(this.#element.nativeElement.innerHTML);
 
     const markdownConverter = new showdown.Converter({});
-    this.element.nativeElement.innerHTML = markdownConverter.makeHtml(markdown);
+    this.#element.nativeElement.innerHTML = markdownConverter.makeHtml(markdown);
   }
 }

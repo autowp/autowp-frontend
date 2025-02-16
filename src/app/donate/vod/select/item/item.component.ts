@@ -26,9 +26,9 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './item.component.html',
 })
 export class DonateVodSelectItemComponent {
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   @Input() set itemParent(itemParent: ItemParent) {
     this.itemParent$.next(itemParent);
@@ -39,7 +39,7 @@ export class DonateVodSelectItemComponent {
   protected readonly item$: Observable<APIItem> = this.itemParent$.pipe(
     switchMap((itemParent) =>
       itemParent
-        ? this.itemsClient.item(
+        ? this.#itemsClient.item(
             new ItemRequest({
               fields: new ItemFields({
                 childsCount: true,
@@ -47,7 +47,7 @@ export class DonateVodSelectItemComponent {
                 nameHtml: true,
               }),
               id: itemParent.itemId,
-              language: this.languageService.language,
+              language: this.#languageService.language,
             }),
           )
         : EMPTY,
@@ -57,9 +57,9 @@ export class DonateVodSelectItemComponent {
   protected readonly childs$: Observable<ItemParent[]> = this.itemParent$.pipe(
     switchMap((itemParent) =>
       itemParent
-        ? this.itemsClient.getItemParents(
+        ? this.#itemsClient.getItemParents(
             new ItemParentsRequest({
-              language: this.languageService.language,
+              language: this.#languageService.language,
               options: new ItemParentListOptions({
                 item: new ItemListOptions({
                   typeId: ItemType.ITEM_TYPE_VEHICLE,
@@ -72,7 +72,7 @@ export class DonateVodSelectItemComponent {
         : EMPTY,
     ),
     catchError((e: unknown) => {
-      this.toastService.handleError(e);
+      this.#toastService.handleError(e);
       return EMPTY;
     }),
     map((items) => items.items || []),

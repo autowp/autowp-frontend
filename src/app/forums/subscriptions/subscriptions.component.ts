@@ -17,32 +17,32 @@ import {ForumsTopicListComponent} from '../topic-list/topic-list.component';
   templateUrl: './subscriptions.component.html',
 })
 export class ForumsSubscriptionsComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly grpc = inject(ForumsClient);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #grpc = inject(ForumsClient);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
 
   protected readonly data$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
-    this.route.queryParamMap.pipe(
+    this.#route.queryParamMap.pipe(
       map((params) => parseInt(params.get('page') ?? '', 10)),
       distinctUntilChanged(),
     ),
-    this.reload$,
+    this.#reload$,
   ]).pipe(
-    switchMap(([page]) => this.grpc.getTopics(new APIGetForumsTopicsRequest({page, subscription: true}))),
+    switchMap(([page]) => this.#grpc.getTopics(new APIGetForumsTopicsRequest({page, subscription: true}))),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
   );
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 42}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 42}), 0);
   }
 
   protected reload() {
-    this.reload$.next();
+    this.#reload$.next();
   }
 }

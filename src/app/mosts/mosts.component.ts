@@ -13,20 +13,20 @@ import {MostsContentsComponent} from './contents/contents.component';
   templateUrl: './mosts.component.html',
 })
 export class MostsComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
 
-  protected readonly ratingCatname$: Observable<string> = this.route.paramMap.pipe(
+  protected readonly ratingCatname$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('rating_catname') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
-  protected readonly typeCatname$: Observable<string> = this.route.paramMap.pipe(
+  protected readonly typeCatname$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('type_catname') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
   );
-  protected readonly yearsCatname$: Observable<string> = this.route.paramMap.pipe(
+  protected readonly yearsCatname$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('years_catname') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
@@ -34,7 +34,7 @@ export class MostsComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({pageId: 21});
+      this.#pageEnv.set({pageId: 21});
     }, 0);
   }
 }

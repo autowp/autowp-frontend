@@ -29,9 +29,9 @@ export class UploadCropComponent implements OnDestroy, OnInit {
   }
   protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
 
-  private readonly minSize = [400, 300];
+  readonly #minSize = [400, 300];
 
-  private jcrop: Jcrop = null;
+  #jcrop: Jcrop = null;
   protected aspect: string = '';
   protected resolution: string = '';
   protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
@@ -41,10 +41,10 @@ export class UploadCropComponent implements OnDestroy, OnInit {
     x: 0,
     y: 0,
   };
-  private sub?: Subscription;
+  #sub?: Subscription;
 
   ngOnInit(): void {
-    this.sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
+    this.#sub = combineLatest([this.img$, this.picture$]).subscribe(([img, picture]) => {
       if (img && picture) {
         const body = img.parentElement;
 
@@ -52,7 +52,7 @@ export class UploadCropComponent implements OnDestroy, OnInit {
           return;
         }
 
-        this.jcrop = null;
+        this.#jcrop = null;
         if (picture.image && picture.image.cropWidth && picture.image.cropHeight) {
           this.currentCrop = {
             h: picture.image.cropHeight ?? 0,
@@ -79,11 +79,11 @@ export class UploadCropComponent implements OnDestroy, OnInit {
         img.style.width = width + 'px';
         img.style.height = height + 'px';
 
-        this.jcrop = Jcrop(img, {
+        this.#jcrop = Jcrop(img, {
           boxHeight: height,
           boxWidth: width,
           keySupport: false,
-          minSize: this.minSize,
+          minSize: this.#minSize,
           onSelect: (c: JcropCrop) => {
             this.currentCrop = c;
             if (this.currentCrop.y < 0) {
@@ -107,14 +107,14 @@ export class UploadCropComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
+    if (this.#sub) {
+      this.#sub.unsubscribe();
     }
   }
 
   protected selectAll(picture: Picture) {
-    if (this.jcrop) {
-      this.jcrop.setSelect([0, 0, picture.width, picture.height]);
+    if (this.#jcrop) {
+      this.#jcrop.setSelect([0, 0, picture.width, picture.height]);
     }
   }
 

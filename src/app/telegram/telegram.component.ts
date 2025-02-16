@@ -9,9 +9,9 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './telegram.component.html',
 })
 export class TelegramComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 204}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 204}), 0);
   }
 }

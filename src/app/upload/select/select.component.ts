@@ -34,12 +34,12 @@ import {UploadSelectTreeItemComponent} from './tree-item/tree-item.component';
   templateUrl: './select.component.html',
 })
 export class UploadSelectComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
   protected brand: null | {
     concepts: ItemParent[];
@@ -59,7 +59,7 @@ export class UploadSelectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 30}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 30}), 0);
 
     combineLatest([
       this.search$.pipe(
@@ -67,7 +67,7 @@ export class UploadSelectComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(50),
       ),
-      this.route.queryParamMap.pipe(
+      this.#route.queryParamMap.pipe(
         map((params) => ({
           brandId: params.get('brand_id'),
           page: parseInt(params.get('page') ?? '', 10),
@@ -104,13 +104,13 @@ export class UploadSelectComponent implements OnInit {
   }
 
   private brandsObservable$(page: number, search: string): Observable<APIItemList> {
-    return this.itemsClient
+    return this.#itemsClient
       .list(
         new ItemsRequest({
           fields: new ItemFields({
             nameOnly: true,
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 500,
           options: new ItemListOptions({
             name: search ? '%' + search + '%' : undefined,
@@ -122,7 +122,7 @@ export class UploadSelectComponent implements OnInit {
       )
       .pipe(
         catchError((err: unknown) => {
-          this.toastService.handleError(err);
+          this.#toastService.handleError(err);
           return EMPTY;
         }),
       );
@@ -134,9 +134,9 @@ export class UploadSelectComponent implements OnInit {
     item: GRPCAPIItem;
     vehicles: ItemParent[];
   }> {
-    return this.itemsClient.item(new ItemRequest({id: brandId, language: this.languageService.language})).pipe(
+    return this.#itemsClient.item(new ItemRequest({id: brandId, language: this.#languageService.language})).pipe(
       catchError(() => {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -149,7 +149,7 @@ export class UploadSelectComponent implements OnInit {
   private brandItemsObservable(item: GRPCAPIItem) {
     return forkJoin([
       of(item),
-      this.itemsClient
+      this.#itemsClient
         .getItemParents(
           new ItemParentsRequest({
             fields: new ItemParentFields({
@@ -158,7 +158,7 @@ export class UploadSelectComponent implements OnInit {
                 nameHtml: true,
               }),
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 500,
             options: new ItemParentListOptions({
               item: new ItemListOptions({
@@ -173,11 +173,11 @@ export class UploadSelectComponent implements OnInit {
         .pipe(
           map((response) => response.items || []),
           catchError((err: unknown) => {
-            this.toastService.handleError(err);
+            this.#toastService.handleError(err);
             return EMPTY;
           }),
         ),
-      this.itemsClient
+      this.#itemsClient
         .getItemParents(
           new ItemParentsRequest({
             fields: new ItemParentFields({
@@ -186,7 +186,7 @@ export class UploadSelectComponent implements OnInit {
                 nameHtml: true,
               }),
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 500,
             options: new ItemParentListOptions({
               item: new ItemListOptions({
@@ -201,11 +201,11 @@ export class UploadSelectComponent implements OnInit {
         .pipe(
           map((response) => response.items || []),
           catchError((err: unknown) => {
-            this.toastService.handleError(err);
+            this.#toastService.handleError(err);
             return EMPTY;
           }),
         ),
-      this.itemsClient
+      this.#itemsClient
         .getItemParents(
           new ItemParentsRequest({
             fields: new ItemParentFields({
@@ -214,7 +214,7 @@ export class UploadSelectComponent implements OnInit {
                 nameHtml: true,
               }),
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 500,
             options: new ItemParentListOptions({
               item: new ItemListOptions({
@@ -228,7 +228,7 @@ export class UploadSelectComponent implements OnInit {
         .pipe(
           map((response) => response.items || []),
           catchError((err: unknown) => {
-            this.toastService.handleError(err);
+            this.#toastService.handleError(err);
             return EMPTY;
           }),
         ),

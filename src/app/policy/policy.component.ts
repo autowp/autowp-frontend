@@ -8,9 +8,9 @@ import {PageEnvService} from '@services/page-env.service';
   templateUrl: './policy.component.html',
 })
 export class PolicyComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 1}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 1}), 0);
   }
 }

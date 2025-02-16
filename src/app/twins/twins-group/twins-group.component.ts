@@ -24,18 +24,18 @@ import {TwinsSidebarComponent} from '../sidebar.component';
   templateUrl: './twins-group.component.html',
 })
 export class TwinsGroupComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly router = inject(Router);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #router = inject(Router);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly group$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly group$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('group') ?? ''),
     distinctUntilChanged(),
     switchMap((group) =>
       group
-        ? this.itemsClient.item(
+        ? this.#itemsClient.item(
             new ItemRequest({
               fields: new ItemFields({
                 acceptedPicturesCount: true,
@@ -44,14 +44,14 @@ export class TwinsGroupComponent {
                 nameText: true,
               }),
               id: group,
-              language: this.languageService.language,
+              language: this.#languageService.language,
             }),
           )
         : EMPTY,
     ),
     switchMap((group) => {
       if (!group) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -61,7 +61,7 @@ export class TwinsGroupComponent {
     tap((group) => {
       setTimeout(
         () =>
-          this.pageEnv.set({
+          this.#pageEnv.set({
             pageId: 25,
             title: group.nameText,
           }),
@@ -73,7 +73,7 @@ export class TwinsGroupComponent {
 
   protected readonly selectedBrands$: Observable<string[]> = this.group$.pipe(
     switchMap((group) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           options: new ItemListOptions({
             child: new ItemParentListOptions({
@@ -89,5 +89,5 @@ export class TwinsGroupComponent {
     map((response) => (response.items || []).map((item) => item.catname)),
   );
 
-  protected readonly layoutParams$ = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$ = this.#pageEnv.layoutParams$.asObservable();
 }

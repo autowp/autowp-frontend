@@ -22,13 +22,13 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './new-topic.component.html',
 })
 export class ForumsNewTopicComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
   protected readonly auth = inject(AuthService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly forums = inject(ForumsClient);
-  private readonly grpc = inject(ForumsClient);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #forums = inject(ForumsClient);
+  readonly #grpc = inject(ForumsClient);
 
   protected readonly form = {
     message: '',
@@ -37,12 +37,12 @@ export class ForumsNewTopicComponent implements OnInit {
     subscription: false,
   };
   protected invalidParams?: InvalidParams;
-  protected readonly theme$ = this.route.paramMap.pipe(
+  protected readonly theme$ = this.#route.paramMap.pipe(
     map((params) => params.get('theme_id')),
     distinctUntilChanged(),
-    switchMap((themeID) => (themeID ? this.grpc.getTheme(new APIGetForumsThemeRequest({id: themeID})) : EMPTY)),
+    switchMap((themeID) => (themeID ? this.#grpc.getTheme(new APIGetForumsThemeRequest({id: themeID})) : EMPTY)),
     catchError(() => {
-      this.router.navigate(['/error-404'], {
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
@@ -53,14 +53,14 @@ export class ForumsNewTopicComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({pageId: 45});
+      this.#pageEnv.set({pageId: 45});
     }, 0);
   }
 
   protected submit(theme: APIForumsTheme) {
     this.invalidParams = {};
 
-    this.forums
+    this.#forums
       .createTopic(
         new APICreateTopicRequest({
           message: this.form.message,
@@ -76,11 +76,11 @@ export class ForumsNewTopicComponent implements OnInit {
             const fieldViolations = extractFieldViolations(response);
             this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
           } else {
-            this.toastService.handleError(response);
+            this.#toastService.handleError(response);
           }
         },
         next: (response) => {
-          this.router.navigate(['/forums/topic', response.id]);
+          this.#router.navigate(['/forums/topic', response.id]);
         },
       });
   }

@@ -9,17 +9,17 @@ import {catchError, tap} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly keycloak = inject(Keycloak);
-  private readonly usersClient = inject(UsersClient);
+  readonly #keycloak = inject(Keycloak);
+  readonly #usersClient = inject(UsersClient);
 
-  private readonly user$ = new ReplaySubject<APIUser | null>(1);
+  readonly #user$ = new ReplaySubject<APIUser | null>(1);
 
   constructor() {
     this.init();
   }
 
   public init() {
-    if (this.keycloak.token) {
+    if (this.#keycloak.token) {
       this.loadMe$().subscribe();
     } else {
       this.setUser(null);
@@ -27,19 +27,19 @@ export class AuthService {
   }
 
   private setUser(value: APIUser | null) {
-    this.user$.next(value);
+    this.#user$.next(value);
   }
 
   public getUser$(): Observable<APIUser | null> {
-    return this.user$;
+    return this.#user$;
   }
 
   public signOut$(): Observable<void> {
-    return from(this.keycloak.logout({redirectUri: window.location.href})).pipe(tap(() => this.setUser(null)));
+    return from(this.#keycloak.logout({redirectUri: window.location.href})).pipe(tap(() => this.setUser(null)));
   }
 
   private loadMe$(): Observable<APIUser | null> {
-    return this.usersClient.me(new APIMeRequest({})).pipe(
+    return this.#usersClient.me(new APIMeRequest({})).pipe(
       catchError(() => {
         this.setUser(null);
         return of(null);

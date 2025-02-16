@@ -23,8 +23,8 @@ export interface PageEnv {
   providedIn: 'root',
 })
 export class PageEnvService {
-  private readonly pageService = inject(PageService);
-  private readonly titleService = inject(Title);
+  readonly #pageService = inject(PageService);
+  readonly #titleService = inject(Title);
 
   public readonly pageEnv$ = new BehaviorSubject<null | PageEnv>(null);
   public readonly layoutParams$ = new BehaviorSubject<LayoutParams>({
@@ -41,7 +41,7 @@ export class PageEnvService {
         });
 
         if (data.title) {
-          this.titleService.setTitle(data.title);
+          this.#titleService.setTitle(data.title);
         }
       }
     });
@@ -57,7 +57,7 @@ export class PageEnvService {
         if (!data?.pageId) {
           return of(false);
         }
-        return this.pageService.isDescendant$(data.pageId, id);
+        return this.#pageService.isDescendant$(data.pageId, id);
       }),
     );
   }

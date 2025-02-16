@@ -17,31 +17,31 @@ import {VotingService} from '../voting.service';
 })
 export class VotingVotesComponent {
   protected readonly activeModal = inject(NgbActiveModal);
-  private readonly votingService = inject(VotingService);
-  private readonly toastService = inject(ToastsService);
-  private readonly userService = inject(UserService);
+  readonly #votingService = inject(VotingService);
+  readonly #toastService = inject(ToastsService);
+  readonly #userService = inject(UserService);
 
   @Input() set votingID(value: number) {
-    this.votingID$.next(value);
+    this.#votingID$.next(value);
   }
-  private readonly votingID$ = new BehaviorSubject<null | number>(null);
+  readonly #votingID$ = new BehaviorSubject<null | number>(null);
 
   @Input() set variantID(value: number) {
-    this.variantID$.next(value);
+    this.#variantID$.next(value);
   }
-  private readonly variantID$ = new BehaviorSubject<null | number>(null);
+  readonly #variantID$ = new BehaviorSubject<null | number>(null);
 
   protected readonly votes$: Observable<Observable<APIUser | null>[]> = combineLatest([
-    this.votingID$,
-    this.variantID$,
+    this.#votingID$,
+    this.#variantID$,
   ]).pipe(
     switchMap(([votingID, variantID]) =>
-      votingID && variantID ? this.votingService.getVariantVotes$(votingID, variantID) : of(null),
+      votingID && variantID ? this.#votingService.getVariantVotes$(votingID, variantID) : of(null),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
-    map((response) => (response?.items || []).map((item) => this.userService.getUser$(item.user_id))),
+    map((response) => (response?.items || []).map((item) => this.#userService.getUser$(item.user_id))),
   );
 }

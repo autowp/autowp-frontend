@@ -36,16 +36,16 @@ export interface APIVotingVariantVotesGetResponse {
   providedIn: 'root',
 })
 export class VotingService {
-  private readonly api = inject(APIService);
+  readonly #api = inject(APIService);
 
   public getVariantVotes$(votingId: number, variantId: number): Observable<APIVotingVariantVotesGetResponse> {
-    return this.api.request$<APIVotingVariantVotesGetResponse>(
+    return this.#api.request$<APIVotingVariantVotesGetResponse>(
       'GET',
       'voting/' + votingId + '/variant/' + variantId + '/vote',
     );
   }
 
   public getVoting$(id: number): Observable<APIVoting> {
-    return this.api.request$<APIVoting>('GET', 'voting/' + id);
+    return this.#api.request$<APIVoting>('GET', 'voting/' + id);
   }
 }

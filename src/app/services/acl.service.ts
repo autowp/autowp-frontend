@@ -54,10 +54,10 @@ export enum Resource {
   providedIn: 'root',
 })
 export class APIACL {
-  private readonly grpc = inject(AutowpClient);
+  readonly #grpc = inject(AutowpClient);
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
-    return this.grpc.aclEnforce(new AclEnforceRequest({privilege, resource})).pipe(
+    return this.#grpc.aclEnforce(new AclEnforceRequest({privilege, resource})).pipe(
       map((response) => response.result),
       catchError(() => {
         return of(false);
@@ -70,24 +70,24 @@ export class APIACL {
   providedIn: 'root',
 })
 export class ACLService {
-  private readonly apiACL = inject(APIACL);
-  private readonly auth = inject(AuthService);
+  readonly #apiACL = inject(APIACL);
+  readonly #auth = inject(AuthService);
 
-  private isAllowedCache = new Map<string, Observable<boolean>>();
+  readonly #isAllowedCache = new Map<string, Observable<boolean>>();
 
   public isAllowed$(resource: Resource, privilege: Privilege): Observable<boolean> {
     const key = resource + '/' + privilege;
 
-    const cached$ = this.isAllowedCache.get(key);
+    const cached$ = this.#isAllowedCache.get(key);
     if (cached$) {
       return cached$;
     }
 
-    const o$ = this.auth.getUser$().pipe(
-      switchMap(() => this.apiACL.isAllowed$(resource, privilege)),
+    const o$ = this.#auth.getUser$().pipe(
+      switchMap(() => this.#apiACL.isAllowed$(resource, privilege)),
       shareReplay({bufferSize: 1, refCount: false}),
     );
-    this.isAllowedCache.set(key, o$);
+    this.#isAllowedCache.set(key, o$);
     return o$;
   }
 }

@@ -17,44 +17,44 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './person.component.html',
 })
 export class PersonsPersonComponent {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly acl = inject(ACLService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
+  readonly #acl = inject(ACLService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly itemID$: Observable<string> = this.route.paramMap.pipe(
+  readonly #itemID$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
     distinctUntilChanged(),
   );
 
-  protected readonly item$: Observable<APIItem> = this.itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#itemID$.pipe(
     switchMap((id) =>
-      this.itemsClient.item(
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             nameHtml: true,
             nameText: true,
           }),
           id,
-          language: this.languageService.language,
+          language: this.#languageService.language,
         }),
       ),
     ),
     catchError((err: unknown) => {
-      this.toastService.handleError(err);
-      this.router.navigate(['/error-404'], {
+      this.#toastService.handleError(err);
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     switchMap((item) => {
       if (item.itemTypeId !== ItemType.ITEM_TYPE_PERSON) {
-        this.router.navigate(['/error-404'], {
+        this.#router.navigate(['/error-404'], {
           skipLocationChange: true,
         });
         return EMPTY;
@@ -63,7 +63,7 @@ export class PersonsPersonComponent {
       return of(item);
     }),
     tap((item) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 213,
         title: item.nameText,
       });
@@ -71,5 +71,5 @@ export class PersonsPersonComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly layoutParams$: Observable<LayoutParams> = this.pageEnv.layoutParams$.asObservable();
+  protected readonly layoutParams$: Observable<LayoutParams> = this.#pageEnv.layoutParams$.asObservable();
 }

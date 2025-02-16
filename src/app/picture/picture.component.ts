@@ -73,12 +73,12 @@ import {PicturePaginatorComponent} from './paginator.component';
   templateUrl: './picture.component.html',
 })
 export class PictureComponent {
-  private readonly acl = inject(ACLService);
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
-  private readonly commentsGrpc = inject(CommentsClient);
-  private readonly userService = inject(UserService);
-  private readonly toastService = inject(ToastsService);
+  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
+  readonly #router = inject(Router);
+  readonly #commentsGrpc = inject(CommentsClient);
+  readonly #userService = inject(UserService);
+  readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
@@ -96,26 +96,26 @@ export class PictureComponent {
   protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => this.userService.getUser$(picture?.ownerId)),
+    switchMap((picture) => this.#userService.getUser$(picture?.ownerId)),
   );
 
   protected readonly moderVotes$ = this.picture$.pipe(
     map((picture) =>
       (picture?.pictureModerVotes?.items || []).map((vote) => ({
         reason: vote.reason,
-        user$: this.userService.getUser$(vote.userId),
+        user$: this.#userService.getUser$(vote.userId),
         vote: vote.vote,
       })),
     ),
   );
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  protected readonly canEditSpecs$ = this.acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canEditSpecs$ = this.#acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
   protected showShareDialog = false;
   protected location = location;
   protected statusLoading = false;
 
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly user$ = this.#auth.getUser$();
 
   protected savePerspective(perspectiveID: null | number, item: PictureItem) {
     this.#picturesClient
@@ -129,7 +129,7 @@ export class PictureComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.toastService.handleError(error);
+          this.#toastService.handleError(error);
           return EMPTY;
         }),
       )
@@ -147,13 +147,13 @@ export class PictureComponent {
 
   protected setSubscribed(picture: Picture, value: boolean) {
     (value
-      ? this.commentsGrpc.subscribe(
+      ? this.#commentsGrpc.subscribe(
           new CommentsSubscribeRequest({
             itemId: picture.id,
             typeId: CommentsType.PICTURES_TYPE_ID,
           }),
         )
-      : this.commentsGrpc.unSubscribe(
+      : this.#commentsGrpc.unSubscribe(
           new CommentsUnSubscribeRequest({
             itemId: picture.id,
             typeId: CommentsType.PICTURES_TYPE_ID,
@@ -189,7 +189,7 @@ export class PictureComponent {
       this.openSource(picture);
       return;
     }
-    this.router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', picture.identity]);
+    this.#router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', picture.identity]);
   }
 
   private setPictureStatus(picture: Picture, status: PictureStatus) {
@@ -198,7 +198,7 @@ export class PictureComponent {
       .setPictureStatus(new SetPictureStatusRequest({id: picture.id, status}))
       .pipe(
         catchError((err: unknown) => {
-          this.toastService.handleError(err);
+          this.#toastService.handleError(err);
           return EMPTY;
         }),
       )

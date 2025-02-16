@@ -8,9 +8,9 @@ import {Observable} from 'rxjs';
   providedIn: 'root',
 })
 export class ReCaptchaService {
-  private readonly grpc = inject(AutowpClient);
+  readonly #grpc = inject(AutowpClient);
 
   public get$(): Observable<ReCaptchaConfig> {
-    return this.grpc.getReCaptchaConfig(new Empty());
+    return this.#grpc.getReCaptchaConfig(new Empty());
   }
 }

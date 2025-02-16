@@ -71,7 +71,7 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
   templateUrl: './carousel-item.component.html',
 })
 export class CarouselItemComponent implements AfterViewInit, OnChanges {
-  private readonly el: ElementRef<HTMLElement> = inject(ElementRef);
+  readonly #el: ElementRef<HTMLElement> = inject(ElementRef);
 
   @Input() item?: APIGalleryItem;
   @Input() prefix: string[] = [];
@@ -125,16 +125,16 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
   }
 
   private fixSize() {
-    if (!this.el) {
-      console.debug('this.el is undefined', this.el);
+    if (!this.#el) {
+      console.debug('this.el is undefined', this.#el);
     }
 
     if (!this.item) {
       return;
     }
 
-    const w = this.el.nativeElement.clientWidth || 0;
-    const h = this.el.nativeElement.clientHeight || 0;
+    const w = this.#el.nativeElement.clientWidth || 0;
+    const h = this.#el.nativeElement.clientHeight || 0;
 
     const cSize: Dimension = {
       height: h,

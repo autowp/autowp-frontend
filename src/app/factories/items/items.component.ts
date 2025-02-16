@@ -47,7 +47,7 @@ export class FactoryItemsComponent {
 
   protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  private readonly page$ = this.#route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
@@ -91,7 +91,7 @@ export class FactoryItemsComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly items$ = combineLatest([this.page$, this.factory$]).pipe(
+  protected readonly items$ = combineLatest([this.#page$, this.factory$]).pipe(
     switchMap(([page, factory]) =>
       this.#itemsClient.list(
         new ItemsRequest({

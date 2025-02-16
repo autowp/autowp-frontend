@@ -21,29 +21,29 @@ import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {
-  private readonly api = inject(APIService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly votingService = inject(VotingService);
+  readonly #api = inject(APIService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #votingService = inject(VotingService);
   protected readonly auth = inject(AuthService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly modalService = inject(NgbModal);
-  private readonly toastService = inject(ToastsService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #modalService = inject(NgbModal);
+  readonly #toastService = inject(ToastsService);
 
-  private readonly reload$ = new BehaviorSubject<void>(void 0);
-  protected readonly voting$ = this.route.paramMap.pipe(
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
+  protected readonly voting$ = this.#route.paramMap.pipe(
     map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((id) => this.reload$.pipe(switchMap(() => this.votingService.getVoting$(id)))),
+    switchMap((id) => this.#reload$.pipe(switchMap(() => this.#votingService.getVoting$(id)))),
     catchError(() => {
-      this.router.navigate(['/error-404'], {
+      this.#router.navigate(['/error-404'], {
         skipLocationChange: true,
       });
       return EMPTY;
     }),
     tap((voting) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 157,
         title: voting.name,
       });
@@ -71,16 +71,16 @@ export class VotingComponent {
       }
     }
 
-    this.api
+    this.#api
       .request$<void>('PATCH', 'voting/' + voting.id, {
         body: {
           vote: ids,
         },
       })
       .subscribe({
-        error: (response: unknown) => this.toastService.handleError(response),
+        error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
-          this.reload$.next();
+          this.#reload$.next();
         },
       });
 
@@ -103,7 +103,7 @@ export class VotingComponent {
   }
 
   protected showWhoVoted(voting: APIVoting, variant: APIVotingVariant) {
-    const modalRef = this.modalService.open(VotingVotesComponent, {
+    const modalRef = this.#modalService.open(VotingVotesComponent, {
       centered: true,
       size: 'lg',
     });

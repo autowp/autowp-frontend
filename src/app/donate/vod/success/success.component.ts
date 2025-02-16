@@ -9,9 +9,9 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './success.component.html',
 })
 export class DonateVodSuccessComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 196}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 196}), 0);
   }
 }

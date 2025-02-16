@@ -17,13 +17,13 @@ export interface APIGalleryFilter {
 }
 
 class Gallery {
-  private MAX_INDICATORS = 30;
-  private PER_PAGE = 10;
+  readonly #MAX_INDICATORS = 30;
+  readonly #PER_PAGE = 10;
 
   public current: number = 0;
   public status: string = '';
   public get useCircleIndicator(): boolean {
-    return this.items.length <= this.MAX_INDICATORS;
+    return this.items.length <= this.#MAX_INDICATORS;
   }
 
   constructor(
@@ -83,13 +83,13 @@ class Gallery {
     }
 
     response.items.forEach((item, i) => {
-      const index = (response.page - 1) * this.PER_PAGE + i;
+      const index = (response.page - 1) * this.#PER_PAGE + i;
       this.items[index] = item;
     });
   }
 
   public getGalleryPageNumberByIndex(index: number) {
-    return Math.floor(index / this.PER_PAGE) + 1;
+    return Math.floor(index / this.#PER_PAGE) + 1;
   }
 }
 
@@ -100,13 +100,13 @@ class Gallery {
   templateUrl: './gallery.component.html',
 })
 export class GalleryComponent {
-  private readonly api = inject(APIService);
-  private readonly router = inject(Router);
+  readonly #api = inject(APIService);
+  readonly #router = inject(Router);
 
   @Input() set filter(filter: APIGalleryFilter) {
-    this.filter$.next(filter);
+    this.#filter$.next(filter);
   }
-  private readonly filter$ = new BehaviorSubject<APIGalleryFilter | null>(null);
+  readonly #filter$ = new BehaviorSubject<APIGalleryFilter | null>(null);
 
   @Input() set current(current: null | string) {
     this.current$.next(current);
@@ -117,7 +117,7 @@ export class GalleryComponent {
   @Input() picturePrefix: string[] = [];
   @Output() pictureSelected = new EventEmitter<APIGalleryItem | null>();
 
-  protected readonly currentFilter$ = this.filter$.pipe(
+  protected readonly currentFilter$ = this.#filter$.pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(50),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -137,7 +137,7 @@ export class GalleryComponent {
       if (!gallery.getGalleryItem(identity)) {
         const params = gallery.filterParams();
         params['picture_identity'] = identity;
-        return this.api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
+        return this.#api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
           tap((response) => {
             gallery.applyResponse(response);
           }),
@@ -161,7 +161,7 @@ export class GalleryComponent {
     this.current$
       .pipe(
         take(1),
-        switchMap((current) => (current ? this.router.navigate(this.picturePrefix.concat([current])) : EMPTY)),
+        switchMap((current) => (current ? this.#router.navigate(this.picturePrefix.concat([current])) : EMPTY)),
       )
       .subscribe();
   }
@@ -188,7 +188,7 @@ export class GalleryComponent {
     const params = gallery.filterParams();
     params['status'] = gallery.status;
     params['page'] = page + '';
-    return this.api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
+    return this.#api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
       tap((response) => {
         gallery.applyResponse(response);
       }),
@@ -198,7 +198,7 @@ export class GalleryComponent {
   protected navigateToIndex(index: number, gallery: Gallery): void {
     const item = gallery.getItemByIndex(index);
     if (item) {
-      this.router.navigate(this.galleryPrefix.concat([item.identity]));
+      this.#router.navigate(this.galleryPrefix.concat([item.identity]));
       return;
     }
 
@@ -206,7 +206,7 @@ export class GalleryComponent {
     this.loadPage$(page, gallery).subscribe(() => {
       const sitem = gallery.getItemByIndex(index);
       if (sitem) {
-        this.router.navigate(this.galleryPrefix.concat([sitem.identity]));
+        this.#router.navigate(this.galleryPrefix.concat([sitem.identity]));
       }
     });
   }

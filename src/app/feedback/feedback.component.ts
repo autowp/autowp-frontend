@@ -21,17 +21,17 @@ const CAPTCHA = 'captcha';
   templateUrl: './feedback.component.html',
 })
 export class FeedbackComponent implements OnInit {
-  private readonly grpc = inject(AutowpClient);
-  private readonly router = inject(Router);
-  private readonly reCaptchaService = inject(ReCaptchaService);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly toastService = inject(ToastsService);
-  private readonly fb = inject(FormBuilder);
+  readonly #grpc = inject(AutowpClient);
+  readonly #router = inject(Router);
+  readonly #reCaptchaService = inject(ReCaptchaService);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #toastService = inject(ToastsService);
+  readonly #fb = inject(FormBuilder);
 
   protected recaptchaKey?: string;
   protected invalidParams?: InvalidParams;
 
-  protected readonly form = this.fb.group({
+  protected readonly form = this.#fb.group({
     captcha: '',
     email: ['', [Validators.required, Validators.maxLength(255), Validators.email]],
     message: ['', [Validators.required, Validators.maxLength(65536)]],
@@ -41,19 +41,19 @@ export class FeedbackComponent implements OnInit {
   ngOnInit(): void {
     this.form.removeControl(CAPTCHA as never);
 
-    this.reCaptchaService.get$().subscribe({
-      error: (response: unknown) => this.toastService.handleError(response),
+    this.#reCaptchaService.get$().subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
       next: (response) => {
         this.recaptchaKey = response.publicKey;
       },
     });
 
-    setTimeout(() => this.pageEnv.set({pageId: 89}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 89}), 0);
   }
 
   protected submit() {
     const formValue = this.form.value;
-    this.grpc
+    this.#grpc
       .createFeedback(
         new APICreateFeedbackRequest({
           captcha: formValue.captcha ?? undefined,
@@ -70,18 +70,18 @@ export class FeedbackComponent implements OnInit {
 
             if (this.invalidParams['captcha']) {
               if (!this.form.get(CAPTCHA)) {
-                const control = this.fb.control('', Validators.required);
+                const control = this.#fb.control('', Validators.required);
                 this.form.addControl(CAPTCHA, control);
               }
             } else {
               this.form.removeControl(CAPTCHA as never);
             }
           } else {
-            this.toastService.handleError(response);
+            this.#toastService.handleError(response);
           }
         },
         next: () => {
-          this.router.navigate(['/feedback/sent']);
+          this.#router.navigate(['/feedback/sent']);
         },
       });
   }

@@ -9,14 +9,14 @@ const is = (interval: number, cycle: number) => (Math.abs(cycle) >= interval ? M
   standalone: true,
 })
 export class TimeAgoPipe implements OnDestroy, PipeTransform {
-  private readonly cdRef = inject(ChangeDetectorRef);
-  private readonly ngZone = inject(NgZone);
-  private readonly languageService = inject(LanguageService);
+  readonly #cdRef = inject(ChangeDetectorRef);
+  readonly #ngZone = inject(NgZone);
+  readonly #languageService = inject(LanguageService);
 
-  private currentTimer: null | number = null;
-  private lastTime: null | number = null;
-  private lastValue: Date | null = null;
-  private lastText: string = '';
+  #currentTimer: null | number = null;
+  #lastTime: null | number = null;
+  #lastValue: Date | null = null;
+  #lastText: string = '';
 
   private format(time: Date) {
     const now = Date.now();
@@ -62,7 +62,7 @@ export class TimeAgoPipe implements OnDestroy, PipeTransform {
       return $localize`now`;
     }
 
-    const rtf = new Intl.RelativeTimeFormat(this.languageService.language, {numeric: 'auto'});
+    const rtf = new Intl.RelativeTimeFormat(this.#languageService.language, {numeric: 'auto'});
 
     return rtf.format(amt, cycle);
   }
@@ -73,16 +73,16 @@ export class TimeAgoPipe implements OnDestroy, PipeTransform {
     }
 
     if (this.hasChanged(value)) {
-      this.lastTime = value.getTime();
-      this.lastValue = value;
+      this.#lastTime = value.getTime();
+      this.#lastValue = value;
       this.removeTimer();
       this.createTimer();
-      this.lastText = this.format(value);
+      this.#lastText = this.format(value);
     } else {
       this.createTimer();
     }
 
-    return this.lastText;
+    return this.#lastText;
   }
 
   ngOnDestroy(): void {
@@ -90,21 +90,21 @@ export class TimeAgoPipe implements OnDestroy, PipeTransform {
   }
 
   private createTimer() {
-    if (this.currentTimer) {
+    if (this.#currentTimer) {
       return;
     }
 
-    if (this.lastValue) {
-      const timeToUpdate = this.getSecondsUntilUpdate(this.lastValue) * 1000;
-      this.currentTimer = this.ngZone.runOutsideAngular(() => {
+    if (this.#lastValue) {
+      const timeToUpdate = this.getSecondsUntilUpdate(this.#lastValue) * 1000;
+      this.#currentTimer = this.#ngZone.runOutsideAngular(() => {
         if (typeof window !== 'undefined') {
           return window.setTimeout(() => {
-            if (this.lastValue) {
-              this.lastText = this.format(this.lastValue);
+            if (this.#lastValue) {
+              this.#lastText = this.format(this.#lastValue);
             }
 
-            this.currentTimer = null;
-            this.ngZone.run(() => this.cdRef.markForCheck());
+            this.#currentTimer = null;
+            this.#ngZone.run(() => this.#cdRef.markForCheck());
           }, timeToUpdate);
         } else {
           return null;
@@ -114,9 +114,9 @@ export class TimeAgoPipe implements OnDestroy, PipeTransform {
   }
 
   private removeTimer() {
-    if (this.currentTimer) {
-      window.clearTimeout(this.currentTimer);
-      this.currentTimer = null;
+    if (this.#currentTimer) {
+      window.clearTimeout(this.#currentTimer);
+      this.#currentTimer = null;
     }
   }
 
@@ -135,6 +135,6 @@ export class TimeAgoPipe implements OnDestroy, PipeTransform {
   }
 
   private hasChanged(value: Date): boolean {
-    return value.getTime() !== this.lastTime;
+    return value.getTime() !== this.#lastTime;
   }
 }

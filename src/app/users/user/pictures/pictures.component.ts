@@ -42,30 +42,30 @@ function addCSS(url: string) {
   templateUrl: './pictures.component.html',
 })
 export class UsersUserPicturesComponent implements OnInit {
-  private readonly userService = inject(UserService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly grpc = inject(AutowpClient);
-  private readonly toastService = inject(ToastsService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #userService = inject(UserService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #grpc = inject(AutowpClient);
+  readonly #toastService = inject(ToastsService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly icons$ = this.grpc.getBrandIcons(new Empty()).pipe(
+  protected readonly icons$ = this.#grpc.getBrandIcons(new Empty()).pipe(
     tap((icons) => {
       addCSS(icons.css);
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly userId$: Observable<string> = this.route.paramMap.pipe(
+  readonly #userId$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('identity') ?? ''),
     distinctUntilChanged(),
     debounceTime(10),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly user$ = this.userId$.pipe(
-    switchMap((identity) => this.userService.getByIdentity$(identity, undefined)),
+  protected readonly user$ = this.#userId$.pipe(
+    switchMap((identity) => this.#userService.getByIdentity$(identity, undefined)),
     switchMap((user) => {
       if (!user) {
         return EMPTY;
@@ -82,13 +82,13 @@ export class UsersUserPicturesComponent implements OnInit {
 
   protected readonly brands$: Observable<APIItem[]> = this.user$.pipe(
     switchMap((user) =>
-      this.itemsClient.list(
+      this.#itemsClient.list(
         new ItemsRequest({
           fields: new ItemFields({
             descendantPicturesCount: true,
             nameOnly: true,
           }),
-          language: this.languageService.language,
+          language: this.#languageService.language,
           limit: 3000,
           options: new ItemListOptions({
             descendant: new ItemParentCacheListOptions({
@@ -106,7 +106,7 @@ export class UsersUserPicturesComponent implements OnInit {
       ),
     ),
     catchError((response: unknown) => {
-      this.toastService.handleError(response);
+      this.#toastService.handleError(response);
       return EMPTY;
     }),
     map((brands) => (brands.items ? brands.items : [])),
@@ -114,7 +114,7 @@ export class UsersUserPicturesComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.pageEnv.set({pageId: 63});
+      this.#pageEnv.set({pageId: 63});
     }, 0);
   }
 

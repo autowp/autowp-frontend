@@ -16,29 +16,29 @@ import {MostsContentsComponent} from '../../mosts/contents/contents.component';
   templateUrl: './mosts.component.html',
 })
 export class CatalogueMostsComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly itemsClient = inject(ItemsClient);
-  private readonly languageService = inject(LanguageService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #itemsClient = inject(ItemsClient);
+  readonly #languageService = inject(LanguageService);
 
-  protected readonly ratingCatname$ = this.route.paramMap.pipe(
+  protected readonly ratingCatname$ = this.#route.paramMap.pipe(
     map((params) => params.get('rating_catname')),
     distinctUntilChanged(),
     debounceTime(10),
   );
-  protected readonly typeCatname$ = this.route.paramMap.pipe(
+  protected readonly typeCatname$ = this.#route.paramMap.pipe(
     map((params) => params.get('type_catname')),
     distinctUntilChanged(),
     debounceTime(10),
   );
-  protected readonly yearsCatname$ = this.route.paramMap.pipe(
+  protected readonly yearsCatname$ = this.#route.paramMap.pipe(
     map((params) => params.get('years_catname')),
     distinctUntilChanged(),
     debounceTime(10),
   );
 
-  protected readonly brand$: Observable<APIItem> = this.route.paramMap.pipe(
+  protected readonly brand$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('brand')),
     distinctUntilChanged(),
     debounceTime(10),
@@ -46,14 +46,14 @@ export class CatalogueMostsComponent {
       if (!catname) {
         return EMPTY;
       }
-      return this.itemsClient
+      return this.#itemsClient
         .list(
           new ItemsRequest({
             fields: new ItemFields({
               nameHtml: true,
               nameText: true,
             }),
-            language: this.languageService.language,
+            language: this.#languageService.language,
             limit: 1,
             options: new ItemListOptions({
               catname,
@@ -63,7 +63,7 @@ export class CatalogueMostsComponent {
         .pipe(
           switchMap((response) => {
             if (!response.items || response.items.length <= 0) {
-              this.router.navigate(['/error-404'], {
+              this.#router.navigate(['/error-404'], {
                 skipLocationChange: true,
               });
               return EMPTY;
@@ -73,7 +73,7 @@ export class CatalogueMostsComponent {
         );
     }),
     tap((brand) => {
-      this.pageEnv.set({
+      this.#pageEnv.set({
         pageId: 208,
         title: $localize`${brand.nameText} Engines`,
       });

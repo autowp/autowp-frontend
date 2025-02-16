@@ -8,9 +8,9 @@ import {Observable} from 'rxjs';
   providedIn: 'root',
 })
 export class DonateService {
-  private readonly grpc = inject(DonationsClient);
+  readonly #grpc = inject(DonationsClient);
 
   public getVOD$(): Observable<VODDataResponse> {
-    return this.grpc.getVODData(new Empty());
+    return this.#grpc.getVODData(new Empty());
   }
 }

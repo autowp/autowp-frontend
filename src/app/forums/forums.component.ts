@@ -47,25 +47,25 @@ interface Theme extends APIForumsTheme.AsObject {
   templateUrl: './forums.component.html',
 })
 export class ForumsComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly pageEnv = inject(PageEnvService);
-  private readonly grpc = inject(ForumsClient);
-  private readonly userService = inject(UserService);
+  readonly #route = inject(ActivatedRoute);
+  readonly #pageEnv = inject(PageEnvService);
+  readonly #grpc = inject(ForumsClient);
+  readonly #userService = inject(UserService);
 
-  private readonly page$ = this.route.queryParamMap.pipe(
+  readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),
   );
 
-  private readonly themeID$ = this.route.paramMap.pipe(
+  readonly #themeID$ = this.#route.paramMap.pipe(
     map((params) => params.get('theme_id')),
     distinctUntilChanged(),
   );
 
-  protected readonly data$: Observable<{theme: APIForumsTheme | null; themes: Theme[]}> = this.themeID$.pipe(
+  protected readonly data$: Observable<{theme: APIForumsTheme | null; themes: Theme[]}> = this.#themeID$.pipe(
     switchMap((themeID) => {
       if (!themeID) {
-        return this.grpc.getThemes(new APIGetForumsThemesRequest({})).pipe(
+        return this.#grpc.getThemes(new APIGetForumsThemesRequest({})).pipe(
           map((response) => ({
             theme: null,
             themes: response.items,
@@ -73,8 +73,8 @@ export class ForumsComponent {
         );
       } else {
         return combineLatest([
-          this.grpc.getTheme(new APIGetForumsThemeRequest({id: themeID})),
-          this.grpc.getThemes(new APIGetForumsThemesRequest({themeId: themeID})),
+          this.#grpc.getTheme(new APIGetForumsThemeRequest({id: themeID})),
+          this.#grpc.getThemes(new APIGetForumsThemesRequest({themeId: themeID})),
         ]).pipe(
           map(([theme, themes]) => ({
             theme,
@@ -87,7 +87,7 @@ export class ForumsComponent {
       return {
         theme: data.theme,
         themes: (data.themes ? data.themes : []).map((theme) => {
-          const lastTopic$ = this.grpc.getLastTopic(new APIGetForumsThemeRequest({id: theme.id})).pipe(
+          const lastTopic$ = this.#grpc.getLastTopic(new APIGetForumsThemeRequest({id: theme.id})).pipe(
             catchError((error: unknown) => {
               if (error instanceof GrpcStatusEvent && error.statusCode === 5) {
                 return of(null);
@@ -102,7 +102,7 @@ export class ForumsComponent {
                 return of(null);
               }
 
-              return this.grpc.getLastMessage(new APIGetForumsTopicRequest({id: topic.id}));
+              return this.#grpc.getLastMessage(new APIGetForumsTopicRequest({id: topic.id}));
             }),
             catchError((error: unknown) => {
               if (error instanceof GrpcStatusEvent && error.statusCode === 5) {
@@ -117,7 +117,7 @@ export class ForumsComponent {
               if (!msg) {
                 return of(null);
               }
-              return this.userService.getUser$(msg.userId);
+              return this.#userService.getUser$(msg.userId);
             }),
           );
           return {
@@ -125,7 +125,7 @@ export class ForumsComponent {
             lastMessage$,
             lastMessageAuthor$,
             lastTopic$,
-            themes$: this.grpc.getThemes(
+            themes$: this.#grpc.getThemes(
               new APIGetForumsThemesRequest({
                 themeId: theme.id,
               }),
@@ -136,26 +136,26 @@ export class ForumsComponent {
     }),
     tap((data) => {
       if (data.theme) {
-        this.pageEnv.set({
+        this.#pageEnv.set({
           pageId: 43,
           title: getForumsThemeTranslation(data.theme.name),
         });
       } else {
-        this.pageEnv.set({pageId: 42});
+        this.#pageEnv.set({pageId: 42});
       }
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  private readonly reloadTopics$ = new BehaviorSubject<void>(void 0);
+  readonly #reloadTopics$ = new BehaviorSubject<void>(void 0);
 
   protected readonly topics$: Observable<{items?: APIForumsTopic[]; paginator?: Pages}> = combineLatest([
-    this.themeID$,
-    this.page$,
-    this.reloadTopics$,
+    this.#themeID$,
+    this.#page$,
+    this.#reloadTopics$,
   ]).pipe(
     switchMap(([themeId, page]) =>
-      this.grpc.getTopics(new APIGetForumsTopicsRequest({page, themeId: themeId ? themeId : undefined})),
+      this.#grpc.getTopics(new APIGetForumsTopicsRequest({page, themeId: themeId ? themeId : undefined})),
     ),
   );
 
@@ -168,6 +168,6 @@ export class ForumsComponent {
   }
 
   protected reload() {
-    this.reloadTopics$.next();
+    this.#reloadTopics$.next();
   }
 }

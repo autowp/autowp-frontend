@@ -8,13 +8,13 @@ import {Observable} from 'rxjs';
   providedIn: 'root',
 })
 export class PictureModerVoteService {
-  private readonly picturesClient = inject(PicturesClient);
+  readonly #picturesClient = inject(PicturesClient);
 
   public vote$(pictureId: string, vote: number, reason: string): Observable<Empty> {
-    return this.picturesClient.updateModerVote(new UpdateModerVoteRequest({pictureId, reason, vote}));
+    return this.#picturesClient.updateModerVote(new UpdateModerVoteRequest({pictureId, reason, vote}));
   }
 
   public cancel$(pictureId: string): Observable<Empty> {
-    return this.picturesClient.deleteModerVote(new DeleteModerVoteRequest({pictureId}));
+    return this.#picturesClient.deleteModerVote(new DeleteModerVoteRequest({pictureId}));
   }
 }

@@ -9,9 +9,9 @@ import {Markdown2Component} from '@utils/markdown2/markdown2.component';
   templateUrl: './rules.component.html',
 })
 export class RulesComponent implements OnInit {
-  private readonly pageEnv = inject(PageEnvService);
+  readonly #pageEnv = inject(PageEnvService);
 
   ngOnInit(): void {
-    setTimeout(() => this.pageEnv.set({pageId: 106}), 0);
+    setTimeout(() => this.#pageEnv.set({pageId: 106}), 0);
   }
 }

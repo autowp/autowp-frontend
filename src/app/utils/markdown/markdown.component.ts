@@ -12,13 +12,13 @@ import showdown from 'showdown';
 })
 export class MarkdownComponent {
   @Input() set markdown(value: null | string) {
-    this.markdown$.next(value);
+    this.#markdown$.next(value);
   }
-  private readonly markdown$ = new BehaviorSubject<null | string>(null);
+  readonly #markdown$ = new BehaviorSubject<null | string>(null);
 
-  private readonly markdownConverter = new showdown.Converter({});
+  readonly #markdownConverter = new showdown.Converter({});
 
-  protected readonly html$ = this.markdown$.pipe(
-    map((markdown) => (markdown ? this.markdownConverter.makeHtml(markdown) : '')),
+  protected readonly html$ = this.#markdown$.pipe(
+    map((markdown) => (markdown ? this.#markdownConverter.makeHtml(markdown) : '')),
   );
 }

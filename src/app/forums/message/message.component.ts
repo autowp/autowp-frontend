@@ -14,29 +14,29 @@ import {MESSAGES_PER_PAGE} from '../forums.module';
   template: '<h2>Redirecting …</h2>',
 })
 export class MessageComponent implements OnDestroy, OnInit {
-  private readonly router = inject(Router);
-  private readonly commentsClient = inject(CommentsClient);
-  private readonly route = inject(ActivatedRoute);
-  private readonly toastService = inject(ToastsService);
+  readonly #router = inject(Router);
+  readonly #commentsClient = inject(CommentsClient);
+  readonly #route = inject(ActivatedRoute);
+  readonly #toastService = inject(ToastsService);
 
-  private routeSub?: Subscription;
+  #routeSub?: Subscription;
 
   ngOnInit(): void {
-    this.routeSub = this.route.paramMap
+    this.#routeSub = this.#route.paramMap
       .pipe(
         map((params) => params.get('message_id')),
         distinctUntilChanged(),
         switchMap((messageId) =>
           messageId
-            ? this.commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE}))
+            ? this.#commentsClient.getMessagePage(new GetMessagePageRequest({messageId, perPage: MESSAGES_PER_PAGE}))
             : EMPTY,
         ),
         catchError((response: unknown) => {
-          this.toastService.handleError(response);
+          this.#toastService.handleError(response);
           return EMPTY;
         }),
         tap((message) => {
-          this.router.navigate(['/forums/topic', message.itemId], {
+          this.#router.navigate(['/forums/topic', message.itemId], {
             queryParams: {
               page: message.page,
             },
@@ -48,8 +48,8 @@ export class MessageComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
+    if (this.#routeSub) {
+      this.#routeSub.unsubscribe();
     }
   }
 }

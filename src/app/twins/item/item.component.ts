@@ -13,12 +13,12 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './item.component.html',
 })
 export class TwinsItemComponent {
-  private readonly acl = inject(ACLService);
+  readonly #acl = inject(ACLService);
 
   @Input() item: APIItem | null = null;
   @Input() groupId: string = '';
 
-  protected readonly isModer$ = this.acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected havePhoto(item: APIItem) {
     if (item.previewPictures) {
