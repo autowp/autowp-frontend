@@ -13,11 +13,11 @@ import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CategoriesService} from '../service';
 
-interface CategoryPathItem {
+export interface CategoryPathItem {
   childs: {active: boolean; nameHtml: string; routerLink: string[]}[];
   item: APIItem;
   loaded: boolean;
-  parent_id: string;
+  parentId: string;
   routerLink: string[];
 }
 
@@ -65,13 +65,15 @@ export class CategoriesCategoryComponent {
 
   protected readonly path$: Observable<CategoryPathItem[]> = this.#categoryData$.pipe(
     map(({pathItems}) =>
-      pathItems.map((pi) => ({
-        childs: [],
-        item: pi.item,
-        loaded: pi.loaded,
-        parent_id: pi.parent_id,
-        routerLink: pi.routerLink,
-      })),
+      pathItems.map(
+        (pi): CategoryPathItem => ({
+          childs: [],
+          item: pi.item,
+          loaded: pi.loaded,
+          parentId: pi.parentId,
+          routerLink: pi.routerLink,
+        }),
+      ),
     ),
     shareReplay({bufferSize: 1, refCount: false}),
   );
@@ -89,12 +91,11 @@ export class CategoriesCategoryComponent {
             language: this.#languageService.language,
             limit: 50,
             options: new ItemListOptions({
-              noParent: !item.parent_id,
-              parent: item.parent_id
-                ? new ItemParentListOptions({
-                    parentId: '' + item.parent_id,
-                  })
-                : undefined,
+              noParent: !item.parentId || item.parentId === '0',
+              parent:
+                item.parentId && item.parentId !== '0'
+                  ? new ItemParentListOptions({parentId: item.parentId})
+                  : undefined,
               typeId: ItemType.ITEM_TYPE_CATEGORY,
             }),
           }),
@@ -102,7 +103,7 @@ export class CategoriesCategoryComponent {
         .subscribe((response) => {
           item.loaded = true;
           item.childs = (response.items ? response.items : []).map((i) => ({
-            active: i.id === item.item.id.toString(),
+            active: i.id === item.item.id,
             nameHtml: i.nameHtml,
             routerLink: ['/category', i.catname],
           }));

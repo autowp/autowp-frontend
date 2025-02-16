@@ -17,7 +17,7 @@ export interface CategoryPipeResult {
 interface SvcPathItem {
   item: APIItem;
   loaded: boolean;
-  parent_id: string;
+  parentId: string;
   routerLink: string[];
 }
 
@@ -80,7 +80,7 @@ export class CategoriesService {
           pathItems.push({
             item: item.item!,
             loaded: false,
-            parent_id: item.parentId,
+            parentId: item.parentId,
             routerLink: ['/category', catname].concat(pathCatnames),
           });
         }
