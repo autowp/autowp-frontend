@@ -1,5 +1,5 @@
 import {AsyncPipe, NgClass} from '@angular/common';
-import {Component, effect, inject, Renderer2} from '@angular/core';
+import {Component, inject, Renderer2} from '@angular/core';
 import {NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {environment} from '@environment/environment';
 import {APIUser, ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
@@ -19,7 +19,6 @@ import {MessageService} from '@services/message';
 import {LayoutParams, PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
-import {KEYCLOAK_EVENT_SIGNAL, KeycloakEventType} from 'keycloak-angular';
 import Keycloak from 'keycloak-js';
 import {Observable} from 'rxjs';
 import {shareReplay} from 'rxjs/operators';
@@ -85,8 +84,6 @@ export class AppComponent {
   protected urlPath = '/';
   protected isNavbarCollapsed = true;
 
-  readonly #keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
-
   constructor() {
     const angulartics2GoogleAnalytics = inject(Angulartics2GoogleAnalytics);
 
@@ -116,16 +113,6 @@ export class AppComponent {
     if (environment.production) {
       angulartics2GoogleAnalytics.startTracking();
     }
-
-    effect(() => {
-      const keycloakEvent = this.#keycloakSignal();
-
-      if (keycloakEvent.type === KeycloakEventType.TokenExpired) {
-        this.#keycloak.updateToken().catch((error) => {
-          console.error('Failed to refresh token', error);
-        });
-      }
-    });
   }
 
   protected doLogin() {

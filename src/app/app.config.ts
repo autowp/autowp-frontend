@@ -28,7 +28,7 @@ import {TimezoneService} from '@services/timezone';
 import {UserService} from '@services/user';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {Angulartics2Module} from 'angulartics2';
-import {provideKeycloak} from 'keycloak-angular';
+import {AutoRefreshTokenService, provideKeycloak, UserActivityService, withAutoRefreshToken} from 'keycloak-angular';
 import {NgPipesModule} from 'ngx-pipes';
 
 import {routes} from './app.routes';
@@ -57,12 +57,20 @@ export const appConfig: ApplicationConfig = {
     {multi: true, provide: GRPC_INTERCEPTORS, useClass: GrpcAuthInterceptor},
     provideKeycloak({
       config: environment.keycloak,
+      features: [
+        withAutoRefreshToken({
+          onInactivityTimeout: 'none',
+          sessionTimeout: 60000,
+        }),
+      ],
       initOptions: {
         enableLogging: !environment.production,
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
       },
     }),
+    AutoRefreshTokenService,
+    UserActivityService,
     APIService,
     APIACL,
     AuthService,
