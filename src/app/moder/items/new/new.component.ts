@@ -2,14 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {
-  APIGetItemVehicleTypesRequest,
-  APIItem as GRPCAPIItem,
-  ItemFields,
-  ItemParent,
-  ItemRequest,
-  ItemType,
-} from '@grpc/spec.pb';
+import {APIGetItemVehicleTypesRequest, APIItem, ItemFields, ItemParent, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {APIService} from '@services/api.service';
 import {ItemService} from '@services/item';
@@ -58,10 +51,10 @@ export class ModerItemsNewComponent {
     map((itemTypeID) => getItemTypeTranslation(itemTypeID, 'new-item')),
   );
 
-  protected readonly item$: Observable<GRPCAPIItem> = this.#itemTypeID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#itemTypeID$.pipe(
     map(
       (itemTypeID) =>
-        new GRPCAPIItem({
+        new APIItem({
           isConceptInherit: true,
           itemTypeId: itemTypeID,
         }),
@@ -74,7 +67,7 @@ export class ModerItemsNewComponent {
     distinctUntilChanged(),
   );
 
-  protected readonly parent$: Observable<GRPCAPIItem | null> = this.#parentID$.pipe(
+  protected readonly parent$: Observable<APIItem | null> = this.#parentID$.pipe(
     switchMap((parentID) => {
       if (!parentID) {
         return of(null);
@@ -191,7 +184,7 @@ export class ModerItemsNewComponent {
   }
 
   protected readonly formParams$: Observable<{
-    item: GRPCAPIItem;
+    item: APIItem;
     parentIsConcept: ParentIsConcept;
     vehicleTypeIDs: string[];
   }> = combineLatest([this.item$, this.parent$, this.#vehicleTypeIDs$]).pipe(

@@ -2,20 +2,19 @@ import {AsyncPipe, DecimalPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {APIUser, Perspective, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
+import {APIUser, Picture, PictureItem, PictureStatus, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIPicture} from '@services/picture';
 import {UserService} from '@services/user';
 import {getPerspectiveTranslation} from '@utils/translations';
-import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {APIPerspectiveService} from 'app/api/perspective/perspective.service';
+import {ToastsService} from 'app/toasts/toasts.service';
+import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
-import {APIPerspectiveService} from '../../api/perspective/perspective.service';
-import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
 
-interface ThumbnailAPIPicture extends APIPicture {
+interface ThumbnailAPIPicture extends Picture {
   selected?: boolean;
 }
 
@@ -41,32 +40,37 @@ export class ThumbnailComponent {
   @Input() selectable = false;
   @Output() selected = new EventEmitter<boolean>();
 
-  protected readonly perspectiveOptions$: Observable<Perspective[]> = this.#perspectiveService.getPerspectives$();
+  protected readonly perspectiveOptions$ = this.#perspectiveService.getPerspectives$().pipe(
+    map((options) =>
+      options.map((option) => ({
+        id: option.id,
+        name: getPerspectiveTranslation(option.name),
+      })),
+    ),
+  );
   protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
-    switchMap((picture) => (picture?.owner_id ? this.#userService.getUser$(picture.owner_id) : of(null))),
+    switchMap((picture) => this.#userService.getUser$(picture?.ownerId)),
   );
 
-  protected savePerspective(picture: ThumbnailAPIPicture) {
-    if (picture.perspective_item) {
-      this.#picturesClient
-        .setPictureItemPerspective(
-          new SetPictureItemPerspectiveRequest({
-            itemId: '' + picture.perspective_item.item_id,
-            perspectiveId: picture.perspective_item.perspective_id,
-            pictureId: '' + picture.id,
-            type: picture.perspective_item.type,
-          }),
-        )
-        .pipe(
-          catchError((error: unknown) => {
-            this.#toastService.handleError(error);
-            return EMPTY;
-          }),
-        )
-        .subscribe();
-    }
+  protected savePerspective(pictureItem: PictureItem) {
+    this.#picturesClient
+      .setPictureItemPerspective(
+        new SetPictureItemPerspectiveRequest({
+          itemId: pictureItem.itemId,
+          perspectiveId: pictureItem.perspectiveId,
+          pictureId: pictureItem.pictureId,
+          type: pictureItem.type,
+        }),
+      )
+      .pipe(
+        catchError((error: unknown) => {
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
 
   protected onPictureSelect(picture: ThumbnailAPIPicture) {
@@ -76,7 +80,5 @@ export class ThumbnailComponent {
     }
   }
 
-  protected getPerspectiveTranslation(id: string): string {
-    return getPerspectiveTranslation(id);
-  }
+  protected readonly PictureStatus = PictureStatus;
 }

@@ -7,10 +7,6 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {AuthService} from './auth.service';
 
-export interface APIContactsGetOptions {
-  fields: string[];
-}
-
 @Injectable({
   providedIn: 'root',
 })

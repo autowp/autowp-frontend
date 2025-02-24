@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
+  APIItem,
   ItemParent,
   ItemParentCacheListOptions,
   Pages,
@@ -24,7 +24,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, map, shareReplay
 
 import {chunkBy} from '../../../chunk';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {Breadcrumbs, CatalogueService, convertChildsCounts} from '../../catalogue-service';
 import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
@@ -34,9 +34,9 @@ import {CatalogueItemMenuComponent} from '../../item-menu/item-menu.component';
     RouterLink,
     ItemHeaderComponent,
     CatalogueItemMenuComponent,
-    Thumbnail2Component,
     PaginatorComponent,
     AsyncPipe,
+    ThumbnailComponent,
   ],
   selector: 'app-catalogue-vehicles-pictures',
   templateUrl: './pictures.component.html',
@@ -56,7 +56,7 @@ export class CatalogueVehiclesPicturesComponent {
 
   protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
 
-  readonly #catalogue$: Observable<{brand: GRPCAPIItem; path: ItemParent[]; type: string}> = this.#catalogueService
+  readonly #catalogue$: Observable<{brand: APIItem; path: ItemParent[]; type: string}> = this.#catalogueService
     .resolveCatalogue$(this.#route)
     .pipe(
       switchMap((data) => {
@@ -83,7 +83,7 @@ export class CatalogueVehiclesPicturesComponent {
     debounceTime(10),
   );
 
-  protected readonly brand$: Observable<GRPCAPIItem> = this.#catalogue$.pipe(map(({brand}) => brand));
+  protected readonly brand$: Observable<APIItem> = this.#catalogue$.pipe(map(({brand}) => brand));
 
   protected readonly breadcrumbs$: Observable<Breadcrumbs[]> = this.#catalogue$.pipe(
     map(({brand, path}) => CatalogueService.pathToBreadcrumbs(brand, path)),
@@ -97,10 +97,10 @@ export class CatalogueVehiclesPicturesComponent {
     map(([routerLink, exact]) => [...routerLink, ...(exact ? ['exact'] : []), 'pictures']),
   );
 
-  protected readonly item$: Observable<GRPCAPIItem> = this.#catalogue$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#catalogue$.pipe(
     map(({path}) => path[path.length - 1].item),
     filter((item) => !!item),
-    tap((item: GRPCAPIItem) => {
+    tap((item: APIItem) => {
       this.#pageEnv.set({
         pageId: 34,
         title: $localize`All pictures of ${item.nameText}`,

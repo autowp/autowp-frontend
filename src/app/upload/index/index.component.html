@@ -98,10 +98,10 @@
           <div class="pictures row">
             @for (picture of pictures; track picture) {
               <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                <app-thumbnail2
+                <app-thumbnail
                   [picture]="picture.picture"
                   [route]="['/picture', picture.picture.identity]"
-                ></app-thumbnail2>
+                ></app-thumbnail>
                 <p>
                   <button type="button" class="btn btn-link btn-sm" (click)="crop(picture)">
                     <i class="bi bi-crop" aria-hidden="true"></i>

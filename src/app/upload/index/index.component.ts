@@ -31,7 +31,7 @@ import Keycloak from 'keycloak-js';
 import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
-import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {UploadCropComponent} from '../crop/crop.component';
 
@@ -62,9 +62,9 @@ const cropTitle = (image: APIImage | undefined): string => {
     FormsModule,
     RouterLink,
     NgbProgressbar,
-    Thumbnail2Component,
     AsyncPipe,
     InvalidParamsPipe,
+    ThumbnailComponent,
   ],
   selector: 'app-upload-index',
   templateUrl: './index.component.html',

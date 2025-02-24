@@ -469,12 +469,12 @@
         <div class="row">
           @for (picture of chunk; track picture) {
             <div class="col-sm-4">
-              <app-thumbnail2
+              <app-thumbnail
                 [picture]="picture"
                 [route]="['/picture', picture.identity]"
                 [selectable]="true"
                 (selected)="onPictureSelect($event, picture)"
-              ></app-thumbnail2>
+              ></app-thumbnail>
             </div>
           }
         </div>

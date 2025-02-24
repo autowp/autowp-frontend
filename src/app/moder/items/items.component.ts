@@ -3,7 +3,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
-  APIItem as GRPCAPIItem,
+  APIItem,
   ItemFields,
   ItemListOptions,
   ItemParentCacheListOptions,
@@ -125,9 +125,7 @@ export class ModerItemsComponent implements OnInit {
 
   protected ancestorID: null | number = null;
   protected ancestorQuery = '';
-  protected ancestorsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
-    text$: Observable<string>,
-  ) =>
+  protected ancestorsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       switchMap((query) => {
@@ -346,7 +344,7 @@ export class ModerItemsComponent implements OnInit {
     );
   }
 
-  protected ancestorFormatter(x: GRPCAPIItem) {
+  protected ancestorFormatter(x: APIItem) {
     return x.nameText;
   }
 

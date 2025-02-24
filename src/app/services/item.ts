@@ -4,52 +4,6 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
-import {APIImage} from './api.service';
-
-export interface APIItem {
-  begin_model_year: number;
-  begin_model_year_fraction: string;
-  begin_month: number;
-  begin_year: number;
-  body: string;
-  brands: APIItem[];
-  categories?: APIItem[];
-  catname: string;
-  childs?: APIItem[];
-  description: string;
-  design?: {
-    name: string;
-    route: string[];
-  };
-  end_model_year: number;
-  end_model_year_fraction: string;
-  end_month: number;
-  end_year: number;
-  full_name: string;
-  id: number;
-
-  is_concept: 'inherited' | boolean | null;
-  is_group: boolean;
-  item_type_id: ItemType;
-  lat: number;
-  lng: number;
-  logo?: APIImage;
-  logo120?: APIImage;
-  name: string;
-  name_html: string;
-  name_text: string;
-
-  produced: null | number;
-
-  produced_exactly: boolean;
-
-  route: string[];
-  spec_id: null | number | string;
-  subscription: boolean;
-  text: string;
-  today: boolean | null;
-}
-
 export interface APIItemChildsCounts {
   sport: number;
   stock: number;

@@ -22,11 +22,11 @@ import {icon, latLng, Marker, marker, tileLayer} from 'leaflet';
 import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
-import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, LeafletModule, MarkdownComponent, Thumbnail2Component, AsyncPipe],
+  imports: [RouterLink, LeafletModule, MarkdownComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-factories',
   templateUrl: './factories.component.html',
 })

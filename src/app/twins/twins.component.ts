@@ -3,7 +3,6 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
-  APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ItemParent,
@@ -62,7 +61,7 @@ export class TwinsComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly brand$: Observable<GRPCAPIItem | null> = this.currentBrandCatname$.pipe(
+  protected readonly brand$: Observable<APIItem | null> = this.currentBrandCatname$.pipe(
     switchMap((brand) => {
       if (!brand) {
         return of(null);

@@ -7,11 +7,11 @@ import {LanguageService} from '@services/language';
 import {EMPTY, Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
-import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, Thumbnail2Component, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, ThumbnailComponent],
   selector: 'app-index-pictures',
   templateUrl: './pictures.component.html',
 })

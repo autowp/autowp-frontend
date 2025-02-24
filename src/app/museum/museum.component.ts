@@ -26,11 +26,11 @@ import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../comments/comments/comments.component';
-import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, LeafletModule, MarkdownComponent, Thumbnail2Component, CommentsComponent, AsyncPipe],
+  imports: [RouterLink, LeafletModule, MarkdownComponent, CommentsComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-museum',
   templateUrl: './museum.component.html',
 })

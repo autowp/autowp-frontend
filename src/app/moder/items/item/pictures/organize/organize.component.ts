@@ -4,7 +4,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
-  APIItem as GRPCAPIItem,
+  APIItem,
   ItemFields,
   ItemParent,
   ItemRequest,
@@ -61,7 +61,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly item$: Observable<GRPCAPIItem> = this.#itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#itemID$.pipe(
     switchMap((id) =>
       this.#itemsClient.item(
         new ItemRequest({
@@ -105,7 +105,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   protected readonly newItem$ = this.item$.pipe(
     map((item) => {
-      const newItem = {...item} as GRPCAPIItem;
+      const newItem = {...item} as APIItem;
       newItem.isGroup = false;
       return newItem;
     }),
@@ -120,7 +120,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
     }, 0);
   }
 
-  protected submit(item: GRPCAPIItem, event: ItemMetaFormResult, pictures: PictureItem[]) {
+  protected submit(item: APIItem, event: ItemMetaFormResult, pictures: PictureItem[]) {
     this.loading++;
 
     const data = {

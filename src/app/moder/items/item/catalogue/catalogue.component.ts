@@ -5,7 +5,6 @@ import {RouterLink} from '@angular/router';
 import {
   APIItem,
   DeleteItemParentRequest,
-  APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ItemParent,
@@ -71,7 +70,7 @@ export class ModerItemsItemCatalogueComponent {
     map((item) => ![ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_TWINS].includes(item.itemTypeId)),
   );
 
-  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<GRPCAPIItem[]> = (
+  protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
   ) =>
     this.item$.pipe(
@@ -150,7 +149,7 @@ export class ModerItemsItemCatalogueComponent {
     map((response) => response.items || []),
   );
 
-  protected readonly suggestions$: Observable<GRPCAPIItem[]> = combineLatest([
+  protected readonly suggestions$: Observable<APIItem[]> = combineLatest([
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
     this.reloadSuggestions$,
   ]).pipe(

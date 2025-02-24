@@ -4,7 +4,6 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
   APIItemList,
-  APIItem as GRPCAPIItem,
   ItemFields,
   ItemListOptions,
   ItemParent,
@@ -44,7 +43,7 @@ export class UploadSelectComponent implements OnInit {
   protected brand: null | {
     concepts: ItemParent[];
     engines: ItemParent[];
-    item: GRPCAPIItem;
+    item: APIItem;
     vehicles: ItemParent[];
   } = null;
   protected brands: APIItem[][] = [];
@@ -131,7 +130,7 @@ export class UploadSelectComponent implements OnInit {
   private brandObservable$(brandId: string): Observable<{
     concepts: ItemParent[];
     engines: ItemParent[];
-    item: GRPCAPIItem;
+    item: APIItem;
     vehicles: ItemParent[];
   }> {
     return this.#itemsClient.item(new ItemRequest({id: brandId, language: this.#languageService.language})).pipe(
@@ -146,7 +145,7 @@ export class UploadSelectComponent implements OnInit {
     );
   }
 
-  private brandItemsObservable(item: GRPCAPIItem) {
+  private brandItemsObservable(item: APIItem) {
     return forkJoin([
       of(item),
       this.#itemsClient

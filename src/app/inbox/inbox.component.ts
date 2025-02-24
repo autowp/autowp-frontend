@@ -23,7 +23,7 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 
 const ALL_BRANDS = 'all';
@@ -35,7 +35,7 @@ interface InboxData {
 }
 
 @Component({
-  imports: [RouterLink, FormsModule, Thumbnail2Component, PaginatorComponent, AsyncPipe, DatePipe],
+  imports: [RouterLink, FormsModule, PaginatorComponent, AsyncPipe, DatePipe, ThumbnailComponent],
   selector: 'app-inbox',
   templateUrl: './inbox.component.html',
 })

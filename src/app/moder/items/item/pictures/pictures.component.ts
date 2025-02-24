@@ -19,10 +19,10 @@ import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../../chunk';
-import {Thumbnail2Component} from '../../../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
 
 @Component({
-  imports: [RouterLink, Thumbnail2Component, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, ThumbnailComponent],
   selector: 'app-moder-items-item-pictures',
   templateUrl: './pictures.component.html',
 })

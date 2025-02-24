@@ -79,10 +79,7 @@
       <div class="row">
         @for (picture of chunk; track picture) {
           <div class="col-sm-3">
-            <app-thumbnail2
-              [picture]="picture"
-              [route]="picturesRouterLink.concat([picture.identity])"
-            ></app-thumbnail2>
+            <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
           </div>
         }
       </div>

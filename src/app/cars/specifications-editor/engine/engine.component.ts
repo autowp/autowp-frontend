@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, APIItem as GRPCAPIItem, SetItemEngineRequest} from '@grpc/spec.pb';
+import {APIItem, SetItemEngineRequest} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
@@ -32,7 +32,7 @@ export class CarsSpecificationsEditorEngineComponent {
     .isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT_ENGINE)
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
-  protected readonly engine$: Observable<GRPCAPIItem | null> = this.item$.pipe(
+  protected readonly engine$: Observable<APIItem | null> = this.item$.pipe(
     switchMap((item) => {
       if (!item?.engineItemId || item?.engineItemId === '0') {
         return of(null);

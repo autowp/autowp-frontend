@@ -6,104 +6,11 @@ import {Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ACLService, Privilege, Resource} from './acl.service';
-import {APIImage, APIService} from './api.service';
+import {APIService} from './api.service';
 import {AuthService} from './auth.service';
-import {APIItem} from './item';
 
 export const perspectiveIDLogotype = 22,
   perspectiveIDMixed = 25;
-
-export interface APIPicture {
-  authors?: {
-    id: number;
-    name: string;
-  }[];
-  categories?: APIItem[];
-  comments_count: {
-    new: number;
-    total: number;
-  };
-  copyrights: string;
-  crop: {
-    height: null | number;
-    left: null | number;
-    top: null | number;
-    width: null | number;
-  };
-  crop_resolution: string;
-  cropped: boolean;
-  exif: string;
-  factories?: APIItem[];
-  filesize: number;
-  height: number;
-  id: number;
-  identity: string;
-  image: APIImage;
-  ip: string;
-  moder_vote: {
-    count: number;
-    vote: number;
-  };
-  name_html: string;
-  name_text: string;
-  owner_id: null | string;
-  paginator?: APIPicturePaginator;
-  perspective_item: {
-    item_id: number;
-    perspective_id: number;
-    type: number;
-  };
-  point?: {
-    lat: number;
-    lng: number;
-  };
-  resolution: string;
-  rights: {
-    accept: boolean;
-    crop: boolean;
-    delete: boolean;
-    flop: boolean;
-    move: boolean;
-    normalize: boolean;
-    restore: boolean;
-    unaccept: boolean;
-  };
-  status: string;
-  subscribed?: boolean;
-  thumb: APIImage;
-  thumb_medium: APIImage;
-  twins?: APIItem[];
-  url: string;
-  views: number;
-  votes: APIPictureVotes;
-  width: number;
-}
-
-export interface APIPicturePaginator {
-  current: string;
-  currentItemCount: number;
-  first: string;
-  firstItemNumber: number;
-  firstPageInRange: number;
-  itemCountPerPage: number;
-  last: string;
-  lastItemNumber: number;
-  lastPageInRange: number;
-  next: string;
-  pageCount: number;
-  pagesInRange: {
-    identity: string;
-    page: number;
-  }[];
-  previous: string;
-  totalItemCount: number;
-}
-
-export interface APIPictureVotes {
-  negative: number;
-  positive: number;
-  value: number;
-}
 
 @Injectable({
   providedIn: 'root',

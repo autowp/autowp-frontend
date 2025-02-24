@@ -56365,6 +56365,1380 @@ export module PathItem {
 }
 
 /**
+ * Message implementation for goautowp.MostsMenuRequest
+ */
+export class MostsMenuRequest implements GrpcMessage {
+  static id = 'goautowp.MostsMenuRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsMenuRequest();
+    MostsMenuRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsMenuRequest) {
+    _instance.brandId = _instance.brandId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsMenuRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.brandId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsMenuRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MostsMenuRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.brandId) {
+      _writer.writeInt64String(1, _instance.brandId);
+    }
+  }
+
+  private _brandId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsMenuRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsMenuRequest.AsObject>) {
+    _value = _value || {};
+    this.brandId = _value.brandId;
+    MostsMenuRequest.refineValues(this);
+  }
+  get brandId(): string {
+    return this._brandId;
+  }
+  set brandId(value: string) {
+    this._brandId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsMenuRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsMenuRequest.AsObject {
+    return {
+      brandId: this.brandId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsMenuRequest.AsProtobufJSON {
+    return {
+      brandId: this.brandId
+    };
+  }
+}
+export module MostsMenuRequest {
+  /**
+   * Standard JavaScript object representation for MostsMenuRequest
+   */
+  export interface AsObject {
+    brandId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MostsMenuRequest
+   */
+  export interface AsProtobufJSON {
+    brandId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.YearsRange
+ */
+export class YearsRange implements GrpcMessage {
+  static id = 'goautowp.YearsRange';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new YearsRange();
+    YearsRange.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: YearsRange) {
+    _instance.name = _instance.name || '';
+    _instance.catname = _instance.catname || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: YearsRange,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.name = _reader.readString();
+          break;
+        case 2:
+          _instance.catname = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    YearsRange.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: YearsRange, _writer: BinaryWriter) {
+    if (_instance.name) {
+      _writer.writeString(1, _instance.name);
+    }
+    if (_instance.catname) {
+      _writer.writeString(2, _instance.catname);
+    }
+  }
+
+  private _name: string;
+  private _catname: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of YearsRange to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<YearsRange.AsObject>) {
+    _value = _value || {};
+    this.name = _value.name;
+    this.catname = _value.catname;
+    YearsRange.refineValues(this);
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    YearsRange.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): YearsRange.AsObject {
+    return {
+      name: this.name,
+      catname: this.catname
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): YearsRange.AsProtobufJSON {
+    return {
+      name: this.name,
+      catname: this.catname
+    };
+  }
+}
+export module YearsRange {
+  /**
+   * Standard JavaScript object representation for YearsRange
+   */
+  export interface AsObject {
+    name: string;
+    catname: string;
+  }
+
+  /**
+   * Protobuf JSON representation for YearsRange
+   */
+  export interface AsProtobufJSON {
+    name: string;
+    catname: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MostsRating
+ */
+export class MostsRating implements GrpcMessage {
+  static id = 'goautowp.MostsRating';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsRating();
+    MostsRating.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsRating) {
+    _instance.name = _instance.name || '';
+    _instance.catname = _instance.catname || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsRating,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.name = _reader.readString();
+          break;
+        case 2:
+          _instance.catname = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsRating.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MostsRating,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.name) {
+      _writer.writeString(1, _instance.name);
+    }
+    if (_instance.catname) {
+      _writer.writeString(2, _instance.catname);
+    }
+  }
+
+  private _name: string;
+  private _catname: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsRating to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsRating.AsObject>) {
+    _value = _value || {};
+    this.name = _value.name;
+    this.catname = _value.catname;
+    MostsRating.refineValues(this);
+  }
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsRating.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsRating.AsObject {
+    return {
+      name: this.name,
+      catname: this.catname
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsRating.AsProtobufJSON {
+    return {
+      name: this.name,
+      catname: this.catname
+    };
+  }
+}
+export module MostsRating {
+  /**
+   * Standard JavaScript object representation for MostsRating
+   */
+  export interface AsObject {
+    name: string;
+    catname: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MostsRating
+   */
+  export interface AsProtobufJSON {
+    name: string;
+    catname: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MostsVehicleType
+ */
+export class MostsVehicleType implements GrpcMessage {
+  static id = 'goautowp.MostsVehicleType';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsVehicleType();
+    MostsVehicleType.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsVehicleType) {
+    _instance.nameRp = _instance.nameRp || '';
+    _instance.catname = _instance.catname || '';
+    _instance.childs = _instance.childs || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsVehicleType,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.nameRp = _reader.readString();
+          break;
+        case 2:
+          _instance.catname = _reader.readString();
+          break;
+        case 3:
+          const messageInitializer3 = new MostsVehicleType();
+          _reader.readMessage(
+            messageInitializer3,
+            MostsVehicleType.deserializeBinaryFromReader
+          );
+          (_instance.childs = _instance.childs || []).push(messageInitializer3);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsVehicleType.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MostsVehicleType,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.nameRp) {
+      _writer.writeString(1, _instance.nameRp);
+    }
+    if (_instance.catname) {
+      _writer.writeString(2, _instance.catname);
+    }
+    if (_instance.childs && _instance.childs.length) {
+      _writer.writeRepeatedMessage(
+        3,
+        _instance.childs as any,
+        MostsVehicleType.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _nameRp: string;
+  private _catname: string;
+  private _childs?: MostsVehicleType[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsVehicleType to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsVehicleType.AsObject>) {
+    _value = _value || {};
+    this.nameRp = _value.nameRp;
+    this.catname = _value.catname;
+    this.childs = (_value.childs || []).map(m => new MostsVehicleType(m));
+    MostsVehicleType.refineValues(this);
+  }
+  get nameRp(): string {
+    return this._nameRp;
+  }
+  set nameRp(value: string) {
+    this._nameRp = value;
+  }
+  get catname(): string {
+    return this._catname;
+  }
+  set catname(value: string) {
+    this._catname = value;
+  }
+  get childs(): MostsVehicleType[] | undefined {
+    return this._childs;
+  }
+  set childs(value: MostsVehicleType[] | undefined) {
+    this._childs = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsVehicleType.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsVehicleType.AsObject {
+    return {
+      nameRp: this.nameRp,
+      catname: this.catname,
+      childs: (this.childs || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsVehicleType.AsProtobufJSON {
+    return {
+      nameRp: this.nameRp,
+      catname: this.catname,
+      childs: (this.childs || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module MostsVehicleType {
+  /**
+   * Standard JavaScript object representation for MostsVehicleType
+   */
+  export interface AsObject {
+    nameRp: string;
+    catname: string;
+    childs?: MostsVehicleType.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for MostsVehicleType
+   */
+  export interface AsProtobufJSON {
+    nameRp: string;
+    catname: string;
+    childs: MostsVehicleType.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MostsMenu
+ */
+export class MostsMenu implements GrpcMessage {
+  static id = 'goautowp.MostsMenu';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsMenu();
+    MostsMenu.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsMenu) {
+    _instance.years = _instance.years || [];
+    _instance.ratings = _instance.ratings || [];
+    _instance.vehicleTypes = _instance.vehicleTypes || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsMenu,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new YearsRange();
+          _reader.readMessage(
+            messageInitializer1,
+            YearsRange.deserializeBinaryFromReader
+          );
+          (_instance.years = _instance.years || []).push(messageInitializer1);
+          break;
+        case 2:
+          const messageInitializer2 = new MostsRating();
+          _reader.readMessage(
+            messageInitializer2,
+            MostsRating.deserializeBinaryFromReader
+          );
+          (_instance.ratings = _instance.ratings || []).push(
+            messageInitializer2
+          );
+          break;
+        case 3:
+          const messageInitializer3 = new MostsVehicleType();
+          _reader.readMessage(
+            messageInitializer3,
+            MostsVehicleType.deserializeBinaryFromReader
+          );
+          (_instance.vehicleTypes = _instance.vehicleTypes || []).push(
+            messageInitializer3
+          );
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsMenu.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: MostsMenu, _writer: BinaryWriter) {
+    if (_instance.years && _instance.years.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.years as any,
+        YearsRange.serializeBinaryToWriter
+      );
+    }
+    if (_instance.ratings && _instance.ratings.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.ratings as any,
+        MostsRating.serializeBinaryToWriter
+      );
+    }
+    if (_instance.vehicleTypes && _instance.vehicleTypes.length) {
+      _writer.writeRepeatedMessage(
+        3,
+        _instance.vehicleTypes as any,
+        MostsVehicleType.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _years?: YearsRange[];
+  private _ratings?: MostsRating[];
+  private _vehicleTypes?: MostsVehicleType[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsMenu to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsMenu.AsObject>) {
+    _value = _value || {};
+    this.years = (_value.years || []).map(m => new YearsRange(m));
+    this.ratings = (_value.ratings || []).map(m => new MostsRating(m));
+    this.vehicleTypes = (_value.vehicleTypes || []).map(
+      m => new MostsVehicleType(m)
+    );
+    MostsMenu.refineValues(this);
+  }
+  get years(): YearsRange[] | undefined {
+    return this._years;
+  }
+  set years(value: YearsRange[] | undefined) {
+    this._years = value;
+  }
+  get ratings(): MostsRating[] | undefined {
+    return this._ratings;
+  }
+  set ratings(value: MostsRating[] | undefined) {
+    this._ratings = value;
+  }
+  get vehicleTypes(): MostsVehicleType[] | undefined {
+    return this._vehicleTypes;
+  }
+  set vehicleTypes(value: MostsVehicleType[] | undefined) {
+    this._vehicleTypes = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsMenu.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsMenu.AsObject {
+    return {
+      years: (this.years || []).map(m => m.toObject()),
+      ratings: (this.ratings || []).map(m => m.toObject()),
+      vehicleTypes: (this.vehicleTypes || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsMenu.AsProtobufJSON {
+    return {
+      years: (this.years || []).map(m => m.toProtobufJSON(options)),
+      ratings: (this.ratings || []).map(m => m.toProtobufJSON(options)),
+      vehicleTypes: (this.vehicleTypes || []).map(m =>
+        m.toProtobufJSON(options)
+      )
+    };
+  }
+}
+export module MostsMenu {
+  /**
+   * Standard JavaScript object representation for MostsMenu
+   */
+  export interface AsObject {
+    years?: YearsRange.AsObject[];
+    ratings?: MostsRating.AsObject[];
+    vehicleTypes?: MostsVehicleType.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for MostsMenu
+   */
+  export interface AsProtobufJSON {
+    years: YearsRange.AsProtobufJSON[] | null;
+    ratings: MostsRating.AsProtobufJSON[] | null;
+    vehicleTypes: MostsVehicleType.AsProtobufJSON[] | null;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MostsItemsRequest
+ */
+export class MostsItemsRequest implements GrpcMessage {
+  static id = 'goautowp.MostsItemsRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsItemsRequest();
+    MostsItemsRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsItemsRequest) {
+    _instance.language = _instance.language || '';
+    _instance.yearsCatname = _instance.yearsCatname || '';
+    _instance.typeCatname = _instance.typeCatname || '';
+    _instance.ratingCatname = _instance.ratingCatname || '';
+    _instance.brandId = _instance.brandId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsItemsRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.language = _reader.readString();
+          break;
+        case 2:
+          _instance.yearsCatname = _reader.readString();
+          break;
+        case 3:
+          _instance.typeCatname = _reader.readString();
+          break;
+        case 4:
+          _instance.ratingCatname = _reader.readString();
+          break;
+        case 5:
+          _instance.brandId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsItemsRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: MostsItemsRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.language) {
+      _writer.writeString(1, _instance.language);
+    }
+    if (_instance.yearsCatname) {
+      _writer.writeString(2, _instance.yearsCatname);
+    }
+    if (_instance.typeCatname) {
+      _writer.writeString(3, _instance.typeCatname);
+    }
+    if (_instance.ratingCatname) {
+      _writer.writeString(4, _instance.ratingCatname);
+    }
+    if (_instance.brandId) {
+      _writer.writeInt64String(5, _instance.brandId);
+    }
+  }
+
+  private _language: string;
+  private _yearsCatname: string;
+  private _typeCatname: string;
+  private _ratingCatname: string;
+  private _brandId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsItemsRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsItemsRequest.AsObject>) {
+    _value = _value || {};
+    this.language = _value.language;
+    this.yearsCatname = _value.yearsCatname;
+    this.typeCatname = _value.typeCatname;
+    this.ratingCatname = _value.ratingCatname;
+    this.brandId = _value.brandId;
+    MostsItemsRequest.refineValues(this);
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+  }
+  get yearsCatname(): string {
+    return this._yearsCatname;
+  }
+  set yearsCatname(value: string) {
+    this._yearsCatname = value;
+  }
+  get typeCatname(): string {
+    return this._typeCatname;
+  }
+  set typeCatname(value: string) {
+    this._typeCatname = value;
+  }
+  get ratingCatname(): string {
+    return this._ratingCatname;
+  }
+  set ratingCatname(value: string) {
+    this._ratingCatname = value;
+  }
+  get brandId(): string {
+    return this._brandId;
+  }
+  set brandId(value: string) {
+    this._brandId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsItemsRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsItemsRequest.AsObject {
+    return {
+      language: this.language,
+      yearsCatname: this.yearsCatname,
+      typeCatname: this.typeCatname,
+      ratingCatname: this.ratingCatname,
+      brandId: this.brandId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsItemsRequest.AsProtobufJSON {
+    return {
+      language: this.language,
+      yearsCatname: this.yearsCatname,
+      typeCatname: this.typeCatname,
+      ratingCatname: this.ratingCatname,
+      brandId: this.brandId
+    };
+  }
+}
+export module MostsItemsRequest {
+  /**
+   * Standard JavaScript object representation for MostsItemsRequest
+   */
+  export interface AsObject {
+    language: string;
+    yearsCatname: string;
+    typeCatname: string;
+    ratingCatname: string;
+    brandId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MostsItemsRequest
+   */
+  export interface AsProtobufJSON {
+    language: string;
+    yearsCatname: string;
+    typeCatname: string;
+    ratingCatname: string;
+    brandId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MostsItem
+ */
+export class MostsItem implements GrpcMessage {
+  static id = 'goautowp.MostsItem';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsItem();
+    MostsItem.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsItem) {
+    _instance.item = _instance.item || undefined;
+    _instance.valueHtml = _instance.valueHtml || '';
+    _instance.unitId = _instance.unitId || '0';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsItem,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.item = new APIItem();
+          _reader.readMessage(
+            _instance.item,
+            APIItem.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.valueHtml = _reader.readString();
+          break;
+        case 3:
+          _instance.unitId = _reader.readInt64String();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsItem.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: MostsItem, _writer: BinaryWriter) {
+    if (_instance.item) {
+      _writer.writeMessage(
+        1,
+        _instance.item as any,
+        APIItem.serializeBinaryToWriter
+      );
+    }
+    if (_instance.valueHtml) {
+      _writer.writeString(2, _instance.valueHtml);
+    }
+    if (_instance.unitId) {
+      _writer.writeInt64String(3, _instance.unitId);
+    }
+  }
+
+  private _item?: APIItem;
+  private _valueHtml: string;
+  private _unitId: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsItem to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsItem.AsObject>) {
+    _value = _value || {};
+    this.item = _value.item ? new APIItem(_value.item) : undefined;
+    this.valueHtml = _value.valueHtml;
+    this.unitId = _value.unitId;
+    MostsItem.refineValues(this);
+  }
+  get item(): APIItem | undefined {
+    return this._item;
+  }
+  set item(value: APIItem | undefined) {
+    this._item = value;
+  }
+  get valueHtml(): string {
+    return this._valueHtml;
+  }
+  set valueHtml(value: string) {
+    this._valueHtml = value;
+  }
+  get unitId(): string {
+    return this._unitId;
+  }
+  set unitId(value: string) {
+    this._unitId = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsItem.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsItem.AsObject {
+    return {
+      item: this.item ? this.item.toObject() : undefined,
+      valueHtml: this.valueHtml,
+      unitId: this.unitId
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsItem.AsProtobufJSON {
+    return {
+      item: this.item ? this.item.toProtobufJSON(options) : null,
+      valueHtml: this.valueHtml,
+      unitId: this.unitId
+    };
+  }
+}
+export module MostsItem {
+  /**
+   * Standard JavaScript object representation for MostsItem
+   */
+  export interface AsObject {
+    item?: APIItem.AsObject;
+    valueHtml: string;
+    unitId: string;
+  }
+
+  /**
+   * Protobuf JSON representation for MostsItem
+   */
+  export interface AsProtobufJSON {
+    item: APIItem.AsProtobufJSON | null;
+    valueHtml: string;
+    unitId: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.MostsItems
+ */
+export class MostsItems implements GrpcMessage {
+  static id = 'goautowp.MostsItems';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new MostsItems();
+    MostsItems.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: MostsItems) {
+    _instance.items = _instance.items || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: MostsItems,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          const messageInitializer1 = new MostsItem();
+          _reader.readMessage(
+            messageInitializer1,
+            MostsItem.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer1);
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    MostsItems.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: MostsItems, _writer: BinaryWriter) {
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        1,
+        _instance.items as any,
+        MostsItem.serializeBinaryToWriter
+      );
+    }
+  }
+
+  private _items?: MostsItem[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of MostsItems to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<MostsItems.AsObject>) {
+    _value = _value || {};
+    this.items = (_value.items || []).map(m => new MostsItem(m));
+    MostsItems.refineValues(this);
+  }
+  get items(): MostsItem[] | undefined {
+    return this._items;
+  }
+  set items(value: MostsItem[] | undefined) {
+    this._items = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    MostsItems.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): MostsItems.AsObject {
+    return {
+      items: (this.items || []).map(m => m.toObject())
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): MostsItems.AsProtobufJSON {
+    return {
+      items: (this.items || []).map(m => m.toProtobufJSON(options))
+    };
+  }
+}
+export module MostsItems {
+  /**
+   * Standard JavaScript object representation for MostsItems
+   */
+  export interface AsObject {
+    items?: MostsItem.AsObject[];
+  }
+
+  /**
+   * Protobuf JSON representation for MostsItems
+   */
+  export interface AsProtobufJSON {
+    items: MostsItem.AsProtobufJSON[] | null;
+  }
+}
+
+/**
  * Message implementation for goautowp.AddCommentRequest
  */
 export class AddCommentRequest implements GrpcMessage {

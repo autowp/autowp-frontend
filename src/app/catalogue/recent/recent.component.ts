@@ -23,7 +23,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {chunkBy} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueService} from '../catalogue-service';
 
@@ -33,7 +33,7 @@ interface PictureRoute {
 }
 
 @Component({
-  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-catalogue-recent',
   templateUrl: './recent.component.html',
 })

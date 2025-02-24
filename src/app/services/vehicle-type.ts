@@ -5,14 +5,6 @@ import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
-export interface APIVehicleType {
-  catname: string;
-  childs: APIVehicleType[];
-  id: number;
-  name: string;
-  nameTranslated?: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })

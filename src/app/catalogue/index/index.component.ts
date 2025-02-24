@@ -30,7 +30,7 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {chunk, chunkBy} from '../../chunk';
-import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 import {CatalogueService} from '../catalogue-service';
 
@@ -46,7 +46,7 @@ interface PictureRoute {
 }
 
 @Component({
-  imports: [MarkdownComponent, RouterLink, Thumbnail2Component, AsyncPipe],
+  imports: [MarkdownComponent, RouterLink, AsyncPipe, ThumbnailComponent],
   selector: 'app-catalogue-index',
   templateUrl: './index.component.html',
 })

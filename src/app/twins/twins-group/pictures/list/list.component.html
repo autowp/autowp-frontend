@@ -6,10 +6,10 @@
     <div class="row">
       @for (picture of data.items || []; track picture) {
         <div class="col-lg-3 col-md-3">
-          <app-thumbnail2
+          <app-thumbnail
             [picture]="picture"
             [route]="['/twins/group', group.id + '', 'pictures', picture.identity]"
-          ></app-thumbnail2>
+          ></app-thumbnail>
         </div>
       }
     </div>

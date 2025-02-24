@@ -20,11 +20,11 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
-  imports: [Thumbnail2Component, PaginatorComponent, AsyncPipe],
+  imports: [PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-twins-group-pictures-list',
   templateUrl: './list.component.html',
 })

@@ -4,7 +4,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
-  APIItem as GRPCAPIItem,
+  APIItem,
   ItemFields,
   ItemParent,
   ItemParentFields,
@@ -57,7 +57,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected readonly childs$: Observable<GRPCAPIItem[]> = combineLatest([
+  protected readonly childs$: Observable<APIItem[]> = combineLatest([
     this.#itemID$.pipe(
       switchMap((id) =>
         this.#itemsClient.getItemParents(
@@ -82,7 +82,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     map(([data, itemTypeID]) =>
       (data.items || [])
         .map((i) => i.item)
-        .filter((i): i is GRPCAPIItem => !!i)
+        .filter((i): i is APIItem => !!i)
         .filter(
           (item) =>
             item && item?.itemTypeId && allowedItemTypeCombinations[itemTypeID as ItemType].includes(item?.itemTypeId),
@@ -90,7 +90,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     ),
   );
 
-  protected readonly item$: Observable<GRPCAPIItem> = this.#itemID$.pipe(
+  protected readonly item$: Observable<APIItem> = this.#itemID$.pipe(
     switchMap((id) =>
       this.#itemsClient.item(
         new ItemRequest({
@@ -119,9 +119,9 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     }),
   );
 
-  protected readonly newItem$: Observable<GRPCAPIItem> = combineLatest([this.#itemTypeID$, this.item$]).pipe(
+  protected readonly newItem$: Observable<APIItem> = combineLatest([this.#itemTypeID$, this.item$]).pipe(
     map(([itemTypeID, item]) => {
-      const newItem = {...item} as GRPCAPIItem;
+      const newItem = {...item} as APIItem;
       newItem.itemTypeId = itemTypeID;
       return newItem;
     }),
@@ -150,7 +150,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
     }, 0);
   }
 
-  protected submit(item: GRPCAPIItem, itemTypeID: number, event: ItemMetaFormResult) {
+  protected submit(item: APIItem, itemTypeID: number, event: ItemMetaFormResult) {
     this.loading++;
 
     const data = {

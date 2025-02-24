@@ -11,7 +11,6 @@ import {
   PicturesRequest,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
-import {APIItem} from '@services/item';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {PictureService} from '@services/picture';
@@ -35,9 +34,6 @@ export class PicturePageComponent {
   readonly #languageService = inject(LanguageService);
 
   readonly #changed$ = new BehaviorSubject<void>(void 0);
-
-  protected category: APIItem | null = null;
-  protected current: APIItem | null = null;
 
   protected readonly picture$: Observable<null | Picture> = this.#route.paramMap.pipe(
     map((route) => route.get('identity')),

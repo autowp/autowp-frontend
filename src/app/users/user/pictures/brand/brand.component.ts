@@ -23,11 +23,11 @@ import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-users-user-pictures-brand',
   templateUrl: './brand.component.html',
 })

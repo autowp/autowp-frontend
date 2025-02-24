@@ -11,7 +11,7 @@ import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switch
 
 import {chunkBy} from '../chunk';
 import {PaginatorComponent} from '../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {NewListItemComponent} from './list-item/list-item.component';
 
@@ -37,7 +37,7 @@ interface DayCount {
 }
 
 @Component({
-  imports: [RouterLink, NewListItemComponent, PaginatorComponent, AsyncPipe, DatePipe, Thumbnail2Component],
+  imports: [RouterLink, NewListItemComponent, PaginatorComponent, AsyncPipe, DatePipe, ThumbnailComponent],
   selector: 'app-new',
   templateUrl: './new.component.html',
 })

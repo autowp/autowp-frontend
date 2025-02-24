@@ -52,7 +52,7 @@ import {APIPerspectiveService} from '../../api/perspective/perspective.service';
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 import {chunkBy} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 interface PerspectiveInList {
@@ -90,8 +90,8 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
     NgbTypeahead,
     FormsModule,
     PaginatorComponent,
-    Thumbnail2Component,
     AsyncPipe,
+    ThumbnailComponent,
   ],
   selector: 'app-moder-pictures',
   templateUrl: './pictures.component.html',

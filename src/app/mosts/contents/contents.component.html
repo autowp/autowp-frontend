@@ -51,54 +51,55 @@
         </div>
       </div>
     }
-    @if (yearsCatname$ | async; as yearsCatname) {
-      @if (years$ | async; as years) {
-        <div class="d-inline-block" ngbDropdown>
-          <a href="#" ngbDropdownToggle (click)="(false)">
-            @for (year of years; track year) {
-              @if (year.catname ? year.catname === yearsCatname : !yearsCatname) {
-                <span [textContent]="getMostsPeriodsTranslation(year.name)"></span>
+
+    @let yearsCatname = yearsCatname$ | async;
+
+    @if (years$ | async; as years) {
+      <div class="d-inline-block" ngbDropdown>
+        <a href="#" ngbDropdownToggle (click)="(false)">
+          @for (year of years; track year) {
+            @if (year.catname ? year.catname === yearsCatname : !yearsCatname) {
+              <span [textContent]="getMostsPeriodsTranslation(year.name)"></span>
+            }
+          }
+          <i class="bi bi-caret-down" aria-hidden="true"></i>
+        </a>
+        @if (defaultTypeCatname$ | async; as defaultTypeCatname) {
+          <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
+            @if (typeCatname$ | async; as typeCatname) {
+              @for (year of years; track year) {
+                <a
+                  [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
+                  class="dropdown-item"
+                  [routerLink]="prefix.concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
+                  [textContent]="getMostsPeriodsTranslation(year.name)"
+                >
+                </a>
+              }
+            } @else {
+              @for (year of years; track year) {
+                <a
+                  [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
+                  class="dropdown-item"
+                  [routerLink]="prefix.concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
+                  [textContent]="getMostsPeriodsTranslation(year.name)"
+                >
+                </a>
               }
             }
-            <i class="bi bi-caret-down" aria-hidden="true"></i>
-          </a>
-          @if (defaultTypeCatname$ | async; as defaultTypeCatname) {
-            <div ngbDropdownMenu style="max-height: 200px; overflow-x: hidden">
-              @if (typeCatname$ | async; as typeCatname) {
-                @for (year of years; track year) {
-                  <a
-                    [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
-                    class="dropdown-item"
-                    [routerLink]="prefix.concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
-                    [textContent]="getMostsPeriodsTranslation(year.name)"
-                  >
-                  </a>
-                }
-              } @else {
-                @for (year of years; track year) {
-                  <a
-                    [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
-                    class="dropdown-item"
-                    [routerLink]="prefix.concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
-                    [textContent]="getMostsPeriodsTranslation(year.name)"
-                  >
-                  </a>
-                }
-              }
-            </div>
-          }
-        </div>
-      }
+          </div>
+        }
+      </div>
     }
   </h1>
   @if (items$ | async; as items) {
-    @for (item of items; track item; let i = $index) {
+    @for (item of items; track item; let first = $first) {
       <div class="row">
         <div class="col-md-9">
-          <h3 [innerHTML]="item.item.name_html"></h3>
+          <h3 [innerHTML]="item.item?.nameHtml"></h3>
         </div>
         <div class="col-md-3">
-          @if (!i) {
+          @if (first) {
             <h3 [textContent]="getMostsRatingParamsTranslation('most/' + ratingCatname + '/param')"></h3>
           }
         </div>
@@ -106,17 +107,19 @@
       <div class="row mb-4">
         <div class="col-md-9">
           <div class="row">
-            @for (picture of item.pictures; track picture) {
+            @for (picture of item.item?.previewPictures?.pictures || []; track picture) {
               <div class="col-md-4">
-                @if (picture) {
-                  <a [routerLink]="picture.route" class="rounded d-block mb-4">
-                    <img
-                      class="rounded w-100 border border-light"
-                      [src]="picture.src"
-                      [alt]="picture.name"
-                      [title]="picture.name"
-                      loading="lazy"
-                    />
+                @if (picture.picture; as pic) {
+                  <a [routerLink]="item.item?.route" class="rounded d-block mb-4">
+                    @if (pic.thumbMedium) {
+                      <img
+                        class="rounded w-100 border border-light"
+                        [src]="pic.thumbMedium.src"
+                        [alt]="pic.nameText"
+                        [title]="pic.nameText"
+                        loading="lazy"
+                      />
+                    }
                   </a>
                 } @else {
                   <span>&#xa0;</span>
@@ -124,23 +127,21 @@
               </div>
             }
           </div>
-          @if (item.item.description) {
-            <app-markdown [markdown]="item.item.description"></app-markdown>
+          @if (item.item?.description) {
+            <app-markdown [markdown]="item.item?.description || null"></app-markdown>
           }
         </div>
         <div class="col-md-3">
           <h3 ngPreserveWhitespaces>
-            @if (item.value_html) {
-              <span [innerHTML]="item.value_html"></span>
-            } @else if (item.value_text) {
-              <span [innerText]="item.value_text"></span>
+            @if (item.valueHtml) {
+              <span [innerHTML]="item.valueHtml"></span>
             }
-            @if (item.unit) {
+            @if (item.unitId && item.unitId !== '0') {
               <small
                 class="unit"
-                [textContent]="getUnitAbbrTranslation(item.unit.id + '')"
+                [textContent]="getUnitAbbrTranslation(item.unitId)"
                 placement="top"
-                [ngbTooltip]="getUnitNameTranslation(item.unit.id + '')"
+                [ngbTooltip]="getUnitNameTranslation(item.unitId)"
               ></small>
             }
           </h3>

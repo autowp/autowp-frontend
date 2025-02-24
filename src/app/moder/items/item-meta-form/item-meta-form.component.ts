@@ -12,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  APIItem as GRPCAPIItem,
+  APIItem,
   ItemType,
   Picture,
   PictureFields,
@@ -179,20 +179,20 @@ export class ItemMetaFormComponent {
   }
   protected readonly parentIsConcept$ = new BehaviorSubject<null | ParentIsConcept>(null);
 
-  @Input() set item(item: GRPCAPIItem) {
+  @Input() set item(item: APIItem) {
     this.item$.next(item);
   }
-  protected readonly item$ = new BehaviorSubject<GRPCAPIItem | null>(null);
+  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   @Input() set vehicleTypeIDs(vehicleTypeIDs: string[]) {
     this.#vehicleTypeIDs$.next(vehicleTypeIDs);
   }
   readonly #vehicleTypeIDs$ = new BehaviorSubject<null | string[]>(null);
 
-  @Input() set items(items: GRPCAPIItem[]) {
+  @Input() set items(items: APIItem[]) {
     this.items$.next(items);
   }
-  protected readonly items$ = new BehaviorSubject<GRPCAPIItem[] | null>(null);
+  protected readonly items$ = new BehaviorSubject<APIItem[] | null>(null);
 
   @Input() set pictures(pictures: PictureItem[]) {
     this.pictures$.next(

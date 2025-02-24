@@ -37,6 +37,7 @@ import {
   GRPC_USERS_CLIENT_SETTINGS,
   GRPC_RATING_CLIENT_SETTINGS,
   GRPC_ITEMS_CLIENT_SETTINGS,
+  GRPC_MOSTS_CLIENT_SETTINGS,
   GRPC_COMMENTS_CLIENT_SETTINGS,
   GRPC_LOG_CLIENT_SETTINGS,
   GRPC_MAP_CLIENT_SETTINGS,
@@ -3595,6 +3596,103 @@ export class ItemsClient {
   ): Observable<thisProto.PathResponse> {
     return this.$raw
       .getPath(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Mosts
+ */
+@Injectable({ providedIn: 'any' })
+export class MostsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Mosts/GetItems
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.MostsItems>>
+     */
+    getItems: (
+      requestData: thisProto.MostsItemsRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.MostsItems>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Mosts/GetItems',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MostsItemsRequest,
+        responseClass: thisProto.MostsItems
+      });
+    },
+    /**
+     * Unary call: /goautowp.Mosts/GetMenu
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.MostsMenu>>
+     */
+    getMenu: (
+      requestData: thisProto.MostsMenuRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.MostsMenu>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Mosts/GetMenu',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.MostsMenuRequest,
+        responseClass: thisProto.MostsMenu
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_MOSTS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Mosts', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Mosts/GetItems
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.MostsItems>
+   */
+  getItems(
+    requestData: thisProto.MostsItemsRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.MostsItems> {
+    return this.$raw
+      .getItems(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Mosts/GetMenu
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.MostsMenu>
+   */
+  getMenu(
+    requestData: thisProto.MostsMenuRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.MostsMenu> {
+    return this.$raw
+      .getMenu(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

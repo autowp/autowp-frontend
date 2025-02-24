@@ -19,7 +19,7 @@ import {catchError, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operat
 
 import {chunkBy} from '../../../chunk';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../../toasts/toasts.service';
 import {CategoriesService} from '../../service';
 
@@ -29,7 +29,7 @@ interface PictureRoute {
 }
 
 @Component({
-  imports: [Thumbnail2Component, PaginatorComponent, AsyncPipe],
+  imports: [PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-categories-category-pictures',
   templateUrl: './pictures.component.html',
 })

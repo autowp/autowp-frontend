@@ -19,11 +19,11 @@ import {combineLatest, EMPTY} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
-import {Thumbnail2Component} from '../../thumbnail/thumbnail2/thumbnail2.component';
+import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, Thumbnail2Component, PaginatorComponent, AsyncPipe, DatePipe],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe, DatePipe, ThumbnailComponent],
   selector: 'app-new-item',
   templateUrl: './item.component.html',
 })
