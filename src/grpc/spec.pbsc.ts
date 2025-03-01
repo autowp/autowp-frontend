@@ -2948,6 +2948,27 @@ export class ItemsClient {
         requestClass: thisProto.PathRequest,
         responseClass: thisProto.PathResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Items/GetAlpha
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.AlphaResponse>>
+     */
+    getAlpha: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.AlphaResponse>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/GetAlpha',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.AlphaResponse
+      });
     }
   };
 
@@ -3596,6 +3617,22 @@ export class ItemsClient {
   ): Observable<thisProto.PathResponse> {
     return this.$raw
       .getPath(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/GetAlpha
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.AlphaResponse>
+   */
+  getAlpha(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.AlphaResponse> {
+    return this.$raw
+      .getAlpha(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

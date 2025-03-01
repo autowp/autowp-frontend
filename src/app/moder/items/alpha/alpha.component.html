@@ -17,33 +17,41 @@
 </div>
 
 <div class="card card-body">
-  @for (group of groups; track group) {
-    <div class="btn-group">
-      @for (c of group; track c) {
-        <a
-          class="btn btn-secondary"
-          [class.active]="c === char"
-          [textContent]="c"
-          routerLink="."
-          [queryParams]="{char: c, page: null}"
-        ></a>
-      }
-    </div>
+  @if (groups$ | async; as groups) {
+    @let char = char$ | async;
+    @for (group of [groups.latin, groups.numbers, groups.other]; track group) {
+      <div class="btn-group">
+        @for (c of group; track c) {
+          <a
+            class="btn btn-secondary"
+            [class.active]="c === char"
+            [textContent]="c"
+            routerLink="."
+            [queryParams]="{char: c, page: null}"
+          ></a>
+        }
+      </div>
+    }
+  } @else {
+    <span>
+      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+    </span>
   }
 </div>
 
-<div [hidden]="!items">
+@if (items$ | async; as items) {
   <div class="card card-body">
-    <span [hidden]="loading <= 0">
-      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-    </span>
-    @for (item of items; track item) {
+    @for (item of items.items; track item) {
       <div>
         <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
       </div>
     }
-    @if (paginator) {
-      <app-paginator [data]="paginator"></app-paginator>
+    @if (items.paginator) {
+      <app-paginator [data]="items.paginator"></app-paginator>
     }
   </div>
-</div>
+} @else {
+  <span>
+    <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+  </span>
+}

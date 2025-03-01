@@ -1,37 +1,54 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIItem, APIItemList, ItemFields, ItemListOptions, ItemsRequest, Pages} from '@grpc/spec.pb';
+import {APIItem, APIItemList, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {APIService} from '@services/api.service';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {combineLatest, of, Subscription} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {combineLatest, of} from 'rxjs';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 
-export interface APIItemAlphaGetResponse {
-  groups: string[][];
-}
-
 @Component({
-  imports: [RouterLink, PaginatorComponent],
+  imports: [RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-moder-items-alpha',
   templateUrl: './alpha.component.html',
 })
-export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
-  readonly #api = inject(APIService);
+export class ModerItemsAlphaComponent implements OnInit {
   readonly #route = inject(ActivatedRoute);
   readonly #pageEnv = inject(PageEnvService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected char: null | string = null;
-  #querySub?: Subscription;
-  protected loading = 0;
-  protected paginator?: null | Pages = null;
-  protected groups: string[][] = [];
-  protected items?: APIItem[];
+  protected readonly groups$ = this.#itemsClient.getAlpha(new Empty());
+
+  protected readonly char$ = this.#route.queryParamMap.pipe(
+    map((query) => query.get('char')),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
+
+  readonly #page$ = this.#route.queryParamMap.pipe(map((query) => parseInt(query.get('page') ?? '', 10)));
+
+  protected readonly items$ = combineLatest([this.char$, this.#page$]).pipe(
+    switchMap(([char, page]) =>
+      char
+        ? this.#itemsClient.list(
+            new ItemsRequest({
+              fields: new ItemFields({nameHtml: true}),
+              language: this.#languageService.language,
+              limit: 40,
+              options: new ItemListOptions({name: char + '%'}),
+              page,
+            }),
+          )
+        : of({
+            items: [] as APIItem[],
+            paginator: undefined,
+          } as APIItemList),
+    ),
+  );
 
   ngOnInit(): void {
     setTimeout(
@@ -42,46 +59,5 @@ export class ModerItemsAlphaComponent implements OnDestroy, OnInit {
         }),
       0,
     );
-
-    this.#querySub = combineLatest([
-      this.#route.queryParamMap,
-      this.#api.request$<APIItemAlphaGetResponse>('GET', 'item/alpha'),
-    ])
-      .pipe(
-        switchMap(([query, groups]) =>
-          combineLatest([
-            of(query.get('char')),
-            of(groups.groups),
-            query.get('char')
-              ? this.#itemsClient.list(
-                  new ItemsRequest({
-                    fields: new ItemFields({nameHtml: true}),
-                    language: this.#languageService.language,
-                    limit: 10,
-                    options: new ItemListOptions({
-                      name: query.get('char') + '%',
-                    }),
-                    page: parseInt(query.get('page') ?? '', 10),
-                  }),
-                )
-              : of({
-                  items: [] as APIItem[],
-                  paginator: undefined,
-                } as APIItemList),
-          ]),
-        ),
-      )
-      .subscribe(([char, groups, items]) => {
-        this.char = char;
-        this.groups = groups;
-        this.paginator = items.paginator;
-        this.items = items.items;
-      });
-  }
-
-  ngOnDestroy(): void {
-    if (this.#querySub) {
-      this.#querySub.unsubscribe();
-    }
   }
 }

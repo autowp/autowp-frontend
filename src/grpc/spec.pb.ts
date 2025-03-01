@@ -56186,6 +56186,185 @@ export module PathResponse {
 }
 
 /**
+ * Message implementation for goautowp.AlphaResponse
+ */
+export class AlphaResponse implements GrpcMessage {
+  static id = 'goautowp.AlphaResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new AlphaResponse();
+    AlphaResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: AlphaResponse) {
+    _instance.numbers = _instance.numbers || [];
+    _instance.latin = _instance.latin || [];
+    _instance.other = _instance.other || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: AlphaResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          (_instance.numbers = _instance.numbers || []).push(
+            _reader.readString()
+          );
+          break;
+        case 2:
+          (_instance.latin = _instance.latin || []).push(_reader.readString());
+          break;
+        case 3:
+          (_instance.other = _instance.other || []).push(_reader.readString());
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    AlphaResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: AlphaResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.numbers && _instance.numbers.length) {
+      _writer.writeRepeatedString(1, _instance.numbers);
+    }
+    if (_instance.latin && _instance.latin.length) {
+      _writer.writeRepeatedString(2, _instance.latin);
+    }
+    if (_instance.other && _instance.other.length) {
+      _writer.writeRepeatedString(3, _instance.other);
+    }
+  }
+
+  private _numbers: string[];
+  private _latin: string[];
+  private _other: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of AlphaResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<AlphaResponse.AsObject>) {
+    _value = _value || {};
+    this.numbers = (_value.numbers || []).slice();
+    this.latin = (_value.latin || []).slice();
+    this.other = (_value.other || []).slice();
+    AlphaResponse.refineValues(this);
+  }
+  get numbers(): string[] {
+    return this._numbers;
+  }
+  set numbers(value: string[]) {
+    this._numbers = value;
+  }
+  get latin(): string[] {
+    return this._latin;
+  }
+  set latin(value: string[]) {
+    this._latin = value;
+  }
+  get other(): string[] {
+    return this._other;
+  }
+  set other(value: string[]) {
+    this._other = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    AlphaResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): AlphaResponse.AsObject {
+    return {
+      numbers: (this.numbers || []).slice(),
+      latin: (this.latin || []).slice(),
+      other: (this.other || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): AlphaResponse.AsProtobufJSON {
+    return {
+      numbers: (this.numbers || []).slice(),
+      latin: (this.latin || []).slice(),
+      other: (this.other || []).slice()
+    };
+  }
+}
+export module AlphaResponse {
+  /**
+   * Standard JavaScript object representation for AlphaResponse
+   */
+  export interface AsObject {
+    numbers: string[];
+    latin: string[];
+    other: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for AlphaResponse
+   */
+  export interface AsProtobufJSON {
+    numbers: string[];
+    latin: string[];
+    other: string[];
+  }
+}
+
+/**
  * Message implementation for goautowp.PathItem
  */
 export class PathItem implements GrpcMessage {
