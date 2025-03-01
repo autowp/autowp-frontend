@@ -56211,6 +56211,8 @@ export class AlphaResponse implements GrpcMessage {
   static refineValues(_instance: AlphaResponse) {
     _instance.numbers = _instance.numbers || [];
     _instance.latin = _instance.latin || [];
+    _instance.cyrillic = _instance.cyrillic || [];
+    _instance.han = _instance.han || [];
     _instance.other = _instance.other || [];
   }
 
@@ -56236,6 +56238,14 @@ export class AlphaResponse implements GrpcMessage {
           (_instance.latin = _instance.latin || []).push(_reader.readString());
           break;
         case 3:
+          (_instance.cyrillic = _instance.cyrillic || []).push(
+            _reader.readString()
+          );
+          break;
+        case 4:
+          (_instance.han = _instance.han || []).push(_reader.readString());
+          break;
+        case 5:
           (_instance.other = _instance.other || []).push(_reader.readString());
           break;
         default:
@@ -56261,13 +56271,21 @@ export class AlphaResponse implements GrpcMessage {
     if (_instance.latin && _instance.latin.length) {
       _writer.writeRepeatedString(2, _instance.latin);
     }
+    if (_instance.cyrillic && _instance.cyrillic.length) {
+      _writer.writeRepeatedString(3, _instance.cyrillic);
+    }
+    if (_instance.han && _instance.han.length) {
+      _writer.writeRepeatedString(4, _instance.han);
+    }
     if (_instance.other && _instance.other.length) {
-      _writer.writeRepeatedString(3, _instance.other);
+      _writer.writeRepeatedString(5, _instance.other);
     }
   }
 
   private _numbers: string[];
   private _latin: string[];
+  private _cyrillic: string[];
+  private _han: string[];
   private _other: string[];
 
   /**
@@ -56278,6 +56296,8 @@ export class AlphaResponse implements GrpcMessage {
     _value = _value || {};
     this.numbers = (_value.numbers || []).slice();
     this.latin = (_value.latin || []).slice();
+    this.cyrillic = (_value.cyrillic || []).slice();
+    this.han = (_value.han || []).slice();
     this.other = (_value.other || []).slice();
     AlphaResponse.refineValues(this);
   }
@@ -56292,6 +56312,18 @@ export class AlphaResponse implements GrpcMessage {
   }
   set latin(value: string[]) {
     this._latin = value;
+  }
+  get cyrillic(): string[] {
+    return this._cyrillic;
+  }
+  set cyrillic(value: string[]) {
+    this._cyrillic = value;
+  }
+  get han(): string[] {
+    return this._han;
+  }
+  set han(value: string[]) {
+    this._han = value;
   }
   get other(): string[] {
     return this._other;
@@ -56317,6 +56349,8 @@ export class AlphaResponse implements GrpcMessage {
     return {
       numbers: (this.numbers || []).slice(),
       latin: (this.latin || []).slice(),
+      cyrillic: (this.cyrillic || []).slice(),
+      han: (this.han || []).slice(),
       other: (this.other || []).slice()
     };
   }
@@ -56340,6 +56374,8 @@ export class AlphaResponse implements GrpcMessage {
     return {
       numbers: (this.numbers || []).slice(),
       latin: (this.latin || []).slice(),
+      cyrillic: (this.cyrillic || []).slice(),
+      han: (this.han || []).slice(),
       other: (this.other || []).slice()
     };
   }
@@ -56351,6 +56387,8 @@ export module AlphaResponse {
   export interface AsObject {
     numbers: string[];
     latin: string[];
+    cyrillic: string[];
+    han: string[];
     other: string[];
   }
 
@@ -56360,6 +56398,8 @@ export module AlphaResponse {
   export interface AsProtobufJSON {
     numbers: string[];
     latin: string[];
+    cyrillic: string[];
+    han: string[];
     other: string[];
   }
 }

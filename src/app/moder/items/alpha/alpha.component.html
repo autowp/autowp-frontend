@@ -19,7 +19,7 @@
 <div class="card card-body">
   @if (groups$ | async; as groups) {
     @let char = char$ | async;
-    @for (group of [groups.latin, groups.numbers, groups.other]; track group) {
+    @for (group of [groups.latin, groups.cyrillic, groups.han, groups.numbers, groups.other]; track group) {
       <div class="btn-group">
         @for (c of group; track c) {
           <a
