@@ -121,7 +121,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
 
   protected readonly newItem$: Observable<APIItem> = combineLatest([this.#itemTypeID$, this.item$]).pipe(
     map(([itemTypeID, item]) => {
-      const newItem = {...item} as APIItem;
+      const newItem = {...item.toObject()} as APIItem;
       newItem.itemTypeId = itemTypeID;
       return newItem;
     }),

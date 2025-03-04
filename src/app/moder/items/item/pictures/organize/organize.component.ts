@@ -105,7 +105,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
 
   protected readonly newItem$ = this.item$.pipe(
     map((item) => {
-      const newItem = {...item} as APIItem;
+      const newItem = {...item.toObject()} as APIItem;
       newItem.isGroup = false;
       return newItem;
     }),
