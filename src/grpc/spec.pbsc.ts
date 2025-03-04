@@ -4507,6 +4507,27 @@ export class PicturesClient {
       });
     },
     /**
+     * Unary call: /goautowp.Pictures/CorrectFileNames
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    correctFileNames: (
+      requestData: thisProto.PictureIDRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/CorrectFileNames',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.PictureIDRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Pictures/DeleteSimilar
      *
      * @param requestMessage Request message
@@ -4946,6 +4967,27 @@ export class PicturesClient {
         requestClass: thisProto.NewboxRequest,
         responseClass: thisProto.Newbox
       });
+    },
+    /**
+     * Unary call: /goautowp.Pictures/GetCanonicalRoute
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.CanonicalRoute>>
+     */
+    getCanonicalRoute: (
+      requestData: thisProto.CanonicalRouteRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.CanonicalRoute>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Pictures/GetCanonicalRoute',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.CanonicalRouteRequest,
+        responseClass: thisProto.CanonicalRoute
+      });
     }
   };
 
@@ -5114,6 +5156,22 @@ export class PicturesClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .flop(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/CorrectFileNames
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  correctFileNames(
+    requestData: thisProto.PictureIDRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .correctFileNames(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -5450,6 +5508,22 @@ export class PicturesClient {
   ): Observable<thisProto.Newbox> {
     return this.$raw
       .getNewbox(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Pictures/GetCanonicalRoute
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.CanonicalRoute>
+   */
+  getCanonicalRoute(
+    requestData: thisProto.CanonicalRouteRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.CanonicalRoute> {
+    return this.$raw
+      .getCanonicalRoute(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

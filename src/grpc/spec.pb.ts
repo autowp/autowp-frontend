@@ -44705,6 +44705,284 @@ export module Inbox {
 }
 
 /**
+ * Message implementation for goautowp.CanonicalRouteRequest
+ */
+export class CanonicalRouteRequest implements GrpcMessage {
+  static id = 'goautowp.CanonicalRouteRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CanonicalRouteRequest();
+    CanonicalRouteRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CanonicalRouteRequest) {
+    _instance.identity = _instance.identity || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CanonicalRouteRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.identity = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CanonicalRouteRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CanonicalRouteRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.identity) {
+      _writer.writeString(1, _instance.identity);
+    }
+  }
+
+  private _identity: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CanonicalRouteRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CanonicalRouteRequest.AsObject>) {
+    _value = _value || {};
+    this.identity = _value.identity;
+    CanonicalRouteRequest.refineValues(this);
+  }
+  get identity(): string {
+    return this._identity;
+  }
+  set identity(value: string) {
+    this._identity = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CanonicalRouteRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CanonicalRouteRequest.AsObject {
+    return {
+      identity: this.identity
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CanonicalRouteRequest.AsProtobufJSON {
+    return {
+      identity: this.identity
+    };
+  }
+}
+export module CanonicalRouteRequest {
+  /**
+   * Standard JavaScript object representation for CanonicalRouteRequest
+   */
+  export interface AsObject {
+    identity: string;
+  }
+
+  /**
+   * Protobuf JSON representation for CanonicalRouteRequest
+   */
+  export interface AsProtobufJSON {
+    identity: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.CanonicalRoute
+ */
+export class CanonicalRoute implements GrpcMessage {
+  static id = 'goautowp.CanonicalRoute';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new CanonicalRoute();
+    CanonicalRoute.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: CanonicalRoute) {
+    _instance.route = _instance.route || [];
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: CanonicalRoute,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          (_instance.route = _instance.route || []).push(_reader.readString());
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    CanonicalRoute.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: CanonicalRoute,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.route && _instance.route.length) {
+      _writer.writeRepeatedString(1, _instance.route);
+    }
+  }
+
+  private _route: string[];
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of CanonicalRoute to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<CanonicalRoute.AsObject>) {
+    _value = _value || {};
+    this.route = (_value.route || []).slice();
+    CanonicalRoute.refineValues(this);
+  }
+  get route(): string[] {
+    return this._route;
+  }
+  set route(value: string[]) {
+    this._route = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    CanonicalRoute.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): CanonicalRoute.AsObject {
+    return {
+      route: (this.route || []).slice()
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): CanonicalRoute.AsProtobufJSON {
+    return {
+      route: (this.route || []).slice()
+    };
+  }
+}
+export module CanonicalRoute {
+  /**
+   * Standard JavaScript object representation for CanonicalRoute
+   */
+  export interface AsObject {
+    route: string[];
+  }
+
+  /**
+   * Protobuf JSON representation for CanonicalRoute
+   */
+  export interface AsProtobufJSON {
+    route: string[];
+  }
+}
+
+/**
  * Message implementation for goautowp.DeleteSimilarRequest
  */
 export class DeleteSimilarRequest implements GrpcMessage {

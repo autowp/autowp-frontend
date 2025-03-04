@@ -42,7 +42,6 @@ import {
 import {ItemsClient, PicturesClient, TrafficClient} from '@grpc/spec.pbsc';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
-import {APIService} from '@services/api.service';
 import {IpService} from '@services/ip';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -89,7 +88,6 @@ interface LastItemInfo {
   templateUrl: './item.component.html',
 })
 export class ModerPicturesItemComponent {
-  readonly #api = inject(APIService);
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #pageEnv = inject(PageEnvService);
@@ -469,64 +467,92 @@ export class ModerPicturesItemComponent {
 
   protected normalizePicture(id: string) {
     this.repairLoading = true;
-    this.#picturesClient.normalize(new PictureIDRequest({id})).subscribe({
-      error: () => {
-        this.repairLoading = false;
-      },
-      next: () => {
-        this.#change$.next();
-        this.repairLoading = false;
-      },
-    });
+    this.#picturesClient
+      .normalize(new PictureIDRequest({id}))
+      .pipe(
+        catchError((error: unknown) => {
+          this.repairLoading = false;
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.#change$.next();
+          this.repairLoading = false;
+        },
+      });
   }
 
   protected flopPicture(id: string) {
     this.repairLoading = true;
-    this.#picturesClient.flop(new PictureIDRequest({id})).subscribe({
-      error: () => {
-        this.repairLoading = false;
-      },
-      next: () => {
-        this.#change$.next();
-        this.repairLoading = false;
-      },
-    });
+    this.#picturesClient
+      .flop(new PictureIDRequest({id}))
+      .pipe(
+        catchError((error: unknown) => {
+          this.repairLoading = false;
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.#change$.next();
+          this.repairLoading = false;
+        },
+      });
   }
 
   protected repairPicture(id: string) {
     this.repairLoading = true;
-    this.#picturesClient.repair(new PictureIDRequest({id})).subscribe({
-      error: () => {
-        this.repairLoading = false;
-      },
-      next: () => {
-        this.#change$.next();
-        this.repairLoading = false;
-      },
-    });
+    this.#picturesClient
+      .repair(new PictureIDRequest({id}))
+      .pipe(
+        catchError((error: unknown) => {
+          this.repairLoading = false;
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.#change$.next();
+          this.repairLoading = false;
+        },
+      });
   }
 
   protected correctFileNames(id: string) {
     this.repairLoading = true;
-    this.#api.request$<void>('PUT', 'picture/' + id + '/correct-file-names', {}).subscribe({
-      error: () => {
-        this.repairLoading = false;
-      },
-      next: () => {
-        this.#change$.next();
-        this.repairLoading = false;
-      },
-    });
+    this.#picturesClient
+      .correctFileNames(new PictureIDRequest({id}))
+      .pipe(
+        catchError((error: unknown) => {
+          this.repairLoading = false;
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.#change$.next();
+          this.repairLoading = false;
+        },
+      });
   }
 
   protected cancelSimilar(dfDistance: DfDistance) {
     this.similarLoading = true;
     this.#picturesClient
       .deleteSimilar(new DeleteSimilarRequest({id: dfDistance.srcPictureId, similarPictureId: dfDistance.dstPictureId}))
-      .subscribe({
-        error: () => {
+      .pipe(
+        catchError((error: unknown) => {
           this.similarLoading = false;
-        },
+          this.#toastService.handleError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe({
         next: () => {
           this.#change$.next();
           this.similarLoading = false;

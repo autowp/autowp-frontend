@@ -3,6 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
+  CanonicalRouteRequest,
   CommentsType,
   Picture,
   PictureFields,
@@ -13,7 +14,6 @@ import {
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
-import {PictureService} from '@services/picture';
 import {BehaviorSubject, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
@@ -28,7 +28,6 @@ import {PictureComponent} from './picture.component';
 export class PicturePageComponent {
   readonly #route = inject(ActivatedRoute);
   readonly #pageEnv = inject(PageEnvService);
-  readonly #pictureService = inject(PictureService);
   readonly #router = inject(Router);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
@@ -47,7 +46,7 @@ export class PicturePageComponent {
         return EMPTY;
       }
 
-      return this.#pictureService.getCanonicalRoute$(identity).pipe(
+      return this.#picturesClient.getCanonicalRoute(new CanonicalRouteRequest({identity})).pipe(
         catchError((response: unknown) => {
           if (response instanceof HttpErrorResponse && response.status === 404) {
             this.#router.navigate(['/error-404'], {
@@ -57,7 +56,7 @@ export class PicturePageComponent {
           }
           return throwError(() => response);
         }),
-        switchMap((route) => {
+        switchMap(({route}) => {
           if (route && route.length > 0) {
             this.#router.navigate(route, {
               replaceUrl: true,

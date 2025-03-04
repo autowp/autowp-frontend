@@ -6,7 +6,6 @@ import {Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ACLService, Privilege, Resource} from './acl.service';
-import {APIService} from './api.service';
 import {AuthService} from './auth.service';
 
 export const perspectiveIDLogotype = 22,
@@ -16,7 +15,6 @@ export const perspectiveIDLogotype = 22,
   providedIn: 'root',
 })
 export class PictureService {
-  readonly #api = inject(APIService);
   readonly #auth = inject(AuthService);
   readonly #acl = inject(ACLService);
   readonly #picturesClient = inject(PicturesClient);
@@ -53,8 +51,4 @@ export class PictureService {
       }),
       shareReplay({bufferSize: 1, refCount: false}),
     );
-
-  public getCanonicalRoute$(identity: string): Observable<null | string[]> {
-    return this.#api.request$<null | string[]>('GET', 'picture/' + identity + '/canonical-route');
-  }
 }
