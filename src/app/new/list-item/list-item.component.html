@@ -5,7 +5,7 @@
         [item]="{
           nameHTML: item.nameHtml,
           design: item.design || null,
-          produced: {count: item.produced || 0, exactly: item.producedExactly},
+          produced: {count: item.produced?.value || 0, exactly: item.producedExactly},
         }"
       ></app-item-header>
     </h3>

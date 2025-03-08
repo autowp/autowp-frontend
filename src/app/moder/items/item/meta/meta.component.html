@@ -40,7 +40,7 @@
         </div>
         <div class="col-3 mb-4"><ng-container i18n>Produced</ng-container>:</div>
         <div class="col9 mb-4">
-          {{ item.produced }}
+          {{ item.produced?.value }}
           @if (item.producedExactly) {
             <span i18n>exactly</span>
           } @else {

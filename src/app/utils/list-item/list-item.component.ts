@@ -34,7 +34,7 @@ export interface CatalogueListItem {
     largeFormat: boolean;
     pictures: CatalogueListItemPicture[];
   };
-  produced: null | number;
+  produced: number | undefined;
   producedExactly: boolean | null;
   specsRouterLink: null | string[];
   twinsGroups?: APIItem[];

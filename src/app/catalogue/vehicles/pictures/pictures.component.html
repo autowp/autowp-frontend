@@ -26,7 +26,7 @@
         [item]="{
           nameHTML: item.nameHtml,
           design: item.design || null,
-          produced: {count: item.produced || 0, exactly: item.producedExactly},
+          produced: {count: item.produced?.value || 0, exactly: item.producedExactly},
         }"
       ></app-item-header>
     </h1>
@@ -63,7 +63,7 @@
     </p>
   }
   <app-catalogue-item-menu
-    [header]="{nameHTML: item.nameHtml, produced: {count: item.produced || 0, exactly: item.producedExactly}}"
+    [header]="{nameHTML: item.nameHtml, produced: {count: item.produced?.value || 0, exactly: item.producedExactly}}"
     [itemRouterLink]="(routerLink$ | async) || []"
     [picturesCount]="item.acceptedPicturesCount || 0"
     [childsCounts]="convertChildsCounts(item.childsCounts || [])"

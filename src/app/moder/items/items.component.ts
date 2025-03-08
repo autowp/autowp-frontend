@@ -314,7 +314,7 @@ export class ModerItemsComponent implements OnInit {
                   largeFormat: !!item.previewPictures?.largeFormat,
                   pictures,
                 },
-                produced: item.produced,
+                produced: item.produced?.value,
                 producedExactly: item.producedExactly,
                 specsRouterLink: item.hasSpecs || item.hasChildSpecs ? item.specsRoute || null : null,
                 twinsGroups: item.twins,

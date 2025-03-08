@@ -137,7 +137,7 @@ export class CutawayBrandsComponent implements OnInit {
           largeFormat: !!item.previewPictures?.largeFormat,
           pictures,
         },
-        produced: null,
+        produced: undefined,
         producedExactly: null,
         specsRouterLink: null,
       };

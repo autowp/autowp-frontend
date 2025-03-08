@@ -358,7 +358,7 @@ export class ItemMetaFormComponent {
           end_year_fraction: new FormControl(item.endModelYearFraction),
         });
         elements.produced = new FormGroup({
-          count: new FormControl(item.produced ? item.produced : null),
+          count: new FormControl(item.produced ? item.produced.value : null),
           exactly: new FormControl(item.producedExactly),
         });
         elements.is_concept = new FormControl<isConceptValue>(

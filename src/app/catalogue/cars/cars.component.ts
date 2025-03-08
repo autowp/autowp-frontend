@@ -239,7 +239,7 @@ export class CatalogueCarsComponent {
                   largeFormat: !!item.previewPictures?.largeFormat,
                   pictures,
                 },
-                produced: item.produced,
+                produced: item.produced?.value,
                 producedExactly: item.producedExactly,
                 specsRouterLink: null,
               };

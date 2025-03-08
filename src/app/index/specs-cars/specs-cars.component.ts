@@ -76,11 +76,11 @@ export class IndexSpecsCarsComponent {
                 largeFormat: false,
                 pictures,
               },
-              produced: item.produced,
+              produced: item.produced?.value,
               producedExactly: item.producedExactly,
               specsRouterLink: item.specsRoute,
               twinsGroups: item.twins,
-            };
+            } as CatalogueListItem;
           }),
           2,
         );

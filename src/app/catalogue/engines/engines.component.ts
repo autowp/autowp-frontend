@@ -171,7 +171,7 @@ export class CatalogueEnginesComponent {
             largeFormat: !!item.item?.previewPictures?.largeFormat,
             pictures,
           },
-          produced: item.item?.produced || 0,
+          produced: item.item?.produced?.value,
           producedExactly: item.item?.producedExactly || null,
           specsRouterLink:
             item.item?.hasSpecs || item.item?.hasChildSpecs ? routerLink.concat(['specifications']) : null,

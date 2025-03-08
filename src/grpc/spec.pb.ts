@@ -30428,7 +30428,7 @@ export class APIItem implements GrpcMessage {
     _instance.location = _instance.location || undefined;
     _instance.hasChildSpecs = _instance.hasChildSpecs || false;
     _instance.hasSpecs = _instance.hasSpecs || false;
-    _instance.produced = _instance.produced || 0;
+    _instance.produced = _instance.produced || undefined;
     _instance.producedExactly = _instance.producedExactly || false;
     _instance.otherNames = _instance.otherNames || [];
     _instance.design = _instance.design || undefined;
@@ -30600,8 +30600,12 @@ export class APIItem implements GrpcMessage {
         case 29:
           _instance.hasSpecs = _reader.readBool();
           break;
-        case 30:
-          _instance.produced = _reader.readInt32();
+        case 74:
+          _instance.produced = new googleProtobuf002.Int32Value();
+          _reader.readMessage(
+            _instance.produced,
+            googleProtobuf002.Int32Value.deserializeBinaryFromReader
+          );
           break;
         case 31:
           _instance.producedExactly = _reader.readBool();
@@ -30936,7 +30940,11 @@ export class APIItem implements GrpcMessage {
       _writer.writeBool(29, _instance.hasSpecs);
     }
     if (_instance.produced) {
-      _writer.writeInt32(30, _instance.produced);
+      _writer.writeMessage(
+        74,
+        _instance.produced as any,
+        googleProtobuf002.Int32Value.serializeBinaryToWriter
+      );
     }
     if (_instance.producedExactly) {
       _writer.writeBool(31, _instance.producedExactly);
@@ -31151,7 +31159,7 @@ export class APIItem implements GrpcMessage {
   private _location?: googleType005.LatLng;
   private _hasChildSpecs: boolean;
   private _hasSpecs: boolean;
-  private _produced: number;
+  private _produced?: googleProtobuf002.Int32Value;
   private _producedExactly: boolean;
   private _otherNames: string[];
   private _design?: Design;
@@ -31235,7 +31243,9 @@ export class APIItem implements GrpcMessage {
       : undefined;
     this.hasChildSpecs = _value.hasChildSpecs;
     this.hasSpecs = _value.hasSpecs;
-    this.produced = _value.produced;
+    this.produced = _value.produced
+      ? new googleProtobuf002.Int32Value(_value.produced)
+      : undefined;
     this.producedExactly = _value.producedExactly;
     this.otherNames = (_value.otherNames || []).slice();
     this.design = _value.design ? new Design(_value.design) : undefined;
@@ -31500,10 +31510,10 @@ export class APIItem implements GrpcMessage {
   set hasSpecs(value: boolean) {
     this._hasSpecs = value;
   }
-  get produced(): number {
+  get produced(): googleProtobuf002.Int32Value | undefined {
     return this._produced;
   }
-  set produced(value: number) {
+  set produced(value: googleProtobuf002.Int32Value | undefined) {
     this._produced = value;
   }
   get producedExactly(): boolean {
@@ -31784,7 +31794,7 @@ export class APIItem implements GrpcMessage {
       location: this.location ? this.location.toObject() : undefined,
       hasChildSpecs: this.hasChildSpecs,
       hasSpecs: this.hasSpecs,
-      produced: this.produced,
+      produced: this.produced ? this.produced.toObject() : undefined,
       producedExactly: this.producedExactly,
       otherNames: (this.otherNames || []).slice(),
       design: this.design ? this.design.toObject() : undefined,
@@ -31890,7 +31900,7 @@ export class APIItem implements GrpcMessage {
       location: this.location ? this.location.toProtobufJSON(options) : null,
       hasChildSpecs: this.hasChildSpecs,
       hasSpecs: this.hasSpecs,
-      produced: this.produced,
+      produced: this.produced ? this.produced.toProtobufJSON(options) : null,
       producedExactly: this.producedExactly,
       otherNames: (this.otherNames || []).slice(),
       design: this.design ? this.design.toProtobufJSON(options) : null,
@@ -31989,7 +31999,7 @@ export module APIItem {
     location?: googleType005.LatLng.AsObject;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
-    produced: number;
+    produced?: googleProtobuf002.Int32Value.AsObject;
     producedExactly: boolean;
     otherNames: string[];
     design?: Design.AsObject;
@@ -32068,7 +32078,7 @@ export module APIItem {
     location: googleType005.LatLng.AsProtobufJSON | null;
     hasChildSpecs: boolean;
     hasSpecs: boolean;
-    produced: number;
+    produced: googleProtobuf002.Int32Value.AsProtobufJSON | null;
     producedExactly: boolean;
     otherNames: string[];
     design: Design.AsProtobufJSON | null;

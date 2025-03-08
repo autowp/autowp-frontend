@@ -174,7 +174,7 @@ export class FactoryItemsComponent {
             largeFormat: !!item.previewPictures?.largeFormat,
             pictures,
           },
-          produced: item.produced,
+          produced: item.produced?.value,
           producedExactly: item.producedExactly,
           specsRouterLink:
             (item.hasSpecs || item.hasChildSpecs) && item.route.length ? item.route.concat(['specifications']) : null,

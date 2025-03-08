@@ -144,7 +144,7 @@ export class PersonsComponent implements OnInit {
           largeFormat: largeFormat,
           pictures,
         },
-        produced: null,
+        produced: undefined,
         producedExactly: null,
         specsRouterLink: null,
       };

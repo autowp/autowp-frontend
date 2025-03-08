@@ -282,7 +282,7 @@ export class CatalogueVehiclesComponent {
                   largeFormat: !!item.item?.previewPictures?.largeFormat,
                   pictures,
                 },
-                produced: item.item?.produced || 0,
+                produced: item.item?.produced?.value,
                 producedExactly: item.item?.producedExactly || false,
                 specsRouterLink:
                   item.item?.hasSpecs || item.item?.hasChildSpecs ? itemRouterLink.concat(['specifications']) : null,
@@ -395,7 +395,7 @@ export class CatalogueVehiclesComponent {
         largeFormat: !!item.previewPictures?.largeFormat,
         pictures,
       },
-      produced: item.produced,
+      produced: item.produced?.value,
       producedExactly: item.producedExactly,
       specsRouterLink: item.hasSpecs || item.hasChildSpecs ? routerLink.concat(['specifications']) : null,
       twinsGroups: item.twins,
