@@ -1623,6 +1623,27 @@ export class UsersClient {
         requestClass: thisProto.DeleteUserAccountRequest,
         responseClass: googleProtobuf001.Empty
       });
+    },
+    /**
+     * Unary call: /goautowp.Users/DeleteUserPhoto
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    deleteUserPhoto: (
+      requestData: thisProto.DeleteUserPhotoRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/DeleteUserPhoto',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.DeleteUserPhotoRequest,
+        responseClass: googleProtobuf001.Empty
+      });
     }
   };
 
@@ -1775,6 +1796,22 @@ export class UsersClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .deleteUserAccount(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/DeleteUserPhoto
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  deleteUserPhoto(
+    requestData: thisProto.DeleteUserPhotoRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .deleteUserPhoto(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

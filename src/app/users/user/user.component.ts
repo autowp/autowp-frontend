@@ -13,6 +13,7 @@ import {
   CreateContactRequest,
   DeleteContactRequest,
   DeleteFromTrafficBlacklistRequest,
+  DeleteUserPhotoRequest,
   GetMessagesRequest,
   Picture,
   PictureFields,
@@ -23,7 +24,6 @@ import {
 import {CommentsClient, ContactsClient, PicturesClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {IpService} from '@services/ip';
@@ -45,7 +45,6 @@ import {UserComponent} from '../../user/user/user.component';
   templateUrl: './user.component.html',
 })
 export class UsersUserComponent {
-  readonly #api = inject(APIService);
   readonly #contacts = inject(ContactsService);
   readonly #messageDialogService = inject(MessageDialogService);
   readonly #acl = inject(ACLService);
@@ -270,7 +269,7 @@ export class UsersUserComponent {
       return;
     }
 
-    this.#api.request$<void>('DELETE', 'user/' + user.id + '/photo').subscribe({
+    this.#usersGrpc.deleteUserPhoto(new DeleteUserPhotoRequest({id: user.id})).subscribe({
       error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
         user.photo = undefined;

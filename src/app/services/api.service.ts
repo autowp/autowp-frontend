@@ -6,7 +6,6 @@ import {
   HttpHeaders,
   HttpParams,
   HttpRequest,
-  HttpResponse,
 } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {environment} from '@environment/environment';
@@ -18,8 +17,6 @@ import {catchError, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
 import {LanguageService} from './language';
-
-declare type HttpObserve = 'body' | 'events' | 'response';
 
 export interface APIImage {
   height: number;
@@ -123,69 +120,6 @@ export class APIService {
   readonly #language = inject(LanguageService);
 
   /**
-   * Constructs a request that interprets the body as a text string and
-   * returns a string value.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return An `Observable` of the response, with the response body of type string.
-   */
-  request$(
-    method: string,
-    url: string,
-    options: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe?: 'body';
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType: 'text';
-      withCredentials?: boolean;
-    },
-  ): Observable<string>;
-
-  /**
-   * Constructs a request which interprets the body as a text string and returns the full event stream.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return An `Observable` of all `HttpEvents` for the reques,
-   * with the response body of type string.
-   */
-  request$(
-    method: string,
-    url: string,
-    options: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe: 'events';
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType: 'text';
-      withCredentials?: boolean;
-    },
-  ): Observable<HttpEvent<string>>;
-  /**
    * Constructs a request which interprets the body as a JSON object and returns the full event stream.
    *
    * @param method  The HTTP method.
@@ -216,130 +150,7 @@ export class APIService {
       withCredentials?: boolean;
     },
   ): Observable<HttpEvent<unknown>>;
-  /**
-   * Constructs a request which interprets the body as a JSON object and returns the full event stream.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return An `Observable` of all `HttpEvents` for the request,
-   * with the response body of type `R`.
-   */
-  request$<R>(
-    method: string,
-    url: string,
-    options: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe: 'events';
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType?: 'json';
-      withCredentials?: boolean;
-    },
-  ): Observable<HttpEvent<R>>;
 
-  /**
-   * Constructs a request which interprets the body as a text stream and returns the full `HTTPResponse`.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return An `Observable` of the HTTP response, with the response body of type string.
-   */
-  request$(
-    method: string,
-    url: string,
-    options: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe: 'response';
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType: 'text';
-      withCredentials?: boolean;
-    },
-  ): Observable<HttpResponse<string>>;
-  /**
-   * Constructs a request which interprets the body as a JSON object and returns the full `HTTPResponse`.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return An `Observable` of the full `HTTPResponse`,
-   * with the response body of type `Object`.
-   */
-  request$(
-    method: string,
-    url: string,
-    options: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe: 'response';
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType?: 'json';
-      withCredentials?: boolean;
-    },
-  ): Observable<HttpResponse<object>>;
-  /**
-   * Constructs a request which interprets the body as a JSON object and returns
-   * the full `HTTPResponse` with the response body in the requested type.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return  An `Observable` of the full `HTTPResponse`, with the response body of type `R`.
-   */
-  request$<R>(
-    method: string,
-    url: string,
-    options: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe: 'response';
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType?: 'json';
-      withCredentials?: boolean;
-    },
-  ): Observable<HttpResponse<R>>;
   /**
    * Constructs a request which interprets the body as a JSON object and returns the full
    * `HTTPResponse` as a JSON object.
@@ -402,36 +213,6 @@ export class APIService {
       withCredentials?: boolean;
     },
   ): Observable<R>;
-  /**
-   * Constructs a request where response type and requested observable are not known statically.
-   *
-   * @param method  The HTTP method.
-   * @param url     The endpoint URL.
-   * @param options The HTTP options to send with the request.
-   *
-   * @return An `Observable` of the requested response, with body of type `any`.
-   */
-  request$(
-    method: string,
-    url: string,
-    options?: {
-      body?: unknown;
-      headers?:
-        | HttpHeaders
-        | {
-            [header: string]: string | string[];
-          };
-      observe?: HttpObserve;
-      params?:
-        | HttpParams
-        | {
-            [param: string]: string | string[];
-          };
-      reportProgress?: boolean;
-      responseType?: 'json' | 'text';
-      withCredentials?: boolean;
-    },
-  ): Observable<unknown>;
 
   public request$(
     method: string,
