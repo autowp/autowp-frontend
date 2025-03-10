@@ -51,7 +51,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   protected readonly changeProfileUrl =
     environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
 
-  protected readonly timezones$ = this.#timezone.getTimezones$();
+  protected readonly timezones$ = this.#timezone.timezones$;
 
   protected readonly languages: {name: string; value: string}[] = environment.languages.map((language) => ({
     name: language.name,

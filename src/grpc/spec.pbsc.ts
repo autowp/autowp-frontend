@@ -271,6 +271,27 @@ export class AutowpClient {
         requestClass: googleProtobuf001.Empty,
         responseClass: thisProto.VehicleTypeItems
       });
+    },
+    /**
+     * Unary call: /goautowp.Autowp/GetTimezones
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Timezones>>
+     */
+    getTimezones: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Timezones>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Autowp/GetTimezones',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.Timezones
+      });
     }
   };
 
@@ -439,6 +460,22 @@ export class AutowpClient {
   ): Observable<thisProto.VehicleTypeItems> {
     return this.$raw
       .getVehicleTypes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Autowp/GetTimezones
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Timezones>
+   */
+  getTimezones(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Timezones> {
+    return this.$raw
+      .getTimezones(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

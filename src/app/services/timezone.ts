@@ -1,25 +1,17 @@
 import {inject, Injectable} from '@angular/core';
+import {AutowpClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-
-import {APIService} from './api.service';
-
-export interface APITimezoneGetResponse {
-  items: string[];
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class TimezoneService {
-  readonly #api = inject(APIService);
+  readonly #grpc = inject(AutowpClient);
 
-  readonly #timezones$: Observable<string[]> = this.#api.request$<APITimezoneGetResponse>('GET', 'timezone').pipe(
-    map((response) => response.items),
+  public readonly timezones$: Observable<string[]> = this.#grpc.getTimezones(new Empty()).pipe(
+    map((response) => response.timezones),
     shareReplay({bufferSize: 1, refCount: false}),
   );
-
-  public getTimezones$(): Observable<string[]> {
-    return this.#timezones$;
-  }
 }
