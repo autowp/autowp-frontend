@@ -310,7 +310,7 @@ export class CarsSpecificationsEditorSpecComponent {
           listValue,
           stringValue,
           type: typeId,
-          valid,
+          valid: valid || control.disabled,
         }),
       });
     });
