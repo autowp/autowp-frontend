@@ -162,6 +162,7 @@ export class CatalogueCarsComponent {
               categories: new ItemsRequest({
                 fields: new ItemFields({nameHtml: true}),
               }),
+              childsCount: true,
               description: true,
               design: true,
               engineVehicles: new ItemsRequest({
