@@ -15,9 +15,10 @@ import {
   ItemsRequest,
   ItemType,
   Pages,
-  SetItemEngineRequest,
+  UpdateItemRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {FieldMask} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
@@ -151,11 +152,14 @@ export class CarsEngineSelectComponent {
 
   protected selectEngine(itemID: string, engineId: string) {
     this.#itemsClient
-      .setItemEngine(
-        new SetItemEngineRequest({
-          engineInherited: false,
-          engineItemId: engineId,
-          itemId: itemID,
+      .updateItem(
+        new UpdateItemRequest({
+          item: new APIItem({
+            engineInherit: false,
+            engineItemId: engineId,
+            id: itemID,
+          }),
+          updateMask: new FieldMask({paths: ['engine_inherit', 'engine_item_id']}),
         }),
       )
       .pipe(

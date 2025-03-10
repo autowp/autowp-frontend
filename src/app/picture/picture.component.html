@@ -166,7 +166,10 @@
       @if (pictureItems$ | async; as items) {
         @for (item of items; track item.itemId) {
           @if (item.type === PictureItemType.PICTURE_ITEM_AUTHOR) {
-            <p>Author: <a [routerLink]="['/persons', item.item?.id]" [innerHTML]="item.item?.nameHtml"></a></p>
+            <p>
+              <ng-container i18n>Author:</ng-container>
+              <a [routerLink]="['/persons', item.item?.id]" [innerHTML]="item.item?.nameHtml"></a>
+            </p>
           }
         }
       }

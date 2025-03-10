@@ -34,10 +34,10 @@ class Gallery {
   public filterParams(): {[key: string]: string} {
     const params: {[key: string]: string} = {};
     if (this.filter.itemID) {
-      params['item_id'] = this.filter.itemID.toString();
+      params['item_id'] = this.filter.itemID;
     }
     if (this.filter.exactItemID) {
-      params['exact_item_id'] = this.filter.exactItemID.toString();
+      params['exact_item_id'] = this.filter.exactItemID;
     }
     if (this.filter.exactItemLinkType) {
       params['exact_item_link_type'] = this.filter.exactItemLinkType.toString();

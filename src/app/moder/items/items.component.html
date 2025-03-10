@@ -29,6 +29,7 @@
         <label i18n>Name</label>
         <input
           placeholder="% - any characters"
+          i18n-placeholder
           type="text"
           name="name"
           class="form-control"
@@ -51,7 +52,7 @@
       <div class="mb-3">
         <label i18n>Item type</label>
         <select name="item_type_id" class="form-select" [(ngModel)]="itemTypeID" (change)="onItemTypeChanged()">
-          <option [ngValue]="null">Any</option>
+          <option [ngValue]="ItemType.ITEM_TYPE_UNKNOWN" i18n>Any</option>
           <option [ngValue]="ItemType.ITEM_TYPE_VEHICLE" i18n>Vehicle</option>
           <option [ngValue]="ItemType.ITEM_TYPE_ENGINE" i18n>Engine</option>
           <option [ngValue]="ItemType.ITEM_TYPE_CATEGORY" i18n>Category</option>
@@ -71,7 +72,7 @@
           [(ngModel)]="vehicleTypeID"
           (change)="onVehicleTypeChanged()"
         >
-          <option [ngValue]="null">Any</option>
+          <option [ngValue]="null" i18n>Any</option>
           <option [ngValue]="'empty'" i18n>Empty</option>
           @for (item of vehicleTypeOptions$ | async; track item.id) {
             <option [ngValue]="item.id">{{ '...'.repeat(item.deep || 0) }}{{ item.name }}</option>

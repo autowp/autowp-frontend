@@ -25,9 +25,10 @@ import * as googleProtobuf001 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf002 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf003 from '@ngx-grpc/well-known-types';
 import * as googleProtobuf004 from '@ngx-grpc/well-known-types';
-import * as googleType005 from './google/type/latlng.pb';
-import * as googleType006 from './google/type/date.pb';
-import * as googleRpc007 from './google/rpc/error-details.pb';
+import * as googleProtobuf005 from '@ngx-grpc/well-known-types';
+import * as googleType006 from './google/type/latlng.pb';
+import * as googleType007 from './google/type/date.pb';
+import * as googleRpc008 from './google/rpc/error-details.pb';
 import {
   GRPC_AUTOWP_CLIENT_SETTINGS,
   GRPC_FORUMS_CLIENT_SETTINGS,
@@ -2320,6 +2321,48 @@ export class ItemsClient {
       });
     },
     /**
+     * Unary call: /goautowp.Items/CreateItem
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ItemID>>
+     */
+    createItem: (
+      requestData: thisProto.APIItem,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ItemID>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/CreateItem',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.APIItem,
+        responseClass: thisProto.ItemID
+      });
+    },
+    /**
+     * Unary call: /goautowp.Items/UpdateItem
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updateItem: (
+      requestData: thisProto.UpdateItemRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Items/UpdateItem',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UpdateItemRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Items/Item
      *
      * @param requestMessage Request message
@@ -2908,27 +2951,6 @@ export class ItemsClient {
       });
     },
     /**
-     * Unary call: /goautowp.Items/SetItemEngine
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
-     */
-    setItemEngine: (
-      requestData: thisProto.SetItemEngineRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Items/SetItemEngine',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.SetItemEngineRequest,
-        responseClass: googleProtobuf001.Empty
-      });
-    },
-    /**
      * Unary call: /goautowp.Items/GetPath
      *
      * @param requestMessage Request message
@@ -3137,6 +3159,38 @@ export class ItemsClient {
   ): Observable<thisProto.TopSpecsContributions> {
     return this.$raw
       .getTopSpecsContributions(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/CreateItem
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ItemID>
+   */
+  createItem(
+    requestData: thisProto.APIItem,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ItemID> {
+    return this.$raw
+      .createItem(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Items/UpdateItem
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  updateItem(
+    requestData: thisProto.UpdateItemRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .updateItem(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -3585,22 +3639,6 @@ export class ItemsClient {
   ): Observable<googleProtobuf001.Empty> {
     return this.$raw
       .setUserItemSubscription(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
-  }
-
-  /**
-   * Unary call @/goautowp.Items/SetItemEngine
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<googleProtobuf001.Empty>
-   */
-  setItemEngine(
-    requestData: thisProto.SetItemEngineRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<googleProtobuf001.Empty> {
-    return this.$raw
-      .setItemEngine(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 

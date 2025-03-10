@@ -346,7 +346,7 @@ export class ModerPicturesItemComponent {
       )
       .subscribe({
         next: () => {
-          localStorage.setItem('last_item', item.id.toString());
+          localStorage.setItem('last_item', item.id);
           this.#change$.next();
           this.pictureItemLoading = false;
         },

@@ -182,7 +182,7 @@ export class UsersUserComponent {
 
   protected readonly isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
     map(([user, currentUser]) => {
-      return !currentUser || currentUser.id !== user.id.toString();
+      return !currentUser || currentUser.id !== user.id;
     }),
   );
 
@@ -199,7 +199,7 @@ export class UsersUserComponent {
         return of(false);
       }
 
-      return this.#contacts.isInContacts$(user.id.toString());
+      return this.#contacts.isInContacts$(user.id);
     }),
     catchError((response: unknown) => {
       this.#toastService.handleError(response);
@@ -222,7 +222,7 @@ export class UsersUserComponent {
       }
 
       return this.#usersGrpc
-        .getUserPreferences(new APIUserPreferencesRequest({userId: user.id.toString()}))
+        .getUserPreferences(new APIUserPreferencesRequest({userId: user.id}))
         .pipe(map(({disableCommentsNotifications}) => disableCommentsNotifications));
     }),
     catchError((response: unknown) => {
@@ -239,13 +239,13 @@ export class UsersUserComponent {
 
   protected setInContacts(user: APIUser, value: boolean) {
     if (value) {
-      this.#contactsClient.createContact(new CreateContactRequest({userId: user.id.toString()})).subscribe(() => {
+      this.#contactsClient.createContact(new CreateContactRequest({userId: user.id})).subscribe(() => {
         this.#inContactsChange$.next();
       });
       return;
     }
 
-    this.#contactsClient.deleteContact(new DeleteContactRequest({userId: user.id.toString()})).subscribe(() => {
+    this.#contactsClient.deleteContact(new DeleteContactRequest({userId: user.id})).subscribe(() => {
       this.#inContactsChange$.next();
     });
   }
@@ -253,18 +253,16 @@ export class UsersUserComponent {
   protected setCommentNotificationsDisabled(user: APIUser, value: boolean) {
     if (value) {
       this.#usersGrpc
-        .disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
+        .disableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id}))
         .subscribe(() => {
           this.#userUserPreferencesChanged$.next();
         });
       return;
     }
 
-    this.#usersGrpc
-      .enableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id.toString()}))
-      .subscribe(() => {
-        this.#userUserPreferencesChanged$.next();
-      });
+    this.#usersGrpc.enableUserCommentsNotifications(new APIUserPreferencesRequest({userId: user.id})).subscribe(() => {
+      this.#userUserPreferencesChanged$.next();
+    });
   }
 
   protected deletePhoto(user: APIUser) {
@@ -287,7 +285,7 @@ export class UsersUserComponent {
     this.#usersGrpc
       .deleteUser(
         new APIDeleteUserRequest({
-          userId: user.id.toString(),
+          userId: user.id,
         }),
       )
       .subscribe({

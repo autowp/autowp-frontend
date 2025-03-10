@@ -11,6 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import {LatLng} from '@grpc/google/type/latlng.pb';
 import {
   APIItem,
   ItemType,
@@ -24,6 +25,7 @@ import {
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {BoolValue, Int32Value} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
 import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
@@ -36,42 +38,42 @@ import {sprintf} from 'sprintf-js';
 import {VehicleTypesModalComponent} from '../../../components/vehicle-types-modal/vehicle-types-modal.component';
 import {MapPointComponent} from './map-point/map-point.component';
 
-type isConceptValue = 'inherited' | boolean | null;
+type isConceptValue = 'inherited' | boolean;
 type specValue = 'inherited' | null | number;
 
 const isConceptInherited = 'inherited',
   specInherited = 'inherited';
 
 export interface ItemMetaFormResult {
-  begin: {
-    month: number;
-    year: number;
+  begin: null | {
+    month: null | number;
+    year: null | number;
   };
   body: string;
   catname: string;
-  end: {
-    month: number;
-    today: number;
-    year: number;
+  end: null | {
+    month: null | number;
+    today: boolean | null;
+    year: null | number;
   };
   full_name: string;
   is_concept: isConceptValue;
   is_group: boolean;
   items: number[];
-  model_years: {
-    begin_year: number;
+  model_years: null | {
+    begin_year: null | number;
     begin_year_fraction: string;
-    end_year: number;
+    end_year: null | number;
     end_year_fraction: string;
   };
   name: string;
   pictures: string[];
-  point: {
-    lat: number;
-    lng: number;
+  point: null | {
+    lat: null | number;
+    lng: null | number;
   };
-  produced: {
-    count: number;
+  produced: null | {
+    count: null | number;
     exactly: boolean;
   };
   spec_id: specValue;
@@ -100,9 +102,9 @@ interface Form {
   items?: FormArray<FormControl<string>>;
   model_years?: FormGroup<{
     begin_year: FormControl<null | number>;
-    begin_year_fraction: FormControl<null | string>;
+    begin_year_fraction: FormControl<string>;
     end_year: FormControl<null | number>;
-    end_year_fraction: FormControl<null | string>;
+    end_year_fraction: FormControl<string>;
   }>;
   name: FormControl<null | string>;
   pictures?: FormArray<FormControl<string>>;
@@ -112,7 +114,7 @@ interface Form {
   }>;
   produced?: FormGroup<{
     count: FormControl<null | number>;
-    exactly: FormControl<boolean | null>;
+    exactly: FormControl<boolean>;
   }>;
   spec_id?: FormControl<specValue>;
   vehicle_type_id?: FormControl<null | string[]>;
@@ -128,6 +130,34 @@ interface PicturesListItem {
   picture$: Observable<Picture>;
   pictureItem: PictureItem;
   selected: boolean;
+}
+
+export function itemMetaFormResultsToAPIItem(result: ItemMetaFormResult): APIItem {
+  return new APIItem({
+    beginModelYear: result.model_years?.begin_year || undefined,
+    beginModelYearFraction: result.model_years?.begin_year_fraction,
+    beginMonth: result.begin?.month || undefined,
+    beginYear: result.begin?.year || undefined,
+    body: result.body,
+    catname: result.catname,
+    endModelYear: result.model_years?.end_year || undefined,
+    endModelYearFraction: result.model_years?.end_year_fraction,
+    endMonth: result.end?.month || undefined,
+    endYear: result.end?.year || undefined,
+    fullName: result.full_name,
+    isConcept: result.is_concept === 'inherited' ? false : result.is_concept,
+    isConceptInherit: result.is_concept === 'inherited',
+    isGroup: result.is_group,
+    location: result.point
+      ? new LatLng({latitude: result.point.lat || undefined, longitude: result.point.lng || undefined})
+      : undefined,
+    name: result.name,
+    produced: result.produced?.count ? new Int32Value({value: result.produced.count}) : undefined,
+    producedExactly: result.produced?.exactly || false,
+    specId: result.spec_id === 'inherited' ? undefined : result.spec_id || undefined,
+    specInherit: result.spec_id === 'inherited',
+    today: result.end?.today === null ? undefined : new BoolValue({value: result.end?.today}),
+  });
 }
 
 function localizeInherited(parentIsConcept: null | ParentIsConcept) {
@@ -329,16 +359,25 @@ export class ItemMetaFormComponent {
     // eslint-disable-next-line sonarjs/cognitive-complexity
     map(([item, vehicleTypeIDs, disableIsGroup, items, pictures]) => {
       const elements: Form = {
-        name: new FormControl(item.name, [Validators.required, Validators.maxLength(this.#nameMaxlength)]),
+        name: new FormControl(item.name, {
+          nonNullable: true,
+          validators: [Validators.required, Validators.maxLength(this.#nameMaxlength)],
+        }),
       };
       if (item.itemTypeId === ItemType.ITEM_TYPE_BRAND) {
-        elements.full_name = new FormControl(item.fullName, Validators.maxLength(this.#fullnameMaxlength));
+        elements.full_name = new FormControl(item.fullName, {
+          nonNullable: true,
+          validators: Validators.maxLength(this.#fullnameMaxlength),
+        });
       }
       if (item.itemTypeId === ItemType.ITEM_TYPE_BRAND || item.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
-        elements.catname = new FormControl(item.catname);
+        elements.catname = new FormControl(item.catname, {nonNullable: true});
       }
       if (item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE || item.itemTypeId === ItemType.ITEM_TYPE_ENGINE) {
-        elements.body = new FormControl(item.body, Validators.maxLength(this.#bodyMaxlength));
+        elements.body = new FormControl(item.body, {
+          nonNullable: true,
+          validators: Validators.maxLength(this.#bodyMaxlength),
+        });
 
         let spec: specValue = specInherited;
         if (!item.specInherit) {
@@ -350,24 +389,28 @@ export class ItemMetaFormComponent {
             Validators.min(1700),
             Validators.max(this.#modelYearMax),
           ]),
-          begin_year_fraction: new FormControl(item.beginModelYearFraction),
+          begin_year_fraction: new FormControl(item.beginModelYearFraction, {nonNullable: true}),
           end_year: new FormControl(item.endModelYear > 0 ? item.endModelYear : null, [
             Validators.min(1700),
             Validators.max(this.#modelYearMax),
           ]),
-          end_year_fraction: new FormControl(item.endModelYearFraction),
+          end_year_fraction: new FormControl(item.endModelYearFraction, {nonNullable: true}),
         });
         elements.produced = new FormGroup({
           count: new FormControl(item.produced ? item.produced.value : null),
-          exactly: new FormControl(item.producedExactly),
+          exactly: new FormControl(item.producedExactly, {nonNullable: true}),
         });
         elements.is_concept = new FormControl<isConceptValue>(
           item.isConceptInherit ? isConceptInherited : item.isConcept,
+          {nonNullable: true},
         );
-        elements.is_group = new FormControl({
-          disabled: !!(item.childsCount > 0 || disableIsGroup),
-          value: item.isGroup,
-        });
+        elements.is_group = new FormControl(
+          {
+            disabled: !!(item.childsCount > 0 || disableIsGroup),
+            value: item.isGroup,
+          },
+          {nonNullable: true},
+        );
       }
       if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
         elements.vehicle_type_id = new FormControl(vehicleTypeIDs);
@@ -392,13 +435,15 @@ export class ItemMetaFormComponent {
       if ([ItemType.ITEM_TYPE_FACTORY, ItemType.ITEM_TYPE_MUSEUM].includes(item.itemTypeId)) {
         const lat = item.location?.latitude || 0;
         const lng = item.location?.longitude || 0;
-        elements.point = new FormControl({disabled: false, value: {lat, lng}});
+        elements.point = new FormControl({disabled: false, value: {lat, lng}}, {nonNullable: true});
       }
       if (items) {
         elements.items = new FormArray<FormControl<string>>([], {validators: Validators.required});
       }
       if (pictures) {
-        elements.pictures = new FormArray<FormControl<string>>([], {validators: Validators.required});
+        elements.pictures = new FormArray<FormControl<string>>([], {
+          validators: Validators.required,
+        });
       }
       return new FormGroup<Form>(elements);
     }),
@@ -439,7 +484,7 @@ export class ItemMetaFormComponent {
   protected vehicleTypeName$(typeID: string): Observable<string> {
     return this.#vehicleTypes$.pipe(
       map((types) => {
-        const type = types.find((t) => t.id.toString() === typeID);
+        const type = types.find((t) => t.id === typeID);
         return type ? type.name : '#' + typeID;
       }),
     );

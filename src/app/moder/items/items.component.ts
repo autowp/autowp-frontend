@@ -174,7 +174,7 @@ export class ModerItemsComponent implements OnInit {
     map((params) => ({
       ancestorID: parseInt(params.get('ancestor_id') ?? '', 10) || null,
       fromYear: parseInt(params.get('from_year') ?? '', 10) || null,
-      itemTypeID: parseInt(params.get('item_type_id') ?? '', 10) as ItemType,
+      itemTypeID: (parseInt(params.get('item_type_id') ?? '', 10) || ItemType.ITEM_TYPE_UNKNOWN) as ItemType,
       listMode: !!params.get('list'),
       name: params.get('name') ?? '',
       nameExclude: params.get('name_exclude') ?? '',

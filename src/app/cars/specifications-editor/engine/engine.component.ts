@@ -1,9 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, SetItemEngineRequest} from '@grpc/spec.pb';
+import {APIItem, UpdateItemRequest} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
+import {FieldMask} from '@ngx-grpc/well-known-types';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, Observable, of} from 'rxjs';
@@ -52,11 +53,14 @@ export class CarsSpecificationsEditorEngineComponent {
 
   private setEngineID(item: APIItem, value: string, inherited: boolean) {
     this.#itemsClient
-      .setItemEngine(
-        new SetItemEngineRequest({
-          engineInherited: inherited,
-          engineItemId: value,
-          itemId: '' + item.id,
+      .updateItem(
+        new UpdateItemRequest({
+          item: new APIItem({
+            engineInherit: inherited,
+            engineItemId: value,
+            id: item.id,
+          }),
+          updateMask: new FieldMask({paths: ['engine_inherit', 'engine_item_id']}),
         }),
       )
       .subscribe({

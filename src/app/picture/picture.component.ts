@@ -168,7 +168,7 @@ export class PictureComponent {
     this.#picturesClient
       .vote(
         new PicturesVoteRequest({
-          pictureId: picture.id.toString(),
+          pictureId: picture.id,
           value,
         }),
       )

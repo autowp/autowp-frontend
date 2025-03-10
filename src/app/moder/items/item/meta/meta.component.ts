@@ -1,17 +1,23 @@
 import {AsyncPipe} from '@angular/common';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Component, inject, Input} from '@angular/core';
-import {APIGetItemVehicleTypesRequest, APIItem, ItemType} from '@grpc/spec.pb';
+import {APIGetItemVehicleTypesRequest, APIItem, ItemType, UpdateItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {FieldMask} from '@ngx-grpc/well-known-types';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
 import {ItemService} from '@services/item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
-import {ItemMetaFormComponent, ItemMetaFormResult} from '../../item-meta-form/item-meta-form.component';
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../../../grpc';
+import {ToastsService} from '../../../../toasts/toasts.service';
+import {
+  ItemMetaFormComponent,
+  ItemMetaFormResult,
+  itemMetaFormResultsToAPIItem,
+} from '../../item-meta-form/item-meta-form.component';
 
 @Component({
   imports: [NgbProgressbar, ItemMetaFormComponent, AsyncPipe],
@@ -20,9 +26,9 @@ import {ItemMetaFormComponent, ItemMetaFormResult} from '../../item-meta-form/it
 })
 export class ModerItemsItemMetaComponent {
   readonly #acl = inject(ACLService);
-  readonly #api = inject(APIService);
   readonly #itemService = inject(ItemService);
   readonly #itemsClient = inject(ItemsClient);
+  readonly #toastService = inject(ToastsService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -40,7 +46,7 @@ export class ModerItemsItemMetaComponent {
         return this.#itemsClient
           .getItemVehicleTypes(
             new APIGetItemVehicleTypesRequest({
-              itemId: item.id.toString(),
+              itemId: item.id,
             }),
           )
           .pipe(map((response) => (response.items ? response.items : []).map((row) => row.vehicleTypeId)));
@@ -53,40 +59,72 @@ export class ModerItemsItemMetaComponent {
   protected saveMeta(item: APIItem, event: ItemMetaFormResult) {
     this.loadingNumber++;
 
-    const data = {
-      begin_model_year: event.model_years?.begin_year,
-      begin_model_year_fraction: event.model_years?.begin_year_fraction,
-      begin_month: event.begin?.month,
-      begin_year: event.begin?.year,
-      body: event.body,
-      catname: event.catname,
-      end_model_year: event.model_years?.end_year,
-      end_model_year_fraction: event.model_years?.end_year_fraction,
-      end_month: event.end?.month,
-      end_year: event.end?.year,
-      full_name: event.full_name,
-      is_concept: event.is_concept === 'inherited' ? false : event.is_concept,
-      is_concept_inherit: event.is_concept === 'inherited',
-      is_group: event.is_group,
-      lat: event.point?.lat,
-      lng: event.point?.lng,
-      name: event.name,
-      produced: event.produced?.count,
-      produced_exactly: event.produced?.exactly,
-      spec_id: event.spec_id ? event.spec_id : null,
-      today: event.end?.today,
-    };
+    const newItem = itemMetaFormResultsToAPIItem(event);
+    newItem.id = item.id;
+
+    const mask = ['name'];
+
+    switch (item.itemTypeId) {
+      case ItemType.ITEM_TYPE_BRAND:
+        mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today', 'full_name', 'catname');
+        break;
+      case ItemType.ITEM_TYPE_CATEGORY:
+        mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today', 'catname');
+        break;
+      case ItemType.ITEM_TYPE_COPYRIGHT:
+        break;
+      case ItemType.ITEM_TYPE_ENGINE:
+      case ItemType.ITEM_TYPE_VEHICLE:
+        mask.push(
+          'begin_year',
+          'end_year',
+          'begin_month',
+          'end_month',
+          'today',
+          'spec_id',
+          'spec_inherit',
+          'is_concept',
+          'is_concept_inherit',
+          'produced',
+          'produced_exactly',
+          'body',
+          'begin_model_year',
+          'end_model_year',
+          'begin_model_year_fraction',
+          'end_model_year_fraction',
+          'is_group',
+        );
+        break;
+      case ItemType.ITEM_TYPE_FACTORY:
+      case ItemType.ITEM_TYPE_MUSEUM:
+        mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today', 'location');
+        break;
+      case ItemType.ITEM_TYPE_TWINS:
+        mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today', 'body');
+        break;
+    }
 
     const pipes: Observable<void>[] = [
-      this.#api.request$<void>('PUT', 'item/' + item.id, {body: data}).pipe(
-        catchError((response: unknown) => {
-          if (response instanceof HttpErrorResponse) {
-            this.invalidParams = response.error.invalid_params;
-          }
-          return EMPTY;
-        }),
-        tap(() => (this.invalidParams = {})),
-      ),
+      this.#itemsClient
+        .updateItem(
+          new UpdateItemRequest({
+            item: newItem,
+            updateMask: new FieldMask({paths: mask}),
+          }),
+        )
+        .pipe(
+          catchError((response: unknown) => {
+            if (response instanceof GrpcStatusEvent) {
+              const fieldViolations = extractFieldViolations(response);
+              this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            } else {
+              this.#toastService.handleError(response);
+            }
+            return EMPTY;
+          }),
+          tap(() => (this.invalidParams = {})),
+          map(() => void 0),
+        ),
     ];
     if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
       pipes.push(this.#itemService.setItemVehicleTypes$(item.id, event.vehicle_type_id));

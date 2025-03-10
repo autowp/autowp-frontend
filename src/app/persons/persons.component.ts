@@ -109,7 +109,7 @@ export class PersonsComponent implements OnInit {
   private prepareItems(items: APIItem[]): CatalogueListItem[] {
     return items.map((item): CatalogueListItem => {
       const itemRouterLink = ['/persons'];
-      itemRouterLink.push(item.id.toString());
+      itemRouterLink.push(item.id);
 
       const largeFormat = !!item.previewPictures?.largeFormat;
 

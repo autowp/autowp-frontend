@@ -3,8 +3,8 @@
     <app-gallery
       [filter]="{exactItemID: itemID, exactItemLinkType: 1}"
       [current]="identity"
-      [galleryPrefix]="['/persons', itemID.toString(), 'gallery']"
-      [picturePrefix]="['/persons', itemID.toString()]"
+      [galleryPrefix]="['/persons', itemID, 'gallery']"
+      [picturePrefix]="['/persons', itemID]"
       (pictureSelected)="pictureSelected($event)"
     ></app-gallery>
   }
