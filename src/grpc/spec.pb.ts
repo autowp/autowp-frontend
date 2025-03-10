@@ -30364,7 +30364,8 @@ export class GetTreeRequest implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: GetTreeRequest) {
-    _instance.id = _instance.id || '';
+    _instance.id = _instance.id || '0';
+    _instance.language = _instance.language || '';
   }
 
   /**
@@ -30381,7 +30382,10 @@ export class GetTreeRequest implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.id = _reader.readString();
+          _instance.id = _reader.readInt64String();
+          break;
+        case 2:
+          _instance.language = _reader.readString();
           break;
         default:
           _reader.skipField();
@@ -30401,11 +30405,15 @@ export class GetTreeRequest implements GrpcMessage {
     _writer: BinaryWriter
   ) {
     if (_instance.id) {
-      _writer.writeString(1, _instance.id);
+      _writer.writeInt64String(1, _instance.id);
+    }
+    if (_instance.language) {
+      _writer.writeString(2, _instance.language);
     }
   }
 
   private _id: string;
+  private _language: string;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30414,6 +30422,7 @@ export class GetTreeRequest implements GrpcMessage {
   constructor(_value?: RecursivePartial<GetTreeRequest.AsObject>) {
     _value = _value || {};
     this.id = _value.id;
+    this.language = _value.language;
     GetTreeRequest.refineValues(this);
   }
   get id(): string {
@@ -30421,6 +30430,12 @@ export class GetTreeRequest implements GrpcMessage {
   }
   set id(value: string) {
     this._id = value;
+  }
+  get language(): string {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
   }
 
   /**
@@ -30438,7 +30453,8 @@ export class GetTreeRequest implements GrpcMessage {
    */
   toObject(): GetTreeRequest.AsObject {
     return {
-      id: this.id
+      id: this.id,
+      language: this.language
     };
   }
 
@@ -30459,7 +30475,8 @@ export class GetTreeRequest implements GrpcMessage {
     options?: ToProtobufJSONOptions
   ): GetTreeRequest.AsProtobufJSON {
     return {
-      id: this.id
+      id: this.id,
+      language: this.language
     };
   }
 }
@@ -30469,6 +30486,7 @@ export module GetTreeRequest {
    */
   export interface AsObject {
     id: string;
+    language: string;
   }
 
   /**
@@ -30476,6 +30494,7 @@ export module GetTreeRequest {
    */
   export interface AsProtobufJSON {
     id: string;
+    language: string;
   }
 }
 
@@ -30500,8 +30519,8 @@ export class APITreeItem implements GrpcMessage {
    * @param _instance message instance
    */
   static refineValues(_instance: APITreeItem) {
-    _instance.id = _instance.id || '';
-    _instance.name = _instance.name || '';
+    _instance.id = _instance.id || '0';
+    _instance.nameHtml = _instance.nameHtml || '';
     _instance.childs = _instance.childs || [];
     _instance.type = _instance.type || 0;
   }
@@ -30520,10 +30539,10 @@ export class APITreeItem implements GrpcMessage {
 
       switch (_reader.getFieldNumber()) {
         case 1:
-          _instance.id = _reader.readString();
+          _instance.id = _reader.readInt64String();
           break;
         case 2:
-          _instance.name = _reader.readString();
+          _instance.nameHtml = _reader.readString();
           break;
         case 3:
           const messageInitializer3 = new APITreeItem();
@@ -30534,7 +30553,7 @@ export class APITreeItem implements GrpcMessage {
           (_instance.childs = _instance.childs || []).push(messageInitializer3);
           break;
         case 4:
-          _instance.type = _reader.readInt32();
+          _instance.type = _reader.readEnum();
           break;
         default:
           _reader.skipField();
@@ -30554,10 +30573,10 @@ export class APITreeItem implements GrpcMessage {
     _writer: BinaryWriter
   ) {
     if (_instance.id) {
-      _writer.writeString(1, _instance.id);
+      _writer.writeInt64String(1, _instance.id);
     }
-    if (_instance.name) {
-      _writer.writeString(2, _instance.name);
+    if (_instance.nameHtml) {
+      _writer.writeString(2, _instance.nameHtml);
     }
     if (_instance.childs && _instance.childs.length) {
       _writer.writeRepeatedMessage(
@@ -30567,14 +30586,14 @@ export class APITreeItem implements GrpcMessage {
       );
     }
     if (_instance.type) {
-      _writer.writeInt32(4, _instance.type);
+      _writer.writeEnum(4, _instance.type);
     }
   }
 
   private _id: string;
-  private _name: string;
+  private _nameHtml: string;
   private _childs?: APITreeItem[];
-  private _type: number;
+  private _type: ItemParentType;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -30583,7 +30602,7 @@ export class APITreeItem implements GrpcMessage {
   constructor(_value?: RecursivePartial<APITreeItem.AsObject>) {
     _value = _value || {};
     this.id = _value.id;
-    this.name = _value.name;
+    this.nameHtml = _value.nameHtml;
     this.childs = (_value.childs || []).map(m => new APITreeItem(m));
     this.type = _value.type;
     APITreeItem.refineValues(this);
@@ -30594,11 +30613,11 @@ export class APITreeItem implements GrpcMessage {
   set id(value: string) {
     this._id = value;
   }
-  get name(): string {
-    return this._name;
+  get nameHtml(): string {
+    return this._nameHtml;
   }
-  set name(value: string) {
-    this._name = value;
+  set nameHtml(value: string) {
+    this._nameHtml = value;
   }
   get childs(): APITreeItem[] | undefined {
     return this._childs;
@@ -30606,10 +30625,10 @@ export class APITreeItem implements GrpcMessage {
   set childs(value: APITreeItem[] | undefined) {
     this._childs = value;
   }
-  get type(): number {
+  get type(): ItemParentType {
     return this._type;
   }
-  set type(value: number) {
+  set type(value: ItemParentType) {
     this._type = value;
   }
 
@@ -30629,7 +30648,7 @@ export class APITreeItem implements GrpcMessage {
   toObject(): APITreeItem.AsObject {
     return {
       id: this.id,
-      name: this.name,
+      nameHtml: this.nameHtml,
       childs: (this.childs || []).map(m => m.toObject()),
       type: this.type
     };
@@ -30653,9 +30672,12 @@ export class APITreeItem implements GrpcMessage {
   ): APITreeItem.AsProtobufJSON {
     return {
       id: this.id,
-      name: this.name,
+      nameHtml: this.nameHtml,
       childs: (this.childs || []).map(m => m.toProtobufJSON(options)),
-      type: this.type
+      type:
+        ItemParentType[
+          this.type === null || this.type === undefined ? 0 : this.type
+        ]
     };
   }
 }
@@ -30665,9 +30687,9 @@ export module APITreeItem {
    */
   export interface AsObject {
     id: string;
-    name: string;
+    nameHtml: string;
     childs?: APITreeItem.AsObject[];
-    type: number;
+    type: ItemParentType;
   }
 
   /**
@@ -30675,9 +30697,9 @@ export module APITreeItem {
    */
   export interface AsProtobufJSON {
     id: string;
-    name: string;
+    nameHtml: string;
     childs: APITreeItem.AsProtobufJSON[] | null;
-    type: number;
+    type: string;
   }
 }
 

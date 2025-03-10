@@ -1,12 +1,15 @@
 @if (item) {
-  <a [routerLink]="['/moder/items/item', item.id]" [textContent]="item.name"></a>
-  @if (item.childs.length) {
+  <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
+  @if (item.childs?.length) {
     <ul>
       @for (item of item.childs; track item.id) {
-        <li [class.tuning]="item.type === 1" [class.sport]="item.type === 2">
-          @if (item.type === 1) {
+        <li
+          [class.tuning]="item.type === ItemParentType.ITEM_TYPE_TUNING"
+          [class.sport]="item.type === ItemParentType.ITEM_TYPE_SPORT"
+        >
+          @if (item.type === ItemParentType.ITEM_TYPE_TUNING) {
             <span i18n>Related</span>
-          } @else if (item.type === 2) {
+          } @else if (item.type === ItemParentType.ITEM_TYPE_SPORT) {
             <span i18n>Sport</span>
           }
           <app-moder-items-item-tree [item]="item"></app-moder-items-item-tree>

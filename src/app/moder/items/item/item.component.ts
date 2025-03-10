@@ -3,6 +3,8 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
+  APITreeItem,
+  GetTreeRequest,
   ItemFields,
   ItemParentCacheListOptions,
   ItemRequest,
@@ -17,7 +19,7 @@ import {
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIService} from '@services/api.service';
+import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
 import {EMPTY, of, Subscription, throwError} from 'rxjs';
@@ -32,17 +34,6 @@ import {ModerItemsItemNameComponent} from './name/name.component';
 import {ModerItemsItemPicturesComponent} from './pictures/pictures.component';
 import {ModerItemsItemTreeComponent} from './tree/tree.component';
 import {ModerItemsItemVehiclesComponent} from './vehicles/vehicles.component';
-
-export interface APIItemTreeGetResponse {
-  item: APIItemTreeItem;
-}
-
-export interface APIItemTreeItem {
-  childs: APIItemTreeItem[];
-  id: number;
-  name: string;
-  type: number;
-}
 
 interface Tab {
   count: number;
@@ -67,7 +58,6 @@ interface Tab {
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnDestroy, OnInit {
-  readonly #api = inject(APIService);
   readonly #acl = inject(ACLService);
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
@@ -75,6 +65,7 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
 
   #routeSub?: Subscription;
   protected loading = 0;
@@ -83,7 +74,7 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   protected specsAllowed = false;
   protected readonly canEditSpecifications$ = this.#acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
 
-  protected tree?: APIItemTreeItem;
+  protected tree?: APITreeItem;
 
   protected randomPicture: null | Picture = null;
 
@@ -274,11 +265,13 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
 
   private initTreeTab() {
     if (this.item) {
-      this.#api.request$<APIItemTreeGetResponse>('GET', 'item/' + this.item.id + '/tree').subscribe({
-        next: (response) => {
-          this.tree = response.item;
-        },
-      });
+      this.#itemsClient
+        .getTree(new GetTreeRequest({id: this.item.id, language: this.#languageService.language}))
+        .subscribe({
+          next: (response) => {
+            this.tree = response;
+          },
+        });
     }
   }
 
