@@ -1,51 +1,53 @@
-@if (item) {
-  @if (item.full) {
+@if (_item) {
+  @if (_item.imageGalleryFull) {
     <img
       alt=""
-      [src]="item.full.src"
+      [src]="_item.imageGalleryFull.src"
       [class.crop-mode]="cropMode"
       class="full"
       [ngStyle]="fullStyle"
       (load)="fullLoaded()"
     />
   }
-  @if (item.crop) {
+  @if (_item.imageGallery) {
     <img
       alt=""
-      [src]="item.crop.src"
+      [src]="_item.imageGallery.src"
       [class.crop-mode]="cropMode"
       class="crop"
       [ngStyle]="cropStyle"
       (load)="cropLoaded()"
     />
   }
-  @if (item) {
-    @for (area of item.areas; track area) {
-      <app-gallery-carousel-item-area [area]="area" [styles]="area.styles"> </app-gallery-carousel-item-area>
+  @if (_item) {
+    @for (area of areas; track area) {
+      <app-gallery-carousel-item-area [area]="area.pictureItem" [styles]="area.styles"></app-gallery-carousel-item-area>
     }
 
     <div class="carousel-caption">
-      <h3 [innerHTML]="item.name"></h3>
+      <h3 [innerHTML]="_item.nameHtml"></h3>
     </div>
 
-    <a class="download carousel-control" role="button" [href]="item.sourceUrl">
-      <i class="bi bi-download" aria-hidden="true"></i>
-      <div class="badge rounded-pill text-bg-info text-dark">{{ item.filesize | bytes: 2 }}</div>
-    </a>
+    @if (_item.image) {
+      <a class="download carousel-control" role="button" [href]="_item.image.src">
+        <i class="bi bi-download" aria-hidden="true"></i>
+        <div class="badge rounded-pill text-bg-info text-dark">{{ _item.image.filesize | bytes: 2 }}</div>
+      </a>
+    }
 
-    <a class="comments carousel-control" role="button" [routerLink]="prefix.concat([item.identity])">
+    <a class="comments carousel-control" role="button" [routerLink]="prefix.concat([_item.identity])">
       <i class="bi bi-chat-fill" aria-hidden="true"></i>
-      @if (item.messages) {
+      @if (_item.commentsCountTotal) {
         <div class="badge rounded-pill text-bg-info text-dark">
-          {{ item.messages - item.newMessages }}
-          @if (item.newMessages) {
-            <span>+{{ item.newMessages }}</span>
+          {{ _item.commentsCountTotal - _item.commentsCountNew }}
+          @if (_item.commentsCountNew) {
+            <span>+{{ _item.commentsCountNew }}</span>
           }
         </div>
       }
     </a>
 
-    <a class="details carousel-control" role="button" [routerLink]="prefix.concat([item.identity])">
+    <a class="details carousel-control" role="button" [routerLink]="prefix.concat([_item.identity])">
       <i class="bi bi-card-image" aria-hidden="true"></i>
     </a>
   }
@@ -54,7 +56,7 @@
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
     </div>
   }
-  @if (item && item.crop && !cropLoading && !fullLoading) {
+  @if (_item && _item.imageGallery && !cropLoading && !fullLoading) {
     <span class="carousel-control-full" (click)="toggleCrop()"
       ><i class="bi bi-arrows-fullscreen" aria-hidden="true"></i
     ></span>

@@ -1,11 +1,11 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Picture} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {APIGalleryItem} from '../../../gallery/definitions';
 import {GalleryComponent} from '../../../gallery/gallery.component';
 
 @Component({
@@ -38,13 +38,13 @@ export class PersonsPersonGalleryComponent {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected pictureSelected(item: APIGalleryItem | null) {
+  protected pictureSelected(item: null | Picture) {
     if (item) {
       setTimeout(() => {
         this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: 34,
-          title: item.name,
+          title: item.nameText,
         });
       }, 0);
     }

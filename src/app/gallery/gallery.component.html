@@ -3,7 +3,7 @@
     <div class="carousel slide">
       @if (gallery.useCircleIndicator) {
         <ol class="carousel-indicators">
-          @for (item of gallery.items; track item; let i = $index) {
+          @for (item of gallery.items; track i; let i = $index) {
             <li (click)="navigateToIndex(i, gallery)" [class.active]="gallery.current === i"></li>
           }
         </ol>
@@ -11,7 +11,7 @@
         <div class="carousel-numbers">{{ gallery.current + 1 }} of {{ gallery.items.length }}</div>
       }
       <div class="carousel-inner">
-        @for (item of gallery.items; track item; let i = $index) {
+        @for (item of gallery.items; track i; let i = $index) {
           @if (item && i >= gallery.current - 1 && gallery.current + 1 >= i) {
             <app-gallery-carousel-item
               class="carousel-item"

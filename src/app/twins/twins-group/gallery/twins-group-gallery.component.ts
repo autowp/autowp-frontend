@@ -1,14 +1,13 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemRequest, Picture} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 
-import {APIGalleryItem} from '../../../gallery/definitions';
 import {GalleryComponent} from '../../../gallery/gallery.component';
 
 @Component({
@@ -68,13 +67,13 @@ export class TwinsGroupGalleryComponent {
     distinctUntilChanged(),
   );
 
-  protected pictureSelected(item: APIGalleryItem | null) {
+  protected pictureSelected(item: null | Picture) {
     if (item) {
       setTimeout(() => {
         this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: 28,
-          title: item.name,
+          title: item.nameText,
         });
       });
     }

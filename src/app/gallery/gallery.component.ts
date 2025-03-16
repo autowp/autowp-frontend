@@ -1,12 +1,50 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, EventEmitter, HostListener, inject, Input, Output} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
-import {APIService} from '@services/api.service';
+import {
+  GalleryRequest,
+  GalleryResponse,
+  ItemFields,
+  ItemParentCacheListOptions,
+  ItemsRequest,
+  Picture,
+  PictureFields,
+  PictureItemFields,
+  PictureItemListOptions,
+  PictureItemsRequest,
+  PictureItemType,
+  PictureListOptions,
+  PicturesRequest,
+  PictureStatus,
+} from '@grpc/spec.pb';
+import {PicturesClient} from '@grpc/spec.pbsc';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {LanguageService} from '@services/language';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
+import {ToastsService} from '../toasts/toasts.service';
 import {CarouselItemComponent} from './carousel-item.component';
-import {APIGallery, APIGalleryItem} from './definitions';
+
+const galleryFields = new PictureFields({
+  commentsCount: true,
+  image: true,
+  imageGallery: true,
+  imageGalleryFull: true,
+  nameHtml: true,
+  nameText: true,
+  pictureItem: new PictureItemsRequest({
+    fields: new PictureItemFields({
+      item: new ItemsRequest({
+        fields: new ItemFields({nameHtml: true}),
+      }),
+    }),
+    options: new PictureItemListOptions({
+      hasArea: true,
+      typeId: PictureItemType.PICTURE_ITEM_CONTENT,
+    }),
+  }),
+});
 
 export interface APIGalleryFilter {
   exactItemID?: string;
@@ -21,41 +59,59 @@ class Gallery {
   readonly #PER_PAGE = 10;
 
   public current: number = 0;
-  public status: string = '';
+  public status: PictureStatus = PictureStatus.PICTURE_STATUS_UNKNOWN;
   public get useCircleIndicator(): boolean {
     return this.items.length <= this.#MAX_INDICATORS;
   }
 
   constructor(
     public readonly filter: APIGalleryFilter,
-    public readonly items: (APIGalleryItem | null)[],
+    public readonly items: (null | Picture)[],
   ) {}
 
-  public filterParams(): {[key: string]: string} {
-    const params: {[key: string]: string} = {};
-    if (this.filter.itemID) {
-      params['item_id'] = this.filter.itemID;
+  public filterParams(language: string): PicturesRequest {
+    const options = new PictureListOptions({
+      status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+    });
+
+    let order = PicturesRequest.Order.ORDER_RESOLUTION_DESC;
+    if (this.filter.itemID || this.filter.exactItemID) {
+      order = PicturesRequest.Order.ORDER_PERSPECTIVES;
     }
-    if (this.filter.exactItemID) {
-      params['exact_item_id'] = this.filter.exactItemID;
+
+    if (
+      this.filter.itemID ||
+      this.filter.exactItemID ||
+      this.filter.exactItemLinkType ||
+      this.filter.perspectiveID ||
+      this.filter.perspectiveExclude
+    ) {
+      options.pictureItem = new PictureItemListOptions({
+        excludePerspectiveId: this.filter.perspectiveExclude,
+        itemId: this.filter.itemID,
+        itemParentCacheAncestor: this.filter.itemID
+          ? new ItemParentCacheListOptions({
+              parentId: this.filter.itemID,
+            })
+          : undefined,
+        perspectiveId: this.filter.perspectiveID,
+        typeId: this.filter.exactItemLinkType,
+      });
     }
-    if (this.filter.exactItemLinkType) {
-      params['exact_item_link_type'] = this.filter.exactItemLinkType.toString();
-    }
-    if (this.filter.perspectiveID) {
-      params['perspective_id'] = this.filter.perspectiveID.toString();
-    }
-    if (this.filter.perspectiveExclude) {
-      params['perspective_exclude'] = this.filter.perspectiveExclude.join(',');
-    }
-    return params;
+
+    return new PicturesRequest({
+      fields: galleryFields,
+      language,
+      options,
+      order,
+    });
   }
 
   public getItemIndex(identity: string): number {
     return this.items.findIndex((item) => item && item.identity === identity);
   }
 
-  public getItemByIndex(index: number): APIGalleryItem | null {
+  public getItemByIndex(index: number): null | Picture {
     if (index < 0 || index >= this.items.length) {
       return null;
     }
@@ -67,7 +123,7 @@ class Gallery {
     return this.items[index];
   }
 
-  public getGalleryItem(identity: string): APIGalleryItem | null {
+  public getGalleryItem(identity: string): null | Picture {
     const index = this.getItemIndex(identity);
     if (index < 0) {
       return null;
@@ -76,13 +132,13 @@ class Gallery {
     return this.getItemByIndex(index);
   }
 
-  public applyResponse(response: APIGallery) {
+  public applyResponse(response: GalleryResponse) {
     if (this.items.length < response.count) {
       this.items[response.count - 1] = null;
       this.status = response.status;
     }
 
-    response.items.forEach((item, i) => {
+    (response.items || []).forEach((item, i) => {
       const index = (response.page - 1) * this.#PER_PAGE + i;
       this.items[index] = item;
     });
@@ -100,8 +156,10 @@ class Gallery {
   templateUrl: './gallery.component.html',
 })
 export class GalleryComponent {
-  readonly #api = inject(APIService);
   readonly #router = inject(Router);
+  readonly #picturesClient = inject(PicturesClient);
+  readonly #languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
 
   @Input() set filter(filter: APIGalleryFilter) {
     this.#filter$.next(filter);
@@ -115,7 +173,7 @@ export class GalleryComponent {
 
   @Input() galleryPrefix: string[] = [];
   @Input() picturePrefix: string[] = [];
-  @Output() pictureSelected = new EventEmitter<APIGalleryItem | null>();
+  @Output() pictureSelected = new EventEmitter<null | Picture>();
 
   protected readonly currentFilter$ = this.#filter$.pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
@@ -130,19 +188,34 @@ export class GalleryComponent {
   );
 
   protected readonly gallery$: Observable<Gallery> = combineLatest([
-    this.currentFilter$.pipe(switchMap((filter) => (filter ? of(new Gallery(filter, [] as APIGalleryItem[])) : EMPTY))),
+    this.currentFilter$.pipe(switchMap((filter) => (filter ? of(new Gallery(filter, [] as Picture[])) : EMPTY))),
     this.identity$.pipe(switchMap((identity) => (identity ? of(identity) : EMPTY))),
   ]).pipe(
     switchMap(([gallery, identity]) => {
       if (!gallery.getGalleryItem(identity)) {
-        const params = gallery.filterParams();
-        params['picture_identity'] = identity;
-        return this.#api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
-          tap((response) => {
-            gallery.applyResponse(response);
-          }),
-          map(() => ({gallery, identity})),
-        );
+        return this.#picturesClient
+          .getGallery(
+            new GalleryRequest({
+              pictureIdentity: identity,
+              request: gallery.filterParams(this.#languageService.language),
+            }),
+          )
+          .pipe(
+            catchError((response: unknown) => {
+              if (response instanceof GrpcStatusEvent && response.statusCode === 5) {
+                this.#router.navigate(['/error-404'], {
+                  skipLocationChange: true,
+                });
+              } else {
+                this.#toastService.handleError(response);
+              }
+              return EMPTY;
+            }),
+            tap((response) => {
+              gallery.applyResponse(response);
+            }),
+            map(() => ({gallery, identity})),
+          );
       }
       return of({gallery, identity});
     }),
@@ -184,11 +257,22 @@ export class GalleryComponent {
     });
   }
 
-  private loadPage$(page: number, gallery: Gallery): Observable<APIGallery> {
-    const params = gallery.filterParams();
-    params['status'] = gallery.status;
-    params['page'] = page + '';
-    return this.#api.request$<APIGallery>('GET', 'gallery', {params}).pipe(
+  private loadPage$(page: number, gallery: Gallery): Observable<GalleryResponse> {
+    const request = gallery.filterParams(this.#languageService.language);
+    request.options!.status = gallery.status;
+    request.page = page;
+
+    return this.#picturesClient.getGallery(new GalleryRequest({request})).pipe(
+      catchError((response: unknown) => {
+        if (response instanceof GrpcStatusEvent && response.statusCode === 5) {
+          this.#router.navigate(['/error-404'], {
+            skipLocationChange: true,
+          });
+        } else {
+          this.#toastService.handleError(response);
+        }
+        return EMPTY;
+      }),
       tap((response) => {
         gallery.applyResponse(response);
       }),

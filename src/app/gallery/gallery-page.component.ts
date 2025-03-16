@@ -1,10 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Picture} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 
-import {APIGalleryItem} from './definitions';
 import {GalleryComponent} from './gallery.component';
 
 @Component({
@@ -31,12 +31,12 @@ export class GalleryPageComponent implements OnInit {
     }, 0);
   }
 
-  protected pictureSelected(item: APIGalleryItem | null) {
+  protected pictureSelected(item: null | Picture) {
     if (item) {
       this.#pageEnv.set({
         layout: {isGalleryPage: true},
         pageId: 187,
-        title: item.name,
+        title: item.nameText,
       });
     }
   }

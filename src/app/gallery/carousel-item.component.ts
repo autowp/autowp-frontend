@@ -1,20 +1,15 @@
 import {NgStyle} from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {Picture, PictureItem} from '@grpc/spec.pb';
 import {NgMathPipesModule} from 'ngx-pipes';
 
-import type {APIGalleryItem} from './definitions';
-
 import {AreaComponent} from './area.component';
+
+interface Area {
+  pictureItem: PictureItem;
+  styles: {[key: string]: number};
+}
 
 interface Bounds {
   height: number;
@@ -70,10 +65,33 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
   styleUrls: ['./carousel-item.component.scss'],
   templateUrl: './carousel-item.component.html',
 })
-export class CarouselItemComponent implements AfterViewInit, OnChanges {
+export class CarouselItemComponent implements AfterViewInit {
   readonly #el: ElementRef<HTMLElement> = inject(ElementRef);
 
-  @Input() item?: APIGalleryItem;
+  protected _item?: Picture;
+  protected areas: Area[] = [];
+
+  @Input() set item(item: Picture) {
+    this._item = item;
+    this.areas = (item.pictureItems?.items || []).map((pictureItem) => ({
+      pictureItem,
+      styles: {},
+    }));
+
+    this.cropLoading = true;
+    this.fullLoading = true;
+    this.cropMode = !!item.imageGallery;
+    this.fixSize();
+
+    if (!item.imageGallery) {
+      this.cropLoading = false;
+    }
+
+    if (!item.imageGalleryFull) {
+      this.fullLoading = false;
+    }
+  }
+
   @Input() prefix: string[] = [];
 
   protected fullStyle: {[key: string]: number} = {};
@@ -84,23 +102,6 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
 
   protected fullLoading = true;
   protected cropLoading = true;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['item']) {
-      this.cropLoading = true;
-      this.fullLoading = true;
-      this.cropMode = !!changes['item'].currentValue.crop;
-      this.fixSize();
-
-      if (!changes['item'].currentValue.crop) {
-        this.cropLoading = false;
-      }
-
-      if (!changes['item'].currentValue.full) {
-        this.fullLoading = false;
-      }
-    }
-  }
 
   @HostListener('window:resize', ['$event'])
   protected onResize() {
@@ -129,7 +130,7 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       console.debug('this.el is undefined', this.#el);
     }
 
-    if (!this.item) {
+    if (!this._item || !this._item.image) {
       return;
     }
 
@@ -141,8 +142,11 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
       width: w,
     };
 
-    const full = this.item.full;
-    const crop = this.item.crop;
+    const full = this._item.imageGalleryFull;
+    const crop = this._item.imageGallery;
+
+    const ih = this._item.image.height;
+    const iw = this._item.image.width;
 
     if (crop) {
       if (this.cropMode) {
@@ -164,12 +168,12 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           'top.px': offsetBounds.top,
           'width.px': offsetBounds.width,
         };
-        const fullWidth = bounds.width / crop.crop.width;
-        const fullHeight = bounds.height / crop.crop.height;
+        const fullWidth = (bounds.width / this._item.image.cropWidth) * iw;
+        const fullHeight = (bounds.height / this._item.image.cropHeight) * ih;
         const imgFullBounds = {
           height: fullHeight,
-          left: offsetBounds.left - crop.crop.left * fullWidth,
-          top: offsetBounds.top - crop.crop.top * fullHeight,
+          left: offsetBounds.left - (this._item.image.cropLeft * fullWidth) / iw,
+          top: offsetBounds.top - (this._item.image.cropTop * fullHeight) / ih,
           width: fullWidth,
         };
         this.fullStyle = {
@@ -179,8 +183,8 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           'width.px': imgFullBounds.width,
         };
 
-        this.areasToBounds(imgFullBounds);
-      } else {
+        this.areasToBounds(imgFullBounds, iw, ih);
+      } else if (full) {
         const bounds = maxBounds(
           bound(cSize, {
             height: full.height,
@@ -199,13 +203,13 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
           'width.px': offsetBounds.width,
         };
         this.cropStyle = {
-          'height.px': bounds.height * crop.crop.height,
-          'left.px': offsetBounds.left + crop.crop.left * bounds.width,
-          'top.px': offsetBounds.top + crop.crop.top * bounds.height,
-          'width.px': bounds.width * crop.crop.width,
+          'height.px': (bounds.height * this._item.image.cropHeight) / ih,
+          'left.px': offsetBounds.left + (this._item.image.cropLeft * bounds.width) / iw,
+          'top.px': offsetBounds.top + (this._item.image.cropTop * bounds.height) / ih,
+          'width.px': (bounds.width * this._item.image.cropWidth) / iw,
         };
 
-        this.areasToBounds(offsetBounds);
+        this.areasToBounds(offsetBounds, iw, ih);
       }
     } else if (full) {
       const bounds = maxBounds(
@@ -226,18 +230,18 @@ export class CarouselItemComponent implements AfterViewInit, OnChanges {
         'width.px': offsetBounds.width,
       };
 
-      this.areasToBounds(offsetBounds);
+      this.areasToBounds(offsetBounds, iw, ih);
     }
   }
 
-  private areasToBounds(offsetBounds: Bounds) {
-    if (this.item) {
-      this.item.areas.forEach((area) => {
+  private areasToBounds(offsetBounds: Bounds, iw: number, ih: number) {
+    if (this._item) {
+      this.areas.forEach((area) => {
         area.styles = {
-          'height.px': area.area.height * offsetBounds.height,
-          'left.px': offsetBounds.left + area.area.left * offsetBounds.width,
-          'top.px': offsetBounds.top + area.area.top * offsetBounds.height,
-          'width.px': area.area.width * offsetBounds.width,
+          'height.px': (area.pictureItem.cropHeight * offsetBounds.height) / ih,
+          'left.px': offsetBounds.left + (area.pictureItem.cropLeft * offsetBounds.width) / iw,
+          'top.px': offsetBounds.top + (area.pictureItem.cropTop * offsetBounds.height) / ih,
+          'width.px': (area.pictureItem.cropWidth * offsetBounds.width) / iw,
         };
       });
     }

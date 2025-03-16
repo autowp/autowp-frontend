@@ -1,12 +1,11 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemType} from '@grpc/spec.pb';
+import {APIItem, ItemType, Picture} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
-import {APIGalleryItem} from '../../../gallery/definitions';
 import {GalleryComponent} from '../../../gallery/gallery.component';
 import {CategoriesService, CategoryPipeResult} from '../../service';
 
@@ -75,13 +74,13 @@ export class CategoryGalleryComponent implements OnInit {
     return ['/category', category.catname].concat(pathCatnames);
   }
 
-  protected pictureSelected(item: APIGalleryItem | null) {
+  protected pictureSelected(item: null | Picture) {
     if (item) {
       setTimeout(() => {
         this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: 187,
-          title: item.name,
+          title: item.nameText,
         });
       }, 0);
     }

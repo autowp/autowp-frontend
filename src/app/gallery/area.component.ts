@@ -1,8 +1,7 @@
 import {NgStyle} from '@angular/common';
 import {Component, Input} from '@angular/core';
+import {PictureItem} from '@grpc/spec.pb';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
-import type {APIGalleryItemArea} from './definitions';
 
 @Component({
   imports: [NgStyle, NgbTooltip],
@@ -12,7 +11,7 @@ import type {APIGalleryItemArea} from './definitions';
 })
 export class AreaComponent {
   @Input() styles?: {[key: string]: number} = {};
-  @Input() area?: APIGalleryItemArea;
+  @Input() area?: PictureItem;
 
   protected placement(): string {
     const winHeight = window.innerHeight;

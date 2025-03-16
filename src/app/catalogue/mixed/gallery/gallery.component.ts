@@ -1,14 +1,13 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {APIItem, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
+import {APIItem, ItemFields, ItemListOptions, ItemsRequest, Picture} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
-import {APIGalleryItem} from '../../../gallery/definitions';
 import {GalleryComponent} from '../../../gallery/gallery.component';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 
@@ -76,13 +75,13 @@ export class CatalogueMixedGalleryComponent {
 
   protected readonly data$ = this.#route.data as Observable<BrandPerspectivePageData>;
 
-  protected pictureSelected(data: BrandPerspectivePageData, item: APIGalleryItem | null) {
+  protected pictureSelected(data: BrandPerspectivePageData, item: null | Picture) {
     if (item) {
       setTimeout(() => {
         this.#pageEnv.set({
           layout: {isGalleryPage: true},
           pageId: data.picture_page.id,
-          title: item.name,
+          title: item.nameText,
         });
       }, 0);
     }

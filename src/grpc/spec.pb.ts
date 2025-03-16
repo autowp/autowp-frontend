@@ -23385,6 +23385,7 @@ export class PictureFields implements GrpcMessage {
     _instance.path = _instance.path || undefined;
     _instance.pictureItem = _instance.pictureItem || undefined;
     _instance.imageGalleryFull = _instance.imageGalleryFull || false;
+    _instance.imageGallery = _instance.imageGallery || false;
     _instance.dfDistance = _instance.dfDistance || undefined;
     _instance.acceptedCount = _instance.acceptedCount || false;
     _instance.copyrights = _instance.copyrights || false;
@@ -23461,6 +23462,9 @@ export class PictureFields implements GrpcMessage {
           break;
         case 12:
           _instance.imageGalleryFull = _reader.readBool();
+          break;
+        case 29:
+          _instance.imageGallery = _reader.readBool();
           break;
         case 13:
           _instance.dfDistance = new DfDistanceRequest();
@@ -23591,6 +23595,9 @@ export class PictureFields implements GrpcMessage {
     if (_instance.imageGalleryFull) {
       _writer.writeBool(12, _instance.imageGalleryFull);
     }
+    if (_instance.imageGallery) {
+      _writer.writeBool(29, _instance.imageGallery);
+    }
     if (_instance.dfDistance) {
       _writer.writeMessage(
         13,
@@ -23671,6 +23678,7 @@ export class PictureFields implements GrpcMessage {
   private _path?: PicturePathRequest;
   private _pictureItem?: PictureItemsRequest;
   private _imageGalleryFull: boolean;
+  private _imageGallery: boolean;
   private _dfDistance?: DfDistanceRequest;
   private _acceptedCount: boolean;
   private _copyrights: boolean;
@@ -23708,6 +23716,7 @@ export class PictureFields implements GrpcMessage {
       ? new PictureItemsRequest(_value.pictureItem)
       : undefined;
     this.imageGalleryFull = _value.imageGalleryFull;
+    this.imageGallery = _value.imageGallery;
     this.dfDistance = _value.dfDistance
       ? new DfDistanceRequest(_value.dfDistance)
       : undefined;
@@ -23812,6 +23821,12 @@ export class PictureFields implements GrpcMessage {
   }
   set imageGalleryFull(value: boolean) {
     this._imageGalleryFull = value;
+  }
+  get imageGallery(): boolean {
+    return this._imageGallery;
+  }
+  set imageGallery(value: boolean) {
+    this._imageGallery = value;
   }
   get dfDistance(): DfDistanceRequest | undefined {
     return this._dfDistance;
@@ -23932,6 +23947,7 @@ export class PictureFields implements GrpcMessage {
       path: this.path ? this.path.toObject() : undefined,
       pictureItem: this.pictureItem ? this.pictureItem.toObject() : undefined,
       imageGalleryFull: this.imageGalleryFull,
+      imageGallery: this.imageGallery,
       dfDistance: this.dfDistance ? this.dfDistance.toObject() : undefined,
       acceptedCount: this.acceptedCount,
       copyrights: this.copyrights,
@@ -23984,6 +24000,7 @@ export class PictureFields implements GrpcMessage {
         ? this.pictureItem.toProtobufJSON(options)
         : null,
       imageGalleryFull: this.imageGalleryFull,
+      imageGallery: this.imageGallery,
       dfDistance: this.dfDistance
         ? this.dfDistance.toProtobufJSON(options)
         : null,
@@ -24026,6 +24043,7 @@ export module PictureFields {
     path?: PicturePathRequest.AsObject;
     pictureItem?: PictureItemsRequest.AsObject;
     imageGalleryFull: boolean;
+    imageGallery: boolean;
     dfDistance?: DfDistanceRequest.AsObject;
     acceptedCount: boolean;
     copyrights: boolean;
@@ -24060,6 +24078,7 @@ export module PictureFields {
     path: PicturePathRequest.AsProtobufJSON | null;
     pictureItem: PictureItemsRequest.AsProtobufJSON | null;
     imageGalleryFull: boolean;
+    imageGallery: boolean;
     dfDistance: DfDistanceRequest.AsProtobufJSON | null;
     acceptedCount: boolean;
     copyrights: boolean;
@@ -27606,6 +27625,7 @@ export class PictureItemListOptions implements GrpcMessage {
     _instance.hasNoPerspectiveId = _instance.hasNoPerspectiveId || false;
     _instance.pictureItemByPictureId =
       _instance.pictureItemByPictureId || undefined;
+    _instance.hasArea = _instance.hasArea || false;
   }
 
   /**
@@ -27679,6 +27699,9 @@ export class PictureItemListOptions implements GrpcMessage {
             _instance.pictureItemByPictureId,
             PictureItemListOptions.deserializeBinaryFromReader
           );
+          break;
+        case 13:
+          _instance.hasArea = _reader.readBool();
           break;
         default:
           _reader.skipField();
@@ -27756,6 +27779,9 @@ export class PictureItemListOptions implements GrpcMessage {
         PictureItemListOptions.serializeBinaryToWriter
       );
     }
+    if (_instance.hasArea) {
+      _writer.writeBool(13, _instance.hasArea);
+    }
   }
 
   private _pictureId: string;
@@ -27770,6 +27796,7 @@ export class PictureItemListOptions implements GrpcMessage {
   private _itemVehicleType?: ItemVehicleTypeListOptions;
   private _hasNoPerspectiveId: boolean;
   private _pictureItemByPictureId?: PictureItemListOptions;
+  private _hasArea: boolean;
 
   /**
    * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -27797,6 +27824,7 @@ export class PictureItemListOptions implements GrpcMessage {
     this.pictureItemByPictureId = _value.pictureItemByPictureId
       ? new PictureItemListOptions(_value.pictureItemByPictureId)
       : undefined;
+    this.hasArea = _value.hasArea;
     PictureItemListOptions.refineValues(this);
   }
   get pictureId(): string {
@@ -27871,6 +27899,12 @@ export class PictureItemListOptions implements GrpcMessage {
   set pictureItemByPictureId(value: PictureItemListOptions | undefined) {
     this._pictureItemByPictureId = value;
   }
+  get hasArea(): boolean {
+    return this._hasArea;
+  }
+  set hasArea(value: boolean) {
+    this._hasArea = value;
+  }
 
   /**
    * Serialize message to binary data
@@ -27904,7 +27938,8 @@ export class PictureItemListOptions implements GrpcMessage {
       hasNoPerspectiveId: this.hasNoPerspectiveId,
       pictureItemByPictureId: this.pictureItemByPictureId
         ? this.pictureItemByPictureId.toObject()
-        : undefined
+        : undefined,
+      hasArea: this.hasArea
     };
   }
 
@@ -27945,7 +27980,8 @@ export class PictureItemListOptions implements GrpcMessage {
       hasNoPerspectiveId: this.hasNoPerspectiveId,
       pictureItemByPictureId: this.pictureItemByPictureId
         ? this.pictureItemByPictureId.toProtobufJSON(options)
-        : null
+        : null,
+      hasArea: this.hasArea
     };
   }
 }
@@ -27966,6 +28002,7 @@ export module PictureItemListOptions {
     itemVehicleType?: ItemVehicleTypeListOptions.AsObject;
     hasNoPerspectiveId: boolean;
     pictureItemByPictureId?: PictureItemListOptions.AsObject;
+    hasArea: boolean;
   }
 
   /**
@@ -27984,6 +28021,7 @@ export module PictureItemListOptions {
     itemVehicleType: ItemVehicleTypeListOptions.AsProtobufJSON | null;
     hasNoPerspectiveId: boolean;
     pictureItemByPictureId: PictureItemListOptions.AsProtobufJSON | null;
+    hasArea: boolean;
   }
 }
 
@@ -38593,6 +38631,7 @@ export class Picture implements GrpcMessage {
     _instance.thumb = _instance.thumb || undefined;
     _instance.path = _instance.path || [];
     _instance.pictureItems = _instance.pictureItems || undefined;
+    _instance.imageGallery = _instance.imageGallery || undefined;
     _instance.imageGalleryFull = _instance.imageGalleryFull || undefined;
     _instance.dfDistances = _instance.dfDistances || undefined;
     _instance.acceptedCount = _instance.acceptedCount || 0;
@@ -38735,6 +38774,13 @@ export class Picture implements GrpcMessage {
           _reader.readMessage(
             _instance.pictureItems,
             PictureItems.deserializeBinaryFromReader
+          );
+          break;
+        case 47:
+          _instance.imageGallery = new APIImage();
+          _reader.readMessage(
+            _instance.imageGallery,
+            APIImage.deserializeBinaryFromReader
           );
           break;
         case 25:
@@ -38961,6 +39007,13 @@ export class Picture implements GrpcMessage {
         PictureItems.serializeBinaryToWriter
       );
     }
+    if (_instance.imageGallery) {
+      _writer.writeMessage(
+        47,
+        _instance.imageGallery as any,
+        APIImage.serializeBinaryToWriter
+      );
+    }
     if (_instance.imageGalleryFull) {
       _writer.writeMessage(
         25,
@@ -39091,6 +39144,7 @@ export class Picture implements GrpcMessage {
   private _thumb?: APIImage;
   private _path?: PathTreePictureItem[];
   private _pictureItems?: PictureItems;
+  private _imageGallery?: APIImage;
   private _imageGalleryFull?: APIImage;
   private _dfDistances?: DfDistances;
   private _acceptedCount: number;
@@ -39153,6 +39207,9 @@ export class Picture implements GrpcMessage {
     this.path = (_value.path || []).map(m => new PathTreePictureItem(m));
     this.pictureItems = _value.pictureItems
       ? new PictureItems(_value.pictureItems)
+      : undefined;
+    this.imageGallery = _value.imageGallery
+      ? new APIImage(_value.imageGallery)
       : undefined;
     this.imageGalleryFull = _value.imageGalleryFull
       ? new APIImage(_value.imageGalleryFull)
@@ -39345,6 +39402,12 @@ export class Picture implements GrpcMessage {
   set pictureItems(value: PictureItems | undefined) {
     this._pictureItems = value;
   }
+  get imageGallery(): APIImage | undefined {
+    return this._imageGallery;
+  }
+  set imageGallery(value: APIImage | undefined) {
+    this._imageGallery = value;
+  }
   get imageGalleryFull(): APIImage | undefined {
     return this._imageGalleryFull;
   }
@@ -39514,6 +39577,9 @@ export class Picture implements GrpcMessage {
       pictureItems: this.pictureItems
         ? this.pictureItems.toObject()
         : undefined,
+      imageGallery: this.imageGallery
+        ? this.imageGallery.toObject()
+        : undefined,
       imageGalleryFull: this.imageGalleryFull
         ? this.imageGalleryFull.toObject()
         : undefined,
@@ -39595,6 +39661,9 @@ export class Picture implements GrpcMessage {
       pictureItems: this.pictureItems
         ? this.pictureItems.toProtobufJSON(options)
         : null,
+      imageGallery: this.imageGallery
+        ? this.imageGallery.toProtobufJSON(options)
+        : null,
       imageGalleryFull: this.imageGalleryFull
         ? this.imageGalleryFull.toProtobufJSON(options)
         : null,
@@ -39659,6 +39728,7 @@ export module Picture {
     thumb?: APIImage.AsObject;
     path?: PathTreePictureItem.AsObject[];
     pictureItems?: PictureItems.AsObject;
+    imageGallery?: APIImage.AsObject;
     imageGalleryFull?: APIImage.AsObject;
     dfDistances?: DfDistances.AsObject;
     acceptedCount: number;
@@ -39711,6 +39781,7 @@ export module Picture {
     thumb: APIImage.AsProtobufJSON | null;
     path: PathTreePictureItem.AsProtobufJSON[] | null;
     pictureItems: PictureItems.AsProtobufJSON | null;
+    imageGallery: APIImage.AsProtobufJSON | null;
     imageGalleryFull: APIImage.AsProtobufJSON | null;
     dfDistances: DfDistances.AsProtobufJSON | null;
     acceptedCount: number;
@@ -45455,6 +45526,591 @@ export module CanonicalRoute {
    */
   export interface AsProtobufJSON {
     route: string[];
+  }
+}
+
+/**
+ * Message implementation for goautowp.GalleryRequest
+ */
+export class GalleryRequest implements GrpcMessage {
+  static id = 'goautowp.GalleryRequest';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GalleryRequest();
+    GalleryRequest.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GalleryRequest) {
+    _instance.request = _instance.request || undefined;
+    _instance.pictureIdentity = _instance.pictureIdentity || '';
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GalleryRequest,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.request = new PicturesRequest();
+          _reader.readMessage(
+            _instance.request,
+            PicturesRequest.deserializeBinaryFromReader
+          );
+          break;
+        case 2:
+          _instance.pictureIdentity = _reader.readString();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GalleryRequest.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GalleryRequest,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.request) {
+      _writer.writeMessage(
+        1,
+        _instance.request as any,
+        PicturesRequest.serializeBinaryToWriter
+      );
+    }
+    if (_instance.pictureIdentity) {
+      _writer.writeString(2, _instance.pictureIdentity);
+    }
+  }
+
+  private _request?: PicturesRequest;
+  private _pictureIdentity: string;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GalleryRequest to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GalleryRequest.AsObject>) {
+    _value = _value || {};
+    this.request = _value.request
+      ? new PicturesRequest(_value.request)
+      : undefined;
+    this.pictureIdentity = _value.pictureIdentity;
+    GalleryRequest.refineValues(this);
+  }
+  get request(): PicturesRequest | undefined {
+    return this._request;
+  }
+  set request(value: PicturesRequest | undefined) {
+    this._request = value;
+  }
+  get pictureIdentity(): string {
+    return this._pictureIdentity;
+  }
+  set pictureIdentity(value: string) {
+    this._pictureIdentity = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GalleryRequest.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GalleryRequest.AsObject {
+    return {
+      request: this.request ? this.request.toObject() : undefined,
+      pictureIdentity: this.pictureIdentity
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GalleryRequest.AsProtobufJSON {
+    return {
+      request: this.request ? this.request.toProtobufJSON(options) : null,
+      pictureIdentity: this.pictureIdentity
+    };
+  }
+}
+export module GalleryRequest {
+  /**
+   * Standard JavaScript object representation for GalleryRequest
+   */
+  export interface AsObject {
+    request?: PicturesRequest.AsObject;
+    pictureIdentity: string;
+  }
+
+  /**
+   * Protobuf JSON representation for GalleryRequest
+   */
+  export interface AsProtobufJSON {
+    request: PicturesRequest.AsProtobufJSON | null;
+    pictureIdentity: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.GalleryResponse
+ */
+export class GalleryResponse implements GrpcMessage {
+  static id = 'goautowp.GalleryResponse';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new GalleryResponse();
+    GalleryResponse.deserializeBinaryFromReader(
+      instance,
+      new BinaryReader(bytes)
+    );
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: GalleryResponse) {
+    _instance.count = _instance.count || 0;
+    _instance.items = _instance.items || [];
+    _instance.page = _instance.page || 0;
+    _instance.pages = _instance.pages || 0;
+    _instance.status = _instance.status || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: GalleryResponse,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.count = _reader.readInt32();
+          break;
+        case 2:
+          const messageInitializer2 = new Picture();
+          _reader.readMessage(
+            messageInitializer2,
+            Picture.deserializeBinaryFromReader
+          );
+          (_instance.items = _instance.items || []).push(messageInitializer2);
+          break;
+        case 3:
+          _instance.page = _reader.readInt32();
+          break;
+        case 4:
+          _instance.pages = _reader.readInt32();
+          break;
+        case 5:
+          _instance.status = _reader.readEnum();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    GalleryResponse.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(
+    _instance: GalleryResponse,
+    _writer: BinaryWriter
+  ) {
+    if (_instance.count) {
+      _writer.writeInt32(1, _instance.count);
+    }
+    if (_instance.items && _instance.items.length) {
+      _writer.writeRepeatedMessage(
+        2,
+        _instance.items as any,
+        Picture.serializeBinaryToWriter
+      );
+    }
+    if (_instance.page) {
+      _writer.writeInt32(3, _instance.page);
+    }
+    if (_instance.pages) {
+      _writer.writeInt32(4, _instance.pages);
+    }
+    if (_instance.status) {
+      _writer.writeEnum(5, _instance.status);
+    }
+  }
+
+  private _count: number;
+  private _items?: Picture[];
+  private _page: number;
+  private _pages: number;
+  private _status: PictureStatus;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of GalleryResponse to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<GalleryResponse.AsObject>) {
+    _value = _value || {};
+    this.count = _value.count;
+    this.items = (_value.items || []).map(m => new Picture(m));
+    this.page = _value.page;
+    this.pages = _value.pages;
+    this.status = _value.status;
+    GalleryResponse.refineValues(this);
+  }
+  get count(): number {
+    return this._count;
+  }
+  set count(value: number) {
+    this._count = value;
+  }
+  get items(): Picture[] | undefined {
+    return this._items;
+  }
+  set items(value: Picture[] | undefined) {
+    this._items = value;
+  }
+  get page(): number {
+    return this._page;
+  }
+  set page(value: number) {
+    this._page = value;
+  }
+  get pages(): number {
+    return this._pages;
+  }
+  set pages(value: number) {
+    this._pages = value;
+  }
+  get status(): PictureStatus {
+    return this._status;
+  }
+  set status(value: PictureStatus) {
+    this._status = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    GalleryResponse.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): GalleryResponse.AsObject {
+    return {
+      count: this.count,
+      items: (this.items || []).map(m => m.toObject()),
+      page: this.page,
+      pages: this.pages,
+      status: this.status
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): GalleryResponse.AsProtobufJSON {
+    return {
+      count: this.count,
+      items: (this.items || []).map(m => m.toProtobufJSON(options)),
+      page: this.page,
+      pages: this.pages,
+      status:
+        PictureStatus[
+          this.status === null || this.status === undefined ? 0 : this.status
+        ]
+    };
+  }
+}
+export module GalleryResponse {
+  /**
+   * Standard JavaScript object representation for GalleryResponse
+   */
+  export interface AsObject {
+    count: number;
+    items?: Picture.AsObject[];
+    page: number;
+    pages: number;
+    status: PictureStatus;
+  }
+
+  /**
+   * Protobuf JSON representation for GalleryResponse
+   */
+  export interface AsProtobufJSON {
+    count: number;
+    items: Picture.AsProtobufJSON[] | null;
+    page: number;
+    pages: number;
+    status: string;
+  }
+}
+
+/**
+ * Message implementation for goautowp.Rectangle
+ */
+export class Rectangle implements GrpcMessage {
+  static id = 'goautowp.Rectangle';
+
+  /**
+   * Deserialize binary data to message
+   * @param instance message instance
+   */
+  static deserializeBinary(bytes: ByteSource) {
+    const instance = new Rectangle();
+    Rectangle.deserializeBinaryFromReader(instance, new BinaryReader(bytes));
+    return instance;
+  }
+
+  /**
+   * Check all the properties and set default protobuf values if necessary
+   * @param _instance message instance
+   */
+  static refineValues(_instance: Rectangle) {
+    _instance.left = _instance.left || 0;
+    _instance.top = _instance.top || 0;
+    _instance.width = _instance.width || 0;
+    _instance.height = _instance.height || 0;
+  }
+
+  /**
+   * Deserializes / reads binary message into message instance using provided binary reader
+   * @param _instance message instance
+   * @param _reader binary reader instance
+   */
+  static deserializeBinaryFromReader(
+    _instance: Rectangle,
+    _reader: BinaryReader
+  ) {
+    while (_reader.nextField()) {
+      if (_reader.isEndGroup()) break;
+
+      switch (_reader.getFieldNumber()) {
+        case 1:
+          _instance.left = _reader.readInt32();
+          break;
+        case 2:
+          _instance.top = _reader.readInt32();
+          break;
+        case 3:
+          _instance.width = _reader.readInt32();
+          break;
+        case 4:
+          _instance.height = _reader.readInt32();
+          break;
+        default:
+          _reader.skipField();
+      }
+    }
+
+    Rectangle.refineValues(_instance);
+  }
+
+  /**
+   * Serializes a message to binary format using provided binary reader
+   * @param _instance message instance
+   * @param _writer binary writer instance
+   */
+  static serializeBinaryToWriter(_instance: Rectangle, _writer: BinaryWriter) {
+    if (_instance.left) {
+      _writer.writeInt32(1, _instance.left);
+    }
+    if (_instance.top) {
+      _writer.writeInt32(2, _instance.top);
+    }
+    if (_instance.width) {
+      _writer.writeInt32(3, _instance.width);
+    }
+    if (_instance.height) {
+      _writer.writeInt32(4, _instance.height);
+    }
+  }
+
+  private _left: number;
+  private _top: number;
+  private _width: number;
+  private _height: number;
+
+  /**
+   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+   * @param _value initial values object or instance of Rectangle to deeply clone from
+   */
+  constructor(_value?: RecursivePartial<Rectangle.AsObject>) {
+    _value = _value || {};
+    this.left = _value.left;
+    this.top = _value.top;
+    this.width = _value.width;
+    this.height = _value.height;
+    Rectangle.refineValues(this);
+  }
+  get left(): number {
+    return this._left;
+  }
+  set left(value: number) {
+    this._left = value;
+  }
+  get top(): number {
+    return this._top;
+  }
+  set top(value: number) {
+    this._top = value;
+  }
+  get width(): number {
+    return this._width;
+  }
+  set width(value: number) {
+    this._width = value;
+  }
+  get height(): number {
+    return this._height;
+  }
+  set height(value: number) {
+    this._height = value;
+  }
+
+  /**
+   * Serialize message to binary data
+   * @param instance message instance
+   */
+  serializeBinary() {
+    const writer = new BinaryWriter();
+    Rectangle.serializeBinaryToWriter(this, writer);
+    return writer.getResultBuffer();
+  }
+
+  /**
+   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+   */
+  toObject(): Rectangle.AsObject {
+    return {
+      left: this.left,
+      top: this.top,
+      width: this.width,
+      height: this.height
+    };
+  }
+
+  /**
+   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+   */
+  toProtobufJSON(
+    // @ts-ignore
+    options?: ToProtobufJSONOptions
+  ): Rectangle.AsProtobufJSON {
+    return {
+      left: this.left,
+      top: this.top,
+      width: this.width,
+      height: this.height
+    };
+  }
+}
+export module Rectangle {
+  /**
+   * Standard JavaScript object representation for Rectangle
+   */
+  export interface AsObject {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  }
+
+  /**
+   * Protobuf JSON representation for Rectangle
+   */
+  export interface AsProtobufJSON {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
   }
 }
 
