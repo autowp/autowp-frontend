@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Pages} from '@grpc/spec.pb';
-import {APIPaginator} from '@services/api.service';
 
 @Component({
   imports: [RouterLink],
@@ -9,7 +8,7 @@ import {APIPaginator} from '@services/api.service';
   templateUrl: './paginator.component.html',
 })
 export class PaginatorComponent {
-  @Input() data?: APIPaginator | Pages;
+  @Input() data?: Pages;
 
   protected pagesInRange(): number[] {
     return this.data ? Object.values(this.data.pagesInRange) : [];

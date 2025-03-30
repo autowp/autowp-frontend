@@ -17,10 +17,11 @@ import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {CommentsComponent} from '../../../../comments/comments/comments.component';
 import {PictureComponent} from '../../../../picture/picture.component';
+import {ToastsService} from '../../../../toasts/toasts.service';
 import {CatalogueService} from '../../../catalogue-service';
 
 @Component({
@@ -35,6 +36,7 @@ export class CatalogueVehiclesPicturesPictureComponent {
   readonly #router = inject(Router);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
+  readonly #toastService = inject(ToastsService);
 
   readonly #changed$ = new BehaviorSubject<void>(void 0);
 
@@ -144,6 +146,10 @@ export class CatalogueVehiclesPicturesPictureComponent {
           }),
         }),
       );
+    }),
+    catchError((err: unknown) => {
+      this.#toastService.handleError(err);
+      return EMPTY;
     }),
     switchMap((picture) => {
       if (!picture) {

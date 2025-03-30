@@ -2,9 +2,10 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {CommentsType} from '@grpc/spec.pb';
+import {CommentsType, VoteRequest, Voting, VotingRequest, VotingVariant} from '@grpc/spec.pb';
+import {VotingsClient} from '@grpc/spec.pbsc';
 import {NgbModal, NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
-import {APIService} from '@services/api.service';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {AuthService} from '@services/auth.service';
 import {PageEnvService} from '@services/page-env.service';
 import {BehaviorSubject, EMPTY} from 'rxjs';
@@ -13,7 +14,6 @@ import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} fro
 import {CommentsComponent} from '../comments/comments/comments.component';
 import {ToastsService} from '../toasts/toasts.service';
 import {VotingVotesComponent} from './votes/votes.component';
-import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
 
 @Component({
   imports: [RouterLink, FormsModule, NgbProgressbar, CommentsComponent, AsyncPipe, DatePipe],
@@ -21,25 +21,28 @@ import {APIVoting, APIVotingVariant, VotingService} from './voting.service';
   templateUrl: './voting.component.html',
 })
 export class VotingComponent {
-  readonly #api = inject(APIService);
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
-  readonly #votingService = inject(VotingService);
   protected readonly auth = inject(AuthService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #modalService = inject(NgbModal);
   readonly #toastService = inject(ToastsService);
+  readonly #votingsClient = inject(VotingsClient);
 
   readonly #reload$ = new BehaviorSubject<void>(void 0);
   protected readonly voting$ = this.#route.paramMap.pipe(
     map((params) => parseInt(params.get('id') ?? '', 10)),
     distinctUntilChanged(),
     debounceTime(10),
-    switchMap((id) => this.#reload$.pipe(switchMap(() => this.#votingService.getVoting$(id)))),
-    catchError(() => {
-      this.#router.navigate(['/error-404'], {
-        skipLocationChange: true,
-      });
+    switchMap((id) => this.#reload$.pipe(switchMap(() => this.#votingsClient.getVoting(new VotingRequest({id}))))),
+    catchError((response: unknown) => {
+      if (response instanceof GrpcStatusEvent && response.statusCode === 5) {
+        this.#router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+      } else {
+        this.#toastService.handleError(response);
+      }
       return EMPTY;
     }),
     tap((voting) => {
@@ -55,7 +58,7 @@ export class VotingComponent {
 
   protected readonly CommentsType = CommentsType;
 
-  protected vote(voting: APIVoting) {
+  protected vote(voting: Voting) {
     const ids: number[] = [];
 
     if (!voting.multivariant) {
@@ -71,12 +74,13 @@ export class VotingComponent {
       }
     }
 
-    this.#api
-      .request$<void>('PATCH', 'voting/' + voting.id, {
-        body: {
-          vote: ids,
-        },
-      })
+    this.#votingsClient
+      .vote(
+        new VoteRequest({
+          id: voting.id,
+          votingVariantVoteIds: ids,
+        }),
+      )
       .subscribe({
         error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
@@ -87,7 +91,7 @@ export class VotingComponent {
     return false;
   }
 
-  protected isVariantSelected(voting: APIVoting): boolean {
+  protected isVariantSelected(voting: Voting): boolean {
     if (!voting.multivariant) {
       return this.selected > 0;
     }
@@ -102,7 +106,7 @@ export class VotingComponent {
     return count > 0;
   }
 
-  protected showWhoVoted(voting: APIVoting, variant: APIVotingVariant) {
+  protected showWhoVoted(voting: Voting, variant: VotingVariant) {
     const modalRef = this.#modalService.open(VotingVotesComponent, {
       centered: true,
       size: 'lg',

@@ -195,7 +195,7 @@
     <app-moder-items-item-name [item]="item"></app-moder-items-item-name>
   }
   @if (logoTab.visible && activeTab === 'logo') {
-    <app-moder-items-item-logo [item]="item"></app-moder-items-item-logo>
+    <app-moder-items-item-logo [item]="item" (itemUpdated)="reloadItem$.next()"></app-moder-items-item-logo>
   }
   @if (catalogueTab.visible && activeTab === 'catalogue') {
     <app-moder-items-item-catalogue [item]="item"></app-moder-items-item-catalogue>

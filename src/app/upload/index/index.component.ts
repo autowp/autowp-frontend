@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -21,14 +21,13 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbModal, NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
-import {APIService} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import Keycloak from 'keycloak-js';
-import {combineLatest, concat, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, concat, EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap, take, tap} from 'rxjs/operators';
 
 import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component';
@@ -70,7 +69,7 @@ const cropTitle = (image: APIImage | undefined): string => {
   templateUrl: './index.component.html',
 })
 export class UploadIndexComponent implements OnInit {
-  readonly #api = inject(APIService);
+  readonly #http = inject(HttpClient);
   readonly #route = inject(ActivatedRoute);
   protected readonly auth = inject(AuthService);
   readonly #pageEnv = inject(PageEnvService);
@@ -226,7 +225,7 @@ export class UploadIndexComponent implements OnInit {
         return formData;
       }),
       switchMap((formData) =>
-        this.#api.request$('POST', 'picture', {
+        this.#http.request<{id: string}>('POST', '/api/picture', {
           body: formData,
           observe: 'events',
           reportProgress: true,
@@ -261,9 +260,11 @@ export class UploadIndexComponent implements OnInit {
           progress.percentage = 75;
           progress.success = true;
 
-          const location = event.headers.get('Location') ?? '';
-          const parts = location.split('/');
-          const pictureID = parts[parts.length - 1];
+          if (!event.body) {
+            return throwError(() => 'no response body');
+          }
+
+          const pictureID = event.body.id;
 
           return this.#picturesClient
             .getPicture(

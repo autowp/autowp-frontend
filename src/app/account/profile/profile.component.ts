@@ -1,11 +1,12 @@
 import {AsyncPipe} from '@angular/common';
-import {HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {environment} from '@environment/environment';
-import {APIImage, APIMeRequest, APIUser, UserFields} from '@grpc/spec.pb';
+import {APIImage, APIMeRequest, APIUser, DeleteUserPhotoRequest, UpdateUserRequest, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
-import {APIService} from '@services/api.service';
+import {GrpcStatusEvent} from '@ngx-grpc/common';
+import {FieldMask} from '@ngx-grpc/well-known-types';
 import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
@@ -16,6 +17,7 @@ import Keycloak from 'keycloak-js';
 import {EMPTY, of, Subscription} from 'rxjs';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
+import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
@@ -24,7 +26,7 @@ import {ToastsService} from '../../toasts/toasts.service';
   templateUrl: './profile.component.html',
 })
 export class AccountProfileComponent implements OnDestroy, OnInit {
-  readonly #api = inject(APIService);
+  readonly #http = inject(HttpClient);
   readonly #languageService = inject(LanguageService);
   readonly #keycloak = inject(Keycloak);
   readonly #auth = inject(AuthService);
@@ -113,30 +115,37 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
     this.#toastService.success($localize`Data saved`);
   }
 
-  protected sendSettings() {
+  protected sendSettings(id: string) {
     this.settingsInvalidParams = {};
 
-    this.#api.request$<void>('PUT', 'user/me', {body: this.settings}).subscribe({
-      error: (response: unknown) => {
-        if (response instanceof HttpErrorResponse && response.status === 400) {
-          this.settingsInvalidParams = response.error.invalid_params;
-        } else {
-          this.#toastService.handleError(response);
-        }
-      },
-      next: () => {
-        this.showSavedMessage();
-      },
-    });
+    this.#usersClient
+      .updateUser(
+        new UpdateUserRequest({
+          updateMask: new FieldMask({paths: ['language', 'timezone']}),
+          user: new APIUser({
+            id,
+            language: this.settings.language || undefined,
+            timezone: this.settings.timezone || undefined,
+          }),
+        }),
+      )
+      .subscribe({
+        error: (response: unknown) => {
+          if (response instanceof GrpcStatusEvent) {
+            const fieldViolations = extractFieldViolations(response);
+            this.settingsInvalidParams = fieldViolations2InvalidParams(fieldViolations);
+          } else {
+            this.#toastService.handleError(response);
+          }
+        },
+        next: () => {
+          this.showSavedMessage();
+        },
+      });
   }
 
-  /*protected  showFileSelectDialog() {
-    this.photoInvalidParams = {};
-    this.fileInput.nativeElement.click();
-  }*/
-
-  protected resetPhoto() {
-    this.#api.request$('DELETE', 'user/me/photo').subscribe({
+  protected resetPhoto(id: string) {
+    this.#usersClient.deleteUserPhoto(new DeleteUserPhotoRequest({id})).subscribe({
       error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
         if (this.user) {
@@ -158,8 +167,8 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    return this.#api
-      .request$('POST', 'user/me/photo', {body: formData})
+    return this.#http
+      .request('POST', '/api/user/me/photo', {body: formData})
       .pipe(
         catchError((response: unknown) => {
           if (this.input) {

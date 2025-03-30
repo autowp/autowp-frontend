@@ -10,7 +10,7 @@ import {NgbCollapseModule, NgbDropdownModule, NgbModule, NgbTooltipModule} from 
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
 import {ACLService, APIACL} from '@services/acl.service';
-import {APIService, authInterceptor$, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
+import {authInterceptor$, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {ContentLanguageService} from '@services/content-language';
@@ -71,7 +71,6 @@ export const appConfig: ApplicationConfig = {
     }),
     AutoRefreshTokenService,
     UserActivityService,
-    APIService,
     APIACL,
     AuthService,
     ACLService,

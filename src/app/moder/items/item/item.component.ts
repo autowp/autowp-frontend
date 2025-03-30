@@ -22,7 +22,7 @@ import {ACLService, Privilege, Resource} from '@services/acl.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
-import {EMPTY, of, Subscription, throwError} from 'rxjs';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of, Subscription, throwError} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -70,6 +70,8 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   #routeSub?: Subscription;
   protected loading = 0;
 
+  protected reloadItem$ = new BehaviorSubject<void>(void 0);
+
   protected item: APIItem | null = null;
   protected specsAllowed = false;
   protected readonly canEditSpecifications$ = this.#acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
@@ -113,56 +115,62 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
 
   protected activeTab = 'meta';
 
+  readonly #itemID: Observable<string> = this.#route.paramMap.pipe(
+    map((params) => params.get('id') ?? ''),
+    distinctUntilChanged(),
+    debounceTime(30),
+  );
+
+  readonly #item: Observable<APIItem> = combineLatest([this.#itemID, this.reloadItem$]).pipe(
+    switchMap(([id]) => {
+      this.loading++;
+      return this.#itemsClient.item(
+        new ItemRequest({
+          fields: new ItemFields({
+            childsCount: true,
+            engineVehiclesCount: true,
+            exactPicturesCount: true,
+            fullName: true,
+            itemLanguageCount: true,
+            linksCount: true,
+            location: true,
+            logo: true,
+            meta: true,
+            nameDefault: true,
+            nameHtml: true,
+            nameText: true,
+            parentsCount: true,
+            specificationsCount: true,
+            subscription: true,
+          }),
+          id,
+        }),
+      );
+    }),
+    finalize(() => {
+      this.loading--;
+    }),
+    catchError((err: unknown) => {
+      this.#toastService.handleError(err);
+      this.#router.navigate(['/error-404'], {
+        skipLocationChange: true,
+      });
+      return EMPTY;
+    }),
+    switchMap((item) => {
+      if (!item) {
+        this.#router.navigate(['/error-404'], {
+          skipLocationChange: true,
+        });
+        return EMPTY;
+      }
+      return of(item);
+    }),
+  );
+
   ngOnInit(): void {
-    this.#routeSub = this.#route.paramMap
+    this.#routeSub = this.#item
       .pipe(
-        map((params) => params.get('id') ?? ''),
-        distinctUntilChanged(),
-        debounceTime(30),
-        switchMap((id) => {
-          this.loading++;
-          return this.#itemsClient.item(
-            new ItemRequest({
-              fields: new ItemFields({
-                childsCount: true,
-                engineVehiclesCount: true,
-                exactPicturesCount: true,
-                fullName: true,
-                itemLanguageCount: true,
-                linksCount: true,
-                location: true,
-                logo: true,
-                meta: true,
-                nameDefault: true,
-                nameHtml: true,
-                nameText: true,
-                parentsCount: true,
-                specificationsCount: true,
-                subscription: true,
-              }),
-              id,
-            }),
-          );
-        }),
-        finalize(() => {
-          this.loading--;
-        }),
-        catchError((err: unknown) => {
-          this.#toastService.handleError(err);
-          this.#router.navigate(['/error-404'], {
-            skipLocationChange: true,
-          });
-          return of(null);
-        }),
-        switchMap((item) => {
-          if (!item) {
-            this.#router.navigate(['/error-404'], {
-              skipLocationChange: true,
-            });
-            return EMPTY;
-          }
-          return of(item);
-        }),
         tap((item) => {
           this.item = item;
 
@@ -235,7 +243,7 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
           this.#pageEnv.set({
             layout: {isAdminPage: true},
             pageId: 78,
-            title: item.name_text,
+            title: item.nameText,
           });
           this.randomPicture = picture;
         }),

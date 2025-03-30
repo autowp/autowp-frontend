@@ -1,31 +1,14 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIService} from '@services/api.service';
+import {AttrAttributeType, ChartDataRequest, ChartParameter} from '@grpc/spec.pb';
+import {AttrsClient} from '@grpc/spec.pbsc';
+import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
 import {ChartOptions} from 'chart.js';
 import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
+import {ObjectTyped} from 'object-typed';
 
 import {ToastsService} from '../toasts/toasts.service';
-
-export interface APIChartData {
-  datasets: APIChartDataset[];
-  years: number[];
-}
-
-export interface APIChartDataset {
-  name: string;
-  values: number[];
-}
-
-export interface APIChartParameter {
-  active: boolean;
-  id: number;
-  name: string;
-}
-
-export interface APIChartParameters {
-  parameters: APIChartParameter[];
-}
 
 @Component({
   imports: [RouterLink, BaseChartDirective],
@@ -34,11 +17,12 @@ export interface APIChartParameters {
   templateUrl: './chart.component.html',
 })
 export class ChartComponent implements OnInit {
-  readonly #api = inject(APIService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
+  readonly #attrsClient = inject(AttrsClient);
 
-  protected parameters: APIChartParameter[] = [];
+  protected parameters: ChartParameter[] = [];
+  protected activeParameter = 0;
   protected readonly chartOptions: ChartOptions<'line'> = {
     responsive: true,
   };
@@ -53,7 +37,7 @@ export class ChartComponent implements OnInit {
       pointHoverBorderColor: string;
     }[];
     data: {
-      data: number[];
+      data: (null | number)[];
       label: string;
     }[];
     labels: number[];
@@ -83,40 +67,59 @@ export class ChartComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 1}), 0);
 
-    this.#api.request$<APIChartParameters>('GET', 'chart/parameters').subscribe({
+    this.#attrsClient.getChartParameters(new Empty()).subscribe({
       error: (response: unknown) => this.#toastService.handleError(response),
       next: (response) => {
-        this.parameters = response.parameters;
-        this.selectParam(this.parameters[0]);
+        this.parameters = response.parameters || [];
+        this.selectParam(0);
       },
     });
   }
 
-  private loadData(id: number) {
+  private loadData(id: string) {
     this.chart.data = [];
 
-    this.#api
-      .request$<APIChartData>('GET', 'chart/data', {
-        params: {id: id.toString()},
-      })
-      .subscribe({
-        error: (response: unknown) => this.#toastService.handleError(response),
-        next: (response) => {
-          this.chart.data = response.datasets.map((dataset) => ({
-            data: dataset.values,
+    this.#attrsClient.getChartData(new ChartDataRequest({id})).subscribe({
+      error: (response: unknown) => this.#toastService.handleError(response),
+      next: (response) => {
+        const datasets = response.datasets || [];
+        const yearsSet = new Set<number>();
+        datasets.forEach((dataset) => {
+          ObjectTyped.keys(dataset.values).forEach((key) => yearsSet.add(key));
+        });
+        const years = Array.from(yearsSet.keys()).sort((a, b) => a - b);
+
+        this.chart.labels = years;
+        this.chart.data = datasets.map((dataset) => {
+          const numbers: (null | number)[] = [];
+          years.forEach((year) => {
+            const value = dataset.values[year];
+            let numberValue: null | number = null;
+            if (value) {
+              switch (value.type) {
+                case AttrAttributeType.Id.FLOAT:
+                  numberValue = value.floatValue;
+                  break;
+                case AttrAttributeType.Id.INTEGER:
+                  numberValue = value.intValue;
+                  break;
+              }
+            }
+            numbers.push(numberValue);
+          });
+
+          return {
+            data: numbers,
             label: dataset.name,
-          }));
-          this.chart.labels = response.years;
-        },
-      });
+          };
+        });
+      },
+    });
   }
 
-  protected selectParam(param: APIChartParameter) {
-    for (const p of this.parameters) {
-      p.active = false;
-    }
-    param.active = true;
-    this.loadData(param.id);
+  protected selectParam(number: number) {
+    this.activeParameter = number;
+    this.loadData(this.parameters[this.activeParameter].id);
 
     return false;
   }

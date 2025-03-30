@@ -7,83 +7,83 @@
   <div class="card card-body mb-4">
     <p>{{ user.name }} (<a [href]="changeProfileUrl" i18n>Change</a>)</p>
   </div>
-}
 
-<h2 i18n>Photo</h2>
-<div class="card card-body mb-4">
-  <app-markdown i18n-markdown markdown="You can upload photo or use [Gravatar](http://gravatar.com/)"></app-markdown>
-  @if (photo) {
-    <div>
-      <img alt="" [src]="photo.src" class="mb-4" />
-      @for (message of photoInvalidParams | invalidParams: 'file'; track message) {
-        <p [textContent]="message" class="invalid-feedback" style="display: block"></p>
-      }
-    </div>
-  }
-  <div class="row">
-    <div class="col-6">
-      <input type="file" accept="image/*" #input class="form-control" (change)="onChange($event)" />
-    </div>
-    <div class="col-6">
-      @if (photo) {
-        <button type="submit" class="btn btn-danger" (click)="resetPhoto()">
-          <i class="bi bi-x" aria-hidden="true"></i>
-          <ng-container i18n>Delete photo</ng-container>
-        </button>
-      }
+  <h2 i18n>Photo</h2>
+  <div class="card card-body mb-4">
+    <app-markdown i18n-markdown markdown="You can upload photo or use [Gravatar](http://gravatar.com/)"></app-markdown>
+    @if (photo) {
+      <div>
+        <img alt="" [src]="photo.src" class="mb-4" />
+        @for (message of photoInvalidParams | invalidParams: 'file'; track message) {
+          <p [textContent]="message" class="invalid-feedback" style="display: block"></p>
+        }
+      </div>
+    }
+    <div class="row">
+      <div class="col-6">
+        <input type="file" accept="image/*" #input class="form-control" (change)="onChange($event)" />
+      </div>
+      <div class="col-6">
+        @if (photo) {
+          <button type="submit" class="btn btn-danger" (click)="resetPhoto(user.id)">
+            <i class="bi bi-x" aria-hidden="true"></i>
+            <ng-container i18n>Delete photo</ng-container>
+          </button>
+        }
+      </div>
     </div>
   </div>
-</div>
 
-<h2 i18n>Other</h2>
-<div class="card card-body mb-4">
-  @if (votesLeft >= 0) {
-    <p><ng-container i18n>Votes per day</ng-container>: {{ votesPerDay }}</p>
-    <p><ng-container i18n>Votes left</ng-container>: {{ votesLeft }}</p>
-  }
-  <form method="post" class="form-horizontal" (submit)="sendSettings()">
-    <div class="mb-3 row">
-      <label class="col-md-3 col-form-label" for="language" i18n>Language</label>
-      <div class="col-md-9">
-        <select
-          name="language"
-          id="language"
-          class="form-select"
-          [class.is-invalid]="settingsInvalidParams['language']"
-          [(ngModel)]="settings.language"
-        >
-          @for (language of languages; track language.value) {
-            <option [value]="language.value">{{ language.name }}</option>
+  <h2 i18n>Other</h2>
+  <div class="card card-body mb-4">
+    @if (votesLeft >= 0) {
+      <p><ng-container i18n>Votes per day</ng-container>: {{ votesPerDay }}</p>
+      <p><ng-container i18n>Votes left</ng-container>: {{ votesLeft }}</p>
+    }
+    <form method="post" class="form-horizontal" (submit)="sendSettings(user.id)">
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label" for="language" i18n>Language</label>
+        <div class="col-md-9">
+          <select
+            name="language"
+            id="language"
+            class="form-select"
+            [class.is-invalid]="settingsInvalidParams['language']"
+            [(ngModel)]="settings.language"
+          >
+            @for (language of languages; track language.value) {
+              <option [value]="language.value">{{ language.name }}</option>
+            }
+          </select>
+          @for (message of settingsInvalidParams | invalidParams: 'language'; track message) {
+            <p [textContent]="message" class="invalid-feedback"></p>
           }
-        </select>
-        @for (message of settingsInvalidParams | invalidParams: 'language'; track message) {
-          <p [textContent]="message" class="invalid-feedback"></p>
-        }
+        </div>
       </div>
-    </div>
-    <div class="mb-3 row">
-      <label class="col-md-3 col-form-label" for="timezone" i18n>Timezone</label>
-      <div class="col-md-9">
-        <select
-          name="timezone"
-          id="timezone"
-          class="form-select"
-          [(ngModel)]="settings.timezone"
-          [class.is-invalid]="settingsInvalidParams['timezone']"
-        >
-          @for (timezone of timezones$ | async; track timezone) {
-            <option [value]="timezone">{{ timezone }}</option>
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label" for="timezone" i18n>Timezone</label>
+        <div class="col-md-9">
+          <select
+            name="timezone"
+            id="timezone"
+            class="form-select"
+            [(ngModel)]="settings.timezone"
+            [class.is-invalid]="settingsInvalidParams['timezone']"
+          >
+            @for (timezone of timezones$ | async; track timezone) {
+              <option [value]="timezone">{{ timezone }}</option>
+            }
+          </select>
+          @for (message of settingsInvalidParams | invalidParams: 'timezone'; track message) {
+            <p [textContent]="message" class="invalid-feedback"></p>
           }
-        </select>
-        @for (message of settingsInvalidParams | invalidParams: 'timezone'; track message) {
-          <p [textContent]="message" class="invalid-feedback"></p>
-        }
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-9 offset-md-3">
-        <button type="submit" class="btn btn-primary" i18n>send</button>
+      <div class="row">
+        <div class="col-md-9 offset-md-3">
+          <button type="submit" class="btn btn-primary" i18n>send</button>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+}

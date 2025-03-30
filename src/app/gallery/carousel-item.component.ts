@@ -1,5 +1,6 @@
 import {NgStyle} from '@angular/common';
 import {AfterViewInit, Component, ElementRef, HostListener, inject, Input} from '@angular/core';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
 import {Picture, PictureItem} from '@grpc/spec.pb';
 import {NgMathPipesModule} from 'ngx-pipes';
@@ -67,12 +68,16 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 })
 export class CarouselItemComponent implements AfterViewInit {
   readonly #el: ElementRef<HTMLElement> = inject(ElementRef);
+  private sanitizer = inject(DomSanitizer);
 
   protected _item?: Picture;
   protected areas: Area[] = [];
+  protected nameHtml: SafeHtml = '';
 
   @Input() set item(item: Picture) {
     this._item = item;
+    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
+    this.nameHtml = this.sanitizer.bypassSecurityTrustHtml(item.nameHtml);
     this.areas = (item.pictureItems?.items || []).map((pictureItem) => ({
       pictureItem,
       styles: {},

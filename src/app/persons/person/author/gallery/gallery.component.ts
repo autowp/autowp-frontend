@@ -2,7 +2,6 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Picture, PictureItemType} from '@grpc/spec.pb';
-import {APIPaginator} from '@services/api.service';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY, of} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
@@ -19,7 +18,6 @@ export class PersonsPersonAuthorGalleryComponent {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
 
-  protected paginator: APIPaginator | null = null;
   protected picturesRouterLink: string[] = [];
 
   protected readonly identity$ = this.#route.paramMap.pipe(

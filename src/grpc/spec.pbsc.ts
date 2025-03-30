@@ -47,7 +47,8 @@ import {
   GRPC_STATISTICS_CLIENT_SETTINGS,
   GRPC_DONATIONS_CLIENT_SETTINGS,
   GRPC_TEXT_CLIENT_SETTINGS,
-  GRPC_ATTRS_CLIENT_SETTINGS
+  GRPC_ATTRS_CLIENT_SETTINGS,
+  GRPC_VOTINGS_CLIENT_SETTINGS
 } from './spec.pbconf';
 /**
  * Service client implementation for goautowp.Autowp
@@ -1536,6 +1537,27 @@ export class UsersClient {
       });
     },
     /**
+     * Unary call: /goautowp.Users/UpdateUser
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    updateUser: (
+      requestData: thisProto.UpdateUserRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Users/UpdateUser',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.UpdateUserRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    },
+    /**
      * Unary call: /goautowp.Users/GetUserPreferences
      *
      * @param requestMessage Request message
@@ -1737,6 +1759,22 @@ export class UsersClient {
   ): Observable<thisProto.APIUser> {
     return this.$raw
       .me(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Users/UpdateUser
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  updateUser(
+    requestData: thisProto.UpdateUserRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .updateUser(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 
@@ -6502,6 +6540,48 @@ export class AttrsClient {
         requestClass: thisProto.GetSpecificationsRequest,
         responseClass: thisProto.GetSpecificationsResponse
       });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetChartParameters
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ChartParameters>>
+     */
+    getChartParameters: (
+      requestData: googleProtobuf001.Empty,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ChartParameters>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetChartParameters',
+        requestData,
+        requestMetadata,
+        requestClass: googleProtobuf001.Empty,
+        responseClass: thisProto.ChartParameters
+      });
+    },
+    /**
+     * Unary call: /goautowp.Attrs/GetChartData
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.ChartData>>
+     */
+    getChartData: (
+      requestData: thisProto.ChartDataRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.ChartData>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Attrs/GetChartData',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.ChartDataRequest,
+        responseClass: thisProto.ChartData
+      });
     }
   };
 
@@ -6750,6 +6830,172 @@ export class AttrsClient {
   ): Observable<thisProto.GetSpecificationsResponse> {
     return this.$raw
       .getChildSpecifications(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetChartParameters
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ChartParameters>
+   */
+  getChartParameters(
+    requestData: googleProtobuf001.Empty,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ChartParameters> {
+    return this.$raw
+      .getChartParameters(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Attrs/GetChartData
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.ChartData>
+   */
+  getChartData(
+    requestData: thisProto.ChartDataRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.ChartData> {
+    return this.$raw
+      .getChartData(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+}
+/**
+ * Service client implementation for goautowp.Votings
+ */
+@Injectable({ providedIn: 'any' })
+export class VotingsClient {
+  private client: GrpcClient<any>;
+
+  /**
+   * Raw RPC implementation for each service client method.
+   * The raw methods provide more control on the incoming data and events. E.g. they can be useful to read status `OK` metadata.
+   * Attention: these methods do not throw errors when non-zero status codes are received.
+   */
+  $raw = {
+    /**
+     * Unary call: /goautowp.Votings/GetVoting
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.Voting>>
+     */
+    getVoting: (
+      requestData: thisProto.VotingRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.Voting>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Votings/GetVoting',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.VotingRequest,
+        responseClass: thisProto.Voting
+      });
+    },
+    /**
+     * Unary call: /goautowp.Votings/GetVotingVariantVotes
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<thisProto.VotingVariantVotes>>
+     */
+    getVotingVariantVotes: (
+      requestData: thisProto.VotingRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<thisProto.VotingVariantVotes>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Votings/GetVotingVariantVotes',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.VotingRequest,
+        responseClass: thisProto.VotingVariantVotes
+      });
+    },
+    /**
+     * Unary call: /goautowp.Votings/Vote
+     *
+     * @param requestMessage Request message
+     * @param requestMetadata Request metadata
+     * @returns Observable<GrpcEvent<googleProtobuf001.Empty>>
+     */
+    vote: (
+      requestData: thisProto.VoteRequest,
+      requestMetadata = new GrpcMetadata()
+    ): Observable<GrpcEvent<googleProtobuf001.Empty>> => {
+      return this.handler.handle({
+        type: GrpcCallType.unary,
+        client: this.client,
+        path: '/goautowp.Votings/Vote',
+        requestData,
+        requestMetadata,
+        requestClass: thisProto.VoteRequest,
+        responseClass: googleProtobuf001.Empty
+      });
+    }
+  };
+
+  constructor(
+    @Optional() @Inject(GRPC_VOTINGS_CLIENT_SETTINGS) settings: any,
+    @Inject(GRPC_CLIENT_FACTORY) clientFactory: GrpcClientFactory<any>,
+    private handler: GrpcHandler
+  ) {
+    this.client = clientFactory.createClient('goautowp.Votings', settings);
+  }
+
+  /**
+   * Unary call @/goautowp.Votings/GetVoting
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.Voting>
+   */
+  getVoting(
+    requestData: thisProto.VotingRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.Voting> {
+    return this.$raw
+      .getVoting(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Votings/GetVotingVariantVotes
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<thisProto.VotingVariantVotes>
+   */
+  getVotingVariantVotes(
+    requestData: thisProto.VotingRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<thisProto.VotingVariantVotes> {
+    return this.$raw
+      .getVotingVariantVotes(requestData, requestMetadata)
+      .pipe(throwStatusErrors(), takeMessages());
+  }
+
+  /**
+   * Unary call @/goautowp.Votings/Vote
+   *
+   * @param requestMessage Request message
+   * @param requestMetadata Request metadata
+   * @returns Observable<googleProtobuf001.Empty>
+   */
+  vote(
+    requestData: thisProto.VoteRequest,
+    requestMetadata = new GrpcMetadata()
+  ): Observable<googleProtobuf001.Empty> {
+    return this.$raw
+      .vote(requestData, requestMetadata)
       .pipe(throwStatusErrors(), takeMessages());
   }
 }

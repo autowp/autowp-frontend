@@ -12,12 +12,12 @@
 
 <div>
   <div class="nav nav-pills">
-    @for (param of parameters; track param) {
+    @for (param of parameters; track param.id; let idx = $index) {
       <a
-        [class.active]="param.active"
+        [class.active]="idx === activeParameter"
         class="nav-link"
         href="#"
-        (click)="selectParam(param)"
+        (click)="selectParam(idx)"
         [textContent]="param.name"
       ></a>
     }

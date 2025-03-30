@@ -1,9 +1,8 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {APIItem, ItemType, Picture} from '@grpc/spec.pb';
+import {APIImage, APIItem, ItemType, Picture} from '@grpc/spec.pb';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIImage} from '@services/api.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';

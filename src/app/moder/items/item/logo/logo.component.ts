@@ -1,16 +1,13 @@
 import {AsyncPipe} from '@angular/common';
-import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, inject, Input} from '@angular/core';
-import {APIItem, APIImage as GRPCAPIImage} from '@grpc/spec.pb';
+import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {APIItem} from '@grpc/spec.pb';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {APIImage, APIService} from '@services/api.service';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY} from 'rxjs';
-import {catchError, switchMap, tap} from 'rxjs/operators';
-
-import {ToastsService} from '../../../../toasts/toasts.service';
+import {catchError, switchMap} from 'rxjs/operators';
 
 @Component({
   imports: [MarkdownComponent, NgbProgressbar, AsyncPipe, InvalidParamsPipe],
@@ -19,10 +16,10 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 })
 export class ModerItemsItemLogoComponent {
   readonly #acl = inject(ACLService);
-  readonly #api = inject(APIService);
-  readonly #toastService = inject(ToastsService);
+  readonly #http = inject(HttpClient);
 
   @Input() item?: APIItem;
+  @Output() itemUpdated = new EventEmitter<void>();
 
   protected readonly canLogo$ = this.#acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
   protected progress: null | {
@@ -52,8 +49,8 @@ export class ModerItemsItemLogoComponent {
     formData.append('file', file);
 
     if (this.item) {
-      this.#api
-        .request$('POST', 'item/' + this.item.id + '/logo', {
+      this.#http
+        .request('POST', '/api/item/' + this.item.id + '/logo', {
           body: formData,
           observe: 'events',
           reportProgress: true,
@@ -88,7 +85,7 @@ export class ModerItemsItemLogoComponent {
 
             if (httpEvent.type === HttpEventType.Response) {
               if (this.progress) {
-                this.progress.percentage = 75;
+                this.progress.percentage = 100;
                 this.progress.success = true;
               }
 
@@ -96,25 +93,7 @@ export class ModerItemsItemLogoComponent {
                 return EMPTY;
               }
 
-              return this.#api.request$<APIImage>('GET', 'item/' + this.item.id + '/logo').pipe(
-                tap((subresponse) => {
-                  if (this.progress) {
-                    this.progress.percentage = 100;
-                  }
-                  if (this.item) {
-                    this.item.logo = new GRPCAPIImage({
-                      height: subresponse.height,
-                      src: subresponse.src,
-                      width: subresponse.width,
-                    });
-                  }
-                }),
-                catchError((response: unknown) => {
-                  this.#toastService.handleError(response);
-
-                  return EMPTY;
-                }),
-              );
+              this.itemUpdated.emit(void 0);
             }
 
             return EMPTY;
