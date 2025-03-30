@@ -73,7 +73,7 @@
       [picturesCount]="item.acceptedPicturesCount || 0"
       [childsCounts]="item.childsCounts ? convertChildsCounts(item.childsCounts) : undefined"
       [active]="menu.type"
-    ></app-catalogue-item-menu>
+    />
   } @else {
     <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
   }
@@ -92,7 +92,7 @@
 
 @if (items$ | async; as items) {
   @for (item of items.items; track item.id) {
-    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+    <app-catalogue-list-item [item]="item" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
@@ -132,6 +132,6 @@
 
 @if (items$ | async; as items) {
   @if (items.paginator) {
-    <app-paginator [data]="items.paginator"></app-paginator>
+    <app-paginator [data]="items.paginator" />
   }
 }

@@ -45,11 +45,11 @@
 
 @if (result$ | async; as items) {
   @for (item of items.items; track item.id) {
-    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+    <app-catalogue-list-item [item]="item" />
   }
 
   @if (items.paginator) {
-    <app-paginator [data]="items.paginator"></app-paginator>
+    <app-paginator [data]="items.paginator" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

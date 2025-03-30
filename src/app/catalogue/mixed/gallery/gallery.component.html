@@ -10,7 +10,7 @@
       [galleryPrefix]="['/', brand.catname, data.catname, 'gallery']"
       [picturePrefix]="['/', brand.catname, data.catname]"
       (pictureSelected)="pictureSelected(data, $event)"
-    ></app-gallery>
+    />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

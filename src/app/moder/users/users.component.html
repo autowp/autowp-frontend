@@ -61,7 +61,7 @@
     </tbody>
   </table>
   @if (users.paginator) {
-    <app-paginator [data]="users.paginator"></app-paginator>
+    <app-paginator [data]="users.paginator" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

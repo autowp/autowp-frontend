@@ -1,6 +1,6 @@
 @if (current$ | async; as current) {
   @if (current.description && current.description.length > 0) {
-    <app-markdown [markdown]="current.description"></app-markdown>
+    <app-markdown [markdown]="current.description" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
@@ -9,10 +9,7 @@
 @if (itemParents$ | async; as itemParents) {
   @for (itemParent of itemParents.items; track itemParent) {
     @if (itemParent.item.item) {
-      <app-categories-list-item
-        [item]="itemParent.item.item"
-        [parentRouterLink]="itemParent.parentRouterLink"
-      ></app-categories-list-item>
+      <app-categories-list-item [item]="itemParent.item.item" [parentRouterLink]="itemParent.parentRouterLink" />
     }
   }
 } @else {
@@ -20,10 +17,7 @@
 }
 
 @if (item$ | async; as item) {
-  <app-categories-list-item
-    [item]="item"
-    [parentRouterLink]="(currentRouterLinkPrefix$ | async) || []"
-  ></app-categories-list-item>
+  <app-categories-list-item [item]="item" [parentRouterLink]="(currentRouterLinkPrefix$ | async) || []" />
 }
 
 @if (pictures$ | async; as pictures) {
@@ -67,7 +61,7 @@
 
 @if (itemParents$ | async; as itemParents) {
   @if (itemParents.paginator) {
-    <app-paginator [data]="itemParents.paginator"></app-paginator>
+    <app-paginator [data]="itemParents.paginator" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

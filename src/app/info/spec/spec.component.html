@@ -11,5 +11,5 @@
 </div>
 
 @for (row of specs$ | async; track row) {
-  <app-info-spec-row [row]="row" [deep]="0"></app-info-spec-row>
+  <app-info-spec-row [row]="row" [deep]="0" />
 }

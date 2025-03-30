@@ -6,6 +6,6 @@
     <div class="col-sm-8" [textContent]="row.name"></div>
   </div>
   @for (row of row.childs; track row) {
-    <app-info-spec-row [row]="row" [deep]="deep + 1"></app-info-spec-row>
+    <app-info-spec-row [row]="row" [deep]="deep + 1" />
   }
 }

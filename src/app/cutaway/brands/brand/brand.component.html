@@ -38,7 +38,7 @@
     }
   </div>
   @if (response.paginator) {
-    <app-paginator [data]="response.paginator"></app-paginator>
+    <app-paginator [data]="response.paginator" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

@@ -33,9 +33,9 @@
 
 @if (items$ | async; as data) {
   @for (item of data.items; track item.id) {
-    <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+    <app-catalogue-list-item [item]="item" />
   }
   @if (data.paginator) {
-    <app-paginator [data]="data.paginator"></app-paginator>
+    <app-paginator [data]="data.paginator" />
   }
 }

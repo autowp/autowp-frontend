@@ -189,19 +189,19 @@
 
 @if (item) {
   @if (metaTab.visible && activeTab === 'meta') {
-    <app-moder-items-item-meta [item]="item"></app-moder-items-item-meta>
+    <app-moder-items-item-meta [item]="item" />
   }
   @if (nameTab.visible && activeTab === 'name') {
-    <app-moder-items-item-name [item]="item"></app-moder-items-item-name>
+    <app-moder-items-item-name [item]="item" />
   }
   @if (logoTab.visible && activeTab === 'logo') {
-    <app-moder-items-item-logo [item]="item" (itemUpdated)="reloadItem$.next()"></app-moder-items-item-logo>
+    <app-moder-items-item-logo [item]="item" (itemUpdated)="reloadItem$.next()" />
   }
   @if (catalogueTab.visible && activeTab === 'catalogue') {
-    <app-moder-items-item-catalogue [item]="item"></app-moder-items-item-catalogue>
+    <app-moder-items-item-catalogue [item]="item" />
   }
   @if (vehiclesTab.visible && activeTab === 'vehicles') {
-    <app-moder-items-item-vehicles [itemId]="'' + item.id"></app-moder-items-item-vehicles>
+    <app-moder-items-item-vehicles [itemId]="item.id" />
   }
 }
 @if (treeTab.visible && activeTab === 'tree' && tree) {
@@ -211,9 +211,9 @@
 }
 @if (item) {
   @if (picturesTab.visible && activeTab === 'pictures') {
-    <app-moder-items-item-pictures [item]="item"></app-moder-items-item-pictures>
+    <app-moder-items-item-pictures [item]="item" />
   }
   @if (linksTab.visible && activeTab === 'links') {
-    <app-moder-items-item-links [item]="item"></app-moder-items-item-links>
+    <app-moder-items-item-links [item]="item" />
   }
 }

@@ -68,7 +68,7 @@
     [picturesCount]="item.acceptedPicturesCount || 0"
     [childsCounts]="convertChildsCounts(item.childsCounts || [])"
     [active]="'pictures'"
-  ></app-catalogue-item-menu>
+  />
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 }
@@ -86,7 +86,7 @@
     }
   }
   @if (pictures.paginator) {
-    <app-paginator [data]="pictures.paginator"></app-paginator>
+    <app-paginator [data]="pictures.paginator" />
   }
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

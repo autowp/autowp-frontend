@@ -1,7 +1,7 @@
 @if (groupId$ | async; as groupId) {
   @if (childs$ | async; as childs) {
     @for (item of childs.items; track item.id) {
-      <app-twins-item [groupId]="groupId" [item]="item"></app-twins-item>
+      <app-twins-item [groupId]="groupId" [item]="item" />
     }
   }
 
@@ -15,5 +15,5 @@
       </div>
     }
   }
-  <app-comments [itemID]="groupId" [typeID]="CommentsType.ITEM_TYPE_ID"></app-comments>
+  <app-comments [itemID]="groupId" [typeID]="CommentsType.ITEM_TYPE_ID" />
 }

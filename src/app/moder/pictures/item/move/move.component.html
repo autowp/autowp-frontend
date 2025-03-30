@@ -143,7 +143,7 @@
         }
       </div>
       @if (museums.paginator) {
-        <app-paginator [data]="museums.paginator"></app-paginator>
+        <app-paginator [data]="museums.paginator" />
       }
     } @else {
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
@@ -161,7 +161,7 @@
         }
       </div>
       @if (factories.paginator) {
-        <app-paginator [data]="factories.paginator"></app-paginator>
+        <app-paginator [data]="factories.paginator" />
       }
     } @else {
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
@@ -235,7 +235,7 @@
         }
       </div>
       @if (copyrights.paginator) {
-        <app-paginator [data]="copyrights.paginator"></app-paginator>
+        <app-paginator [data]="copyrights.paginator" />
       }
     } @else {
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

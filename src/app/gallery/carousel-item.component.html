@@ -21,7 +21,7 @@
   }
   @if (_item) {
     @for (area of areas; track area) {
-      <app-gallery-carousel-item-area [area]="area.pictureItem" [styles]="area.styles"></app-gallery-carousel-item-area>
+      <app-gallery-carousel-item-area [area]="area.pictureItem" [styles]="area.styles" />
     }
 
     <div class="carousel-caption">

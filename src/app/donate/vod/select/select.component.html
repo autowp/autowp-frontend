@@ -56,12 +56,12 @@
   <div class="row">
     @for (chunk of brands; track chunk) {
       <div class="col-md-2">
-        @for (brand of chunk; track brand.id) {
+        @for (chunkBrand of chunk; track chunkBrand.id) {
           <a
             routerLink="."
-            [queryParams]="{brand_id: brand.id}"
+            [queryParams]="{brand_id: chunkBrand.id}"
             queryParamsHandling="merge"
-            [textContent]="brand.nameOnly"
+            [textContent]="chunkBrand.nameOnly"
           ></a>
           <br />
         }
@@ -71,5 +71,5 @@
 }
 
 @if (paginator) {
-  <app-paginator [data]="paginator"></app-paginator>
+  <app-paginator [data]="paginator" />
 }

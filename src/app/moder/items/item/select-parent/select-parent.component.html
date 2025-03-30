@@ -84,27 +84,16 @@
           [itemID]="itemID"
           [itemTypeID]="item.itemTypeId"
           (selected)="select(itemID, $event)"
-        ></app-moder-items-item-select-parent-catalogue>
+        />
       }
     } @else if (tab === 'brands') {
-      <app-moder-items-item-select-parent-brands
-        (selected)="select(itemID, $event)"
-      ></app-moder-items-item-select-parent-brands>
+      <app-moder-items-item-select-parent-brands (selected)="select(itemID, $event)" />
     } @else if (tab === 'categories') {
-      <app-moder-items-item-select-parent-categories
-        [itemID]="itemID"
-        (selected)="select(itemID, $event)"
-      ></app-moder-items-item-select-parent-categories>
+      <app-moder-items-item-select-parent-categories [itemID]="itemID" (selected)="select(itemID, $event)" />
     } @else if (tab === 'twins') {
-      <app-moder-items-item-select-parent-twins
-        [itemID]="itemID"
-        (selected)="select(itemID, $event)"
-      ></app-moder-items-item-select-parent-twins>
+      <app-moder-items-item-select-parent-twins [itemID]="itemID" (selected)="select(itemID, $event)" />
     } @else if (tab === 'factories') {
-      <app-moder-items-item-select-parent-factories
-        [itemID]="itemID"
-        (selected)="select(itemID, $event)"
-      ></app-moder-items-item-select-parent-factories>
+      <app-moder-items-item-select-parent-factories [itemID]="itemID" (selected)="select(itemID, $event)" />
     }
   }
 }
