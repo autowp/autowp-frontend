@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnDestroy, OnInit, viewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {environment} from '@environment/environment';
 import {APIImage, APIMeRequest, APIUser, DeleteUserPhotoRequest, UpdateUserRequest, UserFields} from '@grpc/spec.pb';
@@ -48,7 +48,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   protected photo: APIImage | undefined = undefined;
   #sub?: Subscription;
 
-  @ViewChild('input') input?: ElementRef;
+  private readonly input = viewChild<ElementRef<HTMLInputElement>>('input');
 
   protected readonly changeProfileUrl =
     environment.keycloak.url.replace(/\/$/g, '') + '/realms/' + environment.keycloak.realm + '/account/#/personal-info';
@@ -158,21 +158,22 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
 
   protected onChange(event: Event) {
     const files = [].slice.call((event.target as HTMLInputElement).files);
-    if (files.length <= 0) {
+    if (files.length <= 0 || !this.user) {
       return;
     }
 
     const file = files[0];
 
     const formData: FormData = new FormData();
-    formData.append('file', file);
+    formData.append('photo', file);
 
     return this.#http
-      .request('POST', '/api/user/me/photo', {body: formData})
+      .request('POST', '/api/user/' + this.user.id + '/photo', {body: formData})
       .pipe(
         catchError((response: unknown) => {
-          if (this.input) {
-            this.input.nativeElement.value = '';
+          const input = this.input();
+          if (input) {
+            input.nativeElement.value = '';
           }
           if (response instanceof HttpErrorResponse && response.status === 400) {
             this.photoInvalidParams = response.error.invalid_params;
@@ -183,8 +184,9 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
           return EMPTY;
         }),
         tap(() => {
-          if (this.input) {
-            this.input.nativeElement.value = '';
+          const input = this.input();
+          if (input) {
+            input.nativeElement.value = '';
           }
         }),
         switchMap(() => this.#usersClient.me(new APIMeRequest({fields: new UserFields({img: true})}))),
