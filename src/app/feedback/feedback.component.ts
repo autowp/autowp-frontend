@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {APICreateFeedbackRequest} from '@grpc/spec.pb';
 import {AutowpClient} from '@grpc/spec.pbsc';
@@ -26,7 +26,7 @@ export class FeedbackComponent implements OnInit {
   readonly #reCaptchaService = inject(ReCaptchaService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
-  readonly #fb = inject(FormBuilder);
+  readonly #fb = inject(NonNullableFormBuilder);
 
   protected recaptchaKey?: string;
   protected invalidParams?: InvalidParams;
@@ -56,10 +56,10 @@ export class FeedbackComponent implements OnInit {
     this.#grpc
       .createFeedback(
         new APICreateFeedbackRequest({
-          captcha: formValue.captcha ?? undefined,
-          email: formValue.email ?? undefined,
-          message: formValue.message ?? undefined,
-          name: formValue.name ?? undefined,
+          captcha: formValue.captcha,
+          email: formValue.email,
+          message: formValue.message,
+          name: formValue.name,
         }),
       )
       .subscribe({
