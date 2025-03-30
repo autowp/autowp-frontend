@@ -4,6 +4,7 @@ import {AttrAttributeType, ChartDataRequest, ChartParameter} from '@grpc/spec.pb
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {PageEnvService} from '@services/page-env.service';
+import {getAttrsTranslation} from '@utils/translations';
 import {ChartOptions} from 'chart.js';
 import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {ObjectTyped} from 'object-typed';
@@ -71,6 +72,7 @@ export class ChartComponent implements OnInit {
       error: (response: unknown) => this.#toastService.handleError(response),
       next: (response) => {
         this.parameters = response.parameters || [];
+        this.parameters.forEach((parameter) => (parameter.name = getAttrsTranslation(parameter.name)));
         this.selectParam(0);
       },
     });
