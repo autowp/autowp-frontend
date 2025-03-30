@@ -127,14 +127,17 @@ $control-width: 7.5%;
   }
 
   &.download {
+    /* stylelint-disable-next-line declaration-property-value-no-unknown */
     left: 50% - $control-width * 1.5;
   }
 
   &.details {
+    /* stylelint-disable-next-line declaration-property-value-no-unknown */
     left: 50% - $control-width * 0.5;
   }
 
   &.comments {
+    /* stylelint-disable-next-line declaration-property-value-no-unknown */
     left: 50% + $control-width * 0.5;
   }
 }
