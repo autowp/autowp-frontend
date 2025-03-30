@@ -88,7 +88,7 @@ class Gallery {
     ) {
       options.pictureItem = new PictureItemListOptions({
         excludePerspectiveId: this.filter.perspectiveExclude,
-        itemId: this.filter.itemID,
+        itemId: this.filter.exactItemID,
         itemParentCacheAncestor: this.filter.itemID
           ? new ItemParentCacheListOptions({
               parentId: this.filter.itemID,
