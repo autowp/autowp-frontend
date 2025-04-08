@@ -82,7 +82,7 @@ export class AuthService {
 
   public hasRole$(role: Role): Observable<boolean> {
     return this.#token$.pipe(
-      map((token) => (token?.resource_access?.['autowp'].roles || []).includes(role)),
+      map((token) => (token?.resource_access?.['autowp']?.roles || []).includes(role)),
       distinctUntilChanged(),
       shareReplay({bufferSize: 1, refCount: false}),
     );
