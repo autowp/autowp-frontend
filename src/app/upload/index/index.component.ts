@@ -85,7 +85,7 @@ export class UploadIndexComponent implements OnInit {
   protected progress: UploadProgress[] = [];
   protected pictures: APIPictureUpload[] = [];
   protected formHidden = false;
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly authenticated$ = this.auth.authenticated$;
 
   @ViewChild('input') public input: ElementRef | null = null;
 

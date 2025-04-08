@@ -14,7 +14,7 @@ import {
 } from '@grpc/spec.pb';
 import {AttrsClient, ItemsClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTooltip, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
@@ -44,7 +44,7 @@ interface AttrUserValueListItem {
 export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
   readonly #usersClient = inject(UsersClient);
@@ -58,7 +58,7 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
 
   #querySub?: Subscription;
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   protected readonly userID$: Observable<string> = this.#route.queryParamMap.pipe(
     map((params) => params.get('user_id') ?? ''),

@@ -5,8 +5,7 @@ import {Empty} from '@ngx-grpc/well-known-types';
 import {Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 
-import {ACLService, Privilege, Resource} from './acl.service';
-import {AuthService} from './auth.service';
+import {AuthService, Role} from './auth.service';
 
 export const perspectiveIDLogotype = 22,
   perspectiveIDMixed = 25;
@@ -16,12 +15,11 @@ export const perspectiveIDLogotype = 22,
 })
 export class PictureService {
   readonly #auth = inject(AuthService);
-  readonly #acl = inject(ACLService);
   readonly #picturesClient = inject(PicturesClient);
 
-  public readonly summary$: Observable<null | PicturesUserSummary> = this.#auth.getUser$().pipe(
-    switchMap((user) => {
-      if (!user) {
+  public readonly summary$: Observable<null | PicturesUserSummary> = this.#auth.authenticated$.pipe(
+    switchMap((authenticated) => {
+      if (!authenticated) {
         return of(null);
       }
       return this.#picturesClient.getUserSummary(new Empty());
@@ -29,26 +27,24 @@ export class PictureService {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  public readonly inboxSize$: Observable<null | number> = this.#acl
-    .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
-    .pipe(
-      switchMap((isModer) => {
-        if (!isModer) {
-          return of(null);
-        }
+  public readonly inboxSize$: Observable<null | number> = this.#auth.hasRole$(Role.MODER).pipe(
+    switchMap((isModer) => {
+      if (!isModer) {
+        return of(null);
+      }
 
-        return this.#picturesClient
-          .getPicturesPaginator(
-            new PicturesRequest({
-              limit: 0,
-              options: new PictureListOptions({
-                status: PictureStatus.PICTURE_STATUS_INBOX,
-              }),
-              paginator: true,
+      return this.#picturesClient
+        .getPicturesPaginator(
+          new PicturesRequest({
+            limit: 0,
+            options: new PictureListOptions({
+              status: PictureStatus.PICTURE_STATUS_INBOX,
             }),
-          )
-          .pipe(map((paginator) => paginator.totalItemCount || null));
-      }),
-      shareReplay({bufferSize: 1, refCount: false}),
-    );
+            paginator: true,
+          }),
+        )
+        .pipe(map((paginator) => paginator.totalItemCount || null));
+    }),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
 }

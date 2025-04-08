@@ -63,8 +63,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 129}), 0);
 
-    this.#sub = this.#auth
-      .getUser$()
+    this.#sub = this.#auth.user$
       .pipe(
         switchMap((user) => {
           if (!user) {

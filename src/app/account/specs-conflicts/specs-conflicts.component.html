@@ -3,7 +3,7 @@
 </div>
 
 @if (user$ | async; as user) {
-  @if (user.specsWeight !== null) {
+  @if (user.specsWeight !== 0) {
     <p class="float-end"><ng-container i18n>Weight</ng-container>: {{ user.specsWeight.toFixed(2) }}</p>
   }
 } @else {

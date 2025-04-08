@@ -26,11 +26,14 @@ export class MessageService {
   readonly #sent$ = new BehaviorSubject<void>(void 0);
   readonly #seen$ = new BehaviorSubject<void>(void 0);
 
-  readonly #new$: Observable<null | number> = combineLatest([this.#auth.getUser$(), this.#deleted$, this.#seen$]).pipe(
-    map((data) => data[0]),
+  readonly #new$: Observable<null | number> = combineLatest([
+    this.#auth.authenticated$,
+    this.#deleted$,
+    this.#seen$,
+  ]).pipe(
     debounceTime(10),
-    switchMap((user) => {
-      if (!user) {
+    switchMap(([authenticated]) => {
+      if (!authenticated) {
         return of(null);
       }
 
@@ -47,12 +50,12 @@ export class MessageService {
     this.#deleted$,
     this.#sent$,
     this.#seen$,
-    this.#auth.getUser$(),
+    this.#auth.authenticated$,
   ]).pipe(
-    map(([, , , user]) => user),
+    map(([, , , authenticated]) => authenticated),
     debounceTime(10),
-    switchMap((user) => {
-      if (!user) {
+    switchMap((authenticated) => {
+      if (!authenticated) {
         return of(null);
       }
 

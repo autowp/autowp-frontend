@@ -3,7 +3,7 @@ import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {APIItem, ItemFields, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {LayoutParams, PageEnvService} from '@services/page-env.service';
 import {EMPTY, Observable, of} from 'rxjs';
@@ -19,13 +19,13 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class PersonsPersonComponent {
   readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   readonly #itemID$: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),

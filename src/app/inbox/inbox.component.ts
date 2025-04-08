@@ -49,9 +49,9 @@ export class InboxComponent implements OnInit {
   readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
 
-  protected readonly inbox$: Observable<InboxData> = this.#auth.getUser$().pipe(
-    switchMap((user) => {
-      if (!user) {
+  protected readonly inbox$: Observable<InboxData> = this.#auth.authenticated$.pipe(
+    switchMap((authenticated) => {
+      if (!authenticated) {
         this.#keycloak.login({
           locale: this.#languageService.language,
           redirectUri: window.location.href,

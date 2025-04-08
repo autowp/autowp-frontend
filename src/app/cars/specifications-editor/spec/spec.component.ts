@@ -104,8 +104,6 @@ export class CarsSpecificationsEditorSpecComponent {
   protected loading = 0;
   readonly #change$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly user$ = this.#auth.getUser$();
-
   // fields: 'options,childs.options',
   protected readonly attributes$: Observable<APIAttrAttributeInSpecEditor[]> = this.item$.pipe(
     distinctUntilChanged(),
@@ -126,7 +124,7 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly currentUserValues$: Observable<{[p: string]: AttrUserValue}> = combineLatest([
     this.item$,
-    this.user$,
+    this.#auth.user$,
     this.attributes$,
     this.#change$,
   ]).pipe(

@@ -9,7 +9,6 @@ import {environment} from '@environment/environment';
 import {NgbCollapseModule, NgbDropdownModule, NgbModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {GRPC_INTERCEPTORS, GrpcCoreModule} from '@ngx-grpc/core';
 import {GrpcWebClientModule} from '@ngx-grpc/grpc-web-client';
-import {ACLService, APIACL} from '@services/acl.service';
 import {authInterceptor$, GrpcAuthInterceptor, GrpcLogInterceptor} from '@services/api.service';
 import {AuthService} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
@@ -71,9 +70,7 @@ export const appConfig: ApplicationConfig = {
     }),
     AutoRefreshTokenService,
     UserActivityService,
-    APIACL,
     AuthService,
-    ACLService,
     PictureService,
     ItemService,
     ReCaptchaService,

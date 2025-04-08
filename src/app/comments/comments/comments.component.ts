@@ -55,25 +55,25 @@ export class CommentsComponent {
   }
   protected readonly page$ = new BehaviorSubject<null | number>(null);
 
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly authenticated$ = this.auth.authenticated$;
 
   protected readonly data$: Observable<{messages: APICommentsMessage[]; paginator?: Pages}> = combineLatest([
-    this.user$,
+    this.authenticated$,
     this.itemID$.pipe(debounceTime(10), distinctUntilChanged()),
     this.typeID$.pipe(debounceTime(10), distinctUntilChanged()),
     this.limit$.pipe(debounceTime(10), distinctUntilChanged()),
     this.page$.pipe(debounceTime(10), distinctUntilChanged()),
     this.#reload$,
   ]).pipe(
-    switchMap(([user, itemID, typeID, limit, page]) =>
+    switchMap(([authenticated, itemID, typeID, limit, page]) =>
       typeID && itemID
         ? this.load$(itemID, typeID, limit, page).pipe(
             tap(() => {
-              if (user) {
+              if (authenticated) {
                 this.#commentsGrpc
                   .view(
                     new CommentsViewRequest({
-                      itemId: '' + itemID,
+                      itemId: itemID,
                       typeId: typeID ? typeID : undefined,
                     }),
                   )

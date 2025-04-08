@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIImage, APIItem, ItemType, Picture} from '@grpc/spec.pb';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
@@ -20,7 +20,7 @@ interface PictureThumbRoute {
   templateUrl: './list-item.component.html',
 })
 export class CategoriesListItemComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
 
   @Input() set item(item: APIItem) {
     this.item$.next(item);
@@ -32,7 +32,7 @@ export class CategoriesListItemComponent {
   }
   protected readonly parentRouterLink$ = new BehaviorSubject<null | string[]>(null);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
   protected readonly havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));
   protected readonly canHavePhoto$ = this.item$.pipe(
     map((item) =>

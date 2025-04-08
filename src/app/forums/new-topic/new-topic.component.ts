@@ -10,7 +10,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {getForumsThemeTranslation} from '@utils/translations';
-import {EMPTY} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
@@ -49,7 +49,7 @@ export class ForumsNewTopicComponent implements OnInit {
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly authenticated$: Observable<boolean> = this.auth.authenticated$;
 
   ngOnInit(): void {
     setTimeout(() => {

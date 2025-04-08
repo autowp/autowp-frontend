@@ -21,7 +21,7 @@ import {
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -53,7 +53,7 @@ interface PictureRoute {
 export class CatalogueIndexComponent {
   readonly #pageEnv = inject(PageEnvService);
   readonly #route = inject(ActivatedRoute);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #router = inject(Router);
   readonly #catalogue = inject(CatalogueService);
   readonly #itemsClient = inject(ItemsClient);
@@ -63,9 +63,7 @@ export class CatalogueIndexComponent {
 
   protected readonly ItemType = ItemType;
 
-  protected readonly isModer$ = this.#acl
-    .isAllowed$(Resource.GLOBAL, Privilege.MODERATE)
-    .pipe(shareReplay({bufferSize: 1, refCount: false}));
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER).pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly brand$: Observable<APIItem> = combineLatest([
     this.isModer$,

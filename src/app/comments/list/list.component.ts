@@ -13,8 +13,7 @@ import {
 } from '@grpc/spec.pb';
 import {CommentsClient} from '@grpc/spec.pbsc';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {AuthService} from '@services/auth.service';
+import {AuthService, Role} from '@services/auth.service';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {UserTextComponent} from '@utils/user-text/user-text.component';
@@ -46,7 +45,6 @@ export interface APICommentInList extends APICommentsMessage {
   templateUrl: './list.component.html',
 })
 export class CommentsListComponent {
-  readonly #acl = inject(ACLService);
   protected readonly auth = inject(AuthService);
   readonly #modalService = inject(NgbModal);
   readonly #toastService = inject(ToastsService);
@@ -66,7 +64,7 @@ export class CommentsListComponent {
   @Input() set messages(messages: APICommentInList[]) {
     this.messages$.next(
       messages.map((message) => ({
-        canVote$: this.user$.pipe(map((user) => !!(user && user.id !== message.authorId))),
+        canVote$: this.auth.user$.pipe(map((user) => !!(user && user.id !== message.authorId))),
         message,
         user$: this.#userService.getUser$(message.authorId),
       })),
@@ -87,10 +85,10 @@ export class CommentsListComponent {
 
   @Output() sent = new EventEmitter<string>();
 
-  protected readonly canRemoveComments$ = this.#acl.isAllowed$(Resource.COMMENT, Privilege.REMOVE);
-  protected readonly canMoveMessage$ = this.#acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly canRemoveComments$ = this.auth.hasRole$(Role.COMMENTS_MODER);
+  protected readonly canMoveMessage$ = this.auth.hasRole$(Role.FORUMS_MODER);
+  protected readonly isModer$ = this.auth.hasRole$(Role.MODER);
+  protected readonly authenticated$ = this.auth.authenticated$;
 
   protected readonly ModeratorAttention = ModeratorAttention;
 

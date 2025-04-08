@@ -4,7 +4,7 @@ import {ActivatedRoute, Params, RouterLink, RouterLinkActive, RouterOutlet} from
 import {APIItem, ItemFields, ItemListOptions, ItemParentListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
@@ -29,13 +29,13 @@ export interface CategoryPathItem {
 export class CategoriesCategoryComponent {
   readonly #pageEnv = inject(PageEnvService);
   readonly #route = inject(ActivatedRoute);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #categoriesService = inject(CategoriesService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  protected readonly canAddCar$ = this.#acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
+  protected readonly canAddCar$ = this.#auth.hasRole$(Role.CARS_MODER);
 
   readonly #categoryData$ = this.#categoriesService.categoryPipe$(this.#route).pipe(
     tap(({current}) => {

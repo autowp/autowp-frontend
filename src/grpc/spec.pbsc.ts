@@ -64,27 +64,6 @@ export class AutowpClient {
    */
   $raw = {
     /**
-     * Unary call: /goautowp.Autowp/AclEnforce
-     *
-     * @param requestMessage Request message
-     * @param requestMetadata Request metadata
-     * @returns Observable<GrpcEvent<thisProto.AclEnforceResult>>
-     */
-    aclEnforce: (
-      requestData: thisProto.AclEnforceRequest,
-      requestMetadata = new GrpcMetadata()
-    ): Observable<GrpcEvent<thisProto.AclEnforceResult>> => {
-      return this.handler.handle({
-        type: GrpcCallType.unary,
-        client: this.client,
-        path: '/goautowp.Autowp/AclEnforce',
-        requestData,
-        requestMetadata,
-        requestClass: thisProto.AclEnforceRequest,
-        responseClass: thisProto.AclEnforceResult
-      });
-    },
-    /**
      * Unary call: /goautowp.Autowp/CreateFeedback
      *
      * @param requestMessage Request message
@@ -302,22 +281,6 @@ export class AutowpClient {
     private handler: GrpcHandler
   ) {
     this.client = clientFactory.createClient('goautowp.Autowp', settings);
-  }
-
-  /**
-   * Unary call @/goautowp.Autowp/AclEnforce
-   *
-   * @param requestMessage Request message
-   * @param requestMetadata Request metadata
-   * @returns Observable<thisProto.AclEnforceResult>
-   */
-  aclEnforce(
-    requestData: thisProto.AclEnforceRequest,
-    requestMetadata = new GrpcMetadata()
-  ): Observable<thisProto.AclEnforceResult> {
-    return this.$raw
-      .aclEnforce(requestData, requestMetadata)
-      .pipe(throwStatusErrors(), takeMessages());
   }
 
   /**

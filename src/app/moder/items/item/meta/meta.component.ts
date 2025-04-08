@@ -5,7 +5,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {FieldMask} from '@ngx-grpc/well-known-types';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {ItemService} from '@services/item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
@@ -25,7 +25,7 @@ import {
   templateUrl: './meta.component.html',
 })
 export class ModerItemsItemMetaComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #itemService = inject(ItemService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #toastService = inject(ToastsService);
@@ -37,7 +37,7 @@ export class ModerItemsItemMetaComponent {
 
   protected loadingNumber = 0;
 
-  protected readonly canEditMeta$ = this.#acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
+  protected readonly canEditMeta$ = this.#auth.hasRole$(Role.CARS_MODER);
   protected invalidParams?: InvalidParams;
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(

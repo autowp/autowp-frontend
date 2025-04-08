@@ -23,7 +23,7 @@ import {
   NgbTypeahead,
   NgbTypeaheadSelectItemEvent,
 } from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
@@ -34,7 +34,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'r
   templateUrl: './catalogue.component.html',
 })
 export class ModerItemsItemCatalogueComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
@@ -51,8 +51,8 @@ export class ModerItemsItemCatalogueComponent {
 
   protected itemQuery = '';
 
-  protected readonly canMove$ = this.#acl
-    .isAllowed$(Resource.CAR, Privilege.MOVE)
+  protected readonly canMove$ = this.#auth
+    .hasRole$(Role.CARS_MODER)
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
 
   protected readonly organizeTypeId$ = this.item$.pipe(

@@ -81,7 +81,7 @@ export class AccountSpecsConflictsComponent implements OnInit {
     map((filter) => mapFilter(filter)),
   );
 
-  protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
+  protected readonly user$: Observable<APIUser | null> = this.auth.user$;
 
   readonly #itemsCache = new Map<string, Observable<APIItem>>();
 

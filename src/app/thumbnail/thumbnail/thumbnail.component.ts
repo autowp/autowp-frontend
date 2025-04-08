@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {APIUser, Picture, PictureItem, PictureStatus, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {UserService} from '@services/user';
 import {getPerspectiveTranslation} from '@utils/translations';
 import {APIPerspectiveService} from 'app/api/perspective/perspective.service';
@@ -26,7 +26,7 @@ interface ThumbnailAPIPicture extends Picture {
 })
 export class ThumbnailComponent {
   readonly #perspectiveService = inject(APIPerspectiveService);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #userService = inject(UserService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
@@ -48,7 +48,7 @@ export class ThumbnailComponent {
       })),
     ),
   );
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
     switchMap((picture) => this.#userService.getUser$(picture?.ownerId)),

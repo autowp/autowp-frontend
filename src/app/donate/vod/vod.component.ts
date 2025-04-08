@@ -30,16 +30,16 @@ export class DonateVodComponent implements OnInit {
   readonly #languageService = inject(LanguageService);
   readonly #itemsClient = inject(ItemsClient);
 
-  readonly #user$ = this.auth.getUser$();
+  readonly #user$ = this.auth.user$;
 
   protected readonly anonymous$ = combineLatest([
     this.#route.queryParamMap.pipe(
       map((params) => params.get('anonymous')),
       distinctUntilChanged(),
     ),
-    this.#user$,
+    this.auth.authenticated$,
   ]).pipe(
-    map(([anonymous, user]) => (user ? !!anonymous : true)),
+    map(([anonymous, authenticated]) => (authenticated ? !!anonymous : true)),
     shareReplay({bufferSize: 1, refCount: false}),
   );
 

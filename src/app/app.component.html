@@ -77,7 +77,7 @@
           </form>
         }
         <ul class="nav navbar-nav navbar-right">
-          @if (user$ | async) {
+          @if (authenticated$ | async) {
             <li class="nav-item">
               <a class="nav-link" routerLink="/account/messages" routerLinkActive="active">
                 <i class="bi bi-chat-fill" aria-hidden="true"></i>
@@ -120,7 +120,7 @@
                 <i class="bi bi-people-fill" aria-hidden="true"></i>
                 <ng-container i18n>Who is online?</ng-container>
               </a>
-              @if (user$ | async) {
+              @if (authenticated$ | async) {
                 <a routerLink="/account/contacts" class="dropdown-item" routerLinkActive="active">
                   <i class="bi bi-people-fill" aria-hidden="true"></i>
                   <ng-container i18n>Contacts</ng-container>
@@ -134,7 +134,7 @@
                 <i class="bi bi-info" aria-hidden="true"></i>
                 <ng-container i18n>About us</ng-container>
               </a>
-              @if (user$ | async) {
+              @if (authenticated$ | async) {
                 <a href="#" (click)="signOut()" class="dropdown-item">
                   <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
                   <ng-container i18n>Sign out</ng-container>

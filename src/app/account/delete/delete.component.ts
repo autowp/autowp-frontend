@@ -36,8 +36,7 @@ export class AccountDeleteComponent implements OnInit {
   }
 
   protected submit() {
-    this.#auth
-      .getUser$()
+    this.#auth.user$
       .pipe(
         switchMap((user) =>
           user
@@ -59,7 +58,7 @@ export class AccountDeleteComponent implements OnInit {
           }
         },
         next: () => {
-          this.#auth.signOut$();
+          this.#auth.signOut$().subscribe();
           this.#router.navigate(['/account/delete/deleted']);
         },
       });

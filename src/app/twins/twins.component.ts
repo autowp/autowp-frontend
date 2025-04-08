@@ -18,7 +18,7 @@ import {
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {combineLatest, Observable, of} from 'rxjs';
@@ -42,11 +42,11 @@ interface ChunkedGroup {
 export class TwinsComponent implements OnInit {
   readonly #route = inject(ActivatedRoute);
   readonly #pageEnv = inject(PageEnvService);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly canEdit$ = this.#acl.isAllowed$(Resource.CAR, Privilege.EDIT);
+  protected readonly canEdit$ = this.#auth.hasRole$(Role.CARS_MODER);
 
   protected readonly page$ = this.#route.queryParamMap.pipe(
     map((query) => parseInt(query.get('page') ?? '', 10)),

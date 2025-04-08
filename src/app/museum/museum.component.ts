@@ -17,7 +17,7 @@ import {
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -35,7 +35,7 @@ import {ToastsService} from '../toasts/toasts.service';
   templateUrl: './museum.component.html',
 })
 export class MuseumComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #itemsClient = inject(ItemsClient);
@@ -44,7 +44,7 @@ export class MuseumComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly museumModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly museumModer$ = this.#auth.hasRole$(Role.CARS_MODER);
 
   readonly #itemID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),

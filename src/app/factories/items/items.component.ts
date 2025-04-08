@@ -17,7 +17,7 @@ import {
   PreviewPicturesRequest,
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {
@@ -39,13 +39,13 @@ import {ToastsService} from '../../toasts/toasts.service';
 export class FactoryItemsComponent {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   readonly #page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),

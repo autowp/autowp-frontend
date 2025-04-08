@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIItem, ItemType} from '@grpc/spec.pb';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 
@@ -13,14 +13,14 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './item.component.html',
 })
 export class ItemComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
 
   @Input() item?: APIItem;
   @Input() disableTitle: boolean = false;
   @Input() disableDescription: boolean = false;
   @Input() disableDetailsLink: boolean = false;
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   protected havePhoto(item: APIItem) {
     if (item.previewPictures) {

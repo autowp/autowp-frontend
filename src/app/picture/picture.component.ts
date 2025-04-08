@@ -30,8 +30,7 @@ import {
 } from '@grpc/spec.pb';
 import {CommentsClient, ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {AuthService} from '@services/auth.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -73,7 +72,6 @@ import {PicturePaginatorComponent} from './paginator.component';
   templateUrl: './picture.component.html',
 })
 export class PictureComponent {
-  readonly #acl = inject(ACLService);
   readonly #auth = inject(AuthService);
   readonly #router = inject(Router);
   readonly #commentsGrpc = inject(CommentsClient);
@@ -109,13 +107,13 @@ export class PictureComponent {
     ),
   );
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
-  protected readonly canEditSpecs$ = this.#acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
+  protected readonly canEditSpecs$ = this.#auth.authenticated$;
   protected showShareDialog = false;
   protected location = location;
   protected statusLoading = false;
 
-  protected readonly user$ = this.#auth.getUser$();
+  protected readonly authenticated$ = this.#auth.authenticated$;
 
   protected savePerspective(perspectiveID: null | number, item: PictureItem) {
     this.#picturesClient

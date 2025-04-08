@@ -4,7 +4,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIImage, APIItem, APIUser, Design, ItemType, Picture} from '@grpc/spec.pb';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {Observable} from 'rxjs';
 
 import {UserComponent} from '../../user/user/user.component';
@@ -52,11 +52,11 @@ export interface CatalogueListItemPicture {
   templateUrl: './list-item.component.html',
 })
 export class CatalogueListItemComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
 
   @Input() item: CatalogueListItem | null = null;
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   protected havePhoto(item: CatalogueListItem) {
     if (item.previewPictures) {

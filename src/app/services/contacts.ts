@@ -28,6 +28,8 @@ export class ContactsService {
   }
 
   public getContacts$(): Observable<ContactItems> {
-    return this.#auth.getUser$().pipe(switchMap(() => this.#contactsClient.getContacts(new GetContactsRequest({}))));
+    return this.#auth.authenticated$.pipe(
+      switchMap(() => this.#contactsClient.getContacts(new GetContactsRequest({}))),
+    );
   }
 }

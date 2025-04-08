@@ -10176,303 +10176,6 @@ export module BrandIcons {
 }
 
 /**
- * Message implementation for goautowp.AclEnforceRequest
- */
-export class AclEnforceRequest implements GrpcMessage {
-  static id = 'goautowp.AclEnforceRequest';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new AclEnforceRequest();
-    AclEnforceRequest.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: AclEnforceRequest) {
-    _instance.resource = _instance.resource || '';
-    _instance.privilege = _instance.privilege || '';
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: AclEnforceRequest,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.resource = _reader.readString();
-          break;
-        case 2:
-          _instance.privilege = _reader.readString();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    AclEnforceRequest.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: AclEnforceRequest,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.resource) {
-      _writer.writeString(1, _instance.resource);
-    }
-    if (_instance.privilege) {
-      _writer.writeString(2, _instance.privilege);
-    }
-  }
-
-  private _resource: string;
-  private _privilege: string;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of AclEnforceRequest to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<AclEnforceRequest.AsObject>) {
-    _value = _value || {};
-    this.resource = _value.resource;
-    this.privilege = _value.privilege;
-    AclEnforceRequest.refineValues(this);
-  }
-  get resource(): string {
-    return this._resource;
-  }
-  set resource(value: string) {
-    this._resource = value;
-  }
-  get privilege(): string {
-    return this._privilege;
-  }
-  set privilege(value: string) {
-    this._privilege = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    AclEnforceRequest.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): AclEnforceRequest.AsObject {
-    return {
-      resource: this.resource,
-      privilege: this.privilege
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): AclEnforceRequest.AsProtobufJSON {
-    return {
-      resource: this.resource,
-      privilege: this.privilege
-    };
-  }
-}
-export module AclEnforceRequest {
-  /**
-   * Standard JavaScript object representation for AclEnforceRequest
-   */
-  export interface AsObject {
-    resource: string;
-    privilege: string;
-  }
-
-  /**
-   * Protobuf JSON representation for AclEnforceRequest
-   */
-  export interface AsProtobufJSON {
-    resource: string;
-    privilege: string;
-  }
-}
-
-/**
- * Message implementation for goautowp.AclEnforceResult
- */
-export class AclEnforceResult implements GrpcMessage {
-  static id = 'goautowp.AclEnforceResult';
-
-  /**
-   * Deserialize binary data to message
-   * @param instance message instance
-   */
-  static deserializeBinary(bytes: ByteSource) {
-    const instance = new AclEnforceResult();
-    AclEnforceResult.deserializeBinaryFromReader(
-      instance,
-      new BinaryReader(bytes)
-    );
-    return instance;
-  }
-
-  /**
-   * Check all the properties and set default protobuf values if necessary
-   * @param _instance message instance
-   */
-  static refineValues(_instance: AclEnforceResult) {
-    _instance.result = _instance.result || false;
-  }
-
-  /**
-   * Deserializes / reads binary message into message instance using provided binary reader
-   * @param _instance message instance
-   * @param _reader binary reader instance
-   */
-  static deserializeBinaryFromReader(
-    _instance: AclEnforceResult,
-    _reader: BinaryReader
-  ) {
-    while (_reader.nextField()) {
-      if (_reader.isEndGroup()) break;
-
-      switch (_reader.getFieldNumber()) {
-        case 1:
-          _instance.result = _reader.readBool();
-          break;
-        default:
-          _reader.skipField();
-      }
-    }
-
-    AclEnforceResult.refineValues(_instance);
-  }
-
-  /**
-   * Serializes a message to binary format using provided binary reader
-   * @param _instance message instance
-   * @param _writer binary writer instance
-   */
-  static serializeBinaryToWriter(
-    _instance: AclEnforceResult,
-    _writer: BinaryWriter
-  ) {
-    if (_instance.result) {
-      _writer.writeBool(1, _instance.result);
-    }
-  }
-
-  private _result: boolean;
-
-  /**
-   * Message constructor. Initializes the properties and applies default Protobuf values if necessary
-   * @param _value initial values object or instance of AclEnforceResult to deeply clone from
-   */
-  constructor(_value?: RecursivePartial<AclEnforceResult.AsObject>) {
-    _value = _value || {};
-    this.result = _value.result;
-    AclEnforceResult.refineValues(this);
-  }
-  get result(): boolean {
-    return this._result;
-  }
-  set result(value: boolean) {
-    this._result = value;
-  }
-
-  /**
-   * Serialize message to binary data
-   * @param instance message instance
-   */
-  serializeBinary() {
-    const writer = new BinaryWriter();
-    AclEnforceResult.serializeBinaryToWriter(this, writer);
-    return writer.getResultBuffer();
-  }
-
-  /**
-   * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
-   */
-  toObject(): AclEnforceResult.AsObject {
-    return {
-      result: this.result
-    };
-  }
-
-  /**
-   * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
-   */
-  toJSON() {
-    return this.toObject();
-  }
-
-  /**
-   * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
-   * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
-   * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
-   */
-  toProtobufJSON(
-    // @ts-ignore
-    options?: ToProtobufJSONOptions
-  ): AclEnforceResult.AsProtobufJSON {
-    return {
-      result: this.result
-    };
-  }
-}
-export module AclEnforceResult {
-  /**
-   * Standard JavaScript object representation for AclEnforceResult
-   */
-  export interface AsObject {
-    result: boolean;
-  }
-
-  /**
-   * Protobuf JSON representation for AclEnforceResult
-   */
-  export interface AsProtobufJSON {
-    result: boolean;
-  }
-}
-
-/**
  * Message implementation for goautowp.VehicleType
  */
 export class VehicleType implements GrpcMessage {
@@ -12163,7 +11866,6 @@ export class APIUser implements GrpcMessage {
     _instance.img = _instance.img || undefined;
     _instance.gravatarLarge = _instance.gravatarLarge || '';
     _instance.photo = _instance.photo || undefined;
-    _instance.isModer = _instance.isModer || false;
     _instance.regDate = _instance.regDate || undefined;
     _instance.picturesAdded = _instance.picturesAdded || 0;
     _instance.picturesAcceptedCount = _instance.picturesAcceptedCount || 0;
@@ -12256,9 +11958,6 @@ export class APIUser implements GrpcMessage {
             _instance.photo,
             APIImage.deserializeBinaryFromReader
           );
-          break;
-        case 20:
-          _instance.isModer = _reader.readBool();
           break;
         case 21:
           _instance.regDate = new googleProtobuf003.Timestamp();
@@ -12366,9 +12065,6 @@ export class APIUser implements GrpcMessage {
         APIImage.serializeBinaryToWriter
       );
     }
-    if (_instance.isModer) {
-      _writer.writeBool(20, _instance.isModer);
-    }
     if (_instance.regDate) {
       _writer.writeMessage(
         21,
@@ -12409,7 +12105,6 @@ export class APIUser implements GrpcMessage {
   private _img?: APIImage;
   private _gravatarLarge: string;
   private _photo?: APIImage;
-  private _isModer: boolean;
   private _regDate?: googleProtobuf003.Timestamp;
   private _picturesAdded: number;
   private _picturesAcceptedCount: number;
@@ -12443,7 +12138,6 @@ export class APIUser implements GrpcMessage {
     this.img = _value.img ? new APIImage(_value.img) : undefined;
     this.gravatarLarge = _value.gravatarLarge;
     this.photo = _value.photo ? new APIImage(_value.photo) : undefined;
-    this.isModer = _value.isModer;
     this.regDate = _value.regDate
       ? new googleProtobuf003.Timestamp(_value.regDate)
       : undefined;
@@ -12567,12 +12261,6 @@ export class APIUser implements GrpcMessage {
   set photo(value: APIImage | undefined) {
     this._photo = value;
   }
-  get isModer(): boolean {
-    return this._isModer;
-  }
-  set isModer(value: boolean) {
-    this._isModer = value;
-  }
   get regDate(): googleProtobuf003.Timestamp | undefined {
     return this._regDate;
   }
@@ -12638,7 +12326,6 @@ export class APIUser implements GrpcMessage {
       img: this.img ? this.img.toObject() : undefined,
       gravatarLarge: this.gravatarLarge,
       photo: this.photo ? this.photo.toObject() : undefined,
-      isModer: this.isModer,
       regDate: this.regDate ? this.regDate.toObject() : undefined,
       picturesAdded: this.picturesAdded,
       picturesAcceptedCount: this.picturesAcceptedCount,
@@ -12685,7 +12372,6 @@ export class APIUser implements GrpcMessage {
       img: this.img ? this.img.toProtobufJSON(options) : null,
       gravatarLarge: this.gravatarLarge,
       photo: this.photo ? this.photo.toProtobufJSON(options) : null,
-      isModer: this.isModer,
       regDate: this.regDate ? this.regDate.toProtobufJSON(options) : null,
       picturesAdded: this.picturesAdded,
       picturesAcceptedCount: this.picturesAcceptedCount,
@@ -12718,7 +12404,6 @@ export module APIUser {
     img?: APIImage.AsObject;
     gravatarLarge: string;
     photo?: APIImage.AsObject;
-    isModer: boolean;
     regDate?: googleProtobuf003.Timestamp.AsObject;
     picturesAdded: number;
     picturesAcceptedCount: number;
@@ -12749,7 +12434,6 @@ export module APIUser {
     img: APIImage.AsProtobufJSON | null;
     gravatarLarge: string;
     photo: APIImage.AsProtobufJSON | null;
-    isModer: boolean;
     regDate: googleProtobuf003.Timestamp.AsProtobufJSON | null;
     picturesAdded: number;
     picturesAcceptedCount: number;
@@ -19175,7 +18859,6 @@ export class UserFields implements GrpcMessage {
     _instance.img = _instance.img || false;
     _instance.gravatarLarge = _instance.gravatarLarge || false;
     _instance.photo = _instance.photo || false;
-    _instance.isModer = _instance.isModer || false;
     _instance.regDate = _instance.regDate || false;
     _instance.picturesAdded = _instance.picturesAdded || false;
     _instance.picturesAcceptedCount = _instance.picturesAcceptedCount || false;
@@ -19220,9 +18903,6 @@ export class UserFields implements GrpcMessage {
           break;
         case 9:
           _instance.photo = _reader.readBool();
-          break;
-        case 10:
-          _instance.isModer = _reader.readBool();
           break;
         case 11:
           _instance.regDate = _reader.readBool();
@@ -19280,9 +18960,6 @@ export class UserFields implements GrpcMessage {
     if (_instance.photo) {
       _writer.writeBool(9, _instance.photo);
     }
-    if (_instance.isModer) {
-      _writer.writeBool(10, _instance.isModer);
-    }
     if (_instance.regDate) {
       _writer.writeBool(11, _instance.regDate);
     }
@@ -19311,7 +18988,6 @@ export class UserFields implements GrpcMessage {
   private _img: boolean;
   private _gravatarLarge: boolean;
   private _photo: boolean;
-  private _isModer: boolean;
   private _regDate: boolean;
   private _picturesAdded: boolean;
   private _picturesAcceptedCount: boolean;
@@ -19333,7 +19009,6 @@ export class UserFields implements GrpcMessage {
     this.img = _value.img;
     this.gravatarLarge = _value.gravatarLarge;
     this.photo = _value.photo;
-    this.isModer = _value.isModer;
     this.regDate = _value.regDate;
     this.picturesAdded = _value.picturesAdded;
     this.picturesAcceptedCount = _value.picturesAcceptedCount;
@@ -19389,12 +19064,6 @@ export class UserFields implements GrpcMessage {
   }
   set photo(value: boolean) {
     this._photo = value;
-  }
-  get isModer(): boolean {
-    return this._isModer;
-  }
-  set isModer(value: boolean) {
-    this._isModer = value;
   }
   get regDate(): boolean {
     return this._regDate;
@@ -19456,7 +19125,6 @@ export class UserFields implements GrpcMessage {
       img: this.img,
       gravatarLarge: this.gravatarLarge,
       photo: this.photo,
-      isModer: this.isModer,
       regDate: this.regDate,
       picturesAdded: this.picturesAdded,
       picturesAcceptedCount: this.picturesAcceptedCount,
@@ -19491,7 +19159,6 @@ export class UserFields implements GrpcMessage {
       img: this.img,
       gravatarLarge: this.gravatarLarge,
       photo: this.photo,
-      isModer: this.isModer,
       regDate: this.regDate,
       picturesAdded: this.picturesAdded,
       picturesAcceptedCount: this.picturesAcceptedCount,
@@ -19514,7 +19181,6 @@ export module UserFields {
     img: boolean;
     gravatarLarge: boolean;
     photo: boolean;
-    isModer: boolean;
     regDate: boolean;
     picturesAdded: boolean;
     picturesAcceptedCount: boolean;
@@ -19535,7 +19201,6 @@ export module UserFields {
     img: boolean;
     gravatarLarge: boolean;
     photo: boolean;
-    isModer: boolean;
     regDate: boolean;
     picturesAdded: boolean;
     picturesAcceptedCount: boolean;

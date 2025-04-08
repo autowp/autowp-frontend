@@ -69,7 +69,7 @@
         <div class="col-6">
           @if (picture.votes; as votes) {
             <div class="picture-vote">
-              @if (user$ | async) {
+              @if (authenticated$ | async) {
                 <button type="button" class="btn btn-link position-relative p-0 me-2" (click)="vote(picture, 1)">
                   <i
                     class="bi fs-1 vote-up"
@@ -95,7 +95,7 @@
                   }
                 </button>
               }
-              @if (user$ | async) {
+              @if (authenticated$ | async) {
                 <button type="button" class="btn btn-link position-relative p-0" (click)="vote(picture, -1)">
                   <i
                     class="bi fs-1 vote-down"
@@ -125,7 +125,7 @@
           }
         </div>
         <div class="col-6 text-end">
-          @if (user$ | async) {
+          @if (authenticated$ | async) {
             @if (!picture.subscribed) {
               <button
                 type="button"
@@ -341,7 +341,7 @@
             }
           }
         }
-        @if (user$ | async) {
+        @if (authenticated$ | async) {
           @if (contentItems$ | async; as items) {
             @if (items.length > 1) {
               <li ngbDropdown>
@@ -372,7 +372,7 @@
             }
           }
         }
-        @if (user$ | async) {
+        @if (authenticated$ | async) {
           @if (pictureItems$ | async; as pictureItems) {
             @if (pictureItems.length > 0) {
               <li>

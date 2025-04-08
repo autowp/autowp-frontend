@@ -14,7 +14,7 @@ import {
   PictureStatus,
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
@@ -45,16 +45,16 @@ export class CatalogueVehiclesPicturesComponent {
   readonly #pageEnv = inject(PageEnvService);
   readonly #route = inject(ActivatedRoute);
   readonly #catalogueService = inject(CatalogueService);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #router = inject(Router);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
 
-  protected readonly canAcceptPicture$ = this.#acl.isAllowed$(Resource.PICTURE, Privilege.ACCEPT);
-  protected readonly canAddItem$ = this.#acl.isAllowed$(Resource.CAR, Privilege.ADD);
+  protected readonly canAcceptPicture$ = this.#auth.hasRole$(Role.PICTURES_MODER);
+  protected readonly canAddItem$ = this.#auth.hasRole$(Role.CARS_MODER);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   readonly #catalogue$: Observable<{brand: APIItem; path: ItemParent[]; type: string}> = this.#catalogueService
     .resolveCatalogue$(this.#route)

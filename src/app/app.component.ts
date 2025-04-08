@@ -2,7 +2,7 @@ import {AsyncPipe, NgClass} from '@angular/common';
 import {Component, inject, Renderer2} from '@angular/core';
 import {NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {environment} from '@environment/environment';
-import {APIUser, ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
+import {ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {
   NgbCollapse,
@@ -12,7 +12,6 @@ import {
   NgbModal,
   NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
-import {ACLService} from '@services/acl.service';
 import {AuthService} from '@services/auth.service';
 import {Language, LanguageService} from '@services/language';
 import {MessageService} from '@services/message';
@@ -48,8 +47,7 @@ import {UsersOnlineComponent} from './users/online/online.component';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  protected readonly auth = inject(AuthService);
-  protected readonly acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   protected readonly router = inject(Router);
   readonly #messageService = inject(MessageService);
   readonly #pageEnv = inject(PageEnvService);
@@ -61,7 +59,7 @@ export class AppComponent {
 
   protected languages: Language[] = environment.languages;
   protected readonly layoutParams$: Observable<LayoutParams> = this.#pageEnv.layoutParams$.asObservable();
-  protected readonly user$: Observable<APIUser | null> = this.auth.getUser$();
+  protected readonly authenticated$: Observable<boolean> = this.#auth.authenticated$;
   protected readonly newPersonalMessages$ = this.#messageService
     .getNew$()
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
@@ -123,7 +121,7 @@ export class AppComponent {
   }
 
   protected signOut() {
-    this.auth.signOut$().subscribe({
+    this.#auth.signOut$().subscribe({
       error: (error: unknown) => {
         console.error(error);
       },

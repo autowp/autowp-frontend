@@ -23,8 +23,7 @@ import {
 } from '@grpc/spec.pb';
 import {CommentsClient, ContactsClient, PicturesClient, TrafficClient, UsersClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
-import {AuthService} from '@services/auth.service';
+import {AuthService, Role} from '@services/auth.service';
 import {ContactsService} from '@services/contacts';
 import {IpService} from '@services/ip';
 import {LanguageService} from '@services/language';
@@ -47,7 +46,6 @@ import {UserComponent} from '../../user/user/user.component';
 export class UsersUserComponent {
   readonly #contacts = inject(ContactsService);
   readonly #messageDialogService = inject(MessageDialogService);
-  readonly #acl = inject(ACLService);
   readonly #router = inject(Router);
   readonly #userService = inject(UserService);
   readonly #route = inject(ActivatedRoute);
@@ -73,10 +71,10 @@ export class UsersUserComponent {
   ];
   protected banPeriod = 1;
   protected banReason: null | string = null;
-  protected readonly canDeleteUser$ = this.#acl.isAllowed$(Resource.USER, Privilege.DELETE);
-  protected readonly canViewIp$ = this.#acl.isAllowed$(Resource.USER, Privilege.IP);
-  protected readonly canBan$ = this.#acl.isAllowed$(Resource.USER, Privilege.BAN);
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly canDeleteUser$ = this.#auth.hasRole$(Role.ADMIN);
+  protected readonly canViewIp$ = this.#auth.hasRole$(Role.MODER);
+  protected readonly canBan$ = this.#auth.hasRole$(Role.USERS_MODER);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   protected readonly user$: Observable<APIUser> = this.#route.paramMap.pipe(
     map((params) => '' + params.get('identity')),
@@ -87,7 +85,6 @@ export class UsersUserComponent {
         identity,
         new UserFields({
           gravatarLarge: true,
-          isModer: true,
           lastIp: true,
           lastOnline: true,
           photo: true,
@@ -177,9 +174,9 @@ export class UsersUserComponent {
     }),
   );
 
-  protected readonly currentUser$ = this.#auth.getUser$();
+  protected readonly authenticated$ = this.#auth.authenticated$;
 
-  protected readonly isNotMe$ = combineLatest([this.user$, this.currentUser$]).pipe(
+  protected readonly isNotMe$ = combineLatest([this.user$, this.#auth.user$]).pipe(
     map(([user, currentUser]) => {
       return !currentUser || currentUser.id !== user.id;
     }),
@@ -189,12 +186,12 @@ export class UsersUserComponent {
 
   protected readonly inContacts$ = combineLatest([
     this.user$,
-    this.currentUser$,
+    this.#auth.authenticated$,
     this.isNotMe$,
     this.#inContactsChange$,
   ]).pipe(
-    switchMap(([user, currentUser, isNotMe]) => {
-      if (!currentUser || !isNotMe) {
+    switchMap(([user, authenticated, isNotMe]) => {
+      if (!authenticated || !isNotMe) {
         return of(false);
       }
 
@@ -211,12 +208,12 @@ export class UsersUserComponent {
 
   protected readonly disableCommentsNotifications$ = combineLatest([
     this.user$,
-    this.currentUser$,
+    this.authenticated$,
     this.isNotMe$,
     this.#userUserPreferencesChanged$,
   ]).pipe(
-    switchMap(([user, currentUser, isNotMe]) => {
-      if (!currentUser || !isNotMe) {
+    switchMap(([user, authenticated, isNotMe]) => {
+      if (!authenticated || !isNotMe) {
         return of(false);
       }
 

@@ -3,7 +3,7 @@ import {Component, inject, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {APIItem, APIItemLink, APIItemLinkRequest, ItemLinkListOptions, ItemLinksRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
   templateUrl: './links.component.html',
 })
 export class ModerItemsItemLinksComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #toastService = inject(ToastsService);
 
@@ -27,7 +27,7 @@ export class ModerItemsItemLinksComponent {
 
   protected loadingNumber = 0;
 
-  protected readonly canEditMeta$ = this.#acl.isAllowed$(Resource.CAR, Privilege.EDIT_META);
+  protected readonly canEditMeta$ = this.#auth.hasRole$(Role.CARS_MODER);
 
   protected readonly newLink = {
     name: '',

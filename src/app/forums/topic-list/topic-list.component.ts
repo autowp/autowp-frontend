@@ -12,7 +12,7 @@ import {
 } from '@grpc/spec.pb';
 import {CommentsClient, ForumsClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {UserService} from '@services/user';
 import {PastTimeIndicatorComponent} from '@utils/past-time-indicator/past-time-indicator.component';
 import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
@@ -44,7 +44,7 @@ export class ForumsTopicListComponent {
   readonly #toastService = inject(ToastsService);
   readonly #userService = inject(UserService);
   readonly #grpc = inject(ForumsClient);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
 
   @Input() set topics(value: APIForumsTopic[]) {
     this.#topics$.next(value);
@@ -55,7 +55,7 @@ export class ForumsTopicListComponent {
 
   @Output() reload = new EventEmitter<void>();
 
-  protected readonly forumAdmin$ = this.#acl.isAllowed$(Resource.FORUMS, Privilege.MODERATE);
+  protected readonly forumAdmin$ = this.#auth.hasRole$(Role.FORUMS_MODER);
 
   protected readonly list$: Observable<Topic[]> = this.#topics$.pipe(
     map((topics) =>

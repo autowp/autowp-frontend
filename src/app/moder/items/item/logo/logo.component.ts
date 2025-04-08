@@ -3,7 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {APIItem} from '@grpc/spec.pb';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {EMPTY} from 'rxjs';
@@ -15,13 +15,13 @@ import {catchError, switchMap} from 'rxjs/operators';
   templateUrl: './logo.component.html',
 })
 export class ModerItemsItemLogoComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #http = inject(HttpClient);
 
   @Input() item?: APIItem;
   @Output() itemUpdated = new EventEmitter<void>();
 
-  protected readonly canLogo$ = this.#acl.isAllowed$(Resource.BRAND, Privilege.LOGO);
+  protected readonly canLogo$ = this.#auth.hasRole$(Role.BRANDS_MODER);
   protected progress: null | {
     failed: boolean;
     filename: string;

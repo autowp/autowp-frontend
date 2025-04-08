@@ -21,7 +21,7 @@ export class APIPictureModerVoteTemplateService {
   readonly #change$ = new BehaviorSubject<void>(void 0);
 
   public getTemplates$(): Observable<ModerVoteTemplate[]> {
-    return combineLatest([this.#change$, this.#auth.getUser$()]).pipe(
+    return combineLatest([this.#change$, this.#auth.authenticated$]).pipe(
       switchMap(() => this.#pictures.getModerVoteTemplates(new Empty({}))),
       map((response) => (response.items ? response.items : [])),
       shareReplay({bufferSize: 1, refCount: false}),

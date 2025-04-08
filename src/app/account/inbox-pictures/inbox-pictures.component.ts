@@ -32,7 +32,7 @@ export class AccountInboxPicturesComponent implements OnInit {
       distinctUntilChanged(),
       debounceTime(10),
     ),
-    this.#auth.getUser$(),
+    this.#auth.user$,
   ]).pipe(
     switchMap(([page, user]) =>
       user

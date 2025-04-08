@@ -34,7 +34,7 @@ export class ForumsTopicComponent {
   readonly #grpc = inject(ForumsClient);
 
   protected readonly limit = MESSAGES_PER_PAGE;
-  protected readonly user$ = this.auth.getUser$();
+  protected readonly authenticated$ = this.auth.authenticated$;
   protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),
     distinctUntilChanged(),

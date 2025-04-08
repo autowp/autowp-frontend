@@ -37,10 +37,10 @@ export class AccountComponent {
   readonly #forumsClient = inject(ForumsClient);
 
   protected readonly items$: Observable<SidebarItem[]> = combineLatest([
-    this.#auth.getUser$(),
-    this.#auth.getUser$().pipe(
-      switchMap((user) => {
-        if (!user) {
+    this.#auth.user$,
+    this.#auth.authenticated$.pipe(
+      switchMap((authenticated) => {
+        if (!authenticated) {
           return of(null);
         }
         return this.#forumsClient.getUserSummary(new Empty());

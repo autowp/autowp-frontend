@@ -21,10 +21,9 @@
         <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
       }
 
-      @if (user$ | async) {
+      @if (authenticated$ | async) {
         <app-comments-form [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)"></app-comments-form>
-      }
-      @if ((user$ | async) === null) {
+      } @else {
         <app-markdown
           class="alert alert-block alert-info"
           i18n-markdown

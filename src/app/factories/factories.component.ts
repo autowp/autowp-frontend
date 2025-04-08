@@ -14,7 +14,7 @@ import {
   PictureStatus,
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
@@ -34,13 +34,13 @@ export class FactoryComponent {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #pageEnv = inject(PageEnvService);
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #toastService = inject(ToastsService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #itemsClient = inject(ItemsClient);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
   protected readonly item$: Observable<APIItem> = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),

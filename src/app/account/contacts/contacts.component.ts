@@ -10,7 +10,7 @@ import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import Keycloak from 'keycloak-js';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -32,16 +32,16 @@ export class AccountContactsComponent implements OnInit {
 
   readonly #reload$ = new BehaviorSubject<void>(void 0);
 
-  protected readonly items$: Observable<Contact[]> = this.#auth.getUser$().pipe(
-    map((user) => {
-      if (!user) {
+  protected readonly items$: Observable<Contact[]> = this.#auth.authenticated$.pipe(
+    switchMap((authenticated) => {
+      if (!authenticated) {
         this.#keycloak.login({
           locale: this.#languageService.language,
           redirectUri: window.location.href,
         });
         return EMPTY;
       }
-      return user;
+      return of(authenticated);
     }),
     switchMap(() => this.#reload$),
     switchMap(() => this.#contactsService.getContacts$()),

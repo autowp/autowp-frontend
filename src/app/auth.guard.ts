@@ -10,9 +10,9 @@ export const authGuard: CanActivateFn = () => {
   const keycloak = inject(Keycloak);
   const language = inject(LanguageService);
 
-  return auth.getUser$().pipe(
-    map((user) => {
-      if (!user) {
+  return auth.authenticated$.pipe(
+    map((authenticated) => {
+      if (!authenticated) {
         keycloak.login({
           locale: language.language,
           redirectUri: window.location.href,

@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIItem, Picture} from '@grpc/spec.pb';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService, Role} from '@services/auth.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 
@@ -13,9 +13,9 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
   templateUrl: './list-item.component.html',
 })
 export class NewListItemComponent {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
 
-  protected readonly isModer$ = this.#acl.isAllowed$(Resource.GLOBAL, Privilege.MODERATE);
+  protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
   @Input() item: APIItem | null = null;
   @Input() pictures: Picture[] = [];
   @Input() totalPictures: number = 0;

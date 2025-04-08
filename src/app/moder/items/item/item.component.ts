@@ -18,7 +18,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient, PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
-import {ACLService, Privilege, Resource} from '@services/acl.service';
+import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
@@ -58,7 +58,7 @@ interface Tab {
   templateUrl: './item.component.html',
 })
 export class ModerItemsItemComponent implements OnDestroy, OnInit {
-  readonly #acl = inject(ACLService);
+  readonly #auth = inject(AuthService);
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #pageEnv = inject(PageEnvService);
@@ -74,7 +74,7 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
 
   protected item: APIItem | null = null;
   protected specsAllowed = false;
-  protected readonly canEditSpecifications$ = this.#acl.isAllowed$(Resource.SPECIFICATIONS, Privilege.EDIT);
+  protected readonly canEditSpecifications$ = this.#auth.authenticated$;
 
   protected tree?: APITreeItem;
 
