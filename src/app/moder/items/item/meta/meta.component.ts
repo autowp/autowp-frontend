@@ -99,6 +99,9 @@ export class ModerItemsItemMetaComponent {
       case ItemType.ITEM_TYPE_MUSEUM:
         mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today', 'location');
         break;
+      case ItemType.ITEM_TYPE_PERSON:
+        mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today');
+        break;
       case ItemType.ITEM_TYPE_TWINS:
         mask.push('begin_year', 'end_year', 'begin_month', 'end_month', 'today', 'body');
         break;
