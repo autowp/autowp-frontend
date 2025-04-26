@@ -16,7 +16,7 @@ export class TwinsItemComponent {
   readonly #auth = inject(AuthService);
 
   @Input() item: APIItem | null = null;
-  @Input() groupId: string = '';
+  @Input() groupId = '';
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 

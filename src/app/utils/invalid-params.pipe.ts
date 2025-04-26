@@ -1,13 +1,13 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-export type InvalidParams = {[key: string]: {[key: string]: string}};
+export type InvalidParams = Record<string, Record<string, string>>;
 
 @Pipe({
   name: 'invalidParams',
   standalone: true,
 })
 export class InvalidParamsPipe implements PipeTransform {
-  transform(errors: undefined | {[key: string]: {[key: string]: string}}, field: string): string[] {
+  transform(errors: Record<string, Record<string, string>> | undefined, field: string): string[] {
     let errorsArr: string[] = [];
 
     if (errors?.[field]) {

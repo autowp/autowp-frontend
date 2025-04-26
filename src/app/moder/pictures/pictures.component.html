@@ -312,10 +312,11 @@
       </div>
 
       <div class="mb-3">
-        <label i18n>Added from (date)</label>
+        <label i18n for="added_from">Added from (date)</label>
         <input
           type="text"
           name="added_from"
+          id="added_from"
           class="form-control"
           placeholder="2010-01-28"
           (input)="onAddedFromInput()"
@@ -448,10 +449,12 @@
                 <div role="menuitem">
                   @if (template.vote < 0) {
                     <a
+                      tabindex="0"
                       class="dropdown-item"
-                      [textContent]="template.message"
                       (click)="votePictures(data.pictures, template.vote, template.message)"
-                    ></a>
+                      (keyup.enter)="votePictures(data.pictures, template.vote, template.message)"
+                      >{{ template.message }}</a
+                    >
                   }
                 </div>
               }

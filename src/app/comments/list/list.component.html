@@ -49,6 +49,7 @@
               class="vote-up d-inline-block"
               [class.active]="message.message.userVote > 0"
               (click)="vote(message.message, 1)"
+              (keyup.enter)="vote(message.message, 1)"
             >
               <i class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
             </a>
@@ -58,8 +59,9 @@
             <a
               href="#"
               class="vote-down d-inline-block"
-              [class.active]="message.message.userVote > 0"
+              [class.active]="message.message.userVote < 0"
               (click)="vote(message.message, -1)"
+              (keyup.enter)="vote(message.message, -1)"
             >
               <i class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
             </a>
@@ -67,7 +69,9 @@
         } @else if (message.message.vote !== 0) {
           <span class="vote">
             <i class="bi bi-hand-thumbs-up" aria-hidden="true"></i>
-            <span class="value" [textContent]="message.message.vote" (click)="showVotes(message.message)"></span>
+            <a href="#" class="value" (click)="showVotes(message.message)" (keyup.enter)="showVotes(message.message)">{{
+              message.message.vote
+            }}</a>
             <i class="bi bi-hand-thumbs-down" aria-hidden="true"></i>
           </span>
         }

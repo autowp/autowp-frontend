@@ -10,9 +10,7 @@ import {AttrAttributeTreeItem} from '../../../../api/attrs/attrs.service';
 })
 export class ModerAttrsZoneAttributeListComponent {
   @Input() attributes: AttrAttributeTreeItem[] = [];
-  @Input() map: {
-    [key: string]: boolean;
-  } = {};
+  @Input() map: Record<string, boolean> = {};
 
   protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);

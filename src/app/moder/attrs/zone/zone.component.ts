@@ -57,9 +57,7 @@ export class ModerAttrsZoneComponent {
       zoneID ? this.#attrsClient.getZoneAttributes(new AttrZoneAttributesRequest({zoneId: zoneID})) : EMPTY,
     ),
     map((zoneAttributes) => {
-      const zoneAttribute: {
-        [key: string]: boolean;
-      } = {};
+      const zoneAttribute: Record<string, boolean> = {};
       for (const item of zoneAttributes.items ? zoneAttributes.items : []) {
         zoneAttribute[item.attributeId] = true;
       }

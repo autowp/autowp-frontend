@@ -20,9 +20,7 @@ export class DonateComponent implements OnInit {
   protected readonly language: string = this.#languageService.language;
 
   constructor() {
-    const map: {
-      [key: string]: string;
-    } = {
+    const map: Record<string, string> = {
       account: '41001161017513',
       'button-text': '14',
       comment: 'on',

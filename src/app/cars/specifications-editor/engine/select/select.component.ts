@@ -42,7 +42,7 @@ export class CarsEngineSelectComponent {
   readonly #toastService = inject(ToastsService);
   readonly #languageService = inject(LanguageService);
 
-  protected search: string = '';
+  protected search = '';
   readonly #search$ = new BehaviorSubject<string>('');
 
   protected readonly itemID$ = this.#route.queryParamMap.pipe(

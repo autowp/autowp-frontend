@@ -22,10 +22,11 @@
   @if (theme$ | async; as theme) {
     <form method="post" class="form-horizontal" (submit)="submit(theme)">
       <div class="mb-3 row">
-        <label class="col-md-2 col-form-label" i18n>Subject</label>
+        <label class="col-md-2 col-form-label" for="name" i18n>Subject</label>
         <div class="col-md-10">
           <input
             type="text"
+            id="name"
             name="name"
             size="80"
             maxlength="100"
@@ -39,9 +40,10 @@
         </div>
       </div>
       <div class="mb-3 row">
-        <label class="col-md-2 col-form-label" i18n>Message</label>
+        <label class="col-md-2 col-form-label" for="message" i18n>Message</label>
         <div class="col-md-10">
           <textarea
+            id="message"
             name="message"
             cols="140"
             rows="15"

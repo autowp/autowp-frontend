@@ -16,9 +16,9 @@ export class ItemComponent {
   readonly #auth = inject(AuthService);
 
   @Input() item?: APIItem;
-  @Input() disableTitle: boolean = false;
-  @Input() disableDescription: boolean = false;
-  @Input() disableDetailsLink: boolean = false;
+  @Input() disableTitle = false;
+  @Input() disableDescription = false;
+  @Input() disableDetailsLink = false;
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 

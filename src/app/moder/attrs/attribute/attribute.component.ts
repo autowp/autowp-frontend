@@ -60,9 +60,9 @@ export class ModerAttrsAttributeComponent {
     map(([attribute, options]) => options.find((o) => o.id === attribute.typeId)),
   );
 
-  protected readonly typeMap$: Observable<{[id: number]: string}> = this.#attrsService.attributeTypes$.pipe(
+  protected readonly typeMap$: Observable<Record<number, string>> = this.#attrsService.attributeTypes$.pipe(
     map((types) => {
-      const typeMap: {[key: string]: string} = {};
+      const typeMap: Record<string, string> = {};
       for (const item of types) {
         typeMap[item.id] = item.name;
       }

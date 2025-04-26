@@ -4,7 +4,12 @@
       @if (gallery.useCircleIndicator) {
         <ol class="carousel-indicators">
           @for (item of gallery.items; track i; let i = $index) {
-            <li (click)="navigateToIndex(i, gallery)" [class.active]="gallery.current === i"></li>
+            <li
+              (click)="navigateToIndex(i, gallery)"
+              (keyup.enter)="navigateToIndex(i, gallery)"
+              tabindex="0"
+              [class.active]="gallery.current === i"
+            ></li>
           }
         </ol>
       } @else {

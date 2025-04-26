@@ -31,7 +31,7 @@
             <div class="mv-3">
               <form class="form-horizontal" (submit)="submit()" [hidden]="formHidden">
                 <div class="mb-3 row">
-                  <label class="col-md-2 col-form-label" i18n>Selection</label>
+                  <div class="col-md-2 col-form-label" i18n>Selection</div>
                   <div class="col-md-10">
                     <div class="form-control-plaintext">
                       <strong [innerHTML]="selection.name"></strong>
@@ -40,10 +40,11 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label class="col-md-2 col-form-label" i18n>Image file</label>
+                  <label class="col-md-2 col-form-label" for="file" i18n>Image file</label>
                   <div class="col-md-10">
                     <input
                       type="file"
+                      id="file"
                       #input
                       name="file"
                       class="form-control"

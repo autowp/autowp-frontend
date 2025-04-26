@@ -58,7 +58,7 @@ class Gallery {
   readonly #MAX_INDICATORS = 30;
   readonly #PER_PAGE = 10;
 
-  public current: number = 0;
+  public current = 0;
   public status: PictureStatus = PictureStatus.PICTURE_STATUS_UNKNOWN;
   public get useCircleIndicator(): boolean {
     return this.items.length <= this.#MAX_INDICATORS;

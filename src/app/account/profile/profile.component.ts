@@ -43,8 +43,8 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   };
   protected settingsInvalidParams: InvalidParams = {};
   protected photoInvalidParams: InvalidParams = {};
-  protected votesPerDay: number = 0;
-  protected votesLeft: number = 0;
+  protected votesPerDay = 0;
+  protected votesLeft = 0;
   protected photo: APIImage | undefined = undefined;
   #sub?: Subscription;
 

@@ -36,7 +36,7 @@
 @if (itemParent) {
   <form method="post" class="form-horizontal" (submit)="save()">
     <div class="mb-3 row">
-      <label class="col-md-2 col-form-label">Catname</label>
+      <label class="col-md-2 col-form-label" for="type_id">Catname</label>
       <div class="col-md-10">
         <input type="text" name="catname" maxlength="150" [(ngModel)]="itemParent.catname" class="form-control" />
       </div>
@@ -44,7 +44,7 @@
     <div class="mb-3 row">
       <label class="col-md-2 col-form-label" for="type">Type</label>
       <div class="col-md-10">
-        <select name="type_id" class="form-select" [(ngModel)]="itemParent.type" id="type">
+        <select name="type_id" id="type_id" class="form-select" [(ngModel)]="itemParent.type" id="type">
           @for (option of typeOptions; track option.value) {
             <option [value]="option.value">{{ option.name }}</option>
           }
@@ -53,11 +53,14 @@
     </div>
     @for (language of languages; track language.language) {
       <div class="mb-3 row">
-        <label class="col-md-2 col-form-label">{{ language.language.toUpperCase() }} Name</label>
+        <label class="col-md-2 col-form-label" [for]="'name' + language.language"
+          >{{ language.language.toUpperCase() }} Name</label
+        >
         <div class="col-md-10">
           <input
             type="text"
             [class.is-invalid]="language.invalidParams"
+            [id]="'name' + language.language"
             [name]="'name' + language.language"
             maxlength="255"
             class="form-control"

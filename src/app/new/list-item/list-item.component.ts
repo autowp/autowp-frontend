@@ -18,6 +18,6 @@ export class NewListItemComponent {
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
   @Input() item: APIItem | null = null;
   @Input() pictures: Picture[] = [];
-  @Input() totalPictures: number = 0;
-  @Input() date: string = '';
+  @Input() totalPictures = 0;
+  @Input() date = '';
 }

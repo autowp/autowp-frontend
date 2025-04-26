@@ -1,20 +1,70 @@
-import {FlatCompat} from '@eslint/eslintrc';
-import js from '@eslint/js';
+import eslint from '@eslint/js';
+import angular from 'angular-eslint';
+import depend from 'eslint-plugin-depend';
 import perfectionist from 'eslint-plugin-perfectionist';
 import {default as eslintPluginPrettierRecommended} from 'eslint-plugin-prettier/recommended';
 import sonarjs from 'eslint-plugin-sonarjs';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {defineConfig} from 'eslint/config';
+import tseslint from 'typescript-eslint';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  allConfig: js.configs.all,
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
-
-export default [
+export default defineConfig([
+  {
+    extends: [
+      // Apply the recommended core rules
+      eslint.configs.recommended,
+      // Apply the recommended TypeScript rules
+      ...tseslint.configs.recommended,
+      // Optionally apply stylistic rules from typescript-eslint that improve code consistency
+      ...tseslint.configs.stylistic,
+      // Apply the recommended Angular rules
+      ...angular.configs.tsRecommended,
+    ],
+    // Everything in this config object targets our TypeScript files (Components, Directives, Pipes etc)
+    files: ['**/*.ts'],
+    // Set the custom processor which will allow us to have our inline Component templates extracted
+    // and treated as if they are HTML files (and therefore have the .html config below applied to them)
+    processor: angular.processInlineTemplates,
+    // Override specific rules for TypeScript files (these will take priority over the extended configs above)
+    rules: {
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          prefix: 'app',
+          style: 'kebab-case',
+          type: 'element',
+        },
+      ],
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          prefix: 'app',
+          style: 'camelCase',
+          type: 'attribute',
+        },
+      ],
+    },
+  },
+  {
+    extends: [
+      // Apply the recommended Angular template rules
+      ...angular.configs.templateRecommended,
+      // Apply the Angular template rules which focus on accessibility of our apps
+      ...angular.configs.templateAccessibility,
+    ],
+    // Everything in this config object targets our HTML files (external templates,
+    // and inline templates as long as we have the `processor` set on our TypeScript config above)
+    files: ['**/*.html'],
+    rules: {
+      '@angular-eslint/template/elements-content': 'off',
+    },
+  },
+  {
+    extends: ['depend/flat/recommended'],
+    files: ['**/*.ts'],
+    plugins: {
+      depend,
+    },
+  },
   {
     ...perfectionist.configs['recommended-natural'],
     rules: {
@@ -30,18 +80,6 @@ export default [
   {
     ignores: ['src/grpc/**/*'],
   },
-  ...compat
-    .extends(
-      'eslint:recommended',
-      'plugin:@typescript-eslint/recommended',
-      'plugin:@angular-eslint/recommended',
-      'plugin:@angular-eslint/template/process-inline-templates',
-      'plugin:depend/recommended',
-    )
-    .map((config) => ({
-      ...config,
-      files: ['**/*.ts'],
-    })),
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -71,19 +109,6 @@ export default [
       ],
     },
   },
-  ...compat.extends('plugin:@angular-eslint/template/recommended').map((config) => ({
-    ...config,
-    files: ['**/*.html'],
-  })),
-  {
-    files: ['**/*.html'],
-    rules: {},
-  },
-  ...compat.extends('plugin:prettier/recommended').map((config) => ({
-    ...config,
-    files: ['**/*.html'],
-    ignores: ['**/*inline-template-*.component.html'],
-  })),
   {
     files: ['**/*.html'],
     ignores: ['**/*inline-template-*.component.html'],
@@ -96,4 +121,4 @@ export default [
       ],
     },
   },
-];
+]);

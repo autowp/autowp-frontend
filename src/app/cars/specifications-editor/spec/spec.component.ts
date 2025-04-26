@@ -122,7 +122,7 @@ export class CarsSpecificationsEditorSpecComponent {
 
   protected readonly AttrAttributeTypeId = AttrAttributeType.Id;
 
-  protected readonly currentUserValues$: Observable<{[p: string]: AttrUserValue}> = combineLatest([
+  protected readonly currentUserValues$: Observable<Record<string, AttrUserValue>> = combineLatest([
     this.item$,
     this.#auth.user$,
     this.attributes$,
@@ -143,7 +143,7 @@ export class CarsSpecificationsEditorSpecComponent {
         : EMPTY,
     ),
     map(({attributes, response}) => {
-      const currentUserValues: {[key: string]: AttrUserValue} = {};
+      const currentUserValues: Record<string, AttrUserValue> = {};
       for (const value of response.items || []) {
         currentUserValues[value.attributeId] = value;
       }

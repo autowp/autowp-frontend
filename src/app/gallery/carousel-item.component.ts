@@ -9,7 +9,7 @@ import {AreaComponent} from './area.component';
 
 interface Area {
   pictureItem: PictureItem;
-  styles: {[key: string]: number};
+  styles: Record<string, number>;
 }
 
 interface Bounds {
@@ -99,9 +99,9 @@ export class CarouselItemComponent implements AfterViewInit {
 
   @Input() prefix: string[] = [];
 
-  protected fullStyle: {[key: string]: number} = {};
+  protected fullStyle: Record<string, number> = {};
 
-  protected cropStyle: {[key: string]: number} = {};
+  protected cropStyle: Record<string, number> = {};
 
   protected cropMode = true;
 

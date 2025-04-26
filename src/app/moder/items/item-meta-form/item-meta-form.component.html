@@ -3,13 +3,14 @@
     <form method="post" class="form-horizontal" (ngSubmit)="doSubmit(form)" [formGroup]="form">
       @if (form.controls.name; as name) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Name</label>
+          <label class="col-md-2 col-form-label" for="name" i18n>Name</label>
           <div class="col-md-10">
             <input
               type="text"
               [class.is-invalid]="
                 (name.invalid && (name.dirty || !name.untouched)) || (invalidParams && invalidParams['name'])
               "
+              id="name"
               name="name"
               class="form-control"
               [formControl]="name"
@@ -23,7 +24,7 @@
       }
       @if (form.controls.full_name; as fullName) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Full name</label>
+          <label class="col-md-2 col-form-label" for="full_name" i18n>Full name</label>
           <div class="col-md-10">
             <input
               [class.is-invalid]="
@@ -31,6 +32,7 @@
                 (invalidParams && invalidParams['full_name'])
               "
               type="text"
+              id="full_name"
               name="full_name"
               class="form-control"
               [formControl]="fullName"
@@ -43,7 +45,7 @@
       }
       @if (form.controls.catname; as catname) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Catname</label>
+          <label class="col-md-2 col-form-label" for="catname" i18n>Catname</label>
           <div class="col-md-10">
             <input
               [class.is-invalid]="
@@ -51,6 +53,7 @@
                 (invalidParams && invalidParams['catname'])
               "
               type="text"
+              id="catname"
               name="catname"
               class="form-control"
               [formControl]="catname"
@@ -63,13 +66,14 @@
       }
       @if (form.controls.body; as body) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Body number</label>
+          <label class="col-md-2 col-form-label" for="body" i18n>Body number</label>
           <div class="col-md-10">
             <input
               [class.is-invalid]="
                 (body.invalid && (body.dirty || !body.untouched)) || (invalidParams && invalidParams['body'])
               "
               type="text"
+              id="body"
               name="body"
               style="width: 30%"
               class="form-control"
@@ -83,12 +87,13 @@
       }
       @if (form.controls.spec_id; as specID) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Spec</label>
+          <label class="col-md-2 col-form-label" for="spec_id" i18n>Spec</label>
           <div class="col-md-10">
             <select
               [class.is-invalid]="
                 (specID.invalid && (specID.dirty || !specID.untouched)) || (invalidParams && invalidParams['spec_id'])
               "
+              id="spec_id"
               name="spec_id"
               style="width: 30%"
               class="form-select"
@@ -108,11 +113,12 @@
       }
       @if (form.controls.vehicle_type_id; as vehicleTypeID) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Type</label>
+          <label class="col-md-2 col-form-label" for="vehicle_type_id" i18n>Type</label>
           <div class="col-md-10">
             @for (typeID of vehicleTypeID.value; track typeID) {
               <input
                 type="checkbox"
+                id="vehicle_type_id"
                 name="vehicle_type_id"
                 [formControl]="vehicleTypeID"
                 [value]="typeID"
@@ -136,7 +142,7 @@
       }
       @if (form.controls.model_years; as modelYears) {
         <div class="mb-3 row" formGroupName="model_years">
-          <label class="col-md-2 col-form-label" i18n>Model years</label>
+          <label class="col-md-2 col-form-label" for="begin_model_year" i18n>Model years</label>
           <div class="col-md-10">
             <div class="row">
               @if (modelYears.controls.begin_year; as beginYear) {
@@ -147,6 +153,7 @@
                       (beginYear.invalid && (beginYear.dirty || !beginYear.untouched)) ||
                       (invalidParams && invalidParams['begin_model_year'])
                     "
+                    id="begin_model_year"
                     name="begin_model_year"
                     placeholder="from"
                     i18n-placeholder
@@ -223,7 +230,7 @@
       }
       @if (form.controls.begin; as begin) {
         <div class="mb-3 row" formGroupName="begin">
-          <label class="col-md-2 col-form-label" i18n>Begin</label>
+          <label class="col-md-2 col-form-label" for="begin_year" i18n>Begin</label>
           <div class="col-md-10">
             <div class="row">
               @if (begin.controls.year; as beginYear) {
@@ -234,6 +241,7 @@
                       (beginYear.invalid && (beginYear.dirty || !beginYear.untouched)) ||
                       (invalidParams && invalidParams['begin_year'])
                     "
+                    id="begin_year"
                     name="begin_year"
                     placeholder="year"
                     i18n-placeholder
@@ -274,7 +282,7 @@
       }
       @if (form.controls.end; as end) {
         <div class="mb-3 row" formGroupName="end">
-          <label class="col-md-2 col-form-label" i18n>End</label>
+          <label class="col-md-2 col-form-label" for="end_year" i18n>End</label>
           <div class="col-md-10">
             <div class="row">
               @if (end.controls.year; as endYear) {
@@ -285,6 +293,7 @@
                       (endYear.invalid && (endYear.dirty || !endYear.untouched)) ||
                       (invalidParams && invalidParams['end_year'])
                     "
+                    id="end_year"
                     name="end_year"
                     placeholder="year"
                     i18n-placeholder
@@ -346,7 +355,7 @@
       }
       @if (form.controls.produced; as produced) {
         <div class="mb-3 row" formGroupName="produced">
-          <label class="col-md-2 col-form-label" i18n>Produced</label>
+          <label class="col-md-2 col-form-label" for="produced" i18n>Produced</label>
           <div class="col-md-10">
             <div class="row">
               @if (produced.controls.count; as count) {
@@ -357,6 +366,7 @@
                       (count.invalid && (count.dirty || !count.untouched)) ||
                       (invalidParams && invalidParams['produced_count'])
                     "
+                    id="produced"
                     name="produced"
                     min="0"
                     max="100000000"
@@ -396,9 +406,10 @@
       }
       @if (form.controls.is_concept; as isConcept) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label" i18n>Concept (prototype)</label>
+          <label class="col-md-2 col-form-label" for="is_concept" i18n>Concept (prototype)</label>
           <div class="col-md-10">
             <select
+              id="is_concept"
               name="is_concept"
               [class.is-invalid]="
                 (isConcept.invalid && (isConcept.dirty || !isConcept.untouched)) ||
@@ -442,15 +453,15 @@
       }
       @if (form.controls.point; as point) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label">Point</label>
+          <label class="col-md-2 col-form-label" for="point">Point</label>
           <div class="col-md-10 coords">
-            <app-map-point [formControl]="point"></app-map-point>
+            <app-map-point id="point" [formControl]="point"></app-map-point>
           </div>
         </div>
       }
       @if (form.controls.items; as control) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label text-end" i18n>Vehicles</label>
+          <div class="col-md-2 col-form-label text-end" i18n>Vehicles</div>
           @if (items$ | async; as items) {
             <div class="col-md-10">
               @for (child of items; track child.id) {
@@ -467,12 +478,12 @@
       }
       @if (form.controls.pictures; as control) {
         <div class="mb-3 row">
-          <label class="col-md-2 col-form-label text-end" i18n>Pictures</label>
+          <div class="col-md-2 col-form-label text-end" i18n>Pictures</div>
           @if (pictures$ | async; as data) {
             <div class="col-md-10 multicheckbox-pictures row">
               @for (picture of data; track picture) {
                 <div class="col-md-3 mb-4">
-                  <label
+                  <button
                     class="btn btn-secondary"
                     [class.btn-success]="picture.selected"
                     (click)="onPictureClick(picture, control)"
@@ -480,7 +491,7 @@
                     @if (picture.picture$ | async; as pic) {
                       <img [src]="pic.thumbMedium?.src" alt="" [title]="pic.nameText" class="rounded w-100" />
                     }
-                  </label>
+                  </button>
                 </div>
               }
             </div>

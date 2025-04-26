@@ -27,24 +27,24 @@
       @if (attribute$ | async; as attribute) {
         <div class="form-vertical">
           <div class="mb-3">
-            <label i18n>Type</label>
+            <div i18n>Type</div>
             @if (typeOption$ | async; as option) {
               {{ option.name }}
             }
           </div>
           <div class="mb-3">
-            <label i18n>Precision (for float attribute)</label>
+            <div i18n>Precision (for float attribute)</div>
             {{ attribute.precision }}
           </div>
           @if (attribute.unitId !== '0') {
             <div class="mb-3">
-              <label i18n>Unit</label>
+              <div i18n>Unit</div>
               {{ getUnitNameTranslation(attribute.unitId) }}
             </div>
           }
           @if (attribute.description) {
             <div class="mb-3">
-              <label i18n>Description</label>
+              <div i18n>Description</div>
               {{ attribute.description }}
             </div>
           }

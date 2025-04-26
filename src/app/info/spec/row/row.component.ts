@@ -9,5 +9,5 @@ import {Spec} from '@grpc/spec.pb';
 })
 export class InfoSpecRowComponent {
   @Input() row?: Spec;
-  @Input() deep: number = 0;
+  @Input() deep = 0;
 }

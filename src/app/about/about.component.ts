@@ -17,7 +17,7 @@ function replaceAll(str: string, find: string, replace: string): string {
   return str.replace(new RegExp(escapeStringRegexp(find), 'g'), replace);
 }
 
-function replacePairs(str: string, pairs: {[key: string]: string}): string {
+function replacePairs(str: string, pairs: Record<string, string>): string {
   for (const key in pairs) {
     str = replaceAll(str, String(key), pairs[key]);
   }

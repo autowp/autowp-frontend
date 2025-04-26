@@ -16,7 +16,7 @@ export class TimeAgoPipe implements OnDestroy, PipeTransform {
   #currentTimer: null | number = null;
   #lastTime: null | number = null;
   #lastValue: Date | null = null;
-  #lastText: string = '';
+  #lastText = '';
 
   private format(time: Date) {
     const now = Date.now();

@@ -32,8 +32,8 @@ export class UploadCropComponent implements OnDestroy, OnInit {
   readonly #minSize = [400, 300];
 
   #jcrop: Jcrop = null;
-  protected aspect: string = '';
-  protected resolution: string = '';
+  protected aspect = '';
+  protected resolution = '';
   protected readonly img$ = new BehaviorSubject<HTMLImageElement | null>(null);
   private currentCrop: JcropCrop = {
     h: 0,

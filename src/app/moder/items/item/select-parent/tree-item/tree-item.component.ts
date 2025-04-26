@@ -36,7 +36,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   }
   protected readonly order$ = new BehaviorSubject<ItemParentsRequest.Order>(ItemParentsRequest.Order.AUTO);
 
-  @Input() disableItemID: string = '';
+  @Input() disableItemID = '';
   @Input() typeID: ItemParentType = ItemParentType.ITEM_TYPE_DEFAULT;
   @Output() selected = new EventEmitter<string>();
 

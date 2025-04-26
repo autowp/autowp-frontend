@@ -30,7 +30,7 @@ export class AccountMessagesComponent {
   readonly #messagingClient = inject(MessagingClient);
   readonly #userService = inject(UserService);
 
-  protected folder: string = '';
+  protected folder = '';
   readonly #change$ = new BehaviorSubject<void>(void 0);
 
   protected pageName = '';
@@ -48,8 +48,8 @@ export class AccountMessagesComponent {
     debounceTime(30),
     switchMap((params) => {
       this.folder = params.folder ?? 'inbox';
-      let pageId: number = 0;
-      let userID: string = '';
+      let pageId = 0;
+      let userID = '';
 
       switch (this.folder) {
         case 'dialog':

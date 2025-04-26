@@ -35,9 +35,11 @@
       @if (picture.previewLarge) {
         <div class="picture-preview-medium">
           <span
+            tabindex="0"
             class="d-block rounded mb-4"
             (auxclick)="openSource(picture)"
             (click)="openGallery(picture, $event)"
+            (keyup.enter)="openGallery(picture, $event)"
             style="cursor: pointer"
           >
             <img alt="" class="rounded border border-light w-100" [src]="picture.previewLarge.src" loading="lazy" />
@@ -461,7 +463,7 @@
           @if (contentItems$ | async; as items) {
             @if (items.length > 0) {
               <div class="col-md-4">
-                <label class="d-block" i18n>Perspective</label>
+                <div class="d-block" i18n>Perspective</div>
                 @for (item of items; track item.itemId) {
                   <div>
                     <span [innerHTML]="item.item?.nameHtml"></span>

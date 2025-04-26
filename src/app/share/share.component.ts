@@ -8,10 +8,10 @@ import {Component, Input} from '@angular/core';
   templateUrl: './share.component.html',
 })
 export class ShareComponent {
-  @Input() url: string = '';
-  @Input() text: string = '';
+  @Input() url = '';
+  @Input() text = '';
 
-  buildURL(url: string, params: {[s: string]: string}): string {
+  buildURL(url: string, params: Record<string, string>): string {
     let p = new HttpParams();
     for (const key of Object.keys(params)) {
       p = p.set(key, params[key]);

@@ -1,65 +1,62 @@
-const translations: {
-  [key: string]: {'add-sub-item': string; name: string; 'name-plural': string; 'new-item': string};
-} = {
-  1: {
-    'add-sub-item': $localize`Add sub-vehicle`,
-    name: $localize`Vehicle`,
-    'name-plural': $localize`Vehicles`,
-    'new-item': $localize`New vehicle`,
-  },
-  2: {
-    'add-sub-item': $localize`Add sub-engine`,
-    name: $localize`Engine`,
-    'name-plural': $localize`Engines`,
-    'new-item': $localize`New engine`,
-  },
-  3: {
-    'add-sub-item': $localize`Add sub-category`,
-    name: $localize`Category`,
-    'name-plural': $localize`Categories`,
-    'new-item': $localize`New category`,
-  },
-  4: {
-    'add-sub-item': $localize`Add sub-twins`,
-    name: $localize`Twins`,
-    'name-plural': $localize`Twins`,
-    'new-item': $localize`New twins group`,
-  },
-  5: {
-    'add-sub-item': $localize`Add sub-brand`,
-    name: $localize`Brand`,
-    'name-plural': $localize`Brands`,
-    'new-item': $localize`New brand`,
-  },
-  6: {
-    'add-sub-item': $localize`Add sub-factory`,
-    name: $localize`Factory`,
-    'name-plural': $localize`Factories`,
-    'new-item': $localize`New factory`,
-  },
-  7: {
-    'add-sub-item': $localize`Add sub-museum`,
-    name: $localize`Museum`,
-    'name-plural': $localize`Museums`,
-    'new-item': $localize`New museum`,
-  },
-  8: {
-    'add-sub-item': $localize`Add sub-person`,
-    name: $localize`Person`,
-    'name-plural': $localize`Persons`,
-    'new-item': $localize`New person`,
-  },
-  9: {
-    'add-sub-item': $localize`Add sub copyright block`,
-    name: $localize`Copyright block`,
-    'name-plural': $localize`Copyright blocks`,
-    'new-item': $localize`New copyright block`,
-  },
-};
+const translations: Record<string, {'add-sub-item': string; name: string; 'name-plural': string; 'new-item': string}> =
+  {
+    1: {
+      'add-sub-item': $localize`Add sub-vehicle`,
+      name: $localize`Vehicle`,
+      'name-plural': $localize`Vehicles`,
+      'new-item': $localize`New vehicle`,
+    },
+    2: {
+      'add-sub-item': $localize`Add sub-engine`,
+      name: $localize`Engine`,
+      'name-plural': $localize`Engines`,
+      'new-item': $localize`New engine`,
+    },
+    3: {
+      'add-sub-item': $localize`Add sub-category`,
+      name: $localize`Category`,
+      'name-plural': $localize`Categories`,
+      'new-item': $localize`New category`,
+    },
+    4: {
+      'add-sub-item': $localize`Add sub-twins`,
+      name: $localize`Twins`,
+      'name-plural': $localize`Twins`,
+      'new-item': $localize`New twins group`,
+    },
+    5: {
+      'add-sub-item': $localize`Add sub-brand`,
+      name: $localize`Brand`,
+      'name-plural': $localize`Brands`,
+      'new-item': $localize`New brand`,
+    },
+    6: {
+      'add-sub-item': $localize`Add sub-factory`,
+      name: $localize`Factory`,
+      'name-plural': $localize`Factories`,
+      'new-item': $localize`New factory`,
+    },
+    7: {
+      'add-sub-item': $localize`Add sub-museum`,
+      name: $localize`Museum`,
+      'name-plural': $localize`Museums`,
+      'new-item': $localize`New museum`,
+    },
+    8: {
+      'add-sub-item': $localize`Add sub-person`,
+      name: $localize`Person`,
+      'name-plural': $localize`Persons`,
+      'new-item': $localize`New person`,
+    },
+    9: {
+      'add-sub-item': $localize`Add sub copyright block`,
+      name: $localize`Copyright block`,
+      'name-plural': $localize`Copyright blocks`,
+      'new-item': $localize`New copyright block`,
+    },
+  };
 
-const units: {
-  [key: string]: {abbr: string; name: string};
-} = {
+const units: Record<string, {abbr: string; name: string}> = {
   '1': {
     abbr: $localize`mm`,
     name: $localize`millimeter`,
@@ -142,9 +139,7 @@ const units: {
   },
 };
 
-const themes: {
-  [key: string]: string;
-} = {
+const themes: Record<string, string> = {
   'forums/theme/all-other': $localize`All other`,
   'forums/theme/american-cars': $localize`American cars`,
   'forums/theme/british-cars': $localize`British cars`,
@@ -162,9 +157,7 @@ const themes: {
   'forums/theme/this-cite': $localize`This website`,
 };
 
-const themesDescription: {
-  [key: string]: string;
-} = {
+const themesDescription: Record<string, string> = {
   'forums/theme/all-other/description': $localize`Other topics not included in the above sections`,
   'forums/theme/american-cars/description': $localize`Cadillac, Chrysler, Chevrolet, Dodge, Ford, Hummer, Pontiac, …`,
   'forums/theme/british-cars/description': $localize`Aston Martin, Bentley, MG, Rover, …`,
@@ -177,9 +170,7 @@ const themesDescription: {
   'forums/theme/russian-cars/description': $localize`VAZ, GAZ, UAZ, …`,
 };
 
-const prespectives: {
-  [key: string]: string;
-} = {
+const prespectives: Record<string, string> = {
   'perspective/3/4-left': $localize`¾ left`,
   'perspective/3/4-right': $localize`¾ right`,
   'perspective/back': $localize`back`,
@@ -210,9 +201,7 @@ const prespectives: {
   'perspective/upper-strict': $localize`upper (strict)`,
 };
 
-const vehicleTypes: {
-  [key: string]: string;
-} = {
+const vehicleTypes: Record<string, string> = {
   'car-type/2-floor-bus': $localize`2-floor bus`,
   'car-type/2door-hardtop': $localize`2-door hardtop`,
   'car-type/4door-hardtop': $localize`4-door hardtop`,
@@ -255,9 +244,7 @@ const vehicleTypes: {
   'car-type/van': $localize`Van`,
 };
 
-const vehicleTypesRp: {
-  [key: string]: string;
-} = {
+const vehicleTypesRp: Record<string, string> = {
   'car-type-rp/2-floor-bus': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/2-floor-bus:2-floor buses`,
   'car-type-rp/2door-hardtop': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/2door-hardtop:2-door hardtops`,
   'car-type-rp/4door-hardtop': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/4door-hardtop:4-door hardtops`,
@@ -300,9 +287,7 @@ const vehicleTypesRp: {
   'car-type-rp/van': $localize`:Vehicle type in context of "most fastest among Roadsters"@@car-type-rp/van:Vans`,
 };
 
-const attrs: {
-  [key: string]: string;
-} = {
+const attrs: Record<string, string> = {
   'specs/attrs/14': $localize`geometry`,
   'specs/attrs/14/4': $localize`wheel base`,
   'specs/attrs/14/17': $localize`dimensions`,
@@ -524,9 +509,7 @@ const attrs: {
   'specs/attrs/wheels/auto-pumping-tires': $localize`Auto pumping tires`,
 };
 
-const attrDescriptions: {
-  [key: string]: string;
-} = {
+const attrDescriptions: Record<string, string> = {
   'specs/attrs/14/17/description': $localize`external dimensions`,
   'specs/attrs/14/167/description': '',
   'specs/attrs/16/12/67/description': $localize`seating`,
@@ -543,9 +526,7 @@ const attrDescriptions: {
   'specs/attrs/54/195/197/description': '',
 };
 
-const attrListOptions: {
-  [key: string]: string;
-} = {
+const attrListOptions: Record<string, string> = {
   'specs/attrs/15/208/209/options/108': $localize`coil spring`,
   'specs/attrs/15/208/209/options/109': $localize`leaf spring`,
   'specs/attrs/15/208/209/options/110': $localize`pneumatic`,
@@ -766,9 +747,7 @@ const attrListOptions: {
   'specs/attrs/engine/turbo/options/x6': $localize`×6`,
 };
 
-const mostsRatings: {
-  [key: string]: string;
-} = {
+const mostsRatings: Record<string, string> = {
   'most/air': $localize`air`,
   'most/antiair': $localize`anti air`,
   'most/big-engine': $localize`big engine`,
@@ -800,9 +779,7 @@ const mostsRatings: {
   'most/widest': $localize`widest`,
 };
 
-const mostsRatingsParam: {
-  [key: string]: string;
-} = {
+const mostsRatingsParam: Record<string, string> = {
   'most/air/param': $localize`drag coefficients`,
   'most/antiair/param': $localize`drag coefficients`,
   'most/big-engine/param': $localize`engine volume`,
@@ -834,9 +811,7 @@ const mostsRatingsParam: {
   'most/widest/param': $localize`width`,
 };
 
-const mostsPeriods: {
-  [key: string]: string;
-} = {
+const mostsPeriods: Record<string, string> = {
   'mosts/period/1920-29': $localize`1920-29th`,
   'mosts/period/1930-39': $localize`1930-39th`,
   'mosts/period/1940-49': $localize`1940-49th`,
@@ -853,9 +828,7 @@ const mostsPeriods: {
   'mosts/period/present': $localize`present time`,
 };
 
-const catalogueSection: {
-  [key: string]: string;
-} = {
+const catalogueSection: Record<string, string> = {
   'catalogue/section/buses': $localize`Buses`,
   'catalogue/section/engines': $localize`Engines`,
   'catalogue/section/moto': $localize`Moto`,

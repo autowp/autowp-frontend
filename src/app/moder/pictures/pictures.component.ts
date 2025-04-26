@@ -283,7 +283,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   protected lost = false;
   protected specialName = false;
 
-  protected ownerID: string = '';
+  protected ownerID = '';
   protected ownerQuery = '';
   protected readonly ownersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,
@@ -322,7 +322,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       }),
     );
 
-  protected itemID: string = '';
+  protected itemID = '';
   protected itemQuery = '';
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
@@ -374,7 +374,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   readonly #addedFrom$ = new BehaviorSubject<null | string>('');
   #addedFromSub?: Subscription = undefined;
 
-  protected excludeItemID: string = '';
+  protected excludeItemID = '';
   protected excludeItemQuery = '';
 
   protected readonly data$: Observable<{

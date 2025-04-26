@@ -81,7 +81,7 @@ export class UploadIndexComponent implements OnInit {
   readonly #itemsClient = inject(ItemsClient);
 
   protected files: File[] | undefined;
-  protected note: string = '';
+  protected note = '';
   protected progress: UploadProgress[] = [];
   protected pictures: APIPictureUpload[] = [];
   protected formHidden = false;

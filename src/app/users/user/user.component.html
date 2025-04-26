@@ -6,10 +6,6 @@
   </ol>
 </nav>
 
-<ng-template #loading>
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-</ng-template>
-
 @if (user$ | async; as user) {
   @if (user) {
     <div class="page-header">
@@ -225,16 +221,16 @@
                 @if (ip && !ip.blacklist && ip.rights?.addToBlacklist) {
                   <form class="form-vertical">
                     <div class="mb-3">
-                      <label i18n>For period</label>
-                      <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
+                      <label i18n for="period">For period</label>
+                      <select [(ngModel)]="banPeriod" id="period" name="period" class="form-select" required>
                         @for (period of banPeriods; track period.value) {
                           <option [value]="period.value">{{ period.name }}</option>
                         }
                       </select>
                     </div>
                     <div class="mb-3">
-                      <label i18n>Reason</label>
-                      <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
+                      <label i18n for="reason">Reason</label>
+                      <input maxlength="50" class="form-control" [(ngModel)]="banReason" id="reason" name="reason" />
                     </div>
                     <button class="btn btn-danger" (click)="addToBlacklist(ip.address)" i18n>Ban</button>
                   </form>

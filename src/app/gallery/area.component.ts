@@ -10,7 +10,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './area.component.html',
 })
 export class AreaComponent {
-  @Input() styles?: {[key: string]: number} = {};
+  @Input() styles?: Record<string, number> = {};
   @Input() area?: PictureItem;
 
   protected placement(): string {

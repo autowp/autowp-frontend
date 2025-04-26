@@ -295,13 +295,14 @@
         <form class="card card-body form-vertical mb-4">
           @if (picture.takenDate) {
             <div class="mb-3 row">
-              <label class="col-md-3 col-form-label" i18n>Date of photo</label>
+              <label class="col-md-3 col-form-label" i18n for="taken_year">Date of photo</label>
               <div class="col-md-9">
                 <div class="row">
                   <div class="col-3">
                     <input
                       type="number"
                       name="taken_year"
+                      id="taken_year"
                       [(ngModel)]="picture.takenDate.year"
                       placeholder="Year"
                       i18n-placeholder
@@ -348,12 +349,13 @@
             </p>
           </div>
           <div class="mb-3">
-            <label i18n>Special name</label>
+            <label i18n for="special_name">Special name</label>
             <input
               type="text"
               class="form-control"
               maxlength="255"
               name="special_name"
+              id="special_name"
               [(ngModel)]="picture.specialName"
             />
           </div>
@@ -601,16 +603,16 @@
                 @if (!ip.blacklist && ip.rights?.addToBlacklist) {
                   <form class="form-vertical">
                     <div class="mb-3">
-                      <label i18n>For period</label>
-                      <select [(ngModel)]="banPeriod" name="period" class="form-select" required>
+                      <label i18n for="period">For period</label>
+                      <select [(ngModel)]="banPeriod" name="period" id="period" class="form-select" required>
                         @for (period of banPeriods; track period.value) {
                           <option [value]="period.value">{{ period.name }}</option>
                         }
                       </select>
                     </div>
                     <div class="mb-3">
-                      <label i18n>Reason</label>
-                      <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" />
+                      <label i18n for="reason">Reason</label>
+                      <input maxlength="50" class="form-control" [(ngModel)]="banReason" name="reason" id="reason" />
                     </div>
                     <button class="btn btn-danger" (click)="addToBlacklist(picture.ip)" i18n>Ban</button>
                   </form>

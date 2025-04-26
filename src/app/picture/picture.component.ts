@@ -182,8 +182,8 @@ export class PictureComponent {
     }
   }
 
-  protected openGallery(picture: Picture, $event: MouseEvent) {
-    if ($event.ctrlKey) {
+  protected openGallery(picture: Picture, $event: Event) {
+    if (($event instanceof KeyboardEvent || $event instanceof MouseEvent) && $event.ctrlKey) {
       this.openSource(picture);
       return;
     }

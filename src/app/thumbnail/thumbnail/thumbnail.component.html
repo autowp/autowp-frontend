@@ -91,14 +91,14 @@
         }
       </p>
       @if (selectable) {
-        <label
+        <button
           class="btn btn-sm float-start me-1 mb-2"
           [class.btn-primary]="picture.selected"
           [class.btn-secondary]="!picture.selected"
           (click)="onPictureSelect(picture)"
         >
           <i class="bi bi-check" aria-hidden="true"></i>
-        </label>
+        </button>
       }
       @if (isModer$ | async) {
         <a

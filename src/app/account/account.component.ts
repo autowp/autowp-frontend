@@ -20,7 +20,7 @@ interface SidebarItem {
   newCount?: number;
   pageId?: number;
   routerLink?: string[];
-  routerLinkParams?: {[key: string]: string};
+  routerLinkParams?: Record<string, string>;
 }
 
 @Component({

@@ -37,9 +37,9 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
 
-  #id: string = '';
-  #itemID: string = '';
-  #type: number = 0;
+  #id = '';
+  #itemID = '';
+  #type = 0;
   #sub?: Subscription;
   protected aspect = '';
   protected resolution = '';

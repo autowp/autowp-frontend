@@ -16,7 +16,7 @@ export class PictureModerVoteModalComponent {
   readonly #moderVoteService = inject(PictureModerVoteService);
 
   @Input() pictureId?: string;
-  @Input() vote: number = 0;
+  @Input() vote = 0;
   @Output() voted = new EventEmitter();
 
   protected reason = '';

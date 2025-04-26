@@ -36,7 +36,7 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
   readonly #languageService = inject(LanguageService);
 
   #querySub?: Subscription;
-  protected page: number = 0;
+  protected page = 0;
   protected brands: APIItem[][] = [];
   protected paginator: null | Pages = null;
   protected brand: APIItem | null = null;

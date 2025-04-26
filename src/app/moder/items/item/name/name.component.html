@@ -17,15 +17,22 @@
           </a>
           <ng-template ngbNavContent>
             <div class="mb-3 row mt-4">
-              <label class="col-md-2 col-form-label" i18n>Name</label>
+              <label class="col-md-2 col-form-label" for="name" i18n>Name</label>
               <div class="col-md-10">
-                <input type="text" [(ngModel)]="language.name" name="name" maxlength="255" class="form-control" />
+                <input
+                  type="text"
+                  [(ngModel)]="language.name"
+                  name="name"
+                  id="name"
+                  maxlength="255"
+                  class="form-control"
+                />
               </div>
             </div>
             <div class="mb-3 row">
-              <label class="col-md-2 col-form-label" i18n>Short description</label>
+              <label class="col-md-2 col-form-label" for="short_description" i18n>Short description</label>
               <div class="col-md-10">
-                <app-markdown-edit [(text)]="language.text"></app-markdown-edit>
+                <app-markdown-edit id="short_description" [(text)]="language.text"></app-markdown-edit>
                 @if (language.textId) {
                   <p class="text-end">
                     <a [routerLink]="['/info/text', language.textId]" i18n>History</a>
@@ -34,9 +41,9 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label class="col-md-2 col-form-label" i18n>Full description</label>
+              <label class="col-md-2 col-form-label" for="full_description" i18n>Full description</label>
               <div class="col-md-10">
-                <app-markdown-edit [(text)]="language.fullText"></app-markdown-edit>
+                <app-markdown-edit id="full_description" [(text)]="language.fullText"></app-markdown-edit>
                 @if (language.fullTextId) {
                   <p class="text-end">
                     <a [routerLink]="['/info/text', language.fullTextId]" i18n>History</a>

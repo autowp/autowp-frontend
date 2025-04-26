@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 
 import {ethToEur, eurToRub} from '../../currencies';
 
-const rates: {[key: string]: number} = {
+const rates: Record<string, number> = {
   'ETH': ethToEur,
   'EUR': 1,
   'RUB': 1 / eurToRub,

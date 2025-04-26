@@ -21,9 +21,7 @@ export interface APIPathTreeItemParent {
   item: APIPathTreeItem;
 }
 
-export const allowedItemTypeCombinations: {
-  [key in ItemType]: ItemType[];
-} = {
+export const allowedItemTypeCombinations: Record<ItemType, ItemType[]> = {
   [ItemType.ITEM_TYPE_BRAND]: [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE],
   [ItemType.ITEM_TYPE_CATEGORY]: [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_CATEGORY, ItemType.ITEM_TYPE_BRAND],
   [ItemType.ITEM_TYPE_COPYRIGHT]: [],

@@ -25,10 +25,11 @@
   @if (form$ | async; as form) {
     <form method="post" class="form-horizontal" (ngSubmit)="doSubmit(form, picture)" [formGroup]="form">
       <div class="mb-3 row">
-        <label class="col-md-2 col-form-label" i18n>Point</label>
+        <label class="col-md-2 col-form-label" for="lat" i18n>Point</label>
         <div class="col-md-10 coords mb-3">
           <input
             type="text"
+            id="lat"
             name="lat"
             [formControl]="form.controls.lat"
             maxlength="20"

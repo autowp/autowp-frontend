@@ -13,7 +13,7 @@ interface MenuItem {
   count$?: Observable<null | number>;
   icon: string;
   label: string;
-  queryParams?: {[key: string]: string | undefined};
+  queryParams?: Record<string, string | undefined>;
   routerLink: string[];
 }
 

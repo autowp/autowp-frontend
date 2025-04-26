@@ -53,8 +53,8 @@ export class VotingComponent {
     }),
   );
   protected filter = false;
-  protected selected: number = 0;
-  protected selectedMulti: {[key: number]: number} = {};
+  protected selected = 0;
+  protected selectedMulti: Record<number, number> = {};
 
   protected readonly CommentsType = CommentsType;
 

@@ -195,7 +195,6 @@ export class ItemMetaFormComponent {
   readonly #languageService = inject(LanguageService);
   readonly #modalService = inject(NgbModal);
 
-  @Input() submitNotify: () => void = () => {};
   @Input() invalidParams?: InvalidParams;
   @Output() submitted = new EventEmitter<ItemMetaFormResult>();
 
