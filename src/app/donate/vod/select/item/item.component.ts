@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -14,7 +15,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../toasts/toasts.service';
@@ -30,10 +31,8 @@ export class DonateVodSelectItemComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set itemParent(itemParent: ItemParent) {
-    this.itemParent$.next(itemParent);
-  }
-  protected readonly itemParent$ = new BehaviorSubject<ItemParent | null>(null);
+  readonly itemParent = input.required<ItemParent>();
+  protected readonly itemParent$ = toObservable(this.itemParent);
   protected expanded = false;
 
   protected readonly item$: Observable<APIItem> = this.itemParent$.pipe(

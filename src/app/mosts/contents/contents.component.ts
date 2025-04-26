@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {MostsItem, MostsItemsRequest, MostsVehicleType} from '@grpc/spec.pb';
 import {MostsClient} from '@grpc/spec.pbsc';
@@ -15,7 +16,7 @@ import {
   getUnitNameTranslation,
   getVehicleTypeRpTranslation,
 } from '@utils/translations';
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {MostsService} from '../mosts.service';
@@ -48,12 +49,10 @@ export class MostsContentsComponent {
   readonly #mostsClient = inject(MostsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() prefix: string[] = ['/mosts'];
+  readonly prefix = input.required<string[]>();
 
-  @Input() set ratingCatname(ratingCatname: null | string) {
-    this.ratingCatname$.next(ratingCatname);
-  }
-  protected readonly ratingCatname$ = new BehaviorSubject<null | string>(null);
+  readonly ratingCatname = input.required<null | string>();
+  protected readonly ratingCatname$ = toObservable(this.ratingCatname);
 
   protected readonly ratingCatnameNormalized$ = this.ratingCatname$.pipe(
     switchMap((ratingCatname) =>
@@ -61,20 +60,14 @@ export class MostsContentsComponent {
     ),
   );
 
-  @Input() set typeCatname(typeCatname: null | string) {
-    this.typeCatname$.next(typeCatname);
-  }
-  protected readonly typeCatname$ = new BehaviorSubject<null | string>(null);
+  readonly typeCatname = input.required<null | string>();
+  protected readonly typeCatname$ = toObservable(this.typeCatname);
 
-  @Input() set yearsCatname(yearsCatname: null | string) {
-    this.yearsCatname$.next(yearsCatname);
-  }
-  protected readonly yearsCatname$ = new BehaviorSubject<null | string>(null);
+  readonly yearsCatname = input.required<null | string>();
+  protected readonly yearsCatname$ = toObservable(this.yearsCatname);
 
-  @Input() set brandID(brandID: string) {
-    this.brandID$.next(brandID);
-  }
-  protected readonly brandID$ = new BehaviorSubject<string | undefined>(undefined);
+  readonly brandID = input<string>();
+  protected readonly brandID$ = toObservable(this.brandID);
 
   readonly #menu$ = this.brandID$.pipe(
     distinctUntilChanged(),

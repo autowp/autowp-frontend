@@ -43,7 +43,9 @@
       }
     </ul>
 
-    <app-paginator [data]="response.paginator"></app-paginator>
+    @if (response.paginator) {
+      <app-paginator [data]="response.paginator"></app-paginator>
+    }
   </div>
 } @else {
   <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>

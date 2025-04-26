@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -14,7 +15,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';
@@ -33,12 +34,10 @@ export class ModerItemsItemSelectParentTwinsComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Output() selected = new EventEmitter<string>();
+  readonly selected = output<string>();
 
-  @Input() set itemID(value: string) {
-    this.itemID$.next(value);
-  }
-  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
+  readonly itemID = input.required<string>();
+  protected readonly itemID$ = toObservable(this.itemID);
 
   protected readonly brandID$ = this.#route.queryParamMap.pipe(
     map((params) => params.get('brand_id')),

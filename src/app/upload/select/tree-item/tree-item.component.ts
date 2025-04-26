@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
   ItemFields,
@@ -11,7 +12,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -26,10 +27,8 @@ export class UploadSelectTreeItemComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: ItemParent) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<ItemParent | null>(null);
+  readonly item = input.required<ItemParent>();
+  protected readonly item$ = toObservable(this.item);
 
   protected open = false;
 

@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIItem, UpdateItemRequest} from '@grpc/spec.pb';
 import {ItemFields, ItemRequest} from '@grpc/spec.pb';
@@ -7,7 +8,7 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {FieldMask} from '@ngx-grpc/well-known-types';
 import {AuthService, Role} from '@services/auth.service';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
@@ -23,12 +24,10 @@ export class CarsSpecificationsEditorEngineComponent {
   readonly #toastService = inject(ToastsService);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
-  @Output() changed = new EventEmitter<void>();
+  readonly changed = output<void>();
   protected readonly isAllowedEditEngine$ = this.#auth
     .hasRole$(Role.CARS_MODER)
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
@@ -65,7 +64,7 @@ export class CarsSpecificationsEditorEngineComponent {
       )
       .subscribe({
         error: (response: unknown) => this.#toastService.handleError(response),
-        next: () => this.changed.emit(),
+        next: () => this.changed.emit(void 0),
       });
   }
 

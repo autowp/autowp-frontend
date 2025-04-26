@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, inject, input, OnDestroy, OnInit, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {APIImage, Picture} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
@@ -22,12 +23,10 @@ interface JcropCrop {
 export class UploadCropComponent implements OnDestroy, OnInit {
   protected readonly activeModal = inject(NgbActiveModal);
 
-  @Output() changed = new EventEmitter<void>();
+  readonly changed = output<void>();
 
-  @Input() set picture(picture: Picture) {
-    this.picture$.next(picture);
-  }
-  protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
+  readonly picture = input.required<Picture>();
+  readonly picture$ = toObservable(this.picture);
 
   readonly #minSize = [400, 300];
 
@@ -143,7 +142,7 @@ export class UploadCropComponent implements OnDestroy, OnInit {
     picture.image.cropWidth = this.currentCrop.w;
     picture.image.cropHeight = this.currentCrop.h;
 
-    this.changed.emit();
+    this.changed.emit(void 0);
     this.activeModal.close();
   }
 }

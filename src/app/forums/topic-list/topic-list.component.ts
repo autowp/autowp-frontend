@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
   APICommentMessage,
@@ -15,7 +16,7 @@ import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {AuthService, Role} from '@services/auth.service';
 import {UserService} from '@services/user';
 import {PastTimeIndicatorComponent} from '@utils/past-time-indicator/past-time-indicator.component';
-import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -46,18 +47,15 @@ export class ForumsTopicListComponent {
   readonly #grpc = inject(ForumsClient);
   readonly #auth = inject(AuthService);
 
-  @Input() set topics(value: APIForumsTopic[]) {
-    this.#topics$.next(value);
-  }
-  readonly #topics$ = new BehaviorSubject<APIForumsTopic[]>([]);
+  readonly topics = input.required<APIForumsTopic[]>();
 
-  @Input() showSubscribe = false;
+  readonly showSubscribe = input(false);
 
-  @Output() reload = new EventEmitter<void>();
+  readonly reload = output<void>();
 
   protected readonly forumAdmin$ = this.#auth.hasRole$(Role.FORUMS_MODER);
 
-  protected readonly list$: Observable<Topic[]> = this.#topics$.pipe(
+  protected readonly list$: Observable<Topic[]> = toObservable(this.topics).pipe(
     map((topics) =>
       topics.map((topic) => {
         const lastMessage$ = this.#grpc.getLastMessage(new APIGetForumsTopicRequest({id: topic.id})).pipe(
@@ -104,7 +102,7 @@ export class ForumsTopicListComponent {
       .subscribe({
         error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
-          this.reload.emit();
+          this.reload.emit(void 0);
         },
       });
   }
@@ -131,7 +129,7 @@ export class ForumsTopicListComponent {
     this.#grpc.deleteTopic(new APISetTopicStatusRequest({id: topic.id})).subscribe({
       error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
-        this.reload.emit();
+        this.reload.emit(void 0);
       },
     });
   }

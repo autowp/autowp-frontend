@@ -1,4 +1,4 @@
-@if (item$ | async; as item) {
+@if (_item$ | async; as item) {
   <h2>
     <span [innerHtml]="item.nameHtml"></span>
     <small>
@@ -8,7 +8,7 @@
       @if (item.itemTypeId !== ItemType.ITEM_TYPE_VEHICLE) {
         <span i18n>theme of the day</span>
       }
-      @if (user$ | async; as user) {
+      @if (user$() | async; as user) {
         <span>
           <span class="text-nowrap">by <app-user [user]="user"></app-user></span>
         </span>
@@ -81,7 +81,7 @@
   </div>
 }
 
-@if (item$ | async; as item) {
+@if (_item$ | async; as item) {
   <p>
     @if (item.itemTypeId === ItemType.ITEM_TYPE_CATEGORY) {
       <span>

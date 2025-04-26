@@ -1,5 +1,6 @@
 import {AsyncPipe, DecimalPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {APIUser, Picture, PictureItem, PictureStatus, SetPictureItemPerspectiveRequest} from '@grpc/spec.pb';
@@ -9,7 +10,7 @@ import {UserService} from '@services/user';
 import {getPerspectiveTranslation} from '@utils/translations';
 import {APIPerspectiveService} from 'app/api/perspective/perspective.service';
 import {ToastsService} from 'app/toasts/toasts.service';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {UserComponent} from '../../user/user/user.component';
@@ -31,14 +32,13 @@ export class ThumbnailComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
 
-  @Input() set picture(picture: null | ThumbnailAPIPicture) {
-    this.picture$.next(picture);
-  }
-  protected readonly picture$ = new BehaviorSubject<null | ThumbnailAPIPicture>(null);
+  readonly picture = input.required<ThumbnailAPIPicture>();
+  readonly picture$ = toObservable(this.picture);
 
-  @Input() route: string[] = [];
-  @Input() selectable = false;
-  @Output() selected = new EventEmitter<boolean>();
+  readonly route = input.required<string[]>();
+
+  readonly selectable = input(false);
+  readonly selected = output<boolean>();
 
   protected readonly perspectiveOptions$ = this.#perspectiveService.getPerspectives$().pipe(
     map((options) =>

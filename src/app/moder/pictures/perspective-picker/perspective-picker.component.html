@@ -1,10 +1,4 @@
-<select
-  class="form-select"
-  [(ngModel)]="perspectiveID"
-  name="perspective_id"
-  (change)="change()"
-  style="max-width: 10em"
->
+<select [formControl]="select" class="form-select" name="perspective_id" (change)="change()" style="max-width: 10em">
   <option [ngValue]="0">--</option>
   @for (perspective of perspectives$ | async; track perspective.id) {
     <option [ngValue]="perspective.id">

@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -15,7 +16,7 @@ import {
 } from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {chunkBy} from '../../../../chunk';
@@ -30,10 +31,8 @@ export class ModerItemsItemPicturesComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
   protected readonly canUseTurboGroupCreator$ = this.item$.pipe(
     map((item) =>

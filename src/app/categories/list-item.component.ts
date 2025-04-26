@@ -1,11 +1,12 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIImage, APIItem, ItemType, Picture} from '@grpc/spec.pb';
 import {AuthService, Role} from '@services/auth.service';
 import {ItemHeaderComponent} from '@utils/item-header/item-header.component';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 interface PictureThumbRoute {
@@ -22,15 +23,11 @@ interface PictureThumbRoute {
 export class CategoriesListItemComponent {
   readonly #auth = inject(AuthService);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
-  @Input() set parentRouterLink(parentRouterLink: string[]) {
-    this.parentRouterLink$.next(parentRouterLink);
-  }
-  protected readonly parentRouterLink$ = new BehaviorSubject<null | string[]>(null);
+  readonly parentRouterLink = input.required<string[]>();
+  protected readonly parentRouterLink$ = toObservable(this.parentRouterLink);
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
   protected readonly havePhoto$ = this.item$.pipe(map((item) => (item ? this.isHavePhoto(item) : false)));

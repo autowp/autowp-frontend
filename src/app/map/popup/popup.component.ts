@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {MapPoint} from '@grpc/spec.pb';
 
@@ -8,5 +8,5 @@ import {MapPoint} from '@grpc/spec.pb';
   templateUrl: './popup.component.html',
 })
 export class MapPopupComponent {
-  @Input() item?: MapPoint;
+  readonly item = input.required<MapPoint>();
 }

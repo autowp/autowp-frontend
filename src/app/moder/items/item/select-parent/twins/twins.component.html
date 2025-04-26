@@ -15,7 +15,9 @@
         </div>
       }
     </div>
-    <app-paginator [data]="response.paginator"></app-paginator>
+    @if (response.paginator) {
+      <app-paginator [data]="response.paginator"></app-paginator>
+    }
   }
   @if (twins$ | async; as response) {
     <ul>
@@ -26,11 +28,12 @@
             (selected)="onSelect($event)"
             [disableItemID]="(itemID$ | async) || ''"
             [order]="ItemParentsRequest.Order.AUTO"
-          >
-          </app-moder-items-item-select-parent-tree-item>
+          />
         </li>
       }
     </ul>
-    <app-paginator [data]="response.paginator"></app-paginator>
+    @if (response.paginator) {
+      <app-paginator [data]="response.paginator"></app-paginator>
+    }
   }
 </div>

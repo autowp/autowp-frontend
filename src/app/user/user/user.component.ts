@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIUser} from '@grpc/spec.pb';
 
@@ -8,5 +8,5 @@ import {APIUser} from '@grpc/spec.pb';
   templateUrl: './user.component.html',
 })
 export class UserComponent {
-  @Input() user: APIUser | null = null;
+  readonly user = input.required<APIUser>();
 }

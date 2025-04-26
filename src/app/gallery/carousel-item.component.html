@@ -35,7 +35,7 @@
       </a>
     }
 
-    <a class="comments carousel-control" role="button" [routerLink]="prefix.concat([_item.identity])">
+    <a class="comments carousel-control" role="button" [routerLink]="prefix().concat([_item.identity])">
       <i class="bi bi-chat-fill" aria-hidden="true"></i>
       @if (_item.commentsCountTotal) {
         <div class="badge rounded-pill text-bg-info text-dark">
@@ -47,7 +47,7 @@
       }
     </a>
 
-    <a class="details carousel-control" role="button" [routerLink]="prefix.concat([_item.identity])">
+    <a class="details carousel-control" role="button" [routerLink]="prefix().concat([_item.identity])">
       <i class="bi bi-card-image" aria-hidden="true"></i>
     </a>
   }

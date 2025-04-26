@@ -1,7 +1,7 @@
 <div class="share">
   <a
     rel="noopener"
-    [href]="buildURL('https://twitter.com/intent/tweet/?', {url: url, text: text})"
+    [href]="buildURL('https://twitter.com/intent/tweet/?', {url: url(), text: text()})"
     target="_blank"
     class="btn btn-sm bi bi-twitter"
     aria-hidden="true"
@@ -9,7 +9,7 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('https://plus.google.com/share?', {url: url})"
+    [href]="buildURL('https://plus.google.com/share?', {url: url()})"
     target="_blank"
     class="btn btn-sm bi bi-google"
     aria-hidden="true"
@@ -17,7 +17,9 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('https://www.linkedin.com/shareArticle?', {mini: 'true', url: url, title: text, source: url})"
+    [href]="
+      buildURL('https://www.linkedin.com/shareArticle?', {mini: 'true', url: url(), title: text(), source: url()})
+    "
     target="_blank"
     class="btn btn-sm bi bi-linkedin"
     aria-hidden="true"
@@ -25,7 +27,7 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('https://reddit.com/submit/?', {url: url})"
+    [href]="buildURL('https://reddit.com/submit/?', {url: url()})"
     target="_blank"
     class="btn btn-sm bi bi-reddit"
     aria-hidden="true"
@@ -33,7 +35,7 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('https://pinterest.com/pin/create/button/?', {url: url, media: url, description: text})"
+    [href]="buildURL('https://pinterest.com/pin/create/button/?', {url: url(), media: url(), description: text()})"
     target="_blank"
     class="btn btn-sm bi bi-pinterest"
     aria-hidden="true"
@@ -41,7 +43,7 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('whatsapp://send?', {url: url, text: text + ' ' + url})"
+    [href]="buildURL('whatsapp://send?', {url: url(), text: text() + ' ' + url()})"
     target="_blank"
     class="btn btn-sm bi bi-whatsapp"
     aria-hidden="true"
@@ -49,7 +51,7 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('https://telegram.me/share/url?', {text: text, url: url})"
+    [href]="buildURL('https://telegram.me/share/url?', {text: text(), url: url()})"
     target="_blank"
     class="btn btn-sm bi bi-telegram"
     aria-hidden="true"
@@ -57,7 +59,7 @@
   ></a>
   <a
     rel="noopener"
-    [href]="buildURL('mailto:?', {subject: text, body: url})"
+    [href]="buildURL('mailto:?', {subject: text(), body: url()})"
     target="_blank"
     class="btn btn-sm bi bi-envelope-open"
     aria-hidden="true"

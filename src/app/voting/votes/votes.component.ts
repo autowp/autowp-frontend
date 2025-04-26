@@ -1,10 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {APIUser, VotingRequest} from '@grpc/spec.pb';
 import {VotingsClient} from '@grpc/spec.pbsc';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserService} from '@services/user';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -18,25 +19,18 @@ import {UserComponent} from '../../user/user/user.component';
 export class VotingVotesComponent {
   protected readonly activeModal = inject(NgbActiveModal);
   readonly #toastService = inject(ToastsService);
-  readonly #votingsCleint = inject(VotingsClient);
+  readonly #votingsClient = inject(VotingsClient);
   readonly #userService = inject(UserService);
 
-  @Input() set votingID(value: number) {
-    this.#votingID$.next(value);
-  }
-  readonly #votingID$ = new BehaviorSubject<null | number>(null);
-
-  @Input() set variantID(value: number) {
-    this.#variantID$.next(value);
-  }
-  readonly #variantID$ = new BehaviorSubject<null | number>(null);
+  readonly votingID = input.required<number>();
+  readonly variantID = input.required<number>();
 
   protected readonly votes$: Observable<Observable<APIUser | null>[]> = combineLatest([
-    this.#votingID$,
-    this.#variantID$,
+    toObservable(this.votingID),
+    toObservable(this.variantID),
   ]).pipe(
     switchMap(([votingID, variantID]) =>
-      votingID && variantID ? this.#votingsCleint.getVotingVariantVotes(new VotingRequest({id: variantID})) : of(null),
+      votingID && variantID ? this.#votingsClient.getVotingVariantVotes(new VotingRequest({id: variantID})) : of(null),
     ),
     catchError((response: unknown) => {
       this.#toastService.handleError(response);

@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
 import {APIItem} from '@grpc/spec.pb';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService, Role} from '@services/auth.service';
@@ -18,8 +18,9 @@ export class ModerItemsItemLogoComponent {
   readonly #auth = inject(AuthService);
   readonly #http = inject(HttpClient);
 
-  @Input() item?: APIItem;
-  @Output() itemUpdated = new EventEmitter<void>();
+  readonly item = input.required<APIItem>();
+
+  readonly itemUpdated = output<void>();
 
   protected readonly canLogo$ = this.#auth.hasRole$(Role.BRANDS_MODER);
   protected progress: null | {
@@ -48,9 +49,9 @@ export class ModerItemsItemLogoComponent {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
-    if (this.item) {
+    if (this.item()) {
       this.#http
-        .request('POST', '/api/item/' + this.item.id + '/logo', {
+        .request('POST', '/api/item/' + this.item().id + '/logo', {
           body: formData,
           observe: 'events',
           reportProgress: true,
@@ -89,7 +90,7 @@ export class ModerItemsItemLogoComponent {
                 this.progress.success = true;
               }
 
-              if (!this.item) {
+              if (!this.item()) {
                 return EMPTY;
               }
 

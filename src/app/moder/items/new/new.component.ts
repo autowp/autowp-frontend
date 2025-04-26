@@ -35,7 +35,7 @@ export class ModerItemsNewComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected invalidParams: InvalidParams | undefined = undefined;
+  protected invalidParams: InvalidParams = {};
 
   readonly #itemTypeID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') ?? '', 10)),

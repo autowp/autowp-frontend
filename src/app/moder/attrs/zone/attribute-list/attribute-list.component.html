@@ -1,18 +1,20 @@
-@if (attributes.length > 0) {
-  <ul>
-    @for (attribute of attributes; track attribute.id) {
-      <li>
-        <div>
-          @if (map[attribute.id]) {
-            <i class="bi bi-check"></i>
-          }
-          {{ getAttrsTranslation(attribute.name) }}
-        </div>
-        <app-moder-attrs-zone-attribute-list
-          [attributes]="attribute.childs"
-          [map]="map"
-        ></app-moder-attrs-zone-attribute-list>
-      </li>
-    }
-  </ul>
+@if (attributes(); as attributes) {
+  @if (attributes.length > 0) {
+    <ul>
+      @for (attribute of attributes; track attribute.id) {
+        <li>
+          <div>
+            @if (map()[attribute.id]) {
+              <i class="bi bi-check"></i>
+            }
+            {{ getAttrsTranslation(attribute.name) }}
+          </div>
+          <app-moder-attrs-zone-attribute-list
+            [attributes]="attribute.childs"
+            [map]="map()"
+          ></app-moder-attrs-zone-attribute-list>
+        </li>
+      }
+    </ul>
+  }
 }

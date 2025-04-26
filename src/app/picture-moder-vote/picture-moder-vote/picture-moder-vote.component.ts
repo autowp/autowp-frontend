@@ -1,10 +1,10 @@
 import {AsyncPipe, NgStyle} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {Picture} from '@grpc/spec.pb';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {UserService} from '@services/user';
-import {BehaviorSubject} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 
 import {APIPictureModerVoteTemplateService} from '../../api/picture-moder-vote-template/picture-moder-vote-template.service';
@@ -22,12 +22,10 @@ export class PictureModerVoteComponent {
   readonly #modalService = inject(NgbModal);
   readonly #userService = inject(UserService);
 
-  @Input() set picture(picture: null | Picture) {
-    this.picture$.next(picture);
-  }
-  protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
+  readonly picture = input.required<Picture>();
+  protected readonly picture$ = toObservable(this.picture);
 
-  @Output() changed = new EventEmitter<void>();
+  readonly changed = output<void>();
 
   protected readonly votes$ = this.picture$.pipe(
     map((picture) =>
@@ -47,11 +45,15 @@ export class PictureModerVoteComponent {
   protected save = false;
 
   protected votePicture(picture: Picture, vote: number, reason: string): void {
-    this.#moderVoteService.vote$(picture.id, vote, reason).subscribe(() => this.changed.emit());
+    this.#moderVoteService.vote$(picture.id, vote, reason).subscribe(() => {
+      this.changed.emit(void 0);
+    });
   }
 
   protected cancelVotePicture(picture: Picture): void {
-    this.#moderVoteService.cancel$(picture.id).subscribe(() => this.changed.emit());
+    this.#moderVoteService.cancel$(picture.id).subscribe(() => {
+      this.changed.emit(void 0);
+    });
   }
 
   protected showCustomDialog(picture: Picture, vote: number): void {
@@ -63,10 +65,10 @@ export class PictureModerVoteComponent {
     });
 
     if (picture) {
-      modalRef.componentInstance.pictureId = picture.id;
-      modalRef.componentInstance.vote = vote;
+      modalRef.componentInstance.setInput('pictureId', picture.id);
+      modalRef.componentInstance.setInput('vote', vote);
       modalRef.componentInstance.voted.subscribe(() => {
-        this.changed.emit();
+        this.changed.emit(void 0);
       });
     }
   }

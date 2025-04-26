@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
 import {
   APICommentsMessage,
@@ -35,25 +36,17 @@ export class CommentsComponent {
 
   readonly #reload$ = new BehaviorSubject<void>(void 0);
 
-  @Input() set itemID(itemID: string) {
-    this.itemID$.next(itemID);
-  }
-  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
+  readonly itemID = input.required<string>();
+  protected readonly itemID$ = toObservable(this.itemID);
 
-  @Input() set typeID(typeID: CommentsType) {
-    this.typeID$.next(typeID);
-  }
-  protected readonly typeID$ = new BehaviorSubject<CommentsType | null>(null);
+  readonly typeID = input.required<CommentsType>();
+  protected readonly typeID$ = toObservable(this.typeID);
 
-  @Input() set limit(limit: null | number) {
-    this.limit$.next(limit);
-  }
-  protected readonly limit$ = new BehaviorSubject<null | number>(null);
+  readonly limit = input<null | number>();
+  protected readonly limit$ = toObservable(this.limit);
 
-  @Input() set page(page: number) {
-    this.page$.next(page);
-  }
-  protected readonly page$ = new BehaviorSubject<null | number>(null);
+  readonly page = input<number>();
+  protected readonly page$ = toObservable(this.page);
 
   protected readonly authenticated$ = this.auth.authenticated$;
 

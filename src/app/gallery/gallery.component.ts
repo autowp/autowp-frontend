@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, HostListener, inject, Input, Output} from '@angular/core';
+import {Component, HostListener, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {Router, RouterLink} from '@angular/router';
 import {
   GalleryRequest,
@@ -20,7 +21,7 @@ import {
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
@@ -161,21 +162,16 @@ export class GalleryComponent {
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
 
-  @Input() set filter(filter: APIGalleryFilter) {
-    this.#filter$.next(filter);
-  }
-  readonly #filter$ = new BehaviorSubject<APIGalleryFilter | null>(null);
+  readonly filter = input.required<APIGalleryFilter>();
 
-  @Input() set current(current: null | string) {
-    this.current$.next(current);
-  }
-  public readonly current$ = new BehaviorSubject<null | string>(null);
+  readonly current = input.required<null | string>();
+  protected readonly current$ = toObservable(this.current);
 
-  @Input() galleryPrefix: string[] = [];
-  @Input() picturePrefix: string[] = [];
-  @Output() pictureSelected = new EventEmitter<null | Picture>();
+  readonly galleryPrefix = input.required<string[]>();
+  readonly picturePrefix = input.required<string[]>();
+  readonly pictureSelected = output<null | Picture>();
 
-  protected readonly currentFilter$ = this.#filter$.pipe(
+  protected readonly currentFilter$ = toObservable(this.filter).pipe(
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(50),
     shareReplay({bufferSize: 1, refCount: false}),
@@ -234,7 +230,7 @@ export class GalleryComponent {
     this.current$
       .pipe(
         take(1),
-        switchMap((current) => (current ? this.#router.navigate(this.picturePrefix.concat([current])) : EMPTY)),
+        switchMap((current) => (current ? this.#router.navigate(this.picturePrefix().concat([current])) : EMPTY)),
       )
       .subscribe();
   }
@@ -282,7 +278,7 @@ export class GalleryComponent {
   protected navigateToIndex(index: number, gallery: Gallery): void {
     const item = gallery.getItemByIndex(index);
     if (item) {
-      this.#router.navigate(this.galleryPrefix.concat([item.identity]));
+      this.#router.navigate(this.galleryPrefix().concat([item.identity]));
       return;
     }
 
@@ -290,7 +286,7 @@ export class GalleryComponent {
     this.loadPage$(page, gallery).subscribe(() => {
       const sitem = gallery.getItemByIndex(index);
       if (sitem) {
-        this.#router.navigate(this.galleryPrefix.concat([sitem.identity]));
+        this.#router.navigate(this.galleryPrefix().concat([sitem.identity]));
       }
     });
   }

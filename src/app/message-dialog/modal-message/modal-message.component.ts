@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MessageService} from '@services/message';
@@ -15,7 +15,7 @@ export class ModalMessageComponent {
   readonly #messageService = inject(MessageService);
   readonly #toastService = inject(ToastsService);
 
-  @Input() userId?: string;
+  readonly userId = input.required<string>();
 
   protected text = '';
   protected sending = false;
@@ -25,8 +25,9 @@ export class ModalMessageComponent {
     this.sending = true;
     this.sent = false;
 
-    if (this.userId) {
-      this.#messageService.send$(this.userId, this.text).subscribe({
+    const userId = this.userId();
+    if (userId) {
+      this.#messageService.send$(userId, this.text).subscribe({
         error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
           this.sending = false;

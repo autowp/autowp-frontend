@@ -1,14 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {
-  NgbNav,
-  NgbNavContent,
-  NgbNavItem,
-  NgbNavItemRole,
-  NgbNavLink,
-  NgbNavLinkBase,
-  NgbNavOutlet,
-} from '@ng-bootstrap/ng-bootstrap';
+import {Component, effect, input, output} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavLinkBase, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {AutosizeModule} from 'ngx-autosize';
 
@@ -16,7 +8,6 @@ import {AutosizeModule} from 'ngx-autosize';
   imports: [
     NgbNav,
     NgbNavItem,
-    NgbNavItemRole,
     NgbNavLink,
     NgbNavLinkBase,
     NgbNavContent,
@@ -24,15 +15,24 @@ import {AutosizeModule} from 'ngx-autosize';
     AutosizeModule,
     MarkdownComponent,
     NgbNavOutlet,
+    ReactiveFormsModule,
   ],
   selector: 'app-markdown-edit',
   templateUrl: './markdown-edit.component.html',
 })
 export class MarkdownEditComponent {
-  @Input() text: null | string = '';
-  @Output() textChange = new EventEmitter();
+  readonly text = input.required<string>();
+  readonly textChange = output<string>();
+
+  protected readonly control = new FormControl<string>('', {nonNullable: true});
+
+  constructor() {
+    effect(() => {
+      this.control.setValue(this.text());
+    });
+  }
 
   protected onChange() {
-    this.textChange.emit(this.text);
+    this.textChange.emit(this.control.value);
   }
 }

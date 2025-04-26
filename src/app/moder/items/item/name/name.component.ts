@@ -1,12 +1,13 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {APIGetItemLanguagesRequest, APIItem, ItemLanguage} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavLinkBase, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {ContentLanguageService} from '@services/content-language';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {MarkdownEditComponent} from '../../../../markdown-edit/markdown-edit/markdown-edit.component';
@@ -31,9 +32,8 @@ export class ModerItemsItemNameComponent {
   readonly #contentLanguage = inject(ContentLanguageService);
   readonly #itemsClient = inject(ItemsClient);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
   protected loadingNumber = 0;
 
@@ -58,8 +58,6 @@ export class ModerItemsItemNameComponent {
       return languages;
     }),
   );
-
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
 
   protected readonly data$: Observable<ItemLanguage[]> = this.item$.pipe(
     switchMap((item) =>

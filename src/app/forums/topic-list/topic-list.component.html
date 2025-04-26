@@ -4,7 +4,7 @@
       <th i18n scope="col">Topics</th>
       <th i18n scope="col">Author</th>
       <th i18n scope="col">Last message</th>
-      @if (showSubscribe) {
+      @if (showSubscribe()) {
         <th i18n scope="col">Subscription</th>
       }
       @if (forumAdmin$ | async) {
@@ -57,7 +57,7 @@
             <span>&#x2014;</span>
           }
         </td>
-        @if (showSubscribe) {
+        @if (showSubscribe()) {
           <td>
             <button class="btn btn-sm btn-warning" (click)="unsubscribe(topic)" i18n>Unsubscribe</button>
           </td>

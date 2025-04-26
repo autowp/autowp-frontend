@@ -1,11 +1,12 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIUser, Picture, PictureFields, PictureListOptions, PicturesRequest} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {UserService} from '@services/user';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import URLParse from 'url-parse';
 
@@ -33,10 +34,7 @@ export class UserTextComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set text(text: string) {
-    this.#text$.next(text);
-  }
-  readonly #text$ = new BehaviorSubject<null | string>(null);
+  readonly text = input.required<string>();
 
   readonly #parseUrlHosts = [
     'www.autowp.ru',
@@ -53,7 +51,7 @@ export class UserTextComponent {
     'wheelsage.org',
   ];
 
-  protected readonly textPrepared$ = this.#text$.pipe(
+  protected readonly textPrepared$ = toObservable(this.text).pipe(
     distinctUntilChanged(),
     debounceTime(10),
     switchMap((text) => this.prepareText$(text ? text : '')),

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APITreeItem, ItemParentType} from '@grpc/spec.pb';
 
@@ -8,6 +8,7 @@ import {APITreeItem, ItemParentType} from '@grpc/spec.pb';
   templateUrl: './tree.component.html',
 })
 export class ModerItemsItemTreeComponent {
-  @Input() item?: APITreeItem;
+  readonly item = input.required<APITreeItem>();
+
   protected readonly ItemParentType = ItemParentType;
 }

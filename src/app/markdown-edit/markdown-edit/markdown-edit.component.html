@@ -3,7 +3,7 @@
     <a ngbNavLink i18n>Edit</a>
     <ng-template ngbNavContent>
       <textarea
-        [(ngModel)]="text"
+        [formControl]="control"
         class="form-control"
         maxlength="65536"
         rows="1"
@@ -13,11 +13,11 @@
       ></textarea>
     </ng-template>
   </li>
-  <li ngbNavItem [disabled]="!text || !text.length">
+  <li ngbNavItem [disabled]="!text() || !text().length">
     <a ngbNavLink i18n>Preview</a>
     <ng-template ngbNavContent>
       <div class="card card-body">
-        <app-markdown [markdown]="text"></app-markdown>
+        <app-markdown [markdown]="text()"></app-markdown>
       </div>
     </ng-template>
   </li>

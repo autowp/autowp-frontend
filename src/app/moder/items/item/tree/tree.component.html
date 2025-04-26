@@ -1,4 +1,4 @@
-@if (item) {
+@if (item(); as item) {
   <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
   @if (item.childs?.length) {
     <ul>

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {PicturesPages} from '@grpc/spec.pb';
 
@@ -8,8 +8,8 @@ import {PicturesPages} from '@grpc/spec.pb';
   templateUrl: './paginator.component.html',
 })
 export class PicturePaginatorComponent {
-  @Input() paginator: null | PicturesPages | undefined = null;
-  @Input() prefix: string[] = [];
+  readonly paginator = input.required<PicturesPages>();
+  readonly prefix = input.required<string[]>();
 
   protected format(page: number, count: number) {
     const size = Math.max(2, count.toString().length);

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Pages} from '@grpc/spec.pb';
 
@@ -8,14 +8,14 @@ import {Pages} from '@grpc/spec.pb';
   templateUrl: './paginator.component.html',
 })
 export class PaginatorComponent {
-  @Input() data?: Pages;
+  readonly data = input.required<Pages>();
 
   protected pagesInRange(): number[] {
-    return this.data ? Object.values(this.data.pagesInRange) : [];
+    return Object.values(this.data().pagesInRange);
   }
 
   protected padd(page: number): string {
-    const size = this.data ? Math.max(2, this.data.pageCount.toString().length) : 1;
+    const size = Math.max(2, this.data().pageCount.toString().length);
     return page.toString().padStart(size, '0');
   }
 }

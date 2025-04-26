@@ -113,7 +113,7 @@ export class MapComponent implements OnInit {
             }
 
             this.#compRef = this.#viewContainerRef.createComponent(MapPopupComponent);
-            this.#compRef.instance.item = item;
+            this.#compRef.setInput('item', item);
 
             const div = document.createElement('div');
             div.appendChild(this.#compRef.location.nativeElement);

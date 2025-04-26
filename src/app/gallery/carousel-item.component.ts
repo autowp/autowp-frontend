@@ -1,5 +1,5 @@
 import {NgStyle} from '@angular/common';
-import {AfterViewInit, Component, ElementRef, HostListener, inject, Input} from '@angular/core';
+import {AfterViewInit, Component, effect, ElementRef, HostListener, inject, input} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
 import {Picture, PictureItem} from '@grpc/spec.pb';
@@ -74,30 +74,9 @@ export class CarouselItemComponent implements AfterViewInit {
   protected areas: Area[] = [];
   protected nameHtml: SafeHtml = '';
 
-  @Input() set item(item: Picture) {
-    this._item = item;
-    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
-    this.nameHtml = this.sanitizer.bypassSecurityTrustHtml(item.nameHtml);
-    this.areas = (item.pictureItems?.items || []).map((pictureItem) => ({
-      pictureItem,
-      styles: {},
-    }));
+  readonly item = input.required<Picture>();
 
-    this.cropLoading = true;
-    this.fullLoading = true;
-    this.cropMode = !!item.imageGallery;
-    this.fixSize();
-
-    if (!item.imageGallery) {
-      this.cropLoading = false;
-    }
-
-    if (!item.imageGalleryFull) {
-      this.fullLoading = false;
-    }
-  }
-
-  @Input() prefix: string[] = [];
+  readonly prefix = input.required<string[]>();
 
   protected fullStyle: Record<string, number> = {};
 
@@ -107,6 +86,31 @@ export class CarouselItemComponent implements AfterViewInit {
 
   protected fullLoading = true;
   protected cropLoading = true;
+
+  constructor() {
+    effect(() => {
+      this._item = this.item();
+      // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
+      this.nameHtml = this.sanitizer.bypassSecurityTrustHtml(this._item.nameHtml);
+      this.areas = (this._item.pictureItems?.items || []).map((pictureItem) => ({
+        pictureItem,
+        styles: {},
+      }));
+
+      this.cropLoading = true;
+      this.fullLoading = true;
+      this.cropMode = !!this._item.imageGallery;
+      this.fixSize();
+
+      if (!this._item.imageGallery) {
+        this.cropLoading = false;
+      }
+
+      if (!this._item.imageGalleryFull) {
+        this.fullLoading = false;
+      }
+    });
+  }
 
   @HostListener('window:resize', ['$event'])
   protected onResize() {

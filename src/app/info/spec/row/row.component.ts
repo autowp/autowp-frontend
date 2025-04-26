@@ -1,5 +1,5 @@
 import {NgStyle} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {Spec} from '@grpc/spec.pb';
 
 @Component({
@@ -8,6 +8,6 @@ import {Spec} from '@grpc/spec.pb';
   templateUrl: './row.component.html',
 })
 export class InfoSpecRowComponent {
-  @Input() row?: Spec;
-  @Input() deep = 0;
+  readonly row = input.required<Spec>();
+  readonly deep = input.required<number>();
 }

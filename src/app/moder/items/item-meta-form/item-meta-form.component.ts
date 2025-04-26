@@ -1,7 +1,8 @@
 import type {InvalidParams} from '@utils/invalid-params.pipe';
 
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormArray,
@@ -31,7 +32,7 @@ import {SpecService} from '@services/spec';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {getVehicleTypeTranslation} from '@utils/translations';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {sprintf} from 'sprintf-js';
 
@@ -195,36 +196,26 @@ export class ItemMetaFormComponent {
   readonly #languageService = inject(LanguageService);
   readonly #modalService = inject(NgbModal);
 
-  @Input() invalidParams?: InvalidParams;
-  @Output() submitted = new EventEmitter<ItemMetaFormResult>();
+  readonly invalidParams = input.required<InvalidParams>();
+  readonly submitted = output<ItemMetaFormResult>();
 
-  @Input() set disableIsGroup(disableIsGroup: boolean) {
-    this.disableIsGroup$.next(disableIsGroup);
-  }
-  protected readonly disableIsGroup$ = new BehaviorSubject<boolean | null>(null);
+  readonly disableIsGroup = input<boolean>(false);
+  protected readonly disableIsGroup$ = toObservable(this.disableIsGroup);
 
-  @Input() set parentIsConcept(isConcept: ParentIsConcept) {
-    this.parentIsConcept$.next(isConcept);
-  }
-  protected readonly parentIsConcept$ = new BehaviorSubject<null | ParentIsConcept>(null);
+  readonly parentIsConcept = input<null | ParentIsConcept>(null);
+  protected readonly parentIsConcept$ = toObservable(this.parentIsConcept);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
-  @Input() set vehicleTypeIDs(vehicleTypeIDs: string[]) {
-    this.#vehicleTypeIDs$.next(vehicleTypeIDs);
-  }
-  readonly #vehicleTypeIDs$ = new BehaviorSubject<null | string[]>(null);
+  readonly vehicleTypeIDs = input.required<string[]>();
 
-  @Input() set items(items: APIItem[]) {
-    this.items$.next(items);
-  }
-  protected readonly items$ = new BehaviorSubject<APIItem[] | null>(null);
+  readonly items = input<APIItem[]>([]);
+  protected readonly items$ = toObservable(this.items);
 
-  @Input() set pictures(pictures: PictureItem[]) {
-    this.pictures$.next(
+  readonly pictures = input<PictureItem[]>([]);
+  readonly pictures$ = toObservable(this.pictures).pipe(
+    map((pictures) =>
       pictures
         ? pictures.map((p) => ({
             picture$: this.#picturesClient.getPicture(
@@ -238,9 +229,8 @@ export class ItemMetaFormComponent {
             selected: false,
           }))
         : null,
-    );
-  }
-  protected readonly pictures$ = new BehaviorSubject<null | PicturesListItem[]>(null);
+    ),
+  );
 
   readonly #vehicleTypes$: Observable<VehicleType[]> = this.#vehicleTypeService.getTypesPlain$().pipe(
     map((types) =>
@@ -350,7 +340,7 @@ export class ItemMetaFormComponent {
 
   protected readonly form$: Observable<FormGroup<Form>> = combineLatest([
     this.item$.pipe(switchMap((item) => (item ? of(item) : EMPTY))),
-    this.#vehicleTypeIDs$,
+    toObservable(this.vehicleTypeIDs),
     this.disableIsGroup$,
     this.items$,
     this.pictures$,
@@ -474,7 +464,7 @@ export class ItemMetaFormComponent {
       size: 'lg',
     });
 
-    modalRef.componentInstance.ids = vehicleTypeIDs.value;
+    modalRef.componentInstance.setInput('ids', vehicleTypeIDs.value);
     modalRef.componentInstance.changed.subscribe((value: string[]) => {
       vehicleTypeIDs.setValue(value);
     });

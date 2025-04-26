@@ -1,10 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 @Component({
@@ -16,12 +17,9 @@ export class ModerItemsItemVehiclesComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set itemId(item: string) {
-    this.#itemId$.next(item);
-  }
-  readonly #itemId$ = new BehaviorSubject<null | string>(null);
+  readonly itemId = input.required<string>();
 
-  protected readonly engineVehicles$: Observable<APIItem[]> = this.#itemId$.pipe(
+  protected readonly engineVehicles$: Observable<APIItem[]> = toObservable(this.itemId).pipe(
     switchMap((itemId) =>
       itemId
         ? this.#itemsClient.list(

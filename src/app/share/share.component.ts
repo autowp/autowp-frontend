@@ -1,5 +1,5 @@
 import {HttpParams} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 
 @Component({
   selector: 'app-share',
@@ -8,8 +8,8 @@ import {Component, Input} from '@angular/core';
   templateUrl: './share.component.html',
 })
 export class ShareComponent {
-  @Input() url = '';
-  @Input() text = '';
+  readonly url = input.required<string>();
+  readonly text = input.required<string>();
 
   buildURL(url: string, params: Record<string, string>): string {
     let p = new HttpParams();

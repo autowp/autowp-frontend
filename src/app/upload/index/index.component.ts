@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, viewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
@@ -87,7 +87,7 @@ export class UploadIndexComponent implements OnInit {
   protected formHidden = false;
   protected readonly authenticated$ = this.auth.authenticated$;
 
-  @ViewChild('input') public input: ElementRef | null = null;
+  public input = viewChild<ElementRef>('input');
 
   protected readonly perspectiveID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('perspective_id') ?? '', 10)),
@@ -178,8 +178,9 @@ export class UploadIndexComponent implements OnInit {
 
     concat(...xhrs).subscribe({
       complete: () => {
-        if (this.input) {
-          this.input.nativeElement.value = '';
+        const elementRef = this.input();
+        if (elementRef) {
+          elementRef.nativeElement.value = '';
         }
         this.formHidden = false;
         this.files = undefined;
@@ -320,7 +321,7 @@ export class UploadIndexComponent implements OnInit {
       size: 'lg',
     });
 
-    modalRef.componentInstance.picture = picture.picture;
+    modalRef.componentInstance.setInput('picture', picture.picture);
     modalRef.componentInstance.changed
       .pipe(
         switchMap(() =>

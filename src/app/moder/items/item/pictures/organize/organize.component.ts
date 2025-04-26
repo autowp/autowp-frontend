@@ -47,7 +47,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   readonly #toastService = inject(ToastsService);
 
   protected loading = 0;
-  protected invalidParams?: InvalidParams;
+  protected invalidParams: InvalidParams = {};
 
   readonly #itemID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),

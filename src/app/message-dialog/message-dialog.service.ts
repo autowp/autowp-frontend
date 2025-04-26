@@ -26,6 +26,6 @@ export class MessageDialogService {
         }
       },
     );
-    modalRef.componentInstance.userId = userId;
+    modalRef.componentInstance.setInput('userId', userId);
   }
 }

@@ -1,9 +1,10 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {ItemFields, ItemParent, ItemParentsRequest, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-item.component';
@@ -17,14 +18,12 @@ export class ModerItemsItemSelectParentTreeComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set itemParent(value: ItemParent) {
-    this.itemParent$.next(value);
-  }
-  protected readonly itemParent$ = new BehaviorSubject<ItemParent | null>(null);
+  readonly itemParent = input.required<ItemParent>();
+  protected readonly itemParent$ = toObservable(this.itemParent);
 
-  @Input() order?: ItemParentsRequest.Order;
-  @Input() disableItemID?: string;
-  @Output() selected = new EventEmitter<string>();
+  readonly order = input.required<ItemParentsRequest.Order>();
+  readonly disableItemID = input.required<string>();
+  readonly selected = output<string>();
 
   protected readonly item$ = this.itemParent$.pipe(
     switchMap((item) =>

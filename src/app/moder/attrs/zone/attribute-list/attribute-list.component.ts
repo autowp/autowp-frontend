@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {getAttrsTranslation} from '@utils/translations';
 
 import {AttrAttributeTreeItem} from '../../../../api/attrs/attrs.service';
@@ -9,8 +9,8 @@ import {AttrAttributeTreeItem} from '../../../../api/attrs/attrs.service';
   templateUrl: './attribute-list.component.html',
 })
 export class ModerAttrsZoneAttributeListComponent {
-  @Input() attributes: AttrAttributeTreeItem[] = [];
-  @Input() map: Record<string, boolean> = {};
+  readonly attributes = input.required<AttrAttributeTreeItem[]>();
+  readonly map = input.required<Record<string, boolean>>();
 
   protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);

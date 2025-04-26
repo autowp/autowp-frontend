@@ -1,11 +1,12 @@
 import {AsyncPipe, NgIf} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APITopBrandsListItem, NewItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
@@ -18,11 +19,8 @@ export class IndexBrandsBrandComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set brand(item: APITopBrandsListItem) {
-    this.brand$.next(item);
-  }
-  protected readonly brand$: BehaviorSubject<APITopBrandsListItem | null> =
-    new BehaviorSubject<APITopBrandsListItem | null>(null);
+  readonly brand = input.required<APITopBrandsListItem>();
+  protected readonly brand$ = toObservable(this.brand);
 
   protected readonly response$ = this.brand$.pipe(
     switchMap((brand) =>

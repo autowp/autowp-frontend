@@ -1,4 +1,4 @@
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
@@ -15,25 +15,27 @@ export class PictureModerVoteModalComponent {
   readonly #templateService = inject(APIPictureModerVoteTemplateService);
   readonly #moderVoteService = inject(PictureModerVoteService);
 
-  @Input() pictureId?: string;
-  @Input() vote = 0;
-  @Output() voted = new EventEmitter();
+  readonly pictureId = input.required<string>();
+  readonly vote = input.required<number>();
+  readonly voted = output();
 
   protected reason = '';
   protected save = false;
 
   protected ok() {
-    if (this.save && this.vote) {
+    const vote = this.vote();
+    if (this.save && vote) {
       this.#templateService
         .createTemplate$({
           name: this.reason,
-          vote: this.vote,
+          vote: vote,
         })
         .subscribe();
     }
 
-    if (this.pictureId && this.vote) {
-      this.#moderVoteService.vote$(this.pictureId, this.vote, this.reason).subscribe(() => this.voted.emit());
+    const pictureId = this.pictureId();
+    if (pictureId && vote) {
+      this.#moderVoteService.vote$(pictureId, vote, this.reason).subscribe(() => this.voted.emit());
     }
 
     this.activeModal.close();

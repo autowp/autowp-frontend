@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, forwardRef, inject, Input, Output} from '@angular/core';
+import {Component, forwardRef, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {
   APIItem,
   ItemListOptions,
@@ -10,7 +11,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, combineLatest, EMPTY, Observable} from 'rxjs';
+import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
@@ -26,19 +27,15 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(value: APIItem) {
-    this.item$.next(value);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
-  @Input() set order(value: ItemParentsRequest.Order) {
-    this.order$.next(value);
-  }
-  protected readonly order$ = new BehaviorSubject<ItemParentsRequest.Order>(ItemParentsRequest.Order.AUTO);
+  readonly order = input.required<ItemParentsRequest.Order>();
+  protected readonly order$ = toObservable(this.order);
 
-  @Input() disableItemID = '';
-  @Input() typeID: ItemParentType = ItemParentType.ITEM_TYPE_DEFAULT;
-  @Output() selected = new EventEmitter<string>();
+  readonly disableItemID = input.required<string>();
+  readonly typeID = input<ItemParentType>(ItemParentType.ITEM_TYPE_DEFAULT);
+  readonly selected = output<string>();
 
   protected open = false;
 
@@ -70,7 +67,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   );
 
   protected isDisabled(item: APIItem): boolean {
-    return item.id === this.disableItemID;
+    return item.id === this.disableItemID();
   }
 
   protected onSelect(itemID: string) {

@@ -1,5 +1,6 @@
 import {AsyncPipe, DatePipe, NgStyle} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {FormArray, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   APIItem,
@@ -96,10 +97,8 @@ export class CarsSpecificationsEditorSpecComponent {
   readonly #attrsClient = inject(AttrsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  readonly item$ = toObservable(this.item);
 
   protected loading = 0;
   readonly #change$ = new BehaviorSubject<void>(void 0);

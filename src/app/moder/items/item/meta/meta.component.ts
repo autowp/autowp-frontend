@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {APIGetItemVehicleTypesRequest, APIItem, ItemType, UpdateItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,7 @@ import {FieldMask} from '@ngx-grpc/well-known-types';
 import {AuthService, Role} from '@services/auth.service';
 import {ItemService} from '@services/item';
 import {InvalidParams} from '@utils/invalid-params.pipe';
-import {BehaviorSubject, EMPTY, forkJoin, Observable, of} from 'rxjs';
+import {EMPTY, forkJoin, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../../../grpc';
@@ -30,15 +31,13 @@ export class ModerItemsItemMetaComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #toastService = inject(ToastsService);
 
-  @Input() set item(item: APIItem) {
-    this.item$.next(item);
-  }
-  protected readonly item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
+  protected readonly item$ = toObservable(this.item);
 
   protected loadingNumber = 0;
 
   protected readonly canEditMeta$ = this.#auth.hasRole$(Role.CARS_MODER);
-  protected invalidParams?: InvalidParams;
+  protected invalidParams: InvalidParams = {};
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {

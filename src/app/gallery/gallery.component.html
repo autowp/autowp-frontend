@@ -24,7 +24,7 @@
               [class.previous]="gallery.current > i"
               [class.next]="i > gallery.current"
               [item]="item"
-              [prefix]="picturePrefix"
+              [prefix]="picturePrefix()"
             >
             </app-gallery-carousel-item>
           }
@@ -56,7 +56,7 @@
         <button
           type="button"
           class="carousel-control-close"
-          [routerLink]="picturePrefix.concat([identity])"
+          [routerLink]="picturePrefix().concat([identity])"
           role="button"
         >
           <i class="bi bi-x fs-1" aria-hidden="true"></i>

@@ -1,4 +1,4 @@
-@if (item) {
+@if (item(); as item) {
   <span [innerHTML]="item.nameHTML"></span>
   @if (item.design) {
     <sup class="design-brand mx-2"

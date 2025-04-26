@@ -1,6 +1,6 @@
-@if (item) {
+@if (item(); as item) {
   <div class="car item-list-item">
-    @if (!disableTitle) {
+    @if (!disableTitle()) {
       <h3>
         <app-item-header
           [item]="{

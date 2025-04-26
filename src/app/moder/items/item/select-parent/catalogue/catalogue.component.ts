@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -14,7 +15,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {chunk} from '../../../../../chunk';
@@ -34,17 +35,13 @@ export class ModerItemsItemSelectParentCatalogueComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Output() selected = new EventEmitter<string>();
+  readonly selected = output<string>();
 
-  @Input() set itemID(value: string) {
-    this.itemID$.next(value);
-  }
-  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
+  readonly itemID = input.required<string>();
+  protected readonly itemID$ = toObservable(this.itemID);
 
-  @Input() set itemTypeID(value: ItemType) {
-    this.itemTypeID$.next(value);
-  }
-  protected readonly itemTypeID$ = new BehaviorSubject<ItemType | null>(null);
+  readonly itemTypeID = input.required<ItemType>();
+  protected readonly itemTypeID$ = toObservable(this.itemTypeID);
 
   protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),

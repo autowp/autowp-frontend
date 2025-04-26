@@ -16,7 +16,7 @@
             <a
               [class.active]="rating.catname === ratingCatname"
               class="dropdown-item"
-              [routerLink]="prefix.concat([rating.catname])"
+              [routerLink]="prefix().concat([rating.catname])"
               [textContent]="getMostsRatingsTranslation(rating.name)"
             >
             </a>
@@ -44,7 +44,7 @@
             <a
               class="dropdown-item"
               [class.active]="type.catname === (typeCatname$ | async)"
-              [routerLink]="prefix.concat([ratingCatname, type.catname])"
+              [routerLink]="prefix().concat([ratingCatname, type.catname])"
               [textContent]="type.nameTranslated"
             ></a>
           }
@@ -71,7 +71,7 @@
                 <a
                   [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
                   class="dropdown-item"
-                  [routerLink]="prefix.concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
+                  [routerLink]="prefix().concat([ratingCatname, typeCatname, year.catname ? year.catname : ''])"
                   [textContent]="getMostsPeriodsTranslation(year.name)"
                 >
                 </a>
@@ -81,7 +81,7 @@
                 <a
                   [class.active]="year.catname ? year.catname === yearsCatname : !yearsCatname"
                   class="dropdown-item"
-                  [routerLink]="prefix.concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
+                  [routerLink]="prefix().concat([ratingCatname, defaultTypeCatname, year.catname ? year.catname : ''])"
                   [textContent]="getMostsPeriodsTranslation(year.name)"
                 >
                 </a>

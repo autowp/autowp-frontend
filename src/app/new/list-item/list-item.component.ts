@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIItem, Picture} from '@grpc/spec.pb';
 import {AuthService, Role} from '@services/auth.service';
@@ -16,8 +16,9 @@ export class NewListItemComponent {
   readonly #auth = inject(AuthService);
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
-  @Input() item: APIItem | null = null;
-  @Input() pictures: Picture[] = [];
-  @Input() totalPictures = 0;
-  @Input() date = '';
+
+  readonly item = input.required<APIItem>();
+  readonly pictures = input.required<Picture[]>();
+  readonly totalPictures = input.required<number>();
+  readonly date = input.required<string>();
 }

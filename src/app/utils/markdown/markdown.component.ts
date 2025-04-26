@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, Input} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {Component, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs/operators';
 import showdown from 'showdown';
 
@@ -11,14 +11,11 @@ import showdown from 'showdown';
   templateUrl: './markdown.component.html',
 })
 export class MarkdownComponent {
-  @Input() set markdown(value: null | string) {
-    this.#markdown$.next(value);
-  }
-  readonly #markdown$ = new BehaviorSubject<null | string>(null);
+  readonly markdown = input.required<null | string>();
 
   readonly #markdownConverter = new showdown.Converter({});
 
-  protected readonly html$ = this.#markdown$.pipe(
+  protected readonly html$ = toObservable(this.markdown).pipe(
     map((markdown) => (markdown ? this.#markdownConverter.makeHtml(markdown) : '')),
   );
 }

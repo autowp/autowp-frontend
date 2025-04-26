@@ -1,6 +1,6 @@
 @if (picture$ | async; as picture) {
   <div class="page-header">
-    @if (h2) {
+    @if (h2()) {
       <h2>
         <span [innerHTML]="picture.nameHtml"></span>
         @if (pictureItems$ | async; as items) {
@@ -387,7 +387,9 @@
           }
         }
       </ul>
-      <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix"></app-picture-paginator>
+      @if (picture.paginator) {
+        <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix()"></app-picture-paginator>
+      }
     </div>
   </div>
   @if (moderVotes$ | async; as votes) {

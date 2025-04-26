@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {getAttrsTranslation} from '@utils/translations';
 
@@ -10,7 +10,7 @@ import {AttrAttributeTreeItem} from '../../../api/attrs/attrs.service';
   templateUrl: './attribute-list.component.html',
 })
 export class ModerAttrsAttributeListComponent {
-  @Input() attributes: AttrAttributeTreeItem[] = [];
+  readonly attributes = input.required<AttrAttributeTreeItem[]>();
 
   protected getAttrsTranslation(id: string): string {
     return getAttrsTranslation(id);

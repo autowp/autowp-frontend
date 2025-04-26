@@ -8,7 +8,7 @@
             <input
               type="text"
               [class.is-invalid]="
-                (name.invalid && (name.dirty || !name.untouched)) || (invalidParams && invalidParams['name'])
+                (name.invalid && (name.dirty || !name.untouched)) || (invalidParams() && invalidParams()['name'])
               "
               id="name"
               name="name"
@@ -16,7 +16,7 @@
               [formControl]="name"
               required
             />
-            @for (message of invalidParams | invalidParams: 'name'; track message) {
+            @for (message of invalidParams() | invalidParams: 'name'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -29,7 +29,7 @@
             <input
               [class.is-invalid]="
                 (fullName.invalid && (fullName.dirty || !fullName.untouched)) ||
-                (invalidParams && invalidParams['full_name'])
+                (invalidParams() && invalidParams()['full_name'])
               "
               type="text"
               id="full_name"
@@ -37,7 +37,7 @@
               class="form-control"
               [formControl]="fullName"
             />
-            @for (message of invalidParams | invalidParams: 'full_name'; track message) {
+            @for (message of invalidParams() | invalidParams: 'full_name'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -50,7 +50,7 @@
             <input
               [class.is-invalid]="
                 (catname.invalid && (catname.dirty || !catname.untouched)) ||
-                (invalidParams && invalidParams['catname'])
+                (invalidParams() && invalidParams()['catname'])
               "
               type="text"
               id="catname"
@@ -58,7 +58,7 @@
               class="form-control"
               [formControl]="catname"
             />
-            @for (message of invalidParams | invalidParams: 'catname'; track message) {
+            @for (message of invalidParams() | invalidParams: 'catname'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -70,7 +70,7 @@
           <div class="col-md-10">
             <input
               [class.is-invalid]="
-                (body.invalid && (body.dirty || !body.untouched)) || (invalidParams && invalidParams['body'])
+                (body.invalid && (body.dirty || !body.untouched)) || (invalidParams() && invalidParams()['body'])
               "
               type="text"
               id="body"
@@ -79,7 +79,7 @@
               class="form-control"
               [formControl]="body"
             />
-            @for (message of invalidParams | invalidParams: 'body'; track message) {
+            @for (message of invalidParams() | invalidParams: 'body'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -91,7 +91,8 @@
           <div class="col-md-10">
             <select
               [class.is-invalid]="
-                (specID.invalid && (specID.dirty || !specID.untouched)) || (invalidParams && invalidParams['spec_id'])
+                (specID.invalid && (specID.dirty || !specID.untouched)) ||
+                (invalidParams() && invalidParams()['spec_id'])
               "
               id="spec_id"
               name="spec_id"
@@ -105,7 +106,7 @@
                 </option>
               }
             </select>
-            @for (message of invalidParams | invalidParams: 'spec_id'; track message) {
+            @for (message of invalidParams() | invalidParams: 'spec_id'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -151,7 +152,7 @@
                     type="number"
                     [class.is-invalid]="
                       (beginYear.invalid && (beginYear.dirty || !beginYear.untouched)) ||
-                      (invalidParams && invalidParams['begin_model_year'])
+                      (invalidParams() && invalidParams()['begin_model_year'])
                     "
                     id="begin_model_year"
                     name="begin_model_year"
@@ -169,7 +170,7 @@
                     class="form-select"
                     [class.is-invalid]="
                       (beginYearFraction.invalid && (beginYearFraction.dirty || !beginYearFraction.untouched)) ||
-                      (invalidParams && invalidParams['begin_model_year_fraction'])
+                      (invalidParams() && invalidParams()['begin_model_year_fraction'])
                     "
                     name="begin_model_year_fraction"
                     [formControl]="beginYearFraction"
@@ -188,7 +189,7 @@
                     type="number"
                     [class.is-invalid]="
                       (endYear.invalid && (endYear.dirty || !endYear.untouched)) ||
-                      (invalidParams && invalidParams['end_model_year'])
+                      (invalidParams() && invalidParams()['end_model_year'])
                     "
                     name="end_model_year"
                     placeholder="to"
@@ -205,7 +206,7 @@
                     class="form-select"
                     [class.is-invalid]="
                       (endYearFraction.invalid && (endYearFraction.dirty || !endYearFraction.untouched)) ||
-                      (invalidParams && invalidParams['end_model_year_fraction'])
+                      (invalidParams() && invalidParams()['end_model_year_fraction'])
                     "
                     name="end_model_year_fraction"
                     [formControl]="endYearFraction"
@@ -219,10 +220,10 @@
                 </div>
               }
             </div>
-            @for (message of invalidParams | invalidParams: 'begin_model_year'; track message) {
+            @for (message of invalidParams() | invalidParams: 'begin_model_year'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
-            @for (message of invalidParams | invalidParams: 'end_model_year'; track message) {
+            @for (message of invalidParams() | invalidParams: 'end_model_year'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -239,7 +240,7 @@
                     type="number"
                     [class.is-invalid]="
                       (beginYear.invalid && (beginYear.dirty || !beginYear.untouched)) ||
-                      (invalidParams && invalidParams['begin_year'])
+                      (invalidParams() && invalidParams()['begin_year'])
                     "
                     id="begin_year"
                     name="begin_year"
@@ -257,7 +258,7 @@
                     name="begin_month"
                     [class.is-invalid]="
                       (beginMonth.invalid && (beginMonth.dirty || !beginMonth.untouched)) ||
-                      (invalidParams && invalidParams['begin_month'])
+                      (invalidParams() && invalidParams()['begin_month'])
                     "
                     title="month"
                     i18n-title
@@ -271,10 +272,10 @@
                 </div>
               }
             </div>
-            @for (message of invalidParams | invalidParams: 'begin_year'; track message) {
+            @for (message of invalidParams() | invalidParams: 'begin_year'; track message) {
               <p [textContent]="message" class="invalid-feedback d-block"></p>
             }
-            @for (message of invalidParams | invalidParams: 'begin_month'; track message) {
+            @for (message of invalidParams() | invalidParams: 'begin_month'; track message) {
               <p [textContent]="message" class="invalid-feedback d-block"></p>
             }
           </div>
@@ -291,7 +292,7 @@
                     type="number"
                     [class.is-invalid]="
                       (endYear.invalid && (endYear.dirty || !endYear.untouched)) ||
-                      (invalidParams && invalidParams['end_year'])
+                      (invalidParams() && invalidParams()['end_year'])
                     "
                     id="end_year"
                     name="end_year"
@@ -309,7 +310,7 @@
                     name="end_month"
                     [class.is-invalid]="
                       (endMonth.invalid && (endMonth.dirty || !endMonth.untouched)) ||
-                      (invalidParams && invalidParams['end_month'])
+                      (invalidParams() && invalidParams()['end_month'])
                     "
                     title="month"
                     i18n-title
@@ -327,7 +328,8 @@
                   <select
                     name="today"
                     [class.is-invalid]="
-                      (today.invalid && (today.dirty || !today.untouched)) || (invalidParams && invalidParams['today'])
+                      (today.invalid && (today.dirty || !today.untouched)) ||
+                      (invalidParams() && invalidParams()['today'])
                     "
                     [formControl]="today"
                     title="today"
@@ -341,13 +343,13 @@
                 </div>
               }
             </div>
-            @for (message of invalidParams | invalidParams: 'end_year'; track message) {
+            @for (message of invalidParams() | invalidParams: 'end_year'; track message) {
               <p [textContent]="message" class="invalid-feedback d-block"></p>
             }
-            @for (message of invalidParams | invalidParams: 'end_month'; track message) {
+            @for (message of invalidParams() | invalidParams: 'end_month'; track message) {
               <p [textContent]="message" class="invalid-feedback d-block"></p>
             }
-            @for (message of invalidParams | invalidParams: 'today'; track message) {
+            @for (message of invalidParams() | invalidParams: 'today'; track message) {
               <p [textContent]="message" class="invalid-feedback d-block"></p>
             }
           </div>
@@ -364,7 +366,7 @@
                     type="number"
                     [class.is-invalid]="
                       (count.invalid && (count.dirty || !count.untouched)) ||
-                      (invalidParams && invalidParams['produced_count'])
+                      (invalidParams() && invalidParams()['produced_count'])
                     "
                     id="produced"
                     name="produced"
@@ -383,7 +385,7 @@
                     name="produced_exactly"
                     [class.is-invalid]="
                       (exactly.invalid && (exactly.dirty || !exactly.untouched)) ||
-                      (invalidParams && invalidParams['produced_exactly'])
+                      (invalidParams() && invalidParams()['produced_exactly'])
                     "
                     class="form-select"
                     [formControl]="exactly"
@@ -395,10 +397,10 @@
                 </div>
               }
             </div>
-            @for (message of invalidParams | invalidParams: 'produced_count'; track message) {
+            @for (message of invalidParams() | invalidParams: 'produced_count'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
-            @for (message of invalidParams | invalidParams: 'produced_exactly'; track message) {
+            @for (message of invalidParams() | invalidParams: 'produced_exactly'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -413,7 +415,7 @@
               name="is_concept"
               [class.is-invalid]="
                 (isConcept.invalid && (isConcept.dirty || !isConcept.untouched)) ||
-                (invalidParams && invalidParams['is_concept'])
+                (invalidParams() && invalidParams()['is_concept'])
               "
               style="width: 20%"
               class="form-select"
@@ -423,7 +425,7 @@
                 <option [ngValue]="option.value">{{ option.name }}</option>
               }
             </select>
-            @for (message of invalidParams | invalidParams: 'is_concept'; track message) {
+            @for (message of invalidParams() | invalidParams: 'is_concept'; track message) {
               <p [textContent]="message" class="invalid-feedback"></p>
             }
           </div>
@@ -440,7 +442,7 @@
                   name="is_group"
                   [class.is-invalid]="
                     (isGroup.invalid && (isGroup.dirty || !isGroup.untouched)) ||
-                    (invalidParams && invalidParams['is_group'])
+                    (invalidParams() && invalidParams()['is_group'])
                   "
                   value="1"
                   [formControl]="isGroup"

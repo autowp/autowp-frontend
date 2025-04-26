@@ -1,4 +1,4 @@
-@if (item) {
+@if (item(); as item) {
   @if ((item.item?.childsCount || 0) > 0) {
     <div>
       <i class="bi bi-folder2 me-1" aria-hidden="true" [hidden]="open"></i>

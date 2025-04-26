@@ -1,4 +1,4 @@
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
 import {
   ItemFields,
   ItemListOptions,
@@ -24,8 +24,8 @@ export class CarsSelectEngineTreeItemComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() item?: ItemParent;
-  @Output() selected = new EventEmitter<string>();
+  readonly item = input.required<ItemParent>();
+  readonly selected = output<string>();
 
   protected open = false;
   protected loading = false;
@@ -33,7 +33,7 @@ export class CarsSelectEngineTreeItemComponent {
 
   private loadChildCatalogues() {
     this.loading = true;
-    if (this.item) {
+    if (this.item()) {
       this.#itemsClient
         .getItemParents(
           new ItemParentsRequest({
@@ -49,7 +49,7 @@ export class CarsSelectEngineTreeItemComponent {
               item: new ItemListOptions({
                 typeId: ItemType.ITEM_TYPE_ENGINE,
               }),
-              parentId: this.item.itemId,
+              parentId: this.item().itemId,
             }),
             order: ItemParentsRequest.Order.AUTO,
           }),

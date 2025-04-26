@@ -1,10 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemParentsRequest, ItemsRequest, ItemType, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {PaginatorComponent} from '../../../../../paginator/paginator/paginator.component';
@@ -22,12 +23,10 @@ export class ModerItemsItemSelectParentFactoriesComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Output() selected = new EventEmitter<string>();
+  readonly selected = output<string>();
 
-  @Input() set itemID(value: string) {
-    this.itemID$.next(value);
-  }
-  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
+  readonly itemID = input.required<string>();
+  protected readonly itemID$ = toObservable(this.itemID);
 
   protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),

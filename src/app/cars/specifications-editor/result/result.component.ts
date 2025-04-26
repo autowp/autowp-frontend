@@ -1,10 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
 import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 @Component({
@@ -17,12 +18,9 @@ export class CarsSpecificationsEditorResultComponent {
   readonly #sanitizer = inject(DomSanitizer);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: APIItem) {
-    this.#item$.next(item);
-  }
-  readonly #item$ = new BehaviorSubject<APIItem | null>(null);
+  readonly item = input.required<APIItem>();
 
-  protected readonly html$ = this.#item$.pipe(
+  protected readonly html$ = toObservable(this.item).pipe(
     switchMap((item) =>
       item
         ? this.#attrsClient.getSpecifications(

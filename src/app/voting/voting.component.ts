@@ -112,8 +112,8 @@ export class VotingComponent {
       size: 'lg',
     });
 
-    modalRef.componentInstance.votingID = voting.id;
-    modalRef.componentInstance.variantID = variant.id;
+    modalRef.componentInstance.setInput('votingID', voting.id);
+    modalRef.componentInstance.setInput('variantID', variant.id);
 
     return false;
   }

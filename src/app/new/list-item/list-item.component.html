@@ -1,4 +1,4 @@
-@if (item) {
+@if (item(); as item) {
   <div class="car item-list-item">
     <h3>
       <app-item-header
@@ -13,7 +13,7 @@
       <h4 [textContent]="item.nameDefault"></h4>
     }
     <div class="row">
-      @for (picture of pictures; track picture) {
+      @for (picture of pictures(); track picture) {
         <div class="col-6 col-sm-4 col-lg-2">
           @if (picture.thumbMedium) {
             <a [routerLink]="['/picture', picture.identity]" class="d-block rounded mb-4">
@@ -36,11 +36,11 @@
       <app-markdown class="text" [markdown]="item.description"></app-markdown>
     }
     <ul class="list-inline">
-      @if (totalPictures > 6) {
+      @if (totalPictures() > 6) {
         <li class="list-inline-item">
           <span class="bi bi-grid-3x2-gap-fill me-1" aria-hidden="true"></span>
-          <a [routerLink]="['/new', date, 'item', item.id]"
-            ><ng-container i18n>all pictures</ng-container> ({{ totalPictures }})</a
+          <a [routerLink]="['/new', date(), 'item', item.id]"
+            ><ng-container i18n>all pictures</ng-container> ({{ totalPictures() }})</a
           >
         </li>
       }

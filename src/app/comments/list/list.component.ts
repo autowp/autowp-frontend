@@ -1,9 +1,9 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
   APICommentsMessage,
-  APIUser,
   CommentMessageFields,
   CommentsSetDeletedRequest,
   CommentsType,
@@ -17,7 +17,7 @@ import {AuthService, Role} from '@services/auth.service';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {UserTextComponent} from '@utils/user-text/user-text.component';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -51,39 +51,27 @@ export class CommentsListComponent {
   readonly #commentsGrpc = inject(CommentsClient);
   readonly #userService = inject(UserService);
 
-  @Input() set itemID(itemID: string) {
-    this.itemID$.next(itemID);
-  }
-  protected readonly itemID$ = new BehaviorSubject<null | string>(null);
+  readonly itemID = input.required<string>();
+  protected readonly itemID$ = toObservable(this.itemID);
 
-  @Input() set typeID(typeID: CommentsType) {
-    this.typeID$.next(typeID);
-  }
-  protected readonly typeID$ = new BehaviorSubject<CommentsType | null>(null);
+  readonly typeID = input.required<CommentsType>();
+  protected readonly typeID$ = toObservable(this.typeID);
 
-  @Input() set messages(messages: APICommentInList[]) {
-    this.messages$.next(
+  readonly messages = input.required<APICommentInList[]>();
+  protected readonly messages$ = toObservable(this.messages).pipe(
+    map((messages) =>
       messages.map((message) => ({
         canVote$: this.auth.user$.pipe(map((user) => !!(user && user.id !== message.authorId))),
         message,
         user$: this.#userService.getUser$(message.authorId),
       })),
-    );
-  }
-  protected readonly messages$ = new BehaviorSubject<
-    {
-      canVote$: Observable<boolean>;
-      message: APICommentInList;
-      user$: Observable<APIUser | null>;
-    }[]
-  >([]);
+    ),
+  );
 
-  @Input() set deep(deep: number) {
-    this.deep$.next(deep);
-  }
-  protected readonly deep$ = new BehaviorSubject<null | number>(null);
+  readonly deep = input.required<number>();
+  protected readonly deep$ = toObservable(this.deep);
 
-  @Output() sent = new EventEmitter<string>();
+  readonly sent = output<string>();
 
   protected readonly canRemoveComments$ = this.auth.hasRole$(Role.COMMENTS_MODER);
   protected readonly canMoveMessage$ = this.auth.hasRole$(Role.FORUMS_MODER);
@@ -145,8 +133,7 @@ export class CommentsListComponent {
       centered: true,
       size: 'lg',
     });
-
-    modalRef.componentInstance.messageID = message.id;
+    modalRef.componentInstance.setInput('messageID', message.id);
     return false;
   }
 

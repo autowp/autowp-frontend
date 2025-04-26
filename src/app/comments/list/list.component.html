@@ -132,22 +132,24 @@
     @if (((deep$ | async) || 0) < 21) {
       <div class="replies">
         @if (typeID$ | async; as typeID) {
-          <app-comments-list
-            [itemID]="(itemID$ | async) || ''"
-            [typeID]="typeID"
-            (sent)="onSent($event)"
-            [messages]="message.message.replies || []"
-            [deep]="((deep$ | async) || 0) + 1"
-          ></app-comments-list>
-          @if ((authenticated$ | async) && message.message.showReply) {
-            <app-comments-form
-              [itemID]="(itemID$ | async) || undefined"
+          @if (itemID$ | async; as itemID) {
+            <app-comments-list
+              [itemID]="itemID"
               [typeID]="typeID"
               (sent)="onSent($event)"
-              (canceled)="onCancel(message.message)"
-              [parentID]="message.message.id"
-              [resolve]="message.message.resolve || false"
-            ></app-comments-form>
+              [messages]="message.message.replies || []"
+              [deep]="((deep$ | async) || 0) + 1"
+            ></app-comments-list>
+            @if ((authenticated$ | async) && message.message.showReply) {
+              <app-comments-form
+                [itemID]="itemID"
+                [typeID]="typeID"
+                (sent)="onSent($event)"
+                (canceled)="onCancel(message.message)"
+                [parentID]="message.message.id"
+                [resolve]="message.message.resolve || false"
+              ></app-comments-form>
+            }
           }
         }
       </div>

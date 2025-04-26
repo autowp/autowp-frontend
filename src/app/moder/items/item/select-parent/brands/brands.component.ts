@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Output} from '@angular/core';
+import {Component, inject, output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemsRequest, ItemType, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -23,7 +23,7 @@ export class ModerItemsItemSelectParentBrandsComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Output() selected = new EventEmitter<string>();
+  readonly selected = output<string>();
 
   protected readonly page$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('page') ?? '', 10)),

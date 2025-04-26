@@ -1,4 +1,4 @@
-@if (user) {
+@if (user(); as user) {
   <span
     class="user"
     [class.muted]="user.deleted"

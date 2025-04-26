@@ -23,7 +23,9 @@
         </div>
       }
     </div>
-    <app-paginator [data]="response.paginator"></app-paginator>
+    @if (response.paginator) {
+      <app-paginator [data]="response.paginator"></app-paginator>
+    }
   }
   @if (catalogueItems$ | async; as response) {
     <ul>
@@ -34,11 +36,12 @@
             [order]="ItemParentsRequest.Order.AUTO"
             (selected)="onSelect($event)"
             [disableItemID]="(itemID$ | async) || ''"
-          >
-          </app-moder-items-item-select-parent-tree>
+          />
         </li>
       }
     </ul>
-    <app-paginator [data]="response.paginator"></app-paginator>
+    @if (response.paginator) {
+      <app-paginator [data]="response.paginator"></app-paginator>
+    }
   }
 </div>

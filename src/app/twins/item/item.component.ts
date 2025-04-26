@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIItem, ItemType} from '@grpc/spec.pb';
 import {AuthService, Role} from '@services/auth.service';
@@ -15,8 +15,8 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 export class TwinsItemComponent {
   readonly #auth = inject(AuthService);
 
-  @Input() item: APIItem | null = null;
-  @Input() groupId = '';
+  readonly groupId = input.required<string>();
+  readonly item = input.required<APIItem>();
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 

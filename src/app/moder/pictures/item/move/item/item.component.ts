@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {
   ItemFields,
   ItemParent,
@@ -11,7 +12,7 @@ import {
 } from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 import {PictureItemMoveSelection} from '../move.component';
@@ -37,15 +38,15 @@ export class ModerPictureMoveItemComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() set item(item: ItemParent) {
-    this.item$.next({
+  readonly item = input.required<ItemParent>();
+  protected readonly item$ = toObservable(this.item).pipe(
+    map((item) => ({
       expanded: false,
       row: item,
-    });
-  }
-  protected readonly item$ = new BehaviorSubject<ListItem | null>(null);
+    })),
+  );
 
-  @Output() readonly selected = new EventEmitter<PictureItemMoveSelection>();
+  readonly selected = output<PictureItemMoveSelection>();
 
   protected readonly childs$: Observable<ItemParent[]> = this.item$.pipe(
     switchMap((item) =>

@@ -5,8 +5,8 @@
     [class.vote-remove]="picture.moderVoteVote < 0"
     [class.vote-neutral]="picture.moderVoteVote > 0 && picture.moderVoteVote === 0"
   >
-    @if (route && picture.thumbMedium) {
-      <a [routerLink]="route">
+    @if (route() && picture.thumbMedium) {
+      <a [routerLink]="route()">
         <img
           class="card-img-top"
           [src]="picture.thumbMedium.src"
@@ -18,8 +18,8 @@
     }
     <div class="card-body">
       <h6 class="card-title">
-        @if (route) {
-          <a [routerLink]="route" [innerHtml]="picture.nameHtml"></a>
+        @if (route()) {
+          <a [routerLink]="route()" [innerHtml]="picture.nameHtml"></a>
         }
       </h6>
       <p class="picture-behaviour clearfix">
@@ -68,8 +68,8 @@
         }
         @if (picture.commentsCountTotal > 0) {
           <span i18n-title title="Comments" class="text-nowrap me-2">
-            @if (route) {
-              <a [routerLink]="route">
+            @if (route()) {
+              <a [routerLink]="route()">
                 @if (picture.commentsCountNew > 0) {
                   {{
                     picture.commentsCountTotal > picture.commentsCountNew
@@ -90,7 +90,7 @@
           <app-user [user]="owner"></app-user>
         }
       </p>
-      @if (selectable) {
+      @if (selectable()) {
         <button
           class="btn btn-sm float-start me-1 mb-2"
           [class.btn-primary]="picture.selected"
@@ -103,7 +103,7 @@
       @if (isModer$ | async) {
         <a
           [routerLink]="['/moder/pictures', picture.id]"
-          [class.float-end]="selectable"
+          [class.float-end]="selectable()"
           class="btn btn-secondary btn-sm settings mb-2"
           title="Settings"
         >

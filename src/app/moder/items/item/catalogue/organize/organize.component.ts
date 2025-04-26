@@ -46,7 +46,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   readonly #toastService = inject(ToastsService);
 
   protected loading = 0;
-  protected invalidParams?: InvalidParams;
+  protected invalidParams: InvalidParams = {};
 
   readonly #itemTypeID$: Observable<number> = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') ?? '', 10)),

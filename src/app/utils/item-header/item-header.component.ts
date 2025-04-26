@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Design} from '@grpc/spec.pb';
 
@@ -17,5 +17,5 @@ export interface ItemHeader {
   templateUrl: './item-header.component.html',
 })
 export class ItemHeaderComponent {
-  @Input() item: ItemHeader | null = null;
+  readonly item = input.required<ItemHeader>();
 }

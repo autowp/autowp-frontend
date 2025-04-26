@@ -1,5 +1,6 @@
 import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, effect, inject, input, output} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -36,7 +37,7 @@ import {UserService} from '@services/user';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {NgDatePipesModule, NgMathPipesModule} from 'ngx-pipes';
-import {BehaviorSubject, EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {catchError, filter, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {ModerPicturesPerspectivePickerComponent} from '../moder/pictures/perspective-picker/perspective-picker.component';
@@ -81,17 +82,13 @@ export class PictureComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  @Input() prefix: string[] = [];
-  @Input() galleryRoute: string[] = [];
-  @Input() h2 = false;
-  @Output() changed = new EventEmitter<boolean>();
+  readonly prefix = input.required<string[]>();
+  readonly galleryRoute = input.required<string[]>();
+  readonly h2 = input(false);
+  readonly changed = output<boolean>();
 
-  @Input() set picture(picture: Picture) {
-    this.picture$.next(picture);
-
-    this.#picturesClient.view(new PicturesViewRequest({pictureId: picture.id})).subscribe();
-  }
-  protected readonly picture$ = new BehaviorSubject<null | Picture>(null);
+  readonly picture = input.required<Picture>();
+  readonly picture$ = toObservable(this.picture);
 
   protected readonly owner$: Observable<APIUser | null> = this.picture$.pipe(
     switchMap((picture) => this.#userService.getUser$(picture?.ownerId)),
@@ -114,6 +111,12 @@ export class PictureComponent {
   protected statusLoading = false;
 
   protected readonly authenticated$ = this.#auth.authenticated$;
+
+  constructor() {
+    effect(() => {
+      this.#picturesClient.view(new PicturesViewRequest({pictureId: this.picture().id})).subscribe();
+    });
+  }
 
   protected savePerspective(perspectiveID: null | number, item: PictureItem) {
     this.#picturesClient
@@ -187,7 +190,7 @@ export class PictureComponent {
       this.openSource(picture);
       return;
     }
-    this.#router.navigate(this.galleryRoute ? this.galleryRoute : ['../../gallery', picture.identity]);
+    this.#router.navigate(this.galleryRoute());
   }
 
   private setPictureStatus(picture: Picture, status: PictureStatus) {
