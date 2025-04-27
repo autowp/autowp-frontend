@@ -1,7 +1,15 @@
 import type {InvalidParams} from '@utils/invalid-params.pipe';
 
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, ComponentRef, inject, input, output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -118,7 +126,7 @@ interface Form {
     exactly: FormControl<boolean>;
   }>;
   spec_id?: FormControl<specValue>;
-  vehicle_type_id?: FormControl<null | string[]>;
+  vehicle_type_id?: FormControl<string[]>;
 }
 
 interface ItemMetaFormAPISpec {
@@ -196,6 +204,7 @@ export class ItemMetaFormComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #modalService = inject(NgbModal);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   readonly invalidParams = input.required<InvalidParams>();
   readonly submitted = output<ItemMetaFormResult>();
@@ -403,7 +412,7 @@ export class ItemMetaFormComponent {
         );
       }
       if ([ItemType.ITEM_TYPE_TWINS, ItemType.ITEM_TYPE_VEHICLE].includes(item.itemTypeId)) {
-        elements.vehicle_type_id = new FormControl(vehicleTypeIDs);
+        elements.vehicle_type_id = new FormControl(vehicleTypeIDs, {nonNullable: true});
       }
       if (item.itemTypeId !== ItemType.ITEM_TYPE_COPYRIGHT) {
         elements.begin = new FormGroup({
@@ -470,6 +479,7 @@ export class ItemMetaFormComponent {
 
     modalRef.componentInstance.changed.subscribe((value: string[]) => {
       vehicleTypeIDs.setValue(value);
+      this.#cdr.markForCheck();
     });
   }
 
@@ -496,6 +506,7 @@ export class ItemMetaFormComponent {
         i++;
       });
     }
+    this.#cdr.markForCheck();
   }
 
   protected onPictureClick(e: PicturesListItem, ctrl: FormArray<FormControl<string>>) {
@@ -512,5 +523,6 @@ export class ItemMetaFormComponent {
         i++;
       });
     }
+    this.#cdr.markForCheck();
   }
 }
