@@ -82,6 +82,7 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
         tap((picture) => {
           this.#id = picture.id;
           this.picture = picture;
+          this.#cdr.markForCheck();
         }),
         switchMap((picture) =>
           this.#route.queryParamMap.pipe(
@@ -97,6 +98,7 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
         tap((data) => {
           this.#itemID = data.params.item_id;
           this.#type = data.params.type;
+          this.#cdr.markForCheck();
         }),
         switchMap(({params, picture}) =>
           this.#picturesClient.getPictureItem(
@@ -121,6 +123,7 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
           if (data.img && this.picture) {
             const body = data.img.parentElement;
             if (!body) {
+              this.#cdr.markForCheck();
               return;
             }
 
