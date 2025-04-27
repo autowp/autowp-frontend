@@ -66,7 +66,7 @@ const cropTitle = (image: APIImage | undefined): string => {
 };
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     MarkdownComponent,
     FormsModule,
@@ -96,7 +96,7 @@ export class UploadIndexComponent implements OnInit {
   protected files: File[] | undefined;
   protected readonly note = new FormControl<string>('', {nonNullable: true});
   protected progress: UploadProgress[] = [];
-  protected pictures: APIPictureUpload[] = [];
+  protected readonly pictures: APIPictureUpload[] = [];
   protected readonly formHidden = signal(false);
   protected readonly authenticated$ = this.auth.authenticated$;
 
@@ -255,6 +255,7 @@ export class UploadIndexComponent implements OnInit {
           progress.failed = true;
 
           progress.invalidParams = response.error.invalid_params;
+          this.#cdr.markForCheck();
         }
 
         return EMPTY;
@@ -264,6 +265,8 @@ export class UploadIndexComponent implements OnInit {
           if (event.total) {
             progress.percentage = Math.round(50 + 25 * (event.loaded / event.total));
           }
+
+          this.#cdr.markForCheck();
           return EMPTY;
         }
 
@@ -271,12 +274,15 @@ export class UploadIndexComponent implements OnInit {
           if (event.total) {
             progress.percentage = Math.round(50 * (event.loaded / event.total));
           }
+
+          this.#cdr.markForCheck();
           return EMPTY;
         }
 
         if (event.type === HttpEventType.Response) {
           progress.percentage = 75;
           progress.success = true;
+          this.#cdr.markForCheck();
 
           if (!event.body) {
             return throwError(() => 'no response body');
@@ -342,46 +348,47 @@ export class UploadIndexComponent implements OnInit {
     const componentRef: ComponentRef<UploadCropComponent> = modalRef['_contentRef'].componentRef;
     componentRef.setInput('picture', picture.picture);
 
-    modalRef.componentInstance.changed
-      .pipe(
-        switchMap(() =>
-          this.#picturesClient.setPictureCrop(
-            new SetPictureCropRequest({
-              cropHeight: picture.picture.image?.cropHeight ? Math.round(picture.picture.image.cropHeight) : undefined,
-              cropLeft: picture.picture.image?.cropLeft ? Math.round(picture.picture.image.cropLeft) : undefined,
-              cropTop: picture.picture.image?.cropTop ? Math.round(picture.picture.image.cropTop) : undefined,
-              cropWidth: picture.picture.image?.cropWidth ? Math.round(picture.picture.image.cropWidth) : undefined,
-              pictureId: picture.picture.id,
-            }),
-          ),
-        ),
-        catchError((response: unknown) => {
-          this.#toastService.handleError(response);
-          return EMPTY;
-        }),
-        switchMap(() =>
-          this.#picturesClient.getPicture(
-            new PicturesRequest({
-              fields: new PictureFields({
-                image: true,
-                thumbMedium: true,
+    componentRef.instance.changed.subscribe(() => {
+      this.#picturesClient
+        .setPictureCrop(
+          new SetPictureCropRequest({
+            cropHeight: picture.picture.image?.cropHeight ? Math.round(picture.picture.image.cropHeight) : undefined,
+            cropLeft: picture.picture.image?.cropLeft ? Math.round(picture.picture.image.cropLeft) : undefined,
+            cropTop: picture.picture.image?.cropTop ? Math.round(picture.picture.image.cropTop) : undefined,
+            cropWidth: picture.picture.image?.cropWidth ? Math.round(picture.picture.image.cropWidth) : undefined,
+            pictureId: picture.picture.id,
+          }),
+        )
+        .pipe(
+          catchError((response: unknown) => {
+            this.#toastService.handleError(response);
+            return EMPTY;
+          }),
+          switchMap(() =>
+            this.#picturesClient.getPicture(
+              new PicturesRequest({
+                fields: new PictureFields({
+                  image: true,
+                  thumbMedium: true,
+                }),
+                language: this.#languageService.language,
+                options: new PictureListOptions({id: picture.picture.id}),
               }),
-              language: this.#languageService.language,
-              options: new PictureListOptions({id: picture.picture.id}),
-            }),
+            ),
           ),
-        ),
-        catchError((response: unknown) => {
-          this.#toastService.handleError(response);
-          return EMPTY;
-        }),
-        tap((response: Picture) => {
-          picture.picture.image = response.image;
-          picture.cropTitle = cropTitle(response.image);
-          picture.picture.thumbMedium = response.thumbMedium;
-        }),
-      )
-      .subscribe();
+          catchError((response: unknown) => {
+            this.#toastService.handleError(response);
+            return EMPTY;
+          }),
+          tap((response: Picture) => {
+            picture.picture.image = response.image;
+            picture.cropTitle = cropTitle(response.image);
+            picture.picture.thumbMedium = response.thumbMedium;
+            this.#cdr.markForCheck();
+          }),
+        )
+        .subscribe();
+    });
 
     return false;
   }

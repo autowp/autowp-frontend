@@ -25,7 +25,7 @@ interface JcropCrop {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [AsyncPipe],
   selector: 'app-upload-crop',
   templateUrl: './crop.component.html',

@@ -20,7 +20,7 @@ interface ThumbnailAPIPicture extends Picture {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   imports: [RouterLink, UserComponent, FormsModule, AsyncPipe, DecimalPipe],
   selector: 'app-thumbnail',
   styleUrls: ['./thumbnail.component.scss'],
