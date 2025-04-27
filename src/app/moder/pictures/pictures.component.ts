@@ -469,7 +469,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
         language: this.#languageService.language,
         limit: 18,
         options: new PictureListOptions({
-          addedFrom: this.addedFrom ? parseStringToGrpcDate(this.addedFrom.value) : undefined,
+          addedFrom: this.addedFrom.value ? parseStringToGrpcDate(this.addedFrom.value) : undefined,
           commentTopic: this.comments() === true ? new CommentTopicListOptions({messagesGtZero: true}) : undefined,
           dfDistance: this.similar()
             ? new DfDistanceListOptions({
