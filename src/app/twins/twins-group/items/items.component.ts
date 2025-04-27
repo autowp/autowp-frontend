@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   APIItem,
@@ -27,6 +27,7 @@ import {CommentsComponent} from '../../../comments/comments/comments.component';
 import {TwinsItemComponent} from '../../item/item.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TwinsItemComponent, MarkdownComponent, CommentsComponent, AsyncPipe],
   selector: 'app-twins-group-items',
   templateUrl: './items.component.html',

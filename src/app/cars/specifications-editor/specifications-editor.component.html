@@ -122,22 +122,19 @@ Some of them discovered by other visitors can be found [here](/account/specs-con
 
 
 Все значения, которые здесь вводятся - отображаются на сайте, в характеристиках, используются в построении разделы "самые-самые", а также отображаются в некоторых других местах сайта.'
-          ></app-markdown>
+          />
         </div>
       } @else if (tab === 'engine' && item && item.itemTypeId === ItemType.ITEM_TYPE_VEHICLE) {
         <div class="tab-pane active" id="engine">
-          <app-cars-specifications-editor-engine
-            [item]="item"
-            (changed)="onEngineChanged()"
-          ></app-cars-specifications-editor-engine>
+          <app-cars-specifications-editor-engine [item]="item" (changed)="onEngineChanged()" />
         </div>
       } @else if (tab === 'spec' && item) {
         <div class="tab-pane active" id="spec">
-          <app-cars-specifications-editor-spec [item]="item"></app-cars-specifications-editor-spec>
+          <app-cars-specifications-editor-spec [item]="item" />
         </div>
       } @else if (tab === 'result' && item) {
         <div class="tab-pane active" id="result">
-          <app-cars-specifications-editor-result [item]="item"></app-cars-specifications-editor-result>
+          <app-cars-specifications-editor-result [item]="item" />
         </div>
       } @else if (tab === 'admin' && (isSpecsAdmin$ | async)) {
         <div class="tab-pane active" id="admin">

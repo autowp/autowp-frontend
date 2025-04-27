@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {environment} from '@environment/environment';
 import {APIMeRequest, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
@@ -10,6 +10,7 @@ import {catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
   selector: 'app-account-email',
   templateUrl: './email.component.html',

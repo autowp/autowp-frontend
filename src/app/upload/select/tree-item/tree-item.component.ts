@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
@@ -18,6 +18,7 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AsyncPipe],
   selector: 'app-upload-select-tree-item',
   templateUrl: './tree-item.component.html',

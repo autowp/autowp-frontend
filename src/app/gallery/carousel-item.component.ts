@@ -1,5 +1,16 @@
 import {NgStyle} from '@angular/common';
-import {AfterViewInit, Component, effect, ElementRef, HostListener, inject, input} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
 import {Picture, PictureItem} from '@grpc/spec.pb';
@@ -61,6 +72,7 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgStyle, AreaComponent, RouterLink, NgMathPipesModule],
   selector: 'app-gallery-carousel-item',
   styleUrls: ['./carousel-item.component.scss'],
@@ -68,24 +80,23 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 })
 export class CarouselItemComponent implements AfterViewInit {
   readonly #el: ElementRef<HTMLElement> = inject(ElementRef);
-  private sanitizer = inject(DomSanitizer);
+  private readonly sanitizer = inject(DomSanitizer);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   protected _item?: Picture;
   protected areas: Area[] = [];
   protected nameHtml: SafeHtml = '';
 
   readonly item = input.required<Picture>();
-
   readonly prefix = input.required<string[]>();
 
   protected fullStyle: Record<string, number> = {};
 
   protected cropStyle: Record<string, number> = {};
 
-  protected cropMode = true;
-
-  protected fullLoading = true;
-  protected cropLoading = true;
+  protected readonly cropMode = signal(true);
+  protected readonly fullLoading = signal(true);
+  protected readonly cropLoading = signal(true);
 
   constructor() {
     effect(() => {
@@ -97,17 +108,17 @@ export class CarouselItemComponent implements AfterViewInit {
         styles: {},
       }));
 
-      this.cropLoading = true;
-      this.fullLoading = true;
-      this.cropMode = !!this._item.imageGallery;
+      this.cropLoading.set(true);
+      this.fullLoading.set(true);
+      this.cropMode.set(!!this._item.imageGallery);
       this.fixSize();
 
       if (!this._item.imageGallery) {
-        this.cropLoading = false;
+        this.cropLoading.set(false);
       }
 
       if (!this._item.imageGalleryFull) {
-        this.fullLoading = false;
+        this.fullLoading.set(false);
       }
     });
   }
@@ -122,15 +133,15 @@ export class CarouselItemComponent implements AfterViewInit {
   }
 
   protected fullLoaded() {
-    this.fullLoading = false;
+    this.fullLoading.set(false);
   }
 
   protected cropLoaded() {
-    this.cropLoading = false;
+    this.cropLoading.set(false);
   }
 
   protected toggleCrop() {
-    this.cropMode = !this.cropMode;
+    this.cropMode.set(!this.cropMode);
     this.fixSize();
   }
 
@@ -158,7 +169,7 @@ export class CarouselItemComponent implements AfterViewInit {
     const iw = this._item.image.width;
 
     if (crop) {
-      if (this.cropMode) {
+      if (this.cropMode()) {
         const bounds = maxBounds(
           bound(cSize, {
             height: crop.height,
@@ -241,6 +252,8 @@ export class CarouselItemComponent implements AfterViewInit {
 
       this.areasToBounds(offsetBounds, iw, ih);
     }
+
+    this.#cdr.markForCheck();
   }
 
   private areasToBounds(offsetBounds: Bounds, iw: number, ih: number) {
@@ -253,6 +266,7 @@ export class CarouselItemComponent implements AfterViewInit {
           'width.px': (area.pictureItem.cropWidth * offsetBounds.width) / iw,
         };
       });
+      this.#cdr.markForCheck();
     }
   }
 }

@@ -8,7 +8,7 @@
             design: item.design || null,
             produced: {count: item.produced?.value || 0, exactly: item.producedExactly},
           }"
-        ></app-item-header>
+        />
       </h3>
     }
     @if (item.nameDefault) {
@@ -95,7 +95,7 @@
       </div>
     }
     @if (item.description && item.description.length) {
-      <app-markdown class="text" [markdown]="item.description"></app-markdown>
+      <app-markdown class="text" [markdown]="item.description" />
     }
     @if ((item.engineVehicles || []).length > 0) {
       <div>

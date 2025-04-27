@@ -11,37 +11,39 @@
 </div>
 
 <div class="card card-body">
-  <form class="form-horizontal">
-    <div class="mb-3 row">
-      <label class="col-md-2 col-form-label" for="user_id" i18n>User</label>
-      <div class="col-md-10">
-        <ng-template #userTemplate let-model="result">
-          <span [innerHTML]="model.name"></span>
-        </ng-template>
-        <div class="input-group mb-3">
-          <input
-            [ngbTypeahead]="usersDataSource"
-            name="user"
-            [(ngModel)]="userQuery"
-            [inputFormatter]="userFormatter"
-            (selectItem)="userOnSelect($event)"
-            [resultTemplate]="userTemplate"
-            class="form-control"
-            [class.border-primary]="userID$ | async"
-            id="user_id"
-          />
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            [disabled]="(userID$ | async) === null"
-            (click)="clearUser()"
-          >
-            <span class="bi bi-x" aria-hidden="true"></span>
-          </button>
+  @if (userQuery$ | async; as userQuery) {
+    <form class="form-horizontal">
+      <div class="mb-3 row">
+        <label class="col-md-2 col-form-label" for="user_id" i18n>User</label>
+        <div class="col-md-10">
+          <ng-template #userTemplate let-model="result">
+            <span [innerHTML]="model.name"></span>
+          </ng-template>
+          <div class="input-group mb-3">
+            <input
+              [ngbTypeahead]="usersDataSource"
+              name="user"
+              [formControl]="userQuery"
+              [inputFormatter]="userFormatter"
+              (selectItem)="userOnSelect($event)"
+              [resultTemplate]="userTemplate"
+              class="form-control"
+              [class.border-primary]="userID$ | async"
+              id="user_id"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              [disabled]="(userID$ | async) === null"
+              (click)="clearUser(userQuery)"
+            >
+              <span class="bi bi-x" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  }
   <table class="specs-log table table-stripped" aria-describedby="header">
     <thead>
       <tr>
@@ -54,7 +56,7 @@
       </tr>
     </thead>
     @if (items$ | async; as items) {
-      @for (row of items.items; track row.userValue) {
+      @for (row of items.items; track row) {
         <tr>
           <td>
             @if (row.userValue.updateDate?.toDate(); as date) {
@@ -63,7 +65,7 @@
           </td>
           <td>
             @if (row.user$ | async; as user) {
-              <app-user [user]="user"></app-user>
+              <app-user [user]="user" />
             }
           </td>
           <td>

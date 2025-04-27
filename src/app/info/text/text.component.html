@@ -33,12 +33,14 @@
             <ng-container i18n>Revision {{ data.prev.revision }}</ng-container>
             @if (data.prev.user$ | async; as user) {
               <small>
-                <app-user [user]="user"></app-user>
+                <app-user [user]="user" />
               </small>
             }
           </h3>
         }
-        <pre [hidden]="!data.prev.revision" [textContent]="data.prev.text"></pre>
+        @if (data.prev.revision) {
+          <pre [textContent]="data.prev.text"></pre>
+        }
       </div>
     }
     @if (data.current) {
@@ -47,7 +49,7 @@
           <ng-container i18n>Revision {{ data.current.revision }}</ng-container>
           @if (data.current.user$ | async; as user) {
             <small>
-              <app-user [user]="user"></app-user>
+              <app-user [user]="user" />
             </small>
           }
         </h3>

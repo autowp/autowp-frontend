@@ -14,11 +14,11 @@
   @if (data$ | async; as data) {
     <div class="col-md-8 offset-md-2">
       @for (item of data.items; track item.id) {
-        <app-item [item]="item"></app-item>
+        <app-item [item]="item" />
       }
 
       @if (data.paginator) {
-        <app-paginator [data]="data.paginator"></app-paginator>
+        <app-paginator [data]="data.paginator" />
       }
     </div>
   } @else {

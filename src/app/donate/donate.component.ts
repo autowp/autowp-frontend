@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
 import {LanguageService} from '@services/language';
@@ -6,6 +6,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, MarkdownComponent],
   selector: 'app-donate',
   styleUrls: ['./donate.component.scss'],
@@ -16,7 +17,7 @@ export class DonateComponent implements OnInit {
   readonly #languageService = inject(LanguageService);
   readonly #domSanitizer = inject(DomSanitizer);
 
-  protected frameUrl: SafeResourceUrl;
+  protected readonly frameUrl: SafeResourceUrl;
   protected readonly language: string = this.#languageService.language;
 
   constructor() {

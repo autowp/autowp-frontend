@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -27,6 +27,7 @@ import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.comp
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-users-user-pictures-brand',
   templateUrl: './brand.component.html',

@@ -27,52 +27,54 @@
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
 
 Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."
-            ></app-markdown>
+            />
             <div class="mv-3">
-              <form class="form-horizontal" (submit)="submit()" [hidden]="formHidden">
-                <div class="mb-3 row">
-                  <div class="col-md-2 col-form-label" i18n>Selection</div>
-                  <div class="col-md-10">
-                    <div class="form-control-plaintext">
-                      <strong [innerHTML]="selection.name"></strong>
-                      [<a routerLink="/upload/select" i18n>select another catalogue</a>]
+              @if (!formHidden()) {
+                <form class="form-horizontal" (submit)="submit()">
+                  <div class="mb-3 row">
+                    <div class="col-md-2 col-form-label" i18n>Selection</div>
+                    <div class="col-md-10">
+                      <div class="form-control-plaintext">
+                        <strong [innerHTML]="selection.name"></strong>
+                        [<a routerLink="/upload/select" i18n>select another catalogue</a>]
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="mb-3 row">
-                  <label class="col-md-2 col-form-label" for="file" i18n>Image file</label>
-                  <div class="col-md-10">
-                    <input
-                      type="file"
-                      id="file"
-                      #input
-                      name="file"
-                      class="form-control"
-                      (change)="onChange($event)"
-                      accept="image/*"
-                      [multiple]="(replace$ | async) ? null : true"
-                    />
-                    @if (files) {
-                      <div class="mt-3">
-                        @for (file of files; track file) {
-                          <p [textContent]="file.name"></p>
-                        }
-                      </div>
-                    }
+                  <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" for="file" i18n>Image file</label>
+                    <div class="col-md-10">
+                      <input
+                        type="file"
+                        id="file"
+                        #input
+                        name="file"
+                        class="form-control"
+                        (change)="onChange($event)"
+                        accept="image/*"
+                        [multiple]="(replace$ | async) ? null : true"
+                      />
+                      @if (files) {
+                        <div class="mt-3">
+                          @for (file of files; track file) {
+                            <p [textContent]="file.name"></p>
+                          }
+                        </div>
+                      }
+                    </div>
                   </div>
-                </div>
-                <div class="mb-3 row">
-                  <label class="col-md-2 col-form-label" for="note" i18n>Note</label>
-                  <div class="col-md-10">
-                    <textarea name="note" id="note" rows="3" class="form-control" [(ngModel)]="note"></textarea>
+                  <div class="mb-3 row">
+                    <label class="col-md-2 col-form-label" for="note" i18n>Note</label>
+                    <div class="col-md-10">
+                      <textarea name="note" id="note" rows="3" class="form-control" [formControl]="note"></textarea>
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-10 offset-md-2">
-                    <button name="submit" class="btn btn-primary" i18n [disabled]="!files">send</button>
+                  <div class="row">
+                    <div class="col-md-10 offset-md-2">
+                      <button name="submit" class="btn btn-primary" i18n [disabled]="!files">send</button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              }
             </div>
             <div class="progress-area">
               @for (p of progress; track p) {
@@ -99,10 +101,7 @@
           <div class="pictures row">
             @for (picture of pictures; track picture) {
               <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                <app-thumbnail
-                  [picture]="picture.picture"
-                  [route]="['/picture', picture.picture.identity]"
-                ></app-thumbnail>
+                <app-thumbnail [picture]="picture.picture" [route]="['/picture', picture.picture.identity]" />
                 <p>
                   <button type="button" class="btn btn-link btn-sm" (click)="crop(picture)">
                     <i class="bi bi-crop" aria-hidden="true"></i>
@@ -139,7 +138,7 @@
 **Убедительная просьба**, перед добавлением изображений, убедиться в их отсутствии в каталоге.
 
 Обращаем ваше внимание на то, что добавление картинок модерируемое. Т.е. все картинки перед добавлением в каталог будут проверены ведущими сайта."
-          ></app-markdown>
+          />
           <p style="margin: 10px">
             <a routerLink="/upload/select" class="btn btn-primary btn-lg">
               <i class="bi bi-upload" aria-hidden="true"></i>

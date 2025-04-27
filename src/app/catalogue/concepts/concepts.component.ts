@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -29,6 +29,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-catalogue-concepts',
   templateUrl: './concepts.component.html',

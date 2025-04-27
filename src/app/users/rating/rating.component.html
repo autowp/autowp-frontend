@@ -64,7 +64,7 @@
             <td [textContent]="i + 1"></td>
             <td>
               @if (row.user$ | async; as user) {
-                <app-user [user]="user"></app-user>
+                <app-user [user]="user" />
               }
             </td>
             <td>
@@ -90,7 +90,7 @@
                   <div>
                     @for (fan of fans; track fan) {
                       @if (fan.user$ | async; as user) {
-                        <app-user [user]="user"></app-user>
+                        <app-user [user]="user" />
                       }
                       <span
                         class="badge rounded-pill text-bg-secondary"

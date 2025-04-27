@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {APIDeleteUserRequest} from '@grpc/spec.pb';
@@ -15,6 +15,7 @@ import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc'
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MarkdownComponent, FormsModule, InvalidParamsPipe],
   selector: 'app-account-delete',
   templateUrl: './delete.component.html',
@@ -29,7 +30,7 @@ export class AccountDeleteComponent implements OnInit {
   protected readonly form = {
     password_old: '',
   };
-  protected invalidParams?: InvalidParams;
+  protected readonly invalidParams = signal<InvalidParams>({});
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 137}), 0);
@@ -54,7 +55,7 @@ export class AccountDeleteComponent implements OnInit {
           this.#toastService.handleError(response);
           if (response instanceof GrpcStatusEvent && response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
           }
         },
         next: () => {

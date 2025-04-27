@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {APIAccountsAccount, DeleteUserAccountRequest} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -11,6 +11,7 @@ import {catchError, map} from 'rxjs/operators';
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MarkdownComponent, AsyncPipe],
   selector: 'app-account-accounts',
   templateUrl: './accounts.component.html',
@@ -32,7 +33,7 @@ export class AccountAccountsComponent implements OnInit {
     map(([response]) => response.items || []),
   );
 
-  protected disconnectFailed = false;
+  protected readonly disconnectFailed = signal(false);
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 123}), 0);
@@ -41,7 +42,7 @@ export class AccountAccountsComponent implements OnInit {
   protected remove(account: APIAccountsAccount) {
     this.#usersClient.deleteUserAccount(new DeleteUserAccountRequest({id: account.id})).subscribe({
       error: (response: unknown) => {
-        this.disconnectFailed = true;
+        this.disconnectFailed.set(true);
         this.#toastService.handleError(response);
       },
       next: () => {

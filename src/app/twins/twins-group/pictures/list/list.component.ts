@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   APIItem,
@@ -24,6 +24,7 @@ import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.comp
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-twins-group-pictures-list',
   templateUrl: './list.component.html',

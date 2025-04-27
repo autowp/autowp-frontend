@@ -1,4 +1,4 @@
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PictureModerVoteService} from '@services/picture-moder-vote';
@@ -6,6 +6,7 @@ import {PictureModerVoteService} from '@services/picture-moder-vote';
 import {APIPictureModerVoteTemplateService} from '../../../api/picture-moder-vote-template/picture-moder-vote-template.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
   selector: 'app-picture-moder-vote-modal',
   templateUrl: './modal.component.html',

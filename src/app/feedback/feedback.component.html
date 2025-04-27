@@ -29,14 +29,14 @@
                   autocomplete="name"
                   [class.is-invalid]="
                     (control.invalid && (control.dirty || !control.untouched)) ||
-                    (invalidParams && invalidParams['name'])
+                    (invalidParams() && invalidParams()['name'])
                   "
                   class="form-control"
                   placeholder="John"
                   i18n-placeholder
                   formControlName="name"
                 />
-                @for (message of invalidParams | invalidParams: 'name'; track message) {
+                @for (message of invalidParams() | invalidParams: 'name'; track message) {
                   <p [textContent]="message" class="invalid-feedback"></p>
                 }
               </div>
@@ -54,14 +54,14 @@
                   autocomplete="email"
                   [class.is-invalid]="
                     (control.invalid && (control.dirty || !control.untouched)) ||
-                    (invalidParams && invalidParams['email'])
+                    (invalidParams() && invalidParams()['email'])
                   "
                   class="form-control"
                   placeholder="john@example.com"
                   i18n-placeholder
                   formControlName="email"
                 />
-                @for (message of invalidParams | invalidParams: 'email'; track message) {
+                @for (message of invalidParams() | invalidParams: 'email'; track message) {
                   <p [textContent]="message" class="invalid-feedback"></p>
                 }
               </div>
@@ -78,12 +78,12 @@
                   rows="8"
                   [class.is-invalid]="
                     (control.invalid && (control.dirty || !control.untouched)) ||
-                    (invalidParams && invalidParams['message'])
+                    (invalidParams() && invalidParams()['message'])
                   "
                   class="form-control"
                   formControlName="message"
                 ></textarea>
-                @for (message of invalidParams | invalidParams: 'message'; track message) {
+                @for (message of invalidParams() | invalidParams: 'message'; track message) {
                   <p [textContent]="message" class="invalid-feedback"></p>
                 }
               </div>
@@ -92,10 +92,10 @@
           @if (form.controls.captcha; as control) {
             <div class="mb-3 row">
               <div class="col-md-10 offset-md-2">
-                @if (recaptchaKey) {
+                @if (recaptchaKey$ | async; as recaptchaKey) {
                   <re-captcha [siteKey]="recaptchaKey" (resolved)="resolved($event)"></re-captcha>
                 }
-                @for (message of invalidParams | invalidParams: 'captcha'; track message) {
+                @for (message of invalidParams() | invalidParams: 'captcha'; track message) {
                   <p [textContent]="message" class="invalid-feedback"></p>
                 }
               </div>
@@ -113,6 +113,6 @@
     <app-markdown
       i18n-markdown
       markdown="If you have come here to express words of support, it is possible to [express it in hard currency](/donate)"
-    ></app-markdown>
+    />
   </div>
 </div>

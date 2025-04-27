@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -54,6 +54,7 @@ function mapFilter(filter: null | string): AttrConflictsRequest.Filter {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, UserComponent, PaginatorComponent, AsyncPipe],
   selector: 'app-account-specs-conflicts',
   templateUrl: './specs-conflicts.component.html',

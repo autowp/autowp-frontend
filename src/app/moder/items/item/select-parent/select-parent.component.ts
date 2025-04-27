@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemParent, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -17,6 +17,7 @@ import {ModerItemsItemSelectParentFactoriesComponent} from './factories/factorie
 import {ModerItemsItemSelectParentTwinsComponent} from './twins/twins.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     ModerItemsItemSelectParentCatalogueComponent,

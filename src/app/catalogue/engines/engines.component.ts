@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   ItemFields,
@@ -26,6 +26,7 @@ import {PaginatorComponent} from '../../paginator/paginator/paginator.component'
 import {convertChildsCounts} from '../catalogue-service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-catalogue-engines',
   templateUrl: './engines.component.html',

@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ItemFields, ItemParent, ItemParentsRequest, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -10,6 +10,7 @@ import {switchMap} from 'rxjs/operators';
 import {ModerItemsItemSelectParentTreeItemComponent} from '../tree-item/tree-item.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ModerItemsItemSelectParentTreeItemComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-tree',
   templateUrl: './tree.component.html',

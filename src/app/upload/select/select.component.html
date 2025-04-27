@@ -2,98 +2,100 @@
   <h1 i18n>Select brand</h1>
 </div>
 
-@if (!brand) {
-  <div>
-    <div class="mb-4">
-      <input
-        type="text"
-        [(ngModel)]="search"
-        (input)="onSearchInput()"
-        class="form-control"
-        placeholder="Type to search …"
-      />
-    </div>
-    <span [hidden]="loading <= 0">
-      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-    </span>
-    <div class="row">
-      @for (chunk of brands; track chunk) {
-        <div class="col-md-2">
-          @for (brandItem of chunk; track brandItem.id) {
-            <a
-              routerLink="/upload/select"
-              [queryParams]="{brand_id: brandItem.id}"
-              [textContent]="brandItem.nameOnly"
-            ></a>
-            <br />
-          }
-        </div>
+@if (data$ | async; as data) {
+  @if (data.brand; as brand) {
+    <div class="select-in-brand">
+      @if (loading()) {
+        <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
       }
-    </div>
-    @if (paginator) {
-      <app-paginator [data]="paginator"></app-paginator>
-    }
-  </div>
-}
-
-@if (brand) {
-  <div class="select-in-brand">
-    <span [hidden]="loading <= 0">
-      <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-    </span>
-    @if (brand.vehicles.length > 0) {
-      <div class="my-1">
-        @for (item of brand.vehicles; track item) {
-          <div>
-            <app-upload-select-tree-item [item]="item"> </app-upload-select-tree-item>
-          </div>
-        }
-      </div>
-    }
-    @if (brand.engines.length > 0) {
-      <div>
-        <h5 i18n>Engines</h5>
+      @if (brand.vehicles.length > 0) {
         <div class="my-1">
-          @for (item of brand.engines; track item) {
+          @for (item of brand.vehicles; track item) {
             <div>
-              <app-upload-select-tree-item [item]="item"> </app-upload-select-tree-item>
+              <app-upload-select-tree-item [item]="item" />
             </div>
           }
         </div>
-      </div>
-    }
-    @if (brand.concepts.length > 0) {
-      <div>
-        <button class="btn btn-link" (click)="conceptsOpen = !conceptsOpen">
-          <i
-            class="bi"
-            [class.bi-folder2]="!conceptsOpen"
-            [class.bi-folder2-open]="conceptsOpen"
-            aria-hidden="true"
-          ></i>
-          <ng-container i18n>Concepts & prototypes</ng-container>
-        </button>
-        <ul class="list-unstyled" [hidden]="!conceptsOpen">
-          @for (item of brand.concepts; track item) {
-            <li style="margin-left: 16px">
-              <app-upload-select-tree-item [item]="item"> </app-upload-select-tree-item>
-            </li>
+      }
+      @if (brand.engines.length > 0) {
+        <div>
+          <h5 i18n>Engines</h5>
+          <div class="my-1">
+            @for (item of brand.engines; track item) {
+              <div>
+                <app-upload-select-tree-item [item]="item" />
+              </div>
+            }
+          </div>
+        </div>
+      }
+      @if (brand.concepts.length > 0) {
+        <div>
+          <button class="btn btn-link" (click)="conceptsOpen.set(!conceptsOpen())">
+            <i
+              class="bi"
+              [class.bi-folder2]="!conceptsOpen()"
+              [class.bi-folder2-open]="conceptsOpen()"
+              aria-hidden="true"
+            ></i>
+            <ng-container i18n>Concepts & prototypes</ng-container>
+          </button>
+          @if (conceptsOpen()) {
+            <ul class="list-unstyled">
+              @for (item of brand.concepts; track item) {
+                <li style="margin-left: 16px">
+                  <app-upload-select-tree-item [item]="item" />
+                </li>
+              }
+            </ul>
           }
-        </ul>
+        </div>
+      }
+      <div class="my-1">
+        <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: perspectiveIDLogotype}" i18n
+          >logotype</a
+        >
+        <br />
+        <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: perspectiveIDMixed}" i18n
+          >mixed (few vehicles on one picture)</a
+        >
+        <br />
+        <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: null}" i18n
+          >unsorted (not existent vehicle or engine)</a
+        >
       </div>
-    }
-    <div class="my-1">
-      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: perspectiveIDLogotype}" i18n
-        >logotype</a
-      >
-      <br />
-      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: perspectiveIDMixed}" i18n
-        >mixed (few vehicles on one picture)</a
-      >
-      <br />
-      <a routerLink="/upload" [queryParams]="{item_id: brand.item.id, perspective_id: null}" i18n
-        >unsorted (not existent vehicle or engine)</a
-      >
     </div>
-  </div>
+  } @else {
+    <div>
+      <div class="mb-4">
+        <input
+          type="text"
+          [formControl]="search"
+          class="form-control"
+          placeholder="Type to search …"
+          i18n-placeholder
+        />
+      </div>
+      @if (loading()) {
+        <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
+      }
+      <div class="row">
+        @for (chunk of data.brands; track chunk) {
+          <div class="col-md-2">
+            @for (brandItem of chunk; track brandItem.id) {
+              <a
+                routerLink="/upload/select"
+                [queryParams]="{brand_id: brandItem.id}"
+                [textContent]="brandItem.nameOnly"
+              ></a>
+              <br />
+            }
+          </div>
+        }
+      </div>
+      @if (data.paginator) {
+        <app-paginator [data]="data.paginator" />
+      }
+    </div>
+  }
 }

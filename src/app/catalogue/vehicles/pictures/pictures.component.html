@@ -28,7 +28,7 @@
           design: item.design || null,
           produced: {count: item.produced?.value || 0, exactly: item.producedExactly},
         }"
-      ></app-item-header>
+      />
     </h1>
   </div>
   @if (isModer$ | async) {
@@ -79,7 +79,7 @@
       <div class="row">
         @for (picture of chunk; track picture) {
           <div class="col-sm-3">
-            <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])"></app-thumbnail>
+            <app-thumbnail [picture]="picture" [route]="picturesRouterLink.concat([picture.identity])" />
           </div>
         }
       </div>

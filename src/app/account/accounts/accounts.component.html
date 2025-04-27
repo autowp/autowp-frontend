@@ -2,7 +2,7 @@
   <h1 i18n>My accounts</h1>
 </div>
 @if (accounts$ | async; as accounts) {
-  @if (accounts.length > 0 && !disconnectFailed) {
+  @if (accounts.length > 0 && !disconnectFailed()) {
     <div class="card card-body mb-4">
       @for (account of accounts; track account.id) {
         <div>
@@ -33,13 +33,13 @@
   }
 }
 
-@if (disconnectFailed) {
+@if (disconnectFailed()) {
   <div class="card card-body">
     <app-markdown
       i18n-markdown
       markdown="Не удалось удалить учетную запись.
 
 Такое бывает, если привязанная учётная запись является единственным способом авторизации, т.е. не задан e-mail или другие учётный записи."
-    ></app-markdown>
+    />
   </div>
 }

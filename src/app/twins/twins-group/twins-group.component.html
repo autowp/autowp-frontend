@@ -52,7 +52,7 @@
   @if (!(layoutParams$ | async)?.isGalleryPage) {
     <div class="col-sm-4 order-1">
       @if (selectedBrands$ | async; as selectedBrands) {
-        <app-twins-sidebar [selected]="selectedBrands"></app-twins-sidebar>
+        <app-twins-sidebar [selected]="selectedBrands" />
       }
     </div>
   }

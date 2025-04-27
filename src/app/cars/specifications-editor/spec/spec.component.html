@@ -126,7 +126,7 @@
                           <span [textContent]="value.userValue.valueText"></span>
                         }
                         @if (value.user$ | async; as user) {
-                          <app-user [user]="user"></app-user>
+                          <app-user [user]="user" />
                         }
                         @if (value.userValue.updateDate?.toDate(); as date) {
                           <span class="date"

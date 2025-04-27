@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APICommentsMessage,
@@ -31,7 +31,8 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
 
 @Component({
-  imports: [RouterLink, FormsModule, NgbTypeahead, UserComponent, PaginatorComponent, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, FormsModule, NgbTypeahead, UserComponent, PaginatorComponent, AsyncPipe, ReactiveFormsModule],
   selector: 'app-moder-comments',
   templateUrl: './comments.component.html',
 })
@@ -46,10 +47,12 @@ export class ModerCommentsComponent implements OnInit {
   readonly #languageService = inject(LanguageService);
   readonly #usersClient = inject(UsersClient);
 
-  protected moderatorAttention?: ModeratorAttention;
+  protected readonly moderatorAttention = new FormControl<ModeratorAttention>(ModeratorAttention.NONE, {
+    nonNullable: true,
+  });
 
-  protected itemID: null | string = null;
-  protected itemQuery = '';
+  protected readonly itemID = signal<null | string>(null);
+  protected readonly itemQuery = new FormControl<string>('', {nonNullable: true});
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
   ) =>
@@ -83,8 +86,7 @@ export class ModerCommentsComponent implements OnInit {
       }),
     );
 
-  #userID: null | string = null;
-  protected userQuery = '';
+  protected readonly userQuery = new FormControl<string>('', {nonNullable: true});
   protected readonly usersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,
   ) =>
@@ -154,9 +156,8 @@ export class ModerCommentsComponent implements OnInit {
     paginator?: Pages;
   }> = combineLatest([this.userID$, this.#moderatorAttention$, this.#picturesOfItemID$, this.#page$]).pipe(
     switchMap(([userID, moderatorAttention, picturesOfItemID, page]) => {
-      this.#userID = userID;
-      this.moderatorAttention = moderatorAttention ? moderatorAttention : ModeratorAttention.NONE;
-      this.itemID = picturesOfItemID;
+      this.moderatorAttention.setValue(moderatorAttention ?? ModeratorAttention.NONE);
+      this.itemID.set(picturesOfItemID);
 
       return this.#commentsClient.getMessages(
         new GetMessagesRequest({
@@ -167,11 +168,11 @@ export class ModerCommentsComponent implements OnInit {
             status: true,
           }),
           limit: 30,
-          moderatorAttention: this.moderatorAttention,
+          moderatorAttention: this.moderatorAttention.value,
           order: GetMessagesRequest.Order.DATE_DESC,
           page,
-          picturesOfItemId: this.itemID ? this.itemID : undefined,
-          userId: this.#userID ? this.#userID : undefined,
+          picturesOfItemId: this.itemID() ?? undefined,
+          userId: userID ?? undefined,
         }),
       );
     }),
@@ -226,7 +227,7 @@ export class ModerCommentsComponent implements OnInit {
   }
 
   protected clearItem(): void {
-    this.itemQuery = '';
+    this.itemQuery.setValue('');
     this.#router.navigate([], {
       queryParams: {
         pictures_of_item_id: null,
@@ -249,7 +250,7 @@ export class ModerCommentsComponent implements OnInit {
   }
 
   protected clearUser(): void {
-    this.userQuery = '';
+    this.userQuery.setValue('');
     this.#router.navigate([], {
       queryParams: {
         user_id: null,

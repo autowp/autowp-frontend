@@ -29,7 +29,7 @@
           </p>
           <p>
             @if (article.author$ | async; as author) {
-              <app-user [user]="author"></app-user>
+              <app-user [user]="author" />
             }
             @if (article.date) {
               <span
@@ -44,7 +44,7 @@
     </ul>
 
     @if (response.paginator) {
-      <app-paginator [data]="response.paginator"></app-paginator>
+      <app-paginator [data]="response.paginator" />
     }
   </div>
 } @else {

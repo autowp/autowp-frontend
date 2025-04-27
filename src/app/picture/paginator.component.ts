@@ -1,8 +1,9 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {PicturesPages} from '@grpc/spec.pb';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   selector: 'app-picture-paginator',
   templateUrl: './paginator.component.html',

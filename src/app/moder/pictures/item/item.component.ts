@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -65,6 +65,7 @@ interface LastItemInfo {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     NgbTooltip,
@@ -99,13 +100,13 @@ export class ModerPicturesItemComponent {
   readonly #toastService = inject(ToastsService);
   readonly #trafficGrpc = inject(TrafficClient);
 
-  protected replaceLoading = false;
-  protected pictureItemLoading = false;
-  protected similarLoading = false;
-  protected repairLoading = false;
-  protected statusLoading = false;
-  protected copyrightsLoading = false;
-  protected specialNameLoading = false;
+  protected readonly replaceLoading = signal(false);
+  protected readonly pictureItemLoading = signal(false);
+  protected readonly similarLoading = signal(false);
+  protected readonly repairLoading = signal(false);
+  protected readonly statusLoading = signal(false);
+  protected readonly copyrightsLoading = signal(false);
+  protected readonly specialNameLoading = signal(false);
 
   readonly #change$ = new BehaviorSubject<void>(void 0);
 
@@ -249,11 +250,11 @@ export class ModerPicturesItemComponent {
   protected banPeriod = 1;
   protected banReason: null | string = null;
 
-  protected monthOptions: {
+  protected readonly monthOptions: {
     name: string;
     value: null | number;
   }[];
-  protected dayOptions: {
+  protected readonly dayOptions: {
     name: string;
     value: null | number;
   }[];
@@ -328,7 +329,7 @@ export class ModerPicturesItemComponent {
   }
 
   protected addItem(id: string, item: APIItem, type: number) {
-    this.pictureItemLoading = true;
+    this.pictureItemLoading.set(true);
     this.#picturesClient
       .createPictureItem(
         new CreatePictureItemRequest({
@@ -339,7 +340,7 @@ export class ModerPicturesItemComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.pictureItemLoading = false;
+          this.pictureItemLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -348,13 +349,13 @@ export class ModerPicturesItemComponent {
         next: () => {
           localStorage.setItem('last_item', item.id);
           this.#change$.next();
-          this.pictureItemLoading = false;
+          this.pictureItemLoading.set(false);
         },
       });
   }
 
   protected moveItem(id: string, type: number, srcItemId: string, dstItemId: string) {
-    this.pictureItemLoading = true;
+    this.pictureItemLoading.set(true);
     this.#picturesClient
       .setPictureItemItemID(
         new SetPictureItemItemIDRequest({
@@ -366,7 +367,7 @@ export class ModerPicturesItemComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.pictureItemLoading = false;
+          this.pictureItemLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -375,13 +376,13 @@ export class ModerPicturesItemComponent {
         next: () => {
           localStorage.setItem('last_item', dstItemId);
           this.#change$.next();
-          this.pictureItemLoading = false;
+          this.pictureItemLoading.set(false);
         },
       });
   }
 
   protected saveSpecialName(picture: Picture) {
-    this.specialNameLoading = true;
+    this.specialNameLoading.set(true);
     this.#picturesClient
       .updatePicture(
         new UpdatePictureRequest({
@@ -392,20 +393,20 @@ export class ModerPicturesItemComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.specialNameLoading = false;
+          this.specialNameLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
       )
       .subscribe({
         next: () => {
-          this.specialNameLoading = false;
+          this.specialNameLoading.set(false);
         },
       });
   }
 
   protected saveCopyrights(picture: Picture) {
-    this.copyrightsLoading = true;
+    this.copyrightsLoading.set(true);
 
     this.#picturesClient
       .setPictureCopyrights(
@@ -416,20 +417,20 @@ export class ModerPicturesItemComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.copyrightsLoading = false;
+          this.copyrightsLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
       )
       .subscribe({
         next: () => {
-          this.copyrightsLoading = false;
+          this.copyrightsLoading.set(false);
         },
       });
   }
 
   private setPictureStatus(id: string, status: PictureStatus) {
-    this.statusLoading = true;
+    this.statusLoading.set(true);
     this.#picturesClient
       .setPictureStatus(new SetPictureStatusRequest({id, status}))
       .pipe(
@@ -440,11 +441,11 @@ export class ModerPicturesItemComponent {
       )
       .subscribe({
         error: () => {
-          this.statusLoading = false;
+          this.statusLoading.set(false);
         },
         next: () => {
           this.#change$.next();
-          this.statusLoading = false;
+          this.statusLoading.set(false);
         },
       });
   }
@@ -466,12 +467,12 @@ export class ModerPicturesItemComponent {
   }
 
   protected normalizePicture(id: string) {
-    this.repairLoading = true;
+    this.repairLoading.set(true);
     this.#picturesClient
       .normalize(new PictureIDRequest({id}))
       .pipe(
         catchError((error: unknown) => {
-          this.repairLoading = false;
+          this.repairLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -479,18 +480,18 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.repairLoading = false;
+          this.repairLoading.set(false);
         },
       });
   }
 
   protected flopPicture(id: string) {
-    this.repairLoading = true;
+    this.repairLoading.set(true);
     this.#picturesClient
       .flop(new PictureIDRequest({id}))
       .pipe(
         catchError((error: unknown) => {
-          this.repairLoading = false;
+          this.repairLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -498,18 +499,18 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.repairLoading = false;
+          this.repairLoading.set(false);
         },
       });
   }
 
   protected repairPicture(id: string) {
-    this.repairLoading = true;
+    this.repairLoading.set(true);
     this.#picturesClient
       .repair(new PictureIDRequest({id}))
       .pipe(
         catchError((error: unknown) => {
-          this.repairLoading = false;
+          this.repairLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -517,18 +518,18 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.repairLoading = false;
+          this.repairLoading.set(false);
         },
       });
   }
 
   protected correctFileNames(id: string) {
-    this.repairLoading = true;
+    this.repairLoading.set(true);
     this.#picturesClient
       .correctFileNames(new PictureIDRequest({id}))
       .pipe(
         catchError((error: unknown) => {
-          this.repairLoading = false;
+          this.repairLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -536,18 +537,18 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.repairLoading = false;
+          this.repairLoading.set(false);
         },
       });
   }
 
   protected cancelSimilar(dfDistance: DfDistance) {
-    this.similarLoading = true;
+    this.similarLoading.set(true);
     this.#picturesClient
       .deleteSimilar(new DeleteSimilarRequest({id: dfDistance.srcPictureId, similarPictureId: dfDistance.dstPictureId}))
       .pipe(
         catchError((error: unknown) => {
-          this.similarLoading = false;
+          this.similarLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -555,13 +556,13 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.similarLoading = false;
+          this.similarLoading.set(false);
         },
       });
   }
 
   protected deletePictureItem(item: PictureItem) {
-    this.pictureItemLoading = true;
+    this.pictureItemLoading.set(true);
     this.#picturesClient
       .deletePictureItem(
         new DeletePictureItemRequest({
@@ -572,7 +573,7 @@ export class ModerPicturesItemComponent {
       )
       .pipe(
         catchError((error: unknown) => {
-          this.pictureItemLoading = false;
+          this.pictureItemLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -580,38 +581,38 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.pictureItemLoading = false;
+          this.pictureItemLoading.set(false);
         },
       });
   }
 
   protected cancelReplace(id: string) {
-    this.replaceLoading = true;
+    this.replaceLoading.set(true);
 
     this.#picturesClient
       .clearReplacePicture(new PictureIDRequest({id}))
       .pipe(
         catchError((error: unknown) => {
-          this.replaceLoading = false;
+          this.replaceLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
       )
       .subscribe({
         next: () => {
+          this.replaceLoading.set(false);
           this.#change$.next();
-          this.replaceLoading = false;
         },
       });
   }
 
   protected acceptReplace(id: string) {
-    this.replaceLoading = true;
+    this.replaceLoading.set(true);
     this.#picturesClient
       .acceptReplacePicture(new PictureIDRequest({id}))
       .pipe(
         catchError((error: unknown) => {
-          this.replaceLoading = false;
+          this.replaceLoading.set(false);
           this.#toastService.handleError(error);
           return EMPTY;
         }),
@@ -619,7 +620,7 @@ export class ModerPicturesItemComponent {
       .subscribe({
         next: () => {
           this.#change$.next();
-          this.replaceLoading = false;
+          this.replaceLoading.set(false);
         },
       });
   }

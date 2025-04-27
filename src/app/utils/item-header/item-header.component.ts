@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Design} from '@grpc/spec.pb';
 
@@ -12,6 +12,7 @@ export interface ItemHeader {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   selector: 'app-item-header',
   templateUrl: './item-header.component.html',

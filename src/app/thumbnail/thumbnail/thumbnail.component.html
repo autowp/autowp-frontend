@@ -87,7 +87,7 @@
         }
         @if (owner$ | async; as owner) {
           <br />
-          <app-user [user]="owner"></app-user>
+          <app-user [user]="owner" />
         }
       </p>
       @if (selectable()) {

@@ -37,7 +37,7 @@
           @if (item.item.ban.byUser) {
             <span>
               by
-              <app-user [user]="item.item.ban.byUser"></app-user>
+              <app-user [user]="item.item.ban.byUser" />
               @if (item.item.ban.reason) {
                 <span> <ng-container i18n>Reason</ng-container> {{ item.item.ban.reason }} </span>
               }

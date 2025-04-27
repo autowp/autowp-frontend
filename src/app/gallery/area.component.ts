@@ -1,9 +1,10 @@
 import {NgStyle} from '@angular/common';
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {PictureItem} from '@grpc/spec.pb';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgStyle, NgbTooltip],
   selector: 'app-gallery-carousel-item-area',
   styleUrls: ['./area.component.scss'],

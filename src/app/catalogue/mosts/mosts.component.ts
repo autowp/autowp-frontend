@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -11,6 +11,7 @@ import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} fr
 import {MostsContentsComponent} from '../../mosts/contents/contents.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, MostsContentsComponent, AsyncPipe],
   selector: 'app-catalogue-mosts',
   templateUrl: './mosts.component.html',

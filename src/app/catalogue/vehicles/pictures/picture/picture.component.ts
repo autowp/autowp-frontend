@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -25,6 +25,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 import {CatalogueService} from '../../../catalogue-service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-catalogue-vehicles-pictures-picture',
   templateUrl: './picture.component.html',

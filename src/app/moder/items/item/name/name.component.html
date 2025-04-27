@@ -32,7 +32,7 @@
             <div class="mb-3 row">
               <label class="col-md-2 col-form-label" for="short_description" i18n>Short description</label>
               <div class="col-md-10">
-                <app-markdown-edit id="short_description" [(text)]="language.text"></app-markdown-edit>
+                <app-markdown-edit id="short_description" [(text)]="language.text" />
                 @if (language.textId) {
                   <p class="text-end">
                     <a [routerLink]="['/info/text', language.textId]" i18n>History</a>
@@ -43,7 +43,7 @@
             <div class="mb-3 row">
               <label class="col-md-2 col-form-label" for="full_description" i18n>Full description</label>
               <div class="col-md-10">
-                <app-markdown-edit id="full_description" [(text)]="language.fullText"></app-markdown-edit>
+                <app-markdown-edit id="full_description" [(text)]="language.fullText" />
                 @if (language.fullTextId) {
                   <p class="text-end">
                     <a [routerLink]="['/info/text', language.fullTextId]" i18n>History</a>
@@ -56,8 +56,8 @@
       }
     </ul>
     <div [ngbNavOutlet]="nav"></div>
-    <button type="submit" class="btn btn-primary" (click)="saveLanguages(languages)" [disabled]="loadingNumber > 0">
-      @if (loadingNumber > 0) {
+    <button type="submit" class="btn btn-primary" (click)="saveLanguages(languages)" [disabled]="loadingNumber()">
+      @if (loadingNumber()) {
         <span>
           <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
         </span>

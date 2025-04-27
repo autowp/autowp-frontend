@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
@@ -36,6 +36,7 @@ interface Topic {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PastTimeIndicatorComponent, UserComponent, AsyncPipe],
   selector: 'app-forums-topic-list',
   templateUrl: './topic-list.component.html',

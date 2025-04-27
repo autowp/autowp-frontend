@@ -7,7 +7,7 @@
             [routerLink]="['/moder/attrs/attribute', attribute.id]"
             [textContent]="getAttrsTranslation(attribute.name)"
           ></a>
-          <app-moder-attrs-attribute-list [attributes]="attribute.childs"></app-moder-attrs-attribute-list>
+          <app-moder-attrs-attribute-list [attributes]="attribute.childs" />
         </li>
       }
     </ul>

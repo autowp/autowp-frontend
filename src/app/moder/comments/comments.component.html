@@ -25,7 +25,7 @@
           <input
             [ngbTypeahead]="usersDataSource"
             name="user"
-            [(ngModel)]="userQuery"
+            [formControl]="userQuery"
             [inputFormatter]="userFormatter"
             (selectItem)="userOnSelect($event)"
             [resultTemplate]="userTemplate"
@@ -50,9 +50,9 @@
           id="moderator_attention"
           name="moderator_attention"
           class="form-select"
-          [(ngModel)]="moderatorAttention"
+          [formControl]="moderatorAttention"
           (change)="setModeratorAttention()"
-          [class.border-primary]="moderatorAttention !== ModeratorAttention.NONE"
+          [class.border-primary]="moderatorAttention.value !== ModeratorAttention.NONE"
         >
           <option [ngValue]="ModeratorAttention.NONE" i18n>Not matters</option>
           <option [ngValue]="ModeratorAttention.REQUIRED" i18n>Required</option>
@@ -67,16 +67,16 @@
           <input
             [ngbTypeahead]="itemsDataSource"
             name="item"
-            [(ngModel)]="itemQuery"
+            [formControl]="itemQuery"
             [inputFormatter]="itemFormatter"
             (selectItem)="itemOnSelect($event)"
             [resultTemplate]="itemTemplate"
             i18n-placeholder
             placeholder="Item"
             class="form-control"
-            [class.border-primary]="itemID"
+            [class.border-primary]="itemID()"
           />
-          <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
+          <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID()" (click)="clearItem()">
             <span class="bi bi-x" aria-hidden="true"></span>
           </button>
         </div>
@@ -115,13 +115,13 @@
             }
             <a [routerLink]="comment.comment.route" [textContent]="comment.comment.preview"></a>
             @if (comment.user$ | async; as user) {
-              <app-user [user]="user"></app-user>
+              <app-user [user]="user" />
             }
           </li>
         }
       </ul>
       @if (data.paginator) {
-        <app-paginator [data]="data.paginator"></app-paginator>
+        <app-paginator [data]="data.paginator" />
       }
     }
   </div>

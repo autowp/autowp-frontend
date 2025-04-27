@@ -1,7 +1,7 @@
 import type {APIItemChildsCounts} from '@services/item';
 
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {APIImage, APIItem, APIUser, Design, ItemType, Picture} from '@grpc/spec.pb';
 import {AuthService, Role} from '@services/auth.service';
@@ -47,6 +47,7 @@ export interface CatalogueListItemPicture {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ItemHeaderComponent, RouterLink, MarkdownComponent, AsyncPipe, UserComponent],
   selector: 'app-catalogue-list-item',
   templateUrl: './list-item.component.html',

@@ -112,7 +112,7 @@
                     </span>
                   }
                   @if (value.user$ | async; as user) {
-                    <app-user [user]="user"></app-user>
+                    <app-user [user]="user" />
                   } @else {
                     <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
                   }

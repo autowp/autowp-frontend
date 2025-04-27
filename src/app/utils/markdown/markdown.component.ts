@@ -1,10 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs/operators';
 import showdown from 'showdown';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
   selector: 'app-markdown',
   styleUrls: ['markdown.component.scss'],

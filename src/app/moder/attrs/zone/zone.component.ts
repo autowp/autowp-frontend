@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {AttrZone, AttrZoneAttributesRequest} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
@@ -11,6 +11,7 @@ import {APIAttrsService, AttrAttributeTreeItem} from '../../../api/attrs/attrs.s
 import {ModerAttrsZoneAttributeListComponent} from './attribute-list/attribute-list.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, ModerAttrsZoneAttributeListComponent, AsyncPipe],
   selector: 'app-moder-attrs-zone',
   templateUrl: './zone.component.html',

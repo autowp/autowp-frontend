@@ -9,7 +9,7 @@
     <li class="breadcrumb-item">
       <a routerLink="/moder/items" i18n>Items</a>
     </li>
-    @if (item) {
+    @if (item$ | async; as item) {
       <li class="breadcrumb-item">
         <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
       </li>
@@ -21,61 +21,65 @@
   <h1>Item parent</h1>
 </div>
 
-@if (parent && item) {
-  <p>
+<p>
+  @if (parent$ | async; as parent) {
     <a
       [routerLink]="['/moder/items/item', parent.id]"
       [queryParams]="{tab: 'catalogue'}"
       [innerHTML]="parent.nameHtml"
     ></a>
+  }
+  @if (item$ | async; as item) {
     &rarr;
     <a [routerLink]="['/moder/items/item', item.id]" [queryParams]="{tab: 'catalogue'}" [innerHTML]="item.nameHtml"></a>
-  </p>
-}
+  }
+</p>
 
-@if (itemParent) {
-  <form method="post" class="form-horizontal" (submit)="save()">
-    <div class="mb-3 row">
-      <label class="col-md-2 col-form-label" for="type_id">Catname</label>
-      <div class="col-md-10">
-        <input type="text" name="catname" maxlength="150" [(ngModel)]="itemParent.catname" class="form-control" />
-      </div>
-    </div>
-    <div class="mb-3 row">
-      <label class="col-md-2 col-form-label" for="type">Type</label>
-      <div class="col-md-10">
-        <select name="type_id" id="type_id" class="form-select" [(ngModel)]="itemParent.type" id="type">
-          @for (option of typeOptions; track option.value) {
-            <option [value]="option.value">{{ option.name }}</option>
-          }
-        </select>
-      </div>
-    </div>
-    @for (language of languages; track language.language) {
+@if (itemParent$ | async; as itemParent) {
+  @if (languages$ | async; as languages) {
+    <form method="post" class="form-horizontal" (submit)="save(itemParent, languages)">
       <div class="mb-3 row">
-        <label class="col-md-2 col-form-label" [for]="'name' + language.language"
-          >{{ language.language.toUpperCase() }} Name</label
-        >
+        <label class="col-md-2 col-form-label" for="type_id">Catname</label>
         <div class="col-md-10">
-          <input
-            type="text"
-            [class.is-invalid]="language.invalidParams"
-            [id]="'name' + language.language"
-            [name]="'name' + language.language"
-            maxlength="255"
-            class="form-control"
-            [(ngModel)]="language.name"
-          />
-          @for (message of language.invalidParams || {} | invalidParams: 'name'; track message) {
-            <p [textContent]="message" class="invalid-feedback"></p>
-          }
+          <input type="text" name="catname" maxlength="150" [(ngModel)]="itemParent.catname" class="form-control" />
         </div>
       </div>
-    }
-    <div class="row">
-      <div class="col-md-10 offset-md-2">
-        <input type="submit" name="submit" class="btn btn-primary" value="Отправить" />
+      <div class="mb-3 row">
+        <label class="col-md-2 col-form-label" for="type">Type</label>
+        <div class="col-md-10">
+          <select name="type_id" id="type_id" class="form-select" [(ngModel)]="itemParent.type" id="type">
+            @for (option of typeOptions; track option.value) {
+              <option [value]="option.value">{{ option.name }}</option>
+            }
+          </select>
+        </div>
       </div>
-    </div>
-  </form>
+      @for (language of languages; track language.language) {
+        <div class="mb-3 row">
+          <label class="col-md-2 col-form-label" [for]="'name' + language.language"
+            >{{ language.language.toUpperCase() }} Name</label
+          >
+          <div class="col-md-10">
+            <input
+              type="text"
+              [class.is-invalid]="(language.invalidParams | invalidParams: 'name').length > 0"
+              [id]="'name' + language.language"
+              [name]="'name' + language.language"
+              maxlength="255"
+              class="form-control"
+              [(ngModel)]="language.name"
+            />
+            @for (message of language.invalidParams | invalidParams: 'name'; track message) {
+              <p [textContent]="message" class="invalid-feedback"></p>
+            }
+          </div>
+        </div>
+      }
+      <div class="row">
+        <div class="col-md-10 offset-md-2">
+          <input type="submit" name="submit" class="btn btn-primary" value="Отправить" />
+        </div>
+      </div>
+    </form>
+  }
 }

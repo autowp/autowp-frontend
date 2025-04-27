@@ -162,8 +162,8 @@
           </button>
         </div>
       </div>
-      @if (showShareDialog) {
-        <app-share [url]="location.href" [text]="picture.nameText"></app-share>
+      @if (showShareDialog()) {
+        <app-share [url]="location.href" [text]="picture.nameText" />
       }
       @if (pictureItems$ | async; as items) {
         @for (item of items; track item.itemId) {
@@ -177,14 +177,14 @@
       }
       @if (picture.copyrights) {
         <div>
-          <app-markdown [markdown]="picture.copyrights"></app-markdown>
+          <app-markdown [markdown]="picture.copyrights" />
         </div>
       }
       @if (pictureItems$ | async; as pictureItems) {
         @for (pictureItem of pictureItems; track pictureItem.itemId) {
           @if (pictureItem.item; as item) {
             @if (pictureItem.type === PictureItemType.PICTURE_ITEM_COPYRIGHTS && item.description) {
-              <app-markdown [markdown]="item.description"></app-markdown>
+              <app-markdown [markdown]="item.description" />
             }
           }
         }
@@ -192,7 +192,7 @@
       @for (pictureItem of contentItems$ | async; track pictureItem.itemId) {
         @if (pictureItem.item; as item) {
           @if (item.description) {
-            <app-markdown [markdown]="item.description" style="margin-bottom: 10px"></app-markdown>
+            <app-markdown [markdown]="item.description" style="margin-bottom: 10px" />
           }
           @if (item.hasText && item.route) {
             <p>
@@ -232,7 +232,7 @@
         @if (owner$ | async; as owner) {
           <li>
             <ng-container i18n>Added by:</ng-container>
-            <app-user [user]="owner"></app-user>,
+            <app-user [user]="owner" />,
             @if (picture.addDate?.toDate(); as date) {
               <span [ngbTooltip]="date | date: 'medium'">{{ date | timeAgo }}</span>
             }
@@ -278,7 +278,7 @@
   If you think that the users of the site made a mistake by posting this image in this section, it would be nice if you wrote about it in the comments and pointed out the error.
 
   Discuss anything and just talk about cars and not only can you on [the forum](/forums/)."
-      ></app-markdown>
+      />
       <ul class="unstyled">
         @for (link of links$ | async; track link) {
           <li>
@@ -388,7 +388,7 @@
         }
       </ul>
       @if (picture.paginator) {
-        <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix()"></app-picture-paginator>
+        <app-picture-paginator [paginator]="picture.paginator" [prefix]="prefix()" />
       }
     </div>
   </div>
@@ -403,7 +403,7 @@
                 <span>
                   <i style="color: green" class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></i>
                   @if (moderVote.user$ | async; as user) {
-                    <app-user [user]="user"></app-user>
+                    <app-user [user]="user" />
                   }
                   <span style="color: green">{{ moderVote.reason }}</span>
                 </span>
@@ -412,7 +412,7 @@
                 <span>
                   <i style="color: red" class="bi bi-hand-thumbs-down-fill" aria-hidden="true"></i>
                   @if (moderVote.user$ | async; as user) {
-                    <app-user [user]="user"></app-user>
+                    <app-user [user]="user" />
                   }
                   <span style="color: red">{{ moderVote.reason }}</span>
                 </span>
@@ -452,14 +452,10 @@
                   }
                 </div>
               }
-              <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
-              <ngb-progressbar
-                type="primary"
-                [striped]="true"
-                [animated]="true"
-                [value]="100"
-                [hidden]="!statusLoading"
-              ></ngb-progressbar>
+              <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()" />
+              @if (statusLoading()) {
+                <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+              }
             </div>
           }
           @if (contentItems$ | async; as items) {
@@ -472,7 +468,7 @@
                     <app-moder-pictures-perspective-picker
                       [perspectiveID]="item.perspectiveId"
                       (perspectiveChanged)="savePerspective($event, item)"
-                    ></app-moder-pictures-perspective-picker>
+                    />
                   </div>
                 }
               </div>

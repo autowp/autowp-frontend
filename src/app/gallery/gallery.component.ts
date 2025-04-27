@@ -1,5 +1,13 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, HostListener, inject, input, output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Router, RouterLink} from '@angular/router';
 import {
@@ -151,6 +159,7 @@ class Gallery {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CarouselItemComponent, RouterLink, AsyncPipe],
   selector: 'app-gallery',
   styleUrls: ['./gallery.component.scss'],
@@ -161,6 +170,7 @@ export class GalleryComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #toastService = inject(ToastsService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   readonly filter = input.required<APIGalleryFilter>();
 
@@ -220,6 +230,7 @@ export class GalleryComponent {
       gallery.current = index;
       const currentItem = gallery.getItemByIndex(index);
       this.pictureSelected.emit(currentItem);
+      this.#cdr.markForCheck();
     }),
     map(({gallery}) => gallery),
     shareReplay({bufferSize: 1, refCount: false}),

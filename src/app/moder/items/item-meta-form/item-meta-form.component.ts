@@ -1,7 +1,7 @@
 import type {InvalidParams} from '@utils/invalid-params.pipe';
 
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ComponentRef, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -184,6 +184,7 @@ function specsToPlain(options: Spec[], deep: number): ItemMetaFormAPISpec[] {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, ReactiveFormsModule, MapPointComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-item-meta-form',
   styleUrls: ['./styles.scss'],
@@ -211,12 +212,12 @@ export class ItemMetaFormComponent {
   readonly vehicleTypeIDs = input.required<string[]>();
 
   readonly items = input<APIItem[]>([]);
-  protected readonly items$ = toObservable(this.items);
+  protected readonly items$ = toObservable(this.items).pipe(map((items) => (items && items.length ? items : null)));
 
   readonly pictures = input<PictureItem[]>([]);
   readonly pictures$ = toObservable(this.pictures).pipe(
     map((pictures) =>
-      pictures
+      pictures && pictures.length > 0
         ? pictures.map((p) => ({
             picture$: this.#picturesClient.getPicture(
               new PicturesRequest({
@@ -464,7 +465,9 @@ export class ItemMetaFormComponent {
       size: 'lg',
     });
 
-    modalRef.componentInstance.setInput('ids', vehicleTypeIDs.value);
+    const componentRef: ComponentRef<VehicleTypesModalComponent> = modalRef['_contentRef'].componentRef;
+    componentRef.setInput('ids', vehicleTypeIDs.value);
+
     modalRef.componentInstance.changed.subscribe((value: string[]) => {
       vehicleTypeIDs.setValue(value);
     });

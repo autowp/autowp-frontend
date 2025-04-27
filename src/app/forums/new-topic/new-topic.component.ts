@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APICreateTopicRequest, APIForumsTheme, APIGetForumsThemeRequest} from '@grpc/spec.pb';
@@ -17,6 +17,7 @@ import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc'
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, FormsModule, MarkdownComponent, AsyncPipe, InvalidParamsPipe],
   selector: 'app-forums-new-topic',
   templateUrl: './new-topic.component.html',
@@ -36,7 +37,7 @@ export class ForumsNewTopicComponent implements OnInit {
     name: '',
     subscription: false,
   };
-  protected invalidParams?: InvalidParams;
+  protected readonly invalidParams = signal<InvalidParams>({});
   protected readonly theme$ = this.#route.paramMap.pipe(
     map((params) => params.get('theme_id')),
     distinctUntilChanged(),
@@ -58,7 +59,7 @@ export class ForumsNewTopicComponent implements OnInit {
   }
 
   protected submit(theme: APIForumsTheme) {
-    this.invalidParams = {};
+    this.invalidParams.set({});
 
     this.#forums
       .createTopic(
@@ -74,7 +75,7 @@ export class ForumsNewTopicComponent implements OnInit {
         error: (response: unknown) => {
           if (response instanceof GrpcStatusEvent && response.statusCode === 3) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
           } else {
             this.#toastService.handleError(response);
           }

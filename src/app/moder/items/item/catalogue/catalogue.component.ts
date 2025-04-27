@@ -1,7 +1,7 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -30,7 +30,17 @@ import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 @Component({
-  imports: [RouterLink, FormsModule, NgbTypeahead, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    FormsModule,
+    NgbTypeahead,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    AsyncPipe,
+    ReactiveFormsModule,
+  ],
   selector: 'app-moder-items-item-catalogue',
   templateUrl: './catalogue.component.html',
 })
@@ -48,7 +58,7 @@ export class ModerItemsItemCatalogueComponent {
   protected readonly reloadParents$ = new BehaviorSubject<void>(void 0);
   protected readonly reloadSuggestions$ = new BehaviorSubject<void>(void 0);
 
-  protected itemQuery = '';
+  protected readonly itemQuery = new FormControl<string>('', {nonNullable: true});
 
   protected readonly canMove$ = this.#auth
     .hasRole$(Role.CARS_MODER)
@@ -174,7 +184,7 @@ export class ModerItemsItemCatalogueComponent {
   protected itemOnSelect(item: APIItem, e: NgbTypeaheadSelectItemEvent): void {
     e.preventDefault();
     this.addParent(item, '' + e.item.id);
-    this.itemQuery = '';
+    this.itemQuery.setValue('');
   }
 
   protected addParent(item: APIItem, parentId: string) {

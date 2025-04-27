@@ -1,9 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {environment} from '@environment/environment';
 import {PageEnvService} from '@services/page-env.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   selector: 'app-account-access',
   templateUrl: './access.component.html',

@@ -1,8 +1,9 @@
 import {NgStyle} from '@angular/common';
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {Spec} from '@grpc/spec.pb';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgStyle],
   selector: 'app-info-spec-row',
   templateUrl: './row.component.html',

@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {
   AddToTrafficBlacklistRequest,
@@ -22,6 +22,7 @@ interface ListItem {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, UserComponent, AsyncPipe, DatePipe],
   selector: 'app-moder-traffic',
   templateUrl: './traffic.component.html',

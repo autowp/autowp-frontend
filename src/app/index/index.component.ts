@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {GetTopPersonsListRequest, ItemOfDay, ItemOfDayRequest, PictureItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -21,6 +21,7 @@ import {IndexSpecsCarsComponent} from './specs-cars/specs-cars.component';
 import {IndexTwinsComponent} from './twins/twins.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ItemOfDayComponent,
     IndexDonateComponent,

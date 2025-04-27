@@ -102,11 +102,11 @@
         </div>
       }
       @if (data.paginator) {
-        <app-paginator [data]="data.paginator"></app-paginator>
+        <app-paginator [data]="data.paginator" />
       }
     }
   </div>
   <div class="col-sm-4 order-1">
-    <app-twins-sidebar [selected]="[(currentBrandCatname$ | async) || '']"></app-twins-sidebar>
+    <app-twins-sidebar [selected]="[(currentBrandCatname$ | async) || '']" />
   </div>
 </div>

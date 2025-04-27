@@ -1,6 +1,6 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -20,7 +20,7 @@ import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import {TimeAgoPipe} from '@utils/time-ago.pipe';
 import {getUnitAbbrTranslation} from '@utils/translations';
-import {combineLatest, EMPTY, Observable, of, Subscription} from 'rxjs';
+import {combineLatest, EMPTY, Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators';
 
 import {APIAttrsService} from '../../api/attrs/attrs.service';
@@ -36,12 +36,23 @@ interface AttrUserValueListItem {
 }
 
 @Component({
-  imports: [RouterLink, FormsModule, NgbTypeahead, NgbTooltip, UserComponent, AsyncPipe, DatePipe, TimeAgoPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    FormsModule,
+    NgbTypeahead,
+    NgbTooltip,
+    UserComponent,
+    AsyncPipe,
+    DatePipe,
+    TimeAgoPipe,
+    ReactiveFormsModule,
+  ],
   selector: 'app-cars-attrs-change-log',
   styleUrls: ['./attrs-change-log.component.scss'],
   templateUrl: './attrs-change-log.component.html',
 })
-export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
+export class CarsAttrsChangeLogComponent implements OnInit {
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
   readonly #auth = inject(AuthService);
@@ -55,8 +66,6 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
   readonly #attrsService = inject(APIAttrsService);
 
   readonly #itemsCache = new Map<string, Observable<APIItem>>();
-
-  #querySub?: Subscription;
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
 
@@ -100,14 +109,22 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected userQuery = '';
+  readonly #control = new FormControl<string>('', {nonNullable: true});
+
+  protected readonly userQuery$ = this.userID$.pipe(
+    map((userID) => {
+      this.#control.setValue(userID ? '#' + userID : '');
+      return this.#control;
+    }),
+  );
+
   protected readonly usersDataSource: (text$: Observable<string>) => Observable<(APIUser | null)[]> = (
     text$: Observable<string>,
   ) =>
     text$.pipe(
       debounceTime(200),
       switchMap((query) => {
-        if (query === '') {
+        if (query === '' || query === '#') {
           return of([]);
         }
 
@@ -153,16 +170,10 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 103}), 0);
-
-    this.#querySub = this.userID$.subscribe((userID) => {
-      if (userID && !this.userQuery) {
-        this.userQuery = '#' + userID;
-      }
-    });
   }
 
-  protected userFormatter(x: APIUser) {
-    return x.name;
+  protected userFormatter(x: APIUser | string) {
+    return x instanceof APIUser ? x.name : x;
   }
 
   protected userOnSelect(e: NgbTypeaheadSelectItemEvent): void {
@@ -174,19 +185,13 @@ export class CarsAttrsChangeLogComponent implements OnDestroy, OnInit {
     });
   }
 
-  protected clearUser(): void {
-    this.userQuery = '';
+  protected clearUser(control: FormControl<string>): void {
+    control.setValue('');
     this.#router.navigate([], {
       queryParams: {
         user_id: null,
       },
       queryParamsHandling: 'merge',
     });
-  }
-
-  ngOnDestroy(): void {
-    if (this.#querySub) {
-      this.#querySub.unsubscribe();
-    }
   }
 }

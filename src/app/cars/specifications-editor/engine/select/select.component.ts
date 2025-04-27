@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -30,6 +30,7 @@ import {ToastsService} from '../../../../toasts/toasts.service';
 import {CarsSelectEngineTreeItemComponent} from './tree-item/tree-item.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, CarsSelectEngineTreeItemComponent, FormsModule, PaginatorComponent, AsyncPipe],
   selector: 'app-cars-engine-select',
   templateUrl: './select.component.html',

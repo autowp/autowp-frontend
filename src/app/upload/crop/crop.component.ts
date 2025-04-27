@@ -1,5 +1,14 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input, OnDestroy, OnInit, output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  output,
+} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {APIImage, Picture} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -16,12 +25,14 @@ interface JcropCrop {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
   selector: 'app-upload-crop',
   templateUrl: './crop.component.html',
 })
 export class UploadCropComponent implements OnDestroy, OnInit {
   protected readonly activeModal = inject(NgbActiveModal);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   readonly changed = output<void>();
 
@@ -101,6 +112,8 @@ export class UploadCropComponent implements OnDestroy, OnInit {
           ],
           trueSize: [picture.width, picture.height],
         });
+
+        this.#cdr.markForCheck();
       }
     });
   }
@@ -125,6 +138,8 @@ export class UploadCropComponent implements OnDestroy, OnInit {
 
     this.aspect = pw + ':' + phRound;
     this.resolution = text;
+
+    this.#cdr.markForCheck();
   }
 
   protected onLoad(e: Event) {

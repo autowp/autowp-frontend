@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, APIItemList, ItemFields, ItemListOptions, ItemsRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -12,6 +12,7 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {PaginatorComponent} from '../../../paginator/paginator/paginator.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PaginatorComponent, AsyncPipe],
   selector: 'app-moder-items-alpha',
   templateUrl: './alpha.component.html',

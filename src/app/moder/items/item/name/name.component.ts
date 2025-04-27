@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -13,6 +13,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {MarkdownEditComponent} from '../../../../markdown-edit/markdown-edit/markdown-edit.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgbNav,
     NgbNavItem,
@@ -35,7 +36,7 @@ export class ModerItemsItemNameComponent {
   readonly item = input.required<APIItem>();
   protected readonly item$ = toObservable(this.item);
 
-  protected loadingNumber = 0;
+  protected readonly loadingNumber = signal(false);
 
   protected readonly languages$ = this.#contentLanguage.languages$.pipe(
     map((contentLanguages) => {
@@ -84,13 +85,13 @@ export class ModerItemsItemNameComponent {
 
   protected saveLanguages(itemLanguages: ItemLanguage[]) {
     for (const itemLanguage of itemLanguages) {
-      this.loadingNumber++;
+      this.loadingNumber.set(true);
       this.#itemsClient.updateItemLanguage(itemLanguage).subscribe({
         error: () => {
-          this.loadingNumber--;
+          this.loadingNumber.set(false);
         },
         next: () => {
-          this.loadingNumber--;
+          this.loadingNumber.set(false);
         },
       });
     }

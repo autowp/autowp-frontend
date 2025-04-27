@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, NgZone, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, NgZone, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
@@ -45,6 +45,7 @@ function normalizeLng(lng: number) {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, FormsModule, ReactiveFormsModule, LeafletModule, AsyncPipe],
   selector: 'app-moder-pictures-place',
   templateUrl: './place.component.html',

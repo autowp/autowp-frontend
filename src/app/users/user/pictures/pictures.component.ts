@@ -1,5 +1,5 @@
 import {AsyncPipe, NgClass, NgStyle} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -37,6 +37,7 @@ function addCSS(url: string) {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, NgClass, NgStyle, AsyncPipe],
   selector: 'app-users-user-pictures',
   templateUrl: './pictures.component.html',

@@ -1,5 +1,5 @@
 import {HttpErrorResponse, HttpResponseBase} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 
 export interface Toast {
@@ -10,7 +10,7 @@ export interface Toast {
 
 @Injectable({providedIn: 'root'})
 export class ToastsService {
-  public toasts: Toast[] = [];
+  public readonly toasts = signal<Toast[]>([]);
 
   public handleError(error: unknown) {
     if (typeof error === 'string') {
@@ -40,7 +40,7 @@ export class ToastsService {
   }
 
   public show(options: Toast) {
-    this.toasts.push(options);
+    this.toasts.update((values) => [...values, options]);
   }
 
   public error(message: string) {
@@ -72,6 +72,6 @@ export class ToastsService {
   }
 
   public remove(toast: Toast) {
-    this.toasts = this.toasts.filter((t) => t !== toast);
+    this.toasts.update((values) => values.filter((t) => t !== toast));
   }
 }

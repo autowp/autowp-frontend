@@ -24,7 +24,7 @@
       [typeID]="CommentsType.FORUMS_TYPE_ID"
       [limit]="limit"
       [page]="(page$ | async) || 0"
-    ></app-comments>
+    />
     @if (authenticated$ | async) {
       <div class="text-end mb-3">
         @if (!topic.subscription) {

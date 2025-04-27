@@ -200,7 +200,7 @@
                     <p>
                       <ng-container i18n>That address is banned</ng-container>
                       @if (ip.blacklist.byUser) {
-                        <app-user [user]="ip.blacklist.byUser"></app-user>
+                        <app-user [user]="ip.blacklist.byUser" />
                       }
                       @if (ip.blacklist.until) {
                         <span>

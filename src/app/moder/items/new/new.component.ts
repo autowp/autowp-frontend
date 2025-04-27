@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIGetItemVehicleTypesRequest, APIItem, ItemFields, ItemParent, ItemRequest, ItemType} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -22,6 +22,7 @@ import {
 } from '../item-meta-form/item-meta-form.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AsyncPipe, ItemMetaFormComponent],
   selector: 'app-moder-items-new',
   templateUrl: './new.component.html',
@@ -35,7 +36,7 @@ export class ModerItemsNewComponent {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected invalidParams: InvalidParams = {};
+  protected readonly invalidParams = signal<InvalidParams>({});
 
   readonly #itemTypeID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') ?? '', 10)),
@@ -113,7 +114,7 @@ export class ModerItemsNewComponent {
         catchError((response: unknown) => {
           if (response instanceof GrpcStatusEvent) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
           } else {
             this.#toastService.handleError(response);
           }

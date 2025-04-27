@@ -16,16 +16,12 @@
   <h1 i18n>Select</h1>
 </div>
 
-<span [hidden]="loading <= 0">
-  <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-</span>
-
 @if (brand) {
   <div class="select-in-brand">
     @if (vehicles.length > 0) {
       <div class="my-1">
         @for (item of vehicles; track item) {
-          <app-donate-vod-select-item [itemParent]="item"></app-donate-vod-select-item>
+          <app-donate-vod-select-item [itemParent]="item" />
         }
       </div>
     }
@@ -43,7 +39,7 @@
         @if (conceptsExpanded) {
           <div class="mb-1 ms-4">
             @for (item of concepts; track item) {
-              <app-donate-vod-select-item [itemParent]="item"></app-donate-vod-select-item>
+              <app-donate-vod-select-item [itemParent]="item" />
             }
           </div>
         }

@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -25,6 +25,7 @@ import {PaginatorComponent} from '../../../paginator/paginator/paginator.compone
 import {DonateVodSelectItemComponent} from './item/item.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, DonateVodSelectItemComponent, PaginatorComponent],
   selector: 'app-donate-vod-select',
   templateUrl: './select.component.html',
@@ -34,15 +35,14 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
   readonly #pageEnv = inject(PageEnvService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   #querySub?: Subscription;
-  protected page = 0;
   protected brands: APIItem[][] = [];
   protected paginator: null | Pages = null;
   protected brand: APIItem | null = null;
   protected vehicles: ItemParent[] = [];
   protected concepts: ItemParent[] = [];
-  protected loading = 0;
   protected conceptsExpanded = false;
 
   readonly #select$: Observable<null | {
@@ -62,7 +62,7 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     debounceTime(30),
     switchMap((params) => {
-      this.page = params.page || 1;
+      const page = params.page || 1;
       const brandID = params.brand_id;
 
       return combineLatest([
@@ -76,7 +76,7 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
                 options: new ItemListOptions({
                   typeId: ItemType.ITEM_TYPE_BRAND,
                 }),
-                page: this.page,
+                page,
               }),
             ),
         brandID
@@ -139,11 +139,15 @@ export class DonateVodSelectComponent implements OnDestroy, OnInit {
         this.brands = chunk(items?.items || [], 6);
         this.paginator = items?.paginator ? items?.paginator : null;
       }
+
+      this.#cdr.markForCheck();
     });
   }
 
   protected toggleConcepts() {
     this.conceptsExpanded = !this.conceptsExpanded;
+
+    this.#cdr.markForCheck();
     return false;
   }
 

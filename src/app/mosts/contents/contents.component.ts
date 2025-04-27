@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {MostsItem, MostsItemsRequest, MostsVehicleType} from '@grpc/spec.pb';
@@ -38,6 +38,7 @@ function vehicleTypesToList(vehicleTypes: MostsVehicleType[]): MostsVehicleTypeT
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, RouterLink, MarkdownComponent, NgbTooltip, AsyncPipe],
   selector: 'app-mosts-contents',
   styleUrls: ['./styles.scss'],

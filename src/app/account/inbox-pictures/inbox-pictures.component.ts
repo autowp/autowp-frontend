@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PictureFields, PictureListOptions, PicturesList, PicturesRequest, PictureStatus} from '@grpc/spec.pb';
 import {PicturesClient} from '@grpc/spec.pbsc';
@@ -14,6 +14,7 @@ import {ThumbnailComponent} from '../../thumbnail/thumbnail/thumbnail.component'
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-account-inbox-pictures',
   templateUrl: './inbox-pictures.component.html',

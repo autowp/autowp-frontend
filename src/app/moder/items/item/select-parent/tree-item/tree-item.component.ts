@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, forwardRef, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, forwardRef, inject, input, output, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {
   APIItem,
@@ -18,6 +18,7 @@ import {ToastsService} from '../../../../../toasts/toasts.service';
 import {ModerItemsItemSelectParentTreeComponent} from '../tree/tree.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [forwardRef(() => ModerItemsItemSelectParentTreeComponent), AsyncPipe],
   selector: 'app-moder-items-item-select-parent-tree-item',
   templateUrl: './tree-item.component.html',
@@ -37,7 +38,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   readonly typeID = input<ItemParentType>(ItemParentType.ITEM_TYPE_DEFAULT);
   readonly selected = output<string>();
 
-  protected open = false;
+  protected open = signal(false);
 
   protected readonly childs$: Observable<ItemParent[]> = combineLatest([
     this.item$,
@@ -76,7 +77,7 @@ export class ModerItemsItemSelectParentTreeItemComponent {
   }
 
   protected toggle(): boolean {
-    this.open = !this.open;
+    this.open.set(!this.open());
     return false;
   }
 

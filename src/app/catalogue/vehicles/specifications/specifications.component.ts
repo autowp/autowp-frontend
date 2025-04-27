@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {APIItem, GetSpecificationsRequest, ItemFields} from '@grpc/spec.pb';
@@ -12,6 +12,7 @@ import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {CatalogueService} from '../../catalogue-service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AsyncPipe],
   selector: 'app-catalogue-vehicles-specifications',
   templateUrl: './specifications.component.html',

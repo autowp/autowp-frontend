@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {APIGetItemVehicleTypesRequest, APIItem, ItemType, UpdateItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -21,6 +21,7 @@ import {
 } from '../../item-meta-form/item-meta-form.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgbProgressbar, ItemMetaFormComponent, AsyncPipe],
   selector: 'app-moder-items-item-meta',
   templateUrl: './meta.component.html',
@@ -34,10 +35,10 @@ export class ModerItemsItemMetaComponent {
   readonly item = input.required<APIItem>();
   protected readonly item$ = toObservable(this.item);
 
-  protected loadingNumber = 0;
+  protected readonly loadingNumber = signal(false);
 
   protected readonly canEditMeta$ = this.#auth.hasRole$(Role.CARS_MODER);
-  protected invalidParams: InvalidParams = {};
+  protected readonly invalidParams = signal<InvalidParams>({});
 
   protected readonly vehicleTypeIDs$: Observable<string[]> = this.item$.pipe(
     switchMap((item) => {
@@ -56,7 +57,7 @@ export class ModerItemsItemMetaComponent {
   );
 
   protected saveMeta(item: APIItem, event: ItemMetaFormResult) {
-    this.loadingNumber++;
+    this.loadingNumber.set(true);
 
     const newItem = itemMetaFormResultsToAPIItem(event);
     newItem.id = item.id;
@@ -118,13 +119,13 @@ export class ModerItemsItemMetaComponent {
           catchError((response: unknown) => {
             if (response instanceof GrpcStatusEvent) {
               const fieldViolations = extractFieldViolations(response);
-              this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+              this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
             } else {
               this.#toastService.handleError(response);
             }
             return EMPTY;
           }),
-          tap(() => (this.invalidParams = {})),
+          tap(() => this.invalidParams.set({})),
           map(() => void 0),
         ),
     ];
@@ -134,7 +135,7 @@ export class ModerItemsItemMetaComponent {
 
     forkJoin(pipes).subscribe({
       complete: () => {
-        this.loadingNumber--;
+        this.loadingNumber.set(false);
       },
     });
   }

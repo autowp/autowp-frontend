@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input, output} from '@angular/core';
 import {APIItem} from '@grpc/spec.pb';
 import {NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService, Role} from '@services/auth.service';
@@ -10,6 +10,7 @@ import {EMPTY} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MarkdownComponent, NgbProgressbar, AsyncPipe, InvalidParamsPipe],
   selector: 'app-moder-items-item-logo',
   templateUrl: './logo.component.html',
@@ -17,6 +18,7 @@ import {catchError, switchMap} from 'rxjs/operators';
 export class ModerItemsItemLogoComponent {
   readonly #auth = inject(AuthService);
   readonly #http = inject(HttpClient);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   readonly item = input.required<APIItem>();
 
@@ -49,6 +51,8 @@ export class ModerItemsItemLogoComponent {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
+    this.#cdr.markForCheck();
+
     if (this.item()) {
       this.#http
         .request('POST', '/api/item/' + this.item().id + '/logo', {
@@ -64,6 +68,7 @@ export class ModerItemsItemLogoComponent {
                 this.progress.failed = true;
 
                 this.progress.invalidParams = response.error.invalid_params;
+                this.#cdr.markForCheck();
               }
             }
 
@@ -73,14 +78,18 @@ export class ModerItemsItemLogoComponent {
             if (httpEvent.type === HttpEventType.DownloadProgress) {
               if (this.progress && httpEvent.total) {
                 this.progress.percentage = Math.round(50 + 25 * (httpEvent.loaded / httpEvent.total));
+                this.#cdr.markForCheck();
               }
+
               return EMPTY;
             }
 
             if (httpEvent.type === HttpEventType.UploadProgress) {
               if (this.progress && httpEvent.total) {
                 this.progress.percentage = Math.round(50 * (httpEvent.loaded / httpEvent.total));
+                this.#cdr.markForCheck();
               }
+
               return EMPTY;
             }
 
@@ -88,6 +97,7 @@ export class ModerItemsItemLogoComponent {
               if (this.progress) {
                 this.progress.percentage = 100;
                 this.progress.success = true;
+                this.#cdr.markForCheck();
               }
 
               if (!this.item()) {

@@ -1,5 +1,5 @@
 import {AsyncPipe, NgStyle} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ComponentRef, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Picture} from '@grpc/spec.pb';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import {UserComponent} from '../../user/user/user.component';
 import {PictureModerVoteModalComponent} from './modal/modal.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, UserComponent, NgStyle, AsyncPipe],
   selector: 'app-picture-moder-vote',
   templateUrl: './picture-moder-vote.component.html',
@@ -40,7 +41,6 @@ export class PictureModerVoteComponent {
   protected readonly moderVoteTemplateOptions$ = this.#moderVoteTemplateService
     .getTemplates$()
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
-  protected vote: null | number = null;
   protected reason = '';
   protected save = false;
 
@@ -57,16 +57,16 @@ export class PictureModerVoteComponent {
   }
 
   protected showCustomDialog(picture: Picture, vote: number): void {
-    this.vote = vote;
-
     const modalRef = this.#modalService.open(PictureModerVoteModalComponent, {
       centered: true,
       size: 'lg',
     });
 
     if (picture) {
-      modalRef.componentInstance.setInput('pictureId', picture.id);
-      modalRef.componentInstance.setInput('vote', vote);
+      const componentRef: ComponentRef<PictureModerVoteModalComponent> = modalRef['_contentRef'].componentRef;
+      componentRef.setInput('pictureId', picture.id);
+      componentRef.setInput('vote', vote);
+
       modalRef.componentInstance.voted.subscribe(() => {
         this.changed.emit(void 0);
       });

@@ -1,7 +1,17 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, ElementRef, inject, OnInit, viewChild} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {
   APIImage,
@@ -56,6 +66,7 @@ const cropTitle = (image: APIImage | undefined): string => {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MarkdownComponent,
     FormsModule,
@@ -64,6 +75,7 @@ const cropTitle = (image: APIImage | undefined): string => {
     AsyncPipe,
     InvalidParamsPipe,
     ThumbnailComponent,
+    ReactiveFormsModule,
   ],
   selector: 'app-upload-index',
   templateUrl: './index.component.html',
@@ -79,12 +91,13 @@ export class UploadIndexComponent implements OnInit {
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
   readonly #itemsClient = inject(ItemsClient);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   protected files: File[] | undefined;
-  protected note = '';
+  protected readonly note = new FormControl<string>('', {nonNullable: true});
   protected progress: UploadProgress[] = [];
   protected pictures: APIPictureUpload[] = [];
-  protected formHidden = false;
+  protected readonly formHidden = signal(false);
   protected readonly authenticated$ = this.auth.authenticated$;
 
   public input = viewChild<ElementRef>('input');
@@ -163,12 +176,14 @@ export class UploadIndexComponent implements OnInit {
 
   protected onChange(event: Event) {
     this.files = [].slice.call((event.target as HTMLInputElement).files);
+    this.#cdr.markForCheck();
   }
 
   protected submit() {
     this.progress = [];
+    this.#cdr.markForCheck();
 
-    this.formHidden = true;
+    this.formHidden.set(true);
 
     const xhrs: Observable<Picture>[] = [];
 
@@ -182,8 +197,9 @@ export class UploadIndexComponent implements OnInit {
         if (elementRef) {
           elementRef.nativeElement.value = '';
         }
-        this.formHidden = false;
+        this.formHidden.set(false);
         this.files = undefined;
+        this.#cdr.markForCheck();
       },
     });
 
@@ -200,6 +216,7 @@ export class UploadIndexComponent implements OnInit {
     };
 
     this.progress.push(progress);
+    this.#cdr.markForCheck();
 
     return combineLatest([
       this.itemID$.pipe(take(1)),
@@ -209,8 +226,8 @@ export class UploadIndexComponent implements OnInit {
       map(([itemID, replace, perspectiveID]) => {
         const formData: FormData = new FormData();
         formData.append('file', file);
-        if (this.note) {
-          formData.append('comment', this.note);
+        if (this.note.value) {
+          formData.append('comment', this.note.value);
         }
 
         if (itemID) {
@@ -300,6 +317,7 @@ export class UploadIndexComponent implements OnInit {
                   cropTitle: cropTitle(picture.image),
                   picture,
                 });
+                this.#cdr.markForCheck();
               }),
               catchError((response: unknown) => {
                 if (response instanceof HttpErrorResponse) {
@@ -321,7 +339,9 @@ export class UploadIndexComponent implements OnInit {
       size: 'lg',
     });
 
-    modalRef.componentInstance.setInput('picture', picture.picture);
+    const componentRef: ComponentRef<UploadCropComponent> = modalRef['_contentRef'].componentRef;
+    componentRef.setInput('picture', picture.picture);
+
     modalRef.componentInstance.changed
       .pipe(
         switchMap(() =>

@@ -8,9 +8,9 @@
     rows="5"
     name="contents"
     (keypress)="keypress()"
-    [(ngModel)]="text"
+    [formControl]="text"
     class="form-control"
-    [disabled]="sending"
+    [disabled]="sending()"
     placeholder="Message"
     i18n-placeholder
   ></textarea>
@@ -19,19 +19,19 @@
   <button
     class="btn"
     (click)="send()"
-    [disabled]="sending || text.length <= 0"
-    [class.btn-success]="sent"
-    [class.btn-primary]="!sent"
+    [disabled]="sending() || text.value.length <= 0"
+    [class.btn-success]="sent()"
+    [class.btn-primary]="!sent()"
   >
-    @if (sending) {
+    @if (sending()) {
       <span i18n>sending …</span>
     }
-    @if (sent) {
+    @if (sent()) {
       <span i18n>sent</span>
     }
-    @if (!sending && !sent) {
+    @if (!sending() && !sent()) {
       <span i18n>send</span>
     }
   </button>
-  <button class="btn btn-secondary cancel" i18n (click)="activeModal.dismiss()" [disabled]="sending">cancel</button>
+  <button class="btn btn-secondary cancel" i18n (click)="activeModal.dismiss()" [disabled]="sending()">cancel</button>
 </div>

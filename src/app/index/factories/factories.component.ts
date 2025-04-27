@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {GetTopFactoriesListRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -8,6 +8,7 @@ import {LanguageService} from '@services/language';
 import {IndexFactoriesFactoryComponent} from './factory/factory.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, IndexFactoriesFactoryComponent, AsyncPipe],
   selector: 'app-index-factories',
   templateUrl: './factories.component.html',

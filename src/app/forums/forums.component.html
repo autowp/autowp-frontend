@@ -74,10 +74,10 @@
             @if (theme.lastMessage$ | async; as lastMessage) {
               <p>
                 @if (lastMessage.createdAt) {
-                  <app-past-time-indicator [date]="lastMessage.createdAt.toDate()"></app-past-time-indicator>
+                  <app-past-time-indicator [date]="lastMessage.createdAt.toDate()" />
                 }
                 @if (theme.lastMessageAuthor$ | async; as lastMessageAuthor) {
-                  <app-user [user]="lastMessageAuthor"></app-user>
+                  <app-user [user]="lastMessageAuthor" />
                 }
                 <a [routerLink]="['/forums/message', lastMessage.id]" i18n-title title="Go to last message">
                   <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
@@ -96,9 +96,9 @@
         <ng-container i18n>Create new topic</ng-container>
       </a>
       @if (topics$ | async; as topics) {
-        <app-forums-topic-list [topics]="topics.items || []" (reload)="reload()"></app-forums-topic-list>
+        <app-forums-topic-list [topics]="topics.items || []" (reload)="reload()" />
         @if (topics.paginator) {
-          <app-paginator [data]="topics.paginator"></app-paginator>
+          <app-paginator [data]="topics.paginator" />
         }
       }
     </div>

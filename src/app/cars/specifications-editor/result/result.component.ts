@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
 import {APIItem, GetSpecificationsRequest} from '@grpc/spec.pb';
@@ -9,6 +9,7 @@ import {EMPTY} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
   selector: 'app-cars-specifications-editor-result',
   templateUrl: './result.component.html',

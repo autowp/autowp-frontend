@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemsRequest, ItemType, Pages} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -12,6 +12,7 @@ import {PaginatorComponent} from '../../../../../paginator/paginator/paginator.c
 import {ToastsService} from '../../../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PaginatorComponent, AsyncPipe],
   selector: 'app-moder-items-item-select-parent-brands',
   templateUrl: './brands.component.html',

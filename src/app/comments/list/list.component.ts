@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ComponentRef, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
@@ -31,6 +31,7 @@ export interface APICommentInList extends APICommentsMessage {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgbTooltip,
     UserComponent,
@@ -133,7 +134,8 @@ export class CommentsListComponent {
       centered: true,
       size: 'lg',
     });
-    modalRef.componentInstance.setInput('messageID', message.id);
+    const componentRef: ComponentRef<CommentsVotesComponent> = modalRef['_contentRef'].componentRef;
+    componentRef.setInput('messageID', message.id);
     return false;
   }
 

@@ -1,5 +1,5 @@
 import {AsyncPipe, DecimalPipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -20,6 +20,7 @@ interface ThumbnailAPIPicture extends Picture {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, UserComponent, FormsModule, AsyncPipe, DecimalPipe],
   selector: 'app-thumbnail',
   styleUrls: ['./thumbnail.component.scss'],

@@ -13,7 +13,7 @@
         ></div>
       }
       @if (message.user$ | async; as user) {
-        <app-user [user]="user"></app-user>
+        <app-user [user]="user" />
       } @else {
         <span i18n>Anonymous</span>
       }
@@ -35,7 +35,7 @@
     <div class="content">
       @if (((canRemoveComments$ | async) || !message.message.deleted) && message.message.text) {
         <div class="text">
-          <app-user-text [text]="message.message.text"></app-user-text>
+          <app-user-text [text]="message.message.text" />
         </div>
       }
       @if ((canRemoveComments$ | async) || message.message.deleted) {
@@ -139,7 +139,7 @@
               (sent)="onSent($event)"
               [messages]="message.message.replies || []"
               [deep]="((deep$ | async) || 0) + 1"
-            ></app-comments-list>
+            />
             @if ((authenticated$ | async) && message.message.showReply) {
               <app-comments-form
                 [itemID]="itemID"
@@ -148,7 +148,7 @@
                 (canceled)="onCancel(message.message)"
                 [parentID]="message.message.id"
                 [resolve]="message.message.resolve || false"
-              ></app-comments-form>
+              />
             }
           }
         }

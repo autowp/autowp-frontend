@@ -1,7 +1,8 @@
 import {HttpParams} from '@angular/common/http';
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-share',
   standalone: true,
   styleUrls: ['./share.component.scss'],

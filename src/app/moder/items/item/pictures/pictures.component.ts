@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
@@ -23,6 +23,7 @@ import {chunkBy} from '../../../../chunk';
 import {ThumbnailComponent} from '../../../../thumbnail/thumbnail/thumbnail.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AsyncPipe, ThumbnailComponent],
   selector: 'app-moder-items-item-pictures',
   templateUrl: './pictures.component.html',

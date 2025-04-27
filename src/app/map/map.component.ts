@@ -1,4 +1,13 @@
-import {Component, ComponentRef, inject, NgZone, OnInit, ViewContainerRef} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  inject,
+  NgZone,
+  OnInit,
+  ViewContainerRef,
+} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {MapGetPointsRequest, MapPoint} from '@grpc/spec.pb';
@@ -23,6 +32,7 @@ function createMarker(lat: number, lng: number): Marker {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, LeafletModule],
   selector: 'app-map',
   styleUrls: ['./styles.scss'],
@@ -34,6 +44,7 @@ export class MapComponent implements OnInit {
   readonly #viewContainerRef = inject(ViewContainerRef);
   readonly #toastService = inject(ToastsService);
   readonly #mapClient = inject(MapClient);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   #compRef?: ComponentRef<MapPopupComponent>;
   protected markers: Marker[] = [];
@@ -127,5 +138,7 @@ export class MapComponent implements OnInit {
         this.markers.push(m);
       }
     }
+
+    this.#cdr.markForCheck();
   }
 }

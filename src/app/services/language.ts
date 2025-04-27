@@ -13,12 +13,12 @@ export interface Language {
   providedIn: 'root',
 })
 export class LanguageService {
-  readonly localeId = inject(LOCALE_ID);
+  readonly #localeId = inject(LOCALE_ID);
 
   public readonly language: string = 'en';
 
   constructor() {
-    const localeId = this.localeId;
+    const localeId = this.#localeId;
 
     for (const lang of environment.languages as Language[]) {
       if (lang.locale === localeId) {

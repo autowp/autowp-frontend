@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemFields, ItemListOptions, ItemsRequest, Picture} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -12,6 +12,7 @@ import {GalleryComponent} from '../../../gallery/gallery.component';
 import {BrandPerspectivePageData} from '../../catalogue.module';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-catalogue-mixed-gallery',
   templateUrl: './gallery.component.html',

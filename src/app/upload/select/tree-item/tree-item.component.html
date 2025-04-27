@@ -21,7 +21,7 @@
           @if (childs$ | async; as childs) {
             @for (child of childs; track child) {
               <li class="ms-4">
-                <app-upload-select-tree-item [item]="child"> </app-upload-select-tree-item>
+                <app-upload-select-tree-item [item]="child" />
               </li>
             }
           } @else {

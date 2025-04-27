@@ -1,5 +1,5 @@
 import {AsyncPipe, NgClass} from '@angular/common';
-import {Component, inject, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Renderer2, signal} from '@angular/core';
 import {NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {environment} from '@environment/environment';
 import {ItemFields, ItemListOptions, ItemsRequest, ItemType} from '@grpc/spec.pb';
@@ -20,13 +20,14 @@ import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {Angulartics2GoogleAnalytics} from 'angulartics2';
 import Keycloak from 'keycloak-js';
 import {Observable} from 'rxjs';
-import {shareReplay} from 'rxjs/operators';
+import {map, shareReplay} from 'rxjs/operators';
 
 import {MenuComponent} from './moder/menu/menu/menu.component';
 import {ContainerComponent} from './toasts/container/container.component';
 import {UsersOnlineComponent} from './users/online/online.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MenuComponent,
     RouterLink,
@@ -57,13 +58,13 @@ export class AppComponent {
   readonly #keycloak = inject(Keycloak);
   readonly #itemsClient = inject(ItemsClient);
 
-  protected languages: Language[] = environment.languages;
+  protected readonly languages: Language[] = environment.languages;
   protected readonly layoutParams$: Observable<LayoutParams> = this.#pageEnv.layoutParams$.asObservable();
   protected readonly authenticated$: Observable<boolean> = this.#auth.authenticated$;
   protected readonly newPersonalMessages$ = this.#messageService
     .getNew$()
     .pipe(shareReplay({bufferSize: 1, refCount: false}));
-  protected searchHostname: string;
+  protected readonly searchHostname: string;
   protected readonly categories$ = this.#itemsClient.list(
     new ItemsRequest({
       fields: new ItemFields({
@@ -78,9 +79,12 @@ export class AppComponent {
       }),
     }),
   );
-  protected language: string = this.#languageService.language;
-  protected urlPath = '/';
-  protected isNavbarCollapsed = true;
+  protected readonly language: string = this.#languageService.language;
+  protected readonly urlPath$ = this.router.events.pipe(
+    map((val) => (val instanceof NavigationStart ? val.url : '/')),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
+  protected readonly isNavbarCollapsed = signal(true);
 
   constructor() {
     const angulartics2GoogleAnalytics = inject(Angulartics2GoogleAnalytics);
@@ -101,12 +105,6 @@ export class AppComponent {
     }
 
     this.searchHostname = searchHostname;
-
-    this.router.events.subscribe((val) => {
-      if (val instanceof NavigationStart) {
-        this.urlPath = val.url;
-      }
-    });
 
     if (environment.production) {
       angulartics2GoogleAnalytics.startTracking();

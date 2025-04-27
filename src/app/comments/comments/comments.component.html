@@ -12,23 +12,23 @@
             (sent)="onSent($event)"
             [messages]="data.messages"
             [deep]="0"
-          ></app-comments-list>
+          />
         }
         @if (data.paginator) {
-          <app-paginator [data]="data.paginator"></app-paginator>
+          <app-paginator [data]="data.paginator" />
         }
       } @else {
         <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
       }
 
       @if (authenticated$ | async) {
-        <app-comments-form [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)"></app-comments-form>
+        <app-comments-form [itemID]="itemID" [typeID]="typeID" (sent)="onSent($event)" />
       } @else {
         <app-markdown
           class="alert alert-block alert-info"
           i18n-markdown
           markdown="To be able to post a comment, you must [create an account or sign in using social networks account](/login)"
-        ></app-markdown>
+        />
       }
     }
   }

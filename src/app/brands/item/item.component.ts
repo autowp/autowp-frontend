@@ -1,5 +1,5 @@
 import {AsyncPipe, NgClass, NgIf, NgStyle} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIBrandsListItem, BrandIcons, NewItemsRequest} from '@grpc/spec.pb';
@@ -10,6 +10,7 @@ import {EMPTY} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, NgClass, NgStyle, NgbPopover, AsyncPipe, NgIf],
   selector: 'app-brands-item',
   templateUrl: './item.component.html',

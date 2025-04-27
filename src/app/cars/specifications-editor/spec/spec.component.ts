@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe, NgStyle} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormArray, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
@@ -84,6 +84,7 @@ export class AttrFormControl<TValue> extends FormControl {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, NgStyle, ReactiveFormsModule, UserComponent, NgbTooltip, AsyncPipe, DatePipe, TimeAgoPipe],
   selector: 'app-cars-specifications-editor-spec',
   styleUrls: ['./spec.component.scss'],
@@ -100,7 +101,6 @@ export class CarsSpecificationsEditorSpecComponent {
   readonly item = input.required<APIItem>();
   readonly item$ = toObservable(this.item);
 
-  protected loading = 0;
   readonly #change$ = new BehaviorSubject<void>(void 0);
 
   // fields: 'options,childs.options',
@@ -312,16 +312,12 @@ export class CarsSpecificationsEditorSpecComponent {
       });
     });
 
-    this.loading++;
-
     this.#attrsClient.setUserValues(new AttrSetUserValuesRequest({items})).subscribe({
       error: (response: unknown) => {
         this.#toastService.handleError(response);
-        this.loading--;
       },
       next: () => {
         this.#change$.next();
-        this.loading--;
       },
     });
   }

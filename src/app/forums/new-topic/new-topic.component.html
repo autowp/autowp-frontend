@@ -32,9 +32,9 @@
             maxlength="100"
             class="form-control"
             [(ngModel)]="form.name"
-            [class.is-invalid]="invalidParams && invalidParams['name']"
+            [class.is-invalid]="invalidParams() && invalidParams()['name']"
           />
-          @for (message of invalidParams | invalidParams: 'name'; track message) {
+          @for (message of invalidParams() | invalidParams: 'name'; track message) {
             <p [textContent]="message" class="invalid-feedback"></p>
           }
         </div>
@@ -50,9 +50,9 @@
             maxlength="4096"
             class="form-control"
             [(ngModel)]="form.message"
-            [class.is-invalid]="invalidParams && invalidParams['message']"
+            [class.is-invalid]="invalidParams() && invalidParams()['message']"
           ></textarea>
-          @for (message of invalidParams | invalidParams: 'message'; track message) {
+          @for (message of invalidParams() | invalidParams: 'message'; track message) {
             <p [textContent]="message" class="invalid-feedback"></p>
           }
         </div>
@@ -67,12 +67,12 @@
                 name="moderator_attention"
                 value="1"
                 [(ngModel)]="form.moderator_attention"
-                [class.is-invalid]="invalidParams && invalidParams['moderator_attention']"
+                [class.is-invalid]="invalidParams() && invalidParams()['moderator_attention']"
               />
               <ng-container i18n>It requires attention of moderators</ng-container>
             </label>
           </div>
-          @for (message of invalidParams | invalidParams: 'moderator_attention'; track message) {
+          @for (message of invalidParams() | invalidParams: 'moderator_attention'; track message) {
             <p [textContent]="message" class="invalid-feedback"></p>
           }
         </div>
@@ -87,12 +87,12 @@
                 name="subscription"
                 value="1"
                 [(ngModel)]="form.subscription"
-                [class.is-invalid]="invalidParams && invalidParams['subscription']"
+                [class.is-invalid]="invalidParams() && invalidParams()['subscription']"
               />
               <ng-container i18n>Subscribe to new messages</ng-container>
             </label>
           </div>
-          @for (message of invalidParams | invalidParams: 'subscription'; track message) {
+          @for (message of invalidParams() | invalidParams: 'subscription'; track message) {
             <p [textContent]="message" class="invalid-feedback"></p>
           }
         </div>

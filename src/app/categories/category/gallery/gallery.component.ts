@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {APIItem, ItemType, Picture} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
@@ -10,6 +10,7 @@ import {GalleryComponent} from '../../../gallery/gallery.component';
 import {CategoriesService, CategoryPipeResult} from '../../service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-category-gallery',
   templateUrl: './gallery.component.html',

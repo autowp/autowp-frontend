@@ -16,7 +16,7 @@
       }
     </div>
     @if (response.paginator) {
-      <app-paginator [data]="response.paginator"></app-paginator>
+      <app-paginator [data]="response.paginator" />
     }
   }
   @if (twins$ | async; as response) {
@@ -33,7 +33,7 @@
       }
     </ul>
     @if (response.paginator) {
-      <app-paginator [data]="response.paginator"></app-paginator>
+      <app-paginator [data]="response.paginator" />
     }
   }
 </div>

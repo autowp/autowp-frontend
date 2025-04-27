@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {
@@ -21,6 +21,7 @@ import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AsyncPipe],
   selector: 'app-donate-vod-select-item',
   styleUrls: ['./styles.scss'],
@@ -33,7 +34,7 @@ export class DonateVodSelectItemComponent {
 
   readonly itemParent = input.required<ItemParent>();
   protected readonly itemParent$ = toObservable(this.itemParent);
-  protected expanded = false;
+  protected readonly expanded = signal(false);
 
   protected readonly item$: Observable<APIItem> = this.itemParent$.pipe(
     switchMap((itemParent) =>
@@ -79,7 +80,7 @@ export class DonateVodSelectItemComponent {
   );
 
   protected toggleItem() {
-    this.expanded = !this.expanded;
+    this.expanded.set(!this.expanded());
 
     return false;
   }

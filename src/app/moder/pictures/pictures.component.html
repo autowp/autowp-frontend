@@ -77,13 +77,13 @@
         <button
           class="btn btn-block"
           ngbDropdownToggle
-          [class.btn-primary]="status !== null"
-          [class.btn-outline-secondary]="status === null"
+          [class.btn-primary]="status() !== null"
+          [class.btn-outline-secondary]="status() === null"
           type="button"
         >
           <ng-container i18n>Status</ng-container>:
           @for (option of statusOptions; track option) {
-            @if (option.value === status) {
+            @if (option.value === status()) {
               {{ option.name }}
             }
           }
@@ -92,7 +92,7 @@
           @for (option of statusOptions; track option) {
             <a
               class="dropdown-item"
-              [class.active]="option.value === status"
+              [class.active]="option.value === status()"
               routerLink="."
               [queryParams]="{status: option.value}"
               queryParamsHandling="merge"
@@ -105,13 +105,13 @@
         <button
           class="btn btn-block"
           ngbDropdownToggle
-          [class.btn-primary]="vehicleTypeID !== null"
-          [class.btn-outline-secondary]="vehicleTypeID === null"
+          [class.btn-primary]="vehicleTypeID() !== null"
+          [class.btn-outline-secondary]="vehicleTypeID() === null"
           type="button"
         >
           <ng-container i18n>Vehicle type</ng-container>:
           @for (option of vehicleTypeOptions$ | async; track option.value) {
-            @if (option.value === vehicleTypeID) {
+            @if (option.value === vehicleTypeID()) {
               {{ option.name }}
             }
           }
@@ -120,7 +120,7 @@
           @for (option of vehicleTypeOptions$ | async; track option.value) {
             <a
               class="dropdown-item"
-              [class.active]="option.value === vehicleTypeID"
+              [class.active]="option.value === vehicleTypeID()"
               routerLink="."
               [queryParams]="{vehicle_type_id: option.value}"
               queryParamsHandling="merge"
@@ -133,13 +133,13 @@
         <button
           class="btn btn-block"
           ngbDropdownToggle
-          [class.btn-primary]="perspectiveID !== null"
-          [class.btn-outline-secondary]="perspectiveID === null"
+          [class.btn-primary]="perspectiveID() !== null"
+          [class.btn-outline-secondary]="perspectiveID() === null"
           type="button"
         >
           <ng-container i18n>Perspective</ng-container>:
           @for (option of perspectiveOptions$ | async; track option.value) {
-            @if (option.value === perspectiveID) {
+            @if (option.value === perspectiveID()) {
               {{ option.name }}
             }
           }
@@ -148,7 +148,7 @@
           @for (option of perspectiveOptions$ | async; track option.value) {
             <a
               class="dropdown-item"
-              [class.active]="option.value === perspectiveID"
+              [class.active]="option.value === perspectiveID()"
               routerLink="."
               [queryParams]="{perspective_id: option.value}"
               queryParamsHandling="merge"
@@ -165,16 +165,16 @@
         <input
           [ngbTypeahead]="itemsDataSource"
           name="item"
-          [(ngModel)]="itemQuery"
+          [formControl]="itemQuery"
           [inputFormatter]="itemFormatter"
           (selectItem)="itemOnSelect($event)"
           [resultTemplate]="itemTemplate"
           placeholder="Item"
           i18n-placeholder
           class="form-control"
-          [class.border-primary]="itemID"
+          [class.border-primary]="itemID()"
         />
-        <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID" (click)="clearItem()">
+        <button class="btn btn-outline-secondary" type="button" [disabled]="!itemID()" (click)="clearItem()">
           <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
@@ -183,19 +183,19 @@
         <input
           [ngbTypeahead]="itemsDataSource"
           name="exclude_item"
-          [(ngModel)]="excludeItemQuery"
+          [formControl]="excludeItemQuery"
           [inputFormatter]="itemFormatter"
           (selectItem)="excludeItemOnSelect($event)"
           [resultTemplate]="itemTemplate"
           placeholder="Exclude item"
           i18n-placeholder
           class="form-control"
-          [class.border-primary]="excludeItemID"
+          [class.border-primary]="excludeItemID()"
         />
         <button
           class="btn btn-outline-secondary"
           type="button"
-          [disabled]="!excludeItemID"
+          [disabled]="!excludeItemID()"
           (click)="clearExcludeItem()"
         >
           <span class="bi bi-x" aria-hidden="true"></span>
@@ -206,13 +206,13 @@
         <button
           class="btn btn-block"
           ngbDropdownToggle
-          [class.btn-primary]="comments !== null"
-          [class.btn-outline-secondary]="comments === null"
+          [class.btn-primary]="comments() !== null"
+          [class.btn-outline-secondary]="comments() === null"
           type="button"
         >
           <ng-container i18n>Comments</ng-container>:
           @for (option of commentsOptions; track option) {
-            @if (option.value === comments) {
+            @if (option.value === comments()) {
               {{ option.name }}
             }
           }
@@ -221,7 +221,7 @@
           @for (option of commentsOptions; track option) {
             <a
               class="dropdown-item"
-              [class.active]="option.value === comments"
+              [class.active]="option.value === comments()"
               routerLink="."
               [queryParams]="{comments: option.value}"
               queryParamsHandling="merge"
@@ -238,16 +238,16 @@
         <input
           [ngbTypeahead]="ownersDataSource"
           name="owner"
-          [(ngModel)]="ownerQuery"
+          [formControl]="ownerQuery"
           [inputFormatter]="ownerFormatter"
           (selectItem)="ownerOnSelect($event)"
           [resultTemplate]="ownerTemplate"
           placeholder="Uploaded by"
           i18n-placeholder
           class="form-control"
-          [class.border-primary]="ownerID"
+          [class.border-primary]="ownerID()"
         />
-        <button class="btn btn-outline-secondary" type="button" [disabled]="!ownerID" (click)="clearOwner()">
+        <button class="btn btn-outline-secondary" type="button" [disabled]="!ownerID()" (click)="clearOwner()">
           <span class="bi bi-x" aria-hidden="true"></span>
         </button>
       </div>
@@ -256,13 +256,13 @@
         <button
           class="btn btn-block"
           ngbDropdownToggle
-          [class.btn-primary]="replace !== null"
-          [class.btn-outline-secondary]="replace === null"
+          [class.btn-primary]="replace() !== null"
+          [class.btn-outline-secondary]="replace() === null"
           type="button"
         >
           <ng-container i18n>Replacement</ng-container>:
           @for (option of replaceOptions; track option) {
-            @if (option.value === replace) {
+            @if (option.value === replace()) {
               {{ option.name }}
             }
           }
@@ -271,7 +271,7 @@
           @for (option of replaceOptions; track option) {
             <a
               class="dropdown-item"
-              [class.active]="option.value === replace"
+              [class.active]="option.value === replace()"
               routerLink="."
               [queryParams]="{replace: option.value}"
               queryParamsHandling="merge"
@@ -284,13 +284,13 @@
         <button
           class="btn btn-block"
           ngbDropdownToggle
-          [class.btn-primary]="requests !== null"
-          [class.btn-outline-secondary]="requests === null"
+          [class.btn-primary]="requests() !== null"
+          [class.btn-outline-secondary]="requests() === null"
           type="button"
         >
           <ng-container i18n>Votes</ng-container>:
           @for (option of requestsOptions; track option) {
-            @if (option.value === requests) {
+            @if (option.value === requests()) {
               {{ option.name }}
             }
           }
@@ -300,7 +300,7 @@
             <li role="menuitem">
               <a
                 class="dropdown-item"
-                [class.active]="option.value === requests"
+                [class.active]="option.value === requests()"
                 routerLink="."
                 [queryParams]="{requests: option.value}"
                 queryParamsHandling="merge"
@@ -319,17 +319,16 @@
           id="added_from"
           class="form-control"
           placeholder="2010-01-28"
-          (input)="onAddedFromInput()"
-          [(ngModel)]="addedFrom"
+          [formControl]="addedFrom"
         />
       </div>
 
       <a
         class="btn mb-3"
-        [class.btn-primary]="specialName"
-        [class.btn-outline-secondary]="!specialName"
+        [class.btn-primary]="specialName()"
+        [class.btn-outline-secondary]="!specialName()"
         routerLink="."
-        [queryParams]="{special_name: specialName ? null : 'true'}"
+        [queryParams]="{special_name: specialName() ? null : 'true'}"
         queryParamsHandling="merge"
       >
         <ng-container i18n>Special name only</ng-container>
@@ -337,10 +336,10 @@
 
       <a
         class="btn mb-3"
-        [class.btn-primary]="lost"
-        [class.btn-outline-secondary]="!lost"
+        [class.btn-primary]="lost()"
+        [class.btn-outline-secondary]="!lost()"
         routerLink="."
-        [queryParams]="{lost: lost ? null : 'true'}"
+        [queryParams]="{lost: lost() ? null : 'true'}"
         queryParamsHandling="merge"
       >
         <ng-container i18n>Not linked</ng-container>
@@ -348,10 +347,10 @@
 
       <a
         class="btn mb-3"
-        [class.btn-primary]="gps"
-        [class.btn-outline-secondary]="!gps"
+        [class.btn-primary]="gps()"
+        [class.btn-outline-secondary]="!gps()"
         routerLink="."
-        [queryParams]="{gps: gps ? null : 'true'}"
+        [queryParams]="{gps: gps() ? null : 'true'}"
         queryParamsHandling="merge"
       >
         <ng-container i18n>With coordinates</ng-container>
@@ -359,10 +358,10 @@
 
       <a
         class="btn mb-3"
-        [class.btn-primary]="similar"
-        [class.btn-outline-secondary]="!similar"
+        [class.btn-primary]="similar()"
+        [class.btn-outline-secondary]="!similar()"
         routerLink="."
-        [queryParams]="{similar: similar ? null : 'true'}"
+        [queryParams]="{similar: similar() ? null : 'true'}"
         queryParamsHandling="merge"
       >
         <ng-container i18n>Similar</ng-container>
@@ -372,7 +371,7 @@
         <button class="btn btn-outline-secondary btn-block" ngbDropdownToggle type="button" id="dropdownMenuButton">
           <ng-container i18n>Order by</ng-container>:
           @for (option of orderOptions; track option) {
-            @if (option.value === order) {
+            @if (option.value === order()) {
               {{ option.name }}
             }
           }
@@ -381,7 +380,7 @@
           @for (option of orderOptions; track option) {
             <a
               class="dropdown-item"
-              [class.active]="option.value === order"
+              [class.active]="option.value === order()"
               routerLink="."
               [queryParams]="{order: option.value}"
               queryParamsHandling="merge"
@@ -413,12 +412,12 @@
     <div style="margin-bottom: 20px">
       <div class="btn-group">
         @if (data$ | async; as data) {
-          <button [disabled]="!hasSelectedItem" class="btn btn-success" (click)="acceptPictures(data.pictures)" i18n>
+          <button [disabled]="!hasSelectedItem()" class="btn btn-success" (click)="acceptPictures(data.pictures)" i18n>
             Accept
           </button>
         }
         <div class="btn-group" ngbDropdown>
-          <button class="btn btn-success" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem">
+          <button class="btn btn-success" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem()">
             <ng-container i18n>Want accept</ng-container>
             <span class="caret" aria-hidden="true"></span>
           </button>
@@ -439,7 +438,7 @@
           }
         </div>
         <div class="btn-group" ngbDropdown>
-          <button class="btn btn-danger" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem">
+          <button class="btn btn-danger" ngbDropdownToggle type="button" [disabled]="!hasSelectedItem()">
             <ng-container i18n>Want delete</ng-container>
             <span class="caret" aria-hidden="true"></span>
           </button>
@@ -466,7 +465,7 @@
 
     @if (data$ | async; as data) {
       @if (data.paginator) {
-        <app-paginator [data]="data.paginator"></app-paginator>
+        <app-paginator [data]="data.paginator" />
       }
       @for (chunk of data.chunks; track chunk) {
         <div class="row">
@@ -477,13 +476,13 @@
                 [route]="['/picture', picture.identity]"
                 [selectable]="true"
                 (selected)="onPictureSelect($event, picture)"
-              ></app-thumbnail>
+              />
             </div>
           }
         </div>
       }
       @if (data.paginator) {
-        <app-paginator [data]="data.paginator"></app-paginator>
+        <app-paginator [data]="data.paginator" />
       }
     }
   </div>

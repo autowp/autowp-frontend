@@ -1,11 +1,12 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, effect, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, input, output} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {getPerspectiveTranslation} from '@utils/translations';
 
 import {APIPerspectiveService} from '../../../api/perspective/perspective.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, AsyncPipe, ReactiveFormsModule],
   selector: 'app-moder-pictures-perspective-picker',
   templateUrl: './perspective-picker.component.html',

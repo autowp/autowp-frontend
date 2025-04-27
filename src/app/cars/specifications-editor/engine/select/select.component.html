@@ -22,8 +22,7 @@
     @for (item of items; track item.itemId) {
       <div>
         @if (itemID$ | async; as itemID) {
-          <app-cars-select-engine-tree-item [item]="item" (selected)="selectEngine(itemID, $event)">
-          </app-cars-select-engine-tree-item>
+          <app-cars-select-engine-tree-item [item]="item" (selected)="selectEngine(itemID, $event)" />
         }
       </div>
     }

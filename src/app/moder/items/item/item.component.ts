@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, signal} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -9,7 +9,6 @@ import {
   ItemParentCacheListOptions,
   ItemRequest,
   ItemType,
-  Picture,
   PictureFields,
   PictureItemListOptions,
   PictureListOptions,
@@ -22,8 +21,8 @@ import {AuthService} from '@services/auth.service';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {getItemTypeTranslation} from '@utils/translations';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of, Subscription, throwError} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, finalize, map, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of, throwError} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../toasts/toasts.service';
 import {ModerItemsItemCatalogueComponent} from './catalogue/catalogue.component';
@@ -37,11 +36,11 @@ import {ModerItemsItemVehiclesComponent} from './vehicles/vehicles.component';
 
 interface Tab {
   count: number;
-  initialized?: boolean;
   visible: boolean;
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     ModerItemsItemMetaComponent,
@@ -57,7 +56,7 @@ interface Tab {
   selector: 'app-moder-items-item',
   templateUrl: './item.component.html',
 })
-export class ModerItemsItemComponent implements OnDestroy, OnInit {
+export class ModerItemsItemComponent {
   readonly #auth = inject(AuthService);
   readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
@@ -66,19 +65,12 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
   readonly #itemsClient = inject(ItemsClient);
   readonly #picturesClient = inject(PicturesClient);
   readonly #languageService = inject(LanguageService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
-  #routeSub?: Subscription;
-  protected loading = 0;
+  protected readonly reloadItem$ = new BehaviorSubject<void>(void 0);
 
-  protected reloadItem$ = new BehaviorSubject<void>(void 0);
-
-  protected item: APIItem | null = null;
-  protected specsAllowed = false;
+  protected readonly specsAllowed = signal(false);
   protected readonly canEditSpecifications$ = this.#auth.authenticated$;
-
-  protected tree?: APITreeItem;
-
-  protected randomPicture: null | Picture = null;
 
   protected readonly metaTab: Tab = {
     count: 0,
@@ -113,7 +105,12 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
     visible: true,
   };
 
-  protected activeTab = 'meta';
+  protected readonly activeTab$ = this.#route.queryParamMap.pipe(
+    map((params) => params.get('tab')),
+    distinctUntilChanged(),
+    debounceTime(30),
+    map((tab) => (tab ? tab : 'meta')),
+  );
 
   readonly #itemID: Observable<string> = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
@@ -121,10 +118,9 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
     debounceTime(30),
   );
 
-  readonly #item: Observable<APIItem> = combineLatest([this.#itemID, this.reloadItem$]).pipe(
-    switchMap(([id]) => {
-      this.loading++;
-      return this.#itemsClient.item(
+  protected readonly item$: Observable<APIItem> = combineLatest([this.#itemID, this.reloadItem$]).pipe(
+    switchMap(([id]) =>
+      this.#itemsClient.item(
         new ItemRequest({
           fields: new ItemFields({
             childsCount: true,
@@ -145,11 +141,8 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
           }),
           id,
         }),
-      );
-    }),
-    finalize(() => {
-      this.loading--;
-    }),
+      ),
+    ),
     catchError((err: unknown) => {
       this.#toastService.handleError(err);
       this.#router.navigate(['/error-404'], {
@@ -166,139 +159,93 @@ export class ModerItemsItemComponent implements OnDestroy, OnInit {
       }
       return of(item);
     }),
+    tap((item) => {
+      this.#pageEnv.set({
+        layout: {isAdminPage: true},
+        pageId: 78,
+        title: item.nameText,
+      });
+
+      const typeID = item.itemTypeId;
+
+      this.specsAllowed.set([ItemType.ITEM_TYPE_ENGINE, ItemType.ITEM_TYPE_VEHICLE].includes(typeID));
+
+      this.nameTab.count = item.itemLanguageCount;
+      this.logoTab.count = item.logo ? 1 : 0;
+      this.catalogueTab.count = item.parentsCount + item.childsCount;
+      this.vehiclesTab.count = item.engineVehiclesCount;
+      this.picturesTab.count = item.exactPicturesCount;
+      this.linksTab.count = item.linksCount;
+
+      this.metaTab.visible = true;
+      this.nameTab.visible = true;
+      this.catalogueTab.visible = ![ItemType.ITEM_TYPE_COPYRIGHT, ItemType.ITEM_TYPE_MUSEUM].includes(typeID);
+      this.treeTab.visible = ![ItemType.ITEM_TYPE_COPYRIGHT, ItemType.ITEM_TYPE_MUSEUM].includes(typeID);
+      this.linksTab.visible = [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_PERSON].includes(
+        typeID,
+      );
+      this.logoTab.visible = typeID === ItemType.ITEM_TYPE_BRAND;
+      this.vehiclesTab.visible = typeID === ItemType.ITEM_TYPE_ENGINE;
+      this.picturesTab.visible = [
+        ItemType.ITEM_TYPE_BRAND,
+        ItemType.ITEM_TYPE_COPYRIGHT,
+        ItemType.ITEM_TYPE_ENGINE,
+        ItemType.ITEM_TYPE_FACTORY,
+        ItemType.ITEM_TYPE_MUSEUM,
+        ItemType.ITEM_TYPE_PERSON,
+        ItemType.ITEM_TYPE_VEHICLE,
+      ].includes(typeID);
+      this.#cdr.markForCheck();
+    }),
+    shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  ngOnInit(): void {
-    this.#routeSub = this.#item
-      .pipe(
-        tap((item) => {
-          this.item = item;
+  protected readonly tree$: Observable<APITreeItem> = this.item$.pipe(
+    switchMap((item) =>
+      this.#itemsClient.getTree(new GetTreeRequest({id: item.id, language: this.#languageService.language})),
+    ),
+  );
 
-          const typeID = item.itemTypeId;
-
-          this.specsAllowed = [ItemType.ITEM_TYPE_VEHICLE, ItemType.ITEM_TYPE_ENGINE].indexOf(typeID) !== -1;
-
-          this.nameTab.count = item.itemLanguageCount;
-          this.logoTab.count = item.logo ? 1 : 0;
-          this.catalogueTab.count = item.parentsCount + item.childsCount;
-          this.vehiclesTab.count = item.engineVehiclesCount;
-          this.picturesTab.count = item.exactPicturesCount;
-          this.linksTab.count = item.linksCount;
-
-          this.metaTab.visible = true;
-          this.nameTab.visible = true;
-          this.catalogueTab.visible = [ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_COPYRIGHT].indexOf(typeID) === -1;
-          this.treeTab.visible = [ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_COPYRIGHT].indexOf(typeID) === -1;
-          this.linksTab.visible =
-            [ItemType.ITEM_TYPE_BRAND, ItemType.ITEM_TYPE_MUSEUM, ItemType.ITEM_TYPE_PERSON].indexOf(typeID) !== -1;
-          this.logoTab.visible = typeID === ItemType.ITEM_TYPE_BRAND;
-          this.vehiclesTab.visible = typeID === ItemType.ITEM_TYPE_ENGINE;
-          this.picturesTab.visible =
-            [
-              ItemType.ITEM_TYPE_ENGINE,
-              ItemType.ITEM_TYPE_VEHICLE,
-              ItemType.ITEM_TYPE_BRAND,
-              ItemType.ITEM_TYPE_FACTORY,
-              ItemType.ITEM_TYPE_MUSEUM,
-              ItemType.ITEM_TYPE_PERSON,
-              ItemType.ITEM_TYPE_COPYRIGHT,
-            ].indexOf(typeID) !== -1;
-        }),
-        switchMap((item) => {
-          this.loading++;
-          return this.#picturesClient
-            .getPicture(
-              new PicturesRequest({
-                fields: new PictureFields({thumbMedium: true}),
-                limit: 1,
-                options: new PictureListOptions({
-                  pictureItem: new PictureItemListOptions({
-                    itemParentCacheAncestor: new ItemParentCacheListOptions({
-                      parentId: item.id,
-                    }),
-                  }),
-                }),
-                order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
+  protected readonly randomPicture$ = this.item$.pipe(
+    switchMap((item) =>
+      this.#picturesClient.getPicture(
+        new PicturesRequest({
+          fields: new PictureFields({thumbMedium: true}),
+          limit: 1,
+          options: new PictureListOptions({
+            pictureItem: new PictureItemListOptions({
+              itemParentCacheAncestor: new ItemParentCacheListOptions({
+                parentId: item.id,
               }),
-            )
-            .pipe(
-              catchError((error: unknown) => {
-                if (error instanceof GrpcStatusEvent && error.statusCode == 5) {
-                  // NOT_FOUND
-                  return of(null);
-                }
-                console.error(error);
-                return throwError(() => error);
-              }),
-              map((picture) => ({
-                item,
-                picture,
-              })),
-            );
+            }),
+          }),
+          order: PicturesRequest.Order.ORDER_ADD_DATE_DESC,
         }),
-        finalize(() => {
-          this.loading--;
-        }),
-        tap(({item, picture}) => {
-          this.#pageEnv.set({
-            layout: {isAdminPage: true},
-            pageId: 78,
-            title: item.nameText,
-          });
-          this.randomPicture = picture;
-        }),
-        switchMap(() => this.#route.queryParamMap),
-        map((params) => params.get('tab')),
-        distinctUntilChanged(),
-        debounceTime(30),
-        tap((tab) => {
-          this.activeTab = tab ? tab : 'meta';
+      ),
+    ),
+    catchError((error: unknown) => {
+      if (error instanceof GrpcStatusEvent && error.statusCode == 5) {
+        // NOT_FOUND
+        return of(undefined);
+      }
+      console.error(error);
+      return throwError(() => error);
+    }),
+  );
 
-          if (this.activeTab === 'tree') {
-            if (!this.treeTab.initialized) {
-              this.treeTab.initialized = true;
-              this.initTreeTab();
-            }
-          }
+  protected toggleSubscription(item: APIItem) {
+    const newValue = !item.subscription;
+    this.#itemsClient
+      .setUserItemSubscription(
+        new SetUserItemSubscriptionRequest({
+          itemId: item.id,
+          subscribed: newValue,
         }),
       )
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.#routeSub) {
-      this.#routeSub.unsubscribe();
-    }
-  }
-
-  private initTreeTab() {
-    if (this.item) {
-      this.#itemsClient
-        .getTree(new GetTreeRequest({id: this.item.id, language: this.#languageService.language}))
-        .subscribe({
-          next: (response) => {
-            this.tree = response;
-          },
-        });
-    }
-  }
-
-  protected toggleSubscription() {
-    if (this.item) {
-      const newValue = !this.item.subscription;
-      this.#itemsClient
-        .setUserItemSubscription(
-          new SetUserItemSubscriptionRequest({
-            itemId: this.item.id,
-            subscribed: newValue,
-          }),
-        )
-        .subscribe(() => {
-          if (this.item) {
-            this.item.subscription = newValue;
-          }
-        });
-    }
+      .subscribe(() => {
+        item.subscription = newValue;
+        this.#cdr.markForCheck();
+      });
   }
 
   protected getItemTypeTranslation(id: number, type: string) {

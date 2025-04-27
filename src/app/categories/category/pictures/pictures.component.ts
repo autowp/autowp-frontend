@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {
   ItemParentCacheListOptions,
@@ -29,6 +29,7 @@ interface PictureRoute {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PaginatorComponent, AsyncPipe, ThumbnailComponent],
   selector: 'app-categories-category-pictures',
   templateUrl: './pictures.component.html',

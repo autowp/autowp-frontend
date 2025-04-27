@@ -1,7 +1,7 @@
 import {AsyncPipe, DecimalPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {APIUsersRatingResponse, UserRatingDetailsRequest} from '@grpc/spec.pb';
+import {APIUser, APIUsersRatingResponse, UserRatingBrandsResponse, UserRatingDetailsRequest} from '@grpc/spec.pb';
 import {RatingClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
 import {LanguageService} from '@services/language';
@@ -21,6 +21,7 @@ enum Rating {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, UserComponent, AsyncPipe, DecimalPipe],
   selector: 'app-users-rating',
   templateUrl: './rating.component.html',
@@ -105,7 +106,15 @@ export class UsersRatingComponent implements OnInit {
     return null;
   }
 
-  protected readonly users$ = this.rating$.pipe(
+  protected readonly users$: Observable<
+    {
+      brands$: null | Observable<UserRatingBrandsResponse>;
+      fans$: null | Observable<{user$: Observable<APIUser | null>; volume: string}[]>;
+      user$: Observable<APIUser | null>;
+      volume: string;
+      weight: number;
+    }[]
+  > = this.rating$.pipe(
     switchMap((rating) => {
       let o$: Observable<APIUsersRatingResponse>;
       switch (rating) {

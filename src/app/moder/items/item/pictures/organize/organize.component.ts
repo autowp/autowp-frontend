@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
@@ -33,6 +33,7 @@ import {
 } from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, MarkdownComponent, AsyncPipe, ItemMetaFormComponent],
   selector: 'app-moder-items-item-pictures-organize',
   templateUrl: './organize.component.html',
@@ -46,8 +47,8 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
 
-  protected loading = 0;
-  protected invalidParams: InvalidParams = {};
+  protected readonly loading = signal(false);
+  protected readonly invalidParams = signal<InvalidParams>({});
 
   readonly #itemID$ = this.#route.paramMap.pipe(
     map((params) => params.get('id') ?? ''),
@@ -128,7 +129,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
   }
 
   protected submit(item: APIItem, event: ItemMetaFormResult, pictures: PictureItem[]) {
-    this.loading++;
+    this.loading.set(true);
 
     const newItem = itemMetaFormResultsToAPIItem(event);
     newItem.itemTypeId = item.itemTypeId;
@@ -148,11 +149,11 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         catchError((response: unknown) => {
           if (response instanceof GrpcStatusEvent) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
           } else {
             this.#toastService.handleError(response);
           }
-          this.loading--;
+          this.loading.set(false);
           return EMPTY;
         }),
         switchMap(([{id}]) => this.#itemsClient.item(new ItemRequest({id}))),
@@ -205,7 +206,7 @@ export class ModerItemsItemPicturesOrganizeComponent implements OnInit {
         }),
       )
       .subscribe((item) => {
-        this.loading--;
+        this.loading.set(false);
         if (localStorage) {
           localStorage.setItem('last_item', item.id);
         }

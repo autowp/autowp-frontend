@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {VehicleType} from '@grpc/spec.pb';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {VehicleTypeService} from '@services/vehicle-type';
@@ -15,6 +15,7 @@ const translateNames = (types: VehicleType[]): VehicleType[] => {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
   selector: 'app-vehicle-types-modal',
   templateUrl: './vehicle-types-modal.component.html',

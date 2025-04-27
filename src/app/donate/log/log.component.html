@@ -33,7 +33,7 @@
           </td>
           <td>
             @if (item.user$ | async; as user) {
-              <app-user [user]="user"></app-user>
+              <app-user [user]="user" />
             }
           </td>
           <td>{{ item.sum | currency: item.currency }}</td>

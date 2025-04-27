@@ -1,5 +1,5 @@
 import {AsyncPipe, CurrencyPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {DonationsClient} from '@grpc/spec.pbsc';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -16,6 +16,7 @@ const rates: Record<string, number> = {
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgbTooltip, AsyncPipe, CurrencyPipe, TimeAgoPipe],
   selector: 'app-index-donate',
   styleUrls: ['./donate.component.scss'],

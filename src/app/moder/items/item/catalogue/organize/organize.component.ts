@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetItemVehicleTypesRequest,
@@ -32,6 +32,7 @@ import {
 } from '../../../item-meta-form/item-meta-form.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, MarkdownComponent, AsyncPipe, ItemMetaFormComponent],
   selector: 'app-moder-items-item-organize',
   templateUrl: './organize.component.html',
@@ -45,8 +46,8 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   readonly #itemsClient = inject(ItemsClient);
   readonly #toastService = inject(ToastsService);
 
-  protected loading = 0;
-  protected invalidParams: InvalidParams = {};
+  protected readonly loading = signal(false);
+  protected readonly invalidParams = signal<InvalidParams>({});
 
   readonly #itemTypeID$: Observable<number> = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('item_type_id') ?? '', 10)),
@@ -156,7 +157,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
   }
 
   protected submit(item: APIItem, itemTypeID: number, event: ItemMetaFormResult) {
-    this.loading++;
+    this.loading.set(true);
 
     const newItem = itemMetaFormResultsToAPIItem(event);
     newItem.itemTypeId = itemTypeID;
@@ -168,11 +169,11 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
         catchError((response: unknown) => {
           if (response instanceof GrpcStatusEvent) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
           } else {
             this.#toastService.handleError(response);
           }
-          this.loading--;
+          this.loading.set(false);
 
           return EMPTY;
         }),
@@ -182,7 +183,7 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
             this.#itemsClient
               .createItemParent(
                 new ItemParent({
-                  itemId: '' + newItem.id,
+                  itemId: newItem.id,
                   parentId: item.id,
                 }),
               )
@@ -224,10 +225,10 @@ export class ModerItemsItemOrganizeComponent implements OnInit {
       )
       .subscribe({
         error: () => {
-          this.loading--;
+          this.loading.set(false);
         },
         next: () => {
-          this.loading--;
+          this.loading.set(false);
           if (localStorage) {
             localStorage.setItem('last_item', item.id);
           }

@@ -20,10 +20,7 @@
   @if (attributes$ | async; as attributes) {
     <div class="card card-body">
       @if (zoneAttributes$ | async; as zoneAttributes) {
-        <app-moder-attrs-zone-attribute-list
-          [attributes]="attributes"
-          [map]="zoneAttributes"
-        ></app-moder-attrs-zone-attribute-list>
+        <app-moder-attrs-zone-attribute-list [attributes]="attributes" [map]="zoneAttributes" />
       }
     </div>
   }

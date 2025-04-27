@@ -27,7 +27,7 @@
           design: item.design || null,
           produced: {count: item.produced?.value || 0, exactly: item.producedExactly},
         }"
-      ></app-item-header>
+      />
     </h1>
   </div>
   @if (item.otherNames) {
@@ -79,11 +79,11 @@
   }
   @if (item.fullText) {
     <div class="text">
-      <app-markdown [markdown]="item.fullText"></app-markdown>
+      <app-markdown [markdown]="item.fullText" />
     </div>
   } @else if (item.description) {
     <div class="text">
-      <app-markdown [markdown]="item.description"></app-markdown>
+      <app-markdown [markdown]="item.description" />
     </div>
   }
 } @else {

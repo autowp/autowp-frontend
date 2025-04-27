@@ -1,5 +1,5 @@
 import {AsyncPipe, formatDate} from '@angular/common';
-import {Component, inject, LOCALE_ID, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, LOCALE_ID, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIItem, APIUser, ItemFields, ItemRequest} from '@grpc/spec.pb';
 import {ItemsClient} from '@grpc/spec.pbsc';
@@ -17,6 +17,7 @@ import {DonateService} from '../donate.service';
 const VOD_TIMEZONE = 'UTC';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, MarkdownComponent, ItemOfDayComponent, AsyncPipe],
   selector: 'app-donate-vod',
   templateUrl: './vod.component.html',

@@ -9,10 +9,7 @@
             }
             {{ getAttrsTranslation(attribute.name) }}
           </div>
-          <app-moder-attrs-zone-attribute-list
-            [attributes]="attribute.childs"
-            [map]="map()"
-          ></app-moder-attrs-zone-attribute-list>
+          <app-moder-attrs-zone-attribute-list [attributes]="attribute.childs" [map]="map()" />
         </li>
       }
     </ul>

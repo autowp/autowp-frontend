@@ -41,7 +41,7 @@
         @for (item of legend; track item; let i = $index) {
           <span>
             @if (item.user$ | async; as user) {
-              <app-user [user]="user"></app-user>
+              <app-user [user]="user" />
             }
           </span>
         }

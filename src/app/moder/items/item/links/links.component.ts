@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
 import {APIItem, APIItemLink, APIItemLinkRequest, ItemLinkListOptions, ItemLinksRequest} from '@grpc/spec.pb';
@@ -11,6 +11,7 @@ import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ToastsService} from '../../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, AsyncPipe],
   selector: 'app-moder-items-item-links',
   templateUrl: './links.component.html',
@@ -24,7 +25,7 @@ export class ModerItemsItemLinksComponent {
   protected readonly item$ = toObservable(this.item);
   readonly #reload$ = new BehaviorSubject<void>(void 0);
 
-  protected loadingNumber = 0;
+  protected readonly loadingNumber = signal(false);
 
   protected readonly canEditMeta$ = this.#auth.hasRole$(Role.CARS_MODER);
 
@@ -101,9 +102,9 @@ export class ModerItemsItemLinksComponent {
       }
     }
 
-    this.loadingNumber++;
+    this.loadingNumber.set(true);
     forkJoin(promises).subscribe({
-      complete: () => this.loadingNumber--,
+      complete: () => this.loadingNumber.set(false),
       next: () => this.#reload$.next(),
     });
   }

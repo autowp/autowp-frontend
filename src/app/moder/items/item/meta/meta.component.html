@@ -1,21 +1,16 @@
 @if (item$ | async; as item) {
   <div class="card card-body">
-    <ngb-progressbar
-      type="success"
-      class="mb-2"
-      [striped]="true"
-      [animated]="true"
-      [value]="100"
-      [hidden]="loadingNumber <= 0"
-    ></ngb-progressbar>
+    @if (loadingNumber()) {
+      <ngb-progressbar type="success" class="mb-2" [striped]="true" [animated]="true" [value]="100" />
+    }
     @if (canEditMeta$ | async) {
       @if (vehicleTypeIDs$ | async; as vehicleTypeIDs) {
         <app-item-meta-form
           [item]="item"
           (submitted)="saveMeta(item, $event)"
-          [invalidParams]="invalidParams"
+          [invalidParams]="invalidParams()"
           [vehicleTypeIDs]="vehicleTypeIDs"
-        ></app-item-meta-form>
+        />
       }
     }
     @if ((canEditMeta$ | async) === false) {

@@ -1,6 +1,6 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   Inbox,
@@ -35,7 +35,8 @@ interface InboxData {
 }
 
 @Component({
-  imports: [RouterLink, FormsModule, PaginatorComponent, AsyncPipe, DatePipe, ThumbnailComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, FormsModule, PaginatorComponent, AsyncPipe, DatePipe, ThumbnailComponent, ReactiveFormsModule],
   selector: 'app-inbox',
   templateUrl: './inbox.component.html',
 })
@@ -78,7 +79,7 @@ export class InboxComponent implements OnInit {
         brandID = params.brand ? params.brand : '';
       }
 
-      this.brandID = brandID;
+      this.brandID.setValue(brandID);
 
       return combineLatest([
         of(params.date),
@@ -155,14 +156,14 @@ export class InboxComponent implements OnInit {
     }),
   );
 
-  protected brandID = '';
+  protected readonly brandID = new FormControl<string>('', {nonNullable: true});
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 76}), 0);
   }
 
   protected changeBrand() {
-    this.#router.navigate(['/inbox', this.brandID ? this.brandID : 'all']);
+    this.#router.navigate(['/inbox', this.brandID.value ? this.brandID.value : 'all']);
   }
 
   protected readonly formatGrpcDate = formatGrpcDate;

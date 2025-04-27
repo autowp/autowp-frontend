@@ -1,9 +1,9 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Component, ElementRef, inject, OnDestroy, OnInit, viewChild} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal, viewChild} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {environment} from '@environment/environment';
-import {APIImage, APIMeRequest, APIUser, DeleteUserPhotoRequest, UpdateUserRequest, UserFields} from '@grpc/spec.pb';
+import {APIMeRequest, APIUser, DeleteUserPhotoRequest, UpdateUserRequest, UserFields} from '@grpc/spec.pb';
 import {UsersClient} from '@grpc/spec.pbsc';
 import {GrpcStatusEvent} from '@ngx-grpc/common';
 import {FieldMask} from '@ngx-grpc/well-known-types';
@@ -14,18 +14,24 @@ import {TimezoneService} from '@services/timezone';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import Keycloak from 'keycloak-js';
-import {EMPTY, of, Subscription} from 'rxjs';
-import {catchError, switchMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {catchError, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../../grpc';
 import {ToastsService} from '../../toasts/toasts.service';
 
+interface FormControls {
+  language: FormControl<string>;
+  timezone: FormControl<string>;
+}
+
 @Component({
-  imports: [MarkdownComponent, FormsModule, AsyncPipe, InvalidParamsPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MarkdownComponent, FormsModule, AsyncPipe, InvalidParamsPipe, ReactiveFormsModule],
   selector: 'app-account-profile',
   templateUrl: './profile.component.html',
 })
-export class AccountProfileComponent implements OnDestroy, OnInit {
+export class AccountProfileComponent implements OnInit {
   readonly #http = inject(HttpClient);
   readonly #languageService = inject(LanguageService);
   readonly #keycloak = inject(Keycloak);
@@ -35,18 +41,8 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
   readonly #toastService = inject(ToastsService);
   readonly #usersClient = inject(UsersClient);
 
-  protected user?: APIUser;
-
-  protected readonly settings: {language: null | string; timezone: null | string} = {
-    language: null,
-    timezone: null,
-  };
-  protected settingsInvalidParams: InvalidParams = {};
-  protected photoInvalidParams: InvalidParams = {};
-  protected votesPerDay = 0;
-  protected votesLeft = 0;
-  protected photo: APIImage | undefined = undefined;
-  #sub?: Subscription;
+  protected settingsInvalidParams = signal<InvalidParams>({});
+  protected photoInvalidParams = signal<InvalidParams>({});
 
   private readonly input = viewChild<ElementRef<HTMLInputElement>>('input');
 
@@ -60,62 +56,64 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
     value: language.code,
   }));
 
+  readonly #reload$ = new BehaviorSubject<void>(void 0);
+
+  protected readonly user$ = combineLatest([this.#auth.user$, this.#reload$]).pipe(
+    switchMap(([user]) => {
+      if (!user) {
+        this.#keycloak.login({
+          locale: this.#languageService.language,
+          redirectUri: window.location.href,
+        });
+        return EMPTY;
+      }
+
+      return of(user);
+    }),
+    switchMap(() =>
+      this.#usersClient.me(
+        new APIMeRequest({
+          fields: new UserFields({
+            img: true,
+            language: true,
+            timezone: true,
+            votesLeft: true,
+            votesPerDay: true,
+          }),
+        }),
+      ),
+    ),
+    catchError((response: unknown) => {
+      this.#toastService.handleError(response);
+      return EMPTY;
+    }),
+    shareReplay({bufferSize: 1, refCount: false}),
+  );
+
+  protected readonly votesPerDay$ = this.user$.pipe(map((user) => +user.votesPerDay || 0));
+  protected readonly votesLeft$ = this.user$.pipe(map((user) => +user.votesLeft || 0));
+  protected readonly photo$ = this.user$.pipe(map((user) => user.img));
+
+  protected readonly form$: Observable<FormGroup<FormControls>> = this.user$.pipe(
+    map(
+      (user) =>
+        new FormGroup({
+          language: new FormControl<string>(user.language, {nonNullable: true}),
+          timezone: new FormControl<string>(user.timezone, {nonNullable: true}),
+        }),
+    ),
+  );
+
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 129}), 0);
-
-    this.#sub = this.#auth.user$
-      .pipe(
-        switchMap((user) => {
-          if (!user) {
-            this.#keycloak.login({
-              locale: this.#languageService.language,
-              redirectUri: window.location.href,
-            });
-            return EMPTY;
-          }
-
-          this.user = user;
-
-          return of(user);
-        }),
-        switchMap(() =>
-          this.#usersClient.me(
-            new APIMeRequest({
-              fields: new UserFields({
-                img: true,
-                language: true,
-                timezone: true,
-                votesLeft: true,
-                votesPerDay: true,
-              }),
-            }),
-          ),
-        ),
-        catchError((response: unknown) => {
-          this.#toastService.handleError(response);
-          return EMPTY;
-        }),
-      )
-      .subscribe((user) => {
-        this.settings.timezone = user.timezone;
-        this.settings.language = user.language;
-        this.votesPerDay = +user.votesPerDay || 0;
-        this.votesLeft = +user.votesLeft || 0;
-        this.photo = user.img;
-      });
-  }
-  ngOnDestroy(): void {
-    if (this.#sub) {
-      this.#sub.unsubscribe();
-    }
   }
 
   private showSavedMessage() {
     this.#toastService.success($localize`Data saved`);
   }
 
-  protected sendSettings(id: string) {
-    this.settingsInvalidParams = {};
+  protected sendSettings(form: FormGroup<FormControls>, id: string) {
+    this.settingsInvalidParams.set({});
 
     this.#usersClient
       .updateUser(
@@ -123,8 +121,8 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
           updateMask: new FieldMask({paths: ['language', 'timezone']}),
           user: new APIUser({
             id,
-            language: this.settings.language || undefined,
-            timezone: this.settings.timezone || undefined,
+            language: form.controls.language.value || undefined,
+            timezone: form.controls.timezone.value || undefined,
           }),
         }),
       )
@@ -132,7 +130,7 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
         error: (response: unknown) => {
           if (response instanceof GrpcStatusEvent) {
             const fieldViolations = extractFieldViolations(response);
-            this.settingsInvalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.settingsInvalidParams.set(fieldViolations2InvalidParams(fieldViolations));
           } else {
             this.#toastService.handleError(response);
           }
@@ -147,17 +145,14 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
     this.#usersClient.deleteUserPhoto(new DeleteUserPhotoRequest({id})).subscribe({
       error: (response: unknown) => this.#toastService.handleError(response),
       next: () => {
-        if (this.user) {
-          this.user.avatar = undefined;
-        }
-        this.photo = undefined;
+        this.#reload$.next(void 0);
       },
     });
   }
 
-  protected onChange(event: Event) {
+  protected onChange(user: APIUser, event: Event) {
     const files = [].slice.call((event.target as HTMLInputElement).files);
-    if (files.length <= 0 || !this.user) {
+    if (files.length <= 0) {
       return;
     }
 
@@ -167,15 +162,17 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
     formData.append('photo', file);
 
     return this.#http
-      .request('POST', '/api/user/' + this.user.id + '/photo', {body: formData})
+      .request('POST', '/api/user/' + user.id + '/photo', {body: formData})
       .pipe(
         catchError((response: unknown) => {
           const input = this.input();
           if (input) {
             input.nativeElement.value = '';
           }
+          console.log(response);
           if (response instanceof HttpErrorResponse && response.status === 400) {
-            this.photoInvalidParams = response.error.invalid_params;
+            console.log('ZZZZZZZZZZZ');
+            this.photoInvalidParams.set(response.error.invalid_params);
             return EMPTY;
           }
 
@@ -193,8 +190,8 @@ export class AccountProfileComponent implements OnDestroy, OnInit {
           this.#toastService.handleError(response);
           return EMPTY;
         }),
-        tap((response) => {
-          this.photo = response.img;
+        tap(() => {
+          this.#reload$.next();
         }),
       )
       .subscribe();

@@ -222,13 +222,13 @@
               <a [routerLink]="['/moder/items/item', item.id]" [innerHTML]="item.nameHtml"></a>
             </div>
           } @else {
-            <app-catalogue-list-item [item]="item"></app-catalogue-list-item>
+            <app-catalogue-list-item [item]="item" />
           }
         }
       </div>
 
       @if (data.paginator) {
-        <app-paginator [data]="data.paginator"></app-paginator>
+        <app-paginator [data]="data.paginator" />
       }
     }
   </div>

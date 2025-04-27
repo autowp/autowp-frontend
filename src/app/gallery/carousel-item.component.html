@@ -3,7 +3,7 @@
     <img
       alt=""
       [src]="_item.imageGalleryFull.src"
-      [class.crop-mode]="cropMode"
+      [class.crop-mode]="cropMode()"
       class="full"
       [ngStyle]="fullStyle"
       (load)="fullLoaded()"
@@ -13,7 +13,7 @@
     <img
       alt=""
       [src]="_item.imageGallery.src"
-      [class.crop-mode]="cropMode"
+      [class.crop-mode]="cropMode()"
       class="crop"
       [ngStyle]="cropStyle"
       (load)="cropLoaded()"
@@ -51,12 +51,12 @@
       <i class="bi bi-card-image" aria-hidden="true"></i>
     </a>
   }
-  @if (cropLoading || fullLoading) {
+  @if (cropLoading() || fullLoading()) {
     <div class="loading-icon">
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
     </div>
   }
-  @if (_item && _item.imageGallery && !cropLoading && !fullLoading) {
+  @if (_item && _item.imageGallery && !cropLoading() && !fullLoading()) {
     <span class="carousel-control-full" (click)="toggleCrop()" (keyup.enter)="toggleCrop()" tabindex="0"
       ><i class="bi bi-arrows-fullscreen" aria-hidden="true"></i
     ></span>

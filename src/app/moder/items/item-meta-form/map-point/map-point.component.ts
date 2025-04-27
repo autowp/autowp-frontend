@@ -1,4 +1,4 @@
-import {Component, inject, NgZone} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, NgZone} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {icon, LatLng, latLng, Layer, LeafletMouseEvent, Map, MapOptions, marker, tileLayer} from 'leaflet';
@@ -36,6 +36,7 @@ const center = (lat: null | number | string, lng: null | number | string): LatLn
 };
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, LeafletModule],
   providers: [
     {
@@ -50,6 +51,7 @@ const center = (lat: null | number | string, lng: null | number | string): LatLn
 })
 export class MapPointComponent implements ControlValueAccessor {
   readonly #zone = inject(NgZone);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   /*protected readonly center$ = this.point$.pipe(
     map(point => point ? point : latLng(54.5260, 15.2551))
@@ -110,6 +112,7 @@ export class MapPointComponent implements ControlValueAccessor {
     }
 
     this.setMarker(ll);
+    this.#cdr.markForCheck();
   }
 
   registerOnChange(onChange: (_: Point) => void): void {
@@ -122,6 +125,7 @@ export class MapPointComponent implements ControlValueAccessor {
 
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
+    this.#cdr.markForCheck();
   }
 
   protected onMapReady(lmap: Map) {
@@ -138,6 +142,8 @@ export class MapPointComponent implements ControlValueAccessor {
         if (this.onChange) {
           this.onChange({lat: event.latlng.lat, lng: event.latlng.lng});
         }
+
+        this.#cdr.markForCheck();
       });
     });
   }
@@ -161,6 +167,8 @@ export class MapPointComponent implements ControlValueAccessor {
         this.onChange({lat, lng});
       }
     }
+
+    this.#cdr.markForCheck();
   }
 
   markAsTouched() {
@@ -170,6 +178,8 @@ export class MapPointComponent implements ControlValueAccessor {
       }
       this.touched = true;
     }
+
+    this.#cdr.markForCheck();
   }
 
   protected setMarker(ll: LatLng | null) {
@@ -185,5 +195,7 @@ export class MapPointComponent implements ControlValueAccessor {
           }),
         ]
       : [];
+
+    this.#cdr.markForCheck();
   }
 }

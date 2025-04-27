@@ -1,12 +1,13 @@
-import {Component, inject, input} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MessageService} from '@services/message';
 
 import {ToastsService} from '../../toasts/toasts.service';
 
 @Component({
-  imports: [FormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, ReactiveFormsModule],
   selector: 'app-modal-message',
   templateUrl: './modal-message.component.html',
 })
@@ -17,22 +18,22 @@ export class ModalMessageComponent {
 
   readonly userId = input.required<string>();
 
-  protected text = '';
-  protected sending = false;
-  protected sent = false;
+  protected readonly text = new FormControl<string>('', {nonNullable: true});
+  protected readonly sending = signal(false);
+  protected readonly sent = signal(false);
 
   protected send() {
-    this.sending = true;
-    this.sent = false;
+    this.sending.set(true);
+    this.sent.set(false);
 
     const userId = this.userId();
     if (userId) {
-      this.#messageService.send$(userId, this.text).subscribe({
+      this.#messageService.send$(userId, this.text.value).subscribe({
         error: (response: unknown) => this.#toastService.handleError(response),
         next: () => {
-          this.sending = false;
-          this.sent = true;
-          this.text = '';
+          this.sending.set(false);
+          this.sent.set(true);
+          this.text.setValue('');
 
           this.activeModal.close();
 
@@ -43,6 +44,6 @@ export class ModalMessageComponent {
   }
 
   protected keypress() {
-    this.sent = false;
+    this.sent.set(false);
   }
 }

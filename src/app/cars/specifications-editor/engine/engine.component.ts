@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIItem, UpdateItemRequest} from '@grpc/spec.pb';
@@ -14,6 +14,7 @@ import {shareReplay, switchMap} from 'rxjs/operators';
 import {ToastsService} from '../../../toasts/toasts.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AsyncPipe],
   selector: 'app-cars-specifications-editor-engine',
   templateUrl: './engine.component.html',
@@ -48,7 +49,6 @@ export class CarsSpecificationsEditorEngineComponent {
     }),
     shareReplay({bufferSize: 1, refCount: false}),
   );
-  protected loading = 0;
 
   private setEngineID(item: APIItem, value: string, inherited: boolean) {
     this.#itemsClient

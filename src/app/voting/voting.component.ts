@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ComponentRef, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CommentsType, VoteRequest, Voting, VotingRequest, VotingVariant} from '@grpc/spec.pb';
@@ -16,6 +16,7 @@ import {ToastsService} from '../toasts/toasts.service';
 import {VotingVotesComponent} from './votes/votes.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, FormsModule, NgbProgressbar, CommentsComponent, AsyncPipe, DatePipe],
   selector: 'app-voting',
   templateUrl: './voting.component.html',
@@ -52,7 +53,6 @@ export class VotingComponent {
       });
     }),
   );
-  protected filter = false;
   protected selected = 0;
   protected selectedMulti: Record<number, number> = {};
 
@@ -112,8 +112,9 @@ export class VotingComponent {
       size: 'lg',
     });
 
-    modalRef.componentInstance.setInput('votingID', voting.id);
-    modalRef.componentInstance.setInput('variantID', variant.id);
+    const componentRef: ComponentRef<VotingVotesComponent> = modalRef['_contentRef'].componentRef;
+    componentRef.setInput('votingID', voting.id);
+    componentRef.setInput('variantID', variant.id);
 
     return false;
   }

@@ -20,9 +20,9 @@
 <div class="page-header">
   <h1>
     <ng-container i18n>Organize</ng-container>
-    <span [hidden]="loading <= 0">
+    @if (loading()) {
       <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-    </span>
+    }
   </h1>
 </div>
 
@@ -30,15 +30,16 @@
 
 @if (item$ | async; as item) {
   @if (newItem$ | async; as newItem) {
-    <app-item-meta-form
-      class="mb-4"
-      [hidden]="loading > 0"
-      [disableIsGroup]="true"
-      [item]="newItem"
-      (submitted)="submit(item, newItem.itemTypeId, $event)"
-      [invalidParams]="invalidParams"
-      [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
-      [items]="(childs$ | async) || []"
-    />
+    @if (!loading()) {
+      <app-item-meta-form
+        class="mb-4"
+        [disableIsGroup]="true"
+        [item]="newItem"
+        (submitted)="submit(item, newItem.itemTypeId, $event)"
+        [invalidParams]="invalidParams()"
+        [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
+        [items]="(childs$ | async) || []"
+      />
+    }
   }
 }

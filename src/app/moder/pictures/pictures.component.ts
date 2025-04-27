@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIGetUserRequest,
@@ -82,6 +82,7 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     NgbDropdown,
@@ -92,6 +93,7 @@ function toPlainVehicleTypes(options: VehicleType[], deep: number): VehicleTypeI
     PaginatorComponent,
     AsyncPipe,
     ThumbnailComponent,
+    ReactiveFormsModule,
   ],
   selector: 'app-moder-pictures',
   templateUrl: './pictures.component.html',
@@ -110,10 +112,10 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   readonly #usersClient = inject(UsersClient);
   readonly #picturesClient = inject(PicturesClient);
 
-  protected hasSelectedItem = false;
+  protected readonly hasSelectedItem = signal(false);
   #selected: string[] = [];
 
-  protected status: null | string = null;
+  protected readonly status = signal<null | string>(null);
   protected readonly statusOptions = [
     {
       name: $localize`any`,
@@ -144,7 +146,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       value: null,
     },
   ];
-  protected vehicleTypeID: null | string = null;
+  protected readonly vehicleTypeID = signal<null | string>(null);
 
   readonly #defaultPerspectiveOptions: PerspectiveInList[] = [
     {
@@ -168,7 +170,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
     shareReplay({bufferSize: 1, refCount: false}),
   );
 
-  protected perspectiveID: 'null' | null | number = null;
+  protected readonly perspectiveID = signal<'null' | null | number>(null);
 
   protected readonly commentsOptions = [
     {
@@ -184,7 +186,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       value: false,
     },
   ];
-  protected comments: boolean | null = null;
+  protected readonly comments = signal<boolean | null>(null);
 
   protected readonly replaceOptions = [
     {
@@ -200,7 +202,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       value: false,
     },
   ];
-  protected replace: boolean | null = null;
+  protected readonly replace = signal<boolean | null>(null);
 
   protected readonly requestsOptions = [
     {
@@ -224,7 +226,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       value: 3,
     },
   ];
-  protected requests: null | number = null;
+  protected readonly requests = signal<null | number>(null);
 
   protected readonly orderOptions: {name: string; value: PicturesRequest.Order}[] = [
     {
@@ -276,15 +278,15 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       value: PicturesRequest.Order.ORDER_DISLIKES,
     },
   ];
-  protected order: PicturesRequest.Order = 0;
+  protected readonly order = signal<PicturesRequest.Order>(PicturesRequest.Order.ORDER_NONE);
 
-  protected similar = false;
-  protected gps: boolean | null = null;
-  protected lost = false;
-  protected specialName = false;
+  protected readonly similar = signal(false);
+  protected readonly gps = signal<boolean | null>(null);
+  protected readonly lost = signal(false);
+  protected readonly specialName = signal(false);
 
-  protected ownerID = '';
-  protected ownerQuery = '';
+  protected readonly ownerID = signal('');
+  protected readonly ownerQuery = new FormControl<string>('', {nonNullable: true});
   protected readonly ownersDataSource: (text$: Observable<string>) => Observable<APIUser[]> = (
     text$: Observable<string>,
   ) =>
@@ -322,8 +324,8 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       }),
     );
 
-  protected itemID = '';
-  protected itemQuery = '';
+  protected readonly itemID = signal('');
+  protected readonly itemQuery = new FormControl<string>('', {nonNullable: true});
   protected readonly itemsDataSource: (text$: Observable<string>) => Observable<APIItem[]> = (
     text$: Observable<string>,
   ) =>
@@ -370,12 +372,12 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
 
   readonly #change$ = new BehaviorSubject<void>(void 0);
 
-  protected addedFrom: null | string = null;
-  readonly #addedFrom$ = new BehaviorSubject<null | string>('');
+  protected readonly addedFrom = new FormControl<string>('', {nonNullable: true});
+
   #addedFromSub?: Subscription = undefined;
 
-  protected excludeItemID = '';
-  protected excludeItemQuery = '';
+  protected readonly excludeItemID = signal('');
+  protected readonly excludeItemQuery = new FormControl<string>('', {nonNullable: true});
 
   protected readonly data$: Observable<{
     chunks: Picture[][];
@@ -386,62 +388,64 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
     debounceTime(10),
     // eslint-disable-next-line sonarjs/cognitive-complexity
     switchMap((params) => {
-      this.addedFrom = params.get('added_from') ? params.get('added_from') : null;
-      this.status = params.get('status') ? params.get('status') : null;
-      this.vehicleTypeID = params.get('vehicle_type_id') ? (params.get('vehicle_type_id') ?? '') : null;
+      this.addedFrom.setValue(params.get('added_from') ?? '');
+      this.status.set(params.get('status') ? params.get('status') : null);
+      this.vehicleTypeID.set(params.get('vehicle_type_id') ? (params.get('vehicle_type_id') ?? '') : null);
       const perspectiveID = params.get('perspective_id');
-      this.perspectiveID = perspectiveID === 'null' ? 'null' : parseInt(perspectiveID ?? '', 10) || null;
-      this.itemID = params.get('item_id') ? (params.get('item_id') ?? '') : '';
-      if (this.itemID && !this.itemQuery) {
-        this.itemQuery = '#' + this.itemID;
+      this.perspectiveID.set(perspectiveID === 'null' ? 'null' : parseInt(perspectiveID ?? '', 10) || null);
+      this.itemID.set(params.get('item_id') ? (params.get('item_id') ?? '') : '');
+      if (this.itemID() && !this.itemQuery.value) {
+        this.itemQuery.setValue('#' + this.itemID());
       }
-      this.excludeItemID = params.get('exclude_item_id') ? (params.get('exclude_item_id') ?? '') : '';
-      if (this.excludeItemID && !this.excludeItemQuery) {
-        this.excludeItemQuery = '#' + this.excludeItemID;
+      this.excludeItemID.set(params.get('exclude_item_id') ? (params.get('exclude_item_id') ?? '') : '');
+      if (this.excludeItemID() && !this.excludeItemQuery.value) {
+        this.excludeItemQuery.setValue('#' + this.excludeItemID());
       }
       switch (params.get('comments')) {
         case 'false':
-          this.comments = false;
+          this.comments.set(false);
           break;
         case 'true':
-          this.comments = true;
+          this.comments.set(true);
           break;
         default:
-          this.comments = null;
+          this.comments.set(null);
           break;
       }
-      this.ownerID = params.get('owner_id') ?? '';
-      if (this.ownerID && !this.ownerQuery) {
-        this.ownerQuery = '#' + this.ownerID;
+      this.ownerID.set(params.get('owner_id') ?? '');
+      if (this.ownerID() && !this.ownerQuery.value) {
+        this.ownerQuery.setValue('#' + this.ownerID());
       }
       switch (params.get('replace')) {
         case 'false':
-          this.replace = false;
+          this.replace.set(false);
           break;
         case 'true':
-          this.replace = true;
+          this.replace.set(true);
           break;
         default:
-          this.replace = null;
+          this.replace.set(null);
           break;
       }
-      this.requests = params.get('requests') ? parseInt(params.get('requests') ?? '', 10) : null;
-      this.specialName = !!params.get('special_name');
-      this.lost = !!params.get('lost');
-      this.gps = params.get('gps') ? true : null;
-      this.similar = !!params.get('similar');
-      this.order = params.get('order') ? parseInt(params.get('order') ?? '', 10) : 1;
-      this.addedFrom = params.get('added_from') ?? '';
+      this.requests.set(params.get('requests') ? parseInt(params.get('requests') ?? '', 10) : null);
+      this.specialName.set(!!params.get('special_name'));
+      this.lost.set(!!params.get('lost'));
+      this.gps.set(params.get('gps') ? true : null);
+      this.similar.set(!!params.get('similar'));
+      this.order.set(params.get('order') ? parseInt(params.get('order') ?? '', 10) : 1);
+      this.addedFrom.setValue(params.get('added_from') ?? '');
 
       this.#selected = [];
-      this.hasSelectedItem = false;
+      this.hasSelectedItem.set(false);
 
-      const statuses = this.convertStatuses(this.status);
+      const statuses = this.convertStatuses(this.status());
+      const vehicleTypeID = this.vehicleTypeID();
+      const perspectiveIDVal = this.perspectiveID();
 
       const qParams = new PicturesRequest({
         fields: new PictureFields({
           commentsCount: true,
-          dfDistance: this.similar ? new DfDistanceRequest({limit: 1}) : undefined,
+          dfDistance: this.similar() ? new DfDistanceRequest({limit: 1}) : undefined,
           moderVote: true,
           nameHtml: true,
           nameText: true,
@@ -465,48 +469,48 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
         language: this.#languageService.language,
         limit: 18,
         options: new PictureListOptions({
-          addedFrom: this.addedFrom ? parseStringToGrpcDate(this.addedFrom) : undefined,
-          commentTopic: this.comments === true ? new CommentTopicListOptions({messagesGtZero: true}) : undefined,
-          dfDistance: this.similar
+          addedFrom: this.addedFrom ? parseStringToGrpcDate(this.addedFrom.value) : undefined,
+          commentTopic: this.comments() === true ? new CommentTopicListOptions({messagesGtZero: true}) : undefined,
+          dfDistance: this.similar()
             ? new DfDistanceListOptions({
                 dstPicture: statuses ? new PictureListOptions({statuses}) : undefined,
               })
             : undefined,
-          hasNoComments: this.comments === false,
-          hasNoPictureItem: this.lost,
-          hasNoPictureModerVote: this.requests === 0,
-          hasNoReplacePicture: this.replace === false,
-          hasPoint: this.gps === true,
-          hasSpecialName: this.specialName,
-          ownerId: this.ownerID ? this.ownerID : undefined,
+          hasNoComments: this.comments() === false,
+          hasNoPictureItem: this.lost(),
+          hasNoPictureModerVote: this.requests() === 0,
+          hasNoReplacePicture: this.replace() === false,
+          hasPoint: this.gps() === true,
+          hasSpecialName: this.specialName(),
+          ownerId: this.ownerID() ?? undefined,
           pictureItem:
-            this.vehicleTypeID || this.excludeItemID || this.itemID || this.perspectiveID
+            vehicleTypeID || this.excludeItemID() || this.itemID() || perspectiveIDVal
               ? new PictureItemListOptions({
-                  excludeAncestorOrSelfId: this.excludeItemID,
-                  hasNoPerspectiveId: this.perspectiveID === 'null',
-                  itemParentCacheAncestor: this.itemID
-                    ? new ItemParentCacheListOptions({parentId: this.itemID})
+                  excludeAncestorOrSelfId: this.excludeItemID(),
+                  hasNoPerspectiveId: perspectiveIDVal === 'null',
+                  itemParentCacheAncestor: this.itemID()
+                    ? new ItemParentCacheListOptions({parentId: this.itemID()})
                     : undefined,
-                  itemVehicleType: this.vehicleTypeID
-                    ? new ItemVehicleTypeListOptions({vehicleTypeId: this.vehicleTypeID})
+                  itemVehicleType: vehicleTypeID
+                    ? new ItemVehicleTypeListOptions({vehicleTypeId: vehicleTypeID})
                     : undefined,
-                  perspectiveId: this.perspectiveID && this.perspectiveID !== 'null' ? this.perspectiveID : undefined,
+                  perspectiveId: perspectiveIDVal && perspectiveIDVal !== 'null' ? perspectiveIDVal : undefined,
                 })
               : undefined,
           pictureModerVote:
-            this.requests === 1 ||
-            this.requests === 2 ||
-            this.requests === 3 ||
-            this.order === PicturesRequest.Order.ORDER_MODER_VOTES
+            this.requests() === 1 ||
+            this.requests() === 2 ||
+            this.requests() === 3 ||
+            this.order() === PicturesRequest.Order.ORDER_MODER_VOTES
               ? new PictureModerVoteListOptions({
-                  voteGtZero: this.requests === 1,
-                  voteLteZero: this.requests === 2,
+                  voteGtZero: this.requests() === 1,
+                  voteLteZero: this.requests() === 2,
                 })
               : undefined,
-          replacePicture: this.replace === true ? new PictureListOptions({}) : undefined,
+          replacePicture: this.replace() === true ? new PictureListOptions({}) : undefined,
           statuses: statuses,
         }),
-        order: this.similar ? PicturesRequest.Order.ORDER_DF_DISTANCE_SIMILARITY : this.order,
+        order: this.similar() ? PicturesRequest.Order.ORDER_DF_DISTANCE_SIMILARITY : this.order(),
         page: parseInt(params.get('page') ?? '', 10),
         paginator: true,
       });
@@ -541,14 +545,16 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       0,
     );
 
-    this.#addedFromSub = this.#addedFrom$.pipe(distinctUntilChanged(), debounceTime(30)).subscribe((value) => {
-      this.#router.navigate([], {
-        queryParams: {
-          added_from: value ? value : null,
-        },
-        queryParamsHandling: 'merge',
+    this.#addedFromSub = this.addedFrom.valueChanges
+      .pipe(distinctUntilChanged(), debounceTime(30))
+      .subscribe((value) => {
+        this.#router.navigate([], {
+          queryParams: {
+            added_from: value ? value : null,
+          },
+          queryParamsHandling: 'merge',
+        });
       });
-    });
   }
 
   ngOnDestroy(): void {
@@ -581,7 +587,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
         this.#selected.splice(index, 1);
       }
     }
-    this.hasSelectedItem = this.#selected.length > 0;
+    this.hasSelectedItem.set(this.#selected.length > 0);
   }
 
   protected itemFormatter(x: APIItem) {
@@ -611,7 +617,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   }
 
   protected clearItem(): void {
-    this.itemQuery = '';
+    this.itemQuery.setValue('');
     this.#router.navigate([], {
       queryParams: {
         item_id: null,
@@ -621,7 +627,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   }
 
   protected clearExcludeItem(): void {
-    this.itemQuery = '';
+    this.excludeItemQuery.setValue('');
     this.#router.navigate([], {
       queryParams: {
         exclude_item_id: null,
@@ -640,7 +646,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
   }
 
   protected clearOwner(): void {
-    this.ownerQuery = '';
+    this.ownerQuery.setValue('');
     this.#router.navigate([], {
       queryParams: {
         owner_id: null,
@@ -664,7 +670,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       });
     }
     this.#selected = [];
-    this.hasSelectedItem = false;
+    this.hasSelectedItem.set(false);
   }
 
   protected acceptPictures(pictures: Picture[]) {
@@ -694,11 +700,7 @@ export class ModerPicturesComponent implements OnDestroy, OnInit {
       });
     }
     this.#selected = [];
-    this.hasSelectedItem = false;
-  }
-
-  protected onAddedFromInput() {
-    this.#addedFrom$.next(this.addedFrom);
+    this.hasSelectedItem.set(false);
   }
 
   protected readonly PicturesRequest = PicturesRequest;

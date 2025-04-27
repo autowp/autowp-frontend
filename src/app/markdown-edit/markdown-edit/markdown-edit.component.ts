@@ -1,10 +1,11 @@
-import {Component, effect, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, input, output} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavLinkBase, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {AutosizeModule} from 'ngx-autosize';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgbNav,
     NgbNavItem,

@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Picture} from '@grpc/spec.pb';
 import {PageEnvService} from '@services/page-env.service';
@@ -9,6 +9,7 @@ import {distinctUntilChanged, map, shareReplay, switchMap} from 'rxjs/operators'
 import {GalleryComponent} from '../../../gallery/gallery.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GalleryComponent, AsyncPipe],
   selector: 'app-persons-person-gallery',
   templateUrl: './gallery.component.html',

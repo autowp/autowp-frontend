@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   CommentsType,
@@ -24,6 +24,7 @@ import {PictureComponent} from '../../../picture/picture.component';
 import {CategoriesService} from '../../service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-category-picture',
   templateUrl: './picture.component.html',

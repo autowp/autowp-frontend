@@ -1,8 +1,11 @@
 @if (item$ | async; as item) {
   @if (item.childsCount > 0) {
     <div>
-      <i class="bi bi-folder2" aria-hidden="true" [hidden]="open"></i>
-      <i class="bi bi-folder2-open" aria-hidden="true" [hidden]="!open"></i>
+      @if (open()) {
+        <i class="bi bi-folder2-open" aria-hidden="true"></i>
+      } @else {
+        <i class="bi bi-folder2" aria-hidden="true"></i>
+      }
       @if (typeID() === ItemParentType.ITEM_TYPE_TUNING) {
         <span i18n>Related</span>
       } @else if (typeID() === ItemParentType.ITEM_TYPE_SPORT) {
@@ -13,7 +16,7 @@
       <a href="#" class="toggle" (click)="toggle()">
         <span [innerHTML]="item.nameHtml"></span>
       </a>
-      @if (open) {
+      @if (open()) {
         <ul>
           <li>
             <a href="#" (click)="onSelect(item.id)" i18n>here</a>
@@ -31,9 +34,7 @@
             }
           } @else {
             <li>
-              <span>
-                <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
-              </span>
+              <span class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></span>
             </li>
           }
         </ul>

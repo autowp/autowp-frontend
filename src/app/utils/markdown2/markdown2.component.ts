@@ -1,8 +1,9 @@
 import {isPlatformBrowser} from '@angular/common';
-import {AfterViewInit, Component, ElementRef, inject, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, PLATFORM_ID} from '@angular/core';
 import showdown from 'showdown';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-markdown2',
   standalone: true,
   styleUrls: ['markdown2.component.scss'],

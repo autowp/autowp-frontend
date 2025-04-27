@@ -150,7 +150,7 @@
                   <app-moder-pictures-perspective-picker
                     [perspectiveID]="item.perspectiveId"
                     (perspectiveChanged)="savePerspective($event, item)"
-                  ></app-moder-pictures-perspective-picker>
+                  />
                 }
               </td>
               @if (picture.rights?.crop) {
@@ -280,13 +280,9 @@
         </div>
       </div>
     }
-    <ngb-progressbar
-      type="primary"
-      [striped]="true"
-      [animated]="true"
-      [value]="100"
-      [hidden]="!pictureItemLoading"
-    ></ngb-progressbar>
+    @if (pictureItemLoading()) {
+      <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+    }
   </div>
   @if (picture) {
     <div class="row">
@@ -362,13 +358,9 @@
           <div>
             <button class="btn btn-primary" (click)="saveSpecialName(picture)" i18n>Submit</button>
           </div>
-          <ngb-progressbar
-            type="primary"
-            [striped]="true"
-            [animated]="true"
-            [value]="100"
-            [hidden]="!specialNameLoading"
-          ></ngb-progressbar>
+          @if (specialNameLoading()) {
+            <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+          }
         </form>
         <h3 i18n>Copyrights</h3>
         <div class="card card-body mb-4">
@@ -382,21 +374,17 @@
   [3](https://daringfireball.net/projects/markdown/basics),
 
   Internal hyperlinks must be relative: ~~http://autowp.ru/bmw/~~ */bmw/*"
-          ></app-markdown>
-          <app-markdown-edit [(text)]="picture.copyrights"></app-markdown-edit>
+          />
+          <app-markdown-edit [(text)]="picture.copyrights" />
           <button class="btn btn-primary" (click)="saveCopyrights(picture)" i18n>Submit</button>
           @if (picture.copyrightsTextId) {
             <p>
               <a [routerLink]="['/info/text', picture.copyrightsTextId]" i18n>History</a>
             </p>
           }
-          <ngb-progressbar
-            type="primary"
-            [striped]="true"
-            [animated]="true"
-            [value]="100"
-            [hidden]="!copyrightsLoading"
-          ></ngb-progressbar>
+          @if (copyrightsLoading()) {
+            <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+          }
         </div>
         @if (picture.exif) {
           <h3>EXIF</h3>
@@ -427,19 +415,15 @@
                 </button>
               }
             </div>
-            <ngb-progressbar
-              type="primary"
-              [striped]="true"
-              [animated]="true"
-              [value]="100"
-              [hidden]="!replaceLoading"
-            ></ngb-progressbar>
+            @if (replaceLoading()) {
+              <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+            }
           </div>
         }
         <h3 i18n>Status/Delete/Accept</h3>
         <div class="card card-body mb-4">
           @if (changeStatusUser$ | async; as user) {
-            <app-user [user]="user"></app-user>
+            <app-user [user]="user" />
           }
           @if (picture.status === PictureStatus.PICTURE_STATUS_INBOX) {
             <div>
@@ -478,7 +462,7 @@
               </p>
             </div>
           }
-          <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()"></app-picture-moder-vote>
+          <app-picture-moder-vote [picture]="picture" (changed)="pictureVoted()" />
           @if (picture.isLast) {
             <p>
               <span class="badge text-bg-warning text-dark" i18n>That is single picture of that vehicle</span>
@@ -490,26 +474,26 @@
               >
             </p>
           }
-          <ngb-progressbar
-            type="primary"
-            [striped]="true"
-            [animated]="true"
-            [value]="100"
-            [hidden]="!statusLoading"
-          ></ngb-progressbar>
+          @if (statusLoading()) {
+            <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+          }
         </div>
         @if (picture.rights?.normalize || picture.rights?.flop || picture.rights?.crop) {
           <h3 i18n>Edit and repair</h3>
           <div class="card card-body mb-4">
             <div>
               @if (picture.rights?.normalize) {
-                <button class="btn btn-warning" (click)="normalizePicture('' + picture.id)" [disabled]="repairLoading">
+                <button
+                  class="btn btn-warning"
+                  (click)="normalizePicture('' + picture.id)"
+                  [disabled]="repairLoading()"
+                >
                   <i class="bi bi-reception-4" aria-hidden="true"></i>
                   <ng-container i18n>Normalize</ng-container>
                 </button>
               }
               @if (picture.rights?.flop) {
-                <button class="btn btn-warning" (click)="flopPicture('' + picture.id)" [disabled]="repairLoading">
+                <button class="btn btn-warning" (click)="flopPicture('' + picture.id)" [disabled]="repairLoading()">
                   <i class="bi bi-arrow-left-right" aria-hidden="true"></i>
                   <ng-container i18n>Flop</ng-container>
                 </button>
@@ -518,7 +502,7 @@
                 <a
                   class="btn btn-secondary"
                   [routerLink]="['/moder/pictures', picture.id, 'crop']"
-                  [class.disabled]="repairLoading"
+                  [class.disabled]="repairLoading()"
                 >
                   <i class="bi bi-crop" aria-hidden="true"></i>
                   <ng-container i18n>Crop area</ng-container>
@@ -526,22 +510,18 @@
               }
             </div>
             <div>
-              <button class="btn btn-secondary" (click)="repairPicture(picture.id + '')" [disabled]="repairLoading">
+              <button class="btn btn-secondary" (click)="repairPicture(picture.id + '')" [disabled]="repairLoading()">
                 <i class="bi bi-wrench" aria-hidden="true"></i>
                 <ng-container i18n>Repair all files</ng-container>
               </button>
-              <button class="btn btn-secondary" (click)="correctFileNames(picture.id)" [disabled]="repairLoading">
+              <button class="btn btn-secondary" (click)="correctFileNames(picture.id)" [disabled]="repairLoading()">
                 <i class="bi bi-wrench" aria-hidden="true"></i>
                 <ng-container i18n>Rebuild files names</ng-container>
               </button>
             </div>
-            <ngb-progressbar
-              type="primary"
-              [striped]="true"
-              [animated]="true"
-              [value]="100"
-              [hidden]="!repairLoading"
-            ></ngb-progressbar>
+            @if (repairLoading()) {
+              <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+            }
           </div>
         }
         @if ((picture.dfDistances?.items || []).length) {
@@ -561,19 +541,15 @@
               </p>
               <button (click)="cancelSimilar(dfDistance)" class="btn btn-warning">That is not similar</button>
             }
-            <ngb-progressbar
-              type="primary"
-              [striped]="true"
-              [animated]="true"
-              [value]="100"
-              [hidden]="!similarLoading"
-            ></ngb-progressbar>
+            @if (similarLoading()) {
+              <ngb-progressbar type="primary" [striped]="true" [animated]="true" [value]="100" />
+            }
           </div>
         }
         <h3 i18n>Uploader</h3>
         <div class="card card-body mb-4">
           @if (owner$ | async; as owner) {
-            <app-user [user]="owner"></app-user>
+            <app-user [user]="owner" />
           } @else {
             <span i18n>Unknown</span>
           }
@@ -587,7 +563,7 @@
                   <p>
                     <ng-container i18n>That address is banned</ng-container>
                     @if (ip.blacklist.byUser) {
-                      <app-user [user]="ip.blacklist.byUser"></app-user>
+                      <app-user [user]="ip.blacklist.byUser" />
                     }
                     @if (ip.blacklist.until) {
                       <ng-container i18n>until</ng-container> {{ ip.blacklist.until.toDate() | date }}

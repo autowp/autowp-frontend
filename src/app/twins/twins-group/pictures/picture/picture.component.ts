@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   CommentsType,
@@ -22,6 +22,7 @@ import {CommentsComponent} from '../../../../comments/comments/comments.componen
 import {PictureComponent} from '../../../../picture/picture.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-twins-group-picture',
   templateUrl: './picture.component.html',

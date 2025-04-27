@@ -1,4 +1,5 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {APICreateFeedbackRequest} from '@grpc/spec.pb';
@@ -9,6 +10,8 @@ import {ReCaptchaService} from '@services/recaptcha';
 import {InvalidParams, InvalidParamsPipe} from '@utils/invalid-params.pipe';
 import {MarkdownComponent} from '@utils/markdown/markdown.component';
 import {RecaptchaModule} from 'ng-recaptcha-2';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 import {extractFieldViolations, fieldViolations2InvalidParams} from '../grpc';
 import {ToastsService} from '../toasts/toasts.service';
@@ -16,7 +19,16 @@ import {ToastsService} from '../toasts/toasts.service';
 const CAPTCHA = 'captcha';
 
 @Component({
-  imports: [RouterLink, FormsModule, ReactiveFormsModule, RecaptchaModule, MarkdownComponent, InvalidParamsPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    RecaptchaModule,
+    MarkdownComponent,
+    InvalidParamsPipe,
+    AsyncPipe,
+  ],
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
 })
@@ -28,8 +40,14 @@ export class FeedbackComponent implements OnInit {
   readonly #toastService = inject(ToastsService);
   readonly #fb = inject(NonNullableFormBuilder);
 
-  protected recaptchaKey?: string;
-  protected invalidParams?: InvalidParams;
+  protected readonly recaptchaKey$: Observable<string> = this.#reCaptchaService.get$().pipe(
+    catchError((response: unknown) => {
+      this.#toastService.handleError(response);
+      return EMPTY;
+    }),
+    map((response) => response.publicKey),
+  );
+  protected readonly invalidParams = signal<InvalidParams>({});
 
   protected readonly form = this.#fb.group({
     captcha: '',
@@ -40,13 +58,6 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.removeControl(CAPTCHA as never);
-
-    this.#reCaptchaService.get$().subscribe({
-      error: (response: unknown) => this.#toastService.handleError(response),
-      next: (response) => {
-        this.recaptchaKey = response.publicKey;
-      },
-    });
 
     setTimeout(() => this.#pageEnv.set({pageId: 89}), 0);
   }
@@ -66,9 +77,9 @@ export class FeedbackComponent implements OnInit {
         error: (response: unknown) => {
           if (response instanceof GrpcStatusEvent) {
             const fieldViolations = extractFieldViolations(response);
-            this.invalidParams = fieldViolations2InvalidParams(fieldViolations);
+            this.invalidParams.set(fieldViolations2InvalidParams(fieldViolations));
 
-            if (this.invalidParams['captcha']) {
+            if (this.invalidParams()['captcha']) {
               if (!this.form.get(CAPTCHA)) {
                 const control = this.#fb.control('', Validators.required);
                 this.form.addControl(CAPTCHA, control);

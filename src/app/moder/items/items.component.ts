@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -87,6 +87,7 @@ function toPlainVehicleType(options: VehicleType[], deep: number): APIVehicleTyp
 const defaultOrder = ItemsRequest.Order.ID_DESC;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, FormsModule, NgbTypeahead, PaginatorComponent, AsyncPipe, CatalogueListItemComponent],
   selector: 'app-items',
   templateUrl: './items.component.html',
@@ -100,6 +101,7 @@ export class ModerItemsComponent implements OnInit {
   readonly #toastService = inject(ToastsService);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   protected name = '';
 
@@ -203,6 +205,7 @@ export class ModerItemsComponent implements OnInit {
       this.toYear = params.toYear;
       this.order = params.order;
       this.ancestorID = params.ancestorID;
+      this.#cdr.markForCheck();
     }),
     switchMap((params) => {
       let fields = new ItemFields({

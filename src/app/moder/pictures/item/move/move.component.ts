@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
@@ -53,6 +53,7 @@ interface SrcSelection {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PaginatorComponent, FormsModule, ReactiveFormsModule, ModerPictureMoveItemComponent, AsyncPipe],
   selector: 'app-moder-pictures-item-move',
   templateUrl: './move.component.html',
@@ -66,7 +67,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
 
-  protected conceptsExpanded = false;
+  protected readonly conceptsExpanded = signal(false);
 
   readonly #srcItemID$ = this.#route.queryParamMap.pipe(
     map((params) => parseInt(params.get('src_item_id') ?? '', 10)),
@@ -466,7 +467,7 @@ export class ModerPicturesItemMoveComponent implements OnInit {
   }
 
   protected toggleConcepts() {
-    this.conceptsExpanded = !this.conceptsExpanded;
+    this.conceptsExpanded.set(!this.conceptsExpanded);
     return false;
   }
 }

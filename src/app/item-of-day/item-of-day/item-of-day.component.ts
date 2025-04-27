@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIItem, APIUser, ItemOfDayPicture, ItemType} from '@grpc/spec.pb';
@@ -9,6 +9,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {UserComponent} from '../../user/user/user.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UserComponent, RouterLink, AsyncPipe],
   selector: 'app-item-of-day',
   styleUrls: ['./item-of-day.component.scss'],

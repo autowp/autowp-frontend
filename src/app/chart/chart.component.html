@@ -11,17 +11,19 @@
 </div>
 
 <div>
-  <div class="nav nav-pills">
-    @for (param of parameters; track param.id; let idx = $index) {
-      <a
-        [class.active]="idx === activeParameter"
-        class="nav-link"
-        href="#"
-        (click)="selectParam(idx)"
-        [textContent]="param.name"
-      ></a>
-    }
-  </div>
+  @if (parameters$ | async; as parameters) {
+    <div class="nav nav-pills">
+      @for (param of parameters; track param.id; let idx = $index) {
+        <a
+          [class.active]="idx === activeParameter()"
+          class="nav-link"
+          href="#"
+          (click)="selectParam(parameters, idx)"
+          [textContent]="param.name"
+        ></a>
+      }
+    </div>
+  }
   @if (chart.data.length) {
     <canvas
       baseChart

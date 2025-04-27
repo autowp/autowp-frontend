@@ -1,4 +1,5 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {AttrAttributeType, ChartDataRequest, ChartParameter} from '@grpc/spec.pb';
 import {AttrsClient} from '@grpc/spec.pbsc';
@@ -8,11 +9,14 @@ import {getAttrsTranslation} from '@utils/translations';
 import {ChartOptions} from 'chart.js';
 import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {ObjectTyped} from 'object-typed';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 import {ToastsService} from '../toasts/toasts.service';
 
 @Component({
-  imports: [RouterLink, BaseChartDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, BaseChartDirective, AsyncPipe],
   providers: [provideCharts(withDefaultRegisterables())],
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -22,8 +26,19 @@ export class ChartComponent implements OnInit {
   readonly #toastService = inject(ToastsService);
   readonly #attrsClient = inject(AttrsClient);
 
-  protected parameters: ChartParameter[] = [];
-  protected activeParameter = 0;
+  protected readonly parameters$: Observable<ChartParameter[]> = this.#attrsClient.getChartParameters(new Empty()).pipe(
+    catchError((response: unknown) => {
+      this.#toastService.handleError(response);
+      return EMPTY;
+    }),
+    map((response) =>
+      (response.parameters || []).map((parameter) => {
+        parameter.name = getAttrsTranslation(parameter.name);
+        return parameter;
+      }),
+    ),
+  );
+  protected readonly activeParameter = signal(0);
   protected readonly chartOptions: ChartOptions<'line'> = {
     responsive: true,
   };
@@ -67,15 +82,6 @@ export class ChartComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 1}), 0);
-
-    this.#attrsClient.getChartParameters(new Empty()).subscribe({
-      error: (response: unknown) => this.#toastService.handleError(response),
-      next: (response) => {
-        this.parameters = response.parameters || [];
-        this.parameters.forEach((parameter) => (parameter.name = getAttrsTranslation(parameter.name)));
-        this.selectParam(0);
-      },
-    });
   }
 
   private loadData(id: string) {
@@ -119,9 +125,9 @@ export class ChartComponent implements OnInit {
     });
   }
 
-  protected selectParam(number: number) {
-    this.activeParameter = number;
-    this.loadData(this.parameters[this.activeParameter].id);
+  protected selectParam(parameters: ChartParameter[], number: number) {
+    this.activeParameter.set(number);
+    this.loadData(parameters[this.activeParameter()].id);
 
     return false;
   }

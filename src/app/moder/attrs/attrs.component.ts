@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {PageEnvService} from '@services/page-env.service';
 import {EMPTY} from 'rxjs';
@@ -10,6 +10,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {ModerAttrsAttributeListComponent} from './attribute-list/attribute-list.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, ModerAttrsAttributeListComponent, AsyncPipe],
   selector: 'app-moder-attrs',
   templateUrl: './attrs.component.html',

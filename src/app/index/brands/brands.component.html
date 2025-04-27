@@ -6,7 +6,7 @@
 @if (result$ | async; as result) {
   <p class="index-brands">
     @for (brand of result.brands; track brand.id) {
-      <app-index-brands-brand [brand]="brand"></app-index-brands-brand>
+      <app-index-brands-brand [brand]="brand" />
     }
     @if (result.more > 0) {
       <ng-container i18n>… and</ng-container>&#xa0;<a

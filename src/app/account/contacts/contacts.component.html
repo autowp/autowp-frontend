@@ -23,7 +23,7 @@
           <div class="flex-grow-1">
             <button class="btn-close float-end" (click)="deleteContact(contact.user.id)"></button>
             <h4>
-              <app-user [user]="contact.user"></app-user>
+              <app-user [user]="contact.user" />
             </h4>
             @if (contact.user.lastOnline) {
               <p

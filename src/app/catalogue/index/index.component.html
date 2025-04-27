@@ -12,7 +12,7 @@
         }
         @if (brand.description) {
           <hr class="my-4" />
-          <app-markdown [markdown]="brand.description"></app-markdown>
+          <app-markdown [markdown]="brand.description" />
         }
       </div>
     </div>
@@ -176,7 +176,7 @@
         <div class="row">
           @for (item of chunk; track item) {
             <div class="col-sm-3">
-              <app-thumbnail [picture]="item.picture" [route]="item.route || []"></app-thumbnail>
+              <app-thumbnail [picture]="item.picture" [route]="item.route || []" />
             </div>
           }
         </div>

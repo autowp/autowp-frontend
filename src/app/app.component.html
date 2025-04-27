@@ -8,7 +8,7 @@
       <button
         class="navbar-toggler navbar-toggler-right"
         type="button"
-        (click)="isNavbarCollapsed = !isNavbarCollapsed"
+        (click)="isNavbarCollapsed.set(!isNavbarCollapsed())"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
@@ -22,7 +22,7 @@
         </svg>
       </a>
 
-      <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
+      <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed()">
         <ul class="navbar-nav me-auto mt-2 mt-lg-0">
           <li class="nav-item d-md-none d-lg-block">
             <a class="nav-link" routerLink="/twins" routerLinkActive="active" i18n>Twins</a>
@@ -151,15 +151,17 @@
               }
             </button>
             <div ngbDropdownMenu>
-              @for (lang of languages; track lang.code) {
-                <a
-                  class="dropdown-item"
-                  [href]="'//' + lang.hostname + urlPath"
-                  [class.active]="lang.code === language"
-                >
-                  <i [ngClass]="lang.flag" aria-hidden="true"></i>
-                  {{ lang.name }}
-                </a>
+              @if (urlPath$ | async; as urlPath) {
+                @for (lang of languages; track lang.code) {
+                  <a
+                    class="dropdown-item"
+                    [href]="'//' + lang.hostname + urlPath"
+                    [class.active]="lang.code === language"
+                  >
+                    <i [ngClass]="lang.flag" aria-hidden="true"></i>
+                    {{ lang.name }}
+                  </a>
+                }
               }
               <a
                 class="dropdown-item"
@@ -241,16 +243,18 @@ All images are posted for educational purposes.
 
 [Report copyright violation](mailto:autowp@yandex.ru)"
             i18n-markdown
-          ></app-markdown>
+          />
         </div>
       </div>
       <p class="language-picker">
-        @for (lang of languages; track lang.code) {
-          @if (lang.code !== language) {
-            <a [href]="'//' + lang.hostname + urlPath">
-              <i [ngClass]="lang.flag" aria-hidden="true"></i>
-              {{ lang.name }}
-            </a>
+        @if (urlPath$ | async; as urlPath) {
+          @for (lang of languages; track lang.code) {
+            @if (lang.code !== language) {
+              <a [href]="'//' + lang.hostname + urlPath">
+                <i [ngClass]="lang.flag" aria-hidden="true"></i>
+                {{ lang.name }}
+              </a>
+            }
           }
         }
         <a href="https://github.com/autowp/autowp-frontend/tree/master/src/locale" i18n="@@layout/language-contributing"

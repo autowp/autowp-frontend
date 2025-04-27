@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
 import {
@@ -24,6 +24,7 @@ import {CommentsFormComponent} from '../form/form.component';
 import {CommentsListComponent} from '../list/list.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommentsListComponent, PaginatorComponent, CommentsFormComponent, MarkdownComponent, AsyncPipe],
   selector: 'app-comments',
   templateUrl: './comments.component.html',

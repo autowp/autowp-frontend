@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {AutowpClient} from '@grpc/spec.pbsc';
 import {Empty} from '@ngx-grpc/well-known-types';
@@ -11,6 +11,7 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {InfoSpecRowComponent} from './row/row.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, InfoSpecRowComponent, AsyncPipe],
   selector: 'app-info-spec',
   templateUrl: './spec.component.html',

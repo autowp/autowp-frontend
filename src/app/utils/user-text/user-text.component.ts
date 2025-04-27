@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {APIUser, Picture, PictureFields, PictureListOptions, PicturesRequest} from '@grpc/spec.pb';
@@ -25,6 +25,7 @@ interface CommentTextLine {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UserComponent, RouterLink, AsyncPipe],
   selector: 'app-user-text',
   templateUrl: './user-text.component.html',

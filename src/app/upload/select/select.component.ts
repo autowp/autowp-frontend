@@ -1,5 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   APIItem,
@@ -19,8 +20,8 @@ import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {PageEnvService} from '@services/page-env.service';
 import {perspectiveIDLogotype, perspectiveIDMixed} from '@services/picture';
-import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {combineLatest, EMPTY, forkJoin, Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap} from 'rxjs/operators';
 
 import {chunk} from '../../chunk';
 import {PaginatorComponent} from '../../paginator/paginator/paginator.component';
@@ -28,7 +29,8 @@ import {ToastsService} from '../../toasts/toasts.service';
 import {UploadSelectTreeItemComponent} from './tree-item/tree-item.component';
 
 @Component({
-  imports: [FormsModule, RouterLink, PaginatorComponent, UploadSelectTreeItemComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, RouterLink, PaginatorComponent, UploadSelectTreeItemComponent, AsyncPipe, ReactiveFormsModule],
   selector: 'app-upload-select',
   templateUrl: './select.component.html',
 })
@@ -40,66 +42,57 @@ export class UploadSelectComponent implements OnInit {
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
 
-  protected brand: null | {
-    concepts: ItemParent[];
-    engines: ItemParent[];
-    item: APIItem;
-    vehicles: ItemParent[];
-  } = null;
-  protected brands: APIItem[][] = [];
-  protected paginator: Pages | undefined;
-  protected search = '';
-  protected readonly search$ = new BehaviorSubject<string>('');
-  protected loading = 0;
-  protected conceptsOpen = false;
+  protected readonly search = new FormControl<string>('', {nonNullable: true});
+  protected readonly loading = signal(false);
+  protected readonly conceptsOpen = signal(false);
 
-  protected onSearchInput() {
-    this.search$.next(this.search);
-  }
+  protected readonly data$: Observable<{
+    brand:
+      | undefined
+      | {
+          concepts: ItemParent[];
+          engines: ItemParent[];
+          item: APIItem;
+          vehicles: ItemParent[];
+        };
+    brands: APIItem[][] | undefined;
+    paginator: Pages | undefined;
+  }> = combineLatest([
+    this.search.valueChanges.pipe(
+      startWith(''),
+      map((value) => value.trim()),
+      distinctUntilChanged(),
+      debounceTime(50),
+    ),
+    this.#route.queryParamMap.pipe(
+      map((params) => ({
+        brandId: params.get('brand_id'),
+        page: parseInt(params.get('page') ?? '', 10),
+      })),
+    ),
+  ]).pipe(
+    map(([search, query]) => ({brandId: query.brandId, page: query.page, search})),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    tap(() => this.loading.set(true)),
+    switchMap((params) => {
+      const brandId = params.brandId;
+      const page = params.page;
+
+      return forkJoin([
+        brandId ? this.brandObservable$(brandId) : of(undefined),
+        brandId ? of(undefined) : this.brandsObservable$(page, params.search),
+      ]);
+    }),
+    map(([brand, brands]) => ({
+      brand,
+      brands: chunk(brands?.items ?? [], 6),
+      paginator: brands?.paginator,
+    })),
+    tap(() => this.loading.set(false)),
+  );
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 30}), 0);
-
-    combineLatest([
-      this.search$.pipe(
-        map((value) => value.trim()),
-        distinctUntilChanged(),
-        debounceTime(50),
-      ),
-      this.#route.queryParamMap.pipe(
-        map((params) => ({
-          brandId: params.get('brand_id'),
-          page: parseInt(params.get('page') ?? '', 10),
-        })),
-      ),
-    ])
-      .pipe(
-        map(([search, query]) => ({brandId: query.brandId, page: query.page, search})),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        tap(() => {
-          this.loading = 1;
-          this.brand = null;
-        }),
-        switchMap((params) => {
-          const brandId = params.brandId;
-          const page = params.page;
-
-          return forkJoin([
-            brandId ? this.brandObservable$(brandId) : of(null),
-            brandId ? of(null) : this.brandsObservable$(page, params.search),
-          ]);
-        }),
-        tap(() => (this.loading = 0)),
-      )
-      .subscribe(([brand, brands]) => {
-        if (brands) {
-          this.brands = chunk(brands.items ? brands.items : [], 6);
-          this.paginator = brands.paginator;
-        }
-        if (brand) {
-          this.brand = brand;
-        }
-      });
   }
 
   private brandsObservable$(page: number, search: string): Observable<APIItemList> {

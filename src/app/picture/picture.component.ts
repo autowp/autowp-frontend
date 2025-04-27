@@ -1,5 +1,14 @@
 import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
-import {Component, effect, inject, input, output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Router, RouterLink} from '@angular/router';
 import {
@@ -48,6 +57,7 @@ import {UserComponent} from '../user/user/user.component';
 import {PicturePaginatorComponent} from './paginator.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     ShareComponent,
@@ -81,6 +91,7 @@ export class PictureComponent {
   readonly #picturesClient = inject(PicturesClient);
   readonly #itemsClient = inject(ItemsClient);
   readonly #languageService = inject(LanguageService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   readonly prefix = input.required<string[]>();
   readonly galleryRoute = input.required<string[]>();
@@ -106,9 +117,9 @@ export class PictureComponent {
 
   protected readonly isModer$ = this.#auth.hasRole$(Role.MODER);
   protected readonly canEditSpecs$ = this.#auth.authenticated$;
-  protected showShareDialog = false;
-  protected location = location;
-  protected statusLoading = false;
+  protected readonly showShareDialog = signal(false);
+  protected readonly location = location;
+  protected readonly statusLoading = signal(false);
 
   protected readonly authenticated$ = this.#auth.authenticated$;
 
@@ -142,7 +153,7 @@ export class PictureComponent {
   }
 
   protected toggleShareDialog(): false {
-    this.showShareDialog = !this.showShareDialog;
+    this.showShareDialog.set(!this.showShareDialog());
     return false;
   }
 
@@ -162,6 +173,7 @@ export class PictureComponent {
         )
     ).subscribe(() => {
       picture.subscribed = value;
+      this.#cdr.markForCheck();
     });
   }
 
@@ -175,6 +187,7 @@ export class PictureComponent {
       )
       .subscribe((votes) => {
         picture.votes = votes;
+        this.#cdr.markForCheck();
       });
     return false;
   }
@@ -194,7 +207,7 @@ export class PictureComponent {
   }
 
   private setPictureStatus(picture: Picture, status: PictureStatus) {
-    this.statusLoading = true;
+    this.statusLoading.set(true);
     this.#picturesClient
       .setPictureStatus(new SetPictureStatusRequest({id: picture.id, status}))
       .pipe(
@@ -205,7 +218,7 @@ export class PictureComponent {
       )
       .subscribe({
         complete: () => {
-          this.statusLoading = false;
+          this.statusLoading.set(false);
         },
         next: () => {
           this.changed.emit(true);

@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   CanonicalRouteRequest,
@@ -21,6 +21,7 @@ import {CommentsComponent} from '../comments/comments/comments.component';
 import {PictureComponent} from './picture.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, CommentsComponent, AsyncPipe, PictureComponent],
   selector: 'app-picture-page',
   templateUrl: './picture-page.component.html',

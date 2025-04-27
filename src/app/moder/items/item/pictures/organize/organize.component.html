@@ -26,15 +26,16 @@
 @if (item$ | async; as item) {
   @if (newItem$ | async; as newItem) {
     @if (pictures$ | async; as pictures) {
-      <app-item-meta-form
-        class="mb-4"
-        [hidden]="loading > 0"
-        [item]="newItem"
-        (submitted)="submit(item, $event, pictures)"
-        [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
-        [invalidParams]="invalidParams"
-        [pictures]="pictures"
-      />
+      @if (!loading()) {
+        <app-item-meta-form
+          class="mb-4"
+          [item]="newItem"
+          (submitted)="submit(item, $event, pictures)"
+          [vehicleTypeIDs]="(vehicleTypeIDs$ | async) || []"
+          [invalidParams]="invalidParams()"
+          [pictures]="pictures"
+        />
+      }
     }
   }
 }

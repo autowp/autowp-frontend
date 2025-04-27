@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {
   Picture,
@@ -26,6 +26,7 @@ interface Crop {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   selector: 'app-moder-pictures-item-area',
   templateUrl: './area.component.html',
@@ -36,6 +37,7 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
   readonly #pageEnv = inject(PageEnvService);
   readonly #picturesClient = inject(PicturesClient);
   readonly #toastService = inject(ToastsService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   #id = '';
   #itemID = '';
@@ -166,6 +168,8 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
               ],
               trueSize: [this.picture.width, this.picture.height],
             });
+
+            this.#cdr.markForCheck();
           }
         },
       });
@@ -191,6 +195,7 @@ export class ModerPicturesItemAreaComponent implements OnDestroy, OnInit {
 
     this.aspect = pw + ':' + phRound;
     this.resolution = text;
+    this.#cdr.markForCheck();
   }
 
   protected saveCrop() {

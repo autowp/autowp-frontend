@@ -1,101 +1,101 @@
 <div class="page-header">
-  <h1>{{ pageName }}</h1>
+  <h1>{{ pageName() }}</h1>
 </div>
 
-@if (messages$ | async; as data) {
-  @if (data.paginator && data.paginator.totalItemCount) {
-    @if (folder === 'sent') {
-      <div class="mb-4">
-        <button class="btn btn-danger" (click)="clearFolder('sent')" i18n>Delete all sent messages</button>
-      </div>
+@if (folder$ | async; as folder) {
+  @if (messages$ | async; as data) {
+    @if (data.paginator && data.paginator.totalItemCount) {
+      @if (folder === 'sent') {
+        <div class="mb-4">
+          <button class="btn btn-danger" (click)="clearFolder('sent')" i18n>Delete all sent messages</button>
+        </div>
+      } @else if (folder === 'system') {
+        <div class="mb-4">
+          <button class="btn btn-danger" (click)="clearFolder('system')" i18n>Delete all system notifications</button>
+        </div>
+      }
     }
 
-    @if (folder === 'system') {
-      <div class="mb-4">
-        <button class="btn btn-danger" (click)="clearFolder('system')" i18n>Delete all system notifications</button>
-      </div>
-    }
-  }
-
-  <div class="comments">
-    @for (message of data.items; track message.message.id) {
-      <div class="message">
-        @if (message.message.authorId !== '0') {
-          @if (message.author$ | async; as author) {
+    <div class="comments">
+      @for (message of data.items; track message.message.id) {
+        <div class="message">
+          @if (message.message.authorId !== '0') {
+            @if (message.author$ | async; as author) {
+              <div>
+                <app-user [user]="author" />
+              </div>
+              <div class="photo">
+                @if (!author.deleted) {
+                  <a [routerLink]="author.route">
+                    @if (author.avatar) {
+                      <img alt="" [src]="author.avatar.src" class="rounded" loading="lazy" />
+                    }
+                    @if (author.gravatar && !author.avatar) {
+                      <img alt="" [src]="author.gravatar" class="rounded" loading="lazy" />
+                    }
+                  </a>
+                }
+              </div>
+            } @else {
+              <div></div>
+              <div class="photo">
+                <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
+              </div>
+            }
+          } @else {
             <div>
-              <app-user [user]="author"></app-user>
+              <span i18n>System notification</span>
             </div>
-            <div class="photo">
-              @if (!author.deleted) {
-                <a [routerLink]="author.route">
-                  @if (author.avatar) {
-                    <img alt="" [src]="author.avatar.src" class="rounded" loading="lazy" />
-                  }
-                  @if (author.gravatar && !author.avatar) {
-                    <img alt="" [src]="author.gravatar" class="rounded" loading="lazy" />
-                  }
+            <div class="photo"></div>
+          }
+          <div class="content">
+            <div class="text">
+              <app-user-text [text]="message.message.text" />
+            </div>
+            <div ngPreserveWhitespaces>
+              @if (message.message.isNew) {
+                <span class="badge text-bg-info text-dark" i18n>new</span>
+              }
+              @if (message.message.canDelete) {
+                <a href="#" class="float-end" (click)="deleteMessage(message.message.id)" ngPreserveWhitespaces>
+                  <i class="bi bi-trash" aria-hidden="true"></i>
+                  <ng-container i18n>delete</ng-container>
                 </a>
               }
+              @if (message.message.canReply) {
+                <span ngPreserveWhitespaces>
+                  <i class="bi bi-reply" aria-hidden="true"></i>
+                  <a href="#" (click)="openMessageForm(folder, message.message.authorId)" i18n>reply</a>
+                  &nbsp;
+                </span>
+              }
+              @if (message.message.allMessagesLink && message.message.dialogWithUserId !== '0') {
+                <span ngPreserveWhitespaces>
+                  <i class="bi bi-chat-text" aria-hidden="true"></i>
+                  <a
+                    routerLink="/account/messages"
+                    [queryParams]="{folder: 'dialog', user_id: message.message.dialogWithUserId}"
+                    i18n
+                    >entire dialog</a
+                  >
+                  <small>({{ message.message.dialogCount }})</small>
+                  &nbsp;
+                </span>
+              }
+              @if (message.message.date; as date) {
+                <app-past-time-indicator [date]="date.toDate()" />
+              }
             </div>
-          } @else {
-            <div></div>
-            <div class="photo">
-              <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
-            </div>
-          }
-        } @else {
-          <div>
-            <span i18n>System notification</span>
-          </div>
-          <div class="photo"></div>
-        }
-        <div class="content">
-          <div class="text">
-            <app-user-text [text]="message.message.text"></app-user-text>
-          </div>
-          <div ngPreserveWhitespaces>
-            @if (message.message.isNew) {
-              <span class="badge text-bg-info text-dark" i18n>new</span>
-            }
-            @if (message.message.canDelete) {
-              <a href="#" class="float-end" (click)="deleteMessage(message.message.id)" ngPreserveWhitespaces>
-                <i class="bi bi-trash" aria-hidden="true"></i>
-                <ng-container i18n>delete</ng-container>
-              </a>
-            }
-            @if (message.message.canReply) {
-              <span ngPreserveWhitespaces>
-                <i class="bi bi-reply" aria-hidden="true"></i>
-                <a href="#" (click)="openMessageForm(message.message.authorId)" i18n>reply</a>
-                &nbsp;
-              </span>
-            }
-            @if (message.message.allMessagesLink && message.message.dialogWithUserId !== '0') {
-              <span ngPreserveWhitespaces>
-                <i class="bi bi-chat-text" aria-hidden="true"></i>
-                <a
-                  routerLink="/account/messages"
-                  [queryParams]="{folder: 'dialog', user_id: message.message.dialogWithUserId}"
-                  i18n
-                  >entire dialog</a
-                >
-                <small>({{ message.message.dialogCount }})</small>
-                &nbsp;
-              </span>
-            }
-            @if (message.message.date) {
-              <app-past-time-indicator [date]="message.message.date.toDate()"></app-past-time-indicator>
-            }
           </div>
         </div>
-      </div>
-    } @empty {
-      <p i18n>No messages</p>
+      } @empty {
+        <p i18n>No messages</p>
+      }
+    </div>
+    @if (data.paginator) {
+      <app-paginator [data]="data.paginator" />
     }
-  </div>
-  @if (data.paginator) {
-    <app-paginator [data]="data.paginator" />
+  } @else {
+    <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
   }
-} @else {
-  <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
 }
