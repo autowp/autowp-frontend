@@ -2,16 +2,15 @@ import {NgStyle} from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  effect,
+  computed,
   ElementRef,
   HostListener,
   inject,
   input,
   signal,
 } from '@angular/core';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
 import {Picture, PictureItem} from '@grpc/spec.pb';
 import {NgMathPipesModule} from 'ngx-pipes';
@@ -80,56 +79,222 @@ function maxBounds(bounds: Dimension, max: Dimension): Dimension {
 })
 export class CarouselItemComponent implements AfterViewInit {
   readonly #el: ElementRef<HTMLElement> = inject(ElementRef);
-  private readonly sanitizer = inject(DomSanitizer);
-  readonly #cdr = inject(ChangeDetectorRef);
-
-  protected _item?: Picture;
-  protected areas: Area[] = [];
-  protected nameHtml: SafeHtml = '';
+  readonly #sanitizer = inject(DomSanitizer);
 
   readonly item = input.required<Picture>();
   readonly prefix = input.required<string[]>();
 
-  protected fullStyle: Record<string, number> = {};
-
-  protected cropStyle: Record<string, number> = {};
-
   protected readonly cropMode = signal(true);
+  protected readonly cropModeAvailable = computed(() => !!this.item().imageGallery);
   protected readonly fullLoading = signal(true);
   protected readonly cropLoading = signal(true);
 
-  constructor() {
-    effect(() => {
-      this._item = this.item();
-      // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
-      this.nameHtml = this.sanitizer.bypassSecurityTrustHtml(this._item.nameHtml);
-      this.areas = (this._item.pictureItems?.items || []).map((pictureItem) => ({
-        pictureItem,
-        styles: {},
-      }));
+  protected readonly nameHtml = computed(() => {
+    // eslint-disable-next-line sonarjs/no-angular-bypass-sanitization
+    return this.#sanitizer.bypassSecurityTrustHtml(this.item().nameHtml);
+  });
 
-      this.cropLoading.set(true);
-      this.fullLoading.set(true);
-      this.cropMode.set(!!this._item.imageGallery);
-      this.fixSize();
+  readonly #elSize = signal<Dimension>({height: 0, width: 0});
 
-      if (!this._item.imageGallery) {
-        this.cropLoading.set(false);
+  readonly #offsetBounds = computed<Bounds | undefined>(() => {
+    const item = this.item();
+    if (!item.image) {
+      return undefined;
+    }
+
+    const crop = item.imageGallery;
+    const refImage = crop && this.cropMode() ? crop : item.imageGalleryFull;
+
+    if (refImage) {
+      const cSize = this.#elSize();
+      if (cSize.width === 0 || cSize.height === 0) {
+        return undefined;
       }
 
-      if (!this._item.imageGalleryFull) {
-        this.fullLoading.set(false);
+      const bounds = maxBounds(
+        bound(cSize, {
+          height: refImage.height,
+          width: refImage.width,
+        }),
+        {
+          height: refImage.height,
+          width: refImage.width,
+        },
+      );
+      return boundCenter(cSize, bounds);
+    }
+
+    return undefined;
+  });
+
+  protected readonly cropStyle = computed<Record<string, number>>((): Record<string, number> => {
+    const item = this.item();
+    if (!item.image || !item.imageGallery) {
+      return {};
+    }
+
+    const full = item.imageGalleryFull;
+    const offsetBounds = this.#offsetBounds();
+    if (!offsetBounds) {
+      return {};
+    }
+
+    if (this.cropMode()) {
+      return {
+        'height.px': offsetBounds.height,
+        'left.px': offsetBounds.left,
+        'top.px': offsetBounds.top,
+        'width.px': offsetBounds.width,
+      };
+    }
+
+    if (full) {
+      const cSize = this.#elSize();
+      const ih = item.image.height;
+      const iw = item.image.width;
+      const bounds = maxBounds(
+        bound(cSize, {
+          height: full.height,
+          width: full.width,
+        }),
+        {
+          height: full.height,
+          width: full.width,
+        },
+      );
+      return {
+        'height.px': (bounds.height * item.image.cropHeight) / ih,
+        'left.px': offsetBounds.left + (item.image.cropLeft * bounds.width) / iw,
+        'top.px': offsetBounds.top + (item.image.cropTop * bounds.height) / ih,
+        'width.px': (bounds.width * item.image.cropWidth) / iw,
+      };
+    }
+
+    return {};
+  });
+
+  protected readonly fullStyle = computed<Record<string, number> | undefined>(
+    (): Record<string, number> | undefined => {
+      const item = this.item();
+      if (!item.image) {
+        return undefined;
       }
+
+      const crop = item.imageGallery;
+      const offsetBounds = this.#offsetBounds();
+      if (!offsetBounds) {
+        return undefined;
+      }
+
+      let refBounds: Bounds | undefined = undefined;
+
+      if (crop && this.cropMode()) {
+        const cSize = this.#elSize();
+        if (cSize.width <= 0 || cSize.height <= 0) {
+          return undefined;
+        }
+
+        const bounds = maxBounds(
+          bound(cSize, {
+            height: crop.height,
+            width: crop.width,
+          }),
+          {
+            height: crop.height,
+            width: crop.width,
+          },
+        );
+
+        const ih = item.image.height;
+        const iw = item.image.width;
+        const fullWidth = (bounds.width / item.image.cropWidth) * iw;
+        const fullHeight = (bounds.height / item.image.cropHeight) * ih;
+        refBounds = {
+          height: fullHeight,
+          left: offsetBounds.left - (item.image.cropLeft * fullWidth) / iw,
+          top: offsetBounds.top - (item.image.cropTop * fullHeight) / ih,
+          width: fullWidth,
+        };
+      } else if (item.imageGalleryFull) {
+        refBounds = offsetBounds;
+      }
+
+      if (!refBounds) {
+        return undefined;
+      }
+
+      return {
+        'height.px': refBounds.height,
+        'left.px': refBounds.left,
+        'top.px': refBounds.top,
+        'width.px': refBounds.width,
+      };
+    },
+  );
+
+  protected readonly areas = computed<Area[]>(() => {
+    const item = this.item(),
+      offsetBounds = this.#offsetBounds();
+
+    if (!item.image || !offsetBounds) {
+      return [];
+    }
+
+    let areaBounds = offsetBounds;
+    const ih = item.image.height;
+    const iw = item.image.width;
+    const crop = item.imageGallery;
+
+    if (crop && this.cropMode()) {
+      const cSize = this.#elSize();
+      const bounds = maxBounds(
+        bound(cSize, {
+          height: crop.height,
+          width: crop.width,
+        }),
+        {
+          height: crop.height,
+          width: crop.width,
+        },
+      );
+      const fullWidth = (bounds.width / item.image.cropWidth) * iw;
+      const fullHeight = (bounds.height / item.image.cropHeight) * ih;
+      areaBounds = {
+        height: fullHeight,
+        left: offsetBounds.left - (item.image.cropLeft * fullWidth) / iw,
+        top: offsetBounds.top - (item.image.cropTop * fullHeight) / ih,
+        width: fullWidth,
+      };
+    }
+
+    return (item.pictureItems?.items || []).map((pictureItem) => {
+      return {
+        pictureItem: pictureItem,
+        styles: {
+          'height.px': (pictureItem.cropHeight * areaBounds.height) / ih,
+          'left.px': areaBounds.left + (pictureItem.cropLeft * areaBounds.width) / iw,
+          'top.px': areaBounds.top + (pictureItem.cropTop * areaBounds.height) / ih,
+          'width.px': (pictureItem.cropWidth * areaBounds.width) / iw,
+        },
+      };
     });
-  }
-
-  @HostListener('window:resize', ['$event'])
-  protected onResize() {
-    this.fixSize();
-  }
+  });
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.fixSize(), 0);
+    this.onResize();
+  }
+
+  @HostListener('window:resize')
+  protected onResize() {
+    if (!this.#el) {
+      console.debug('this.el is undefined', this.#el);
+      return undefined;
+    }
+
+    this.#elSize.update(() => ({
+      height: this.#el.nativeElement.clientHeight || 0,
+      width: this.#el.nativeElement.clientWidth || 0,
+    }));
   }
 
   protected fullLoaded() {
@@ -141,132 +306,6 @@ export class CarouselItemComponent implements AfterViewInit {
   }
 
   protected toggleCrop() {
-    this.cropMode.set(!this.cropMode);
-    this.fixSize();
-  }
-
-  private fixSize() {
-    if (!this.#el) {
-      console.debug('this.el is undefined', this.#el);
-    }
-
-    if (!this._item || !this._item.image) {
-      return;
-    }
-
-    const w = this.#el.nativeElement.clientWidth || 0;
-    const h = this.#el.nativeElement.clientHeight || 0;
-
-    const cSize: Dimension = {
-      height: h,
-      width: w,
-    };
-
-    const full = this._item.imageGalleryFull;
-    const crop = this._item.imageGallery;
-
-    const ih = this._item.image.height;
-    const iw = this._item.image.width;
-
-    if (crop) {
-      if (this.cropMode()) {
-        const bounds = maxBounds(
-          bound(cSize, {
-            height: crop.height,
-            width: crop.width,
-          }),
-          {
-            height: crop.height,
-            width: crop.width,
-          },
-        );
-
-        const offsetBounds = boundCenter(cSize, bounds);
-        this.cropStyle = {
-          'height.px': offsetBounds.height,
-          'left.px': offsetBounds.left,
-          'top.px': offsetBounds.top,
-          'width.px': offsetBounds.width,
-        };
-        const fullWidth = (bounds.width / this._item.image.cropWidth) * iw;
-        const fullHeight = (bounds.height / this._item.image.cropHeight) * ih;
-        const imgFullBounds = {
-          height: fullHeight,
-          left: offsetBounds.left - (this._item.image.cropLeft * fullWidth) / iw,
-          top: offsetBounds.top - (this._item.image.cropTop * fullHeight) / ih,
-          width: fullWidth,
-        };
-        this.fullStyle = {
-          'height.px': imgFullBounds.height,
-          'left.px': imgFullBounds.left,
-          'top.px': imgFullBounds.top,
-          'width.px': imgFullBounds.width,
-        };
-
-        this.areasToBounds(imgFullBounds, iw, ih);
-      } else if (full) {
-        const bounds = maxBounds(
-          bound(cSize, {
-            height: full.height,
-            width: full.width,
-          }),
-          {
-            height: full.height,
-            width: full.width,
-          },
-        );
-        const offsetBounds = boundCenter(cSize, bounds);
-        this.fullStyle = {
-          'height.px': offsetBounds.height,
-          'left.px': offsetBounds.left,
-          'top.px': offsetBounds.top,
-          'width.px': offsetBounds.width,
-        };
-        this.cropStyle = {
-          'height.px': (bounds.height * this._item.image.cropHeight) / ih,
-          'left.px': offsetBounds.left + (this._item.image.cropLeft * bounds.width) / iw,
-          'top.px': offsetBounds.top + (this._item.image.cropTop * bounds.height) / ih,
-          'width.px': (bounds.width * this._item.image.cropWidth) / iw,
-        };
-
-        this.areasToBounds(offsetBounds, iw, ih);
-      }
-    } else if (full) {
-      const bounds = maxBounds(
-        bound(cSize, {
-          height: full.height,
-          width: full.width,
-        }),
-        {
-          height: full.height,
-          width: full.width,
-        },
-      );
-      const offsetBounds = boundCenter(cSize, bounds);
-      this.fullStyle = {
-        'height.px': offsetBounds.height,
-        'left.px': offsetBounds.left,
-        'top.px': offsetBounds.top,
-        'width.px': offsetBounds.width,
-      };
-
-      this.areasToBounds(offsetBounds, iw, ih);
-    }
-
-    this.#cdr.markForCheck();
-  }
-
-  private areasToBounds(offsetBounds: Bounds, iw: number, ih: number) {
-    if (this._item) {
-      this.areas.forEach((area) => {
-        area.styles = {
-          'height.px': (area.pictureItem.cropHeight * offsetBounds.height) / ih,
-          'left.px': offsetBounds.left + (area.pictureItem.cropLeft * offsetBounds.width) / iw,
-          'top.px': offsetBounds.top + (area.pictureItem.cropTop * offsetBounds.height) / ih,
-          'width.px': (area.pictureItem.cropWidth * offsetBounds.width) / iw,
-        };
-      });
-      this.#cdr.markForCheck();
-    }
+    this.cropMode.set(!this.cropMode());
   }
 }

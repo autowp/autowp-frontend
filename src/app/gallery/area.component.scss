@@ -5,7 +5,7 @@
 
 .area {
   position: absolute;
-  border: 1px solid transparent;
+  border: 2px dashed transparent;
 
   @include transition(
     0.6s ease-in-out width,

@@ -1,62 +1,64 @@
-@if (_item) {
-  @if (_item.imageGalleryFull) {
-    <img
-      alt=""
-      [src]="_item.imageGalleryFull.src"
-      [class.crop-mode]="cropMode()"
-      class="full"
-      [ngStyle]="fullStyle"
-      (load)="fullLoaded()"
-    />
+@if (item(); as item) {
+  @if (item.imageGalleryFull) {
+    @if (fullStyle(); as fullStyle) {
+      <img
+        alt=""
+        [src]="item.imageGalleryFull.src"
+        [class.crop-mode]="cropModeAvailable() && cropMode()"
+        class="full"
+        [ngStyle]="fullStyle"
+        (load)="fullLoaded()"
+      />
+    }
   }
-  @if (_item.imageGallery) {
+  @if (item.imageGallery) {
     <img
       alt=""
-      [src]="_item.imageGallery.src"
-      [class.crop-mode]="cropMode()"
+      [src]="item.imageGallery.src"
+      [class.crop-mode]="cropModeAvailable() && cropMode()"
       class="crop"
-      [ngStyle]="cropStyle"
+      [ngStyle]="cropStyle()"
       (load)="cropLoaded()"
     />
   }
-  @if (_item) {
-    @for (area of areas; track area) {
-      <app-gallery-carousel-item-area [area]="area.pictureItem" [styles]="area.styles" />
-    }
 
-    <div class="carousel-caption">
-      <h3 [innerHTML]="nameHtml"></h3>
-    </div>
+  @for (area of areas(); track area) {
+    <app-gallery-carousel-item-area [area]="area.pictureItem" [styles]="area.styles" />
+  }
 
-    @if (_item.image) {
-      <a class="download carousel-control" role="button" [href]="_item.image.src">
-        <i class="bi bi-download" aria-hidden="true"></i>
-        <div class="badge rounded-pill text-bg-info text-dark">{{ _item.image.filesize | bytes: 2 }}</div>
-      </a>
-    }
+  <div class="carousel-caption">
+    <h3 [innerHTML]="nameHtml()"></h3>
+  </div>
 
-    <a class="comments carousel-control" role="button" [routerLink]="prefix().concat([_item.identity])">
-      <i class="bi bi-chat-fill" aria-hidden="true"></i>
-      @if (_item.commentsCountTotal) {
-        <div class="badge rounded-pill text-bg-info text-dark">
-          {{ _item.commentsCountTotal - _item.commentsCountNew }}
-          @if (_item.commentsCountNew) {
-            <span>+{{ _item.commentsCountNew }}</span>
-          }
-        </div>
-      }
-    </a>
-
-    <a class="details carousel-control" role="button" [routerLink]="prefix().concat([_item.identity])">
-      <i class="bi bi-card-image" aria-hidden="true"></i>
+  @if (item.image) {
+    <a class="download carousel-control" role="button" [href]="item.image.src">
+      <i class="bi bi-download" aria-hidden="true"></i>
+      <div class="badge rounded-pill text-bg-info text-dark">{{ item.image.filesize | bytes: 2 }}</div>
     </a>
   }
-  @if (cropLoading() || fullLoading()) {
+
+  <a class="comments carousel-control" role="button" [routerLink]="prefix().concat([item.identity])">
+    <i class="bi bi-chat-fill" aria-hidden="true"></i>
+    @if (item.commentsCountTotal) {
+      <div class="badge rounded-pill text-bg-info text-dark">
+        {{ item.commentsCountTotal - item.commentsCountNew }}
+        @if (item.commentsCountNew) {
+          <span>+{{ item.commentsCountNew }}</span>
+        }
+      </div>
+    }
+  </a>
+
+  <a class="details carousel-control" role="button" [routerLink]="prefix().concat([item.identity])">
+    <i class="bi bi-card-image" aria-hidden="true"></i>
+  </a>
+
+  @if ((item.imageGallery && cropLoading()) || (item.imageGalleryFull && fullLoading())) {
     <div class="loading-icon">
       <div class="spinner-border" role="status"><span class="visually-hidden" i18n>Loading…</span></div>
     </div>
   }
-  @if (_item && _item.imageGallery && !cropLoading() && !fullLoading()) {
+  @if (item.imageGallery && !cropLoading() && !fullLoading()) {
     <span class="carousel-control-full" (click)="toggleCrop()" (keyup.enter)="toggleCrop()" tabindex="0"
       ><i class="bi bi-arrows-fullscreen" aria-hidden="true"></i
     ></span>
