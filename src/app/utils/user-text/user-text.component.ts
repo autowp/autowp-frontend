@@ -202,7 +202,7 @@ export class UserTextComponent {
       commentsCount: true,
       moderVote: true,
       nameText: true,
-      thumb: true,
+      thumbMedium: true,
       views: true,
       votes: true,
     });

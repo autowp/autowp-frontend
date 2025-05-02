@@ -307,6 +307,10 @@ img.avatar {
 .thumbnail-inline {
   display: inline-block;
   margin-bottom: 0;
+
+  img {
+    max-width: 160px;
+  }
 }
 
 .nav-tree .nav .nav {

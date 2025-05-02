@@ -135,7 +135,7 @@ export class ModerPicturesItemComponent {
             dfDistance: new DfDistanceRequest({
               fields: new DfDistanceFields({
                 dstPicture: new PicturesRequest({
-                  fields: new PictureFields({thumb: true}),
+                  fields: new PictureFields({thumbMedium: true}),
                 }),
               }),
               limit: 1,
@@ -170,7 +170,7 @@ export class ModerPicturesItemComponent {
             rights: true,
             siblings: new PicturesRequest({fields: new PictureFields({nameText: true})}),
             specialName: true,
-            thumb: true,
+            thumbMedium: true,
             views: true,
           }),
           language: this.#languageService.language,

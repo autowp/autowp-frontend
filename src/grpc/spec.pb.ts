@@ -25174,7 +25174,6 @@ export class PictureFields implements GrpcMessage {
     _instance.votes = _instance.votes || false;
     _instance.commentsCount = _instance.commentsCount || false;
     _instance.moderVote = _instance.moderVote || false;
-    _instance.thumb = _instance.thumb || false;
     _instance.path = _instance.path || undefined;
     _instance.pictureItem = _instance.pictureItem || undefined;
     _instance.imageGalleryFull = _instance.imageGalleryFull || false;
@@ -25235,9 +25234,6 @@ export class PictureFields implements GrpcMessage {
           break;
         case 8:
           _instance.moderVote = _reader.readBool();
-          break;
-        case 9:
-          _instance.thumb = _reader.readBool();
           break;
         case 10:
           _instance.path = new PicturePathRequest();
@@ -25368,9 +25364,6 @@ export class PictureFields implements GrpcMessage {
     if (_instance.moderVote) {
       _writer.writeBool(8, _instance.moderVote);
     }
-    if (_instance.thumb) {
-      _writer.writeBool(9, _instance.thumb);
-    }
     if (_instance.path) {
       _writer.writeMessage(
         10,
@@ -25467,7 +25460,6 @@ export class PictureFields implements GrpcMessage {
   private _votes: boolean;
   private _commentsCount: boolean;
   private _moderVote: boolean;
-  private _thumb: boolean;
   private _path?: PicturePathRequest;
   private _pictureItem?: PictureItemsRequest;
   private _imageGalleryFull: boolean;
@@ -25503,7 +25495,6 @@ export class PictureFields implements GrpcMessage {
     this.votes = _value.votes;
     this.commentsCount = _value.commentsCount;
     this.moderVote = _value.moderVote;
-    this.thumb = _value.thumb;
     this.path = _value.path ? new PicturePathRequest(_value.path) : undefined;
     this.pictureItem = _value.pictureItem
       ? new PictureItemsRequest(_value.pictureItem)
@@ -25590,12 +25581,6 @@ export class PictureFields implements GrpcMessage {
   }
   set moderVote(value: boolean) {
     this._moderVote = value;
-  }
-  get thumb(): boolean {
-    return this._thumb;
-  }
-  set thumb(value: boolean) {
-    this._thumb = value;
   }
   get path(): PicturePathRequest | undefined {
     return this._path;
@@ -25736,7 +25721,6 @@ export class PictureFields implements GrpcMessage {
       votes: this.votes,
       commentsCount: this.commentsCount,
       moderVote: this.moderVote,
-      thumb: this.thumb,
       path: this.path ? this.path.toObject() : undefined,
       pictureItem: this.pictureItem ? this.pictureItem.toObject() : undefined,
       imageGalleryFull: this.imageGalleryFull,
@@ -25787,7 +25771,6 @@ export class PictureFields implements GrpcMessage {
       votes: this.votes,
       commentsCount: this.commentsCount,
       moderVote: this.moderVote,
-      thumb: this.thumb,
       path: this.path ? this.path.toProtobufJSON(options) : null,
       pictureItem: this.pictureItem
         ? this.pictureItem.toProtobufJSON(options)
@@ -25832,7 +25815,6 @@ export module PictureFields {
     votes: boolean;
     commentsCount: boolean;
     moderVote: boolean;
-    thumb: boolean;
     path?: PicturePathRequest.AsObject;
     pictureItem?: PictureItemsRequest.AsObject;
     imageGalleryFull: boolean;
@@ -25867,7 +25849,6 @@ export module PictureFields {
     votes: boolean;
     commentsCount: boolean;
     moderVote: boolean;
-    thumb: boolean;
     path: PicturePathRequest.AsProtobufJSON | null;
     pictureItem: PictureItemsRequest.AsProtobufJSON | null;
     imageGalleryFull: boolean;
@@ -40421,7 +40402,6 @@ export class Picture implements GrpcMessage {
     _instance.commentsCountNew = _instance.commentsCountNew || 0;
     _instance.moderVoteVote = _instance.moderVoteVote || 0;
     _instance.moderVoteCount = _instance.moderVoteCount || 0;
-    _instance.thumb = _instance.thumb || undefined;
     _instance.path = _instance.path || [];
     _instance.pictureItems = _instance.pictureItems || undefined;
     _instance.imageGallery = _instance.imageGallery || undefined;
@@ -40546,13 +40526,6 @@ export class Picture implements GrpcMessage {
           break;
         case 21:
           _instance.moderVoteCount = _reader.readInt32();
-          break;
-        case 22:
-          _instance.thumb = new APIImage();
-          _reader.readMessage(
-            _instance.thumb,
-            APIImage.deserializeBinaryFromReader
-          );
           break;
         case 23:
           const messageInitializer23 = new PathTreePictureItem();
@@ -40779,13 +40752,6 @@ export class Picture implements GrpcMessage {
     if (_instance.moderVoteCount) {
       _writer.writeInt32(21, _instance.moderVoteCount);
     }
-    if (_instance.thumb) {
-      _writer.writeMessage(
-        22,
-        _instance.thumb as any,
-        APIImage.serializeBinaryToWriter
-      );
-    }
     if (_instance.path && _instance.path.length) {
       _writer.writeRepeatedMessage(
         23,
@@ -40934,7 +40900,6 @@ export class Picture implements GrpcMessage {
   private _commentsCountNew: number;
   private _moderVoteVote: number;
   private _moderVoteCount: number;
-  private _thumb?: APIImage;
   private _path?: PathTreePictureItem[];
   private _pictureItems?: PictureItems;
   private _imageGallery?: APIImage;
@@ -40996,7 +40961,6 @@ export class Picture implements GrpcMessage {
     this.commentsCountNew = _value.commentsCountNew;
     this.moderVoteVote = _value.moderVoteVote;
     this.moderVoteCount = _value.moderVoteCount;
-    this.thumb = _value.thumb ? new APIImage(_value.thumb) : undefined;
     this.path = (_value.path || []).map(m => new PathTreePictureItem(m));
     this.pictureItems = _value.pictureItems
       ? new PictureItems(_value.pictureItems)
@@ -41176,12 +41140,6 @@ export class Picture implements GrpcMessage {
   }
   set moderVoteCount(value: number) {
     this._moderVoteCount = value;
-  }
-  get thumb(): APIImage | undefined {
-    return this._thumb;
-  }
-  set thumb(value: APIImage | undefined) {
-    this._thumb = value;
   }
   get path(): PathTreePictureItem[] | undefined {
     return this._path;
@@ -41365,7 +41323,6 @@ export class Picture implements GrpcMessage {
       commentsCountNew: this.commentsCountNew,
       moderVoteVote: this.moderVoteVote,
       moderVoteCount: this.moderVoteCount,
-      thumb: this.thumb ? this.thumb.toObject() : undefined,
       path: (this.path || []).map(m => m.toObject()),
       pictureItems: this.pictureItems
         ? this.pictureItems.toObject()
@@ -41449,7 +41406,6 @@ export class Picture implements GrpcMessage {
       commentsCountNew: this.commentsCountNew,
       moderVoteVote: this.moderVoteVote,
       moderVoteCount: this.moderVoteCount,
-      thumb: this.thumb ? this.thumb.toProtobufJSON(options) : null,
       path: (this.path || []).map(m => m.toProtobufJSON(options)),
       pictureItems: this.pictureItems
         ? this.pictureItems.toProtobufJSON(options)
@@ -41518,7 +41474,6 @@ export module Picture {
     commentsCountNew: number;
     moderVoteVote: number;
     moderVoteCount: number;
-    thumb?: APIImage.AsObject;
     path?: PathTreePictureItem.AsObject[];
     pictureItems?: PictureItems.AsObject;
     imageGallery?: APIImage.AsObject;
@@ -41571,7 +41526,6 @@ export module Picture {
     commentsCountNew: number;
     moderVoteVote: number;
     moderVoteCount: number;
-    thumb: APIImage.AsProtobufJSON | null;
     path: PathTreePictureItem.AsProtobufJSON[] | null;
     pictureItems: PictureItems.AsProtobufJSON | null;
     imageGallery: APIImage.AsProtobufJSON | null;

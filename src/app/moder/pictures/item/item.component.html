@@ -59,8 +59,8 @@
   }
   <div class="row mb-4">
     <div class="col-md-2">
-      @if (picture.thumb) {
-        <img alt="" [src]="picture.thumb.src" class="rounded border border-light w-100" />
+      @if (picture.thumbMedium) {
+        <img alt="" [src]="picture.thumbMedium.src" class="rounded border border-light w-100" />
       }
     </div>
     <div class="col-md-6">
@@ -536,7 +536,7 @@
               </p>
               <p>
                 <a [routerLink]="['/moder/pictures', dfDistance.dstPictureId]">
-                  <img alt="" [src]="dfDistance.dstPicture?.thumb?.src" class="rounded border border-light" />
+                  <img alt="" [src]="dfDistance.dstPicture?.thumbMedium?.src" class="rounded border border-light" />
                 </a>
               </p>
               <button (click)="cancelSimilar(dfDistance)" class="btn btn-warning">That is not similar</button>
