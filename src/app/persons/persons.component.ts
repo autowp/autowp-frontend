@@ -61,53 +61,56 @@ export class PersonsComponent implements OnInit {
       if (authors) {
         typeId = PictureItemType.PICTURE_ITEM_AUTHOR;
       }
-      return this.#itemsClient.list(
-        new ItemsRequest({
-          fields: new ItemFields({
-            description: true,
-            hasText: true,
-            nameDefault: true,
-            nameHtml: true,
-            previewPictures: new PreviewPicturesRequest({
-              pictures: new PicturesRequest({
-                options: new PictureListOptions({
-                  pictureItem: new PictureItemListOptions({typeId}),
-                  status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+      return this.#itemsClient
+        .list(
+          new ItemsRequest({
+            fields: new ItemFields({
+              description: true,
+              hasText: true,
+              nameDefault: true,
+              nameHtml: true,
+              previewPictures: new PreviewPicturesRequest({
+                pictures: new PicturesRequest({
+                  options: new PictureListOptions({
+                    pictureItem: new PictureItemListOptions({typeId}),
+                    status: PictureStatus.PICTURE_STATUS_ACCEPTED,
+                  }),
                 }),
               }),
             }),
-          }),
-          language: this.#languageService.language,
-          limit: 10,
-          options: new ItemListOptions({
-            descendant: new ItemParentCacheListOptions({
-              pictureItemsByItemId: new PictureItemListOptions({
-                pictures: new PictureListOptions({status: PictureStatus.PICTURE_STATUS_ACCEPTED}),
-                typeId,
+            language: this.#languageService.language,
+            limit: 10,
+            options: new ItemListOptions({
+              descendant: new ItemParentCacheListOptions({
+                pictureItemsByItemId: new PictureItemListOptions({
+                  pictures: new PictureListOptions({status: PictureStatus.PICTURE_STATUS_ACCEPTED}),
+                  typeId,
+                }),
               }),
+              typeId: ItemType.ITEM_TYPE_PERSON,
             }),
-            typeId: ItemType.ITEM_TYPE_PERSON,
+            order: ItemsRequest.Order.NAME,
+            page,
           }),
-          order: ItemsRequest.Order.NAME,
-          page,
-        }),
-      );
+        )
+        .pipe(
+          catchError((error: unknown) => {
+            this.#toastService.handleError(error);
+            return EMPTY;
+          }),
+          map((response) => ({
+            items: this.prepareItems(response.items || [], authors),
+            paginator: response.paginator,
+          })),
+        );
     }),
-    catchError((error: unknown) => {
-      this.#toastService.handleError(error);
-      return EMPTY;
-    }),
-    map((response) => ({
-      items: this.prepareItems(response.items || []),
-      paginator: response.paginator,
-    })),
   );
 
   ngOnInit(): void {
     setTimeout(() => this.#pageEnv.set({pageId: 214}), 0);
   }
 
-  private prepareItems(items: APIItem[]): CatalogueListItem[] {
+  private prepareItems(items: APIItem[], authors: boolean): CatalogueListItem[] {
     return items.map((item): CatalogueListItem => {
       const itemRouterLink = ['/persons'];
       itemRouterLink.push(item.id);
@@ -119,7 +122,11 @@ export class PersonsComponent implements OnInit {
         let routerLink: string[] = [];
         if (picture.picture) {
           thumb = largeFormat && idx == 0 ? picture.picture.thumbLarge : picture.picture.thumbMedium;
-          routerLink = itemRouterLink.concat([picture.picture.identity]);
+          if (authors) {
+            routerLink = itemRouterLink.concat(['author', picture.picture.identity]);
+          } else {
+            routerLink = itemRouterLink.concat([picture.picture.identity]);
+          }
         }
         return {picture: picture.picture || null, routerLink, thumb};
       });
