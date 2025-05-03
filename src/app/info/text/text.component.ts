@@ -1,12 +1,12 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIGetTextRequest, APIUser} from '@grpc/spec.pb';
 import {TextClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
 import * as JsDiff from 'diff';
-import {combineLatest, EMPTY, Observable, of} from 'rxjs';
+import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
@@ -37,7 +37,22 @@ interface InfoText {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, UserComponent, AsyncPipe],
+  imports: [],
+  selector: 'app-info-text-diff',
+  template:
+    `<pre class="diff">@for (i of diff(); track i) {` +
+    `@if (i.removed) {<del>{{i.value}}</del>}` +
+    `@if (i.added) {<ins>{{i.value}}</ins>}` +
+    `@if (!i.added && !i.removed) {{{i.value}}}` +
+    `}</pre>`,
+})
+export class InfoTextDiffComponent {
+  readonly diff = input.required<Diff[]>();
+}
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, UserComponent, AsyncPipe, InfoTextDiffComponent],
   selector: 'app-info-text',
   templateUrl: './text.component.html',
 })
@@ -78,7 +93,7 @@ export class InfoTextComponent implements OnInit {
         ? {
             revision: response.current.revision,
             text: response.current.text,
-            user$: response.current.userId ? this.#userService.getUser$(response.current.userId) : of(null),
+            user$: this.#userService.getUser$(response.current.userId),
           }
         : null,
       diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text ?? '') as Diff[],
@@ -93,7 +108,7 @@ export class InfoTextComponent implements OnInit {
           ? {
               revision: response.prev.revision,
               text: response.prev.text,
-              user$: response.prev.userId ? this.#userService.getUser$(response.prev.userId) : of(null),
+              user$: this.#userService.getUser$(response.prev.userId),
             }
           : null,
     })),

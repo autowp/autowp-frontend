@@ -32,9 +32,7 @@
           <h3>
             <ng-container i18n>Revision {{ data.prev.revision }}</ng-container>
             @if (data.prev.user$ | async; as user) {
-              <small>
-                <app-user [user]="user" />
-              </small>
+              <small><app-user [user]="user" /></small>
             }
           </h3>
         }
@@ -48,20 +46,10 @@
         <h3>
           <ng-container i18n>Revision {{ data.current.revision }}</ng-container>
           @if (data.current.user$ | async; as user) {
-            <small>
-              <app-user [user]="user" />
-            </small>
+            <small><app-user [user]="user" /></small>
           }
         </h3>
-        <pre class="diff">@for (i of data.diff; track i) {
-          @if (i.removed) {
-            <del [textContent]="i.value"></del>
-            }@if (i.added) {
-            <ins [textContent]="i.value"></ins>
-            }@if (!i.added && !i.removed) {
-            {{i.value}}
-          }
-        }</pre>
+        <app-info-text-diff [diff]="data.diff" />
       </div>
     }
   </div>
