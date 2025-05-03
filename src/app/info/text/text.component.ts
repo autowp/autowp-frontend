@@ -1,22 +1,16 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {APIGetTextRequest, APIUser} from '@grpc/spec.pb';
 import {TextClient} from '@grpc/spec.pbsc';
 import {PageEnvService} from '@services/page-env.service';
 import {UserService} from '@services/user';
-import * as JsDiff from 'diff';
+import {DiffEditorComponent, DiffEditorModel} from 'ngx-monaco-editor-v2';
 import {combineLatest, EMPTY, Observable} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 
 import {ToastsService} from '../../toasts/toasts.service';
 import {UserComponent} from '../../user/user/user.component';
-
-interface Diff {
-  added: boolean;
-  removed: boolean;
-  value: string;
-}
 
 interface InfoText {
   current: null | {
@@ -24,7 +18,7 @@ interface InfoText {
     text: string;
     user$: Observable<APIUser | null>;
   };
-  diff: Diff[];
+  currentModel: DiffEditorModel;
   next: null | {
     revision: string;
   };
@@ -33,26 +27,12 @@ interface InfoText {
     text: string;
     user$: Observable<APIUser | null>;
   };
+  prevModel: DiffEditorModel;
 }
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
-  selector: 'app-info-text-diff',
-  template:
-    `<pre class="diff">@for (i of diff(); track i) {` +
-    `@if (i.removed) {<del>{{i.value}}</del>}` +
-    `@if (i.added) {<ins>{{i.value}}</ins>}` +
-    `@if (!i.added && !i.removed) {{{i.value}}}` +
-    `}</pre>`,
-})
-export class InfoTextDiffComponent {
-  readonly diff = input.required<Diff[]>();
-}
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, UserComponent, AsyncPipe, InfoTextDiffComponent],
+  imports: [RouterLink, UserComponent, AsyncPipe, DiffEditorComponent],
   selector: 'app-info-text',
   templateUrl: './text.component.html',
 })
@@ -62,6 +42,12 @@ export class InfoTextComponent implements OnInit {
   readonly #pageEnv = inject(PageEnvService);
   readonly #toastService = inject(ToastsService);
   readonly #textClient = inject(TextClient);
+
+  protected readonly options = {
+    originalEditable: false,
+    readOnly: true,
+    theme: 'vs-dark',
+  };
 
   readonly #id$ = this.#route.paramMap.pipe(
     map((params) => params.get('id')),
@@ -96,7 +82,10 @@ export class InfoTextComponent implements OnInit {
             user$: this.#userService.getUser$(response.current.userId),
           }
         : null,
-      diff: JsDiff.diffChars(response.prev?.text ? response.prev.text : '', response.current?.text ?? '') as Diff[],
+      currentModel: {
+        code: response.current?.text ?? '',
+        language: 'text/markdown',
+      },
       next:
         response.next && response.next.revision !== '0'
           ? {
@@ -111,6 +100,10 @@ export class InfoTextComponent implements OnInit {
               user$: this.#userService.getUser$(response.prev.userId),
             }
           : null,
+      prevModel: {
+        code: response.prev?.text || '',
+        language: 'text/markdown',
+      },
     })),
   );
 

@@ -28,6 +28,7 @@ import {UserService} from '@services/user';
 import {VehicleTypeService} from '@services/vehicle-type';
 import {Angulartics2Module} from 'angulartics2';
 import {AutoRefreshTokenService, provideKeycloak, UserActivityService, withAutoRefreshToken} from 'keycloak-angular';
+import {provideMonacoEditor} from 'ngx-monaco-editor-v2';
 import {NgPipesModule} from 'ngx-pipes';
 
 import {routes} from './app.routes';
@@ -38,6 +39,7 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideMonacoEditor(),
     importProvidersFrom(
       BrowserModule,
       FormsModule,
