@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, input, output, signal} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {
   ItemFields,
   ItemListOptions,
@@ -13,7 +14,7 @@ import {
 import {ItemsClient} from '@grpc/spec.pbsc';
 import {LanguageService} from '@services/language';
 import {EMPTY, Observable} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 import {ToastsService} from '../../../../../toasts/toasts.service';
 
@@ -34,36 +35,37 @@ export class CarsSelectEngineTreeItemComponent {
 
   protected readonly open = signal(false);
   protected readonly loading = signal(false);
-  protected readonly childs$: Observable<ItemParent[]> = this.#itemsClient
-    .getItemParents(
-      new ItemParentsRequest({
-        fields: new ItemParentFields({
-          item: new ItemFields({
-            childsCount: true,
-            nameHtml: true,
+  protected readonly childs$: Observable<ItemParent[]> = toObservable(this.item).pipe(
+    switchMap((item) =>
+      this.#itemsClient.getItemParents(
+        new ItemParentsRequest({
+          fields: new ItemParentFields({
+            item: new ItemFields({
+              childsCount: true,
+              nameHtml: true,
+            }),
           }),
-        }),
-        language: this.#languageService.language,
-        limit: 500,
-        options: new ItemParentListOptions({
-          item: new ItemListOptions({
-            typeId: ItemType.ITEM_TYPE_ENGINE,
+          language: this.#languageService.language,
+          limit: 500,
+          options: new ItemParentListOptions({
+            item: new ItemListOptions({
+              typeId: ItemType.ITEM_TYPE_ENGINE,
+            }),
+            parentId: item.itemId,
           }),
-          parentId: this.item().itemId,
+          order: ItemParentsRequest.Order.AUTO,
         }),
-        order: ItemParentsRequest.Order.AUTO,
-      }),
-    )
-    .pipe(
-      catchError((error: unknown) => {
-        this.#toastService.handleError(error);
-        this.loading.set(false);
+      ),
+    ),
+    catchError((error: unknown) => {
+      this.#toastService.handleError(error);
+      this.loading.set(false);
 
-        return EMPTY;
-      }),
-      tap(() => this.loading.set(false)),
-      map((response) => response.items || []),
-    );
+      return EMPTY;
+    }),
+    tap(() => this.loading.set(false)),
+    map((response) => response.items || []),
+  );
 
   protected selectEngine(engineId: string) {
     this.selected.emit(engineId);
