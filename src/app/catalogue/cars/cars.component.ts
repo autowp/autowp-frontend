@@ -159,6 +159,8 @@ export class CatalogueCarsComponent {
           new ItemsRequest({
             fields: new ItemFields({
               acceptedPicturesCount: true,
+              hasSpecs: true,
+              hasChildSpecs: true,
               canEditSpecs: true,
               categories: new ItemsRequest({
                 fields: new ItemFields({nameHtml: true}),
@@ -243,7 +245,7 @@ export class CatalogueCarsComponent {
                 },
                 produced: item.produced?.value,
                 producedExactly: item.producedExactly,
-                specsRouterLink: null,
+                specsRouterLink: item.route && (item.hasSpecs || item.hasChildSpecs) ? item.route.concat(['specifications']) : null,
               };
             });
 
