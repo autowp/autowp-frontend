@@ -843,6 +843,11 @@ export module QuotaFailure {
     static refineValues(_instance: Violation) {
       _instance.subject = _instance.subject || '';
       _instance.description = _instance.description || '';
+      _instance.apiService = _instance.apiService || '';
+      _instance.quotaMetric = _instance.quotaMetric || '';
+      _instance.quotaId = _instance.quotaId || '';
+      _instance.quotaDimensions = _instance.quotaDimensions || {};
+      _instance.quotaValue = _instance.quotaValue || '0';
     }
 
     /**
@@ -863,6 +868,31 @@ export module QuotaFailure {
             break;
           case 2:
             _instance.description = _reader.readString();
+            break;
+          case 3:
+            _instance.apiService = _reader.readString();
+            break;
+          case 4:
+            _instance.quotaMetric = _reader.readString();
+            break;
+          case 5:
+            _instance.quotaId = _reader.readString();
+            break;
+          case 6:
+            const msg_6 = {} as any;
+            _reader.readMessage(
+              msg_6,
+              QuotaFailure.Violation.QuotaDimensionsEntry
+                .deserializeBinaryFromReader
+            );
+            _instance.quotaDimensions = _instance.quotaDimensions || {};
+            _instance.quotaDimensions[msg_6.key] = msg_6.value;
+            break;
+          case 7:
+            _instance.quotaValue = _reader.readInt64String();
+            break;
+          case 8:
+            _instance.futureQuotaValue = _reader.readInt64String();
             break;
           default:
             _reader.skipField();
@@ -887,10 +917,52 @@ export module QuotaFailure {
       if (_instance.description) {
         _writer.writeString(2, _instance.description);
       }
+      if (_instance.apiService) {
+        _writer.writeString(3, _instance.apiService);
+      }
+      if (_instance.quotaMetric) {
+        _writer.writeString(4, _instance.quotaMetric);
+      }
+      if (_instance.quotaId) {
+        _writer.writeString(5, _instance.quotaId);
+      }
+      if (!!_instance.quotaDimensions) {
+        const keys_6 = Object.keys(_instance.quotaDimensions as any);
+
+        if (keys_6.length) {
+          const repeated_6 = keys_6
+            .map(key => ({
+              key: key,
+              value: (_instance.quotaDimensions as any)[key]
+            }))
+            .reduce((r, v) => [...r, v], [] as any[]);
+
+          _writer.writeRepeatedMessage(
+            6,
+            repeated_6,
+            QuotaFailure.Violation.QuotaDimensionsEntry.serializeBinaryToWriter
+          );
+        }
+      }
+      if (_instance.quotaValue) {
+        _writer.writeInt64String(7, _instance.quotaValue);
+      }
+      if (
+        _instance.futureQuotaValue !== undefined &&
+        _instance.futureQuotaValue !== null
+      ) {
+        _writer.writeInt64String(8, _instance.futureQuotaValue);
+      }
     }
 
     private _subject: string;
     private _description: string;
+    private _apiService: string;
+    private _quotaMetric: string;
+    private _quotaId: string;
+    private _quotaDimensions: { [prop: string]: string };
+    private _quotaValue: string;
+    private _futureQuotaValue?: string;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -900,6 +972,17 @@ export module QuotaFailure {
       _value = _value || {};
       this.subject = _value.subject;
       this.description = _value.description;
+      this.apiService = _value.apiService;
+      this.quotaMetric = _value.quotaMetric;
+      this.quotaId = _value.quotaId;
+      (this.quotaDimensions = _value!.quotaDimensions
+        ? Object.keys(_value!.quotaDimensions).reduce(
+            (r, k) => ({ ...r, [k]: _value!.quotaDimensions![k] }),
+            {}
+          )
+        : {}),
+        (this.quotaValue = _value.quotaValue);
+      this.futureQuotaValue = _value.futureQuotaValue;
       Violation.refineValues(this);
     }
     get subject(): string {
@@ -913,6 +996,42 @@ export module QuotaFailure {
     }
     set description(value: string) {
       this._description = value;
+    }
+    get apiService(): string {
+      return this._apiService;
+    }
+    set apiService(value: string) {
+      this._apiService = value;
+    }
+    get quotaMetric(): string {
+      return this._quotaMetric;
+    }
+    set quotaMetric(value: string) {
+      this._quotaMetric = value;
+    }
+    get quotaId(): string {
+      return this._quotaId;
+    }
+    set quotaId(value: string) {
+      this._quotaId = value;
+    }
+    get quotaDimensions(): { [prop: string]: string } {
+      return this._quotaDimensions;
+    }
+    set quotaDimensions(value: { [prop: string]: string }) {
+      this._quotaDimensions = value;
+    }
+    get quotaValue(): string {
+      return this._quotaValue;
+    }
+    set quotaValue(value: string) {
+      this._quotaValue = value;
+    }
+    get futureQuotaValue(): string | undefined {
+      return this._futureQuotaValue;
+    }
+    set futureQuotaValue(value?: string) {
+      this._futureQuotaValue = value;
     }
 
     /**
@@ -931,7 +1050,18 @@ export module QuotaFailure {
     toObject(): Violation.AsObject {
       return {
         subject: this.subject,
-        description: this.description
+        description: this.description,
+        apiService: this.apiService,
+        quotaMetric: this.quotaMetric,
+        quotaId: this.quotaId,
+        quotaDimensions: this.quotaDimensions
+          ? Object.keys(this.quotaDimensions).reduce(
+              (r, k) => ({ ...r, [k]: this.quotaDimensions![k] }),
+              {}
+            )
+          : {},
+        quotaValue: this.quotaValue,
+        futureQuotaValue: this.futureQuotaValue
       };
     }
 
@@ -953,7 +1083,21 @@ export module QuotaFailure {
     ): Violation.AsProtobufJSON {
       return {
         subject: this.subject,
-        description: this.description
+        description: this.description,
+        apiService: this.apiService,
+        quotaMetric: this.quotaMetric,
+        quotaId: this.quotaId,
+        quotaDimensions: this.quotaDimensions
+          ? Object.keys(this.quotaDimensions).reduce(
+              (r, k) => ({ ...r, [k]: this.quotaDimensions![k] }),
+              {}
+            )
+          : {},
+        quotaValue: this.quotaValue,
+        futureQuotaValue:
+          this.futureQuotaValue === null || this.futureQuotaValue === undefined
+            ? null
+            : this.futureQuotaValue
       };
     }
   }
@@ -964,6 +1108,12 @@ export module QuotaFailure {
     export interface AsObject {
       subject: string;
       description: string;
+      apiService: string;
+      quotaMetric: string;
+      quotaId: string;
+      quotaDimensions: { [prop: string]: string };
+      quotaValue: string;
+      futureQuotaValue?: string;
     }
 
     /**
@@ -972,6 +1122,170 @@ export module QuotaFailure {
     export interface AsProtobufJSON {
       subject: string;
       description: string;
+      apiService: string;
+      quotaMetric: string;
+      quotaId: string;
+      quotaDimensions: { [prop: string]: string };
+      quotaValue: string;
+      futureQuotaValue: string | null;
+    }
+
+    /**
+     * Message implementation for google.rpc.QuotaFailure.Violation.QuotaDimensionsEntry
+     */
+    export class QuotaDimensionsEntry implements GrpcMessage {
+      static id = 'google.rpc.QuotaFailure.Violation.QuotaDimensionsEntry';
+
+      /**
+       * Deserialize binary data to message
+       * @param instance message instance
+       */
+      static deserializeBinary(bytes: ByteSource) {
+        const instance = new QuotaDimensionsEntry();
+        QuotaDimensionsEntry.deserializeBinaryFromReader(
+          instance,
+          new BinaryReader(bytes)
+        );
+        return instance;
+      }
+
+      /**
+       * Check all the properties and set default protobuf values if necessary
+       * @param _instance message instance
+       */
+      static refineValues(_instance: QuotaDimensionsEntry) {
+        _instance.key = _instance.key || '';
+        _instance.value = _instance.value || '';
+      }
+
+      /**
+       * Deserializes / reads binary message into message instance using provided binary reader
+       * @param _instance message instance
+       * @param _reader binary reader instance
+       */
+      static deserializeBinaryFromReader(
+        _instance: QuotaDimensionsEntry,
+        _reader: BinaryReader
+      ) {
+        while (_reader.nextField()) {
+          if (_reader.isEndGroup()) break;
+
+          switch (_reader.getFieldNumber()) {
+            case 1:
+              _instance.key = _reader.readString();
+              break;
+            case 2:
+              _instance.value = _reader.readString();
+              break;
+            default:
+              _reader.skipField();
+          }
+        }
+
+        QuotaDimensionsEntry.refineValues(_instance);
+      }
+
+      /**
+       * Serializes a message to binary format using provided binary reader
+       * @param _instance message instance
+       * @param _writer binary writer instance
+       */
+      static serializeBinaryToWriter(
+        _instance: QuotaDimensionsEntry,
+        _writer: BinaryWriter
+      ) {
+        if (_instance.key) {
+          _writer.writeString(1, _instance.key);
+        }
+        if (_instance.value) {
+          _writer.writeString(2, _instance.value);
+        }
+      }
+
+      private _key: string;
+      private _value: string;
+
+      /**
+       * Message constructor. Initializes the properties and applies default Protobuf values if necessary
+       * @param _value initial values object or instance of QuotaDimensionsEntry to deeply clone from
+       */
+      constructor(_value?: RecursivePartial<QuotaDimensionsEntry.AsObject>) {
+        _value = _value || {};
+        this.key = _value.key;
+        this.value = _value.value;
+        QuotaDimensionsEntry.refineValues(this);
+      }
+      get key(): string {
+        return this._key;
+      }
+      set key(value: string) {
+        this._key = value;
+      }
+      get value(): string {
+        return this._value;
+      }
+      set value(value: string) {
+        this._value = value;
+      }
+
+      /**
+       * Serialize message to binary data
+       * @param instance message instance
+       */
+      serializeBinary() {
+        const writer = new BinaryWriter();
+        QuotaDimensionsEntry.serializeBinaryToWriter(this, writer);
+        return writer.getResultBuffer();
+      }
+
+      /**
+       * Cast message to standard JavaScript object (all non-primitive values are deeply cloned)
+       */
+      toObject(): QuotaDimensionsEntry.AsObject {
+        return {
+          key: this.key,
+          value: this.value
+        };
+      }
+
+      /**
+       * Convenience method to support JSON.stringify(message), replicates the structure of toObject()
+       */
+      toJSON() {
+        return this.toObject();
+      }
+
+      /**
+       * Cast message to JSON using protobuf JSON notation: https://developers.google.com/protocol-buffers/docs/proto3#json
+       * Attention: output differs from toObject() e.g. enums are represented as names and not as numbers, Timestamp is an ISO Date string format etc.
+       * If the message itself or some of descendant messages is google.protobuf.Any, you MUST provide a message pool as options. If not, the messagePool is not required
+       */
+      toProtobufJSON(
+        // @ts-ignore
+        options?: ToProtobufJSONOptions
+      ): QuotaDimensionsEntry.AsProtobufJSON {
+        return {
+          key: this.key,
+          value: this.value
+        };
+      }
+    }
+    export module QuotaDimensionsEntry {
+      /**
+       * Standard JavaScript object representation for QuotaDimensionsEntry
+       */
+      export interface AsObject {
+        key: string;
+        value: string;
+      }
+
+      /**
+       * Protobuf JSON representation for QuotaDimensionsEntry
+       */
+      export interface AsProtobufJSON {
+        key: string;
+        value: string;
+      }
     }
   }
 }
@@ -1475,6 +1789,8 @@ export module BadRequest {
     static refineValues(_instance: FieldViolation) {
       _instance.field = _instance.field || '';
       _instance.description = _instance.description || '';
+      _instance.reason = _instance.reason || '';
+      _instance.localizedMessage = _instance.localizedMessage || undefined;
     }
 
     /**
@@ -1495,6 +1811,16 @@ export module BadRequest {
             break;
           case 2:
             _instance.description = _reader.readString();
+            break;
+          case 3:
+            _instance.reason = _reader.readString();
+            break;
+          case 4:
+            _instance.localizedMessage = new LocalizedMessage();
+            _reader.readMessage(
+              _instance.localizedMessage,
+              LocalizedMessage.deserializeBinaryFromReader
+            );
             break;
           default:
             _reader.skipField();
@@ -1519,10 +1845,22 @@ export module BadRequest {
       if (_instance.description) {
         _writer.writeString(2, _instance.description);
       }
+      if (_instance.reason) {
+        _writer.writeString(3, _instance.reason);
+      }
+      if (_instance.localizedMessage) {
+        _writer.writeMessage(
+          4,
+          _instance.localizedMessage as any,
+          LocalizedMessage.serializeBinaryToWriter
+        );
+      }
     }
 
     private _field: string;
     private _description: string;
+    private _reason: string;
+    private _localizedMessage?: LocalizedMessage;
 
     /**
      * Message constructor. Initializes the properties and applies default Protobuf values if necessary
@@ -1532,6 +1870,10 @@ export module BadRequest {
       _value = _value || {};
       this.field = _value.field;
       this.description = _value.description;
+      this.reason = _value.reason;
+      this.localizedMessage = _value.localizedMessage
+        ? new LocalizedMessage(_value.localizedMessage)
+        : undefined;
       FieldViolation.refineValues(this);
     }
     get field(): string {
@@ -1545,6 +1887,18 @@ export module BadRequest {
     }
     set description(value: string) {
       this._description = value;
+    }
+    get reason(): string {
+      return this._reason;
+    }
+    set reason(value: string) {
+      this._reason = value;
+    }
+    get localizedMessage(): LocalizedMessage | undefined {
+      return this._localizedMessage;
+    }
+    set localizedMessage(value: LocalizedMessage | undefined) {
+      this._localizedMessage = value;
     }
 
     /**
@@ -1563,7 +1917,11 @@ export module BadRequest {
     toObject(): FieldViolation.AsObject {
       return {
         field: this.field,
-        description: this.description
+        description: this.description,
+        reason: this.reason,
+        localizedMessage: this.localizedMessage
+          ? this.localizedMessage.toObject()
+          : undefined
       };
     }
 
@@ -1585,7 +1943,11 @@ export module BadRequest {
     ): FieldViolation.AsProtobufJSON {
       return {
         field: this.field,
-        description: this.description
+        description: this.description,
+        reason: this.reason,
+        localizedMessage: this.localizedMessage
+          ? this.localizedMessage.toProtobufJSON(options)
+          : null
       };
     }
   }
@@ -1596,6 +1958,8 @@ export module BadRequest {
     export interface AsObject {
       field: string;
       description: string;
+      reason: string;
+      localizedMessage?: LocalizedMessage.AsObject;
     }
 
     /**
@@ -1604,6 +1968,8 @@ export module BadRequest {
     export interface AsProtobufJSON {
       field: string;
       description: string;
+      reason: string;
+      localizedMessage: LocalizedMessage.AsProtobufJSON | null;
     }
   }
 }
